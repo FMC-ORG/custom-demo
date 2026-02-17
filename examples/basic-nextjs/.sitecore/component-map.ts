@@ -28,22 +28,21 @@ import * as CdpPageView from 'src/components/basic/content-sdk/CdpPageView';
 import * as ContentBlock from 'src/components/basic/content-block/ContentBlock';
 import * as Container from 'src/components/basic/container/Container';
 import * as ColumnSplitter from 'src/components/basic/column-splitter/ColumnSplitter';
-import * as ArticleCards from 'src/components/basic/article-cards/ArticleCards';
 
 export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCServerWrapper],
   ['FEaaSWrapper', FEaaSServerWrapper],
   ['Form', { ...Form, componentType: 'client' }],
-  ['trust-section', { ...trustsection }],
+  ['trust-section', { ...trustsection, componentType: 'client' }],
   ['travel-insurance-banner', { ...travelinsurancebanner }],
   ['newsletter', { ...newsletter, componentType: 'client' }],
   ['more-from-saga', { ...morefromsaga }],
-  ['hero', { ...hero }],
+  ['hero', { ...hero, componentType: 'client' }],
   ['header', { ...header, componentType: 'client' }],
-  ['footer', { ...footer }],
+  ['footer', { ...footer, componentType: 'client' }],
   ['category-directory', { ...categorydirectory }],
   ['awards-section', { ...awardssection }],
-  ['article-cards', { ...articlecards }],
+  ['article-cards', { ...articlecards, componentType: 'client' }],
   ['Title', { ...Title }],
   ['RowSplitter', { ...RowSplitter }],
   ['RichText', { ...RichText }],
@@ -58,7 +57,6 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['ContentBlock', { ...ContentBlock }],
   ['Container', { ...Container }],
   ['ColumnSplitter', { ...ColumnSplitter }],
-  ['ArticleCards', { ...articlecards, componentType: 'client' }],
 ]);
 
 export default componentMap;

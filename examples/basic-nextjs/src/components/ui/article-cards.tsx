@@ -1,26 +1,20 @@
 'use client';
 
 import type React from 'react';
-import { Text, Image as SitecoreImage, Link as SitecoreLink } from '@sitecore-content-sdk/nextjs';
+import Link from 'next/link';
+import { Text, Image as SitecoreImage } from '@sitecore-content-sdk/nextjs';
 import { Field, ImageField, LinkField } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from '@/lib/component-props';
-
-/**
- * ArticleCard field structure
- */
-interface ArticleCardFields {
-  image?: { jsonValue?: ImageField };
-  title?: { jsonValue?: Field<string> };
-  link?: { jsonValue?: LinkField };
-  badgeText?: { jsonValue?: Field<string> };
-}
 
 /**
  * ArticleCard child item structure
  */
 interface ArticleCardItem {
   id: string;
-  fields: ArticleCardFields;
+  image?: { jsonValue?: ImageField };
+  title?: { jsonValue?: Field<string> };
+  link?: { jsonValue?: LinkField };
+  badgeText?: { jsonValue?: Field<string> };
 }
 
 /**
@@ -37,10 +31,11 @@ interface ArticleCardsFields {
   data?: {
     datasource?: {
       title?: { jsonValue?: Field<string> };
+      children?: {
+        results: ArticleCardItem[];
+      };
     };
-    children?: {
-      results?: ArticleCardItem[];
-    };
+
   };
 }
 
@@ -61,9 +56,9 @@ interface ArticleCardsProps extends ComponentProps {
 const ArticleCardsComponent: React.FC<ArticleCardsProps> = (props) => {
   const { fields, isPageEditing } = props;
   const { data } = fields || {};
-  const { datasource, children } = data || {};
-  
-  // Handle missing datasource
+  const { datasource } = data || {};
+  const { children } = datasource || {};
+  // Handle missing datasource  
   if (!data?.datasource && !isPageEditing) {
     return (
       <section className="py-12 md:py-16 bg-background">
@@ -97,14 +92,12 @@ const ArticleCardsComponent: React.FC<ArticleCardsProps> = (props) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {articles.length > 0 ? (
             articles.map((article) => {
-              const { id, fields: articleFields } = article;
-              const { image, title, link, badgeText } = articleFields || {};
+              const { id, image, title, link, badgeText } = article;
               
-              return (
-                <div
-                  key={id}
-                  className="group bg-background rounded-lg overflow-hidden border border-border/50 shadow-sm hover:shadow-md transition-shadow"
-                >
+              const linkHref = link?.jsonValue?.value?.href || '#';
+              
+              const cardContent = (
+                <>
                   {/* Image section */}
                   <div className="relative h-48 overflow-hidden">
                     {/* Badge */}
@@ -123,7 +116,6 @@ const ArticleCardsComponent: React.FC<ArticleCardsProps> = (props) => {
                       <SitecoreImage
                         field={image.jsonValue}
                         className="object-cover group-hover:scale-105 transition-transform duration-300 w-full h-full"
-                        fill
                       />
                     )}
                   </div>
@@ -131,29 +123,24 @@ const ArticleCardsComponent: React.FC<ArticleCardsProps> = (props) => {
                   {/* Content section */}
                   <div className="p-4">
                     {(title?.jsonValue?.value || isPageEditing) && (
-                      <>
-                        {link?.jsonValue ? (
-                          <SitecoreLink
-                            field={link.jsonValue}
-                            className="block"
-                          >
-                            <Text
-                              field={title?.jsonValue}
-                              tag="h3"
-                              className="text-sm font-bold text-saga-navy leading-snug hover:text-saga-teal transition-colors"
-                            />
-                          </SitecoreLink>
-                        ) : (
-                          <Text
-                            field={title?.jsonValue}
-                            tag="h3"
-                            className="text-sm font-bold text-saga-navy leading-snug"
-                          />
-                        )}
-                      </>
+                      <Text
+                        field={title?.jsonValue}
+                        tag="h3"
+                        className="text-sm font-bold text-saga-navy leading-snug hover:text-saga-teal transition-colors"
+                      />
                     )}
                   </div>
-                </div>
+                </>
+              );
+              
+              return (
+                <Link
+                  key={id}
+                  href={linkHref}
+                  className="group bg-background rounded-lg overflow-hidden border border-border/50 shadow-sm hover:shadow-md transition-shadow block"
+                >
+                  {cardContent}
+                </Link>
               );
             })
           ) : (

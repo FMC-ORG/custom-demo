@@ -39,7 +39,7 @@ const Container = ({
   return (
     <div className={`component container-default ${styles}`} id={id}>
       <div className="component-content" style={backgroundStyle}>
-        <div className="row">
+        <div className="flex flex-wrap w-full">
           <AppPlaceholder
             name={phKey}
             rendering={rendering}

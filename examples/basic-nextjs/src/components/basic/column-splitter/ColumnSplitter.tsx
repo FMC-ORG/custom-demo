@@ -39,16 +39,19 @@ export const Default = ({
   const enabledColumns = EnabledPlaceholders?.split(",") ?? [];
 
   return (
-    <div className={`flex flex-wrap w-full component column-splitter ${styles}`} id={id}>
+    <div className={`flex flex-nowrap w-full min-w-full flex-1 component column-splitter ${styles}`} id={id}>
       {enabledColumns.map((columnNum, index) => {
         const num = Number(columnNum) as ColumnNumber;
-        const columnWidth = params[`ColumnWidth${num}`] ?? "";
-        const columnStyle = params[`Styles${num}`] ?? "";
-        const columnClassNames = `${columnWidth} ${columnStyle}`.trim();
+        const columnWidth = (params[`ColumnWidth${num}`] ?? "").trim();
+        const columnStyle = (params[`Styles${num}`] ?? "").trim();
+        const hasExplicitWidth = columnWidth.length > 0;
+        const columnClassNames = hasExplicitWidth
+          ? `shrink-0 ${columnWidth} ${columnStyle}`.trim()
+          : `flex-1 min-w-0 ${columnStyle}`.trim();
 
         return (
           <div key={index} className={columnClassNames}>
-            <div className="row">
+            <div className="w-full min-w-0">
               <AppPlaceholder
                 name={`column-${columnNum}-{*}`}
                 rendering={rendering}

@@ -13,7 +13,7 @@ import {
   User,
   type LucideIcon,
 } from 'lucide-react';
-import { useSitecore } from '@sitecore-content-sdk/nextjs';
+import { Text, Link as SitecoreLink, useSitecore } from '@sitecore-content-sdk/nextjs';
 import type { Field, LinkField } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from '@/lib/component-props';
 
@@ -54,7 +54,7 @@ interface CategoryDirectoryItem {
   description?: { jsonValue?: Field<string> };
   ctaText?: { jsonValue?: Field<string> };
   link?: { jsonValue?: LinkField };
-  icon?: { jsonValue?: Field<string> };
+  iconName?: { jsonValue?: Field<string> };
 }
 
 /**
@@ -98,64 +98,101 @@ const CategoryDirectoryComponent: React.FC<CategoryDirectoryProps> = (props) => 
   const { datasource } = data || {};
   const items = datasource?.children?.results || [];
 
-  const categories =
-    items.length > 0
-      ? items.map((item) => {
-          const iconName = item?.icon?.jsonValue?.value ?? 'Shield';
-          const IconComponent = ICON_MAP[iconName] ?? Shield;
-          return {
-            icon: IconComponent,
-            title:
-              item?.title?.jsonValue?.value ??
-              item?.link?.jsonValue?.value?.text ??
-              'Category',
-            description: item?.description?.jsonValue?.value ?? '',
-            cta: item?.ctaText?.jsonValue?.value ?? item?.link?.jsonValue?.value?.text ?? 'Learn more',
-            href: item?.link?.jsonValue?.value?.href ?? '#',
-            id: item?.id ?? '',
-          };
-        })
-      : !isPageEditing
-        ? DEFAULT_CATEGORIES.map((cat) => ({
-            icon: ICON_MAP[cat.icon] ?? Shield,
-            title: cat.title,
-            description: cat.description,
-            cta: cat.cta,
-            href: cat.href,
-            id: cat.title,
-          }))
-        : [];
+  const hasSitecoreItems = items.length > 0;
+  const fallbackCategories =
+    !hasSitecoreItems && !isPageEditing
+      ? DEFAULT_CATEGORIES.map((cat) => ({
+          icon: ICON_MAP[cat.icon] ?? Shield,
+          title: cat.title,
+          description: cat.description,
+          cta: cat.cta,
+          href: cat.href,
+          id: cat.title,
+        }))
+      : [];
 
   return (
     <section className="bg-saga-light-blue py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {categories.length === 0 && isPageEditing ? (
+          {!hasSitecoreItems && isPageEditing ? (
             <div className="col-span-full text-center text-muted-foreground py-8">
               No categories configured. Add CategoryDirectoryItem items as children.
             </div>
-          ) : (
-          categories.map((cat) => {
-            const Icon = cat.icon;
-            return (
-              <div
-                key={cat.id || cat.title}
-                className="bg-background rounded-lg p-6 flex flex-col shadow-sm border border-border/50"
-              >
-                <Icon className="h-8 w-8 text-saga-navy mb-3" strokeWidth={1.5} />
-                <h3 className="text-lg font-bold text-saga-navy">{cat.title}</h3>
-                <p className="mt-2 text-sm text-saga-navy/70 leading-relaxed flex-1">
-                  {cat.description}
-                </p>
-                <Link
-                  href={cat.href}
-                  className="mt-4 inline-block w-fit rounded-md bg-saga-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-saga-dark-navy transition-colors"
+          ) : hasSitecoreItems ? (
+            items.map((item) => {
+              const iconName = item?.iconName?.jsonValue?.value ?? 'Shield';
+              const IconComponent = ICON_MAP[iconName] ?? Shield;
+              const ctaContent =
+                item?.ctaText?.jsonValue?.value ?? item?.link?.jsonValue?.value?.text ?? 'Learn more';
+
+              return (
+                <div
+                  key={item?.id ?? ''}
+                  className="bg-background rounded-lg p-6 flex flex-col shadow-sm border border-border/50"
                 >
-                  {cat.cta}
-                </Link>
-              </div>
-            );
-          })
+                  <IconComponent className="h-8 w-8 text-saga-navy mb-3" strokeWidth={1.5} />
+                  {(item?.title?.jsonValue?.value || isPageEditing) && (
+                    <Text
+                      field={item.title?.jsonValue}
+                      tag="h3"
+                      className="text-lg font-bold text-saga-navy"
+                    />
+                  )}
+                  {(item?.description?.jsonValue?.value || isPageEditing) && (
+                    <Text
+                      field={item.description?.jsonValue}
+                      tag="p"
+                      className="mt-2 text-sm text-saga-navy/70 leading-relaxed flex-1"
+                    />
+                  )}
+                  {(ctaContent || item?.link?.jsonValue?.value?.href || isPageEditing) &&
+                    (item.link?.jsonValue ? (
+                      <SitecoreLink
+                        field={item.link.jsonValue}
+                        className="mt-4 inline-block w-fit rounded-md bg-saga-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-saga-dark-navy transition-colors"
+                      >
+                        <Text
+                          field={item.ctaText?.jsonValue}
+                          tag="span"
+                        />
+                      </SitecoreLink>
+                    ) : (
+                      <Link
+                        href="#"
+                        className="mt-4 inline-block w-fit rounded-md bg-saga-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-saga-dark-navy transition-colors"
+                      >
+                        <Text
+                          field={item.ctaText?.jsonValue}
+                          tag="span"
+                        />
+                      </Link>
+                    ))}
+                </div>
+              );
+            })
+          ) : (
+            fallbackCategories.map((cat) => {
+              const Icon = cat.icon;
+              return (
+                <div
+                  key={cat.id || cat.title}
+                  className="bg-background rounded-lg p-6 flex flex-col shadow-sm border border-border/50"
+                >
+                  <Icon className="h-8 w-8 text-saga-navy mb-3" strokeWidth={1.5} />
+                  <h3 className="text-lg font-bold text-saga-navy">{cat.title}</h3>
+                  <p className="mt-2 text-sm text-saga-navy/70 leading-relaxed flex-1">
+                    {cat.description}
+                  </p>
+                  <Link
+                    href={cat.href}
+                    className="mt-4 inline-block w-fit rounded-md bg-saga-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-saga-dark-navy transition-colors"
+                  >
+                    {cat.cta}
+                  </Link>
+                </div>
+              );
+            })
           )}
         </div>
       </div>

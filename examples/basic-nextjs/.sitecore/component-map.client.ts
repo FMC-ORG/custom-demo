@@ -4,10 +4,13 @@ import { BYOCClientWrapper, NextjsContentSdkComponent, FEaaSClientWrapper } from
 import { Form } from '@sitecore-content-sdk/nextjs';
 
 import * as trustsection from 'src/components/ui/trust-section';
+import * as travelinsurancebanner from 'src/components/ui/travel-insurance-banner';
 import * as newsletter from 'src/components/ui/newsletter';
+import * as morefromsaga from 'src/components/ui/more-from-saga';
 import * as hero from 'src/components/ui/hero';
 import * as header from 'src/components/ui/header';
 import * as footer from 'src/components/ui/footer';
+import * as categorydirectory from 'src/components/ui/category-directory';
 import * as articlecards from 'src/components/ui/article-cards';
 import * as Navigation from 'src/components/basic/navigation/Navigation';
 import * as SitecoreStyles from 'src/components/basic/content-sdk/SitecoreStyles';
@@ -18,10 +21,13 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['FEaaSWrapper', FEaaSClientWrapper],
   ['Form', Form],
   ['trust-section', { ...trustsection }],
+  ['travel-insurance-banner', { ...travelinsurancebanner }],
   ['newsletter', { ...newsletter }],
+  ['more-from-saga', { ...morefromsaga }],
   ['hero', { ...hero }],
   ['header', { ...header }],
   ['footer', { ...footer }],
+  ['category-directory', { ...categorydirectory }],
   ['article-cards', { ...articlecards }],
   ['Navigation', { ...Navigation }],
   ['SitecoreStyles', { ...SitecoreStyles }],

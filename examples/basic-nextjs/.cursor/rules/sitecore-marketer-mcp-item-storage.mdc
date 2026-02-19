@@ -18,6 +18,7 @@ The most common workflow when building headless applications with XM Cloud:
 4. **Create Datasource Items** → Add actual content
 5. **Register Component** → Add to component-map.ts
 6. **Add to Page** → Use Pages editor to add component
+   - **List components:** If the component has parent/child datasources, also add `_HorizonDatasourceGrouping` as a base template to the parent template so children appear in the Pages Content tab (see [Children in XM Cloud Pages Content Tab](#children-in-xm-cloud-pages-content-tab)).
 
 See detailed sections below for each step.
 
@@ -557,6 +558,7 @@ To use query-based datasource locations, you need folder templates and folder in
 - Base template: Standard Template or Folder Template
 - Name: `<Component> Folder` (e.g., "Hero Folder", "Article Cards Folder")
 - Set Insert Options to allow your component templates as children
+- **For list components (parent + child datasource):** Also add `_HorizonDatasourceGrouping` as a base template to the **parent component template** (not the folder template) so child items appear in the Pages Content tab. See [Children in XM Cloud Pages Content Tab](#children-in-xm-cloud-pages-content-tab) below for details.
 
 **2. Create Folder Instance:**
 - Location: `/sitecore/content/<site>/<site>/Data/`
@@ -585,6 +587,54 @@ To use query-based datasource locations, you need folder templates and folder in
 - Reusable datasources across multiple pages
 - Clearer content structure for authors
 - Enables datasource picker filtering via query
+
+---
+
+### Children in XM Cloud Pages Content Tab
+
+For components with parent/child datasources (e.g., ArticleCards, CategoryDirectory, MultiPromo), you can make child items appear in the **Content tab** of XM Cloud Pages so authors can add, sort, rename, and delete children without leaving the editor.
+
+**Requirements:**
+
+1. **Add `_HorizonDatasourceGrouping` as a base template** to the **parent datasource template** (e.g., `ArticleCards`, `CategoryDirectory`), not the child template and not the folder template.
+   - Path: `/sitecore/templates/Foundation/Experience Accelerator/Horizon/_HorizonDatasourceGrouping`
+   - Template ID: `{D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2}`
+   - Ensure `Standard Template` is also a base template if not already inherited.
+
+2. **Set Insert Options** on the parent template's **Standard Values** to allow the child template (e.g., `ArticleCard`, `CategoryDirectoryItem`). This controls which item types authors can add from the Content tab.
+
+3. **Optional:** Add both parent and child templates to **FEaaS component data source templates** in site settings at `/sitecore/content/<site-collection>/<site-name>/Settings` if you want them available in the FEaaS component picker.
+
+**Result:** When a component with this parent template is selected on a page, the Content tab shows a "Manage Items" section listing all child items with controls to sort (drag), rename, delete, and add new children — all inline without navigating away from the page.
+
+**How to apply via MCP:**
+
+```
+1. Get the parent template item:
+   get_content_item_by_path(path="/sitecore/templates/Project/mysite/Components/Cards/ArticleCards")
+
+2. Update its __Base template field to include _HorizonDatasourceGrouping:
+   update_content(
+     itemId="<parent-template-id>",
+     siteName="mysite",
+     fields={
+       "__Base template": "<existing-base-template-ids>|{D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2}"
+     }
+   )
+
+3. Navigate to the parent template's Standard Values and set Insert Options
+   to include the child template (e.g., ArticleCard template ID).
+```
+
+**When to use:**
+- Any list component where the parent datasource has child items (cards, lists, FAQs, tabs, accordions)
+- Components where content authors need to manage the number and order of child items
+
+**When NOT to use:**
+- Simple single-datasource components with no children (e.g., Hero, Banner)
+- Components that source children from a query or external data rather than Sitecore child items
+
+**Note:** The `_HorizonDatasourceGrouping` template is part of SXA/Horizon and is available in XM Cloud environments with SXA installed. If it does not exist at the path above, your environment may not have SXA — verify with `get_content_item_by_path` before attempting to add it as a base template.
 
 ---
 
@@ -721,6 +771,7 @@ export const Default: React.FC<HeroProps> = (props) => {
 - Datasource picker shows available items when adding to page
 - Fields are editable inline in editing mode
 - Component renders correctly on the published site
+- For list components: children appear in the Content tab with sort/add/delete controls (requires `_HorizonDatasourceGrouping` on parent template)
 
 ---
 
@@ -799,6 +850,7 @@ For sites built with Sitecore Experience Accelerator (SXA):
 | JSON Rendering   | `04646a89-996f-4ee7-878a-ffdbf1f0ef0d` | Headless component rendering   |
 | Folder           | `a87a00b1-e6db-45ab-8b54-636fec3b5523` | Organizing items               |
 | JSS Data         | `a29d272e-9d48-453c-9e9d-b47585fa7f20` | Data folder for SXA sites      |
+| _HorizonDatasourceGrouping | `D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2` | Enables child management in Pages Content tab (SXA) |
 
 ---
 
@@ -815,6 +867,7 @@ create_content_item(
   parentId="<project-templates-folder-id>"
 )
 # Create "Data" section, then "Title" field (Single-Line Text)
+# Add _HorizonDatasourceGrouping as base template (see Step 1b)
 ```
 
 **Child template (ArticleCard):**
@@ -826,6 +879,22 @@ create_content_item(
   parentId="<project-templates-folder-id>"
 )
 # Create "Data" section, then fields: Image, Title, Link, BadgeText
+```
+
+**Step 1b: Enable child management in Pages Content tab:**
+
+```
+# Add _HorizonDatasourceGrouping as a base template to the PARENT template (ArticleCards)
+update_content(
+  itemId="<articlecards-template-id>",
+  siteName="mysite",
+  fields={
+    "__Base template": "<existing-base-template-ids>|{D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2}"
+  }
+)
+
+# Set Insert Options on ArticleCards Standard Values to allow ArticleCard as a child
+# This enables the "Add" button in the Pages Content tab
 ```
 
 ### Step 2: Create Folder Template
@@ -912,6 +981,7 @@ export const componentMap = new Map([
 3. Find "ArticleCards" in the component list
 4. Select datasource from the picker
 5. Component appears on page with editable fields
+6. In the Content tab, child items (ArticleCard) appear with sort, add, rename, and delete controls (enabled by `_HorizonDatasourceGrouping`)
 
 ---
 
@@ -959,6 +1029,12 @@ Ensure the template has the proper 3-level structure: Template → Section → F
 - If the rendering HAS a `Component GraphQL Query`: the component receives the GraphQL shape — `fields.data.datasource` with camelCase keys and `.jsonValue`. Use the GraphQL pattern in the component.
 - Fix: either add a GraphQL query to the rendering and update the component to the `data.datasource`/`jsonValue` shape, or remove the query and update the component to the PascalCase/`.value` shape. Never mix both.
 
+**Children not appearing in Pages Content tab:**
+- Add `_HorizonDatasourceGrouping` (`{D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2}`) as a base template to the **parent** datasource template (e.g., ArticleCards, CategoryDirectory) — not the child template and not the folder template.
+- Set Insert Options on the parent template's **Standard Values** to allow the child template. Without Insert Options, the "Add" button in the Content tab won't know which templates to offer.
+- Verify the `_HorizonDatasourceGrouping` template exists at `/sitecore/templates/Foundation/Experience Accelerator/Horizon/_HorizonDatasourceGrouping`. If it doesn't exist, your XM Cloud environment may not have SXA installed or the path may differ.
+- Ensure child items actually exist under the parent datasource item in the content tree. The Content tab reflects the real item hierarchy.
+
 ### Component Registration
 
 **Component renders but fields are not editable:**
@@ -1004,6 +1080,7 @@ Verify the entire naming chain matches:
 13. **Use optional chaining** — Always use `?.` when accessing nested field properties in React components.
 14. **Child datasources for lists** — Components that render lists need datasource items with children, not multilist fields. Children are nested inside the datasource object: access them via `fields.data.datasource.children.results`. The rendering's `ComponentQuery` field MUST include a query with `children { results { ... on <ChildTemplate> { } } }` or child data will not be passed to the component.
 15. **Simple vs list component props** — For components without children, leave `ComponentQuery` empty and consume the default props (`fields` with PascalCase keys and `.value`). For components with children, set the GraphQL query and consume `fields.data.datasource` (parent fields + `datasource.children.results` for child items) with `jsonValue` and camelCase. Never mix the two shapes in a single component.
+16. **Manage Items in Pages** — For list components (parent + child datasource), add `_HorizonDatasourceGrouping` (`{D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2}`) as a base template to the **parent** template so child items appear in the Pages Content tab with sort, add, rename, and delete controls. Set Insert Options on the parent's Standard Values to allow the child template. This is only for list components — do not add it to simple single-datasource templates.
 
 ---
 

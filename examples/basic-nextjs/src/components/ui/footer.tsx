@@ -91,7 +91,6 @@ const FooterComponent: React.FC<FooterProps> = (props) => {
   const { data } = fields || {};
   const { datasource } = data || {};
   const columns = datasource?.children?.results || [];
-  console.log("datasource", props);
   if (!data?.datasource && !isPageEditing) {
     return (
       <footer className="bg-saga-navy text-white">

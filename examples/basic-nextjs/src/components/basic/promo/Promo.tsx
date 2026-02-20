@@ -1,4 +1,4 @@
-import React, { JSX } from 'react';
+import React, { JSX } from "react";
 import {
   NextImage as ContentSdkImage,
   Link as ContentSdkLink,
@@ -6,8 +6,8 @@ import {
   ImageField,
   Field,
   LinkField,
-} from '@sitecore-content-sdk/nextjs';
-import { ComponentProps } from 'lib/component-props';
+} from "@sitecore-content-sdk/nextjs";
+import { ComponentProps } from "lib/component-props";
 
 interface Fields {
   PromoIcon: ImageField;
@@ -15,8 +15,8 @@ interface Fields {
   PromoLink: LinkField;
   PromoText2: Field<string>;
 }
-import Image from "next/image"
-import Link from "next/link"
+import Image from "next/image";
+import Link from "next/link";
 
 type PromoProps = ComponentProps & {
   fields: Fields;
@@ -77,7 +77,9 @@ export const Default = (props: PromoProps): JSX.Element => {
                 GET YOUR MONEY MOVING WITH SAGA
               </h1>
               <p className="mt-4 text-sm md:text-base text-saga-navy/80 leading-relaxed">
-                Designed for people over 50, the new Saga Easy Access Savings Account is offering 4.00% / 3.93% AER/Gross p.a. (variable). Includes a 1.25% AER fixed bonus for one year. Interest paid monthly.
+                Designed for people over 50, the new Saga Easy Access Savings Account is offering
+                4.00% / 3.93% AER/Gross p.a. (variable). Includes a 1.25% AER fixed bonus for one
+                year. Interest paid monthly.
               </p>
               <Link
                 href="#"
@@ -90,7 +92,7 @@ export const Default = (props: PromoProps): JSX.Element => {
         </div>
       </div>
     </section>
-  )
+  );
 };
 
 export const WithText = (props: PromoProps): JSX.Element => {

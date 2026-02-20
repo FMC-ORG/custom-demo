@@ -67,6 +67,7 @@ Templates must NOT be created loose under the site-collection root. They must be
 ```
 
 **Key rules for template folder organization:**
+
 - Always create a category folder before creating templates — never put templates directly under the site-collection root
 - `Components/` is the main folder for all component data templates, further subdivided by component category (Banners, Cards, Navigation, Forms, etc.)
 - `Folders/` stores the folder templates used for datasource organization (e.g., "Hero Folder", "Article Cards Folder")
@@ -195,6 +196,7 @@ Like templates, renderings must be organized into category subfolders that mirro
 ```
 
 **Key rules for rendering folder organization:**
+
 - Mirror the template `Components/` subfolder structure — if the template is under `Components/Cards/`, put the rendering under `Cards/`
 - One rendering per component — the rendering name matches the component (e.g., "ArticleCards" rendering for the ArticleCards component)
 - Check existing folder structure first with `get_content_item_by_path` before creating new folders
@@ -215,6 +217,7 @@ Rendering field:       componentName: "article-cards"   ← MUST MATCH MAP KEY
 ```
 
 Examples:
+
 - ✅ `"article-cards"` — matches `article-cards.tsx` and map key
 - ✅ `"hero"` — matches `hero.tsx` and map key
 - ❌ `"ArticleCards"` — PascalCase does not match
@@ -227,11 +230,12 @@ This tells Sitecore what template to use when creating new datasources and what 
 Format: `/sitecore/templates/Project/<site-collection>/Path/To/Template`
 
 Examples:
+
 - ✅ `/sitecore/templates/Project/mysite/Components/Cards/ArticleCards`
 - ✅ `/sitecore/templates/Project/click-click-launch/Components/Banners/Hero`
 - ❌ `/sitecore/templates/Project/mysite/ArticleCards` — missing category subfolder
 - ❌ `{e0bd6abd-50c2-429a-baa0-ed13517e7055}` — GUID format not accepted
-- ❌ Empty — causes "No datasource template found" error
+- ❌ Empty — causes "No datasource template found" error (exception: context-only components that have no datasource; see [Context-Only Components](#context-only-components-no-datasource) below)
 
 **3. `Datasource Location` — Query defining where datasources can be stored and selected**
 
@@ -240,21 +244,25 @@ Uses Sitecore query syntax with `@@name` and `@@templatename`. Multiple location
 **Common Query Patterns:**
 
 Site-specific only:
+
 ```
 query:$site/*[@@name='Data']/*[@@templatename='Hero Folder']
 ```
 
 Site + shared sites:
+
 ```
 query:$site/*[@@name='Data']/*[@@templatename='Hero Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Hero Folder']
 ```
 
 With nested folder structure:
+
 ```
 query:$site/*[@@name='Data']/*[@@templatename='Hero Sections Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Hero Sections Folder']
 ```
 
 **Query Syntax Breakdown:**
+
 - `$site` — Current site content root
 - `$sharedSites` — Shared content root across sites
 - `/*[@@name='Data']` — Match child item named "Data"
@@ -283,6 +291,7 @@ When the component does not need children functionality, do not add a GraphQL qu
 **Why this is critical:** Without this query, the component will only receive the parent datasource fields and will NOT receive the children data. The `children { results { ... } }` block in the query is what makes child items available to the React component via `fields.data.datasource.children.results`.
 
 **Query Structure:**
+
 - The query name should match the parent template name
 - Use `$datasource` and `$language` as query variables
 - Use `... on <ParentTemplateName>` to type the parent and access its fields
@@ -359,6 +368,7 @@ query ArticleCards($datasource: String!, $language: String!) {
 ```
 
 **Key Rules for the GraphQL Query:**
+
 - Template type names in `... on <TemplateName>` use PascalCase matching the Sitecore template name
 - Field names in the query use camelCase (e.g., `badgeText` not `BadgeText`)
 - Always include `id` in children results so React can use it as a key
@@ -367,6 +377,7 @@ query ArticleCards($datasource: String!, $language: String!) {
 - The query alias `datasource:` must be used for the root `item()` call
 
 **Common Mistakes:**
+
 - ❌ Leaving this field blank for list components — children data will be missing. For list components, you must set the query and use `fields.data.datasource` and `datasource.children.results` in the component.
 - ❌ Adding a GraphQL query to a simple component (e.g., Hero) that has no children — unnecessary and changes the props shape. Leave it empty and use the default PascalCase/`.value` shape.
 - ❌ Forgetting `{ jsonValue }` on fields — fields won't be editable in Pages
@@ -374,6 +385,62 @@ query ArticleCards($datasource: String!, $language: String!) {
 - ❌ Omitting `id` from children — React will lack unique keys for list rendering
 - ❌ Writing a component with `fields.data.datasource` and `jsonValue` when the rendering has no query — the component will receive `fields.Title`, `fields.Description` with `.value` instead
 - ❌ Looking for children at `fields.data.children.results` (sibling to datasource) — children are nested **inside** datasource: `fields.data.datasource.children.results`
+
+#### Context-Only Components (No Datasource)
+
+Some components read from **page context** instead of a datasource. They use the current page's own route fields or context path rather than a separately selectable datasource item. Examples: breadcrumbs, article title/excerpt, article image/meta, article body content.
+
+**Rendering configuration for context-only components:**
+
+- `componentName`: kebab-case as usual (e.g., `"breadcrumbs"`, `"article-content"`)
+- `Datasource Template`: **empty** (no datasource needed)
+- `Datasource Location`: **empty**
+- `ComponentQuery`: **empty**
+- `Data source`: **empty**
+- `AddFieldEditorButton`: `"1"` (still useful for parameter editing)
+
+**Props shape:** Context-only components receive no `fields` data from a datasource. Instead, they read from the `page` prop:
+
+- **Route fields:** `page.layout.sitecore.route.fields` — contains the current page item's fields (e.g., Title, Excerpt, Content, MainImage)
+- **Context path:** `page.layout.sitecore.context.itemPath` — useful for breadcrumbs to determine hierarchy
+- **Route name:** `page.layout.sitecore.route.name` — the current page's item name
+
+**Example interface — context-only component:**
+
+```typescript
+interface ArticleTitleExcerptProps extends ComponentProps {
+  params: { [key: string]: any };
+}
+
+export const Default: React.FC<ArticleTitleExcerptProps> = (props) => {
+  const { page } = props;
+  const routeFields = page?.layout?.sitecore?.route?.fields;
+  const title = routeFields?.Title;
+  const excerpt = routeFields?.Excerpt;
+
+  return (
+    <header>
+      {title && <Text field={title} />}
+      {excerpt && <Text field={excerpt} />}
+    </header>
+  );
+};
+```
+
+**When to use context-only (no datasource):**
+
+- Breadcrumbs (reads page hierarchy from context path)
+- Article header blocks that display the current page's own Title, Excerpt, Author, PublishedDate
+- Article body content that renders the current page's Rich Text Content field
+- Any component that always displays the current page's own fields and has no need for a datasource picker
+
+**When NOT to use context-only:**
+
+- Components where content authors need to select or switch between different datasource items
+- Components that appear on multiple pages with different content (use a datasource instead)
+- Components with parent/child data structures (use datasource + ComponentQuery)
+
+**No datasource picker:** When adding a context-only component to a page, no datasource picker is shown — the component is simply added and immediately reads from the page's own fields. Ensure the page template includes the expected fields (e.g., the Article Page template should have Title, Excerpt, Content, MainImage, Author, PublishedDate fields).
 
 #### Complete Rendering Example:
 
@@ -416,7 +483,14 @@ Note: The field is labeled "Component GraphQL Query" in the Content Editor UI, b
    )
 ```
 
-**Note on updating items via MCP:** To update rendering or content item fields, use whichever MCP update tool is available: `update_content` (accepts `itemId`, `siteName`, `fields`) or `update_fields_on_content_item` (accepts `itemId`, `fields`). Both achieve the same result. For the GraphQL query field, always use the internal field name `ComponentQuery` in the payload, not the UI label "Component GraphQL Query".
+**Note on updating items via MCP:** Two update tools are available, each suited for different situations:
+
+- **`update_content`** — Requires `itemId`, `siteName` (e.g., `"saga-group"`), and `fields`. Use for content items that live under a site (pages, datasources, content items).
+- **`update_fields_on_content_item`** — Requires `itemId` and `fields` only, no `siteName`. Use for templates, renderings, or items outside a site context.
+
+Both achieve the same result for field updates. For the GraphQL query field, always use the internal field name `ComponentQuery` in the payload, not the UI label "Component GraphQL Query".
+
+**API response note:** The `updatedFields` property in the API response may not list every field that was actually updated — it can show pre-existing field values. If unsure whether an update applied, verify in the Content Editor. The update still applies when the call returns a success status.
 
 ---
 
@@ -426,10 +500,11 @@ The presence or absence of a `Component GraphQL Query` on the rendering item fun
 
 #### Summary Table
 
-| Rendering has Component GraphQL Query | Props shape | Use in component |
-|---------------------------------------|-------------|------------------|
-| **Yes** (list / parent–child) | `fields.data.datasource` (parent fields + `datasource.children.results` for child items), camelCase, `jsonValue` | GraphQL-style interfaces with `jsonValue` |
-| **No** (simple / single-datasource) | `fields` with PascalCase keys, `.value` per field | `fields.Title`, `fields.Description`, etc. with `.value` |
+| Rendering has Component GraphQL Query   | Props shape                                                                                                      | Use in component                                         |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **Yes** (list / parent–child)           | `fields.data.datasource` (parent fields + `datasource.children.results` for child items), camelCase, `jsonValue` | GraphQL-style interfaces with `jsonValue`                |
+| **No** (simple / single-datasource)     | `fields` with PascalCase keys, `.value` per field                                                                | `fields.Title`, `fields.Description`, etc. with `.value` |
+| **No datasource at all** (context-only) | No `fields` from datasource; read from `page.layout.sitecore.route.fields`                                       | `page` prop for route fields and context path            |
 
 #### With Component GraphQL Query (list / parent–child components)
 
@@ -543,7 +618,7 @@ interface HeroFields {
   },
   "params": { "styles": "" },
   "rendering": { "componentName": "hero", "dataSource": "..." },
-  "page": { "..." : "..." }
+  "page": { "...": "..." }
 }
 ```
 
@@ -554,6 +629,7 @@ interface HeroFields {
 To use query-based datasource locations, you need folder templates and folder instances.
 
 **1. Create Folder Template:**
+
 - Location: `/sitecore/templates/Project/<site-collection>/Folders/`
 - Base template: Standard Template or Folder Template
 - Name: `<Component> Folder` (e.g., "Hero Folder", "Article Cards Folder")
@@ -561,11 +637,14 @@ To use query-based datasource locations, you need folder templates and folder in
 - **For list components (parent + child datasource):** Also add `_HorizonDatasourceGrouping` as a base template to the **parent component template** (not the folder template) so child items appear in the Pages Content tab. See [Children in XM Cloud Pages Content Tab](#children-in-xm-cloud-pages-content-tab) below for details.
 
 **2. Create Folder Instance:**
-- Location: `/sitecore/content/<site>/<site>/Data/`
+
+- Location: `/sitecore/content/<site-collection>/<site-name>/Data/`
+- Note: `<site-collection>` and `<site-name>` can be the same value (e.g., `saga-group/saga-group`). The first segment is the site collection (tenant), the second is the site within it.
 - Use your folder template
 - Name: Plural or descriptive (e.g., "Heroes", "ArticleCards")
 
 **3. Create Datasource Items:**
+
 - Location: Inside the folder instance
 - Use your component template
 - These become selectable in the datasource picker
@@ -583,6 +662,7 @@ To use query-based datasource locations, you need folder templates and folder in
 ```
 
 **Why This Pattern:**
+
 - Better organization of datasources by type
 - Reusable datasources across multiple pages
 - Clearer content structure for authors
@@ -627,14 +707,40 @@ For components with parent/child datasources (e.g., ArticleCards, CategoryDirect
 ```
 
 **When to use:**
+
 - Any list component where the parent datasource has child items (cards, lists, FAQs, tabs, accordions)
 - Components where content authors need to manage the number and order of child items
 
 **When NOT to use:**
+
 - Simple single-datasource components with no children (e.g., Hero, Banner)
 - Components that source children from a query or external data rather than Sitecore child items
 
 **Note:** The `_HorizonDatasourceGrouping` template is part of SXA/Horizon and is available in XM Cloud environments with SXA installed. If it does not exist at the path above, your environment may not have SXA — verify with `get_content_item_by_path` before attempting to add it as a base template.
+
+---
+
+### SEO Metadata Template Extension
+
+Sitecore XM Cloud / SXA includes a built-in `_Seo Metadata` template that provides base SEO fields.
+
+**Do not modify** the out-of-the-box `_Seo Metadata` template directly. Instead, create a custom template that inherits from it and adds project-specific SEO fields.
+
+- **OOB template:** `_Seo Metadata` (ID: `{9B5B9E0E-1CEF-4D54-8C47-27F241CE075B}`)
+- **Location for custom extension:** `/sitecore/templates/Project/<site-collection>/Presentation/_Seo Metadata Extended`
+
+**Creation workflow:**
+
+1. Create a new template (e.g., `_Seo Metadata Extended`) under the `Presentation/` template folder.
+2. Set its `__Base template` to include `_Seo Metadata` (`{9B5B9E0E-1CEF-4D54-8C47-27F241CE075B}`).
+3. Add a `Data` section with any additional fields your project needs (e.g., MetaTitle, CanonicalUrl, OpenGraphTitle, OpenGraphDescription, OpenGraphImage, TwitterTitle, TwitterDescription, TwitterImage, Robots).
+4. Add the new template as a base template to your Page template(s) so all pages inherit the SEO fields.
+
+**Key rules:**
+
+- Never edit OOB SXA/Foundation templates — always extend via inheritance.
+- Keep custom SEO templates under `Presentation/` alongside other page-level templates.
+- Page templates that need SEO fields should inherit from your custom extension, not from `_Seo Metadata` directly (so you have a single place to add new fields later).
 
 ---
 
@@ -643,6 +749,7 @@ For components with parent/child datasources (e.g., ArticleCards, CategoryDirect
 After creating all Sitecore items, the React component must be registered in the Next.js application.
 
 **1. Component File:**
+
 - Path: `src/components/<category>/<component-name>.tsx`
 - Use kebab-case for filename: `article-cards.tsx`, `hero.tsx`
 - Must export named variants: `export const Default`, `export const ImageBottom`, etc.
@@ -650,6 +757,7 @@ After creating all Sitecore items, the React component must be registered in the
 - Import ONLY from `@sitecore-content-sdk/nextjs` (never from `/config-cli` or `/tools`)
 
 **2. Register in Component Map:**
+
 - File: `.sitecore/component-map.ts`
 - Import: `import * as articlecards from 'src/components/ui/article-cards';`
 - Map entry: `['article-cards', { ...articlecards, componentType: 'client' }]`
@@ -659,12 +767,12 @@ After creating all Sitecore items, the React component must be registered in the
 
 ```typescript
 // .sitecore/component-map.ts
-import * as articlecards from 'src/components/ui/article-cards';
-import * as hero from 'src/components/ui/hero';
+import * as articlecards from "src/components/ui/article-cards";
+import * as hero from "src/components/ui/hero";
 
 export const componentMap = new Map<string, NextjsContentSdkComponent>([
-  ['article-cards', { ...articlecards, componentType: 'client' }],
-  ['hero', { ...hero }],
+  ["article-cards", { ...articlecards, componentType: "client" }],
+  ["hero", { ...hero }],
 ]);
 ```
 
@@ -767,6 +875,7 @@ export const Default: React.FC<HeroProps> = (props) => {
 ```
 
 **4. Verification Checklist:**
+
 - Component appears in Pages editor component toolbar
 - Datasource picker shows available items when adding to page
 - Fields are editable inline in editing mode
@@ -842,15 +951,16 @@ For sites built with Sitecore Experience Accelerator (SXA):
 
 ## Common Template IDs Reference
 
-| Template Name    | Template ID                            | Purpose                        |
-|------------------|----------------------------------------|--------------------------------|
-| Template         | `ab86861a-6030-46c5-b394-e8f99e8b87db` | Base for custom templates      |
-| Template Section | `e269fbb5-3750-427a-9149-7aa950b49301` | Groups fields within template  |
-| Template Field   | `455a3e98-a627-4b40-8035-e683a0331ac7` | Individual field definition    |
-| JSON Rendering   | `04646a89-996f-4ee7-878a-ffdbf1f0ef0d` | Headless component rendering   |
-| Folder           | `a87a00b1-e6db-45ab-8b54-636fec3b5523` | Organizing items               |
-| JSS Data         | `a29d272e-9d48-453c-9e9d-b47585fa7f20` | Data folder for SXA sites      |
-| _HorizonDatasourceGrouping | `D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2` | Enables child management in Pages Content tab (SXA) |
+| Template Name               | Template ID                            | Purpose                                             |
+| --------------------------- | -------------------------------------- | --------------------------------------------------- |
+| Template                    | `ab86861a-6030-46c5-b394-e8f99e8b87db` | Base for custom templates                           |
+| Template Section            | `e269fbb5-3750-427a-9149-7aa950b49301` | Groups fields within template                       |
+| Template Field              | `455a3e98-a627-4b40-8035-e683a0331ac7` | Individual field definition                         |
+| JSON Rendering              | `04646a89-996f-4ee7-878a-ffdbf1f0ef0d` | Headless component rendering                        |
+| Folder                      | `a87a00b1-e6db-45ab-8b54-636fec3b5523` | Organizing items                                    |
+| JSS Data                    | `a29d272e-9d48-453c-9e9d-b47585fa7f20` | Data folder for SXA sites                           |
+| \_HorizonDatasourceGrouping | `D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2` | Enables child management in Pages Content tab (SXA) |
+| \_Seo Metadata              | `9B5B9E0E-1CEF-4D54-8C47-27F241CE075B` | SXA SEO base template (do not modify — extend it)   |
 
 ---
 
@@ -967,10 +1077,10 @@ File: `src/components/ui/article-cards.tsx`
 File: `.sitecore/component-map.ts`
 
 ```typescript
-import * as articlecards from 'src/components/ui/article-cards';
+import * as articlecards from "src/components/ui/article-cards";
 
 export const componentMap = new Map([
-  ['article-cards', { ...articlecards, componentType: 'client' }],
+  ["article-cards", { ...articlecards, componentType: "client" }],
 ]);
 ```
 
@@ -998,22 +1108,32 @@ Ensure the template has the proper 3-level structure: Template → Section → F
 ### Rendering Configuration
 
 **"No datasource template found for component" when adding to page:**
+
 - Verify `Datasource Template` contains the full path (not a GUID)
 - Path must start with `/sitecore/templates/...`
 - Confirm the template actually exists at that path
 
 **Component not appearing in Pages editor toolbar:**
+
 - Verify `componentName` is set and matches the component-map key (kebab-case)
 - Confirm component is registered in `.sitecore/component-map.ts`
 - Rendering template must be "JSON Rendering" (not "Controller Rendering")
 
 **Datasource picker is empty:**
+
 - Verify the `Datasource Location` query is correct
 - Folder template name in query must match the actual folder template exactly
 - Folder instance must exist in the Data folder
 - Folder must contain datasource items as children
 
+**Context-only component shows empty content:**
+
+- Verify the component reads from `page.layout.sitecore.route.fields`, not from `fields` (context-only components have no datasource fields)
+- Ensure the page template includes the expected route fields (e.g., Title, Content, MainImage)
+- Confirm the rendering has `Datasource Template` and `Datasource Location` both empty — if either is set, Sitecore expects a datasource
+
 **Component renders parent data but children are missing:**
+
 - The `ComponentQuery` field on the rendering is either empty or missing the `children { results { ... } }` block
 - Verify the template names in `... on <TemplateName>` fragments match the actual Sitecore template names (PascalCase)
 - Verify all needed fields are listed inside the fragment with `{ jsonValue }`
@@ -1021,15 +1141,18 @@ Ensure the template has the proper 3-level structure: Template → Section → F
 - For list components, you must set the query and use `fields.data.datasource.children.results` in the component
 
 **Component expects `fields.data.children.results` but array is empty:**
+
 - Children are nested **inside** the datasource object, not as a sibling. Use `fields.data.datasource.children.results`, not `fields.data.children.results`.
 
 **Component expects `fields.data.datasource` but receives `fields.Title` (or vice versa):**
+
 - This is a props shape mismatch between the rendering configuration and the component code
 - If the rendering has NO `Component GraphQL Query`: the component receives the default JSS shape — fields at top level with PascalCase keys and `.value` (e.g., `fields.Title.value`, `fields.Description.value`). Use the default pattern in the component.
 - If the rendering HAS a `Component GraphQL Query`: the component receives the GraphQL shape — `fields.data.datasource` with camelCase keys and `.jsonValue`. Use the GraphQL pattern in the component.
 - Fix: either add a GraphQL query to the rendering and update the component to the `data.datasource`/`jsonValue` shape, or remove the query and update the component to the PascalCase/`.value` shape. Never mix both.
 
 **Children not appearing in Pages Content tab:**
+
 - Add `_HorizonDatasourceGrouping` (`{D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2}`) as a base template to the **parent** datasource template (e.g., ArticleCards, CategoryDirectory) — not the child template and not the folder template.
 - Set Insert Options on the parent template's **Standard Values** to allow the child template. Without Insert Options, the "Add" button in the Content tab won't know which templates to offer.
 - Verify the `_HorizonDatasourceGrouping` template exists at `/sitecore/templates/Foundation/Experience Accelerator/Horizon/_HorizonDatasourceGrouping`. If it doesn't exist, your XM Cloud environment may not have SXA installed or the path may differ.
@@ -1038,18 +1161,21 @@ Ensure the template has the proper 3-level structure: Template → Section → F
 ### Component Registration
 
 **Component renders but fields are not editable:**
+
 - Use Sitecore field components (`Text`, `Image`, `Link`)
 - Access fields via the `jsonValue` property
 - Handle `isPageEditing` prop correctly
 
 **Component name mismatch errors:**
 Verify the entire naming chain matches:
+
 - File: `article-cards.tsx`
 - Import: `import * as articlecards`
 - Map key: `['article-cards', {...}]`
 - Rendering: `componentName: "article-cards"`
 
 **TypeScript errors in component:**
+
 - Import only from `@sitecore-content-sdk/nextjs` (main package)
 - Never import from `/config-cli`, `/tools`, or `/client` subpaths
 - Props interface must extend `ComponentProps`
@@ -1058,6 +1184,7 @@ Verify the entire naming chain matches:
 ### Build and Deployment
 
 **Component not appearing after registration:**
+
 - Restart the Next.js dev server after changes to `component-map.ts`
 - Clear the `.next` cache folder and rebuild if needed
 
@@ -1081,15 +1208,17 @@ Verify the entire naming chain matches:
 14. **Child datasources for lists** — Components that render lists need datasource items with children, not multilist fields. Children are nested inside the datasource object: access them via `fields.data.datasource.children.results`. The rendering's `ComponentQuery` field MUST include a query with `children { results { ... on <ChildTemplate> { } } }` or child data will not be passed to the component.
 15. **Simple vs list component props** — For components without children, leave `ComponentQuery` empty and consume the default props (`fields` with PascalCase keys and `.value`). For components with children, set the GraphQL query and consume `fields.data.datasource` (parent fields + `datasource.children.results` for child items) with `jsonValue` and camelCase. Never mix the two shapes in a single component.
 16. **Manage Items in Pages** — For list components (parent + child datasource), add `_HorizonDatasourceGrouping` (`{D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2}`) as a base template to the **parent** template so child items appear in the Pages Content tab with sort, add, rename, and delete controls. Set Insert Options on the parent's Standard Values to allow the child template. This is only for list components — do not add it to simple single-datasource templates.
+17. **Context-only components need no datasource** — For components that display the current page's own fields (breadcrumbs, article headers, body content), leave `Datasource Template`, `Datasource Location`, and `ComponentQuery` all empty on the rendering. The component reads from `page.layout.sitecore.route.fields` instead of `fields`. Ensure the page template includes the fields the component expects.
+18. **Never modify OOB templates** — Do not edit Sitecore's built-in Foundation or SXA templates (e.g., `_Seo Metadata`, `_HorizonDatasourceGrouping`). Always extend them by creating a custom template that inherits from the OOB template and adding your fields there.
 
 ---
 
 ## Workflow Considerations
 
+- **Publishing after MCP changes:** All items created or updated via MCP live in the Master database only. They are NOT visible on the live site or Experience Edge until published. After creating or updating content via MCP, always publish (Smart Publish for targeted items, Incremental Publish for bulk updates) so changes take effect.
 - Pages and content items may be subject to publishing workflows. Check if a workflow is assigned to the template's standard values before expecting items to be live.
 - Marketing definitions follow the Analytics workflow: Draft → Deployed. Use the Deploy action to activate.
-- In XM Cloud, publishing pushes items to Experience Edge. Use Smart Publish for targeted updates and Incremental Publish for bulk updates.
-- Component registration changes (`component-map.ts`) require application restart/rebuild to take effect.
+- Component registration changes (`component-map.ts`) require application restart/rebuild to take effect — this is a code change, not a publishing action.
 
 ---
 

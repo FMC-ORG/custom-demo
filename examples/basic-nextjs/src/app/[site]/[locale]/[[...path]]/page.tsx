@@ -93,10 +93,61 @@ export const generateMetadata = async ({ params }: PageProps) => {
 
   // The same call as for rendering the page. Should be cached by default react behavior
   const page = await client.getPage(path ?? [], { site, locale });
-  return {
-    title:
-      (
-        page?.layout.sitecore.route?.fields as RouteFields
-      )?.Title?.value?.toString() || "Page",
+  const fields = page?.layout?.sitecore?.route?.fields as RouteFields | undefined;
+
+  const title =
+    fields?.MetaTitle?.value?.toString() ??
+    fields?.Title?.value?.toString() ??
+    "Page";
+  const description = fields?.MetaDescription?.value?.toString();
+  const keywords = fields?.MetaKeywords?.value?.toString();
+  const canonicalUrl = fields?.CanonicalUrl?.value?.toString();
+  const robots = fields?.Robots?.value?.toString();
+
+  const ogTitle =
+    fields?.OpenGraphTitle?.value?.toString() ?? title;
+  const ogDescription =
+    fields?.OpenGraphDescription?.value?.toString() ?? description;
+  const ogImage = fields?.OpenGraphImage?.value as { src?: string } | undefined;
+  const ogImageUrl = ogImage?.src;
+
+  const twitterTitle =
+    fields?.TwitterTitle?.value?.toString() ?? ogTitle;
+  const twitterDescription =
+    fields?.TwitterDescription?.value?.toString() ?? ogDescription;
+  const twitterImage = fields?.TwitterImage?.value as { src?: string } | undefined;
+  const twitterImageUrl = twitterImage?.src ?? ogImageUrl;
+
+  const robotsLower = robots?.toLowerCase() ?? "";
+  const robotsMeta =
+    robotsLower && (robotsLower.includes("noindex") || robotsLower.includes("nofollow"))
+      ? { index: !robotsLower.includes("noindex"), follow: !robotsLower.includes("nofollow") }
+      : undefined;
+
+  const metadata: Record<string, unknown> = {
+    title,
+    ...(description && { description }),
+    ...(keywords && { keywords }),
+    ...(canonicalUrl && {
+      alternates: { canonical: canonicalUrl },
+    }),
+    ...(robotsMeta && { robots: robotsMeta }),
+    ...((ogTitle || ogDescription || ogImageUrl) && {
+      openGraph: {
+        ...(ogTitle && { title: ogTitle }),
+        ...(ogDescription && { description: ogDescription }),
+        ...(ogImageUrl && { images: [{ url: ogImageUrl }] }),
+      },
+    }),
+    ...((twitterTitle || twitterDescription || twitterImageUrl) && {
+      twitter: {
+        card: "summary_large_image",
+        ...(twitterTitle && { title: twitterTitle }),
+        ...(twitterDescription && { description: twitterDescription }),
+        ...(twitterImageUrl && { images: [twitterImageUrl] }),
+      },
+    }),
   };
+
+  return metadata;
 };

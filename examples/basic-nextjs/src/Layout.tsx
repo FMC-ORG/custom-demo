@@ -12,6 +12,17 @@ interface LayoutProps {
 export interface RouteFields {
   [key: string]: unknown;
   Title?: Field;
+  MetaTitle?: Field;
+  MetaDescription?: Field;
+  MetaKeywords?: Field;
+  CanonicalUrl?: Field;
+  OpenGraphTitle?: Field;
+  OpenGraphDescription?: Field;
+  OpenGraphImage?: Field;
+  TwitterTitle?: Field;
+  TwitterDescription?: Field;
+  TwitterImage?: Field;
+  Robots?: Field;
 }
 
 const Layout = ({ page }: LayoutProps): JSX.Element => {

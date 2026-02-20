@@ -2,22 +2,9 @@
 module.exports = {
   darkMode: ['class'],
   safelist: [
-    'basis-5/12',
-    'basis-6/12',
-    'basis-1/2',
-    'basis-1/3',
-    'basis-2/3',
-    'basis-1/4',
-    'basis-3/4',
-    'basis-1/5',
-    'basis-2/5',
-    'basis-3/5',
-    'basis-4/5',
-    'basis-1/6',
-    'basis-5/6',
-    'basis-1/12',
-    'basis-11/12',
-    'basis-1/12',
+    {
+      pattern: /^(sm:|md:|lg:|xl:|2xl:)?basis-(1|2|3|4|5|6|7|8|9|10|11)\/(2|3|4|5|6|12)$/,
+    },
   ],
   content: [
     './src/**/*.{js,ts,jsx,tsx,mdx}',

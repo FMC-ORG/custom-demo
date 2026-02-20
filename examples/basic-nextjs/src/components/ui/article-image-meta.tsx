@@ -4,6 +4,7 @@ import React from 'react';
 import { Text, Image as SitecoreImage } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from '@/lib/component-props';
 import { format, parseISO, isValid } from 'date-fns';
+import { MOCK_ARTICLE } from '@/lib/mock-content';
 
 /**
  * Article Image Meta component parameters (context-only, no datasource)
@@ -96,45 +97,53 @@ const ArticleImageMetaComponent: React.FC<ArticleImageMetaProps> = (props) => {
   const author = fields?.Author?.value;
   const publishedDateValue = fields?.PublishedDate?.value;
   const formattedDate = formatPublishedDate(publishedDateValue);
+  const mockDate = format(new Date(), 'd MMM yyyy');
 
-  const hasContent =
-    mainImage?.src || author || formattedDate;
-
-  if (!hasContent && !isPageEditing) {
-    return null;
-  }
+  const hasRealImage = mainImage?.src || (isPageEditing && fields?.MainImage);
+  const hasRealAuthor = author || (isPageEditing && fields?.Author);
+  const hasRealDate = formattedDate || (isPageEditing && fields?.PublishedDate);
+  const showMock = !isPageEditing;
 
   return (
     <section className="mb-8">
       {/* Article main image */}
-      {(mainImage?.src || isPageEditing) && fields?.MainImage && (
+      {hasRealImage && fields?.MainImage ? (
         <div className="relative w-full aspect-[16/10] overflow-hidden">
           <SitecoreImage
             field={fields.MainImage}
             className="object-cover w-full h-full"
           />
         </div>
-      )}
+      ) : showMock ? (
+        <div
+          className="relative w-full aspect-[16/10] overflow-hidden bg-muted flex items-center justify-center"
+          aria-hidden
+        >
+          <span className="text-muted-foreground text-sm">Image placeholder</span>
+        </div>
+      ) : null}
 
       {/* Meta bar: By Author | Published - Date + Social icons */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 py-3 bg-violet-400 text-white">
         <div className="flex items-center gap-2 text-sm font-medium">
-          {(author || isPageEditing) && fields?.Author && (
+          {(hasRealAuthor || showMock) && (
             <>
               <span>By </span>
-              <Text
-                field={fields.Author}
-                tag="span"
-                className="font-medium"
-              />
-              {(formattedDate || (isPageEditing && fields?.PublishedDate)) && (
-                <span className="text-white/80">|</span>
+              {hasRealAuthor && fields?.Author ? (
+                <Text
+                  field={fields.Author}
+                  tag="span"
+                  className="font-medium"
+                />
+              ) : (
+                <span className="font-medium">{MOCK_ARTICLE.author}</span>
               )}
+              {(hasRealDate || showMock) && <span className="text-white/80">|</span>}
             </>
           )}
-          {(formattedDate || (isPageEditing && fields?.PublishedDate)) && (
+          {(hasRealDate || showMock) && (
             <span>
-              Published - {formattedDate || '—'}
+              Published - {formattedDate || mockDate}
             </span>
           )}
         </div>

@@ -39,7 +39,6 @@ function formatSegmentDisplay(segment: string): string {
 }
 
 const BreadcrumbsComponent: React.FC<BreadcrumbsProps> = (props) => {
-  console.log('BreadcrumbsComponent props', props);
   const { page } = props;
   const { layout } = page;
   const { context, route } = layout.sitecore;
@@ -56,7 +55,15 @@ const BreadcrumbsComponent: React.FC<BreadcrumbsProps> = (props) => {
     (route?.fields as { Title?: { value?: string } } | undefined)?.Title?.value?.toString() ?? '';
 
   if (segments.length === 0) {
-    return null;
+    return (
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbPage title="Home">Home</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
   }
 
   return (

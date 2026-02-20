@@ -4,6 +4,7 @@ import React from 'react';
 import { RichText } from '@sitecore-content-sdk/nextjs';
 import type { RichTextField } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from '@/lib/component-props';
+import { MOCK_ARTICLE } from '@/lib/mock-content';
 
 /**
  * Article Content component parameters (context-only, no datasource)
@@ -36,25 +37,32 @@ const ArticleContentComponent: React.FC<ArticleContentProps> = (props) => {
   const { route } = layout.sitecore;
   const fields = route?.fields as ArticleContentRouteFields | undefined;
   const contentField = fields?.Content;
+  const hasContent =
+    contentField?.value != null && String(contentField.value).trim().length > 0;
 
-  const hasContent = contentField?.value != null && String(contentField.value).trim().length > 0;
-
-  if (!hasContent && !isPageEditing) {
-    return null;
-  }
+  const articleClassName =
+    'article-content font-serif text-foreground [&_p]:mb-4 [&_p]:leading-relaxed [&_a]:text-primary [&_a]:underline [&_a]:hover:opacity-80 [&_img]:w-full [&_img]:my-6 [&_img]:rounded-lg [&_figure]:my-6 [&_figcaption]:text-sm [&_figcaption]:italic [&_figcaption]:text-muted-foreground [&_figcaption]:mt-2';
 
   return (
     <article
-      className="article-content font-serif text-foreground [&_p]:mb-4 [&_p]:leading-relaxed [&_a]:text-primary [&_a]:underline [&_a]:hover:opacity-80 [&_img]:w-full [&_img]:my-6 [&_img]:rounded-lg [&_figure]:my-6 [&_figcaption]:text-sm [&_figcaption]:italic [&_figcaption]:text-muted-foreground [&_figcaption]:mt-2"
+      className={articleClassName}
       data-testid="article-content"
     >
-      {contentField ? (
+      {hasContent && contentField ? (
         <RichText field={contentField} />
       ) : isPageEditing ? (
         <div className="rounded border border-dashed border-muted-foreground/30 p-6 text-center text-muted-foreground">
           [Content] - Add article body in the page Content field
         </div>
-      ) : null}
+      ) : (
+        <>
+          {MOCK_ARTICLE.content.map((paragraph, index) => (
+            <p key={index} className="mb-4 leading-relaxed">
+              {paragraph}
+            </p>
+          ))}
+        </>
+      )}
     </article>
   );
 };

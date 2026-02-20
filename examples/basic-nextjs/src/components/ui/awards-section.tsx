@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import type React from 'react';
-import { Award, Star, Trophy, type LucideIcon } from 'lucide-react';
-import { Text, useSitecore } from '@sitecore-content-sdk/nextjs';
-import type { Field } from '@sitecore-content-sdk/nextjs';
-import { ComponentProps } from '@/lib/component-props';
+import type React from "react";
+import { Award, Star, Trophy, type LucideIcon } from "lucide-react";
+import { Text, useSitecore } from "@sitecore-content-sdk/nextjs";
+import type { Field } from "@sitecore-content-sdk/nextjs";
+import { ComponentProps } from "@/lib/component-props";
 
 /**
  * Icon name to Lucide component mapping for Sitecore-driven icon selection
@@ -20,49 +20,49 @@ const ICON_MAP: Record<string, LucideIcon> = {
  */
 const DEFAULT_AWARDS = [
   {
-    id: '1',
-    topText: 'May 2025',
-    title: 'Which?',
-    subtitle: 'Best Buy',
-    bottomText: 'Travel Insurance',
-    detail: 'Standard & Plus',
-    icon: 'Award',
+    id: "1",
+    topText: "May 2025",
+    title: "Which?",
+    subtitle: "Best Buy",
+    bottomText: "Travel Insurance",
+    detail: "Standard & Plus",
+    icon: "Award",
   },
   {
-    id: '2',
-    topText: 'Winner',
-    title: 'British Travel',
-    subtitle: 'Awards 2024',
-    bottomText: 'Best Cruise Line',
-    detail: 'for Luxury Holidays',
-    icon: 'Trophy',
+    id: "2",
+    topText: "Winner",
+    title: "British Travel",
+    subtitle: "Awards 2024",
+    bottomText: "Best Cruise Line",
+    detail: "for Luxury Holidays",
+    icon: "Trophy",
   },
   {
-    id: '3',
-    topText: 'March 2025',
-    title: 'Which?',
-    subtitle: 'Recommended',
-    bottomText: 'Provider',
-    detail: 'Ocean Cruises',
-    icon: 'Award',
+    id: "3",
+    topText: "March 2025",
+    title: "Which?",
+    subtitle: "Recommended",
+    bottomText: "Provider",
+    detail: "Ocean Cruises",
+    icon: "Award",
   },
   {
-    id: '4',
-    topText: 'British Travel',
-    title: 'Awards 2024',
-    subtitle: 'Winner',
-    bottomText: '19 Awards',
-    detail: '',
-    icon: 'Star',
+    id: "4",
+    topText: "British Travel",
+    title: "Awards 2024",
+    subtitle: "Winner",
+    bottomText: "19 Awards",
+    detail: "",
+    icon: "Star",
   },
   {
-    id: '5',
-    topText: 'Silver Travel',
-    title: 'Awards 2024',
-    subtitle: 'Winner',
-    bottomText: '',
-    detail: '',
-    icon: 'Trophy',
+    id: "5",
+    topText: "Silver Travel",
+    title: "Awards 2024",
+    subtitle: "Winner",
+    bottomText: "",
+    detail: "",
+    icon: "Trophy",
   },
 ];
 
@@ -76,7 +76,7 @@ interface AwardItem {
   subtitle?: { jsonValue?: Field<string> };
   bottomText?: { jsonValue?: Field<string> };
   detail?: { jsonValue?: Field<string> };
-  icon?: { jsonValue?: Field<string> };
+  awardIcon?: { jsonValue?: Field<string> };
 }
 
 /**
@@ -129,9 +129,9 @@ const AwardsSectionComponent: React.FC<AwardsSectionProps> = (props) => {
   const displayItems = hasSitecoreItems ? items : fallbackAwards;
 
   return (
-    <section className="py-12 md:py-16 bg-background">
+    <section className="py-12 md:py-16 bg-background w-screen relative left-1/2 -translate-x-1/2 overflow-x-hidden">
+      {/* Heading + description - contained */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section heading */}
         <div className="flex items-start gap-3 mb-2">
           <div className="w-1 h-8 bg-saga-teal rounded-full mt-1 flex-shrink-0" />
           {hasDatasource && (datasource?.sectionTitle?.jsonValue?.value || isPageEditing) ? (
@@ -158,31 +158,41 @@ const AwardsSectionComponent: React.FC<AwardsSectionProps> = (props) => {
             services tailored to them has been recognised through a variety of awards and reviews.
           </p>
         )}
+      </div>
 
-        {/* Awards strip */}
-        <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-amber-50 via-amber-50/50 to-rose-50 py-10 px-6">
-          {!hasSitecoreItems && isPageEditing ? (
-            <div className="text-center text-muted-foreground py-8">
-              No awards configured. Add AwardItem items as children.
-            </div>
-          ) : (
-            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-              {displayItems.map((award) => {
+      {/* Awards strip - full width */}
+      <div className="mt-10 w-screen relative left-1/2 -translate-x-1/2 overflow-hidden">
+        <div className="bg-gradient-to-r from-amber-50 via-amber-50/50 to-rose-50 py-10 px-4 sm:px-6 lg:px-8 rounded-none">
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 max-w-7xl mx-auto">
+            {!hasSitecoreItems && isPageEditing ? (
+              <div className="text-center text-muted-foreground py-8 w-full">
+                No awards configured. Add AwardItem items as children.
+              </div>
+            ) : (
+              displayItems.map((award) => {
                 const isSitecoreItem = hasSitecoreItems;
                 const iconName = isSitecoreItem
-                  ? (award as AwardItem)?.icon?.jsonValue?.value ?? 'Award'
+                  ? ((award as AwardItem)?.awardIcon?.jsonValue?.value ?? "Award")
                   : (award as (typeof DEFAULT_AWARDS)[0]).icon;
                 const IconComponent = ICON_MAP[iconName] ?? Award;
 
                 return (
                   <div
-                    key={isSitecoreItem ? (award as AwardItem).id : (award as (typeof DEFAULT_AWARDS)[0]).id}
+                    key={
+                      isSitecoreItem
+                        ? (award as AwardItem).id
+                        : (award as (typeof DEFAULT_AWARDS)[0]).id
+                    }
                     className="flex flex-col items-center text-center gap-1.5"
                   >
                     <div className="h-20 w-20 rounded-full border-2 border-saga-navy/20 flex flex-col items-center justify-center bg-background shadow-sm gap-0.5">
                       {isSitecoreItem ? (
                         <>
-                          <IconComponent className="h-4 w-4 text-saga-navy/50 shrink-0" strokeWidth={1.5} aria-hidden />
+                          <IconComponent
+                            className="h-4 w-4 text-saga-navy/50 shrink-0"
+                            strokeWidth={1.5}
+                            aria-hidden
+                          />
                           {((award as AwardItem)?.topText?.jsonValue?.value || isPageEditing) && (
                             <Text
                               field={(award as AwardItem).topText?.jsonValue}
@@ -204,7 +214,8 @@ const AwardsSectionComponent: React.FC<AwardsSectionProps> = (props) => {
                               className="text-[10px] font-bold text-saga-navy leading-none"
                             />
                           )}
-                          {((award as AwardItem)?.bottomText?.jsonValue?.value || isPageEditing) && (
+                          {((award as AwardItem)?.bottomText?.jsonValue?.value ||
+                            isPageEditing) && (
                             <Text
                               field={(award as AwardItem).bottomText?.jsonValue}
                               tag="span"
@@ -214,7 +225,11 @@ const AwardsSectionComponent: React.FC<AwardsSectionProps> = (props) => {
                         </>
                       ) : (
                         <>
-                          <IconComponent className="h-4 w-4 text-saga-navy/50 shrink-0" strokeWidth={1.5} aria-hidden />
+                          <IconComponent
+                            className="h-4 w-4 text-saga-navy/50 shrink-0"
+                            strokeWidth={1.5}
+                            aria-hidden
+                          />
                           <span className="text-[8px] text-saga-navy/50 uppercase font-semibold leading-none">
                             {(award as (typeof DEFAULT_AWARDS)[0]).topText}
                           </span>
@@ -232,26 +247,24 @@ const AwardsSectionComponent: React.FC<AwardsSectionProps> = (props) => {
                         </>
                       )}
                     </div>
-                    {isSitecoreItem ? (
-                      ((award as AwardItem)?.detail?.jsonValue?.value || isPageEditing) && (
-                        <Text
-                          field={(award as AwardItem).detail?.jsonValue}
-                          tag="span"
-                          className="text-xs text-saga-navy/60 font-medium"
-                        />
-                      )
-                    ) : (
-                      (award as (typeof DEFAULT_AWARDS)[0]).detail && (
-                        <span className="text-xs text-saga-navy/60 font-medium">
-                          {(award as (typeof DEFAULT_AWARDS)[0]).detail}
-                        </span>
-                      )
-                    )}
+                    {isSitecoreItem
+                      ? ((award as AwardItem)?.detail?.jsonValue?.value || isPageEditing) && (
+                          <Text
+                            field={(award as AwardItem).detail?.jsonValue}
+                            tag="span"
+                            className="text-xs text-saga-navy/60 font-medium"
+                          />
+                        )
+                      : (award as (typeof DEFAULT_AWARDS)[0]).detail && (
+                          <span className="text-xs text-saga-navy/60 font-medium">
+                            {(award as (typeof DEFAULT_AWARDS)[0]).detail}
+                          </span>
+                        )}
                   </div>
                 );
-              })}
-            </div>
-          )}
+              })
+            )}
+          </div>
         </div>
       </div>
     </section>

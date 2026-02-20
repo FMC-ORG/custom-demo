@@ -35,7 +35,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const NAME_REGEX = /^[a-zA-Z\s'-]{2,}$/;
 
 interface NewsletterSignupDemoParams {
-  [key: string]: unknown;
+  [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   styles?: string;
   RenderingIdentifier?: string;
 }

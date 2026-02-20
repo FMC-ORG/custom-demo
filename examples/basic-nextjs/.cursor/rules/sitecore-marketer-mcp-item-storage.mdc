@@ -119,6 +119,18 @@ Templates must NOT be created loose under the site-collection root. They must be
 - `Droplink` — Single item reference
 - `Multilist` — Multiple item references
 
+**Field naming — avoid GraphQL collisions:**
+
+Sitecore's GraphQL schema includes core fields on every item type (e.g., `id`, `name`, `icon`, `path`, `url`, `template`, `parent`, `children`, `language`, `version`, `displayName`). If you create a template field with one of these names, a **GraphQL naming collision** occurs — the field gets `_{guid}` appended to its schema name (e.g., `icon` becomes `icon_a1b2c3d4`). This means any `ComponentQuery` referencing `icon` will silently return `null` because the actual schema field has a different name.
+
+**Names to avoid as template field names:**
+
+- `icon` — collides with the item's icon property. Use `awardIcon`, `badgeIcon`, `itemIcon`, `trustPointIcon` instead.
+- `id`, `name`, `path`, `url`, `template`, `parent`, `children` — all core item graph type fields.
+- `language`, `version`, `displayName` — system-level fields.
+
+**Best practice:** Use descriptive, component-scoped field names (e.g., `cardIcon`, `sectionTitle`, `promoImage`) rather than generic single-word names. If a field stops resolving in your GraphQL query despite being correctly named in camelCase, check for a naming collision.
+
 **Setting field values via MCP (`create_content_item` / `update_content`):**
 
 Some field types require specific formats when passed in the `fields` payload:
@@ -375,6 +387,26 @@ query ArticleCards($datasource: String!, $language: String!) {
 - Always wrap each field with `{ jsonValue }` so the Content SDK can render them as editable
 - If a field is missing from the query, it will NOT be available in the component props
 - The query alias `datasource:` must be used for the root `item()` call
+- Do not use GraphQL-collision-prone names (e.g., `icon`, `name`, `path`) as field names — they get renamed in the schema and the query will silently return `null` (see "Field naming — avoid GraphQL collisions" above)
+
+**GraphQL syntax validation — check before saving:**
+
+An invalid or malformed `ComponentQuery` can cause the layout service to fail silently. Instead of a clear error, the page structure is returned incomplete, causing runtime errors like `Cannot read properties of undefined (reading 'route')` in the React application. The error points to application code, but the root cause is the bad query.
+
+**Checklist (verify every item before saving a ComponentQuery):**
+
+- [ ] Query name matches parent template (e.g., `query TrustSection`)
+- [ ] Variables: `$datasource: String!`, `$language: String!`
+- [ ] Root alias: `datasource: item(path: $datasource, language: $language)`
+- [ ] Parent fragment: `... on <ParentTemplateName>` with correct PascalCase
+- [ ] Children block: `children { results { ... on <ChildTemplateName> { } } }`
+- [ ] All fields wrapped with `{ jsonValue }`
+- [ ] Field names in camelCase (e.g., `sectionTitle`, `awardIcon` — NOT `icon`, `name`, `path`)
+- [ ] `id` included in children results for React keys
+- [ ] No collision-prone field names (see list above)
+- [ ] Matching braces `{ }` and parentheses `( )` — count them
+- [ ] No trailing commas in the query
+- [ ] Test on a page immediately after saving — if `reading 'route'` error appears, the query is likely invalid
 
 **Common Mistakes:**
 
@@ -553,7 +585,7 @@ const articles = datasource?.children?.results || [];
 ```typescript
 interface TrustPointChild {
   id: string;
-  icon?: { jsonValue?: ImageField };
+  trustPointIcon?: { jsonValue?: ImageField }; // NOT "icon" — collides with core GraphQL field
   heading?: { jsonValue?: Field<string> };
   description?: { jsonValue?: Field<string> };
 }
@@ -1150,6 +1182,17 @@ Ensure the template has the proper 3-level structure: Template → Section → F
 - If the rendering has NO `Component GraphQL Query`: the component receives the default JSS shape — fields at top level with PascalCase keys and `.value` (e.g., `fields.Title.value`, `fields.Description.value`). Use the default pattern in the component.
 - If the rendering HAS a `Component GraphQL Query`: the component receives the GraphQL shape — `fields.data.datasource` with camelCase keys and `.jsonValue`. Use the GraphQL pattern in the component.
 - Fix: either add a GraphQL query to the rendering and update the component to the `data.datasource`/`jsonValue` shape, or remove the query and update the component to the PascalCase/`.value` shape. Never mix both.
+
+**"Cannot read properties of undefined (reading 'route')" when component is on page:**
+
+- This error usually indicates a **malformed or invalid Component GraphQL Query** on the rendering, not a problem in the application code.
+- When the layout service fails to execute a bad GraphQL query (syntax error, wrong template name, collision-prone field name like `icon`), it returns an incomplete page structure. Components that access `page.layout.sitecore.route` then receive `undefined`.
+- **Fix:** Validate the `ComponentQuery` on the rendering:
+  1. Check GraphQL syntax — matching braces, correct `... on <TemplateName>` fragments, camelCase field names.
+  2. Ensure template names in fragments match the actual Sitecore template names exactly (PascalCase).
+  3. Check for GraphQL field name collisions — avoid `icon`, `name`, `path`, `url`, `template` etc. Use descriptive alternatives (e.g., `awardIcon`, `sectionTitle`).
+  4. Verify the query works by testing the component on a page immediately after saving.
+- **Prevention:** Always use the GraphQL query checklist (see "GraphQL syntax validation" above) when creating or updating renderings via MCP.
 
 **Children not appearing in Pages Content tab:**
 

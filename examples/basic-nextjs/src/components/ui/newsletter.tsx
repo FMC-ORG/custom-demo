@@ -75,7 +75,7 @@ const NewsletterComponent: React.FC<NewsletterProps> = (props) => {
 
   if (!hasContent && !isPageEditing) {
     return (
-      <section className="py-12 md:py-16 bg-saga-light-blue">
+      <section className="py-12 md:py-16 bg-saga-light-blue w-screen relative left-1/2 -translate-x-1/2 overflow-x-hidden">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <p className="text-muted-foreground">Newsletter: No datasource configured</p>
         </div>
@@ -93,7 +93,7 @@ const NewsletterComponent: React.FC<NewsletterProps> = (props) => {
   const showPrivacyDisclaimer = privacyDisclaimer || isPageEditing;
 
   return (
-    <section className="py-12 md:py-16 bg-saga-light-blue">
+    <section className="py-12 md:py-16 bg-saga-light-blue w-screen relative left-1/2 -translate-x-1/2 overflow-x-hidden">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         {/* Section heading */}
         <div className="flex items-start gap-3 mb-2">

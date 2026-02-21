@@ -4,6 +4,7 @@ import type React from 'react';
 import { useState } from 'react';
 import { Text, useSitecore } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from '@/lib/component-props';
+import { subscribeAction } from '@/lib/actions/subscribe';
 
 /**
  * Default layout service sends fields with PascalCase keys and .value
@@ -52,6 +53,9 @@ const NewsletterComponent: React.FC<NewsletterProps> = (props) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedSuccess, setSubmittedSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const title = fields?.Title?.value;
   const description = fields?.Description?.value;
@@ -78,6 +82,38 @@ const NewsletterComponent: React.FC<NewsletterProps> = (props) => {
       <section className="py-12 md:py-16 bg-saga-light-blue w-screen relative left-1/2 -translate-x-1/2 overflow-x-hidden">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <p className="text-muted-foreground">Newsletter: No datasource configured</p>
+        </div>
+      </section>
+    );
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitError(null);
+    setIsSubmitting(true);
+    const formData = new FormData();
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('email', email);
+    const result = await subscribeAction(formData);
+    setIsSubmitting(false);
+    if (result.success) {
+      setSubmittedSuccess(true);
+    } else {
+      setSubmitError(result.error);
+    }
+  };
+
+  if (submittedSuccess) {
+    return (
+      <section className="py-12 md:py-16 bg-saga-light-blue w-screen relative left-1/2 -translate-x-1/2 overflow-x-hidden">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+          <div className="bg-background rounded-xl p-6 md:p-8 shadow-sm border border-border/50 text-center">
+            <h3 className="text-xl font-bold text-saga-navy">Thank you for subscribing to Saga Magazine!</h3>
+            <p className="mt-2 text-sm text-saga-navy/70">
+              You will receive our newsletter and exclusive offers delivered to your inbox.
+            </p>
+          </div>
         </div>
       </section>
     );
@@ -127,9 +163,14 @@ const NewsletterComponent: React.FC<NewsletterProps> = (props) => {
 
         {/* Form */}
         <form
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmit}
           className="bg-background rounded-xl p-6 md:p-8 shadow-sm border border-border/50"
         >
+          {submitError && (
+            <div className="mb-4 p-3 rounded-md bg-destructive/10 text-destructive text-sm">
+              {submitError}
+            </div>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div>
               {showFirstNameLabel && (
@@ -232,16 +273,19 @@ const NewsletterComponent: React.FC<NewsletterProps> = (props) => {
             {showSubmitButton && (
               <button
                 type="submit"
-                className="rounded-md border-2 border-saga-navy bg-background px-6 py-2.5 text-sm font-semibold text-saga-navy hover:bg-saga-navy hover:text-white transition-colors whitespace-nowrap"
+                disabled={isSubmitting}
+                className="rounded-md border-2 border-saga-navy bg-background px-6 py-2.5 text-sm font-semibold text-saga-navy hover:bg-saga-navy hover:text-white transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {fields?.SubmitButtonText ? (
+                {isSubmitting ? (
+                  'Subscribing...'
+                ) : fields?.SubmitButtonText ? (
                   <Text
                     field={fields.SubmitButtonText}
                     tag="span"
                     className="text-sm font-semibold text-saga-navy"
                   />
                 ) : (
-                  (submitButtonText || d.SubmitButtonText)
+                  submitButtonText || d.SubmitButtonText
                 )}
               </button>
             )}

@@ -7,8 +7,8 @@ import { ComponentProps } from '@/lib/component-props';
 import { subscribeAction } from '@/lib/actions/subscribe';
 
 /**
- * Subscription Popup - Exit intent popup for newsletter signup.
- * Triggers when user moves cursor toward top of viewport (exit intent).
+ * Subscription Popup - Newsletter signup popup for demo purposes.
+ * Triggers on Ctrl+Shift+Q or Ctrl+Shift+E (keyboard shortcut for demos).
  * Content driven by Sitecore datasource. Respects Enabled checkbox.
  * Uses subscribeAction to send confirmation email with cruise offers.
  */
@@ -64,15 +64,16 @@ const SubscriptionPopupComponent: React.FC<SubscriptionPopupProps> = (props) => 
     }
   }, []);
 
-  const handleMouseOut = useCallback(
-    (e: MouseEvent) => {
-      if (e.relatedTarget === null || e.clientY <= 0) {
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && (e.key.toLowerCase() === 'q' || e.key.toLowerCase() === 'e')) {
+        e.preventDefault();
         const path = typeof window !== 'undefined' ? window.location.pathname : '';
         const dismissed = sessionStorage.getItem(`${STORAGE_KEY_PREFIX}${path}`);
         if (!dismissed) {
           setShowPopup(true);
         }
-        document.removeEventListener('mouseout', handleMouseOut);
+        document.removeEventListener('keydown', handleKeyDown);
       }
     },
     []
@@ -103,12 +104,12 @@ const SubscriptionPopupComponent: React.FC<SubscriptionPopupProps> = (props) => 
     const dismissed = sessionStorage.getItem(`${STORAGE_KEY_PREFIX}${path}`);
     if (dismissed) return;
 
-    document.addEventListener('mouseout', handleMouseOut);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.removeEventListener('mouseout', handleMouseOut);
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isPageEditing, isEnabled, handleMouseOut]);
+  }, [isPageEditing, isEnabled, handleKeyDown]);
 
   if (isPageEditing) {
     return (
@@ -116,7 +117,7 @@ const SubscriptionPopupComponent: React.FC<SubscriptionPopupProps> = (props) => 
         className="rounded border border-dashed border-muted-foreground/50 p-4 text-center text-sm text-muted-foreground"
         data-component="subscription-popup"
       >
-        Subscription Popup (exit intent) — Configure datasource to enable
+        Subscription Popup (Ctrl+Shift+Q or Ctrl+Shift+E) — Configure datasource to enable
       </div>
     );
   }

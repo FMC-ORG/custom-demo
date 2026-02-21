@@ -2,14 +2,15 @@
 
 import type React from 'react';
 import { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
-import { Text, Link as SitecoreLink, useSitecore } from '@sitecore-content-sdk/nextjs';
+import { Text, useSitecore } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from '@/lib/component-props';
+import { subscribeAction } from '@/lib/actions/subscribe';
 
 /**
  * Subscription Popup - Exit intent popup for newsletter signup.
  * Triggers when user moves cursor toward top of viewport (exit intent).
  * Content driven by Sitecore datasource. Respects Enabled checkbox.
+ * Uses subscribeAction to send confirmation email with cruise offers.
  */
 
 const STORAGE_KEY_PREFIX = 'subscription-popup-dismissed-';
@@ -18,8 +19,10 @@ const STATIC = {
   MESSAGE:
     'Sign up to our free Saga Magazine newsletter for exclusive offers and inspiration.',
   CTA_TEXT: 'Subscribe',
-  CTA_HREF: '#newsletter',
   CLOSE_TEXT: 'No thanks',
+  FIRST_NAME_LABEL: 'First name',
+  LAST_NAME_LABEL: 'Last name',
+  EMAIL_LABEL: 'Email Address',
 };
 
 interface SubscriptionPopupFields {
@@ -39,14 +42,18 @@ interface SubscriptionPopupProps extends ComponentProps {
 const SubscriptionPopupComponent: React.FC<SubscriptionPopupProps> = (props) => {
   const { fields, isPageEditing } = props;
   const [showPopup, setShowPopup] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedSuccess, setSubmittedSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const isEnabled =
     fields?.Enabled?.value === '1' || (fields === undefined && !isPageEditing);
   const title = fields?.Title?.value ?? STATIC.TITLE;
   const message = fields?.Message?.value ?? STATIC.MESSAGE;
   const ctaText = fields?.CtaText?.value ?? STATIC.CTA_TEXT;
-  const ctaHref = fields?.CtaLink?.value?.href ?? STATIC.CTA_HREF;
-  const ctaLinkText = fields?.CtaLink?.value?.text ?? ctaText;
   const closeText = fields?.CloseButtonText?.value ?? STATIC.CLOSE_TEXT;
 
   const handleDismiss = useCallback(() => {
@@ -70,6 +77,23 @@ const SubscriptionPopupComponent: React.FC<SubscriptionPopupProps> = (props) => 
     },
     []
   );
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitError(null);
+    setIsSubmitting(true);
+    const formData = new FormData();
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('email', email);
+    const result = await subscribeAction(formData);
+    setIsSubmitting(false);
+    if (result.success) {
+      setSubmittedSuccess(true);
+    } else {
+      setSubmitError(result.error);
+    }
+  };
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -127,34 +151,93 @@ const SubscriptionPopupComponent: React.FC<SubscriptionPopupProps> = (props) => 
               message
             )}
           </p>
-          <div className="flex flex-wrap gap-3 mt-2">
-            {fields?.CtaLink ? (
-              <SitecoreLink
-                field={fields.CtaLink}
-                className="rounded-md border-2 border-saga-navy bg-background px-4 py-2 text-sm font-semibold text-saga-navy hover:bg-saga-navy hover:text-white transition-colors"
+
+          {submittedSuccess ? (
+            <div className="py-2">
+              <p className="text-saga-navy font-medium">
+                Thank you for subscribing to Saga Magazine!
+              </p>
+              <p className="text-sm text-saga-navy/70 mt-1">
+                You will receive our newsletter and exclusive offers delivered to your inbox.
+              </p>
+              <button
+                type="button"
+                onClick={handleDismiss}
+                className="mt-4 rounded-md border-2 border-saga-navy bg-saga-navy px-4 py-2 text-sm font-semibold text-white hover:bg-saga-navy/90 transition-colors"
               >
-                {ctaLinkText}
-              </SitecoreLink>
-            ) : (
-              <Link
-                href={ctaHref}
-                className="rounded-md border-2 border-saga-navy bg-background px-4 py-2 text-sm font-semibold text-saga-navy hover:bg-saga-navy hover:text-white transition-colors"
-              >
-                {ctaLinkText}
-              </Link>
-            )}
-            <button
-              type="button"
-              onClick={handleDismiss}
-              className="rounded-md px-4 py-2 text-sm font-medium text-saga-navy/70 hover:text-saga-navy hover:underline"
-            >
-              {fields?.CloseButtonText ? (
-                <Text field={fields.CloseButtonText} tag="span" />
-              ) : (
-                closeText
+                Close
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+              <div>
+                <label htmlFor="popup-first" className="sr-only">
+                  {STATIC.FIRST_NAME_LABEL}
+                </label>
+                <input
+                  id="popup-first"
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder={STATIC.FIRST_NAME_LABEL}
+                  required
+                  className="w-full rounded-md border border-saga-navy/30 px-3 py-2 text-sm text-saga-navy placeholder:text-saga-navy/50 focus:border-saga-navy focus:outline-none focus:ring-1 focus:ring-saga-navy"
+                />
+              </div>
+              <div>
+                <label htmlFor="popup-last" className="sr-only">
+                  {STATIC.LAST_NAME_LABEL}
+                </label>
+                <input
+                  id="popup-last"
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder={STATIC.LAST_NAME_LABEL}
+                  required
+                  className="w-full rounded-md border border-saga-navy/30 px-3 py-2 text-sm text-saga-navy placeholder:text-saga-navy/50 focus:border-saga-navy focus:outline-none focus:ring-1 focus:ring-saga-navy"
+                />
+              </div>
+              <div>
+                <label htmlFor="popup-email" className="sr-only">
+                  {STATIC.EMAIL_LABEL}
+                </label>
+                <input
+                  id="popup-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={STATIC.EMAIL_LABEL}
+                  required
+                  className="w-full rounded-md border border-saga-navy/30 px-3 py-2 text-sm text-saga-navy placeholder:text-saga-navy/50 focus:border-saga-navy focus:outline-none focus:ring-1 focus:ring-saga-navy"
+                />
+              </div>
+              {submitError && (
+                <p className="text-sm text-red-600">{submitError}</p>
               )}
-            </button>
-          </div>
+              <div className="flex flex-wrap gap-3 mt-2">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="rounded-md border-2 border-saga-navy bg-saga-navy px-4 py-2 text-sm font-semibold text-white hover:bg-saga-navy/90 disabled:opacity-60 transition-colors"
+                >
+                  {isSubmitting ? 'Subscribing...' : ctaText}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDismiss}
+                  disabled={isSubmitting}
+                  className="rounded-md px-4 py-2 text-sm font-medium text-saga-navy/70 hover:text-saga-navy hover:underline disabled:opacity-60"
+                >
+                  {fields?.CloseButtonText ? (
+                    <Text field={fields.CloseButtonText} tag="span" />
+                  ) : (
+                    closeText
+                  )}
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </div>

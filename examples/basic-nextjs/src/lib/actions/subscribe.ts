@@ -7,13 +7,22 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RECIPIENT_EMAIL = 'federicomujica1@gmail.com';
 const FROM_EMAIL = 'onboarding@resend.dev';
 
-const BASE_LANDING_URL = 'https://sagademo.vercel.app/landing-pages/travel';
+const BASE_URL = 'https://sagademo.vercel.app';
+/** App uses [site]/[locale]/[[...path]] — include site and locale for correct routing */
+const SITE_LOCALE = 'saga-group/en';
+
+const UTM_CONTENT_TO_ARTICLE_PATH: Record<string, string> = {
+  strasbourg_basel: `/${SITE_LOCALE}/travel/strasbourg-basel-upper-rhine`,
+  sights_scenery_rhine: `/${SITE_LOCALE}/travel/sights-scenery-rhine-2026`,
+  amsterdam_cologne: `/${SITE_LOCALE}/travel/amsterdam-cologne-rhine-gorge`,
+};
 
 function buildUserFakehash(email: string): string {
   return createHash('sha256').update(email.toLowerCase().trim()).digest('hex').slice(0, 16);
 }
 
 function buildCruiseUrl(utmContent: string, userFakehash: string): string {
+  const path = UTM_CONTENT_TO_ARTICLE_PATH[utmContent] ?? `/${SITE_LOCALE}/travel`;
   const params = new URLSearchParams({
     utm_source: 'newsletter',
     utm_medium: 'email',
@@ -21,13 +30,13 @@ function buildCruiseUrl(utmContent: string, userFakehash: string): string {
     utm_content: utmContent,
     fakehash: userFakehash,
   });
-  return `${BASE_LANDING_URL}?${params.toString()}`;
+  return `${BASE_URL}${path}?${params.toString()}`;
 }
 
 const CRUISE_OFFERS = [
   {
     image:
-      'https://travel.saga.co.uk/-/media/acromas/sagatravel/images/destination/river%20cruise%20regions/rhine/rh434%20strasbourg%20basel%20and%20the%20beautiful%20rhine/search/s_dst_france_ext_37326a.jpg?h=320',
+      'https://travel.saga.co.uk/-/media/acromas/sagatravel/images/destination/river%20cruise%20regions/rhine/rh434%20strasbourg%20basel%20and%20the%20beautiful%20rhine/search/s_dst_france_ext_37326a.jpg?h=160',
     ship: 'Spirit of the Rhine',
     title: 'Strasbourg, Basel and the Upper Rhine',
     region: 'The Rhine and her Tributaries',
@@ -38,7 +47,7 @@ const CRUISE_OFFERS = [
   },
   {
     image:
-      'https://travel.saga.co.uk/-/media/acromas/sagatravel/images/destination/river%20cruise%20regions/rhine/rh428%20sights%20and%20scenery%20of%20the%20rhine%202026/search/s_dst_germany_ext_31314.jpg?h=320',
+      'https://travel.saga.co.uk/-/media/acromas/sagatravel/images/destination/river%20cruise%20regions/rhine/rh428%20sights%20and%20scenery%20of%20the%20rhine%202026/search/s_dst_germany_ext_31314.jpg?h=160',
     ship: '',
     title: 'Sights and Scenery of the Rhine 2026',
     region: 'The Rhine',
@@ -49,7 +58,7 @@ const CRUISE_OFFERS = [
   },
   {
     image:
-      'https://travel.saga.co.uk/-/media/acromas/sagatravel/images/destination/river%20cruise%20regions/rhine/rh43r%20amsterdam%20cologne%20and%20the%20rhine%20gorge/search/s_dst_germany_ext_36465.jpg?h=320',
+      'https://travel.saga.co.uk/-/media/acromas/sagatravel/images/destination/river%20cruise%20regions/rhine/rh43r%20amsterdam%20cologne%20and%20the%20rhine%20gorge/search/s_dst_germany_ext_36465.jpg?h=160',
     ship: 'Spirit of the Rhine',
     title: 'Amsterdam Cologne and the Rhine Gorge',
     region: 'The Rhine and Dutch Waterways',
@@ -69,34 +78,38 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  */
 function getSubscriptionEmailHtml(firstName: string, lastName: string, email: string): string {
   const userFakehash = buildUserFakehash(email);
-  const cruiseCardsHtml = CRUISE_OFFERS.map(
-    (cruise) => {
-      const url = buildCruiseUrl(cruise.utmContent, userFakehash);
-      return `
+  const cruiseCardsHtml = CRUISE_OFFERS.map((cruise, index) => {
+    const url = buildCruiseUrl(cruise.utmContent, userFakehash);
+    const paddingStyle =
+      index === 0
+        ? 'padding: 0 6px 0 0;'
+        : index === 1
+          ? 'padding: 0 6px;'
+          : 'padding: 0 0 0 6px;';
+    return `
+    <td style="width: 33.33%; ${paddingStyle} vertical-align: top;">
+      <a href="${url}" style="text-decoration: none; color: inherit; display: block;">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border: 1px solid #E8F4F8; border-radius: 8px; overflow: hidden;">
+          <tr>
+            <td style="padding: 0;">
+              <img src="${cruise.image}" alt="${cruise.title}" width="160" height="90" style="display: block; width: 100%; max-width: 160px; height: auto; object-fit: cover;" />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 12px;">
+              <p style="margin: 0 0 4px 0; color: #1B2A6B; font-size: 14px; font-weight: 600;">${cruise.title}</p>
+              <p style="margin: 0; color: #1B2A6B; font-size: 13px; font-weight: 600;">${cruise.price}</p>
+            </td>
+          </tr>
+        </table>
+      </a>
+    </td>`;
+  }).join('');
+
+  const cruiseCardsTableHtml = `
     <tr>
-      <td style="padding: 0 0 24px 0;">
-        <a href="${url}" style="text-decoration: none; color: inherit; display: block;">
-          <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border: 1px solid #E8F4F8; border-radius: 8px; overflow: hidden;">
-            <tr>
-              <td style="padding: 0;">
-                <img src="${cruise.image}" alt="${cruise.title}" width="320" height="180" style="display: block; width: 100%; max-width: 320px; height: auto; object-fit: cover;" />
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 16px;">
-                ${cruise.ship ? `<p style="margin: 0 0 4px 0; color: #A8D8D8; font-size: 12px; font-weight: 600; text-transform: uppercase;">${cruise.ship}</p>` : ''}
-                <p style="margin: 0 0 8px 0; color: #1B2A6B; font-size: 16px; font-weight: 600;">${cruise.title}</p>
-                <p style="margin: 0 0 8px 0; color: rgba(27, 42, 107, 0.7); font-size: 13px;">${cruise.region}</p>
-                <p style="margin: 0 0 8px 0; color: rgba(27, 42, 107, 0.7); font-size: 13px;">${cruise.nights} · ${cruise.save}</p>
-                <p style="margin: 0; color: #1B2A6B; font-size: 15px; font-weight: 600;">${cruise.price}</p>
-              </td>
-            </tr>
-          </table>
-        </a>
-      </td>
+      ${cruiseCardsHtml}
     </tr>`;
-    }
-  ).join('');
 
   return `
 <!DOCTYPE html>
@@ -129,7 +142,7 @@ function getSubscriptionEmailHtml(firstName: string, lastName: string, email: st
             Discover these hand-picked travel destinations from Saga River Cruises:
           </p>
           <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
-            ${cruiseCardsHtml}
+            ${cruiseCardsTableHtml}
           </table>
           <p style="margin: 24px 0 0 0; color: rgba(27, 42, 107, 0.6); font-size: 12px; line-height: 1.5;">
             You can unsubscribe at any time. By subscribing you agree to receive emails with related content and offers from Saga.

@@ -141,13 +141,69 @@ Some field types require specific formats when passed in the `fields` payload:
 - **Rich Text:** HTML string.
   `"Description": "<p>Some <strong>rich</strong> content</p>"`
 
-- **General Link:** Link XML format. The value must be a Sitecore link XML string:
-  `"CtaLink": "<link linktype=\"external\" url=\"https://example.com\" text=\"Learn more\" target=\"_blank\" />"`
-  `"CtaLink": "<link linktype=\"internal\" id=\"{ITEM-GUID}\" text=\"Read more\" />"`
-  `"CtaLink": "<link linktype=\"external\" url=\"#\" text=\"Learn more about Saga\" />"`
+- **General Link:** Link XML format. The value must be a Sitecore link XML string with **all attributes present** (even if empty). Sitecore expects the complete attribute set — omitting attributes causes the field to be stored incorrectly or ignored.
 
-- **Image:** Media library item path or ID.
-  `"Image": "<image mediaid=\"{MEDIA-ITEM-GUID}\" />"`
+  **Attribute order and complete set:** `text`, `anchor`, `linktype`, `class`, `title`, `target`, `querystring`, then either `id` (for internal/media links) or `url` (for external links).
+
+  **Raw XML values (what Sitecore stores):**
+
+  Internal link (to a Sitecore item):
+
+  ```xml
+  <link text="" anchor="" linktype="internal" class="" title="" target="" querystring="" id="{ITEM-GUID}" />
+  ```
+
+  Internal link with text, opening in new tab:
+
+  ```xml
+  <link text="Read article" anchor="" linktype="internal" class="" title="" target="_blank" querystring="" id="{ITEM-GUID}" />
+  ```
+
+  External link:
+
+  ```xml
+  <link text="Visit site" anchor="" linktype="external" class="" title="" target="_blank" querystring="" url="https://example.com" />
+  ```
+
+  External link (anchor/hash only):
+
+  ```xml
+  <link text="Learn more" anchor="" linktype="external" class="" title="" target="" querystring="" url="#" />
+  ```
+
+  Media link:
+
+  ```xml
+  <link text="Download PDF" anchor="" linktype="media" class="" title="" target="_blank" querystring="" id="{MEDIA-ITEM-GUID}" />
+  ```
+
+  **How to pass in MCP `fields` payload:**
+
+  When calling `update_content` or `create_content_item`, pass the raw XML as a plain string value. The MCP tool handles JSON serialization — do NOT manually escape quotes with backslashes.
+
+  ```
+  update_content(
+    itemId="<item-id>",
+    siteName="mysite",
+    fields={
+      "CtaLink": '<link text="Learn more" anchor="" linktype="internal" class="" title="" target="_blank" querystring="" id="{C09AF119-26D0-441E-B770-AC23655768AF}" />'
+    }
+  )
+  ```
+
+  **⚠️ Common mistakes:**
+  - ❌ **Abbreviated XML** — `<link linktype="internal" id="{GUID}" text="Read more" />` — missing `anchor`, `class`, `title`, `target`, `querystring` attributes. Sitecore requires all attributes.
+  - ❌ **Escaped quotes** — `<link text=\"Read more\" linktype=\"internal\" ... />` — do NOT manually add backslash escapes. Pass normal quotes; the tool handles JSON serialization.
+  - ❌ **Wrong attribute order** — attributes should follow: `text`, `anchor`, `linktype`, `class`, `title`, `target`, `querystring`, then `id` or `url`.
+  - ✅ **Correct** — `<link text="Read more" anchor="" linktype="internal" class="" title="" target="" querystring="" id="{GUID}" />` — all attributes present, normal quotes, correct order.
+
+- **Image:** Media library image XML. Pass the raw XML string with normal quotes:
+
+  ```xml
+  <image mediaid="{MEDIA-ITEM-GUID}" />
+  ```
+
+  In MCP fields payload: `"Image": '<image mediaid="{MEDIA-ITEM-GUID}" />'`
 
 - **Checkbox:** `"1"` for true, `""` for false.
   `"IsActive": "1"`

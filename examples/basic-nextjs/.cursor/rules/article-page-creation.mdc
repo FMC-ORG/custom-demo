@@ -1,0 +1,229 @@
+---
+description: Guide for creating article pages in Sitecore via Marketer MCP - content structure, field formats, SEO, and magazine-style writing
+globs: ["**/*.ts", "**/*.tsx", "docs/**", ".cursor/rules/**"]
+alwaysApply: false
+---
+
+# Article Page Creation — Sitecore Marketer MCP
+
+When creating article pages in Sitecore via the Marketer MCP, follow this guide. It consolidates learnings from travel article creation (Rhone River Cruises, Strasbourg Basel Upper Rhine) and the Saga Magazine style. Articles can cover **Travel**, **Entertainment**, **Home**, **Life**, or **Insurance** — each topic has its own folder under Magazine.
+
+## Content Structure
+
+Articles live under **Magazine** in saga-group, organised by topic:
+
+```
+/sitecore/content/saga-group/saga-group/Home/
+  └── Magazine
+      ├── Travel
+      │   ├── Strasbourg Basel Upper Rhine
+      │   ├── Rhone River Cruises
+      │   └── <New Article>
+      ├── Entertainment
+      ├── Home
+      ├── Life
+      └── Insurance
+```
+
+**Topic folders:** Travel, Entertainment, Home, Life, Insurance. Create articles under the topic that matches the content.
+
+**Resolve parent path first:**
+
+```
+get_content_item_by_path(itemPath="/sitecore/content/saga-group/saga-group/Home/Magazine")
+# → magazineFolderId
+
+get_content_item_by_path(itemPath="/sitecore/content/saga-group/saga-group/Home/Magazine/Travel")
+# → travelFolderId (for travel articles)
+
+get_content_item_by_path(itemPath="/sitecore/content/saga-group/saga-group/Home/Magazine/Entertainment")
+# → entertainmentFolderId (for entertainment articles)
+
+# Similarly: Home, Life, Insurance
+```
+
+If a topic folder does not exist, create it with the Folder template (`a87a00b1-e6db-45ab-8b54-636fec3b5523`) under Magazine.
+
+## Article Page Template
+
+- **Path:** `/sitecore/templates/Project/saga-group/Presentation/Article Page`
+- **Template ID:** Resolve via `get_content_item_by_path`
+- **Base:** Inherits from Page template (may include `_Seo Metadata` for SEO fields)
+
+**Required fields:** Title, Excerpt, Content, MainImage, Author, PublishedDate
+
+## Field Formats
+
+### PublishedDate (critical)
+
+Use **ISO 8601 format** — not `YYYY-MM-DD`:
+
+```
+"PublishedDate": "2026-02-22T00:00:00Z"
+```
+
+Plain `"2026-02-22"` may not persist correctly in Sitecore.
+
+### Content (Rich Text)
+
+HTML string with `<p>`, `<h2>`, `<strong>` etc. No manual quote escaping.
+
+### Author
+
+Use `"Saga Magazine"` for magazine-style articles (matches [Saga Magazine Travel](https://www.saga.co.uk/magazine/travel/which-greek-island-is-right-for-you)).
+
+### MainImage
+
+- **Standard format:** `'<image mediaid="{MEDIA-ITEM-GUID}" />'`
+- **DAM format:** Some sites use `<Image src="..." dam-id="..." ... />` — match existing pages.
+
+## Article Writing Style
+
+Write in **magazine article style**:
+
+1. **Title:** Engaging, descriptive (e.g. "Rhone River Cruises: Your guide to France's most scenic waterway")
+2. **Excerpt:** Standfirst that draws readers in — 2–3 sentences covering key destinations and appeal
+3. **Content structure:**
+   - Intro paragraph (bold lead, then 1–2 sentences)
+   - Section headings (`<h2>`) for each destination or theme
+   - **"Best for:"** tagline under each section (e.g. "Best for: Food, culture, UNESCO heritage")
+   - Descriptive paragraphs with specifics (names, places, experiences)
+   - Closing section (e.g. "Why cruise with Saga — Spirit of the Rhone, savings, CTA)")
+
+4. **Tone:** Conversational, engaging, not corporate. Use "we've got", "don't miss", "expect long, lazy days".
+
+## SEO Fields
+
+**Always set** when creating or updating article pages via `update_content`:
+
+| Field | Purpose | Example |
+|-------|---------|---------|
+| MetaTitle | Search result title | "Article Title \| Saga Magazine" |
+| CanonicalUrl | Canonical URL | `https://sagademo.vercel.app/saga-group/en/magazine/<topic>/article-slug` |
+| OpenGraphTitle | Social sharing title | Same as article title |
+| OpenGraphDescription | Social sharing description | Excerpt or shortened |
+| OpenGraphImage | OG image (media XML) | Reuse MainImage if available |
+| Robots | Indexing | `index, follow` |
+| TwitterTitle | Twitter card title | Same as OpenGraphTitle |
+| TwitterDescription | Twitter card description | Same as OpenGraphDescription |
+| TwitterImage | Twitter card image (media XML) | Reuse MainImage |
+
+## Create Article Page Flow
+
+### 1. Resolve IDs
+
+```
+get_content_item_by_path(itemPath="/sitecore/content/saga-group/saga-group/Home/Magazine/<Topic>")
+# Topic = Travel, Entertainment, Home, Life, or Insurance
+get_content_item_by_path(itemPath="/sitecore/templates/Project/saga-group/Presentation/Article Page")
+```
+
+### 2. Create page
+
+```
+create_content_item(
+  name="Article Name",
+  templateId="<articlePageTemplateId>",
+  parentId="<topicFolderId>",
+  fields={
+    "Title": "Display Title",
+    "Excerpt": "Standfirst...",
+    "Content": "<p>...</p><h2>Section</h2><p>...</p>",
+    "Author": "Saga Magazine",
+    "PublishedDate": "2026-02-22T00:00:00Z"
+  }
+)
+```
+
+### 3. Add page layout
+
+```
+add_component_on_page(
+  pageId="<newPageId>",
+  componentRenderingId="<articleImageMetaRenderingId>",
+  placeholderPath="headless-main",
+  componentItemName="Article Image Meta"
+)
+# Repeat for ArticleTitleExcerpt, ArticleContent
+```
+
+**Rendering IDs:** Resolve via `get_content_item_by_path`:
+- `/sitecore/layout/Renderings/Project/saga-group/Article/ArticleImageMeta`
+- `/sitecore/layout/Renderings/Project/saga-group/Article/ArticleTitleExcerpt`
+- `/sitecore/layout/Renderings/Project/saga-group/Article/ArticleContent`
+
+**Order:** article-image-meta, article-title-excerpt, article-content
+
+### 4. Update SEO and PublishedDate
+
+```
+update_content(
+  itemId="<pageId>",
+  siteName="saga-group",
+  fields={
+    "PublishedDate": "2026-02-22T00:00:00Z",
+    "MetaTitle": "Article Title | Saga Magazine",
+    "CanonicalUrl": "https://sagademo.vercel.app/saga-group/en/magazine/<topic>/article-slug",
+    "OpenGraphTitle": "Article Title",
+    "OpenGraphDescription": "Excerpt text...",
+    "Robots": "index, follow",
+    "TwitterTitle": "Article Title",
+    "TwitterDescription": "Excerpt text..."
+  }
+)
+```
+
+### 5. MainImage and OpenGraphImage / TwitterImage
+
+Add MainImage when media is available. Use same image for OpenGraphImage and TwitterImage for social sharing.
+
+```
+# After uploading media
+update_content(
+  itemId="<pageId>",
+  siteName="saga-group",
+  fields={
+    "MainImage": '<image mediaid="{MEDIA-GUID}" />',
+    "OpenGraphImage": '<image mediaid="{MEDIA-GUID}" />',
+    "TwitterImage": '<image mediaid="{MEDIA-GUID}" />'
+  }
+)
+```
+
+## URL Structure
+
+With `[site]/[locale]/[[...path]]` routing:
+
+- **Path:** `magazine/<topic>/<item-name-slug>`
+- **Topics:** travel, entertainment, home, life, insurance (lowercase in URL)
+- **Item name** "Rhone River Cruises" → slug `rhone-river-cruises`
+- **Examples:**
+  - Travel: `magazine/travel/rhone-river-cruises`
+  - Entertainment: `magazine/entertainment/article-slug`
+  - Life: `magazine/life/article-slug`
+  - Insurance: `magazine/insurance/article-slug`
+
+## Common Template IDs
+
+| Template | ID |
+|----------|-----|
+| Article Page | Resolve via path |
+| Folder | `a87a00b1-e6db-45ab-8b54-636fec3b5523` |
+| JSON Rendering | `04646a89-996f-4ee7-878a-ffdbf1f0ef0d` |
+
+## MCP Tools Used
+
+- `get_content_item_by_path` — resolve IDs and paths
+- `create_content_item` — create article page
+- `update_content` — update fields (SEO, PublishedDate, MainImage)
+- `add_component_on_page` — add article components to placeholder
+
+## Publish
+
+There is no MCP publish tool. Publish the page in XM Cloud Pages or via your deployment workflow so it appears on the site.
+
+## Reference Files
+
+- [travel-articles-sitecore-setup.md](docs/travel-articles-sitecore-setup.md) — detailed setup and examples
+- [sitecore-marketer-mcp-item-storage.mdc](.cursor/rules/sitecore-marketer-mcp-item-storage.mdc) — MCP templates, renderings, field formats
+- [article-title-excerpt.tsx](src/components/ui/article-title-excerpt.tsx), [article-image-meta.tsx](src/components/ui/article-image-meta.tsx), [article-content.tsx](src/components/ui/article-content.tsx) — context-only components

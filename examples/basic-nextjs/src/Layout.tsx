@@ -4,6 +4,7 @@ import Scripts from "src/Scripts";
 import SitecoreStyles from "components/content-sdk/SitecoreStyles";
 import { AppPlaceholder } from "@sitecore-content-sdk/nextjs";
 import componentMap from ".sitecore/component-map";
+import { Default as SubscriptionPopup } from "@/components/ui/subscription-popup";
 
 interface LayoutProps {
   page: Page;
@@ -62,14 +63,14 @@ const Layout = ({ page }: LayoutProps): JSX.Element => {
             <main>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4">
                 <div id="content">
-                {route && (
-                  <AppPlaceholder
-                    page={page}
-                    componentMap={componentMap}
-                    name="headless-main"
-                    rendering={route}
-                  />
-                )}
+                  {route && (
+                    <AppPlaceholder
+                      page={page}
+                      componentMap={componentMap}
+                      name="headless-main"
+                      rendering={route}
+                    />
+                  )}
                 </div>
               </div>
             </main>
@@ -85,9 +86,11 @@ const Layout = ({ page }: LayoutProps): JSX.Element => {
                 )}
               </div>
             </footer>
+            <SubscriptionPopup />
           </>
         )}
       </div>
+      <SubscriptionPopup />
     </>
   );
 };

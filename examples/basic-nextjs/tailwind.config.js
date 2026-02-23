@@ -155,6 +155,7 @@ module.exports = {
         "saga-navy": "#1B2A6B",
         "saga-light-blue": "#E8F4F8",
         "saga-teal": "#A8D8D8",
+        "saga-gold": "#F9BA44",
         "saga-dark-navy": "#0F1B4D",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

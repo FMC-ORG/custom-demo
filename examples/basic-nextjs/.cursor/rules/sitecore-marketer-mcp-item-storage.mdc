@@ -13,6 +13,7 @@ When working with the Sitecore Marketer MCP (Model Context Protocol) to create, 
 The most common workflow when building headless applications with XM Cloud:
 
 1. **Create Templates** → Define data structure for your component
+   - **⚠️ MANDATORY:** Create `__Standard Values` for every template. Set `__Masters` (insert options) on folder and parent templates. Set default field values on datasource templates. See [Standard Values — Mandatory Setup](#standard-values--mandatory-setup).
 2. **Create Rendering** → Link Sitecore item to React component
 3. **Create Datasource Folder** → Organize content items
 4. **Create Datasource Items** → Add actual content
@@ -90,7 +91,7 @@ Templates must NOT be created loose under the site-collection root. They must be
 4. Create section and fields as children of the template (see below)
 ```
 
-**Template Item Structure (3-level hierarchy):**
+**Template Item Structure (4-level hierarchy — Standard Values are MANDATORY):**
 
 1. **Template Item** (Template ID: `ab86861a-6030-46c5-b394-e8f99e8b87db`)
    - The parent template definition
@@ -105,6 +106,25 @@ Templates must NOT be created loose under the site-collection root. They must be
    - Children of template section
    - Each field is a separate item
    - Set the `Type` field to specify field type
+
+4. **\_\_Standard Values** (MANDATORY — created using the template's own ID as templateId)
+   - Child of the template item (sibling of the Data section)
+   - Name: MUST be exactly `__Standard Values`
+   - templateId: the ID of the **parent template itself** (the template you just created)
+   - Used for: insert options, default field values, layout details, workflow
+
+**⚠️ MANDATORY: Every template MUST have a \_\_Standard Values item.** Without it, insert options don't work, new items are created with empty fields, and the Pages Content tab "Add" button has no templates to offer. See [Standard Values — Mandatory Setup](#standard-values--mandatory-setup) below for the three scenarios.
+
+```
+/sitecore/templates/Project/mysite/Components/Cards/
+  └── ArticleCard (Template)
+      ├── Data (Template Section)
+      │   ├── Title (Template Field, Type: "Single-Line Text")
+      │   ├── Image (Template Field, Type: "Image")
+      │   ├── Link (Template Field, Type: "General Link")
+      │   └── BadgeText (Template Field, Type: "Single-Line Text")
+      └── __Standard Values (based on ArticleCard template itself)
+```
 
 **Common Field Types:**
 
@@ -211,18 +231,6 @@ Some field types require specific formats when passed in the `fields` payload:
 - **Date / DateTime:** ISO format string.
   `"PublishDate": "20250217T120000Z"`
 
-**Example Template Structure:**
-
-```
-/sitecore/templates/Project/mysite/Components/Cards/
-  └── ArticleCard (Template)
-      └── Data (Template Section)
-          ├── Title (Template Field, Type: "Single-Line Text")
-          ├── Image (Template Field, Type: "Image")
-          ├── Link (Template Field, Type: "General Link")
-          └── BadgeText (Template Field, Type: "Single-Line Text")
-```
-
 **Creation Workflow — Template items:**
 
 ```
@@ -234,6 +242,10 @@ Some field types require specific formats when passed in the `fields` payload:
 
 3. Create fields:
    create_content_item(name="Title", templateId="455a3e98-a627-4b40-8035-e683a0331ac7", parentId="<section-id>", fields={"Type": "Single-Line Text"})
+
+4. Create __Standard Values (MANDATORY — see Standard Values section below for which fields to set):
+   create_content_item(name="__Standard Values", templateId="<articlecard-template-id>", parentId="<articlecard-template-id>")
+   # Then update with default field values and/or insert options depending on template type
 ```
 
 ---
@@ -758,6 +770,117 @@ To use query-based datasource locations, you need folder templates and folder in
 
 ---
 
+### Standard Values — Mandatory Setup
+
+**⚠️ MANDATORY: Every template created via MCP MUST have a `__Standard Values` item.** Standard Values define insert options, default field values, and layout settings. Without them, new items are created with empty fields, the datasource picker and Pages Content tab "Add" button won't offer child templates, and workflow assignments won't apply.
+
+**How to create `__Standard Values`:**
+
+The `__Standard Values` item is a child of the template item, and its `templateId` is the **template's own ID** (not the Template template ID). Its name must be exactly `__Standard Values`.
+
+```
+create_content_item(
+  name="__Standard Values",
+  templateId="<the-template-id-itself>",
+  parentId="<the-template-id-itself>"
+)
+```
+
+**Then update with the appropriate fields depending on the template type:**
+
+#### Scenario A: Folder Templates (e.g., "Article Cards Folder")
+
+Folder templates need `__Standard Values` with `__Masters` (Insert Options) set to the IDs of the datasource templates that can be created inside the folder.
+
+```
+# 1. Create __Standard Values
+create_content_item(
+  name="__Standard Values",
+  templateId="<article-cards-folder-template-id>",
+  parentId="<article-cards-folder-template-id>"
+)
+
+# 2. Set Insert Options to allow parent datasource templates inside the folder
+update_fields_on_content_item(
+  itemId="<standard-values-item-id>",
+  fields={
+    "__Masters": "{26FB7E83-4BD6-4E9E-BA46-73871DAF57AA}|{11B1416E-15BC-442D-9606-CDAB98F8B1F7}"
+  }
+)
+```
+
+The `__Masters` field accepts pipe-separated template IDs. Each ID is a template that authors can create as children of items based on this folder template.
+
+#### Scenario B: Parent Datasource Templates with Children (e.g., "ArticleCards")
+
+Parent datasource templates that have child items need `__Standard Values` with:
+
+- `__Masters` (Insert Options) set to the **child template ID(s)** — this enables the "Add" button in Pages Content tab
+- Default field values for all fields — so new datasource items are not empty
+
+```
+# 1. Create __Standard Values
+create_content_item(
+  name="__Standard Values",
+  templateId="<articlecards-template-id>",
+  parentId="<articlecards-template-id>"
+)
+
+# 2. Set Insert Options (child template) AND default field values
+update_fields_on_content_item(
+  itemId="<standard-values-item-id>",
+  fields={
+    "__Masters": "<articlecard-child-template-id>",
+    "Title": "Default Title"
+  }
+)
+```
+
+#### Scenario C: Simple / Child Datasource Templates (e.g., "ArticleCard", "Hero")
+
+Simple datasource templates and child templates need `__Standard Values` with default field values for all fields. No `__Masters` needed unless the template itself has children.
+
+```
+# 1. Create __Standard Values
+create_content_item(
+  name="__Standard Values",
+  templateId="<articlecard-template-id>",
+  parentId="<articlecard-template-id>"
+)
+
+# 2. Set default field values so new items are not empty
+update_fields_on_content_item(
+  itemId="<standard-values-item-id>",
+  fields={
+    "Title": "Default Title",
+    "BadgeText": "ARTICLE",
+    "Link": '<link text="Read more" anchor="" linktype="external" class="" title="" target="" querystring="" url="#" />'
+  }
+)
+```
+
+**Default value guidelines:**
+
+- **Text fields:** Use placeholder text that makes sense as a starting point (e.g., `"Default Title"`, `"Enter description here"`)
+- **General Link fields:** Use a placeholder link with all attributes (e.g., link to `#` with descriptive text)
+- **Image fields:** Can be left empty or point to a placeholder media item
+- **Checkbox fields:** Set to `"1"` or `""` depending on the desired default
+- **Rich Text fields:** Use a minimal HTML placeholder (e.g., `"<p>Enter content here</p>"`)
+
+**Sitecore tokens for default values:**
+
+- `$name` — replaced with the item name at creation time
+- `$date` — current server date
+- `$time` — current server time
+- `$now` — current server datetime
+- `$id` — item ID
+- `$parentid` — parent item ID
+- `$parentname` — parent item name
+
+Example using `$name` token: `"Title": "$name"` — when an author creates a new item called "Summer Sale", the Title field is pre-filled with "Summer Sale".
+
+---
+
 ### Children in XM Cloud Pages Content Tab
 
 For components with parent/child datasources (e.g., ArticleCards, CategoryDirectory, MultiPromo), you can make child items appear in the **Content tab** of XM Cloud Pages so authors can add, sort, rename, and delete children without leaving the editor.
@@ -1090,9 +1213,39 @@ update_content(
     "__Base template": "<existing-base-template-ids>|{D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2}"
   }
 )
+```
 
-# Set Insert Options on ArticleCards Standard Values to allow ArticleCard as a child
-# This enables the "Add" button in the Pages Content tab
+**Step 1c: Create \_\_Standard Values for ALL templates (MANDATORY):**
+
+```
+# Parent template (ArticleCards) — Insert Options + default values
+create_content_item(
+  name="__Standard Values",
+  templateId="<articlecards-template-id>",
+  parentId="<articlecards-template-id>"
+)
+update_fields_on_content_item(
+  itemId="<articlecards-standard-values-id>",
+  fields={
+    "__Masters": "<articlecard-child-template-id>",
+    "Title": "Default Title"
+  }
+)
+
+# Child template (ArticleCard) — default field values so new items are not empty
+create_content_item(
+  name="__Standard Values",
+  templateId="<articlecard-template-id>",
+  parentId="<articlecard-template-id>"
+)
+update_fields_on_content_item(
+  itemId="<articlecard-standard-values-id>",
+  fields={
+    "Title": "$name",
+    "BadgeText": "ARTICLE",
+    "Link": '<link text="Read more" anchor="" linktype="external" class="" title="" target="" querystring="" url="#" />'
+  }
+)
 ```
 
 ### Step 2: Create Folder Template
@@ -1103,7 +1256,19 @@ create_content_item(
   templateId="ab86861a-6030-46c5-b394-e8f99e8b87db",
   parentId="<project-templates-folder-id>"
 )
-# Set insert options to allow ArticleCards template
+
+# MANDATORY: Create __Standard Values with Insert Options
+create_content_item(
+  name="__Standard Values",
+  templateId="<article-cards-folder-template-id>",
+  parentId="<article-cards-folder-template-id>"
+)
+update_fields_on_content_item(
+  itemId="<folder-standard-values-id>",
+  fields={
+    "__Masters": "<articlecards-parent-template-id>"
+  }
+)
 ```
 
 ### Step 3: Create Rendering
@@ -1191,7 +1356,19 @@ export const componentMap = new Map([
 This is expected — the tool requires a site root ancestor. Not applicable to template folders.
 
 **Fields not appearing in datasource picker:**
-Ensure the template has the proper 3-level structure: Template → Section → Fields.
+Ensure the template has the proper 4-level structure: Template → Section → Fields → \_\_Standard Values.
+
+**New datasource items are created with empty fields:**
+
+- The template is missing `__Standard Values`, or `__Standard Values` exists but has no default field values set.
+- Create `__Standard Values` as a child of the template (using the template's own ID as `templateId`), then set default values for all fields via `update_fields_on_content_item`.
+
+**"Add" button in Pages Content tab shows no templates / insert options are empty:**
+
+- The template's `__Standard Values` item is missing or has no `__Masters` field set.
+- For folder templates: `__Masters` must contain the pipe-separated IDs of the datasource templates allowed as children.
+- For parent datasource templates: `__Masters` must contain the child template ID(s).
+- Verify with `get_content_item_by_path` that `__Standard Values` exists as a child of the template.
 
 ### Rendering Configuration
 
@@ -1294,7 +1471,7 @@ Verify the entire naming chain matches:
 1. **Always verify the parent path** — Use `get_content_item_by_path` before creating items to confirm the path exists and the template is allowed.
 2. **Respect insert options** — Use `list_available_insertoptions` to check which templates can be created under a given parent. Never force-create items where their template is not permitted.
 3. **Use the correct database** — Content items are created in the Master database. Items must be published to become live.
-4. **Template structure matters** — Templates need the 3-level hierarchy: Template → Template Section → Template Fields. Missing the section causes rendering issues.
+4. **Template structure matters** — Templates need the 4-level hierarchy: Template → Template Section → Template Fields → \_\_Standard Values. Missing the section causes rendering issues. Missing Standard Values causes empty items and broken insert options.
 5. **Always use JSON Rendering** — Use template ID `04646a89-996f-4ee7-878a-ffdbf1f0ef0d` for headless components. Never use "Controller Rendering" or "View Rendering."
 6. **Component names are kebab-case** — The `componentName` field in rendering, the component-map key, and the filename must all use kebab-case and match exactly.
 7. **Datasource Template uses full paths** — The `Datasource Template` field requires the complete path starting with `/sitecore/templates/...`, never a GUID.
@@ -1309,6 +1486,9 @@ Verify the entire naming chain matches:
 16. **Manage Items in Pages** — For list components (parent + child datasource), add `_HorizonDatasourceGrouping` (`{D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2}`) as a base template to the **parent** template so child items appear in the Pages Content tab with sort, add, rename, and delete controls. Set Insert Options on the parent's Standard Values to allow the child template. This is only for list components — do not add it to simple single-datasource templates.
 17. **Context-only components need no datasource** — For components that display the current page's own fields (breadcrumbs, article headers, body content), leave `Datasource Template`, `Datasource Location`, and `ComponentQuery` all empty on the rendering. The component reads from `page.layout.sitecore.route.fields` instead of `fields`. Ensure the page template includes the fields the component expects.
 18. **Never modify OOB templates** — Do not edit Sitecore's built-in Foundation or SXA templates (e.g., `_Seo Metadata`, `_HorizonDatasourceGrouping`). Always extend them by creating a custom template that inherits from the OOB template and adding your fields there.
+19. **Avoid GraphQL field name collisions** — Do not use `icon`, `name`, `path`, `url`, `template`, `parent`, `children` as template field names. These collide with core GraphQL item fields and get silently renamed with `_{guid}`. Use descriptive alternatives (e.g., `awardIcon`, `sectionTitle`).
+20. **Validate Component GraphQL Query syntax** — Before saving a rendering with a `ComponentQuery`, verify the GraphQL is valid. Syntax errors cause `Cannot read properties of undefined (reading 'route')` and similar runtime errors.
+21. **MANDATORY: Always create \_\_Standard Values** — Every template created via MCP MUST have a `__Standard Values` child item. Create it using the template's own ID as `templateId` and `parentId`. Then: (a) For **folder templates**, set `__Masters` to the pipe-separated IDs of allowed child templates. (b) For **parent datasource templates with children**, set `__Masters` to the child template ID(s) AND set default values for all fields. (c) For **simple/child datasource templates**, set default values for all fields so new items are not empty. Without Standard Values, insert options don't work and new items are created blank.
 
 ---
 

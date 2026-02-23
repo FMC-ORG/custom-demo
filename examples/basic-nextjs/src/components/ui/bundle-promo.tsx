@@ -1,17 +1,32 @@
 'use client';
 
 import type React from 'react';
-import { Text, Image as SitecoreImage, useSitecore } from '@sitecore-content-sdk/nextjs';
-import type { Field, ImageField } from '@sitecore-content-sdk/nextjs';
+import { Text, useSitecore } from '@sitecore-content-sdk/nextjs';
+import type { Field } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from '@/lib/component-props';
-import { PiggyBank, Home, ClipboardList, type LucideIcon } from 'lucide-react';
+import { PiggyBank, Home, ClipboardList, Shield, Umbrella, Building2, type LucideIcon } from 'lucide-react';
+
+/**
+ * Icon name to Lucide component mapping for Sitecore-driven icon selection
+ */
+const ICON_MAP: Record<string, LucideIcon> = {
+  PiggyBank,
+  Home,
+  ClipboardList,
+  Shield,
+  Umbrella,
+  Building2,
+};
+
+/** Fallback icons when featureIconName is empty or unknown */
+const FALLBACK_ICONS: LucideIcon[] = [PiggyBank, Home, ClipboardList];
 
 /**
  * BundlePromoFeature child item structure (from Sitecore datasource)
  */
 interface BundlePromoFeatureItem {
   id: string;
-  featureIcon?: { jsonValue?: ImageField };
+  featureIconName?: { jsonValue?: Field<string> };
   featureTitle?: { jsonValue?: Field<string> };
   featureDescription?: { jsonValue?: Field<string> };
 }
@@ -46,9 +61,6 @@ interface BundlePromoProps extends ComponentProps {
   fields: BundlePromoFields;
   isPageEditing?: boolean;
 }
-
-/** Fallback Lucide icons for features when no image is set */
-const FALLBACK_ICONS: LucideIcon[] = [PiggyBank, Home, ClipboardList];
 
 /**
  * BundlePromo component implementation
@@ -105,8 +117,11 @@ const BundlePromoComponent: React.FC<BundlePromoProps> = (props) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {features.length > 0
               ? features.map((feature, index) => {
-                  const hasIcon = feature.featureIcon?.jsonValue?.value?.src;
-                  const FallbackIcon = FALLBACK_ICONS[index % FALLBACK_ICONS.length];
+                  const iconName = feature.featureIconName?.jsonValue?.value;
+                  const IconComponent =
+                    iconName && ICON_MAP[iconName]
+                      ? ICON_MAP[iconName]
+                      : FALLBACK_ICONS[index % FALLBACK_ICONS.length];
 
                   return (
                     <div
@@ -115,20 +130,7 @@ const BundlePromoComponent: React.FC<BundlePromoProps> = (props) => {
                     >
                       {/* Icon circle: golden-orange bg, white outline */}
                       <div className="h-20 w-20 rounded-full bg-saga-gold border-2 border-white flex items-center justify-center flex-shrink-0 mb-4">
-                        {hasIcon || isPageEditing ? (
-                          feature.featureIcon?.jsonValue ? (
-                            <div className="h-10 w-10">
-                              <SitecoreImage
-                                field={feature.featureIcon.jsonValue}
-                                className="object-contain w-full h-full"
-                              />
-                            </div>
-                          ) : (
-                            <FallbackIcon className="h-10 w-10 text-white" strokeWidth={1.5} />
-                          )
-                        ) : (
-                          <FallbackIcon className="h-10 w-10 text-white" strokeWidth={1.5} />
-                        )}
+                        <IconComponent className="h-10 w-10 text-white" strokeWidth={1.5} />
                       </div>
 
                       {(feature.featureTitle?.jsonValue?.value || isPageEditing) && (

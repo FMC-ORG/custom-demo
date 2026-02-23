@@ -2,9 +2,19 @@
 
 import type React from 'react';
 import Link from 'next/link';
-import { Text, Image as SitecoreImage } from '@sitecore-content-sdk/nextjs';
+import { Text } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from '@/lib/component-props';
-import { Home } from 'lucide-react';
+import { Home, Shield, Umbrella, Building2, type LucideIcon } from 'lucide-react';
+
+/**
+ * Icon name to Lucide component mapping for Sitecore-driven icon selection
+ */
+const ICON_MAP: Record<string, LucideIcon> = {
+  Home,
+  Shield,
+  Umbrella,
+  Building2,
+};
 
 /**
  * River Cruise Promo component — single-datasource, default JSS props (PascalCase, .value).
@@ -17,7 +27,7 @@ interface RiverCruisePromoFields {
   AddOnLabel?: { value?: string };
   AddOnTitle?: { value?: string };
   AddOnDescription?: { value?: string };
-  AddOnIcon?: { value?: { src?: string; alt?: string } };
+  AddOnIconName?: { value?: string };
   CtaLink?: { value?: { href?: string; text?: string } };
 }
 
@@ -39,7 +49,8 @@ const RiverCruisePromoComponent: React.FC<RiverCruisePromoProps> = (props) => {
   const addOnLabel = fields?.AddOnLabel?.value;
   const addOnTitle = fields?.AddOnTitle?.value;
   const addOnDescription = fields?.AddOnDescription?.value;
-  const addOnIcon = fields?.AddOnIcon?.value;
+  const addOnIconName = fields?.AddOnIconName?.value ?? 'Home';
+  const IconComponent = ICON_MAP[addOnIconName] ?? Home;
   const ctaLink = fields?.CtaLink?.value;
   const ctaHref = ctaLink?.href || '#';
   const ctaText = ctaLink?.text || 'Request a callback';
@@ -89,16 +100,9 @@ const RiverCruisePromoComponent: React.FC<RiverCruisePromoProps> = (props) => {
 
         {(addOnTitle || addOnDescription || addOnLabel || isPageEditing) && (
           <div className="mt-6 rounded-lg border-2 border-saga-gold bg-background p-4 flex items-start gap-3 text-left">
-            {(addOnIcon?.src || isPageEditing) && fields.AddOnIcon ? (
-              <SitecoreImage
-                field={fields.AddOnIcon}
-                className="w-10 h-10 flex-shrink-0 object-contain"
-              />
-            ) : (
-              <div className="w-10 h-10 flex-shrink-0 rounded flex items-center justify-center bg-saga-gold/20">
-                <Home className="h-5 w-5 text-saga-navy" />
-              </div>
-            )}
+            <div className="w-10 h-10 flex-shrink-0 rounded flex items-center justify-center bg-saga-gold/20">
+              <IconComponent className="h-5 w-5 text-saga-navy" />
+            </div>
             <div className="flex-1 min-w-0">
               {(addOnLabel || isPageEditing) && fields.AddOnLabel && (
                 <Text

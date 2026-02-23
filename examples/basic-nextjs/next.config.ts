@@ -26,6 +26,16 @@ const nextConfig: NextConfig = {
         hostname: 'xmc-*.**',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: '*.sitecorecloud.io',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.cloudfront.net',
+        port: '',
+      },
     ],
     // Disable image optimization in development to avoid upstream timeouts
     unoptimized: process.env.NODE_ENV === 'development',

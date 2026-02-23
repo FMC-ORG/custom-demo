@@ -17,7 +17,8 @@ import { subscribeAction } from "@/lib/actions/subscribe";
 const STORAGE_KEY_PREFIX = "subscription-popup-dismissed-";
 const STATIC = {
   TITLE: "Don't miss out!",
-  MESSAGE: "Sign up to our free Saga Magazine newsletter for exclusive offers and inspiration.",
+  MESSAGE:
+    "Love river cruises? Sign up for exclusive river cruise news, early-access offers and inspiration for your next voyage.",
   CTA_TEXT: "Subscribe",
   CLOSE_TEXT: "No thanks",
   FIRST_NAME_LABEL: "First name",

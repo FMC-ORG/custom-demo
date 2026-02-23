@@ -1,32 +1,32 @@
-'use server';
+"use server";
 
-import { createHash } from 'crypto';
-import { Resend } from 'resend';
+import { createHash } from "crypto";
+import { Resend } from "resend";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const RECIPIENT_EMAIL = 'federicomujica1@gmail.com';
-const FROM_EMAIL = 'onboarding@resend.dev';
+const RECIPIENT_EMAIL = "federicomujica1@gmail.com";
+const FROM_EMAIL = "onboarding@resend.dev";
 
-const BASE_URL = 'https://sagademo.vercel.app';
+const BASE_URL = "https://sagademo.vercel.app";
 /** App uses [site]/[locale]/[[...path]] — include site and locale for correct routing */
-const SITE_LOCALE = 'saga-group/en';
+const SITE_LOCALE = "saga-group/en";
 
 const UTM_CONTENT_TO_ARTICLE_PATH: Record<string, string> = {
-  strasbourg_basel: `/${SITE_LOCALE}/travel/strasbourg-basel-upper-rhine`,
-  sights_scenery_rhine: `/${SITE_LOCALE}/travel/sights-scenery-rhine-2026`,
-  amsterdam_cologne: `/${SITE_LOCALE}/travel/amsterdam-cologne-rhine-gorge`,
+  strasbourg_basel: `https://sagademo.vercel.app/landing-pages/travel`,
+  sights_scenery_rhine: `https://sagademo.vercel.app/landing-pages/travel`,
+  amsterdam_cologne: `https://sagademo.vercel.app/landing-pages/travel`,
 };
 
 function buildUserFakehash(email: string): string {
-  return createHash('sha256').update(email.toLowerCase().trim()).digest('hex').slice(0, 16);
+  return createHash("sha256").update(email.toLowerCase().trim()).digest("hex").slice(0, 16);
 }
 
 function buildCruiseUrl(utmContent: string, userFakehash: string): string {
   const path = UTM_CONTENT_TO_ARTICLE_PATH[utmContent] ?? `/${SITE_LOCALE}/travel`;
   const params = new URLSearchParams({
-    utm_source: 'newsletter',
-    utm_medium: 'email',
-    utm_campaign: 'subscription_confirmation',
+    utm_source: "newsletter",
+    utm_medium: "email",
+    utm_campaign: "subscription_confirmation",
     utm_content: utmContent,
     fakehash: userFakehash,
   });
@@ -36,36 +36,36 @@ function buildCruiseUrl(utmContent: string, userFakehash: string): string {
 const CRUISE_OFFERS = [
   {
     image:
-      'https://travel.saga.co.uk/-/media/acromas/sagatravel/images/destination/river%20cruise%20regions/rhine/rh434%20strasbourg%20basel%20and%20the%20beautiful%20rhine/search/s_dst_france_ext_37326a.jpg?h=160',
-    ship: 'Spirit of the Rhine',
-    title: 'Strasbourg, Basel and the Upper Rhine',
-    region: 'The Rhine and her Tributaries',
-    nights: '7 nights',
-    save: 'Save up to 20%',
-    price: 'from £2,099 per person',
-    utmContent: 'strasbourg_basel',
+      "https://travel.saga.co.uk/-/media/acromas/sagatravel/images/destination/river%20cruise%20regions/rhine/rh434%20strasbourg%20basel%20and%20the%20beautiful%20rhine/search/s_dst_france_ext_37326a.jpg?h=160",
+    ship: "Spirit of the Rhine",
+    title: "Strasbourg, Basel and the Upper Rhine",
+    region: "The Rhine and her Tributaries",
+    nights: "7 nights",
+    save: "Save up to 20%",
+    price: "from £2,099 per person",
+    utmContent: "strasbourg_basel",
   },
   {
     image:
-      'https://travel.saga.co.uk/-/media/acromas/sagatravel/images/destination/river%20cruise%20regions/rhine/rh428%20sights%20and%20scenery%20of%20the%20rhine%202026/search/s_dst_germany_ext_31314.jpg?h=160',
-    ship: '',
-    title: 'Sights and Scenery of the Rhine 2026',
-    region: 'The Rhine',
-    nights: '7 nights',
-    save: 'Save up to 25%',
-    price: 'from £1,731 per person',
-    utmContent: 'sights_scenery_rhine',
+      "https://travel.saga.co.uk/-/media/acromas/sagatravel/images/destination/river%20cruise%20regions/rhine/rh428%20sights%20and%20scenery%20of%20the%20rhine%202026/search/s_dst_germany_ext_31314.jpg?h=160",
+    ship: "",
+    title: "Sights and Scenery of the Rhine 2026",
+    region: "The Rhine",
+    nights: "7 nights",
+    save: "Save up to 25%",
+    price: "from £1,731 per person",
+    utmContent: "sights_scenery_rhine",
   },
   {
     image:
-      'https://travel.saga.co.uk/-/media/acromas/sagatravel/images/destination/river%20cruise%20regions/rhine/rh43r%20amsterdam%20cologne%20and%20the%20rhine%20gorge/search/s_dst_germany_ext_36465.jpg?h=160',
-    ship: 'Spirit of the Rhine',
-    title: 'Amsterdam Cologne and the Rhine Gorge',
-    region: 'The Rhine and Dutch Waterways',
-    nights: '8 nights',
-    save: 'Save up to 25%',
-    price: 'from £2,091 per person',
-    utmContent: 'amsterdam_cologne',
+      "https://travel.saga.co.uk/-/media/acromas/sagatravel/images/destination/river%20cruise%20regions/rhine/rh43r%20amsterdam%20cologne%20and%20the%20rhine%20gorge/search/s_dst_germany_ext_36465.jpg?h=160",
+    ship: "Spirit of the Rhine",
+    title: "Amsterdam Cologne and the Rhine Gorge",
+    region: "The Rhine and Dutch Waterways",
+    nights: "8 nights",
+    save: "Save up to 25%",
+    price: "from £2,091 per person",
+    utmContent: "amsterdam_cologne",
   },
 ] as const;
 
@@ -81,11 +81,7 @@ function getSubscriptionEmailHtml(firstName: string, lastName: string, email: st
   const cruiseCardsHtml = CRUISE_OFFERS.map((cruise, index) => {
     const url = buildCruiseUrl(cruise.utmContent, userFakehash);
     const paddingStyle =
-      index === 0
-        ? 'padding: 0 6px 0 0;'
-        : index === 1
-          ? 'padding: 0 6px;'
-          : 'padding: 0 0 0 6px;';
+      index === 0 ? "padding: 0 6px 0 0;" : index === 1 ? "padding: 0 6px;" : "padding: 0 0 0 6px;";
     return `
     <td style="width: 33.33%; ${paddingStyle} vertical-align: top;">
       <a href="${url}" style="text-decoration: none; color: inherit; display: block;">
@@ -104,7 +100,7 @@ function getSubscriptionEmailHtml(firstName: string, lastName: string, email: st
         </table>
       </a>
     </td>`;
-  }).join('');
+  }).join("");
 
   const cruiseCardsTableHtml = `
     <tr>
@@ -161,26 +157,26 @@ function getSubscriptionEmailHtml(firstName: string, lastName: string, email: st
  * with Saga Magazine confirmation and travel destination offers.
  */
 export async function subscribeAction(formData: FormData): Promise<SubscribeResult> {
-  const firstName = (formData.get('firstName') as string)?.trim() ?? '';
-  const lastName = (formData.get('lastName') as string)?.trim() ?? '';
-  const email = (formData.get('email') as string)?.trim() ?? '';
+  const firstName = (formData.get("firstName") as string)?.trim() ?? "";
+  const lastName = (formData.get("lastName") as string)?.trim() ?? "";
+  const email = (formData.get("email") as string)?.trim() ?? "";
 
   if (!firstName) {
-    return { success: false, error: 'First name is required.' };
+    return { success: false, error: "First name is required." };
   }
   if (!lastName) {
-    return { success: false, error: 'Last name is required.' };
+    return { success: false, error: "Last name is required." };
   }
   if (!email) {
-    return { success: false, error: 'Email is required.' };
+    return { success: false, error: "Email is required." };
   }
   if (!EMAIL_REGEX.test(email)) {
-    return { success: false, error: 'Please enter a valid email address.' };
+    return { success: false, error: "Please enter a valid email address." };
   }
 
   if (!RESEND_API_KEY) {
-    console.error('RESEND_API_KEY is not configured');
-    return { success: false, error: 'Email service is not configured. Please try again later.' };
+    console.error("RESEND_API_KEY is not configured");
+    return { success: false, error: "Email service is not configured. Please try again later." };
   }
 
   try {
@@ -193,13 +189,13 @@ export async function subscribeAction(formData: FormData): Promise<SubscribeResu
     });
 
     if (error) {
-      console.error('Resend error:', error);
-      return { success: false, error: 'Failed to send confirmation. Please try again later.' };
+      console.error("Resend error:", error);
+      return { success: false, error: "Failed to send confirmation. Please try again later." };
     }
 
     return { success: true };
   } catch (err) {
-    console.error('Subscribe action error:', err);
-    return { success: false, error: 'An unexpected error occurred. Please try again later.' };
+    console.error("Subscribe action error:", err);
+    return { success: false, error: "An unexpected error occurred. Please try again later." };
   }
 }

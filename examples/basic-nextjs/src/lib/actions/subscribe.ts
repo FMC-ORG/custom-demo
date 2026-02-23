@@ -12,9 +12,9 @@ const BASE_URL = "https://sagademo.vercel.app";
 const SITE_LOCALE = "saga-group/en";
 
 const UTM_CONTENT_TO_ARTICLE_PATH: Record<string, string> = {
-  strasbourg_basel: `https://sagademo.vercel.app/landing-pages/travel`,
-  sights_scenery_rhine: `https://sagademo.vercel.app/landing-pages/travel`,
-  amsterdam_cologne: `https://sagademo.vercel.app/landing-pages/travel`,
+  strasbourg_basel: `/landing-pages/travel`,
+  sights_scenery_rhine: `/landing-pages/travel`,
+  amsterdam_cologne: `/landing-pages/travel`,
 };
 
 function buildUserFakehash(email: string): string {

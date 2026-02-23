@@ -116,7 +116,12 @@ const PromoCardsComponent: React.FC<PromoCardsProps> = (props) => {
                         </div>
                       )}
 
-                      <SitecoreImage field={image} className="object-cover w-full h-full" />
+                      {(image?.jsonValue?.value?.src || isPageEditing) && image?.jsonValue && (
+                        <SitecoreImage
+                          field={image.jsonValue}
+                          className="object-cover w-full h-full"
+                        />
+                      )}
                     </div>
                     <div className={`p-6 ${bgClass} rounded-b-lg`}>
                       {(title?.jsonValue?.value || isPageEditing) && (

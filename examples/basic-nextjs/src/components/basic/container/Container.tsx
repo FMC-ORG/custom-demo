@@ -37,6 +37,7 @@ const Container = ({
   }
 
   return (
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div className={`component container-default ${styles}`} id={id}>
       <div className="component-content" style={backgroundStyle}>
         <div className="row">
@@ -48,6 +49,7 @@ const Container = ({
           />
         </div>
       </div>
+    </div>
     </div>
   );
 };

@@ -163,6 +163,12 @@ module.exports = {
         "confused-cta-blue": "#4C95E1",
         "confused-cta-teal": "#32A781",
         "confused-reward-yellow": "#FFD803",
+        "compare-blue": "#4C95E1",
+        "compare-teal": "#32A781",
+        "compare-coral": "#E86B6B",
+        "compare-purple": "#8B5CF6",
+        "compare-orange": "#F97316",
+        "compare-green": "#34D399",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

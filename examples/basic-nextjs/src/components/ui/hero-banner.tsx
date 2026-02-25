@@ -5,6 +5,7 @@ import {
   RichText as ContentSdkRichText,
   Link as ContentSdkLink,
   NextImage as ContentSdkImage,
+  useSitecore,
 } from '@sitecore-content-sdk/nextjs';
 import type { LinkField, ImageField } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
@@ -20,9 +21,8 @@ interface HeroBannerFields {
   SecondaryLink?: LinkField | { value?: { href?: string; text?: string } };
   SecondaryLinkText?: { value?: string };
   Disclaimer?: { value?: string };
-  RewardValueText?: { value?: string };
-  RewardDescription?: { value?: string };
   RewardImage?: ImageField | { value?: { src?: string; alt?: string } };
+  RewardLink?: LinkField | { value?: { href?: string; text?: string } };
   BrandsText?: { value?: string };
 }
 
@@ -37,8 +37,6 @@ const DEFAULT_CTA2_TEXT = 'Get a home quote';
 const DEFAULT_SECONDARY_TEXT = 'View my recent quotes';
 const DEFAULT_DISCLAIMER =
   '*Single annual policy. Qualifying products. App only. Maximum claim limit. One regular hot drink per month for a year, only available via the Confused.com app. T&Cs apply.';
-const DEFAULT_REWARD_VALUE = '£20';
-const DEFAULT_REWARD_DESCRIPTION = 'plus FREE Greggs hot drinks';
 const DEFAULT_BRANDS_TEXT = 'choose from Over 100 brands when you buy insurance*';
 
 /**
@@ -48,14 +46,14 @@ const DEFAULT_BRANDS_TEXT = 'choose from Over 100 brands when you buy insurance*
  */
 export const Default: React.FC<HeroBannerProps> = (props) => {
   const { fields } = props;
+  const { page } = useSitecore();
+  const isEditing = page?.mode?.isEditing ?? false;
 
   const heading = fields?.Heading?.value ?? DEFAULT_HEADING;
   const cta1Text = fields?.Cta1Text?.value ?? DEFAULT_CTA1_TEXT;
   const cta2Text = fields?.Cta2Text?.value ?? DEFAULT_CTA2_TEXT;
   const secondaryText = fields?.SecondaryLinkText?.value ?? DEFAULT_SECONDARY_TEXT;
   const disclaimer = fields?.Disclaimer?.value ?? DEFAULT_DISCLAIMER;
-  const rewardValue = fields?.RewardValueText?.value ?? DEFAULT_REWARD_VALUE;
-  const rewardDescription = fields?.RewardDescription?.value ?? DEFAULT_REWARD_DESCRIPTION;
   const brandsText = fields?.BrandsText?.value ?? DEFAULT_BRANDS_TEXT;
 
   const cta1Href = fields?.Cta1Link?.value?.href ?? '#';
@@ -67,7 +65,10 @@ export const Default: React.FC<HeroBannerProps> = (props) => {
   const useContentSdkCta2 = Boolean(fields?.Cta2Link);
   const useContentSdkSecondary = Boolean(fields?.SecondaryLink);
   const useContentSdkDisclaimer = Boolean(fields?.Disclaimer);
-  const useContentSdkImage = Boolean(fields?.RewardImage?.value?.src);
+  const showRewardImage =
+    Boolean(fields?.RewardImage) || isEditing;
+  const shouldWrapImageWithLink =
+    !isEditing && Boolean(fields?.RewardLink?.value?.href);
 
   return (
     <section className="bg-confused-dark text-white overflow-hidden">
@@ -156,25 +157,46 @@ export const Default: React.FC<HeroBannerProps> = (props) => {
             )}
           </div>
 
-          {/* Right: Reward visual */}
+          {/* Right: Reward visual - £20 gift is in the image, editable and clickable in editing mode */}
           <div className="relative flex flex-col items-center lg:items-end gap-6">
-            <div className="rounded-full bg-confused-reward-yellow px-8 py-6 text-center">
-              <p className="text-3xl font-bold text-black">{rewardValue}</p>
-              <p className="text-sm font-medium text-black mt-1">{rewardDescription}</p>
-            </div>
-
-            {useContentSdkImage && fields?.RewardImage?.value?.src ? (
+            {showRewardImage && (
               <div className="relative w-full max-w-sm aspect-square">
-                <ContentSdkImage
-                  field={fields.RewardImage as ImageField}
-                  alt={typeof fields.RewardImage?.value?.alt === 'string' ? fields.RewardImage.value.alt : 'Rewards'}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            ) : (
-              <div className="w-full max-w-sm aspect-square rounded-lg bg-white/10 flex items-center justify-center">
-                <p className="text-white/60 text-sm">Reward image placeholder</p>
+                {fields?.RewardImage ? (
+                  shouldWrapImageWithLink && fields?.RewardLink ? (
+                    <ContentSdkLink
+                      field={fields.RewardLink as LinkField}
+                      className="block w-full h-full [&_img]:cursor-pointer"
+                    >
+                      <ContentSdkImage
+                        field={fields.RewardImage as ImageField}
+                        alt={
+                          typeof fields.RewardImage.value?.alt === 'string'
+                            ? fields.RewardImage.value.alt
+                            : 'Rewards'
+                        }
+                        fill
+                        className="object-contain"
+                      />
+                    </ContentSdkLink>
+                  ) : (
+                    <ContentSdkImage
+                      field={fields.RewardImage as ImageField}
+                      alt={
+                        typeof fields.RewardImage.value?.alt === 'string'
+                          ? fields.RewardImage.value.alt
+                          : 'Rewards'
+                      }
+                      fill
+                      className="object-contain"
+                    />
+                  )
+                ) : (
+                  isEditing && (
+                    <div className="w-full h-full rounded-lg bg-white/10 flex items-center justify-center border-2 border-dashed border-white/30">
+                      <p className="text-white/60 text-sm">Add reward image</p>
+                    </div>
+                  )
+                )}
               </div>
             )}
 

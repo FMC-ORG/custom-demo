@@ -104,6 +104,7 @@ function StarRating({ score }: { score: number }) {
  */
 export const Default: React.FC<TestimonialTrustpilotProps> = (props) => {
   const { fields } = props;
+  console.log('props', props);
   const { page } = useSitecore();
   const isEditing = page?.mode?.isEditing ?? false;
 
@@ -130,7 +131,6 @@ export const Default: React.FC<TestimonialTrustpilotProps> = (props) => {
 
   const useContentSdkHeading = Boolean(datasource?.testimonialHeading?.jsonValue);
   const useContentSdkTrustpilot = Boolean(trustpilotLink);
-
   const children = datasource?.children?.results ?? [];
   const testimonials =
     hasDatasource && children.length > 0

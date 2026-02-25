@@ -93,10 +93,39 @@ export const generateMetadata = async ({ params }: PageProps) => {
 
   // The same call as for rendering the page. Should be cached by default react behavior
   const page = await client.getPage(path ?? [], { site, locale });
+  const fields = (page?.layout?.sitecore?.route?.fields as RouteFields) ?? {};
+
+  const title =
+    fields.MetaTitle?.value?.toString() ?? fields.Title?.value?.toString() ?? "Page";
+  const description = fields.OpenGraphDescription?.value?.toString();
+  const ogTitle = fields.OpenGraphTitle?.value?.toString() ?? fields.Title?.value?.toString();
+  const ogImage = fields.OpenGraphImage?.value as { src?: string } | undefined;
+  const twitterTitle = fields.TwitterTitle?.value?.toString();
+  const twitterDesc = fields.TwitterDescription?.value?.toString();
+  const twitterImage = fields.TwitterImage?.value as { src?: string } | undefined;
+  const robotsValue = fields.Robots?.value?.toString();
+  const canonicalHref = (fields.CanonicalUrl?.value as { href?: string } | undefined)?.href;
+
   return {
-    title:
-      (
-        page?.layout.sitecore.route?.fields as RouteFields
-      )?.Title?.value?.toString() || "Page",
+    title,
+    description,
+    openGraph: {
+      title: ogTitle,
+      description: description ?? undefined,
+      images: ogImage?.src ? [{ url: ogImage.src }] : undefined,
+    },
+    twitter: {
+      title: twitterTitle ?? ogTitle,
+      description: twitterDesc ?? description,
+      images: twitterImage?.src ? [twitterImage.src] : undefined,
+    },
+    robots:
+      robotsValue
+        ? {
+            index: !robotsValue.includes("noindex"),
+            follow: !robotsValue.includes("nofollow"),
+          }
+        : undefined,
+    alternates: canonicalHref ? { canonical: canonicalHref } : undefined,
   };
 };

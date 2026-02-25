@@ -169,6 +169,7 @@ module.exports = {
         "compare-purple": "#8B5CF6",
         "compare-orange": "#F97316",
         "compare-green": "#34D399",
+        "trustpilot-green": "#00B67A",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

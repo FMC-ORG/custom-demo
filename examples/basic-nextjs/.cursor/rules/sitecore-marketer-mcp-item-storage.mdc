@@ -16,6 +16,7 @@ The most common workflow when building headless applications with XM Cloud:
    - **⚠️ MANDATORY:** Create `__Standard Values` for every template. Set `__Masters` (insert options) on folder and parent templates. Set default field values on datasource templates. See [Standard Values — Mandatory Setup](#standard-values--mandatory-setup).
 2. **Create Rendering** → Link Sitecore item to React component
 3. **Create Datasource Folder** → Organize content items
+   - **⚠️ ALWAYS:** For every new component, create both (a) the folder template under `Folders/` and (b) the content folder under `/sitecore/content/<site-collection>/<site-name>/Data/`. Without the content folder, the datasource picker will have no items to select.
 4. **Create Datasource Items** → Add actual content
 5. **Register Component** → Add to component-map.ts
 6. **Add to Page** → Use Pages editor to add component
@@ -1559,7 +1560,7 @@ Verify the entire naming chain matches:
 6. **Component names are kebab-case** — The `componentName` field in rendering, the component-map key, and the filename must all use kebab-case and match exactly.
 7. **Datasource Template uses full paths** — The `Datasource Template` field requires the complete path starting with `/sitecore/templates/...`, never a GUID.
 8. **Datasource Location uses query syntax** — Queries must use exact folder template names with `@@templatename`. Separate multiple locations with `|`.
-9. **Create folder templates** — Use folder templates and folder instances for better datasource organization and query-based selection.
+9. **Create folder templates and data folders** — For every component with a datasource: (a) create the folder template under `Folders/` with `__Standard Values`; (b) create the content folder under `/sitecore/content/<site-collection>/<site-name>/Data/` using that template. Without the content folder, the datasource picker will be empty.
 10. **Avoid duplicates** — Use search tools (`search_site`, `search_assets`, `search_component_datasources`) before creating new items.
 11. **Assets go in Media Library** — Never create media items under `/sitecore/content/`. Always use `/sitecore/media library/Project/...` paths.
 12. **Restart after registration** — Component map changes require a Next.js dev server restart to take effect.

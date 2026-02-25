@@ -128,7 +128,11 @@ export const Default: React.FC<InsurancePartnersProps> = (props) => {
                       <ContentSdkImage
                         field={logo.logoImage as ImageField}
                         className="max-h-12 w-auto object-contain"
-                        alt={logo.logoImage?.value?.alt ?? 'Partner logo'}
+                        alt={
+                          typeof logo.logoImage?.value?.alt === 'string'
+                            ? logo.logoImage.value.alt
+                            : 'Partner logo'
+                        }
                       />
                     ) : (
                       <div className="h-12 w-24 bg-gray-100 rounded flex items-center justify-center">

@@ -72,7 +72,8 @@ const Layout = ({ page }: LayoutProps): JSX.Element => {
                 )}
               </div>
             </header>
-            <main>
+            <main >
+              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div id="content">
                 {route && (
                   <AppPlaceholder
@@ -82,6 +83,7 @@ const Layout = ({ page }: LayoutProps): JSX.Element => {
                     rendering={route}
                   />
                 )}
+              </div>
               </div>
             </main>
             <footer>

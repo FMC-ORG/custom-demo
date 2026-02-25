@@ -1,4 +1,10 @@
 {
+  "transforms": [
+    {
+      "xdtPath": "/app_data/xdts/web.config.xdt",
+      "targetPath": "/web.config"
+    }
+  ],
   "renderingHosts": {
     "nextjsstarter": {
       "path": "./examples/kit-nextjs-skate-park",

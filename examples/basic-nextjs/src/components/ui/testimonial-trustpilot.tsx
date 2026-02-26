@@ -50,9 +50,16 @@ const DEFAULT_REVIEW_COUNT = 9858;
 const DEFAULT_REVIEW_DATE = '06/01/2026';
 const DEFAULT_TRUSTPILOT_HREF = '#';
 
-function StarRating({ score }: { score: number }) {
+function StarRating({
+  score,
+  size = 'md',
+}: {
+  score: number;
+  size?: 'sm' | 'md';
+}) {
   const fullStars = Math.floor(score);
   const partial = score - fullStars;
+  const sizeClass = size === 'sm' ? 'h-4 w-4' : 'h-6 w-6';
 
   return (
     <div className="flex items-center gap-0.5" role="img" aria-label={`${score} out of 5 stars`}>
@@ -61,16 +68,16 @@ function StarRating({ score }: { score: number }) {
           return (
             <Star
               key={i}
-              className="h-6 w-6 text-trustpilot-green fill-trustpilot-green"
+              className={`${sizeClass} text-trustpilot-green fill-trustpilot-green`}
               aria-hidden
             />
           );
         }
         if (i === fullStars && partial > 0) {
           return (
-            <div key={i} className="relative h-6 w-6">
+            <div key={i} className={`relative ${sizeClass}`}>
               <Star
-                className="absolute inset-0 h-6 w-6 text-gray-500"
+                className={`absolute inset-0 ${sizeClass} text-gray-500`}
                 aria-hidden
               />
               <div
@@ -78,7 +85,7 @@ function StarRating({ score }: { score: number }) {
                 style={{ width: `${partial * 100}%` }}
               >
                 <Star
-                  className="h-6 w-6 text-trustpilot-green fill-trustpilot-green"
+                  className={`${sizeClass} text-trustpilot-green fill-trustpilot-green`}
                   aria-hidden
                 />
               </div>
@@ -88,7 +95,7 @@ function StarRating({ score }: { score: number }) {
         return (
           <Star
             key={i}
-            className="h-6 w-6 text-gray-500"
+            className={`${sizeClass} text-gray-500`}
             aria-hidden
           />
         );
@@ -104,7 +111,7 @@ function StarRating({ score }: { score: number }) {
  */
 export const Default: React.FC<TestimonialTrustpilotProps> = (props) => {
   const { fields } = props;
-  console.log('props', props);
+
   const { page } = useSitecore();
   const isEditing = page?.mode?.isEditing ?? false;
 
@@ -269,5 +276,72 @@ export const Default: React.FC<TestimonialTrustpilotProps> = (props) => {
         )}
       </div>
     </section>
+  );
+};
+
+/**
+ * Compact variant - sidebar Trustpilot rating card (no testimonial carousel).
+ */
+export const Compact: React.FC<TestimonialTrustpilotProps> = (props) => {
+  const { fields } = props;
+  const { page } = useSitecore();
+  const isEditing = page?.mode?.isEditing ?? false;
+
+  const datasource = fields?.data?.datasource;
+  const hasDatasource = Boolean(datasource);
+
+  const ratingLabel =
+    datasource?.ratingLabel?.jsonValue?.value ?? DEFAULT_RATING_LABEL;
+  const ratingScore =
+    Number(datasource?.ratingScore?.jsonValue?.value ?? DEFAULT_RATING_SCORE) ||
+    DEFAULT_RATING_SCORE;
+  const reviewCount =
+    Number(datasource?.reviewCount?.jsonValue?.value ?? DEFAULT_REVIEW_COUNT) ||
+    DEFAULT_REVIEW_COUNT;
+  const trustpilotLink = datasource?.trustpilotLink?.jsonValue;
+  const trustpilotHref =
+    (trustpilotLink?.value?.href as string | undefined) ?? DEFAULT_TRUSTPILOT_HREF;
+
+  const showPlaceholder = !hasDatasource && isEditing;
+
+  if (showPlaceholder) {
+    return (
+      <div className="rounded-xl border-2 border-dashed border-white/30 bg-white/5 p-6 text-center">
+        <p className="text-white/60 text-sm">Add Testimonial Trustpilot datasource</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-xl bg-confused-container p-6 text-white">
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center gap-2">
+          <Star className="h-5 w-5 fill-trustpilot-green" aria-hidden />
+          <span className="text-sm font-semibold">Trustpilot</span>
+        </div>
+        <StarRating score={ratingScore} size="sm" />
+        <p className="text-sm text-white/90">
+          {ratingLabel} — {ratingScore}/5
+        </p>
+        <p className="text-xs text-white/70">
+          Based on {reviewCount.toLocaleString()}+ reviews
+        </p>
+        {trustpilotLink ? (
+          <ContentSdkLink
+            field={trustpilotLink as LinkField}
+            className="text-sm text-trustpilot-green font-medium hover:underline"
+          >
+            View reviews
+          </ContentSdkLink>
+        ) : (
+          <Link
+            href={trustpilotHref}
+            className="text-sm text-trustpilot-green font-medium hover:underline"
+          >
+            View reviews
+          </Link>
+        )}
+      </div>
+    </div>
   );
 };

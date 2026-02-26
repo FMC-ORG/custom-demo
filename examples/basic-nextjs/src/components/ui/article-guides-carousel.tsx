@@ -15,7 +15,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 
 interface ArticlePageItem {
   id?: string;
-  url?: string;
+  url?: { path?: string };
   title?: { jsonValue?: Field<string> };
   excerpt?: { jsonValue?: Field<string> };
   mainImage?: { jsonValue?: ImageField };
@@ -43,6 +43,7 @@ const DEFAULT_HEADING = 'Our helpful guides and articles';
  * Uses Multilist datasource (featuredArticles.targetItems) to select Article Page items.
  */
 export const Default: React.FC<ArticleGuidesCarouselProps> = (props) => {
+
   const { fields } = props;
   const { page } = useSitecore();
   const isEditing = page?.mode?.isEditing ?? false;
@@ -55,7 +56,6 @@ export const Default: React.FC<ArticleGuidesCarouselProps> = (props) => {
 
   const articles = datasource?.featuredArticles?.targetItems ?? [];
   const showPlaceholder = !hasDatasource && isEditing;
-
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
     loop: true,
@@ -162,7 +162,7 @@ function ArticleCard({ article }: { article: ArticlePageItem }) {
   const title = article.title?.jsonValue?.value ?? 'Untitled';
   const excerpt = article.excerpt?.jsonValue?.value ?? '';
   const imageField = article.mainImage?.jsonValue;
-  const url = article.url ?? '#';
+  const url = article.url?.path ?? '#';
 
   const cardContent = (
     <div className="flex flex-col h-full rounded-xl border border-gray-200 bg-white overflow-hidden hover:shadow-lg transition-shadow">

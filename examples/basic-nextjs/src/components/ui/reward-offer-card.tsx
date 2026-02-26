@@ -80,11 +80,11 @@ export const Default: React.FC<RewardOfferCardProps> = (props) => {
   }
 
   return (
-    <div className="rounded-xl bg-confused-container p-6 text-white">
-      <div className="flex flex-col items-center gap-6">
+    <div className="rounded-xl bg-confused-container p-10 text-white shadow-lg">
+      <div className="flex flex-col items-center gap-10 pt-4">
         {/* Reward amount circle */}
-        <div className="flex h-24 w-24 items-center justify-center rounded-full bg-confused-reward-yellow">
-          <span className="text-center text-lg font-bold text-gray-900">
+        <div className="flex h-32 w-32 items-center justify-center rounded-full bg-confused-reward-yellow shadow-xl">
+          <span className="text-center text-2xl font-bold text-gray-900">
             {datasource?.rewardAmount?.jsonValue ? (
               <ContentSdkText
                 tag="span"
@@ -102,10 +102,10 @@ export const Default: React.FC<RewardOfferCardProps> = (props) => {
           <ContentSdkText
             tag="p"
             field={datasource.headline.jsonValue}
-            className="text-center text-sm text-white/90"
+            className="text-center text-base text-white/90 leading-relaxed max-w-sm"
           />
         ) : (
-          <p className="text-center text-sm text-white/90">{headline}</p>
+          <p className="text-center text-base text-white/90 leading-relaxed max-w-sm">{headline}</p>
         )}
 
         {/* Partner logos */}
@@ -141,7 +141,7 @@ export const Default: React.FC<RewardOfferCardProps> = (props) => {
         {datasource?.ctaLink?.jsonValue ? (
           <ContentSdkLink
             field={datasource.ctaLink.jsonValue as LinkField}
-            className="inline-flex items-center gap-2 rounded-lg bg-confused-reward-yellow px-6 py-3 text-sm font-semibold text-gray-900 hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-2 rounded-lg bg-confused-reward-yellow px-8 py-4 text-base font-semibold text-gray-900 hover:opacity-90 transition-opacity shadow-md"
           >
             <span>{ctaText}</span>
             <ArrowRight className="h-4 w-4" aria-hidden />
@@ -149,7 +149,7 @@ export const Default: React.FC<RewardOfferCardProps> = (props) => {
         ) : (
           <Link
             href={ctaHref}
-            className="inline-flex items-center gap-2 rounded-lg bg-confused-reward-yellow px-6 py-3 text-sm font-semibold text-gray-900 hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-2 rounded-lg bg-confused-reward-yellow px-8 py-4 text-base font-semibold text-gray-900 hover:opacity-90 transition-opacity shadow-md"
           >
             <span>{ctaText}</span>
             <ArrowRight className="h-4 w-4" aria-hidden />

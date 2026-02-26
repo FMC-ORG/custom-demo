@@ -103,7 +103,7 @@ export const Default: React.FC<InsuranceDetailsCardProps> = (props) => {
   }
 
   return (
-    <div className="rounded-xl bg-confused-container p-6 text-white">
+    <div className="mt-8 rounded-xl bg-confused-container p-6 text-white">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">

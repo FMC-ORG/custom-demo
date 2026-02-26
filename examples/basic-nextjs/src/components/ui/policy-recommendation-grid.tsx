@@ -134,21 +134,21 @@ export const Default: React.FC<PolicyRecommendationGridProps> = (props) => {
         <ContentSdkText
           tag="h2"
           field={datasource.heading.jsonValue}
-          className="text-xl font-bold text-white"
+          className="text-xl font-bold text-black"
         />
       ) : (
-        <h2 className="text-xl font-bold text-white">{heading}</h2>
+        <h2 className="text-xl font-bold text-black">{heading}</h2>
       )}
 
       {/* Policy cards grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {cards.map((card) => {
           const accentClass = getAccentClass(card.accentColor);
           return (
             <div
               key={card.id}
               className={cn(
-                'relative rounded-xl border-2 bg-gray-100 p-6',
+                'relative rounded-xl border-2 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5',
                 accentClass ? `border-t-4 ${accentClass.split(' ')[0]}` : 'border-gray-200'
               )}
             >
@@ -157,7 +157,7 @@ export const Default: React.FC<PolicyRecommendationGridProps> = (props) => {
                   + {card.badgeText}
                 </span>
               )}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-3">
                 {card.providerLogo ? (
                   <div className="h-8 w-24">
                     <ContentSdkImage
@@ -190,10 +190,10 @@ export const Default: React.FC<PolicyRecommendationGridProps> = (props) => {
       </div>
 
       {/* Progress text */}
-      <p className="text-sm text-white/90">{progressText}</p>
+      <p className="text-sm text-black font-medium">{progressText}</p>
 
       {/* CTAs */}
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-4">
         {primaryCtaLink ? (
           <ContentSdkLink
             field={primaryCtaLink as LinkField}

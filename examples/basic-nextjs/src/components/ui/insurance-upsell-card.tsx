@@ -123,7 +123,7 @@ export const Default: React.FC<InsuranceUpsellCardProps> = (props) => {
   }
 
   return (
-    <div className="rounded-xl bg-confused-container p-6 text-white overflow-hidden">
+    <div className="mt-10 rounded-xl bg-confused-container p-6 text-white overflow-hidden">
       {/* Header */}
       <div className="flex items-start justify-between gap-4 mb-6">
         <div className="flex items-center gap-2">

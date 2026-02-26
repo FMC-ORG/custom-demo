@@ -45,10 +45,10 @@ export const Default: React.FC<PersonalizedGreetingProps> = (props) => {
         <ContentSdkText
           tag="h1"
           field={fields.GreetingText}
-          className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight"
+          className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black leading-tight"
         />
       ) : (
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black leading-tight">
           {greeting}
         </h1>
       )}
@@ -56,10 +56,10 @@ export const Default: React.FC<PersonalizedGreetingProps> = (props) => {
         <ContentSdkText
           tag="p"
           field={fields.Subtitle}
-          className="mt-2 text-base sm:text-lg text-white/90"
+          className="mt-2 text-base sm:text-lg text-black"
         />
       ) : (
-        <p className="mt-2 text-base sm:text-lg text-white/90">{subtitle}</p>
+        <p className="mt-2 text-base sm:text-lg text-black">{subtitle}</p>
       )}
     </div>
   );

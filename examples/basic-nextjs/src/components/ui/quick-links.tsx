@@ -106,23 +106,23 @@ export const Default: React.FC<QuickLinksProps> = (props) => {
   }
 
   return (
-    <div className="rounded-xl bg-confused-container p-6 text-white">
+    <div className="rounded-xl bg-confused-container p-8 text-white mt-6">
       {datasource?.heading?.jsonValue ? (
         <ContentSdkText
           tag="h3"
           field={datasource.heading.jsonValue}
-          className="mb-4 text-base font-bold"
+          className="mb-8 text-lg font-bold"
         />
       ) : (
-        <h3 className="mb-4 text-base font-bold">{heading}</h3>
+        <h3 className="mb-8 text-lg font-bold">{heading}</h3>
       )}
-      <ul className="flex flex-col gap-0 divide-y divide-white/10">
+      <ul className="flex flex-col gap-1">
         {items.map((item, index) => {
           const IconComponent = getIcon(item.iconName);
           const key = item.id || `link-${index}`;
 
           const linkContent = (
-            <span className="flex items-center justify-between gap-2 py-3">
+            <span className="flex items-center justify-between gap-3 py-4 px-3">
               <span className="flex items-center gap-3">
                 <IconComponent className="h-5 w-5 shrink-0 text-white/80" aria-hidden />
                 <span className="text-sm font-medium">{item.linkText}</span>
@@ -136,7 +136,7 @@ export const Default: React.FC<QuickLinksProps> = (props) => {
               <li key={key}>
                 <ContentSdkLink
                   field={item.link as LinkField}
-                  className="block text-white hover:text-white/80 transition-colors"
+                  className="block text-white hover:text-white/90 hover:bg-white/10 rounded-lg transition-colors -mx-3 px-3"
                 >
                   {linkContent}
                 </ContentSdkLink>
@@ -148,7 +148,7 @@ export const Default: React.FC<QuickLinksProps> = (props) => {
             <li key={key}>
               <Link
                 href={item.href}
-                className="block text-white hover:text-white/80 transition-colors"
+                className="block text-white hover:text-white/90 hover:bg-white/10 rounded-lg transition-colors -mx-3 px-3"
               >
                 {linkContent}
               </Link>

@@ -36,6 +36,7 @@ export interface RouteFields {
   Excerpt?: Field;
   KeyTakeaways?: RichTextField;
   ReadTime?: Field;
+  BackgroundColor?: Field;
 }
 
 const Layout = ({ page }: LayoutProps): JSX.Element => {
@@ -43,12 +44,20 @@ const Layout = ({ page }: LayoutProps): JSX.Element => {
   const { route } = layout.sitecore;
   const mainClassPageEditing = mode.isEditing ? "editing-mode" : "prod-mode";
 
+  const routeFields = (route?.fields ?? {}) as RouteFields;
+  const bgHex = routeFields?.BackgroundColor?.value?.toString?.()?.trim();
+  const isValidHex =
+    bgHex && /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/.test(bgHex);
+  const rootStyle = isValidHex
+    ? { backgroundColor: bgHex, minHeight: "100vh" }
+    : undefined;
+
   return (
     <>
       <Scripts />
       <SitecoreStyles layoutData={layout} />
       {/* root placeholder for the app, which we add components to using route data */}
-      <div className={mainClassPageEditing}>
+      <div className={mainClassPageEditing} style={rootStyle}>
         {mode.isDesignLibrary ? (
           route && (
             <DesignLibraryApp

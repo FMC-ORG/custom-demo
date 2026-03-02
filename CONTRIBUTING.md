@@ -46,20 +46,20 @@ Ensure the following tools are installed on your system:
 
 3. Working on an Example
 
-Navigate to the relevant example (e.g., kit-nextjs-article-starter) and start the dev server:
+Navigate to the basic-nextjs example and start the dev server:
 
 💡 Make sure to populate the required environment variables in your .env.local file to connect to your XM Cloud instance.
 
    **Development (with hot reload):**
    ```bash
-   cd examples/kit-nextjs-article-starter
+   cd examples/basic-nextjs
    npm install
    npm run dev
    ```
 
    **Build and run for production:**
    ```bash
-   cd examples/kit-nextjs-article-starter
+   cd examples/basic-nextjs
    npm install
    npm run build
    npm run start

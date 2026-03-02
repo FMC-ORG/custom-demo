@@ -13,11 +13,6 @@ This repository contains **XM Cloud Front End Application Starter Kits** - multi
 ### Available Starter Applications
 
 - **basic-nextjs** - Simple Next.js starter with basic XM Cloud integration
-- **kit-nextjs-article-starter** - **Solterra & Co.** - Editorial-style template for lifestyle brands
-- **kit-nextjs-location-finder** - **Alaris** - Car brand template with location finder functionality
-- **kit-nextjs-product-listing** - **SYNC** - Product-focused template for audio gear companies
-- **kit-nextjs-skate-park** - Simple demo site showcasing component examples
-- **basic-spa** - SPA starter kit with Angular and Node proxy
 
 ### Each starter demonstrates:
 - Tailwind-based styling with Shadcn/ui components
@@ -336,7 +331,7 @@ export const InteractiveComponent: React.FC<Props> = (props) => {
 ### Local Development Setup
 ```bash
 # Navigate to any starter
-cd examples/kit-nextjs-article-starter
+cd examples/basic-nextjs
 
 # Copy environment template
 cp .env.remote.example .env.local

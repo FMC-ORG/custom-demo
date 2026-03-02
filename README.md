@@ -8,12 +8,7 @@ Here's a quick overview of the major folders and their purpose:
 
   - `/examples`:
   Contains starter front-end applications. Each subfolder is a working app
-    * basic-nextjs: [README](https://github.com/Sitecore/xmcloud-starter-js/tree/main/examples/basic-nextjs/README.md) 
-    * basic-spa: [README](https://github.com/Sitecore/xmcloud-starter-js/tree/main/examples/basic-spa/README.md) 
-    * kit-nextjs-article-starter: [README](https://github.com/Sitecore/xmcloud-starter-js/tree/main/examples/kit-nextjs-article-starter/README.md)
-    * kit-nextjs-location-finder: [README](https://github.com/Sitecore/xmcloud-starter-js/blob/main/examples/kit-nextjs-location-finder/README.md)
-    * kit-nextjs-product-listing: [README](https://github.com/Sitecore/xmcloud-starter-js/blob/main/examples/kit-nextjs-product-listing/README.md)
-    * kit-nextjs-skate-park: [README](https://github.com/Sitecore/xmcloud-starter-js/blob/main/examples/kit-nextjs-skate-park/README.md)
+    * basic-nextjs: [README](https://github.com/Sitecore/xmcloud-starter-js/tree/main/examples/basic-nextjs/README.md)
 
   - `/local-containers`:
   Contains Docker-related files for local development environments.
@@ -30,7 +25,7 @@ Here's a quick overview of the major folders and their purpose:
     Key Sections:
       * renderingHosts: Defines one or more front-end apps to build. Each entry includes:
 
-      * path: where the app is located (e.g., ./examples/kit-nextjs-skate-park)
+      * path: where the app is located (e.g., ./examples/basic-nextjs)
 
       * nodeVersion: Node.js version used during build
 
@@ -84,9 +79,6 @@ For developers new to XM Cloud you can follow the Getting Started Guide on the [
   ```
   This builds the app and runs it in production mode. Access the site at `http://localhost:3000`.
 
-### SPA Starters Monorepo and Angular SPA
-
-A new starter SPA based on Angular has been introduced with JSS v22.3.0. The Angular starter has been designed to be compatible with XM Cloud and should be used with the provided node XM Cloud proxy application to handle server-side rendering (SSR), data queries, personalization and more. For more details and information on how to run and deploy the Angular starter and proxy to XM Cloud have a look at [SPA starters monorepo](examples/basic-spa/)
 
 ## Development Workflow
 

@@ -318,10 +318,7 @@ The workflows use the following environment variables:
 
 The workflows automatically detect and validate these starter applications:
 
-- `kit-nextjs-skate-park`
-- `kit-nextjs-article-starter`
-- `kit-nextjs-location-finder`
-- `kit-nextjs-product-listing`
+- `basic-nextjs`
 
 ### Required npm Scripts
 

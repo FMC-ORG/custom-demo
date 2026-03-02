@@ -81,30 +81,18 @@ jobs:
           echo "Changed files:"
           echo "$CHANGED_FILES"
 
-          # Detect which starters have changes
+          # Detect which starters have changes (only basic-nextjs available)
           CHANGED_STARTERS=""
 
-          if echo "$CHANGED_FILES" | grep -q "^examples/kit-nextjs-skate-park/"; then
-            CHANGED_STARTERS="$CHANGED_STARTERS kit-nextjs-skate-park"
-          fi
-
-          if echo "$CHANGED_FILES" | grep -q "^examples/kit-nextjs-article-starter/"; then
-            CHANGED_STARTERS="$CHANGED_STARTERS kit-nextjs-article-starter"
-          fi
-
-          if echo "$CHANGED_FILES" | grep -q "^examples/kit-nextjs-location-finder/"; then
-            CHANGED_STARTERS="$CHANGED_STARTERS kit-nextjs-location-finder"
-          fi
-
-          if echo "$CHANGED_FILES" | grep -q "^examples/kit-nextjs-product-listing/"; then
-            CHANGED_STARTERS="$CHANGED_STARTERS kit-nextjs-product-listing"
+          if echo "$CHANGED_FILES" | grep -q "^examples/basic-nextjs/"; then
+            CHANGED_STARTERS="$CHANGED_STARTERS basic-nextjs"
           fi
 
           # If no specific starter changes detected, check for global changes
           if [ -z "$CHANGED_STARTERS" ]; then
             if echo "$CHANGED_FILES" | grep -q "^xmcloud.build.json\|^\.github/\|^README.md\|^CONTRIBUTING.md"; then
-              echo "Global changes detected, validating all starters"
-              CHANGED_STARTERS="kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing"
+              echo "Global changes detected, validating basic-nextjs"
+              CHANGED_STARTERS="basic-nextjs"
             fi
           fi
 

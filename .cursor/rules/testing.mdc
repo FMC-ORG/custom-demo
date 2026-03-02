@@ -203,7 +203,4 @@ Quality Gates:
 - Security scans must pass
 
 Referenced:
-@examples/kit-nextjs-article-starter/src/components/
-@examples/kit-nextjs-location-finder/src/components/
-@examples/kit-nextjs-product-listing/src/components/
 @examples/basic-nextjs/src/

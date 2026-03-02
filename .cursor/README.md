@@ -26,15 +26,8 @@ When using AI coding assistants like Cursor:
 
 ## XM Cloud Starter Context
 
-This repository contains multiple starter applications:
+This repository contains the basic-nextjs starter application:
 - **basic-nextjs** - Simple Next.js starter with basic XM Cloud integration
-- **kit-nextjs-article-starter** - Editorial-style template (Solterra & Co.)
-- **kit-nextjs-location-finder** - Car brand template with location finder (Alaris)
-- **kit-nextjs-product-listing** - Product-focused template (SYNC)
-- **kit-nextjs-skate-park** - Simple demo site with component examples
-- **basic-spa** - SPA starter kit with Angular and Node proxy
-
-Each starter follows the same patterns and conventions defined in these rules while maintaining their unique functionality and design.
 
 ## Contributing
 

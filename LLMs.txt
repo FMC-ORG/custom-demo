@@ -134,16 +134,9 @@ const { data: { datasource } = {} } = fields || {};
 - Never edit compiled artifacts
 - Focus only on src/ files and configuration
 
-## Multi-Starter Context
-Repository contains 6 starter applications:
-- basic-nextjs: Simple XM Cloud integration
-- kit-nextjs-article-starter: Editorial template (Solterra & Co.)
-- kit-nextjs-location-finder: Car brand template (Alaris)
-- kit-nextjs-product-listing: Product template (SYNC)
-- kit-nextjs-skate-park: Demo components
-- basic-spa: Angular SPA with Node proxy
-
-Each follows same patterns but maintains unique functionality and design.
+## Starter Context
+Repository contains the basic-nextjs starter application:
+- basic-nextjs: Simple Next.js starter with basic XM Cloud integration
 
 ## Environment Configuration
 Required variables:

@@ -199,7 +199,4 @@ XM Cloud Performance:
 - Use proper GraphQL query optimization
 
 Referenced:
-@examples/kit-nextjs-article-starter/src/components/
-@examples/kit-nextjs-location-finder/src/components/
-@examples/kit-nextjs-product-listing/src/components/
 @examples/basic-nextjs/src/

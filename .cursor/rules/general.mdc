@@ -80,7 +80,4 @@ Continuous Integration:
 - No breaking changes without proper migration
 
 Referenced:
-@examples/kit-nextjs-article-starter/src/components/
-@examples/kit-nextjs-location-finder/src/components/
-@examples/kit-nextjs-product-listing/src/components/
 @examples/basic-nextjs/src/components/

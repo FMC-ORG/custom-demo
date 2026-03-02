@@ -223,7 +223,6 @@ XM Cloud Integration:
 - Support blue-green deployment patterns
 
 Referenced:
-@examples/kit-nextjs-article-starter/next.config.js
-@examples/kit-nextjs-location-finder/src/pages/
-@examples/kit-nextjs-product-listing/src/middleware.ts
-@examples/basic-nextjs/src/pages/api/
+@examples/basic-nextjs/next.config.ts
+@examples/basic-nextjs/src/middleware.ts
+@examples/basic-nextjs/src/app/

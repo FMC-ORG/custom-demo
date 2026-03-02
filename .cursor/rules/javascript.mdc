@@ -187,6 +187,6 @@ export const HeroDefault: React.FC<HeroProps> = (props) => {
 ```
 
 Referenced:
-@examples/kit-nextjs-article-starter/src/components/article-header/ArticleHeader.tsx
-@examples/kit-nextjs-product-listing/src/components/product-listing/ProductListing.tsx
-@examples/kit-nextjs-article-starter/src/utils/NoDataFallback.tsx
+@examples/basic-nextjs/src/components/basic/content-block/ContentBlock.tsx
+@examples/basic-nextjs/src/components/basic/promo/Promo.tsx
+@examples/basic-nextjs/src/components/basic/page-content/PageContent.tsx

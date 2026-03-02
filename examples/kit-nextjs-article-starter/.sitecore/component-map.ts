@@ -28,6 +28,8 @@ import * as RichText from 'src/components/sxa/RichText';
 import * as Promo from 'src/components/sxa/Promo';
 import * as PartialDesignDynamicPlaceholder from 'src/components/sxa/PartialDesignDynamicPlaceholder';
 import * as PageContent from 'src/components/sxa/PageContent';
+import * as NavigationMenuToggleclient from 'src/components/sxa/NavigationMenuToggle.client';
+import * as NavigationListclient from 'src/components/sxa/NavigationList.client';
 import * as Navigation from 'src/components/sxa/Navigation';
 import * as LinkList from 'src/components/sxa/LinkList';
 import * as Image from 'src/components/sxa/Image';
@@ -70,6 +72,7 @@ import * as logoprops from 'src/components/logo/logo.props';
 import * as Logodev from 'src/components/logo/Logo.dev';
 import * as nextImageSrcdev from 'src/components/image/nextImageSrc.dev';
 import * as ImageWrapperdev from 'src/components/image/ImageWrapper.dev';
+import * as ImageWrapperclient from 'src/components/image/ImageWrapper.client';
 import * as ImageBlock from 'src/components/image/ImageBlock';
 import * as imageprops from 'src/components/image/image.props';
 import * as imageoptimizationcontext from 'src/components/image/image-optimization.context';
@@ -131,7 +134,7 @@ import * as accordionblockprops from 'src/components/accordion-block/accordion-b
 export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCServerWrapper],
   ['FEaaSWrapper', FEaaSServerWrapper],
-  ['Form', Form],
+  ['Form', { ...Form, componentType: 'client' }],
   ['VideoPlayer', { ...VideoPlayerdev }],
   ['VideoModal', { ...VideoModaldev }],
   ['Video', { ...Video, componentType: 'client' }],
@@ -155,8 +158,10 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['RichText', { ...RichText }],
   ['Promo', { ...Promo }],
   ['PartialDesignDynamicPlaceholder', { ...PartialDesignDynamicPlaceholder }],
-  ['PageContent', { ...PageContent, componentType: 'client' }],
-  ['Navigation', { ...Navigation, componentType: 'client' }],
+  ['PageContent', { ...PageContent }],
+  ['NavigationMenuToggle', { ...NavigationMenuToggleclient }],
+  ['NavigationList', { ...NavigationListclient }],
+  ['Navigation', { ...Navigation }],
   ['LinkList', { ...LinkList }],
   ['Image', { ...Image, componentType: 'client' }],
   ['ContentBlock', { ...ContentBlock }],
@@ -195,7 +200,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['logo', { ...logoprops }],
   ['Logo', { ...Logodev }],
   ['nextImageSrc', { ...nextImageSrcdev }],
-  ['ImageWrapper', { ...ImageWrapperdev }],
+  ['ImageWrapper', { ...ImageWrapperdev, ...ImageWrapperclient }],
   ['ImageBlock', { ...ImageBlock }],
   ['image', { ...imageprops }],
   ['image-optimization', { ...imageoptimizationcontext }],

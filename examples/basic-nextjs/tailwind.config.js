@@ -14,6 +14,12 @@ module.exports = {
         'saga-light-blue': '#E8F4F8',
         'saga-teal': '#A8D8D8',
         'saga-dark-navy': '#0F1B4D',
+        'vg-blue': '#1d4ed8',
+        'vg-dark': '#0f172a',
+        'vg-body': '#374151',
+        'vg-muted': '#6b7280',
+        'vg-border': '#e5e7eb',
+        'vg-surface': '#f9fafb',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

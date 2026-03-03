@@ -10,6 +10,13 @@
 
 @layer base {
   :root {
+    --vg-blue: #1d4ed8;
+    --vg-dark: #0f172a;
+    --vg-body: #374151;
+    --vg-muted: #6b7280;
+    --vg-border: #e5e7eb;
+    --vg-surface: #f9fafb;
+
     --background: 0 0% 100%;
     --foreground: 228 62% 18%;
     --card: 0 0% 100%;
@@ -48,4 +55,26 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Var Group scroll reveal utility */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Var Group card image zoom on hover */
+.card-img-zoom {
+  overflow: hidden;
+}
+.card-img-zoom img {
+  transition: transform 0.3s ease;
+}
+.card-img-zoom:hover img {
+  transform: scale(1.04);
 }

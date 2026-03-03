@@ -1,0 +1,35 @@
+﻿---
+ID: "1d214283-29ce-4da6-8e15-e6100f7f3c74"
+Parent: "b50f7b0f-6552-4169-899b-a895df5caa89"
+Template: "b50f7b0f-6552-4169-899b-a895df5caa89"
+Path: "/sitecore/templates/Project/fmc-custom-demo/Components/Navigation/FooterSocialLink/__Standard Values"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260303T090743Z
+    - ID: "3483402e-cecd-40a7-81be-48f0a3941df2"
+      Hint: Link
+      Value: |
+        <link text=\"Social Link\" anchor=\"\" linktype=\"external\" class=\"\" title=\"\" target=\"\" querystring=\"\" url=\"#\" />
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "b8ac8028-21ac-4140-9579-5a9bc2cd13ab"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260303T090747Z

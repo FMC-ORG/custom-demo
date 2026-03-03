@@ -1,0 +1,37 @@
+﻿---
+ID: "6ef7d0ae-2332-410e-a6c4-87383b2da1f3"
+Parent: "770e74f1-e7ac-4050-abda-8f438112b294"
+Template: "770e74f1-e7ac-4050-abda-8f438112b294"
+Path: "/sitecore/templates/Project/fmc-custom-demo/Components/Navigation/StatsBarItem/__Standard Values"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260303T091058Z
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "6a0345c3-3045-4bc2-9f42-8e910c4c0fcd"
+      Hint: Label
+      Value: "[Label]"
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "55f7049c-4cb6-4eda-9467-26c6aea0a9b0"
+    - ID: "aa3ae2eb-75e2-491a-a4cf-ead594abf71c"
+      Hint: Value
+      Value: "[Value]"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260303T091102Z

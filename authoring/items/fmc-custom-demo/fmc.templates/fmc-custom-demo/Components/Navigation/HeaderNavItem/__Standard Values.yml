@@ -1,0 +1,35 @@
+﻿---
+ID: "ec8ba183-91c4-489d-8725-133cf42ef3c8"
+Parent: "7261392d-0937-4caf-be28-3313cddc3f73"
+Template: "7261392d-0937-4caf-be28-3313cddc3f73"
+Path: "/sitecore/templates/Project/fmc-custom-demo/Components/Navigation/HeaderNavItem/__Standard Values"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260303T090123Z
+    - ID: "429442f8-2e65-4373-a311-db3aecb2bcf2"
+      Hint: Link
+      Value: |
+        <link text=\"Navigation Item\" anchor=\"\" linktype=\"external\" class=\"\" title=\"\" target=\"\" querystring=\"\" url=\"#\" />
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "e2353e28-04c5-4e39-96e8-01b276ba37b5"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260303T090126Z

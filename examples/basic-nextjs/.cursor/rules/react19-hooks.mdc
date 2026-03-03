@@ -1,0 +1,84 @@
+---
+description: React 19 hook patterns — useActionState, useOptimistic, useFormStatus, use()
+alwaysApply: false
+globs:
+  - "src/components/**/*.tsx"
+  - "src/app/**/*.tsx"
+---
+
+# React 19 Hooks
+
+## useActionState
+Replaces `useFormState` from react-dom. Connects a form directly to a Server Action.
+
+```tsx
+'use client';
+import { useActionState } from 'react';
+import { createItem } from '@/lib/actions/items';
+
+export function CreateForm() {
+  const [state, action, isPending] = useActionState(createItem, null);
+
+  return (
+    <form action={action}>
+      <input name="title" />
+      {state?.error?.title && (
+        <p className="text-destructive text-sm">{state.error.title[0]}</p>
+      )}
+      <SubmitButton />
+    </form>
+  );
+}
+```
+
+## useFormStatus
+Reads the pending state of the parent `<form>`. Must be in a **child component** — not in the same component as the form.
+
+```tsx
+'use client';
+import { useFormStatus } from 'react';
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button type="submit" disabled={pending}>
+      {pending ? 'Saving...' : 'Save'}
+    </button>
+  );
+}
+```
+
+## useOptimistic
+Updates the UI instantly before the server responds.
+
+```tsx
+'use client';
+import { useOptimistic } from 'react';
+
+const [optimisticLikes, addOptimisticLike] = useOptimistic(
+  likes,
+  (current) => current + 1
+);
+
+// In the submit handler:
+addOptimisticLike();   // UI updates immediately
+await likePost(id);    // server catches up
+```
+
+## use()
+Unwraps a Promise or Context — replaces `useContext`, can replace `useEffect` for data.
+
+```tsx
+import { use } from 'react';
+
+// Unwrap a promise passed down from a Server Component (suspends until resolved)
+const user = use(userPromise);
+
+// Unwrap context
+const theme = use(ThemeContext);
+```
+
+## Rules
+- Always use `useActionState` for form submissions — never `useState` + manual fetch.
+- `useFormStatus` **must** be in a separate child component inside the form.
+- `use()` cannot be called conditionally.

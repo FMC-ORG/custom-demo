@@ -1,0 +1,52 @@
+﻿---
+ID: "6b9bf610-c07d-411a-9d73-bc8888892f26"
+Parent: "ead04b7e-5de7-4168-bee3-9350ac71dc38"
+Template: "ead04b7e-5de7-4168-bee3-9350ac71dc38"
+Path: "/sitecore/templates/Project/fmc-custom-demo/Components/Navigation/Footer/__Standard Values"
+SharedFields:
+- ID: "1172f251-dad4-4efb-a329-0c63500e4f1e"
+  Hint: __Masters
+  Value: |
+    {B50F7B0F-6552-4169-899B-A895DF5CAA89}
+    {E5E30C4A-8740-4863-AB6A-C1791F21A27F}
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "7b3861e2-5352-407f-951f-95ffa854894d"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "10238209-55fb-4893-8498-6fb8084e5bb7"
+      Hint: CopyrightText
+      Value: "[© Year Site Name. All rights reserved.]"
+    - ID: "11bec2fb-42ac-4429-bcff-6b1da9e77bad"
+      Hint: Tagline
+      Value: "[Short brand tagline or mission statement.]"
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260303T090744Z
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "06741a12-5d25-4adc-8a0e-9e0ccb88126c"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d806b1e3-ca83-4d7d-a866-7194be6854ad"
+      Hint: SiteName
+      Value: "[Site Name]"
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260303T090749Z
+    - ID: "e5dbf09a-eaec-4af1-8605-8136eeb2dbb8"
+      Hint: StatusLabel
+      Value: "[System status label]"

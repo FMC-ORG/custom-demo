@@ -1,0 +1,60 @@
+---
+description: Next.js Server Actions — definition, validation with Zod, ActionState type, revalidation
+alwaysApply: false
+globs:
+  - "src/lib/actions/**/*.ts"
+  - "src/app/**/*.tsx"
+  - "src/components/**/*.tsx"
+---
+
+# Server Actions
+
+Prefer Server Actions over API routes for all mutations.
+
+## ActionState type
+
+```ts
+// src/types/actions.ts
+export type ActionState<T = unknown> =
+  | { success: true; data?: T }
+  | { error: Record<string, string[]> }
+  | null;
+```
+
+## Action definition
+
+```ts
+// src/lib/actions/items.ts
+'use server';
+
+import { revalidatePath } from 'next/cache';
+import { z } from 'zod';
+import type { ActionState } from '@/types/actions';
+
+const Schema = z.object({
+  title: z.string().min(1).max(200),
+});
+
+export async function createItem(
+  _prev: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const parsed = Schema.safeParse({ title: formData.get('title') });
+  if (!parsed.success) return { error: parsed.error.flatten().fieldErrors };
+
+  try {
+    await db.item.create({ data: parsed.data });
+    revalidatePath('/items');
+    return { success: true };
+  } catch {
+    return { error: { _form: ['Something went wrong.'] } };
+  }
+}
+```
+
+## Rules
+- Validate with **Zod** before touching any data — no exceptions.
+- Authenticate **inside** the action. Never trust the caller.
+- Always `revalidatePath` or `revalidateTag` after a mutation.
+- Return `ActionState` — never throw to the client.
+- Action files live in `src/lib/actions/<feature>.ts`.

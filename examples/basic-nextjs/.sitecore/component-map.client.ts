@@ -3,9 +3,12 @@
 import { BYOCClientWrapper, NextjsContentSdkComponent, FEaaSClientWrapper } from '@sitecore-content-sdk/nextjs';
 import { Form } from '@sitecore-content-sdk/nextjs';
 
-import * as newsletter from 'src/components/ui/newsletter';
-import * as header from 'src/components/ui/header';
-import * as articlecards from 'src/components/ui/article-cards';
+import * as StatsBar from 'src/components/ui/stats-bar/StatsBar';
+import * as SectionHeader from 'src/components/ui/section-header/SectionHeader';
+import * as PromotionalHeader from 'src/components/ui/promotional-header/PromotionalHeader';
+import * as Header from 'src/components/ui/header/Header';
+import * as Footer from 'src/components/ui/footer/Footer';
+import * as ContentSplit from 'src/components/ui/content-split/ContentSplit';
 import * as Navigation from 'src/components/basic/navigation/Navigation';
 import * as SitecoreStyles from 'src/components/basic/content-sdk/SitecoreStyles';
 import * as CdpPageView from 'src/components/basic/content-sdk/CdpPageView';
@@ -14,9 +17,12 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCClientWrapper],
   ['FEaaSWrapper', FEaaSClientWrapper],
   ['Form', Form],
-  ['newsletter', { ...newsletter }],
-  ['header', { ...header }],
-  ['article-cards', { ...articlecards }],
+  ['StatsBar', { ...StatsBar }],
+  ['SectionHeader', { ...SectionHeader }],
+  ['PromotionalHeader', { ...PromotionalHeader }],
+  ['Header', { ...Header }],
+  ['Footer', { ...Footer }],
+  ['ContentSplit', { ...ContentSplit }],
   ['Navigation', { ...Navigation }],
   ['SitecoreStyles', { ...SitecoreStyles }],
   ['CdpPageView', { ...CdpPageView }],

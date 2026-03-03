@@ -1,0 +1,49 @@
+﻿---
+ID: "ccbde3cf-bb04-4f92-a5bf-1c097f039a59"
+Parent: "f173aa61-825b-45f6-997c-8a6c8f926321"
+Template: "f173aa61-825b-45f6-997c-8a6c8f926321"
+Path: "/sitecore/templates/Project/fmc-custom-demo/Components/Navigation/Header/__Standard Values"
+SharedFields:
+- ID: "1172f251-dad4-4efb-a329-0c63500e4f1e"
+  Hint: __Masters
+  Value: "{7261392D-0937-4CAF-BE28-3313CDDC3F73}"
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "3cdcc4cb-e02f-493f-94f0-677af01487fd"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "2155d518-6c6f-4017-b8c5-b569931dcc74"
+      Hint: PrimaryCta
+      Value: |
+        <link text=\"Contact Us\" anchor=\"\" linktype=\"external\" class=\"\" title=\"\" target=\"\" querystring=\"\" url=\"#\" />
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260303T090122Z
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "3c4f8c23-7c13-4a14-b244-4325a88545d0"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "bf427249-943a-4a07-8fd0-a58bc602633b"
+      Hint: SecondaryCta
+      Value: |
+        <link text=\"Sign In\" anchor=\"\" linktype=\"external\" class=\"\" title=\"\" target=\"\" querystring=\"\" url=\"#\" />
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260303T090126Z
+    - ID: "e531e963-a8af-474c-b709-1bc9dfdf01e9"
+      Hint: SiteName
+      Value: My Site

@@ -4,16 +4,12 @@ import { BYOCServerWrapper, NextjsContentSdkComponent, FEaaSServerWrapper } from
 import { Form } from '@sitecore-content-sdk/nextjs';
 
 // end of built-in components
-import * as trustsection from 'src/components/ui/trust-section';
-import * as travelinsurancebanner from 'src/components/ui/travel-insurance-banner';
-import * as newsletter from 'src/components/ui/newsletter';
-import * as morefromsaga from 'src/components/ui/more-from-saga';
-import * as hero from 'src/components/ui/hero';
-import * as header from 'src/components/ui/header';
-import * as footer from 'src/components/ui/footer';
-import * as categorydirectory from 'src/components/ui/category-directory';
-import * as awardssection from 'src/components/ui/awards-section';
-import * as articlecards from 'src/components/ui/article-cards';
+import * as StatsBar from 'src/components/ui/stats-bar/StatsBar';
+import * as SectionHeader from 'src/components/ui/section-header/SectionHeader';
+import * as PromotionalHeader from 'src/components/ui/promotional-header/PromotionalHeader';
+import * as Header from 'src/components/ui/header/Header';
+import * as Footer from 'src/components/ui/footer/Footer';
+import * as ContentSplit from 'src/components/ui/content-split/ContentSplit';
 import * as Title from 'src/components/basic/title/Title';
 import * as RowSplitter from 'src/components/basic/row-splitter/RowSplitter';
 import * as RichText from 'src/components/basic/rich-text/RichText';
@@ -33,16 +29,12 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCServerWrapper],
   ['FEaaSWrapper', FEaaSServerWrapper],
   ['Form', { ...Form, componentType: 'client' }],
-  ['trust-section', { ...trustsection }],
-  ['travel-insurance-banner', { ...travelinsurancebanner }],
-  ['newsletter', { ...newsletter, componentType: 'client' }],
-  ['more-from-saga', { ...morefromsaga }],
-  ['hero', { ...hero }],
-  ['header', { ...header, componentType: 'client' }],
-  ['footer', { ...footer }],
-  ['category-directory', { ...categorydirectory }],
-  ['awards-section', { ...awardssection }],
-  ['article-cards', { ...articlecards, componentType: 'client' }],
+  ['StatsBar', { ...StatsBar, componentType: 'client' }],
+  ['SectionHeader', { ...SectionHeader, componentType: 'client' }],
+  ['PromotionalHeader', { ...PromotionalHeader, componentType: 'client' }],
+  ['Header', { ...Header, componentType: 'client' }],
+  ['Footer', { ...Footer, componentType: 'client' }],
+  ['ContentSplit', { ...ContentSplit, componentType: 'client' }],
   ['Title', { ...Title }],
   ['RowSplitter', { ...RowSplitter }],
   ['RichText', { ...RichText }],

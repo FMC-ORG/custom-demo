@@ -1,0 +1,38 @@
+﻿---
+ID: "89aa7f03-2747-4b28-90e2-a39c523dcb9a"
+Parent: "e489216e-18f9-4a58-90f1-331b4d8482bd"
+Template: "e489216e-18f9-4a58-90f1-331b4d8482bd"
+Path: "/sitecore/templates/Project/fmc-custom-demo/Components/Navigation/PromotionalHeader/__Standard Values"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260303T090027Z
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "84872255-c897-4c41-8fb9-4548bbd6014f"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "bef3e7c7-7331-4af0-8bb9-abab342e1f43"
+      Hint: CtaLink
+      Value: |
+        <link text=\"Call to Action\" anchor=\"\" linktype=\"external\" class=\"\" title=\"\" target=\"\" querystring=\"\" url=\"#\" />
+    - ID: "c55178b0-d514-4527-a333-549c2f87e13c"
+      Hint: AnnouncementText
+      Value: "[Announcement or promotion text]"
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260303T090030Z

@@ -1,0 +1,41 @@
+﻿---
+ID: "b3ed8920-2488-43e1-8ee7-e2b2c7585712"
+Parent: "e5e30c4a-8740-4863-ab6a-c1791f21a27f"
+Template: "e5e30c4a-8740-4863-ab6a-c1791f21a27f"
+Path: "/sitecore/templates/Project/fmc-custom-demo/Components/Navigation/FooterNavGroup/__Standard Values"
+SharedFields:
+- ID: "1172f251-dad4-4efb-a329-0c63500e4f1e"
+  Hint: __Masters
+  Value: "{42F05A6D-8546-465A-893A-EE4FECBECB22}"
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "dd91dd67-d287-4341-8197-e04f3c9f2322"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260303T090743Z
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "79a34b40-54b1-48df-86d9-c8f32ee27cf9"
+      Hint: GroupTitle
+      Value: "[COLUMN GROUP]"
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "0715bb13-e9e7-48cd-9360-2a0679a082bf"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260303T090748Z

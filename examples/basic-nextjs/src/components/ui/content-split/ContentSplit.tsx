@@ -149,6 +149,7 @@ function ContentSplitLayout({
       {(hasImage || (isEditing && imageField)) && imageField ? (
         <ContentSdkImage
           field={imageField}
+          editable={isEditing}
           className="h-full w-full object-cover"
           fill
         />
@@ -324,7 +325,12 @@ export const CareersBanner = (props: ContentSplitProps): JSX.Element => {
         {/* Left: Full-bleed photo with overlay card */}
         <div className="relative min-h-[320px] lg:min-h-0 overflow-hidden">
           {(hasImage || (isEditing && imageField)) && imageField ? (
-            <ContentSdkImage field={imageField} className="h-full w-full object-cover" fill />
+            <ContentSdkImage
+              field={imageField}
+              editable={isEditing}
+              className="h-full w-full object-cover"
+              fill
+            />
           ) : (
             <div className="flex h-full items-center justify-center bg-muted">
               <span className="is-empty-hint text-muted-foreground">[image]</span>
@@ -479,7 +485,12 @@ function SustainabilityBannerLayout(
   const photoPanel = (
     <div className="relative min-h-[320px] overflow-hidden">
       {(hasImage || (isEditing && imageField)) && imageField ? (
-        <ContentSdkImage field={imageField} className="h-full w-full object-cover" fill />
+        <ContentSdkImage
+          field={imageField}
+          editable={isEditing}
+          className="h-full w-full object-cover"
+          fill
+        />
       ) : (
         <div className="flex h-full items-center justify-center bg-muted">
           <span className="is-empty-hint text-muted-foreground">[image]</span>

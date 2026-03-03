@@ -57,7 +57,10 @@ const PromoContent = (props: PromoContentProps): JSX.Element => {
       <>
         {hasPromoIcon && fields.PromoIcon && (
           <div className="field-promoicon">
-            <ContentSdkImage field={fields.PromoIcon} />
+            <ContentSdkImage
+              field={fields.PromoIcon}
+              editable={isEditing}
+            />
           </div>
         )}
         <div className="promo-text">{renderText(fields)}</div>

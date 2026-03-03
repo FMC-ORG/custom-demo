@@ -123,6 +123,7 @@ export const Default: React.FC<HeroSliderProps> = (props) => {
             {(img?.value?.src || (isEditing && img)) && img ? (
               <ContentSdkImage
                 field={img}
+                editable={isEditing}
                 fill
                 className="object-cover"
                 priority={idx === 0}

@@ -73,6 +73,7 @@ export const Default: React.FC<ValuesBannerProps> = (props) => {
       {hasImage && fields?.BackgroundFallbackImage && (
         <ContentSdkImage
           field={fields.BackgroundFallbackImage}
+          editable={isEditing}
           fill
           className="object-cover"
           alt={(fields?.BackgroundFallbackImage?.value?.alt ?? '') as string}

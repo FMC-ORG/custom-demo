@@ -115,6 +115,7 @@ export const Default: React.FC<CaseHistoryCardsProps> = (props) => {
                   {(img?.value?.src || (isEditing && img)) && img ? (
                     <ContentSdkImage
                       field={img}
+                      editable={isEditing}
                       fill
                       className="object-cover"
                       alt={(img?.value?.alt ?? client?.value ?? '') as string}

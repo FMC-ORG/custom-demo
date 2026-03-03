@@ -80,6 +80,7 @@ export const Default: React.FC<ServicesNavProps> = (props) => {
         {(bgImage?.value?.src || (isEditing && bgImage)) && bgImage ? (
           <ContentSdkImage
             field={bgImage}
+            editable={isEditing}
             fill
             className="object-cover"
             alt={(bgImage?.value?.alt ?? '') as string}

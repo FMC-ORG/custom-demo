@@ -125,6 +125,7 @@ export const Default = ({ params, fields }: HeaderProps): JSX.Element => {
               <div className="relative h-8 w-8 flex-shrink-0">
                 <ContentSdkImage
                   field={logoField}
+                  editable={isEditing}
                   alt={siteNameField?.value?.toString() ?? 'Logo'}
                   width={32}
                   height={32}

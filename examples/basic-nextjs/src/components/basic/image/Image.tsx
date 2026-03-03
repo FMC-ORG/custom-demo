@@ -78,6 +78,7 @@ export const Banner: React.FC<ImageProps> = (props) => {
       >
         <ContentSdkImage
           field={imageField}
+          editable={isEditing}
           loading="eager"
           fetchPriority="high"
         />
@@ -98,7 +99,10 @@ export const Default: React.FC<ImageProps> = (props) => {
     fields.Image?.value?.src || (page?.mode?.isEditing && fields.Image);
 
   const ImageComponent = () => (
-    <ContentSdkImage field={fields.Image} />
+    <ContentSdkImage
+      field={fields.Image}
+      editable={page?.mode?.isEditing}
+    />
   );
   const shouldWrapWithLink =
     !page?.mode?.isEditing && fields.TargetUrl?.value?.href;

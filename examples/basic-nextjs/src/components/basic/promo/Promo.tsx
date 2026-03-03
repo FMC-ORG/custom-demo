@@ -1,3 +1,5 @@
+'use client';
+
 import React, { JSX } from 'react';
 import {
   NextImage as ContentSdkImage,
@@ -6,8 +8,11 @@ import {
   ImageField,
   Field,
   LinkField,
+  useSitecore,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface Fields {
   PromoIcon: ImageField;
@@ -15,8 +20,6 @@ interface Fields {
   PromoLink: LinkField;
   PromoText2: Field<string>;
 }
-import Image from "next/image"
-import Link from "next/link"
 
 type PromoProps = ComponentProps & {
   fields: Fields;
@@ -28,6 +31,8 @@ interface PromoContentProps extends PromoProps {
 
 const PromoContent = (props: PromoContentProps): JSX.Element => {
   const { fields, params, renderText } = props;
+  const { page } = useSitecore();
+  const { isEditing } = page.mode;
   const { styles, RenderingIdentifier: id } = params;
 
   const Wrapper = ({ children }: { children: JSX.Element }): JSX.Element => (
@@ -44,12 +49,17 @@ const PromoContent = (props: PromoContentProps): JSX.Element => {
     );
   }
 
+  const hasPromoIcon =
+    fields.PromoIcon?.value?.src || (isEditing && fields.PromoIcon);
+
   return (
     <Wrapper>
       <>
-        <div className="field-promoicon">
-          <ContentSdkImage field={fields.PromoIcon} />
-        </div>
+        {hasPromoIcon && fields.PromoIcon && (
+          <div className="field-promoicon">
+            <ContentSdkImage field={fields.PromoIcon} />
+          </div>
+        )}
         <div className="promo-text">{renderText(fields)}</div>
       </>
     </Wrapper>

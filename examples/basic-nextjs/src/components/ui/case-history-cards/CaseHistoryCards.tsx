@@ -110,9 +110,9 @@ export const Default: React.FC<CaseHistoryCardsProps> = (props) => {
 
             return (
               <div key={card.id} className="card-img-zoom">
-                {/* Image */}
+                {/* Image — render in edit mode even when empty so authors can add image */}
                 <div className="relative aspect-[3/2] overflow-hidden">
-                  {img?.value?.src ? (
+                  {(img?.value?.src || (isEditing && img)) && img ? (
                     <ContentSdkImage
                       field={img}
                       fill

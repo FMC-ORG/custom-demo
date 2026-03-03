@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Field,
   ImageField,
@@ -5,9 +7,10 @@ import {
   Link as ContentSdkLink,
   LinkField,
   Text,
-} from "@sitecore-content-sdk/nextjs";
-import React from "react";
-import { ComponentProps } from "lib/component-props";
+  useSitecore,
+} from '@sitecore-content-sdk/nextjs';
+import React from 'react';
+import { ComponentProps } from 'lib/component-props';
 
 interface ImageFields {
   Image: ImageField;
@@ -35,25 +38,44 @@ const ImageDefault: React.FC<ImageProps> = ({ params }) => (
   </ImageWrapper>
 );
 
-export const Banner: React.FC<ImageProps> = ({ params, fields }) => {
+export const Banner: React.FC<ImageProps> = (props) => {
+  const { params, fields } = props;
+  const { page } = useSitecore();
+  const { isEditing } = page.mode;
   const { styles, RenderingIdentifier: id } = params;
-  const imageField = fields.Image && {
+
+  const hasImage =
+    fields?.Image?.value?.src || (isEditing && fields?.Image);
+
+  if (!fields || !hasImage) {
+    return (
+      <div className={`component hero-banner ${styles}`.trim()} id={id}>
+        <div className="component-content sc-sxa-image-hero-banner">
+          <span className="is-empty-hint">Image</span>
+        </div>
+      </div>
+    );
+  }
+
+  const imageField = {
     ...fields.Image,
     value: {
       ...fields.Image.value,
-      style: { objectFit: "cover", width: "100%", height: "100%" },
+      style: { objectFit: 'cover', width: '100%', height: '100%' },
     },
   };
 
-  // Get the image src for background-image style
-  const backgroundImageUrl = fields?.Image?.value?.src;
-  const backgroundStyle = backgroundImageUrl 
+  const backgroundImageUrl = fields.Image?.value?.src;
+  const backgroundStyle = backgroundImageUrl
     ? { backgroundImage: `url('${backgroundImageUrl}')` }
     : {};
 
   return (
     <div className={`component hero-banner ${styles}`.trim()} id={id}>
-      <div className="component-content sc-sxa-image-hero-banner" style={backgroundStyle}>
+      <div
+        className="component-content sc-sxa-image-hero-banner"
+        style={backgroundStyle}
+      >
         <ContentSdkImage
           field={imageField}
           loading="eager"
@@ -72,18 +94,27 @@ export const Default: React.FC<ImageProps> = (props) => {
     return <ImageDefault {...props} />;
   }
 
-  const Image = () => <ContentSdkImage field={fields.Image} />;
+  const hasImage =
+    fields.Image?.value?.src || (page?.mode?.isEditing && fields.Image);
+
+  const ImageComponent = () => (
+    <ContentSdkImage field={fields.Image} />
+  );
   const shouldWrapWithLink =
     !page?.mode?.isEditing && fields.TargetUrl?.value?.href;
 
   return (
     <ImageWrapper className={`component image ${styles}`} id={id}>
-      {shouldWrapWithLink ? (
-        <ContentSdkLink field={fields.TargetUrl}>
-          <Image />
-        </ContentSdkLink>
+      {hasImage && fields.Image ? (
+        shouldWrapWithLink ? (
+          <ContentSdkLink field={fields.TargetUrl}>
+            <ImageComponent />
+          </ContentSdkLink>
+        ) : (
+          <ImageComponent />
+        )
       ) : (
-        <Image />
+        <span className="is-empty-hint">Image</span>
       )}
       <Text
         tag="span"

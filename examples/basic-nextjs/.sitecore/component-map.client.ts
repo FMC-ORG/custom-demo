@@ -14,7 +14,9 @@ import * as Header from 'src/components/ui/header/Header';
 import * as Footer from 'src/components/ui/footer/Footer';
 import * as ContentSplit from 'src/components/ui/content-split/ContentSplit';
 import * as CaseHistoryCards from 'src/components/ui/case-history-cards/CaseHistoryCards';
+import * as Promo from 'src/components/basic/promo/Promo';
 import * as Navigation from 'src/components/basic/navigation/Navigation';
+import * as Image from 'src/components/basic/image/Image';
 import * as SitecoreStyles from 'src/components/basic/content-sdk/SitecoreStyles';
 import * as CdpPageView from 'src/components/basic/content-sdk/CdpPageView';
 
@@ -33,7 +35,9 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['Footer', { ...Footer }],
   ['ContentSplit', { ...ContentSplit }],
   ['CaseHistoryCards', { ...CaseHistoryCards }],
+  ['Promo', { ...Promo }],
   ['Navigation', { ...Navigation }],
+  ['Image', { ...Image }],
   ['SitecoreStyles', { ...SitecoreStyles }],
   ['CdpPageView', { ...CdpPageView }],
 ]);

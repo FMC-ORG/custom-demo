@@ -119,8 +119,8 @@ export const Default: React.FC<HeroSliderProps> = (props) => {
             )}
             aria-hidden={idx !== activeIndex}
           >
-            {/* Background image */}
-            {img?.value?.src && (
+            {/* Background image — render in edit mode even when empty so authors can add image */}
+            {(img?.value?.src || (isEditing && img)) && img ? (
               <ContentSdkImage
                 field={img}
                 fill
@@ -128,9 +128,9 @@ export const Default: React.FC<HeroSliderProps> = (props) => {
                 priority={idx === 0}
                 alt={(img.value?.alt ?? '') as string}
               />
+            ) : (
+              <div className="absolute inset-0 bg-vg-dark" />
             )}
-            {/* Fallback bg color */}
-            {!img?.value?.src && <div className="absolute inset-0 bg-vg-dark" />}
 
             {/* Text content — bottom-left */}
             <div className="absolute bottom-12 left-6 md:left-12 max-w-xl z-20">

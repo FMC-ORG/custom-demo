@@ -75,9 +75,9 @@ export const Default: React.FC<ServicesNavProps> = (props) => {
       id={id}
       data-testid="services-nav"
     >
-      {/* Dark background image area with headline */}
+      {/* Dark background image area with headline — render image in edit mode even when empty */}
       <div className="relative overflow-hidden" style={{ minHeight: '320px' }}>
-        {bgImage?.value?.src ? (
+        {(bgImage?.value?.src || (isEditing && bgImage)) && bgImage ? (
           <ContentSdkImage
             field={bgImage}
             fill

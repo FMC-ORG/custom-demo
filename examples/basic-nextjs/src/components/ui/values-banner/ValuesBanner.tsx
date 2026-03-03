@@ -41,7 +41,9 @@ export const Default: React.FC<ValuesBannerProps> = (props) => {
 
   const hasHeadline = fields?.Headline?.value || (isEditing && fields?.Headline);
   const hasCta = fields?.CTALink?.value?.href || (isEditing && fields?.CTALink);
-  const hasImage = fields?.BackgroundFallbackImage?.value?.src;
+  const hasImage =
+    fields?.BackgroundFallbackImage?.value?.src ||
+    (isEditing && fields?.BackgroundFallbackImage);
 
   const hasContent = hasHeadline || hasCta || hasImage;
 
@@ -67,8 +69,8 @@ export const Default: React.FC<ValuesBannerProps> = (props) => {
       data-testid="values-banner"
       style={{ minHeight: '400px' }}
     >
-      {/* Background image */}
-      {fields?.BackgroundFallbackImage?.value?.src && (
+      {/* Background image — render in edit mode even when empty so authors can add image */}
+      {hasImage && fields?.BackgroundFallbackImage && (
         <ContentSdkImage
           field={fields.BackgroundFallbackImage}
           fill

@@ -5,6 +5,7 @@ import { Form } from '@sitecore-content-sdk/nextjs';
 
 // end of built-in components
 import * as ValuesBanner from 'src/components/ui/values-banner/ValuesBanner';
+import * as SuccessCase from 'src/components/ui/success-case/SuccessCase';
 import * as StatsBar from 'src/components/ui/stats-bar/StatsBar';
 import * as ServicesNav from 'src/components/ui/services-nav/ServicesNav';
 import * as SectionHeader from 'src/components/ui/section-header/SectionHeader';
@@ -35,6 +36,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['FEaaSWrapper', FEaaSServerWrapper],
   ['Form', { ...Form, componentType: 'client' }],
   ['ValuesBanner', { ...ValuesBanner, componentType: 'client' }],
+  ['SuccessCase', { ...SuccessCase, componentType: 'client' }],
   ['StatsBar', { ...StatsBar, componentType: 'client' }],
   ['ServicesNav', { ...ServicesNav, componentType: 'client' }],
   ['SectionHeader', { ...SectionHeader, componentType: 'client' }],

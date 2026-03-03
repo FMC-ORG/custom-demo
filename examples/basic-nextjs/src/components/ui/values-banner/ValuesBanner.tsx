@@ -73,7 +73,7 @@ export const Default: React.FC<ValuesBannerProps> = (props) => {
           field={fields.BackgroundFallbackImage}
           fill
           className="object-cover"
-          alt={fields?.BackgroundFallbackImage?.value?.alt ?? ''}
+          alt={(fields?.BackgroundFallbackImage?.value?.alt ?? '') as string}
         />
       )}
       {/* Subtle dark overlay */}

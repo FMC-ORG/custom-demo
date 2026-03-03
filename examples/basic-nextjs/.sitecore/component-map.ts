@@ -4,17 +4,17 @@ import { BYOCServerWrapper, NextjsContentSdkComponent, FEaaSServerWrapper } from
 import { Form } from '@sitecore-content-sdk/nextjs';
 
 // end of built-in components
+import * as ValuesBanner from 'src/components/ui/values-banner/ValuesBanner';
 import * as StatsBar from 'src/components/ui/stats-bar/StatsBar';
+import * as ServicesNav from 'src/components/ui/services-nav/ServicesNav';
 import * as SectionHeader from 'src/components/ui/section-header/SectionHeader';
 import * as PromotionalHeader from 'src/components/ui/promotional-header/PromotionalHeader';
+import * as IntroStatement from 'src/components/ui/intro-statement/IntroStatement';
+import * as HeroSlider from 'src/components/ui/hero-slider/HeroSlider';
 import * as Header from 'src/components/ui/header/Header';
 import * as Footer from 'src/components/ui/footer/Footer';
 import * as ContentSplit from 'src/components/ui/content-split/ContentSplit';
-import * as IntroStatement from 'src/components/ui/intro-statement/IntroStatement';
-import * as HeroSlider from 'src/components/ui/hero-slider/HeroSlider';
-import * as ServicesNav from 'src/components/ui/services-nav/ServicesNav';
 import * as CaseHistoryCards from 'src/components/ui/case-history-cards/CaseHistoryCards';
-import * as ValuesBanner from 'src/components/ui/values-banner/ValuesBanner';
 import * as Title from 'src/components/basic/title/Title';
 import * as RowSplitter from 'src/components/basic/row-splitter/RowSplitter';
 import * as RichText from 'src/components/basic/rich-text/RichText';
@@ -34,17 +34,17 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCServerWrapper],
   ['FEaaSWrapper', FEaaSServerWrapper],
   ['Form', { ...Form, componentType: 'client' }],
+  ['ValuesBanner', { ...ValuesBanner, componentType: 'client' }],
   ['StatsBar', { ...StatsBar, componentType: 'client' }],
+  ['ServicesNav', { ...ServicesNav, componentType: 'client' }],
   ['SectionHeader', { ...SectionHeader, componentType: 'client' }],
   ['PromotionalHeader', { ...PromotionalHeader, componentType: 'client' }],
+  ['IntroStatement', { ...IntroStatement, componentType: 'client' }],
+  ['HeroSlider', { ...HeroSlider, componentType: 'client' }],
   ['Header', { ...Header, componentType: 'client' }],
   ['Footer', { ...Footer, componentType: 'client' }],
   ['ContentSplit', { ...ContentSplit, componentType: 'client' }],
-  ['IntroStatement', { ...IntroStatement, componentType: 'client' }],
-  ['HeroSlider', { ...HeroSlider, componentType: 'client' }],
-  ['ServicesNav', { ...ServicesNav, componentType: 'client' }],
   ['CaseHistoryCards', { ...CaseHistoryCards, componentType: 'client' }],
-  ['ValuesBanner', { ...ValuesBanner, componentType: 'client' }],
   ['Title', { ...Title }],
   ['RowSplitter', { ...RowSplitter }],
   ['RichText', { ...RichText }],

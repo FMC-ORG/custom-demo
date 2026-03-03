@@ -82,7 +82,7 @@ export const Default: React.FC<ServicesNavProps> = (props) => {
             field={bgImage}
             fill
             className="object-cover"
-            alt={bgImage?.value?.alt ?? ''}
+            alt={(bgImage?.value?.alt ?? '') as string}
           />
         ) : (
           <div className="absolute inset-0 bg-vg-dark" />

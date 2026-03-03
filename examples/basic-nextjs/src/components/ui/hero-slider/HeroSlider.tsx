@@ -126,7 +126,7 @@ export const Default: React.FC<HeroSliderProps> = (props) => {
                 fill
                 className="object-cover"
                 priority={idx === 0}
-                alt={img.value?.alt ?? ''}
+                alt={(img.value?.alt ?? '') as string}
               />
             )}
             {/* Fallback bg color */}

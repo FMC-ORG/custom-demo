@@ -117,7 +117,7 @@ export const Default: React.FC<CaseHistoryCardsProps> = (props) => {
                       field={img}
                       fill
                       className="object-cover"
-                      alt={img?.value?.alt ?? client?.value ?? ''}
+                      alt={(img?.value?.alt ?? client?.value ?? '') as string}
                     />
                   ) : (
                     <div className="flex h-full items-center justify-center bg-vg-surface">

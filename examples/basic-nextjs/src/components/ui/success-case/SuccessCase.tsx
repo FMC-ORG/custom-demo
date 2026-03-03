@@ -12,7 +12,13 @@ import {
   useSitecore,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
-import { ArrowRight, Share2 } from 'lucide-react';
+import {
+  ArrowRight,
+  Facebook,
+  Linkedin,
+  Mail,
+  Link2,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 /** SuccessCaseSection child item from GraphQL */
@@ -23,11 +29,6 @@ interface SuccessCaseSectionItem {
   sectionLogo?: { jsonValue?: ImageField };
 }
 
-/** Social link item from multilist (if used) */
-interface SocialLinkItem {
-  link?: { jsonValue?: LinkField };
-}
-
 /** SuccessCase datasource — GraphQL shape with jsonValue */
 interface SuccessCaseFields {
   data?: {
@@ -35,10 +36,6 @@ interface SuccessCaseFields {
       heroBackgroundImage?: { jsonValue?: ImageField };
       categoryTags?: { jsonValue?: Field<string> };
       mainTitle?: { jsonValue?: Field<string> };
-      /** Rich Text (HTML links) or multilist results */
-      socialLinks?:
-        | { jsonValue?: Field<string> }
-        | { results?: SocialLinkItem[] };
       quoteText?: { jsonValue?: Field<string> };
       quoteAttribution?: { jsonValue?: Field<string> };
       ctaLabel?: { jsonValue?: Field<string> };
@@ -48,6 +45,21 @@ interface SuccessCaseFields {
       };
     };
   };
+}
+
+/** X (Twitter) icon — Lucide has no X icon, use minimal SVG */
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden
+    >
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
 }
 
 interface SuccessCaseProps extends ComponentProps {
@@ -69,15 +81,6 @@ export const Default: React.FC<SuccessCaseProps> = (props) => {
   const heroImage = datasource?.heroBackgroundImage?.jsonValue;
   const categoryTags = datasource?.categoryTags?.jsonValue;
   const mainTitle = datasource?.mainTitle?.jsonValue;
-  const socialLinksRaw = datasource?.socialLinks;
-  const socialLinksList: SocialLinkItem[] =
-    socialLinksRaw && 'results' in socialLinksRaw
-      ? ((socialLinksRaw as { results?: SocialLinkItem[] }).results ?? [])
-      : [];
-  const socialLinksRichText: Field<string> | undefined =
-    socialLinksRaw && 'jsonValue' in socialLinksRaw
-      ? (socialLinksRaw as { jsonValue?: Field<string> }).jsonValue
-      : undefined;
   const quoteText = datasource?.quoteText?.jsonValue;
   const quoteAttribution = datasource?.quoteAttribution?.jsonValue;
   const ctaLabel = datasource?.ctaLabel?.jsonValue;
@@ -165,42 +168,50 @@ export const Default: React.FC<SuccessCaseProps> = (props) => {
               <ContentSdkRichText field={mainTitle} />
             </div>
           )}
-          {/* Social share icons — multilist of links or Rich Text */}
-          {(socialLinksList.length > 0 ||
-            socialLinksRichText?.value ||
-            (isEditing && (socialLinksList.length > 0 || socialLinksRichText))) && (
-            <div className="mt-6 flex items-center justify-center gap-2">
-              {socialLinksList.length > 0 ? (
-                socialLinksList.map((item, idx) => {
-                  const link = item?.link?.jsonValue;
-                  if (!link && !isEditing) return null;
-                  return (
-                    (link?.value?.href || (isEditing && link)) &&
-                    link && (
-                      <ContentSdkLink
-                        key={idx}
-                        field={link}
-                        editable={isEditing}
-                        className="flex h-9 w-9 items-center justify-center rounded bg-white/20 text-white transition hover:bg-white/30"
-                        aria-label={link?.value?.text ?? 'Share'}
-                      >
-                        <Share2 className="h-4 w-4" aria-hidden />
-                      </ContentSdkLink>
-                    )
-                  );
-                })
-              ) : (socialLinksRichText?.value || (isEditing && socialLinksRichText)) &&
-                socialLinksRichText ? (
-                <div className="field-sociallinks [&_a]:text-white [&_a]:no-underline [&_a:hover]:underline">
-                  <ContentSdkRichText field={socialLinksRichText} />
-                </div>
-              ) : (
-                isEditing && (
-                  <span className="text-xs text-white/60">[social links]</span>
-                )
-              )}
-            </div>
-          )}
+          {/* Hardcoded social share icons */}
+          <div className="mt-6 flex items-center justify-center gap-2">
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-9 w-9 items-center justify-center rounded bg-white/20 text-white transition hover:bg-white/30"
+              aria-label="Share on Facebook"
+            >
+              <Facebook className="h-4 w-4" aria-hidden />
+            </a>
+            <a
+              href="https://www.linkedin.com/sharing/share-offsite/?url="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-9 w-9 items-center justify-center rounded bg-white/20 text-white transition hover:bg-white/30"
+              aria-label="Share on LinkedIn"
+            >
+              <Linkedin className="h-4 w-4" aria-hidden />
+            </a>
+            <a
+              href="https://twitter.com/intent/tweet?url="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-9 w-9 items-center justify-center rounded bg-white/20 text-white transition hover:bg-white/30"
+              aria-label="Share on X"
+            >
+              <XIcon className="h-4 w-4" />
+            </a>
+            <a
+              href="mailto:?subject=&body="
+              className="flex h-9 w-9 items-center justify-center rounded bg-white/20 text-white transition hover:bg-white/30"
+              aria-label="Share via Email"
+            >
+              <Mail className="h-4 w-4" aria-hidden />
+            </a>
+            <a
+              href="#"
+              className="flex h-9 w-9 items-center justify-center rounded bg-white/20 text-white transition hover:bg-white/30"
+              aria-label="Copy link"
+            >
+              <Link2 className="h-4 w-4" aria-hidden />
+            </a>
+          </div>
         </div>
       </section>
 

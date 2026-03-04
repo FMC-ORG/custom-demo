@@ -10,10 +10,11 @@ module.exports = {
         sans: ['var(--font-open-sans)', 'Open Sans', 'Arial', 'Helvetica', 'sans-serif'],
       },
       colors: {
-        'saga-navy': '#1B2A6B',
-        'saga-light-blue': '#E8F4F8',
-        'saga-teal': '#A8D8D8',
-        'saga-dark-navy': '#0F1B4D',
+        'vargroup-blue': '#0066FF',
+        'vargroup-green': '#2EAA6C',
+        'vargroup-gray': '#6B7280',
+        'vargroup-light-gray': '#F3F4F6',
+        'vargroup-dark': '#1A1A1A',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

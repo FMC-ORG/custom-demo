@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__marketer__get_content_item_by_path",
+      "mcp__marketer__search_site",
+      "mcp__marketer__create_content_item",
+      "mcp__marketer__update_fields_on_content_item",
+      "Bash(node:*)",
+      "Bash(xargs cat:*)",
+      "mcp__marketer__upload_asset",
+      "mcp__marketer__list_components",
+      "mcp__marketer__update_content",
+      "Bash(sed:*)",
+      "Bash(git push:*)",
+      "mcp__marketer__add_component_on_page",
+      "mcp__marketer__set_component_datasource",
+      "mcp__marketer__get_components_on_page",
+      "mcp__marketer__get_page_preview_url",
+      "Bash(npm run:*)",
+      "mcp__marketer__delete_content"
+    ]
+  }
+}

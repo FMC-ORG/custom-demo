@@ -104,7 +104,7 @@ create_content_item(
 )
 ```
 
-**Save the returned `itemId`** - you'll need it for Steps 3 and 4.
+**Save the returned `itemId`** - you'll need it for Steps 3, 4, and 5.
 
 ---
 
@@ -139,35 +139,67 @@ create_content_item(
 
 ---
 
-### Step 5: Document Path for Reuse
+### Step 5: Document Both Path and GUID for Reuse
 
-**Generic Rendering Parameters template path:**
+**Generic Rendering Parameters template:**
+
+**Path (for documentation):**
 ```
 /sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Generic Rendering Parameters
 ```
 
-**Save this path** - you'll use it for EVERY rendering's `Parameters Template` field.
+**GUID (for MCP operations):**
+```
+{TEMPLATE-ID-FROM-STEP-2}
+```
+
+**IMPORTANT:** Save the GUID from Step 2 when you create the template. You'll need it for:
+- Setting Parameters Template field on renderings
+- Updating renderings via update_fields_on_content_item
+
+**Example:**
+```
+# Step 2 returns itemId:
+{
+  "itemId": "E211F6A3-C549-41D1-9A02-F5523415DA7A",
+  ...
+}
+
+# Save this GUID for all future rendering updates
+```
+
+**Do NOT use path string in MCP operations** - it won't work.
 
 ---
 
 ## Using Generic Rendering Parameters on Renderings
 
-When creating ANY rendering, set the `Parameters Template` field:
+When creating ANY rendering, set the `Parameters Template` field to the **GUID**, not the path:
 
 ```
-update_content(
+update_fields_on_content_item(
   itemId="<rendering-id>",
-  siteName="<site-name>",
   fields={
     "componentName": "component-name",
     "Datasource Template": "/sitecore/templates/Project/fmc-custom-demo/Components/.../ComponentName",
     "Datasource Location": "query:...",
     "AddFieldEditorButton": "1",
-    "Parameters Template": "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Generic Rendering Parameters",
+    "Parameters Template": "{GENERIC-RENDERING-PARAMS-GUID}",  # Use GUID
     "ComponentQuery": "..." # if parent/child
   }
 )
 ```
+
+**Path string format will not work:**
+```
+# ❌ WRONG - will cause errors
+"Parameters Template": "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Generic Rendering Parameters"
+
+# ✅ CORRECT - use GUID
+"Parameters Template": "{E211F6A3-C549-41D1-9A02-F5523415DA7A}"
+```
+
+**Why:** MCP update_fields_on_content_item expects template ID format, not path.
 
 **This enables:**
 - ✅ Variant selector dropdown in Pages editor
@@ -211,6 +243,8 @@ create_content_item(
   parentId="<rendering-parameters-folder-id>"
 )
 ```
+
+**Save the returned itemId** - you'll need it for all subsequent steps.
 
 ---
 
@@ -272,17 +306,18 @@ Set default values for custom fields if needed.
 
 ---
 
-### Step 6: Use Custom Template on Rendering
+### Step 6: Use Custom Template on Rendering (GUID Format)
 
 ```
-update_content(
+update_fields_on_content_item(
   itemId="<rendering-id>",
-  siteName="<site-name>",
   fields={
-    "Parameters Template": "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Component Name Parameters"
+    "Parameters Template": "{CUSTOM-PARAMETERS-TEMPLATE-ID}"
   }
 )
 ```
+
+**Use the GUID from Step 1, not a path string.**
 
 ---
 
@@ -323,7 +358,7 @@ const autoplaySpeed = props.params.autoplaySpeed;  // Custom field
 ### No Variant Dropdown in Pages Editor
 
 **Cause:** Rendering missing `Parameters Template` field
-**Fix:** Set `Parameters Template` to Generic Rendering Parameters path
+**Fix:** Set `Parameters Template` to Generic Rendering Parameters GUID (not path)
 
 ---
 
@@ -348,6 +383,22 @@ const autoplaySpeed = props.params.autoplaySpeed;  // Custom field
 
 ---
 
+### "Template doesn't exist" Error When Adding Component to Page
+
+**Cause:** Parameters Template field set to path string instead of GUID
+**Fix:** Update rendering to use GUID format:
+
+```
+update_fields_on_content_item(
+  itemId="<rendering-id>",
+  fields={
+    "Parameters Template": "{GENERIC-RENDERING-PARAMS-GUID}"
+  }
+)
+```
+
+---
+
 ## Quick Reference
 
 | Action | Details |
@@ -356,7 +407,8 @@ const autoplaySpeed = props.params.autoplaySpeed;  // Custom field
 | **Location** | `/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/` |
 | **Name** | "Generic Rendering Parameters" |
 | **Base templates** | 4 GUIDs (always the same, pipe-separated) |
-| **Use on rendering** | Set `Parameters Template` field to path |
+| **Save from Step 2** | Template GUID for use in renderings |
+| **Use on rendering** | Set `Parameters Template` field to **GUID** (not path) |
 | **When to use generic** | 99% of components |
 | **When to create custom** | Component needs specific config fields (autoplay, zoom, items-per-row, etc.) |
 | **Without Parameters Template** | Component works, but no variant selection |
@@ -371,14 +423,14 @@ const autoplaySpeed = props.params.autoplaySpeed;  // Custom field
 2. Create Generic Rendering Parameters template
 3. Set 4 base templates (CRITICAL)
 4. Create __Standard Values
-5. Document path for reuse
+5. Save GUID from creation for reuse
 ```
 
 **Per Component (EVERY TIME):**
 ```
 1. Create templates
 2. Create rendering
-3. ⚠️ SET PARAMETERS TEMPLATE ← Generic Rendering Parameters path
+3. ⚠️ SET PARAMETERS TEMPLATE ← Generic Rendering Parameters GUID
 4. Add to Available Renderings
 5. Create datasources
 6. Write code

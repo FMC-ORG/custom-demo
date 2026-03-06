@@ -109,12 +109,116 @@ Add `_HorizonDatasourceGrouping` (`{D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2}`) to *
 
 **Variant dropdown not showing:**
 **Cause 1:** Rendering missing `Parameters Template` field
-**Fix:** Set `Parameters Template` to Generic Rendering Parameters path (see [sitecore-rendering-parameters.md](sitecore-rendering-parameters.md))
+**Fix:** Set `Parameters Template` to Generic Rendering Parameters GUID (see [sitecore-rendering-parameters.md](sitecore-rendering-parameters.md))
 
 **Cause 2:** Missing Variant Definition items at `<site>/Presentation/Headless Variants/<ComponentName>/`. Name must exactly match PascalCase export. `Default` Variant Definition is required.
 
 **Component not appearing after registration:**
 Restart Next.js dev server. Clear `.next` cache if needed.
+
+---
+
+## Build Errors
+
+### TypeScript Build Failures
+
+**Build command:** `cd examples/basic-nextjs && npm run build`
+
+Run this command before marking any component complete. Build errors = non-functional code.
+
+### Error 1: Component Prop Type Errors
+
+**Error message:**
+```
+Property 'fields' does not exist on type 'ComponentProps'
+```
+
+**Cause:** Export functions using generic ComponentProps instead of specific component props interface
+
+**Fix:** Change all export function signatures to use component-specific props:
+```typescript
+// ❌ WRONG
+export const Default = (props: ComponentProps): React.JSX.Element => {
+
+// ✅ CORRECT
+export const Default = (props: HeroBannerProps): React.JSX.Element => {
+```
+
+**Apply to ALL exported variants** (Default, Compact, Centered, etc.) - they all need the specific props type.
+
+**Example fix for multiple variants:**
+```typescript
+// All variant exports need specific props type
+export const Default = (props: FeatureCardsProps): React.JSX.Element => { ... };
+export const FourColumn = (props: FeatureCardsProps): React.JSX.Element => { ... };
+export const TwoColumn = (props: FeatureCardsProps): React.JSX.Element => { ... };
+export const Centered = (props: FeatureCardsProps): React.JSX.Element => { ... };
+```
+
+### Error 2: "Unexpected any" Type Errors
+
+**Error message:**
+```
+Unexpected any. Specify a different type
+```
+
+**Cause:** Interface definitions using `any` for field types
+
+**Fix:** Import JSS Field types and update interfaces:
+```typescript
+// Add to imports
+import { Field, ImageField, LinkField } from '@sitecore-content-sdk/nextjs';
+
+// Update interface
+interface ComponentItem {
+  id: string;
+  title?: { jsonValue?: Field<string> };       // not 'any'
+  image?: { jsonValue?: ImageField };          // not 'any'
+  link?: { jsonValue?: LinkField };            // not 'any'
+  description?: { jsonValue?: Field<string> };
+}
+```
+
+**Required JSS types:**
+- Text fields: `Field<string>`
+- Image fields: `ImageField`
+- Link fields: `LinkField`
+- Rich text fields: `Field<string>`
+
+### Error 3: Module Resolution Errors
+
+**Error message:**
+```
+Module not found: Can't resolve '@sitecore-content-sdk/nextjs/config'
+```
+
+**Cause:** Importing from wrong Content SDK submodule
+
+**Fix:** Only import from main package in components:
+```typescript
+// ✅ CORRECT - client component imports
+import { Text, RichText, Image, Link, Field, ImageField, LinkField, useSitecore } from '@sitecore-content-sdk/nextjs';
+
+// ❌ WRONG - server-only imports
+import { defineConfig } from '@sitecore-content-sdk/nextjs/config';
+import { SitecoreClient } from '@sitecore-content-sdk/nextjs/client';
+```
+
+See CLAUDE.md "Content SDK Import Guidelines" for complete rules.
+
+### Preventing Build Errors
+
+**Best practice workflow:**
+1. Create component file
+2. Register in component-map.ts
+3. **Run `npm run build`** ← Don't skip this
+4. Fix any errors immediately
+5. Re-run build until clean
+6. Mark component complete
+
+**Don't wait until end of project** - fix build errors as you go. Each component should build successfully before moving to the next one.
+
+---
 
 ## Publishing
 

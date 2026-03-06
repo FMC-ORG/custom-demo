@@ -106,7 +106,7 @@ Run once for the whole site (not per section):
 node scripts/fetch-images.js $ARGUMENTS ./screenshots
 ```
 
-Read `/tmp/demo-images/image-map.json` — this gives you every image
+Read `demo/tmp/demo-images/image-map.json` — this gives you every image
 grouped by section with its `localPath`.
 
 ### 2.2 Upload to Media Library via Marketer MCP
@@ -114,7 +114,7 @@ For each image, upload to a folder matching the demo site name:
 
 ```
 Tool: upload_asset
-  localPath:  /tmp/demo-images/[section]/[filename]
+  localPath:  demo/tmp/demo-images/[section]/[filename]
   name:       [descriptive name — no special chars per item naming rules]
   folder:     Custom Demo/[slugified-site-name]/[section]
   tags:       ["custom-demo", "[site-name]", "[section]"]

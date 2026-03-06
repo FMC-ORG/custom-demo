@@ -88,3 +88,140 @@ No `fields` from datasource. Read from `page.layout.sitecore.route.fields`.
 - Rendering HAS ComponentQuery → use `fields.data.datasource`, camelCase, `jsonValue`
 - Rendering has NO ComponentQuery → use `fields.Title`, PascalCase, `.value`
 - No datasource at all → use `page.layout.sitecore.route.fields`
+
+---
+
+## TypeScript Build Validation
+
+### Mandatory Build Check
+
+**Before marking component complete:**
+
+```bash
+cd examples/basic-nextjs
+npm run build
+```
+
+**Build must pass with zero errors.**
+
+### Common Build Errors
+
+#### Error 1: Generic ComponentProps in Exports
+
+**Problem:** Export functions use generic `ComponentProps` which doesn't include component-specific fields.
+
+**Error message:**
+```
+Property 'fields' does not exist on type 'ComponentProps'
+```
+
+**Fix:** Use component-specific props interface:
+
+```typescript
+// ❌ WRONG
+export const Default = (props: ComponentProps): React.JSX.Element => {
+  const { page } = useSitecore();
+  const { isEditing } = page.mode;
+  if (!props.fields?.data?.datasource) {  // Error here
+    return <DefaultComponent {...props} />;
+  }
+  return <ComponentDefault {...props} isPageEditing={isEditing} />;
+};
+
+// ✅ CORRECT
+export const Default = (props: ComponentNameProps): React.JSX.Element => {
+  const { page } = useSitecore();
+  const { isEditing } = page.mode;
+  if (!props.fields?.data?.datasource) {
+    return <DefaultComponent {...props} />;
+  }
+  return <ComponentDefault {...props} isPageEditing={isEditing} />;
+};
+```
+
+**Apply to ALL export functions** (Default, Variant1, Variant2, etc.)
+
+#### Error 2: Missing JSS Field Types
+
+**Problem:** Interface uses `any` type instead of proper JSS Field types.
+
+**Error message:**
+```
+Unexpected any. Specify a different type
+```
+
+**Fix:** Import and use proper types:
+
+```typescript
+// Add to imports
+import { Text, Image as JssImage, Link as JssLink, useSitecore, Field, ImageField, LinkField } from '@sitecore-content-sdk/nextjs';
+
+// Update interface
+interface ComponentItem {
+  id: string;
+  title?: { jsonValue?: Field<string> };       // not 'any'
+  image?: { jsonValue?: ImageField };          // not 'any'
+  link?: { jsonValue?: LinkField };            // not 'any'
+  description?: { jsonValue?: Field<string> };
+}
+```
+
+**Required types:**
+- Text fields: `Field<string>`
+- Image fields: `ImageField`
+- Link fields: `LinkField`
+- Rich text fields: `Field<string>`
+
+#### Error 3: Import from Wrong Submodule
+
+**Problem:** Importing from server-only submodules in client components.
+
+**Error message:**
+```
+Module not found: Can't resolve '@sitecore-content-sdk/nextjs/config'
+```
+
+**Fix:** Only use main package in components:
+
+```typescript
+// ✅ CORRECT - client component imports
+import { Text, RichText, Image, Link, Field, ImageField, LinkField, useSitecore } from '@sitecore-content-sdk/nextjs';
+
+// ❌ WRONG - server-only imports
+import { defineConfig } from '@sitecore-content-sdk/nextjs/config';
+import { SitecoreClient } from '@sitecore-content-sdk/nextjs/client';
+```
+
+See CLAUDE.md "Content SDK Import Guidelines" for complete rules.
+
+### Build Workflow
+
+**Recommended workflow:**
+
+1. Create component file
+2. Register in component-map.ts
+3. **Run `npm run build`**
+4. Fix any errors
+5. Re-run build until clean
+6. Mark component complete
+
+**Do NOT skip build validation** - non-building code is non-functional code.
+
+### Integration with Component Development Workflow
+
+**Updated workflow with build validation:**
+```
+1. Discover site structure
+2. Create Sitecore templates + __Standard Values
+3. Create rendering definition + set Parameters Template
+4. Add to Available Renderings
+5. Create datasource folders
+6. Write React component code
+7. Register in component-map.ts
+8. ⚠️ RUN BUILD AND FIX ERRORS ← NEW MANDATORY STEP
+9. Create variants (if needed)
+10. Create sample content
+11. Publish & test in Pages editor
+```
+
+**This prevents deploying non-functional code.**

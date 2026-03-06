@@ -8,7 +8,7 @@
  *   1. Try plain fetch to extract <img> src and CSS background-image URLs
  *   2. If fetch returns incomplete HTML (no <img> tags found), fall back to
  *      scanning the local screenshots/ folder for manually captured images
- *   3. Download each image to /tmp/demo-images/[section]/
+ *   3. Download each image to demo/tmp/demo-images/[section]/
  *   4. Output image-map.json mapping { section, localPath, sourceUrl, alt }
  * 
  * Usage:
@@ -19,8 +19,8 @@
  *   node scripts/fetch-images.js https://example.com ./screenshots
  * 
  * Output:
- *   /tmp/demo-images/image-map.json
- *   /tmp/demo-images/[section]/[filename].[ext]
+ *   demo/tmp/demo-images/image-map.json
+ *   demo/tmp/demo-images/[section]/[filename].[ext]
  */
 
 const https = require('https');
@@ -33,7 +33,7 @@ const { URL } = require('url');
 
 const domain = process.argv[2];
 const screenshotsFolder = process.argv[3] || './screenshots';
-const outputDir = '/tmp/demo-images';
+const outputDir = path.join(process.cwd(), 'demo', 'tmp', 'demo-images');
 const imageMapPath = path.join(outputDir, 'image-map.json');
 
 const MIN_IMAGES_FROM_FETCH = 3; // If fetch returns fewer than this, use fallback

@@ -9,11 +9,10 @@ import * as SectionHeader from 'src/components/ui/section-header/SectionHeader';
 import * as PromotionalHeader from 'src/components/ui/promotional-header/PromotionalHeader';
 import * as Header from 'src/components/ui/header/Header';
 import * as Footer from 'src/components/ui/footer/Footer';
+import * as featurecards from 'src/components/ui/feature-cards/feature-cards';
+import * as ctabanner from 'src/components/ui/cta-banner/cta-banner';
 import * as ContentSplit from 'src/components/ui/content-split/ContentSplit';
-import * as HeroBanner from 'src/components/ui/hero-banner/hero-banner';
-import * as FeatureCards from 'src/components/ui/feature-cards/feature-cards';
-import * as ContentCards from 'src/components/ui/content-cards/content-cards';
-import * as CtaBanner from 'src/components/ui/cta-banner/cta-banner';
+import * as contentcards from 'src/components/ui/content-cards/content-cards';
 import * as Title from 'src/components/basic/title/Title';
 import * as RowSplitter from 'src/components/basic/row-splitter/RowSplitter';
 import * as RichText from 'src/components/basic/rich-text/RichText';
@@ -38,11 +37,10 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['PromotionalHeader', { ...PromotionalHeader, componentType: 'client' }],
   ['Header', { ...Header, componentType: 'client' }],
   ['Footer', { ...Footer, componentType: 'client' }],
+  ['feature-cards', { ...featurecards, componentType: 'client' }],
+  ['cta-banner', { ...ctabanner, componentType: 'client' }],
   ['ContentSplit', { ...ContentSplit, componentType: 'client' }],
-  ['hero-banner', { ...HeroBanner, componentType: 'client' }],
-  ['feature-cards', { ...FeatureCards, componentType: 'client' }],
-  ['content-cards', { ...ContentCards, componentType: 'client' }],
-  ['cta-banner', { ...CtaBanner, componentType: 'client' }],
+  ['content-cards', { ...contentcards, componentType: 'client' }],
   ['Title', { ...Title }],
   ['RowSplitter', { ...RowSplitter }],
   ['RichText', { ...RichText }],

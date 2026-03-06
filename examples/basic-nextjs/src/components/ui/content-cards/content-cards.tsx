@@ -1,24 +1,24 @@
 'use client';
 import type React from 'react';
-import { Text, Image as JssImage, Link as JssLink, useSitecore } from '@sitecore-content-sdk/nextjs';
+import { Text, Image as JssImage, Link as JssLink, useSitecore, Field, ImageField, LinkField } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from '@/lib/component-props';
 
 interface ContentCardsParams {
-  [key: string]: string; // eslint-disable-line
+  [key: string]: string;
 }
 
 interface ContentCardItem {
   id: string;
-  title?: { jsonValue?: any };
-  image?: { jsonValue?: any };
-  description?: { jsonValue?: any };
-  link?: { jsonValue?: any };
-  badgeText?: { jsonValue?: any };
+  title?: { jsonValue?: Field<string> };
+  image?: { jsonValue?: ImageField };
+  description?: { jsonValue?: Field<string> };
+  link?: { jsonValue?: LinkField };
+  badgeText?: { jsonValue?: Field<string> };
 }
 
 interface ContentCardsFields {
-  sectionTitle?: { jsonValue?: any };
-  sectionDescription?: { jsonValue?: any };
+  sectionTitle?: { jsonValue?: Field<string> };
+  sectionDescription?: { jsonValue?: Field<string> };
   children?: {
     results?: ContentCardItem[];
   };
@@ -316,7 +316,7 @@ const ContentCardsMinimal = (props: ContentCardsProps): React.JSX.Element => {
   );
 };
 
-export const Default = (props: ComponentProps): React.JSX.Element => {
+export const Default = (props: ContentCardsProps): React.JSX.Element => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
 
@@ -327,7 +327,7 @@ export const Default = (props: ComponentProps): React.JSX.Element => {
   return <ContentCardsDefault {...props} isPageEditing={isEditing} />;
 };
 
-export const TwoColumn = (props: ComponentProps): React.JSX.Element => {
+export const TwoColumn = (props: ContentCardsProps): React.JSX.Element => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
 
@@ -338,7 +338,7 @@ export const TwoColumn = (props: ComponentProps): React.JSX.Element => {
   return <ContentCardsTwoColumn {...props} isPageEditing={isEditing} />;
 };
 
-export const Overlay = (props: ComponentProps): React.JSX.Element => {
+export const Overlay = (props: ContentCardsProps): React.JSX.Element => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
 
@@ -349,7 +349,7 @@ export const Overlay = (props: ComponentProps): React.JSX.Element => {
   return <ContentCardsOverlay {...props} isPageEditing={isEditing} />;
 };
 
-export const Minimal = (props: ComponentProps): React.JSX.Element => {
+export const Minimal = (props: ContentCardsProps): React.JSX.Element => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
 

@@ -49,3 +49,5 @@ packages/
 
 # VS Code settings
 .vscode/
+
+demo/

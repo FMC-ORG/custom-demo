@@ -130,7 +130,7 @@ const CtaBannerGreen = (props: CtaBannerProps): React.JSX.Element => {
   );
 };
 
-export const Default = (props: ComponentProps): React.JSX.Element => {
+export const Default = (props: CtaBannerProps): React.JSX.Element => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
 
@@ -141,7 +141,7 @@ export const Default = (props: ComponentProps): React.JSX.Element => {
   return <CtaBannerDefault {...props} isPageEditing={isEditing} />;
 };
 
-export const Light = (props: ComponentProps): React.JSX.Element => {
+export const Light = (props: CtaBannerProps): React.JSX.Element => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
 
@@ -152,7 +152,7 @@ export const Light = (props: ComponentProps): React.JSX.Element => {
   return <CtaBannerLight {...props} isPageEditing={isEditing} />;
 };
 
-export const Green = (props: ComponentProps): React.JSX.Element => {
+export const Green = (props: CtaBannerProps): React.JSX.Element => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
 

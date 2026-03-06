@@ -1,23 +1,23 @@
 'use client';
 import type React from 'react';
-import { Text, Image as JssImage, Link as JssLink, useSitecore } from '@sitecore-content-sdk/nextjs';
+import { Text, Image as JssImage, Link as JssLink, useSitecore, Field, ImageField, LinkField } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from '@/lib/component-props';
 
 interface FeatureCardsParams {
-  [key: string]: string; // eslint-disable-line
+  [key: string]: string;
 }
 
 interface FeatureCardItem {
   id: string;
-  featureIcon?: { jsonValue?: any };
-  featureTitle?: { jsonValue?: any };
-  featureDescription?: { jsonValue?: any };
-  featureLink?: { jsonValue?: any };
+  featureIcon?: { jsonValue?: ImageField };
+  featureTitle?: { jsonValue?: Field<string> };
+  featureDescription?: { jsonValue?: Field<string> };
+  featureLink?: { jsonValue?: LinkField };
 }
 
 interface FeatureCardsFields {
-  sectionTitle?: { jsonValue?: any };
-  sectionDescription?: { jsonValue?: any };
+  sectionTitle?: { jsonValue?: Field<string> };
+  sectionDescription?: { jsonValue?: Field<string> };
   children?: {
     results?: FeatureCardItem[];
   };
@@ -287,7 +287,7 @@ const FeatureCardsCentered = (props: FeatureCardsProps): React.JSX.Element => {
   );
 };
 
-export const Default = (props: ComponentProps): React.JSX.Element => {
+export const Default = (props: FeatureCardsProps): React.JSX.Element => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
 
@@ -298,7 +298,7 @@ export const Default = (props: ComponentProps): React.JSX.Element => {
   return <FeatureCardsDefault {...props} isPageEditing={isEditing} />;
 };
 
-export const FourColumn = (props: ComponentProps): React.JSX.Element => {
+export const FourColumn = (props: FeatureCardsProps): React.JSX.Element => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
 
@@ -309,7 +309,7 @@ export const FourColumn = (props: ComponentProps): React.JSX.Element => {
   return <FeatureCardsFourColumn {...props} isPageEditing={isEditing} />;
 };
 
-export const TwoColumn = (props: ComponentProps): React.JSX.Element => {
+export const TwoColumn = (props: FeatureCardsProps): React.JSX.Element => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
 
@@ -320,7 +320,7 @@ export const TwoColumn = (props: ComponentProps): React.JSX.Element => {
   return <FeatureCardsTwoColumn {...props} isPageEditing={isEditing} />;
 };
 
-export const Centered = (props: ComponentProps): React.JSX.Element => {
+export const Centered = (props: FeatureCardsProps): React.JSX.Element => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
 

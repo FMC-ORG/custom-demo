@@ -2,7 +2,6 @@
 
 import React, { useState, JSX } from 'react';
 import {
-  Link as ContentSdkLink,
   NextImage as ContentSdkImage,
   Text,
   ImageField,
@@ -13,7 +12,11 @@ import {
 import { ComponentProps } from 'lib/component-props';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { LanguageSwitcher } from '@/components/ui/language-switcher/LanguageSwitcher';
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
+import { routing } from 'src/i18n/routing';
 
 /** GraphQL returns { id, link { jsonValue } }; default JSS may use field.link */
 interface HeaderNavItemResult {
@@ -57,6 +60,8 @@ export const Default = ({ params, fields }: HeaderProps): JSX.Element => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
   const { styles = '', RenderingIdentifier: id } = params;
+  const { locale } = useParams<{ locale?: string }>();
+  const currentLocale = (locale as string) ?? routing.defaultLocale;
 
   const datasource = fields?.data?.datasource ?? fields;
   // Support GraphQL camelCase (jsonValue) and default JSS PascalCase (value)
@@ -117,7 +122,7 @@ export const Default = ({ params, fields }: HeaderProps): JSX.Element => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo and Site Name */}
           <Link
-            href="/"
+            href={`/${currentLocale}`}
             className="flex flex-shrink-0 items-center gap-2"
             aria-label={siteNameField?.value?.toString() ?? 'Home'}
           >
@@ -145,7 +150,7 @@ export const Default = ({ params, fields }: HeaderProps): JSX.Element => {
           {/* Desktop Navigation */}
           <nav className="hidden items-center gap-8 md:flex">
             {navLinks.map(({ key, field }) => (
-              <ContentSdkLink
+              <LocaleAwareLink
                 key={key}
                 field={field}
                 editable={isEditing}
@@ -154,22 +159,23 @@ export const Default = ({ params, fields }: HeaderProps): JSX.Element => {
             ))}
           </nav>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons + Language Switcher */}
           <div className="hidden items-center gap-3 md:flex">
             {(secondaryCtaField?.value?.href || (isEditing && secondaryCtaField)) && (
-              <ContentSdkLink
+              <LocaleAwareLink
                 field={secondaryCtaField}
                 editable={isEditing}
                 className="rounded-md border border-border bg-background px-4 py-2 text-sm font-semibold text-foreground hover:bg-muted"
               />
             )}
             {(primaryCtaField?.value?.href || (isEditing && primaryCtaField)) && (
-              <ContentSdkLink
+              <LocaleAwareLink
                 field={primaryCtaField}
                 editable={isEditing}
                 className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
               />
             )}
+            <LanguageSwitcher isEditing={isEditing} />
           </div>
 
           {/* Mobile menu button */}
@@ -190,7 +196,7 @@ export const Default = ({ params, fields }: HeaderProps): JSX.Element => {
         <div className="border-t border-border bg-background md:hidden">
           <div className="flex flex-col gap-4 px-4 py-4">
             {navLinks.map(({ key, field }) => (
-              <ContentSdkLink
+              <LocaleAwareLink
                 key={key}
                 field={field}
                 editable={isEditing}
@@ -199,7 +205,7 @@ export const Default = ({ params, fields }: HeaderProps): JSX.Element => {
               />
             ))}
             {(secondaryCtaField?.value?.href || (isEditing && secondaryCtaField)) && (
-              <ContentSdkLink
+              <LocaleAwareLink
                 field={secondaryCtaField}
                 editable={isEditing}
                 className="rounded-md border border-border bg-background px-4 py-2 text-sm font-semibold text-foreground w-fit"
@@ -207,13 +213,14 @@ export const Default = ({ params, fields }: HeaderProps): JSX.Element => {
               />
             )}
             {(primaryCtaField?.value?.href || (isEditing && primaryCtaField)) && (
-              <ContentSdkLink
+              <LocaleAwareLink
                 field={primaryCtaField}
                 editable={isEditing}
                 className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground w-fit"
                 onClick={() => setMobileMenuOpen(false)}
               />
             )}
+            <LanguageSwitcher isEditing={isEditing} className="pt-1 border-t border-border" />
           </div>
         </div>
       )}

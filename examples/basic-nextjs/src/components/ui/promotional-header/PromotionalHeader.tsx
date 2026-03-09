@@ -1,7 +1,8 @@
 'use client';
 
 import React, { JSX } from 'react';
-import { Link as ContentSdkLink, Text, Field, LinkField, useSitecore } from '@sitecore-content-sdk/nextjs';
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
+import { Text, Field, LinkField, useSitecore } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -69,14 +70,14 @@ export const Default = ({ params, fields }: PromotionalHeaderProps): JSX.Element
         </div>
         <div className="ml-4 flex-shrink-0">
           {(ctaLink?.value?.href || (isEditing && ctaLink)) && (
-            <ContentSdkLink
+            <LocaleAwareLink
               field={ctaLink}
               editable={isEditing}
               className="inline-flex items-center gap-1 font-medium hover:underline"
             >
               {ctaLink?.value?.text ?? ''}
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </ContentSdkLink>
+            </LocaleAwareLink>
           )}
         </div>
       </div>

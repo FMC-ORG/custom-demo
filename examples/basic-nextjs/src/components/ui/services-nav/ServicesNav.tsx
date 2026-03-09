@@ -1,8 +1,8 @@
 'use client';
 
 import type React from 'react';
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
 import {
-  Link as ContentSdkLink,
   NextImage as ContentSdkImage,
   RichText as ContentSdkRichText,
   Field,
@@ -121,14 +121,14 @@ export const Default: React.FC<ServicesNavProps> = (props) => {
                   </span>
                 )}
                 {(link?.value?.href || (isEditing && link)) && link && (
-                  <ContentSdkLink
+                  <LocaleAwareLink
                     field={link}
                     editable={isEditing}
                     className="absolute bottom-4 right-4 text-[#1d4ed8] text-sm"
                     aria-label={label?.value ?? 'Service link'}
                   >
                     <ArrowRight className="h-4 w-4" aria-hidden />
-                  </ContentSdkLink>
+                  </LocaleAwareLink>
                 )}
               </div>
             );

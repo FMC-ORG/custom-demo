@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link as ContentSdkLink, Text, LinkField, TextField } from '@sitecore-content-sdk/nextjs';
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
+import { Text, LinkField, TextField } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 
 interface LinkListProps extends ComponentProps {
@@ -45,7 +46,7 @@ const LinkListItem = ({
   return (
     <li className={classNames}>
       <div className="field-link">
-        <ContentSdkLink field={field} />
+        <LocaleAwareLink field={field} />
       </div>
     </li>
   );

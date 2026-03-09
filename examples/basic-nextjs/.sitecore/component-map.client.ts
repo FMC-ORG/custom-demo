@@ -9,6 +9,8 @@ import * as StatsBar from 'src/components/ui/stats-bar/StatsBar';
 import * as ServicesNav from 'src/components/ui/services-nav/ServicesNav';
 import * as SectionHeader from 'src/components/ui/section-header/SectionHeader';
 import * as PromotionalHeader from 'src/components/ui/promotional-header/PromotionalHeader';
+import * as LocaleAwareLink from 'src/components/ui/locale-link/LocaleAwareLink';
+import * as LanguageSwitcher from 'src/components/ui/language-switcher/LanguageSwitcher';
 import * as IntroStatement from 'src/components/ui/intro-statement/IntroStatement';
 import * as HeroSlider from 'src/components/ui/hero-slider/HeroSlider';
 import * as Header from 'src/components/ui/header/Header';
@@ -31,6 +33,8 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['ServicesNav', { ...ServicesNav }],
   ['SectionHeader', { ...SectionHeader }],
   ['PromotionalHeader', { ...PromotionalHeader }],
+  ['LocaleAwareLink', { ...LocaleAwareLink }],
+  ['LanguageSwitcher', { ...LanguageSwitcher }],
   ['IntroStatement', { ...IntroStatement }],
   ['HeroSlider', { ...HeroSlider }],
   ['Header', { ...Header }],

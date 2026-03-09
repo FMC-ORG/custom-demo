@@ -1,8 +1,8 @@
 'use client';
 
 import type React from 'react';
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
 import {
-  Link as ContentSdkLink,
   NextImage as ContentSdkImage,
   RichText as ContentSdkRichText,
   Text,
@@ -133,6 +133,7 @@ export const Default: React.FC<SuccessCaseProps> = (props) => {
             field={heroImage}
             editable={isEditing}
             fill
+            imageParams={{ t: 'scbanner' }}
             className="object-cover"
             alt={(heroImage?.value?.alt ?? '') as string}
           />
@@ -298,14 +299,14 @@ export const Default: React.FC<SuccessCaseProps> = (props) => {
       {(ctaLink?.value?.href || (isEditing && ctaLink)) && ctaLink && (
         <section className="success-case-cta bg-white py-12">
           <div className="mx-auto max-w-7xl px-4 text-center">
-            <ContentSdkLink
+            <LocaleAwareLink
               field={ctaLink}
               editable={isEditing}
               className="inline-flex items-center gap-2 text-sm font-medium text-[#1d4ed8] underline-offset-4 hover:underline"
             >
               {ctaLabel?.value || ctaLink?.value?.text || 'Contact us to learn more'}
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </ContentSdkLink>
+            </LocaleAwareLink>
           </div>
         </section>
       )}

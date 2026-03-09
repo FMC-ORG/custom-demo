@@ -1,10 +1,10 @@
 'use client';
 
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
 import {
   Field,
   ImageField,
   NextImage as ContentSdkImage,
-  Link as ContentSdkLink,
   LinkField,
   Text,
   useSitecore,
@@ -111,9 +111,9 @@ export const Default: React.FC<ImageProps> = (props) => {
     <ImageWrapper className={`component image ${styles}`} id={id}>
       {hasImage && fields.Image ? (
         shouldWrapWithLink ? (
-          <ContentSdkLink field={fields.TargetUrl}>
+          <LocaleAwareLink field={fields.TargetUrl}>
             <ImageComponent />
-          </ContentSdkLink>
+          </LocaleAwareLink>
         ) : (
           <ImageComponent />
         )

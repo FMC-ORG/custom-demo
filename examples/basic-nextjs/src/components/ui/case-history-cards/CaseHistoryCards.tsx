@@ -1,8 +1,8 @@
 'use client';
 
 import type React from 'react';
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
 import {
-  Link as ContentSdkLink,
   NextImage as ContentSdkImage,
   RichText as ContentSdkRichText,
   Text,
@@ -88,13 +88,13 @@ export const Default: React.FC<CaseHistoryCardsProps> = (props) => {
               <ContentSdkRichText field={sectionLabel} />
             </div>
             {(sectionCTALink?.value?.href || (isEditing && sectionCTALink)) && sectionCTALink && (
-              <ContentSdkLink
+              <LocaleAwareLink
                 field={sectionCTALink}
                 editable={isEditing}
                 className="text-sm text-[#1d4ed8] underline-offset-4 hover:underline mt-2 inline-block"
               >
                 {sectionCTALabel?.value || sectionCTALink?.value?.text || ''}
-              </ContentSdkLink>
+              </LocaleAwareLink>
             )}
           </div>
         )}
@@ -137,13 +137,13 @@ export const Default: React.FC<CaseHistoryCardsProps> = (props) => {
                     />
                   )}
                   {(title?.value || (isEditing && title)) && title && link?.value?.href ? (
-                    <ContentSdkLink
+                    <LocaleAwareLink
                       field={link}
                       editable={false}
                       className="field-cardtitle text-sm text-[#1d4ed8] hover:underline mt-1 leading-snug block"
                     >
                       {title.value}
-                    </ContentSdkLink>
+                    </LocaleAwareLink>
                   ) : (
                     (title?.value || (isEditing && title)) && title && (
                       <Text

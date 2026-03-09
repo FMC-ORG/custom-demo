@@ -1,8 +1,8 @@
 'use client';
 
 import React, { JSX } from 'react';
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
 import {
-  Link as ContentSdkLink,
   NextImage as ContentSdkImage,
   Text,
   ImageField,
@@ -199,7 +199,7 @@ export const Default = ({ params, fields }: FooterProps): JSX.Element => {
                 const Icon = getSocialIcon(href);
                 if (!href && !isEditing) return null;
                 return (
-                  <ContentSdkLink
+                  <LocaleAwareLink
                     key={item.id ?? index}
                     field={linkField}
                     editable={isEditing}
@@ -207,7 +207,7 @@ export const Default = ({ params, fields }: FooterProps): JSX.Element => {
                     aria-label={linkField?.value?.text ?? 'Social link'}
                   >
                     {Icon ? <Icon className="h-4 w-4" aria-hidden /> : null}
-                  </ContentSdkLink>
+                  </LocaleAwareLink>
                 );
               })}
             </div>
@@ -238,7 +238,7 @@ export const Default = ({ params, fields }: FooterProps): JSX.Element => {
                   <ul className="flex flex-col gap-2">
                     {linkFields.map((field, i) => (
                       <li key={i}>
-                        <ContentSdkLink
+                        <LocaleAwareLink
                           field={field as LinkField}
                           editable={isEditing}
                           className="text-sm text-muted-foreground hover:text-foreground hover:underline"

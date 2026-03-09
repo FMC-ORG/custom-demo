@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, JSX } from 'react';
-import { Link as ContentSdkLink, LinkField, Text, TextField, useSitecore } from '@sitecore-content-sdk/nextjs';
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
+import { LinkField, Text, TextField, useSitecore } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { Menu, X, User } from "lucide-react"
 import Link from "next/link"
@@ -90,9 +91,9 @@ const NavigationListItem: React.FC<NavigationListItemProps> = ({
         className={`navigation-title ${hasChildren ? 'child' : ''}`}
         onClick={() => setIsActive(!isActive)}
       >
-        <ContentSdkLink field={getLinkField(fields)} editable={page.mode.isEditing} onClick={handleClick}>
+        <LocaleAwareLink field={getLinkField(fields)} editable={page.mode.isEditing} onClick={handleClick}>
           {getTextContent(fields)}
-        </ContentSdkLink>
+        </LocaleAwareLink>
       </div>
       {hasChildren && <ul className="clearfix">{children}</ul>}
     </li>

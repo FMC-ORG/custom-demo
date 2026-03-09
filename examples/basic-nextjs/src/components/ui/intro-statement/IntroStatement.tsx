@@ -1,8 +1,8 @@
 'use client';
 
 import type React from 'react';
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
 import {
-  Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
   Field,
@@ -87,14 +87,14 @@ export const Default: React.FC<IntroStatementProps> = (props) => {
         )}
         {(hasCta || (isEditing && fields?.CTALink)) && fields?.CTALink && (
           <div className="mt-6">
-            <ContentSdkLink
+            <LocaleAwareLink
               field={fields.CTALink}
               editable={isEditing}
               className="text-sm text-[#1d4ed8] font-medium hover:underline underline-offset-4 inline-flex items-center gap-1"
             >
               {fields?.CTALabel?.value || fields?.CTALink?.value?.text || ''}
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </ContentSdkLink>
+            </LocaleAwareLink>
           </div>
         )}
       </div>

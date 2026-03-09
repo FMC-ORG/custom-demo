@@ -2,8 +2,8 @@
 
 import type React from 'react';
 import { useState, useEffect, useCallback } from 'react';
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
 import {
-  Link as ContentSdkLink,
   NextImage as ContentSdkImage,
   Text,
   Field,
@@ -14,6 +14,7 @@ import {
 import { ComponentProps } from 'lib/component-props';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { isVideoMedia, MediaFieldValue } from '@/utils/media';
 
 interface HeroSlideItem {
   id: string;
@@ -105,6 +106,8 @@ export const Default: React.FC<HeroSliderProps> = (props) => {
     >
       {slides.map((slide, idx) => {
         const img = slide.backgroundImage?.jsonValue;
+        const slideSrc = img?.value?.src as string | undefined;
+        const slideIsVideo = isVideoMedia(img?.value as MediaFieldValue | undefined);
         const headline = slide.slideHeadline?.jsonValue;
         const subtext = slide.slideSubtext?.jsonValue;
         const ctaLabel = slide.slideCTALabel?.jsonValue;
@@ -119,16 +122,28 @@ export const Default: React.FC<HeroSliderProps> = (props) => {
             )}
             aria-hidden={idx !== activeIndex}
           >
-            {/* Background image — render in edit mode even when empty so authors can add image */}
+            {/* Background media — video or image; editing mode always uses ContentSdkImage for authoring */}
             {(img?.value?.src || (isEditing && img)) && img ? (
-              <ContentSdkImage
-                field={img}
-                editable={isEditing}
-                fill
-                className="object-cover"
-                priority={idx === 0}
-                alt={(img.value?.alt ?? '') as string}
-              />
+              slideIsVideo && !isEditing ? (
+                <video
+                  src={slideSrc}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 h-full w-full object-cover"
+                  aria-hidden
+                />
+              ) : (
+                <ContentSdkImage
+                  field={img}
+                  editable={isEditing}
+                  fill
+                  className="object-cover"
+                  priority={idx === 0}
+                  alt={(img.value?.alt ?? '') as string}
+                />
+              )
             ) : (
               <div className="absolute inset-0 bg-vg-dark" />
             )}
@@ -151,14 +166,14 @@ export const Default: React.FC<HeroSliderProps> = (props) => {
               )}
               {(ctaLink?.value?.href || (isEditing && ctaLink)) && ctaLink && (
                 <div className="mt-5">
-                  <ContentSdkLink
+                  <LocaleAwareLink
                     field={ctaLink}
                     editable={isEditing}
                     className="text-sm font-medium text-white underline-offset-4 hover:underline inline-flex items-center gap-2"
                   >
                     {ctaLabel?.value || ctaLink?.value?.text || ''}
                     <ArrowRight className="h-4 w-4" aria-hidden />
-                  </ContentSdkLink>
+                  </LocaleAwareLink>
                 </div>
               )}
             </div>

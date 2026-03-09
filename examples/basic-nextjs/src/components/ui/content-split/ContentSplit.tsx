@@ -1,8 +1,8 @@
 'use client';
 
 import React, { JSX } from 'react';
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
 import {
-  Link as ContentSdkLink,
   NextImage as ContentSdkImage,
   RichText as ContentSdkRichText,
   Text,
@@ -196,7 +196,7 @@ function ContentSplitLayout({
       )}
       {(hasCta || (isEditing && ctaLink)) && ctaLink && (
         <div className="pt-2">
-          <ContentSdkLink
+          <LocaleAwareLink
             field={ctaLink}
             editable={isEditing}
             className={cn(
@@ -208,7 +208,7 @@ function ContentSplitLayout({
           >
             {ctaLink?.value?.text ?? ''}
             <ArrowRight className="h-4 w-4" aria-hidden />
-          </ContentSdkLink>
+          </LocaleAwareLink>
         </div>
       )}
     </div>
@@ -352,14 +352,14 @@ export const CareersBanner = (props: ContentSplitProps): JSX.Element => {
             )}
             {(ctaLink?.value?.href || (isEditing && ctaLink)) && ctaLink && (
               <div className="flex justify-end mt-3">
-                <ContentSdkLink
+                <LocaleAwareLink
                   field={ctaLink}
                   editable={isEditing}
                   className="inline-flex items-center justify-center w-8 h-8 bg-[#1d4ed8] text-white"
                   aria-label={ctaLink?.value?.text ?? 'Learn more'}
                 >
                   <ArrowRight className="h-4 w-4" aria-hidden />
-                </ContentSdkLink>
+                </LocaleAwareLink>
               </div>
             )}
           </div>
@@ -376,14 +376,14 @@ export const CareersBanner = (props: ContentSplitProps): JSX.Element => {
             )}
             {(ctaLink?.value?.href || (isEditing && ctaLink)) && ctaLink && (
               <div className="mt-8">
-                <ContentSdkLink
+                <LocaleAwareLink
                   field={ctaLink}
                   editable={isEditing}
                   className="text-sm text-white underline-offset-4 hover:underline inline-flex items-center gap-2"
                 >
                   {ctaLink?.value?.text ?? ''}
                   <ArrowRight className="h-4 w-4" aria-hidden />
-                </ContentSdkLink>
+                </LocaleAwareLink>
               </div>
             )}
           </div>
@@ -468,14 +468,14 @@ function SustainabilityBannerLayout(
         )}
         {(ctaLink?.value?.href || (isEditing && ctaLink)) && ctaLink && (
           <div className="mt-6">
-            <ContentSdkLink
+            <LocaleAwareLink
               field={ctaLink}
               editable={isEditing}
               className="text-sm text-white underline-offset-4 hover:underline inline-flex items-center gap-2"
             >
               {ctaLink?.value?.text ?? ''}
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </ContentSdkLink>
+            </LocaleAwareLink>
           </div>
         )}
       </div>
@@ -512,14 +512,14 @@ function SustainabilityBannerLayout(
         )}
         {(ctaLink?.value?.href || (isEditing && ctaLink)) && ctaLink && (
           <div className="flex justify-end mt-2">
-            <ContentSdkLink
+            <LocaleAwareLink
               field={ctaLink}
               editable={isEditing}
               className="inline-flex items-center justify-center w-7 h-7 bg-[#1d4ed8] text-white"
               aria-label={ctaLink?.value?.text ?? 'Learn more'}
             >
               <ArrowRight className="h-3 w-3" aria-hidden />
-            </ContentSdkLink>
+            </LocaleAwareLink>
           </div>
         )}
       </div>
@@ -532,7 +532,7 @@ function SustainabilityBannerLayout(
       id={id}
       data-testid="content-split-sustainability"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '420px' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[420px] lg:min-h-[600px]">
         {imageFirst ? bluePanel : photoPanel}
         {imageFirst ? photoPanel : bluePanel}
       </div>

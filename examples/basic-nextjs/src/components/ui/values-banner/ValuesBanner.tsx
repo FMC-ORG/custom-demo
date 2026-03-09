@@ -1,8 +1,8 @@
 'use client';
 
 import type React from 'react';
+import { LocaleAwareLink } from '@/components/ui/locale-link/LocaleAwareLink';
 import {
-  Link as ContentSdkLink,
   NextImage as ContentSdkImage,
   RichText as ContentSdkRichText,
   Field,
@@ -13,6 +13,7 @@ import {
 import { ComponentProps } from 'lib/component-props';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { isVideoMedia, MediaFieldValue } from '@/utils/media';
 
 /**
  * ValuesBanner fields — no ComponentQuery, default JSS PascalCase shape.
@@ -38,6 +39,9 @@ export const Default: React.FC<ValuesBannerProps> = (props) => {
   const { page } = useSitecore();
   const { isEditing } = page.mode;
   const { styles = '', RenderingIdentifier: id } = params;
+
+  const backgroundSrc = fields?.BackgroundFallbackImage?.value?.src as string | undefined;
+  const isVideo = isVideoMedia(fields?.BackgroundFallbackImage?.value as MediaFieldValue | undefined);
 
   const hasHeadline = fields?.Headline?.value || (isEditing && fields?.Headline);
   const hasCta = fields?.CTALink?.value?.href || (isEditing && fields?.CTALink);
@@ -69,15 +73,27 @@ export const Default: React.FC<ValuesBannerProps> = (props) => {
       data-testid="values-banner"
       style={{ minHeight: '400px' }}
     >
-      {/* Background image — render in edit mode even when empty so authors can add image */}
+      {/* Background media — video or image; editing mode always uses ContentSdkImage for authoring */}
       {hasImage && fields?.BackgroundFallbackImage && (
-        <ContentSdkImage
-          field={fields.BackgroundFallbackImage}
-          editable={isEditing}
-          fill
-          className="object-cover"
-          alt={(fields?.BackgroundFallbackImage?.value?.alt ?? '') as string}
-        />
+        isVideo && !isEditing ? (
+          <video
+            src={backgroundSrc}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover"
+            aria-hidden
+          />
+        ) : (
+          <ContentSdkImage
+            field={fields.BackgroundFallbackImage}
+            editable={isEditing}
+            fill
+            className="object-cover"
+            alt={(fields?.BackgroundFallbackImage?.value?.alt ?? '') as string}
+          />
+        )
       )}
       {/* Subtle dark overlay */}
       <div className="absolute inset-0 bg-black/30" />
@@ -91,14 +107,14 @@ export const Default: React.FC<ValuesBannerProps> = (props) => {
         )}
         {(hasCta || (isEditing && fields?.CTALink)) && fields?.CTALink && (
           <div className="mt-6">
-            <ContentSdkLink
+            <LocaleAwareLink
               field={fields.CTALink}
               editable={isEditing}
               className="text-sm text-white underline-offset-4 hover:underline inline-flex items-center gap-2"
             >
               {fields?.CTALabel?.value || fields?.CTALink?.value?.text || ''}
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </ContentSdkLink>
+            </LocaleAwareLink>
           </div>
         )}
       </div>

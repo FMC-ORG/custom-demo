@@ -75,7 +75,7 @@ export const Default: React.FC<ValuesBannerProps> = (props) => {
     >
       {/* Background media — video or image; editing mode always uses ContentSdkImage for authoring */}
       {hasImage && fields?.BackgroundFallbackImage && (
-        isVideo && !isEditing ? (
+        isVideo ? (
           <video
             src={backgroundSrc}
             autoPlay

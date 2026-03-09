@@ -124,7 +124,7 @@ export const Default: React.FC<HeroSliderProps> = (props) => {
           >
             {/* Background media — video or image; editing mode always uses ContentSdkImage for authoring */}
             {(img?.value?.src || (isEditing && img)) && img ? (
-              slideIsVideo && !isEditing ? (
+              slideIsVideo ? (
                 <video
                   src={slideSrc}
                   autoPlay

@@ -26,6 +26,11 @@ const nextConfig: NextConfig = {
         hostname: 'xmc-*.**',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'fmcdemov.sitecoresandbox.cloud',
+        port: '',
+      },
     ],
     // Disable image optimization in development to avoid upstream timeouts
     unoptimized: process.env.NODE_ENV === 'development',

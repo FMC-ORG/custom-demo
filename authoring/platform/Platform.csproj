@@ -71,7 +71,7 @@
     <None Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Config\Include\" />
+    <Content Include="App_Config\**" />
     <Content Include="App_Data\Xdts\web.config.xdt" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
   <PropertyGroup>

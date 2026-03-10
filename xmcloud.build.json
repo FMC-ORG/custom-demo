@@ -1,6 +1,6 @@
 {
-  "buildTargets": [
-  "./platform/Platform.csproj"
+"buildTargets": [
+  "./authoring/platform/Platform.csproj"
 ],
   "transforms": [
     {

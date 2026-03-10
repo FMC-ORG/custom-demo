@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
   <Compile Include="Events\FixEscapedXmlFields.cs" />  
+  <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

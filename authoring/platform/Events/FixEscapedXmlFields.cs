@@ -26,8 +26,6 @@ namespace XmCloudNextJsStarter.Events
 
         /// <summary>
         /// The XML-based field types to check.
-        /// These are the field types that store data as XML
-        /// and are affected by the MCP escaping issue.
         /// </summary>
         private static readonly string[] XmlFieldTypes = new[]
         {
@@ -47,6 +45,10 @@ namespace XmCloudNextJsStarter.Events
         {
             var item = Event.ExtractParameter<Item>(args, 0);
             if (item == null) return;
+            Log.Info(
+            $"[FixEscapedXmlFields] Handler triggered for item '{item.Name}' " +
+            $"at path '{item.Paths.FullPath}', database '{item.Database.Name}'",
+            this);
 
             // Skip items outside our target content path
             if (!string.IsNullOrEmpty(ContentRootPath)
@@ -79,16 +81,48 @@ namespace XmCloudNextJsStarter.Events
                     string originalValue = field.Value;
                     if (string.IsNullOrEmpty(originalValue)) continue;
 
+                    // Debug: log raw value and char codes of first 80 chars
+                    string debugChars = string.Join(",",
+                        originalValue.Substring(0, Math.Min(80, originalValue.Length))
+                        .Select(c => ((int)c).ToString("X2")));
+
+                    Log.Info(
+                        $"[FixEscapedXmlFields] Checking field '{field.Name}' (type: {field.Type}) " +
+                        $"on '{item.Name}'. Length: {originalValue.Length}. " +
+                        $"First 80 char codes: {debugChars}",
+                        this);
+
+                    Log.Info(
+                        $"[FixEscapedXmlFields] Raw value: {originalValue}",
+                        this);
+
                     string cleanedValue = CleanEscapedQuotes(originalValue);
 
                     if (cleanedValue != originalValue)
                     {
                         fieldsToFix[field.Name] = cleanedValue;
+
+                        Log.Info(
+                            $"[FixEscapedXmlFields] WILL FIX field '{field.Name}'. " +
+                            $"Before: {originalValue} | After: {cleanedValue}",
+                            this);
+                    }
+                    else
+                    {
+                        Log.Info(
+                            $"[FixEscapedXmlFields] No change needed for field '{field.Name}'",
+                            this);
                     }
                 }
 
                 // Nothing to fix — exit early
-                if (fieldsToFix.Count == 0) return;
+                if (fieldsToFix.Count == 0)
+                {
+                    Log.Info(
+                        $"[FixEscapedXmlFields] No fields to fix on item '{item.Name}' ({item.ID})",
+                        this);
+                    return;
+                }
 
                 Log.Info(
                     $"[FixEscapedXmlFields] Fixing {fieldsToFix.Count} XML field(s) on item " +
@@ -98,8 +132,6 @@ namespace XmCloudNextJsStarter.Events
                 // Apply the fixes
                 using (new Sitecore.SecurityModel.SecurityDisabler())
                 {
-                    // EventDisabler prevents this save from triggering
-                    // the handler again (no infinite loop)
                     using (new Sitecore.Data.Events.EventDisabler())
                     {
                         item.Editing.BeginEdit();
@@ -107,11 +139,6 @@ namespace XmCloudNextJsStarter.Events
                         foreach (var fix in fieldsToFix)
                         {
                             item[fix.Key] = fix.Value;
-
-                            Log.Debug(
-                                $"[FixEscapedXmlFields] Fixed field '{fix.Key}' " +
-                                $"(type: {item.Fields[fix.Key]?.Type}) on '{item.Name}'",
-                                this);
                         }
 
                         item.Editing.EndEdit();
@@ -136,13 +163,16 @@ namespace XmCloudNextJsStarter.Events
         // ============================================================
 
         /// <summary>
-        /// Cleans escaped double quotes from XML field values.
+        /// Cleans escaped quotes from XML field values.
         /// 
-        /// Adjust these replacements based on the exact escaping
-        /// pattern from the MCP. To check:
-        ///   1. Create an item via MCP
-        ///   2. Open in Content Editor → View → Raw Values
-        ///   3. Inspect the Image or General Link field value
+        /// Known pattern from MCP Marketer:
+        ///   \" (backslash + double quote) should become just "
+        ///   
+        /// Example broken value:
+        ///   &lt;link text=\"Read more\" linktype=\"external\" /&gt;
+        /// 
+        /// Expected clean value:
+        ///   &lt;link text="Read more" linktype="external" /&gt;
         /// </summary>
         private string CleanEscapedQuotes(string value)
         {
@@ -150,14 +180,26 @@ namespace XmCloudNextJsStarter.Events
 
             string result = value;
 
-            // Double-encoded entity (most aggressive — check first)
+            // PRIMARY FIX: Backslash-escaped double quotes
+            // The literal two-character sequence: \  then  "
+            // Using char array to be absolutely explicit about what we're replacing
+            string backslashQuote = new string(new char[] { '\\', '"' });
+            string justQuote = "\"";
+
+            if (result.IndexOf(backslashQuote, StringComparison.Ordinal) >= 0)
+            {
+                result = result.Replace(backslashQuote, justQuote);
+            }
+
+            // ALSO TRY: Unicode escape variants
+            // Some serializers use the Unicode escape \u0022 for quotes
+            result = result.Replace("\\u0022", "\"");
+
+            // Double-encoded HTML entity
             result = result.Replace("&amp;quot;", "\"");
 
             // Standard HTML entity
             result = result.Replace("&quot;", "\"");
-
-            // Backslash-escaped quotes
-            result = result.Replace("\\\"", "\"");
 
             // Numeric HTML entity
             result = result.Replace("&#34;", "\"");

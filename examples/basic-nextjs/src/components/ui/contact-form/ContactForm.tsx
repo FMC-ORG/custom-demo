@@ -91,6 +91,10 @@ function ContactFormLayout({
 
   const [state, formAction, isPending] = useActionState(submitContactForm, null);
 
+  /** Type guard: state.error exists only when validation fails */
+  const error: Record<string, string[]> | undefined =
+    state && 'error' in state ? state.error : undefined;
+
   const labels = {
     labelNome: fields?.LabelNome?.value ?? DEFAULT_LABELS.labelNome,
     labelCognome: fields?.LabelCognome?.value ?? DEFAULT_LABELS.labelCognome,
@@ -138,12 +142,12 @@ function ContactFormLayout({
                     placeholder={labels.labelNome}
                     className={inputBase}
                     required
-                    aria-invalid={!!state?.error?.nome}
-                    aria-describedby={state?.error?.nome ? 'nome-error' : undefined}
+                    aria-invalid={!!error?.nome}
+                    aria-describedby={error?.nome ? 'nome-error' : undefined}
                   />
-                  {state?.error?.nome && (
+                  {error?.nome && (
                     <p id="nome-error" className="mt-1 text-sm text-destructive">
-                      {state.error.nome[0]}
+                      {error.nome[0]}
                     </p>
                   )}
                 </div>
@@ -159,11 +163,11 @@ function ContactFormLayout({
                     placeholder={labels.labelCognome}
                     className={inputBase}
                     required
-                    aria-invalid={!!state?.error?.cognome}
+                    aria-invalid={!!error?.cognome}
                   />
-                  {state?.error?.cognome && (
+                  {error?.cognome && (
                     <p className="mt-1 text-sm text-destructive">
-                      {state.error.cognome[0]}
+                      {error.cognome[0]}
                     </p>
                   )}
                 </div>
@@ -179,11 +183,11 @@ function ContactFormLayout({
                     placeholder={labels.labelEmail}
                     className={inputBase}
                     required
-                    aria-invalid={!!state?.error?.email}
+                    aria-invalid={!!error?.email}
                   />
-                  {state?.error?.email && (
+                  {error?.email && (
                     <p className="mt-1 text-sm text-destructive">
-                      {state.error.email[0]}
+                      {error.email[0]}
                     </p>
                   )}
                 </div>
@@ -212,11 +216,11 @@ function ContactFormLayout({
                         placeholder={labels.labelAzienda}
                         className={inputBase}
                         required={isLong}
-                        aria-invalid={!!state?.error?.azienda}
+                        aria-invalid={!!error?.azienda}
                       />
-                      {state?.error?.azienda && (
+                      {error?.azienda && (
                         <p className="mt-1 text-sm text-destructive">
-                          {state.error.azienda[0]}
+                          {error.azienda[0]}
                         </p>
                       )}
                     </div>
@@ -232,11 +236,11 @@ function ContactFormLayout({
                         placeholder={labels.labelRuolo}
                         className={inputBase}
                         required={isLong}
-                        aria-invalid={!!state?.error?.ruolo}
+                        aria-invalid={!!error?.ruolo}
                       />
-                      {state?.error?.ruolo && (
+                      {error?.ruolo && (
                         <p className="mt-1 text-sm text-destructive">
-                          {state.error.ruolo[0]}
+                          {error.ruolo[0]}
                         </p>
                       )}
                     </div>
@@ -266,11 +270,11 @@ function ContactFormLayout({
                   rows={isLong ? 10 : 8}
                   className={cn(inputBase, 'min-h-[120px] resize-y')}
                   required
-                  aria-invalid={!!state?.error?.messaggio}
+                  aria-invalid={!!error?.messaggio}
                 />
-                {state?.error?.messaggio && (
+                {error?.messaggio && (
                   <p className="mt-1 text-sm text-destructive">
-                    {state.error.messaggio[0]}
+                    {error.messaggio[0]}
                   </p>
                 )}
               </div>
@@ -284,7 +288,7 @@ function ContactFormLayout({
                   type="checkbox"
                   required
                   className="mt-1.5 h-5 w-5 shrink-0 rounded border-vg-border text-vg-blue focus:ring-vg-blue/20"
-                  aria-invalid={!!state?.error?.privacyAccepted}
+                  aria-invalid={!!error?.privacyAccepted}
                 />
                 <label htmlFor="privacyAccepted" className="text-sm text-vg-body">
                   {labels.labelPrivacy}
@@ -302,9 +306,9 @@ function ContactFormLayout({
                   *
                 </label>
               </div>
-              {state?.error?.privacyAccepted && (
+              {error?.privacyAccepted && (
                 <p className="text-sm text-destructive">
-                  {state.error.privacyAccepted[0]}
+                  {error.privacyAccepted[0]}
                 </p>
               )}
 
@@ -343,7 +347,7 @@ function ContactFormLayout({
               )}
             </div>
 
-            {state?.success && (
+            {state && 'success' in state && (
               <p className="rounded-md bg-green-50 p-4 text-sm text-green-800">
                 Richiesta inviata con successo. Ti contatteremo presto.
               </p>

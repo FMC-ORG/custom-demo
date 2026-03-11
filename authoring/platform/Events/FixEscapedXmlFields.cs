@@ -18,126 +18,107 @@ namespace XmCloudNextJsStarter.Events
             "General Link with Search"
         };
 
+        /// <summary>
+        /// Thread-static flag to prevent re-entry when we save the item.
+        /// Replaces EventDisabler which was suppressing the DB write.
+        /// </summary>
+        [ThreadStatic]
+        private static bool _isProcessing;
+
         public void OnItemSaved(object sender, EventArgs args)
         {
-            // ABSOLUTE FIRST LINE: log that we entered the method
+            if (_isProcessing) return;
+
             try
             {
                 Log.Info("[FixEscapedXmlFields] >>> METHOD ENTERED <<<", this);
-            }
-            catch
-            {
-                // If even Log.Info fails, nothing we can do
-            }
 
-            try
-            {
-                Item item = null;
-
-                try
-                {
-                    item = Event.ExtractParameter<Item>(args, 0);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error("[FixEscapedXmlFields] Failed to extract item from args: " + ex.Message, ex, this);
-                    return;
-                }
-
-                if (item == null)
-                {
-                    Log.Info("[FixEscapedXmlFields] Item is null, exiting", this);
-                    return;
-                }
+                var item = Event.ExtractParameter<Item>(args, 0);
+                if (item == null) return;
 
                 Log.Info(
-                    $"[FixEscapedXmlFields] Processing item: '{item.Name}' " +
+                    $"[FixEscapedXmlFields] Processing: '{item.Name}' " +
                     $"Path: '{item.Paths.FullPath}' DB: '{item.Database.Name}'",
                     this);
 
-                // Skip items outside our target content path
                 if (!string.IsNullOrEmpty(ContentRootPath)
                     && !item.Paths.FullPath.StartsWith(ContentRootPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    Log.Info($"[FixEscapedXmlFields] Skipping - path doesn't match ContentRootPath: {ContentRootPath}", this);
                     return;
                 }
 
-                if (item.Database.Name == "core")
-                {
-                    Log.Info("[FixEscapedXmlFields] Skipping - core database", this);
-                    return;
-                }
+                if (item.Database.Name == "core") return;
 
                 var fieldsToFix = new Dictionary<string, string>();
-
                 item.Fields.ReadAll();
-
-                int fieldCount = 0;
-                int xmlFieldCount = 0;
 
                 foreach (Sitecore.Data.Fields.Field field in item.Fields)
                 {
-                    fieldCount++;
-
                     if (field.Name.StartsWith("__")) continue;
 
                     if (!XmlFieldTypes.Any(t => t.Equals(field.Type, StringComparison.OrdinalIgnoreCase)))
-                    {
                         continue;
-                    }
-
-                    xmlFieldCount++;
 
                     string originalValue = field.Value;
                     if (string.IsNullOrEmpty(originalValue)) continue;
-
-                    Log.Info(
-                        $"[FixEscapedXmlFields] Found XML field: '{field.Name}' Type: '{field.Type}' " +
-                        $"Value: '{originalValue}'",
-                        this);
 
                     string cleanedValue = CleanEscapedQuotes(originalValue);
 
                     if (cleanedValue != originalValue)
                     {
                         fieldsToFix[field.Name] = cleanedValue;
-                        Log.Info($"[FixEscapedXmlFields] WILL FIX: '{field.Name}'", this);
-                    }
-                    else
-                    {
-                        Log.Info($"[FixEscapedXmlFields] No fix needed for: '{field.Name}'", this);
+                        Log.Info(
+                            $"[FixEscapedXmlFields] WILL FIX '{field.Name}': " +
+                            $"'{originalValue}' -> '{cleanedValue}'",
+                            this);
                     }
                 }
 
-                Log.Info(
-                    $"[FixEscapedXmlFields] Total fields: {fieldCount}, XML fields: {xmlFieldCount}, To fix: {fieldsToFix.Count}",
-                    this);
-
                 if (fieldsToFix.Count == 0) return;
 
-                using (new Sitecore.SecurityModel.SecurityDisabler())
+                _isProcessing = true;
+                try
                 {
-                    using (new Sitecore.Data.Events.EventDisabler())
+                    using (new Sitecore.SecurityModel.SecurityDisabler())
                     {
-                        item.Editing.BeginEdit();
+                        bool editStarted = item.Editing.BeginEdit();
+                        Log.Info($"[FixEscapedXmlFields] BeginEdit: {editStarted}", this);
+
                         foreach (var fix in fieldsToFix)
                         {
                             item[fix.Key] = fix.Value;
                         }
-                        item.Editing.EndEdit();
+
+                        bool saved = item.Editing.EndEdit();
+                        Log.Info($"[FixEscapedXmlFields] EndEdit: {saved}", this);
+
+                        // Verify
+                        var freshItem = item.Database.GetItem(item.ID, item.Language, item.Version);
+                        if (freshItem != null)
+                        {
+                            foreach (var fix in fieldsToFix)
+                            {
+                                string verifyValue = freshItem[fix.Key];
+                                bool stillBroken = verifyValue.Contains("\\\"") || verifyValue.Contains("\\\\\"");
+                                Log.Info(
+                                    $"[FixEscapedXmlFields] VERIFY '{fix.Key}': " +
+                                    $"stillBroken={stillBroken} value='{verifyValue}'",
+                                    this);
+                            }
+                        }
                     }
                 }
+                finally
+                {
+                    _isProcessing = false;
+                }
 
-                Log.Info(
-                    $"[FixEscapedXmlFields] DONE - Fixed {fieldsToFix.Count} field(s) on '{item.Name}'",
-                    this);
+                Log.Info($"[FixEscapedXmlFields] DONE '{item.Name}'", this);
             }
             catch (Exception ex)
             {
-                Log.Error(
-                    $"[FixEscapedXmlFields] OUTER EXCEPTION: {ex.Message}",
-                    ex, this);
+                _isProcessing = false;
+                Log.Error($"[FixEscapedXmlFields] ERROR: {ex.Message}", ex, this);
             }
         }
 

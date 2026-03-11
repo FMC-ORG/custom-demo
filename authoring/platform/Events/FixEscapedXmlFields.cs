@@ -81,16 +81,16 @@ namespace XmCloudNextJsStarter.Events
                 {
                     using (new Sitecore.SecurityModel.SecurityDisabler())
                     {
-                        bool editStarted = item.Editing.BeginEdit();
-                        Log.Info($"[FixEscapedXmlFields] BeginEdit: {editStarted}", this);
+                        item.Editing.BeginEdit();
+                        Log.Info("[FixEscapedXmlFields] BeginEdit called", this);
 
                         foreach (var fix in fieldsToFix)
                         {
                             item[fix.Key] = fix.Value;
                         }
 
-                        bool saved = item.Editing.EndEdit();
-                        Log.Info($"[FixEscapedXmlFields] EndEdit: {saved}", this);
+                        item.Editing.EndEdit();
+                        Log.Info("[FixEscapedXmlFields] EndEdit called", this);
 
                         // Verify
                         var freshItem = item.Database.GetItem(item.ID, item.Language, item.Version);
@@ -99,10 +99,8 @@ namespace XmCloudNextJsStarter.Events
                             foreach (var fix in fieldsToFix)
                             {
                                 string verifyValue = freshItem[fix.Key];
-                                bool stillBroken = verifyValue.Contains("\\\"") || verifyValue.Contains("\\\\\"");
                                 Log.Info(
-                                    $"[FixEscapedXmlFields] VERIFY '{fix.Key}': " +
-                                    $"stillBroken={stillBroken} value='{verifyValue}'",
+                                    $"[FixEscapedXmlFields] VERIFY '{fix.Key}': '{verifyValue}'",
                                     this);
                             }
                         }
@@ -112,7 +110,6 @@ namespace XmCloudNextJsStarter.Events
                 {
                     _isProcessing = false;
                 }
-
                 Log.Info($"[FixEscapedXmlFields] DONE '{item.Name}'", this);
             }
             catch (Exception ex)

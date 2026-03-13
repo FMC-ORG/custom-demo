@@ -1,0 +1,76 @@
+siteCollection: ""  
+siteName: ""  
+category: ""  
+  
+component:  
+  namePascal: ""  
+  nameKebab: ""  
+  kind: "" # simple | list | context-only  
+  filePath: ""  
+  componentMapKey: ""  
+  componentMapImportAlias: ""  
+  
+templates:  
+  parent:  
+    create: true  
+    path: ""  
+    name: ""  
+    sectionName: "Data"  
+    fields: []  
+    baseTemplates: []  
+    standardValues:  
+      create: true  
+      defaults: {}  
+      masters: []  
+      addHorizonDatasourceGrouping: false  
+  
+  child:  
+    create: false  
+    path: ""  
+    name: ""  
+    sectionName: "Data"  
+    fields: []  
+    baseTemplates: []  
+    standardValues:  
+      create: false  
+      defaults: {}  
+      masters: []  
+  
+folderTemplate:  
+  create: true  
+  path: ""  
+  name: ""  
+  standardValues:  
+    create: true  
+    masters: []  
+  
+datasourceFolder:  
+  create: true  
+  path: ""  
+  name: ""  
+  
+rendering:  
+  create: true  
+  path: ""  
+  name: ""  
+  componentName: ""  
+  datasourceTemplatePath: ""  
+  datasourceLocationQuery: ""  
+  dataSource: ""  
+  addFieldEditorButton: "1"  
+  useComponentQuery: false  
+  componentQuery: ""  
+  
+react:  
+  propsShape: "" # default-jss | graphql-datasource | context-only  
+  variants:  
+    - Default  
+  
+mcp:  
+  useMcp: true  
+  planOnly: false  
+  
+verification:  
+  checks: []  
+  
+notes: []  

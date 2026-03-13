@@ -1,0 +1,132 @@
+siteCollection: "mysite"  
+siteName: "mysite"  
+category: "Cards"  
+  
+component:  
+  namePascal: "ArticleCards"  
+  nameKebab: "article-cards"  
+  kind: "list"  
+  filePath: "src/components/cards/article-cards.tsx"  
+  componentMapKey: "article-cards"  
+  componentMapImportAlias: "articlecards"  
+  
+templates:  
+  parent:  
+    create: true  
+    path: "/sitecore/templates/Project/mysite/Components/Cards/ArticleCards"  
+    name: "ArticleCards"  
+    sectionName: "Data"  
+    fields:  
+      - name: "Title"  
+        type: "Single-Line Text"  
+    baseTemplates:  
+      - "{D0F6BE14-2A2D-4C56-ACB5-80CAA573B8E2}"  
+    standardValues:  
+      create: true  
+      defaults:  
+        Title: "Latest Articles"  
+      masters:  
+        - "ArticleCard"  
+      addHorizonDatasourceGrouping: true  
+  
+  child:  
+    create: true  
+    path: "/sitecore/templates/Project/mysite/Components/Cards/ArticleCard"  
+    name: "ArticleCard"  
+    sectionName: "Data"  
+    fields:  
+      - name: "Title"  
+        type: "Single-Line Text"  
+      - name: "Image"  
+        type: "Image"  
+      - name: "Link"  
+        type: "General Link"  
+      - name: "BadgeText"  
+        type: "Single-Line Text"  
+    baseTemplates: []  
+    standardValues:  
+      create: true  
+      defaults:  
+        Title: "$name"  
+        BadgeText: "ARTICLE"  
+        Link: '<link text="Read more" anchor="" linktype="external" class="" title="" target="" querystring="" url="#" />'  
+      masters: []  
+  
+folderTemplate:  
+  create: true  
+  path: "/sitecore/templates/Project/mysite/Folders/Article Cards Folder"  
+  name: "Article Cards Folder"  
+  standardValues:  
+    create: true  
+    masters:  
+      - "ArticleCards"  
+  
+datasourceFolder:  
+  create: true  
+  path: "/sitecore/content/mysite/mysite/Data/ArticleCards"  
+  name: "ArticleCards"  
+  
+rendering:  
+  create: true  
+  path: "/sitecore/layout/Renderings/Project/mysite/Cards/ArticleCards"  
+  name: "ArticleCards"  
+  componentName: "article-cards"  
+  datasourceTemplatePath: "/sitecore/templates/Project/mysite/Components/Cards/ArticleCards"  
+  datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Article Cards Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Article Cards Folder']"  
+  dataSource: ""  
+  addFieldEditorButton: "1"  
+  useComponentQuery: true  
+  componentQuery: |  
+    query ArticleCards($datasource: String!, $language: String!) {  
+      datasource: item(path: $datasource, language: $language) {  
+        ... on ArticleCards {  
+          title {  
+            jsonValue  
+          }  
+        }  
+        children {  
+          results {  
+            ... on ArticleCard {  
+              id  
+              title {  
+                jsonValue  
+              }  
+              image {  
+                jsonValue  
+              }  
+              link {  
+                jsonValue  
+              }  
+              badgeText {  
+                jsonValue  
+              }  
+            }  
+          }  
+        }  
+      }  
+    }  
+  
+react:  
+  propsShape: "graphql-datasource"  
+  variants:  
+    - "Default"  
+  
+mcp:  
+  useMcp: true  
+  planOnly: false  
+  
+verification:  
+  checks:  
+    - "Parent template exists"  
+    - "Child template exists"  
+    - "Parent standard values sets __Masters to child"  
+    - "Parent inherits _HorizonDatasourceGrouping"  
+    - "Folder template exists"  
+    - "Content folder created under /Data"  
+    - "Rendering created as JSON Rendering"  
+    - "ComponentQuery valid"  
+    - "TSX uses fields.data.datasource.children.results"  
+  
+notes:  
+  - "Use graphql/jsonValue props shape"  
+  - "Do not use top-level PascalCase fields in TSX"  

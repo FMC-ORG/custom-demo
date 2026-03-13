@@ -1,0 +1,45 @@
+---  
+description: Use when creating Sitecore templates, template folders, template sections, template fields, or deciding where templates belong in the Sitecore tree.  
+alwaysApply: false  
+---  
+  
+Template locations:  
+- Custom templates live under `/sitecore/templates/Project/<site-collection>/`  
+- Organize templates into subfolders such as:  
+  - `Components/`  
+  - `Folders/`  
+  - `Presentation/`  
+  - `Site/`  
+  - `Sites/`  
+  - `Taxonomy/`  
+  
+Rules:  
+- Never create templates loose under the site-collection root.  
+- Create category folders first using Template Folder items.  
+- Component templates usually go under `Components/<Category>/`.  
+- Folder templates go under `Folders/`.  
+- Group related parent and child templates in the same component category.  
+  
+Required template hierarchy:  
+1. Template item  
+2. Template section, usually named `Data`  
+3. Template field items under the section  
+4. `__Standard Values` child item  
+  
+Common template IDs:  
+- Template: `ab86861a-6030-46c5-b394-e8f99e8b87db`  
+- Template Section: `e269fbb5-3750-427a-9149-7aa950b49301`  
+- Template Field: `455a3e98-a627-4b40-8035-e683a0331ac7`  
+  
+Field naming rules:  
+- Prefer descriptive field names like `badgeText`, `promoImage`, `awardIcon`, `sectionTitle`.  
+- Do not use collision-prone names like `icon`, `name`, `path`, `url`.  
+  
+Template creation workflow:  
+1. Check the category folder path.  
+2. Create the category folder if missing.  
+3. Create the template item.  
+4. Create the `Data` section.  
+5. Create the fields under the section.  
+6. Create `__Standard Values`.  
+7. Set base templates, insert options, and default values as needed.  

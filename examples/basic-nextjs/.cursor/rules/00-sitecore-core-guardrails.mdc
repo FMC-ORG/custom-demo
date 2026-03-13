@@ -1,0 +1,24 @@
+---  
+description: Core guardrails for Sitecore XM Cloud and Marketer MCP work. Use for all Sitecore template, rendering, datasource, GraphQL, and component tasks.  
+alwaysApply: true  
+---  
+  
+Use `docs/ai/reference/sitecore-marketer-mcp-reference.md` as the source of truth for examples, IDs, and paths.  
+  
+Non-negotiable rules:  
+- Every custom template MUST have a `__Standard Values` child item.  
+- `Datasource Template` on a rendering must be a full Sitecore path, never a GUID.  
+- Use JSON Rendering for headless components.  
+- `componentName`, component filename, and `.sitecore/component-map.ts` key must match exactly in kebab-case.  
+- For datasource-based components, create BOTH:  
+  1. the folder template under `/sitecore/templates/Project/<site-collection>/Folders/`  
+  2. the content folder under `/sitecore/content/<site-collection>/<site-name>/Data/`  
+- Use `ComponentQuery` only for list / parent-child datasource components.  
+- For simple components, leave `ComponentQuery` empty and use default JSS props shape.  
+- For context-only components, leave `Datasource Template`, `Datasource Location`, and `ComponentQuery` empty; read from `page.layout.sitecore.route.fields`.  
+- For list components, add `_HorizonDatasourceGrouping` to the parent datasource template and set `__Masters` on the parent template standard values.  
+- Never modify OOB Sitecore / SXA templates directly; extend them.  
+- Avoid GraphQL collision-prone field names: `icon`, `id`, `name`, `path`, `url`, `template`, `parent`, `children`, `language`, `version`, `displayName`.  
+- Verify parent paths before creation with `get_content_item_by_path`.  
+- For valid content children, use `list_available_insertoptions` where applicable.  
+- Publishing is required after MCP changes; changes in Master are not live until published.  

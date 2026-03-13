@@ -1,0 +1,31 @@
+---  
+description: Route Sitecore XM Cloud tasks to the right Cursor skill.  
+alwaysApply: false  
+---  
+  
+When a Sitecore task is requested, classify it first:  
+  
+1. Simple datasource component  
+- one datasource item  
+- no Sitecore child datasource items  
+- no ComponentQuery  
+- use skill: `sitecore-create-simple-component`  
+  
+2. List / parent-child datasource component  
+- parent datasource has child items  
+- requires ComponentQuery  
+- requires _HorizonDatasourceGrouping on parent template  
+- use skill: `sitecore-create-list-component`  
+  
+3. Context-only component  
+- no datasource  
+- reads route fields from page context  
+  
+4. Debug / repair  
+- datasource picker empty  
+- bad ComponentQuery  
+- variant issues  
+- props shape mismatch  
+  
+Before execution, fill the shared spec template:  
+`.cursor/skills/_shared/sitecore-component-spec.template.yaml`  

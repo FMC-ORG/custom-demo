@@ -1,0 +1,39 @@
+---  
+description: Use when creating or configuring Sitecore JSON Rendering items, rendering folders, datasource template paths, datasource locations, or context-only renderings.  
+alwaysApply: false  
+---  
+  
+Rendering location:  
+- `/sitecore/layout/Renderings/Project/<site-collection>/`  
+  
+Rules:  
+- Use JSON Rendering template ID: `04646a89-996f-4ee7-878a-ffdbf1f0ef0d`  
+- Mirror the template category structure in rendering folders.  
+- Rendering name should match the component concept, usually PascalCase.  
+- `componentName` must be kebab-case and match the component-map key exactly.  
+  
+Required rendering fields for datasource-based components:  
+- `componentName`  
+- `Datasource Template` = full Sitecore template path  
+- `Datasource Location` = Sitecore query  
+- `AddFieldEditorButton` = `"1"`  
+  
+Rules for `Datasource Template`:  
+- Full path only  
+- Never GUID  
+- Must point to the datasource template item  
+  
+Rules for `Datasource Location`:  
+- Use Sitecore query syntax  
+- Match the folder template name exactly with `@@templatename`  
+- Combine multiple locations with `|`  
+  
+Context-only rendering configuration:  
+- `Datasource Template`: empty  
+- `Datasource Location`: empty  
+- `ComponentQuery`: empty  
+- `Data source`: empty  
+- `AddFieldEditorButton`: `"1"`  
+  
+If the component has children, check `21-sitecore-componentquery.mdc`.  
+If the component is simple, do not add a GraphQL query.  

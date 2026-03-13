@@ -1,0 +1,38 @@
+---  
+description: Use when creating, validating, or debugging a Component GraphQL Query for Sitecore list components and parent-child datasource structures.  
+alwaysApply: false  
+---  
+  
+Use `ComponentQuery` only for list / parent-child datasource components.  
+  
+Do NOT use `ComponentQuery` for:  
+- simple single-datasource components  
+- context-only components  
+  
+Expected query shape:  
+- Query name matches parent template name  
+- Variables: `$datasource: String!`, `$language: String!`  
+- Root alias: `datasource: item(path: $datasource, language: $language)`  
+- Parent fragment: `... on <ParentTemplateName>`  
+- Child items under:  
+  `children { results { ... on <ChildTemplateName> { ... } } }`  
+  
+Rules:  
+- Use PascalCase for template names in fragments  
+- Use camelCase for field names in the GraphQL query  
+- Wrap editable fields in `{ jsonValue }`  
+- Include `id` in child results  
+- Children live at `fields.data.datasource.children.results`  
+  
+Checklist before saving:  
+- Query syntax is valid  
+- Braces and parentheses match  
+- No trailing commas  
+- Parent template fragment matches Sitecore template name  
+- Child template fragment matches Sitecore template name  
+- No collision-prone field names like `icon` or `name`  
+- Every needed field is explicitly queried  
+  
+Failure symptoms:  
+- If children are missing, the query is empty or incomplete.  
+- If `page.layout.sitecore.route` becomes undefined, suspect malformed `ComponentQuery`.  

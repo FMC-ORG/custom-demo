@@ -1,0 +1,34 @@
+---  
+description: Use when writing TypeScript props for Sitecore React components and deciding between default JSS fields, GraphQL data.datasource fields, or context-only page fields.  
+globs: ["src/components/**/*.ts", "src/components/**/*.tsx", ".sitecore/component-map.ts"]  
+alwaysApply: false  
+---  
+  
+Match the React props shape to the rendering configuration.  
+  
+1. Rendering HAS `ComponentQuery`  
+- Use GraphQL shape  
+- Access parent datasource at `fields.data.datasource`  
+- Access child items at `fields.data.datasource.children.results`  
+- Field names are camelCase  
+- Editable fields use `.jsonValue`  
+  
+2. Rendering has NO `ComponentQuery`  
+- Use default JSS shape  
+- Access fields directly on `fields`  
+- Field names are PascalCase  
+- Values use `.value`  
+  
+3. Context-only rendering  
+- No datasource fields  
+- Read from `page.layout.sitecore.route.fields`  
+- Use `page.layout.sitecore.context.itemPath` for breadcrumbs  
+  
+Never mix these shapes in one component.  
+  
+Quick examples:  
+- GraphQL: `fields?.data?.datasource?.title?.jsonValue`  
+- Default JSS: `fields?.Title`  
+- Context-only: `page?.layout?.sitecore?.route?.fields?.Title`  
+  
+Always use optional chaining for nested access.  

@@ -1,0 +1,42 @@
+---  
+description: Use when debugging Sitecore XM Cloud component setup problems such as empty datasource pickers, missing insert options, bad GraphQL queries, props mismatches, or variant issues.  
+alwaysApply: false  
+---  
+  
+Troubleshooting map:  
+  
+1. Datasource picker is empty  
+- Check content folder exists under `/Data`  
+- Check folder template exists under `/Folders`  
+- Check folder template `__Standard Values` has `__Masters`  
+- Check `Datasource Location` query matches folder template name exactly  
+- Check datasource items exist inside the folder  
+  
+2. "No datasource template found"  
+- Check rendering `Datasource Template`  
+- Must be a full template path, not a GUID  
+- Ensure the template exists  
+  
+3. Children missing in component  
+- Check rendering has `ComponentQuery`  
+- Check query includes `children { results { ... } }`  
+- Check React reads from `fields.data.datasource.children.results`  
+  
+4. Props shape mismatch  
+- If no query: use top-level `fields.Title`, `fields.Description`  
+- If query exists: use `fields.data.datasource`  
+- If context-only: use `page.layout.sitecore.route.fields`  
+  
+5. "Cannot read properties of undefined (reading 'route')"  
+- Suspect malformed `ComponentQuery`  
+- Validate syntax, fragment names, field names, and collisions  
+  
+6. Add button in Pages Content tab shows no templates  
+- Check parent template `__Standard Values`  
+- Set `__Masters` to child template IDs  
+- Ensure parent template inherits `_HorizonDatasourceGrouping`  
+  
+7. Variant dropdown missing or variant not switching  
+- Check Headless Variant Definition items exist  
+- Check names exactly match code exports  
+- Ensure `Default` exists  

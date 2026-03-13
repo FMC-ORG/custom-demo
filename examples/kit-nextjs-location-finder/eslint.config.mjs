@@ -15,6 +15,7 @@ const eslintConfig = [
     rules: {
       // Don't force alt for <Image/> (sourced from Sitecore media)
       "jsx-a11y/alt-text": "off",
+      "no-console": ["warn", { allow: ["error"] }],
     },
     ignores: [
       "node_modules/**",

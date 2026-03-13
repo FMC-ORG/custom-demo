@@ -47,9 +47,8 @@ export const Default: React.FC<SubscriptionBannerProps> = ({ fields }) => {
     mode: 'onTouched',
   });
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (_data: FormValues) => {
     // Handle form submission
-    console.log(data);
     setIsSubmitted(true);
     // Reset the form to clear the input, then set the thank you message
     form.reset({ email: thankYouMessage?.value || 'Thank you' });

@@ -83,7 +83,11 @@ export const Default = (props: SearchExperienceProps) => {
   return (
     <div className={`component search-indexing ${styles}`} id={id ? id : undefined}>
       <div className="component-content">
-        <div className="max-w-7xl mx-auto p-6">
+        <div
+          className={cn('max-w-7xl mx-auto p-6', {
+            'pt-24 lg:pt-32': !isEditing,
+          })}
+        >
           <div className="mb-8">
             <SearchInput value={inputValue} onChange={(value) => onSearchChange(value, true)} />
 
@@ -103,11 +107,11 @@ export const Default = (props: SearchExperienceProps) => {
             />
           )}
 
-          <div className={cn('grid gap-6 mb-8', gridColsClass(columns))}>
+          <div className={cn('grid gap-6 mb-8', gridColsClass(Number(columns)))}>
             {!isLoading &&
               results.map((result) => (
                 <SearchItem
-                  variant={columns === 1 ? 'list' : 'card'}
+                  variant={Number(columns) === 1 ? 'list' : 'card'}
                   key={result.sc_item_id}
                   data={result}
                   mapping={fieldsMapping}
@@ -118,7 +122,7 @@ export const Default = (props: SearchExperienceProps) => {
             {(((isEditing || isPreview) && total === 0) || isLoading) &&
               Array.from({ length: pageSize }).map((_, index) => (
                 <SearchSkeletonItem
-                  variant={params.columns === 1 ? 'list' : 'card'}
+                  variant={Number(params.columns) === 1 ? 'list' : 'card'}
                   key={index}
                   mapping={fieldsMapping}
                 />

@@ -38,9 +38,6 @@ export const PageHeaderBlueText: React.FC<PageHeaderProps & { isPageEditing: boo
     setPrefersReducedMotion(mediaQuery.matches);
   }, []);
 
-  console.debug('fields:', fields);
-  console.debug('props:', props);
-
   if (fields) {
     return (
       <section

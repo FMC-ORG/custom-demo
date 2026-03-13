@@ -11,7 +11,7 @@ import { IGQLImageField, IGQLLinkField, IGQLTextField } from 'src/types/igql';
 import { useEffect, useMemo, useRef, useState, type JSX } from 'react';
 import { Button } from '@/components/ui/button';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { cn } from 'lib/utils';
 
 interface Fields {
@@ -158,7 +158,7 @@ export const Default = (props: CarouselsProps): JSX.Element => {
       {/* Carousel slides container */}
       <div className="relative w-full overflow-hidden bg-white" style={{ height: '500px' }}>
         <AnimatePresence initial={false} custom={direction} mode="sync">
-          <motion.div
+          <m.div
             key={currentSlide}
             custom={direction}
             variants={variants}
@@ -199,7 +199,7 @@ export const Default = (props: CarouselsProps): JSX.Element => {
 
               {/* Text content overlay - positioned on the right side */}
               <div className="absolute inset-y-0 right-0 flex w-full items-center justify-end md:w-1/2 lg:w-2/5">
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3, duration: 0.7 }}
@@ -218,10 +218,10 @@ export const Default = (props: CarouselsProps): JSX.Element => {
                       prefetch={false}
                     />
                   </Button>
-                </motion.div>
+                </m.div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
 

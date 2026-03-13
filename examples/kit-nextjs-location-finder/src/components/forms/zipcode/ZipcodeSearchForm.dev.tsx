@@ -47,7 +47,7 @@ interface ZipcodeSearchFormProps {
 }
 
 export const Default: React.FC<ZipcodeSearchFormProps> = ({
-  onSubmit = (values) => console.log(values),
+  onSubmit = () => {},
   defaultZipcode = '',
   buttonText,
   placeholder,

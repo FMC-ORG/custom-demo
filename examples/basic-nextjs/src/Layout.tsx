@@ -37,6 +37,15 @@ export interface RouteFields {
   KeyTakeaways?: RichTextField;
   ReadTime?: Field;
   BackgroundColor?: Field;
+  metadataTitle?: Field;
+  metadataKeywords?: Field;
+  pageTitle?: Field;
+  metadataDescription?: Field;
+  pageSummary?: Field;
+  ogTitle?: Field;
+  ogDescription?: Field;
+  ogImage?: ImageField;
+  thumbnailImage?: ImageField;
 }
 
 const Layout = ({ page }: LayoutProps): JSX.Element => {

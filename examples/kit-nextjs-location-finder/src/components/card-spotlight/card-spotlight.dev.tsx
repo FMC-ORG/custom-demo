@@ -1,6 +1,6 @@
 'use client';
 
-import { useMotionValue, motion, useMotionTemplate } from 'motion/react';
+import { useMotionValue, m, useMotionTemplate } from 'motion/react';
 import type React from 'react';
 import { type MouseEvent as ReactMouseEvent, useState, useMemo, useCallback } from 'react';
 import { cn } from '@/lib/utils';
@@ -73,7 +73,7 @@ export const CardSpotlight = ({
     >
       {/* Spotlight effect - controlled by state instead of CSS classes */}
       {!prefersReducedMotion && (
-        <motion.div
+        <m.div
           className="pointer-events-none absolute -inset-px z-0 transition duration-300"
           style={{
             backgroundColor: color,

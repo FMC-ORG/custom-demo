@@ -25,18 +25,17 @@ export const Default: React.FC<SiteMetadataProps> = (props) => {
     return <NoDataFallback componentName="Site Metadata" />;
   }
 
-  const title = fields.metadataTitle?.value || fields.title?.value;
-  const keywords = fields.metadataKeywords?.value || '';
-  const description = fields.metadataDescription?.value || '';
-
   return (
     <>
-      {/* These meta tags are hoisted to <head> by React 19 */}
-      {title && <title>{title}</title>}
+      {/*
+       * SEO metadata (title, description, keywords, viewport) is managed by
+       * generateMetadata() in page.tsx. Rendering them here would create
+       * duplicate <title> / <meta> tags.
+       *
+       * This component now only renders supplementary <head> elements that
+       * are NOT handled by generateMetadata().
+       */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      {keywords && <meta name="keywords" content={keywords} />}
-      {description && <meta name="description" content={description} />}
     </>
   );
 };

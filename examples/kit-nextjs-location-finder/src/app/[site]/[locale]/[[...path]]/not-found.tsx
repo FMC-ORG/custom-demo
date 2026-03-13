@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { ErrorPage } from '@sitecore-content-sdk/nextjs';
 import { parseRewriteHeader } from '@sitecore-content-sdk/nextjs/utils';
@@ -7,6 +8,16 @@ import scConfig from 'sitecore.config';
 import Layout from 'src/Layout';
 import Providers from 'src/Providers';
 import { NextIntlClientProvider } from 'next-intl';
+
+// Prevent search engines from indexing 404 pages
+export const metadata: Metadata = {
+  title: 'Page Not Found',
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: { index: false, follow: false },
+  },
+};
 
 /**
  * Nested 404 page with site/locale context

@@ -5,9 +5,7 @@ import { cn } from '@/lib/utils';
 import { NoDataFallback } from '@/utils/NoDataFallback';
 
 export const Default: React.FC<ImageProps> = (props) => {
-  console.debug('ImageBlock', props);
   const fields = props.fields ?? props.rendering.fields;
-  console.debug('ImageBlock fields', fields);
   const { image, caption } = fields ?? {};
 
   if (fields !== undefined) {

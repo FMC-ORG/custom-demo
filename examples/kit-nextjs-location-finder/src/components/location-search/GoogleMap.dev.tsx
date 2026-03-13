@@ -237,7 +237,10 @@ export const GoogleMap = ({
       )}
       {error && (
         <div className="flex h-full w-full items-center justify-center bg-gray-300">
-          <div className="text-lg font-medium text-red-600">Failed to load map</div>
+          <div className="text-center px-4">
+            <div className="text-lg font-medium text-red-600">Failed to load map</div>
+            <p className="mt-1 text-sm text-gray-600">{error.message}</p>
+          </div>
         </div>
       )}
     </div>

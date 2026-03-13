@@ -7,7 +7,7 @@ import { Share2, X } from 'lucide-react';
 import {
   AnimatePresence,
   type MotionValue,
-  motion,
+  m,
   useMotionValue,
   useSpring,
   useTransform,
@@ -41,7 +41,7 @@ export const FloatingDock = ({
 
 const Backdrop = ({ onClick }: { onClick: () => void }) => {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -156,7 +156,7 @@ const FloatingDockMobile = ({
         {open && (
           <>
             {/* Backdrop blur overlay */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -166,14 +166,14 @@ const FloatingDockMobile = ({
                 triggerRef.current?.focus();
               }}
             />
-            <motion.div
+            <m.div
               layoutId="nav"
               className="absolute inset-x-0 bottom-full z-50 mb-2 flex flex-col gap-2"
               ref={menuRef}
               role="menu"
             >
               {items.map((item, idx) => (
-                <motion.div
+                <m.div
                   key={item.title}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{
@@ -203,9 +203,9 @@ const FloatingDockMobile = ({
                   >
                     <div className="h-4 w-4">{item.icon}</div>
                   </button>
-                </motion.div>
+                </m.div>
               ))}
-            </motion.div>
+            </m.div>
           </>
         )}
       </AnimatePresence>
@@ -220,7 +220,7 @@ const FloatingDockMobile = ({
       >
         <AnimatePresence mode="wait" initial={false}>
           {open ? (
-            <motion.div
+            <m.div
               key="close"
               initial={{ rotate: -90, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
@@ -229,9 +229,9 @@ const FloatingDockMobile = ({
               className="h-5 w-5"
             >
               <X className="h-5 w-5 text-white dark:text-neutral-400" />
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.div
+            <m.div
               key="share"
               initial={{ rotate: 90, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
@@ -240,7 +240,7 @@ const FloatingDockMobile = ({
               className="h-5 w-5"
             >
               <Share2 className="h-5 w-5 text-white dark:text-neutral-400" />
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </button>
@@ -263,7 +263,7 @@ const FloatingDockDesktop = ({
   const mouseX = useMotionValue(Number.POSITIVE_INFINITY);
 
   return (
-    <motion.div
+    <m.div
       onMouseMove={(e) => mouseX.set(e.pageY)} // Changed from pageX to pageY for vertical orientation
       onMouseLeave={() => mouseX.set(Number.POSITIVE_INFINITY)}
       className={cn(
@@ -276,7 +276,7 @@ const FloatingDockDesktop = ({
       {items.map((item) => (
         <IconContainer mouseX={mouseX} key={item.title} {...item} tabIndex={0} />
       ))}
-    </motion.div>
+    </m.div>
   );
 };
 
@@ -348,7 +348,7 @@ function IconContainer({
       }}
       className="focus:outline-none"
     >
-      <motion.div
+      <m.div
         ref={ref}
         style={{ width, height }}
         onMouseEnter={() => setHovered(true)}
@@ -357,23 +357,23 @@ function IconContainer({
       >
         <AnimatePresence>
           {(hovered || focused) && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: 10, y: '-50%' }}
               animate={{ opacity: 1, x: 0, y: '-50%' }}
               exit={{ opacity: 0, x: 2, y: '-50%' }}
               className="absolute -left-24 top-1/2 w-fit -translate-y-1/2 whitespace-pre rounded-md bg-black px-2 py-0.5 text-xs text-white dark:bg-white dark:text-black"
             >
               {title}
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
-        <motion.div
+        <m.div
           style={{ width: widthIcon, height: heightIcon }}
           className="flex items-center justify-center"
         >
           {icon}
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </button>
   );
 }

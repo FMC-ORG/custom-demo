@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Text, Field, ImageField, LinkField } from '@sitecore-content-sdk/nextjs';
 import { Default as ImageWrapper } from '@/components/image/ImageWrapper.dev';
 import { NoDataFallback } from '@/utils/NoDataFallback';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { ButtonBase as Button } from '@/components/button-component/ButtonComponent';
 import { ComponentProps } from '@/lib/component-props';
 
@@ -78,7 +78,7 @@ export const Default: React.FC<VerticalImageAccordionProps> = (props) => {
           aria-orientation="vertical"
         >
           {items?.results.map((item, index) => (
-            <motion.div
+            <m.div
               key={index}
               className={cn(
                 'group flex flex-col overflow-hidden rounded-lg transition-all duration-500',
@@ -153,7 +153,7 @@ export const Default: React.FC<VerticalImageAccordionProps> = (props) => {
                 {/* Description and CTA */}
                 <AnimatePresence>
                   {activeIndex === index && !isExpanding && (
-                    <motion.div
+                    <m.div
                       className="flex flex-col gap-4 overflow-hidden"
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
@@ -183,11 +183,11 @@ export const Default: React.FC<VerticalImageAccordionProps> = (props) => {
                           aria-label={`Learn more about ${item.title?.jsonValue?.value || ''}`}
                         />
                       )}
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

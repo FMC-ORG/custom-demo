@@ -76,7 +76,7 @@ const formSchema = z.object({
           const phoneNumber = phoneUtil.parse(number, 'US');
           return phoneUtil.isValidNumber(phoneNumber);
         } catch (error) {
-          console.log(error);
+          void error;
           return false;
         }
       },

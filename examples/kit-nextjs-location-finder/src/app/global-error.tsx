@@ -29,23 +29,37 @@ export default function GlobalError() {
     loadErrorPage();
   }, []);
 
+  // Prevent search engines from indexing error pages
+  const noIndexTag = <meta name="robots" content="noindex, nofollow" />;
+
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        {noIndexTag}
+        <div>Loading...</div>
+      </>
+    );
   }
 
   if (page) {
     return (
-      <Providers page={page}>
-        <Layout page={page} />
-      </Providers>
+      <>
+        {noIndexTag}
+        <Providers page={page}>
+          <Layout page={page} />
+        </Providers>
+      </>
     );
   }
 
   return (
-    <div style={{ padding: 10 }}>
-      <h1>500 Internal Server Error</h1>
-      <p>There is a problem with the resource you are looking for, and it cannot be displayed.</p>
-      <Link href="/">Go to the Home page</Link>
-    </div>
+    <>
+      {noIndexTag}
+      <div style={{ padding: 10 }}>
+        <h1>500 Internal Server Error</h1>
+        <p>There is a problem with the resource you are looking for, and it cannot be displayed.</p>
+        <Link href="/">Go to the Home page</Link>
+      </div>
+    </>
   );
 }

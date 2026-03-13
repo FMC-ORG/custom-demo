@@ -3,7 +3,7 @@
 import { useEffect, useState, type RefObject } from 'react';
 import YouTube from 'react-youtube';
 import { FocusTrap } from 'focus-trap-react';
-import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { m, AnimatePresence, Variants } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useVideo } from '@/contexts/VideoContext';
@@ -103,7 +103,7 @@ export function VideoModal({ isOpen, onClose, videoUrl }: VideoModalProps) {
       {isOpen && (
         <Portal>
           <FocusTrap>
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -114,7 +114,7 @@ export function VideoModal({ isOpen, onClose, videoUrl }: VideoModalProps) {
               aria-modal="true"
               aria-label={'video modal, video will start playing automatically'}
             >
-              <motion.div
+              <m.div
                 variants={modalVariants}
                 initial="hidden"
                 animate="visible"
@@ -122,7 +122,7 @@ export function VideoModal({ isOpen, onClose, videoUrl }: VideoModalProps) {
                 className="relative h-[calc(100vh-2rem)] max-h-[calc((100vw-4rem)*9/16)] w-[calc(100%-4rem)] max-w-[calc(100vh*16/9)]"
                 onClick={(e) => e.stopPropagation()}
               >
-                <motion.div variants={itemVariants} className="absolute inset-0">
+                <m.div variants={itemVariants} className="absolute inset-0">
                   {videoId ? (
                     <YouTube
                       videoId={videoId}
@@ -148,9 +148,9 @@ export function VideoModal({ isOpen, onClose, videoUrl }: VideoModalProps) {
                       No video available
                     </div>
                   )}
-                </motion.div>
-              </motion.div>
-              <motion.div variants={itemVariants} className="fixed right-4 top-4 z-[110]">
+                </m.div>
+              </m.div>
+              <m.div variants={itemVariants} className="fixed right-4 top-4 z-[110]">
                 <Button
                   className={`bg-white text-black hover:bg-gray-200  ${fadeOutClass} ${
                     showCloseButton ? visibleClass : hiddenClass
@@ -165,8 +165,8 @@ export function VideoModal({ isOpen, onClose, videoUrl }: VideoModalProps) {
                 >
                   <X className="h-4 w-4" />
                 </Button>
-              </motion.div>
-            </motion.div>
+              </m.div>
+            </m.div>
           </FocusTrap>
         </Portal>
       )}

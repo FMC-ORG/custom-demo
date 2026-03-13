@@ -1,5 +1,5 @@
 import { ImageField } from '@sitecore-content-sdk/nextjs';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ButtonBase as Button } from '../button-component/ButtonComponent';
 
 import { MultiPromoTabsFields } from './multi-promo-tabs.props';
@@ -27,7 +27,7 @@ const Default = (props: MultiPromoTabsFields) => {
 
   return (
     <div className="multi-promo-tab @md:grid-cols-2 @md:my-16 my-8 grid grid-cols-1 gap-6">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
@@ -52,8 +52,8 @@ const Default = (props: MultiPromoTabsFields) => {
             isPageEditing={isEditMode}
           />
         )}
-      </motion.div>
-      <motion.div
+      </m.div>
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
@@ -82,7 +82,7 @@ const Default = (props: MultiPromoTabsFields) => {
             isPageEditing={isEditMode}
           />
         )}
-      </motion.div>
+      </m.div>
     </div>
   );
 };

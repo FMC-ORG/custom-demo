@@ -1,68 +1,42 @@
----  
-name: sitecore-create-simple-component  
-description: Create a Sitecore XM Cloud simple datasource component that uses one datasource item, does not use child datasource items, and does not require ComponentQuery.  
----  
+# sitecore-create-simple-component  
   
-# Sitecore create simple component  
+Use this skill for a Sitecore XM Cloud component that uses a single datasource item and does not require child datasource items or `ComponentQuery`.  
   
-## Read these files first  
+## Load these documents  
 - `docs/ai/skills/sitecore-create-simple-component.md`  
 - `docs/ai/skills/shared/sitecore-tooling-guidelines.md`  
 - `docs/ai/skills/shared/react-uiim-guidelines.md`  
 - `docs/ai/templates/sitecore-component-spec.template.yaml`  
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`  
   
-## Use this skill when  
-- the component uses **one datasource item**  
-- there are **no authorable child datasource items**  
-- the rendering does **not** require `ComponentQuery`  
-- the React component should use the **default JSS field shape**  
-  
-Examples:  
-- Hero  
-- PromoBanner  
-- CTA  
-- ContentBlock  
-- ImageText  
-- QuoteBlock  
-  
-## Do not use this skill when  
-- the component contains repeated authorable child items  
-- the rendering requires `ComponentQuery`  
-- the component should read route/page context only  
-  
-Use instead:  
-- `sitecore-create-list-component`  
-- `sitecore-create-context-component`  
-  
-## Required workflow  
+## Required behavior  
 1. Read the user request.  
 2. If screenshots are attached or image paths are provided, inspect them first.  
-3. Confirm the request is truly a simple datasource component:  
+3. Determine whether the request is truly a simple datasource component:  
    - one datasource item  
    - no authorable child datasource items  
    - no `ComponentQuery`  
-4. If not, switch to the correct workflow:  
+4. If the request is not actually simple, switch to the correct workflow:  
    - list / parent-child datasource component  
    - context-only component  
 5. Normalize the request into the shared component spec.  
-6. Use these defaults unless repo conventions or the user request say otherwise:  
+6. Use these defaults unless the repo or user request says otherwise:  
    - `component.kind = simple`  
    - `component.filePath = src/components/uiim/<category-lowercase>/<component-name-kebab>.tsx`  
    - `rendering.datasourceRequired = true`  
    - `rendering.useComponentQuery = false`  
    - `rendering.componentQuery = ""`  
    - `react.propsShape = default-jss`  
-7. Ask concise follow-up questions if required values are missing, especially:  
+7. Ask concise follow-up questions if any required values are missing, especially:  
    - component name  
    - field list  
    - site collection and site name  
-   - category for the React path  
+   - category for React file placement  
 8. Before implementation, show:  
    - chosen classification  
    - inferred field model  
    - assumptions  
-   - completed or partial spec  
+   - completed spec  
    - plan  
 9. Then implement.  
 10. Return:  
@@ -71,9 +45,9 @@ Use instead:
    - files changed  
    - verification checklist  
   
-## Sitecore rules  
-- Prefer the **Sitecore marketer MCP** for Sitecore item creation or updates.  
-- Use the **sitecore-documentation-docs MCP** if official behavior is unclear.  
+## Sitecore behavior rules  
+- Prefer the **Sitecore marketer MCP** for creating or updating Sitecore items.  
+- Use the **sitecore-documentation-docs MCP** if official Sitecore behavior is unclear.  
 - A simple datasource component normally requires creating or updating:  
   - datasource template  
   - `__Standard Values`  
@@ -81,13 +55,13 @@ Use instead:
   - folder template `__Standard Values`  
   - datasource folder  
   - rendering  
-- Do **not** use `ComponentQuery` for a true simple component.  
+- Do **not** use `ComponentQuery` for true simple components.  
   
 ## Template rules  
 - Every custom template must have `__Standard Values`.  
 - `Datasource Template` must use a full Sitecore path.  
-- Avoid collision-prone field names.  
-- Prefer descriptive names such as:  
+- Avoid collision-prone field names when modeling templates.  
+- Prefer descriptive field names such as:  
   - `Title`  
   - `Description`  
   - `EyebrowText`  
@@ -97,12 +71,12 @@ Use instead:
   
 ## Rendering rules  
 - The rendering should be a **JSON Rendering** unless the repo explicitly requires otherwise.  
-- `Datasource Template` must use a full Sitecore path.  
-- `Datasource Location` must point to the folder template query pattern.  
+- `Datasource Template` must be a full Sitecore path.  
+- `Datasource Location` must point to the datasource folder template pattern.  
 - `ComponentQuery` must be empty.  
 - `Data source` remains empty unless explicitly requested.  
   
-## React rules  
+## React implementation rules  
 - Create the React file under:  
   - `src/components/uiim/<category-lowercase>/<component-name-kebab>.tsx`  
 - Use:  
@@ -120,13 +94,12 @@ Use instead:
   - `Image`  
   - `Link`  
   
-## Output order  
-1. chosen skill/workflow  
-2. completed or partial spec  
-3. plan  
-4. Sitecore actions / MCP actions  
-5. files changed  
-6. verification checklist  
+## Trigger hints  
+Use this skill when the component:  
+- uses a single datasource item  
+- is a hero, promo, CTA, content block, image/text block, quote block, or similar  
+- should be reusable by selecting a datasource item  
+- does not have repeated child datasource content  
   
 ## Verification checklist  
 - [ ] Request correctly classified as simple component  

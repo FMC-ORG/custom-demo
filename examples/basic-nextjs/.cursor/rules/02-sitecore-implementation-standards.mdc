@@ -1,0 +1,142 @@
+---  
+description: Enforce shared Sitecore XM Cloud implementation standards for React, renderings, templates, and MCP usage.  
+alwaysApply: true  
+---  
+  
+# Sitecore implementation standards  
+  
+Apply these rules to all Sitecore XM Cloud component work.  
+  
+## Shared docs to respect  
+- `docs/ai/skills/shared/sitecore-tooling-guidelines.md`  
+- `docs/ai/skills/shared/react-uiim-guidelines.md`  
+- `docs/ai/templates/sitecore-component-spec.template.yaml`  
+- `docs/ai/reference/sitecore-marketer-mcp-reference.md`  
+  
+## Sitecore item change rules  
+- Use the **Sitecore marketer MCP** whenever Sitecore items must be created or updated.  
+- Use the **sitecore-documentation-docs MCP** when official Sitecore behavior is unclear.  
+- Prefer explicit MCP-backed actions over vague instructions.  
+  
+## Rendering rules  
+- Prefer **JSON Rendering** unless the repo explicitly requires otherwise.  
+- `Datasource Template` must use a **full Sitecore path**, never a GUID.  
+- `AddFieldEditorButton = 1` is preferred unless repo conventions differ.  
+  
+## Workflow-specific rendering rules  
+  
+### Context-only  
+- do **not** require datasource by default  
+- keep these empty:  
+  - `Datasource Template`  
+  - `Datasource Location`  
+  - `Data source`  
+  - `ComponentQuery`  
+  
+### Simple datasource  
+- require datasource  
+- use datasource template + datasource location  
+- keep `ComponentQuery` empty  
+  
+### List datasource  
+- require datasource  
+- require valid `ComponentQuery`  
+- query must use:  
+  - `$datasource: String!`  
+  - `$language: String!`  
+  - `datasource: item(path: $datasource, language: $language)`  
+  - `children { results { ... } }`  
+  - `jsonValue` for authorable fields  
+  
+## Template rules  
+- Every created custom template must have `__Standard Values`.  
+- Avoid collision-prone field names such as:  
+  - `id`  
+  - `name`  
+  - `path`  
+  - `url`  
+  - `template`  
+  - `parent`  
+  - `children`  
+  - `language`  
+  - `version`  
+  - `displayName`  
+- Prefer descriptive field names such as:  
+  - `Title`  
+  - `Description`  
+  - `EyebrowText`  
+  - `HeroImage`  
+  - `PrimaryLink`  
+  - `BadgeText`  
+  
+## Datasource/folder rules  
+  
+### Simple datasource component  
+Must normally include:  
+- datasource template  
+- folder template  
+- datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/`  
+  
+### List datasource component  
+Must normally include:  
+- parent template  
+- child template  
+- folder template  
+- datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/`  
+- parent `__Standard Values` -> `__Masters` = child template  
+- parent should inherit `_HorizonDatasourceGrouping`  
+- folder template `__Standard Values` -> `__Masters` = parent template  
+  
+### Context-only component  
+Do **not** create by default:  
+- datasource template  
+- child template  
+- folder template  
+- datasource folder  
+- `ComponentQuery`  
+  
+## React implementation rules  
+- Create components under:  
+  - `src/components/uiim/<category-lowercase>/<component-name-kebab>.tsx`  
+- Use:  
+  - Tailwind CSS  
+  - shadcn/ui primitives from `@/components/ui/*`  
+  - Sitecore JSS helpers from `@sitecore-jss/sitecore-jss-nextjs`  
+  
+## React data shape rules  
+  
+### Context-only  
+Use:  
+- `useSitecoreContext()`  
+- `sitecoreContext.route?.fields`  
+  
+### Simple datasource  
+Use top-level fields:  
+- `fields.Title`  
+- `fields.Description`  
+- `fields.PrimaryLink`  
+- `fields.HeroImage`  
+  
+### List datasource  
+Use GraphQL datasource shape:  
+- `fields.data.datasource`  
+- `fields.data.datasource.children.results`  
+- `.jsonValue`  
+  
+## Editable field rules  
+Preserve Sitecore editability using:  
+- `Text`  
+- `RichText`  
+- `Image`  
+- `Link`  
+  
+Do not replace authorable Sitecore content with plain strings unless the field is definitely not Sitecore-managed.  
+  
+## Output order  
+For Sitecore tasks, respond in this order:  
+1. chosen skill/workflow  
+2. completed or partial spec  
+3. plan  
+4. Sitecore actions / MCP actions  
+5. files changed  
+6. verification checklist  

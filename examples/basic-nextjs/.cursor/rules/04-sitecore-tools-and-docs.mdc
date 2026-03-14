@@ -1,0 +1,123 @@
+# Sitecore tools and docs  
+  
+## Primary tool rule  
+  
+Use marketer MCP first for Sitecore item operations unless:  
+- a specific MCP action fails  
+- permissions prevent the change  
+- the repository/process explicitly requires serialization or source-controlled definitions  
+  
+Treat the following as normal Sitecore items that MCP can create/update:  
+- templates  
+- template sections  
+- template fields  
+- template `__Standard Values`  
+- folder templates  
+- folder template `__Standard Values`  
+- datasource folders  
+- renderings  
+  
+Do not state that marketer MCP cannot create templates or renderings by default.  
+  
+---  
+  
+## Documentation rule  
+  
+Prefer:  
+1. official Sitecore documentation  
+2. repo-local AI/reference docs  
+3. established project conventions visible in the repository  
+  
+If official docs and repo conventions differ, note the difference and follow repo convention when it is clearly project-specific.  
+  
+---  
+  
+## MCP execution rules  
+  
+- Resolve parent items with `get_content_item_by_path` before creating children.  
+- Create folder/container structure before leaf items.  
+- After each create/update, verify with `get_content_item_by_id` or `get_content_item_by_path`.  
+- Use exact field names returned by item inspection when updating fields.  
+- Do not guess field-name casing or internal-name/display-name mappings.  
+  
+### Template field rule  
+When creating template fields:  
+- create the field item with the standard Template field template  
+- explicitly set the field item `Type`  
+- verify the final `Type` after update  
+  
+Do not assume the field type is correct by default.  
+  
+### `__Standard Values` rule  
+To create `__Standard Values`:  
+- parent = owning template item  
+- name = `__Standard Values`  
+- template ID = owning template’s own ID  
+  
+Do not use a generic “Standard Values template ID” rule.  
+  
+---  
+  
+## Rendering rule  
+  
+When creating renderings:  
+- prefer JSON Rendering unless the repo uses a different convention  
+- verify datasource template  
+- verify datasource location  
+- verify component name  
+- verify field editor button settings when applicable  
+  
+If a rendering field cannot be confidently updated or verified through MCP, state that clearly and mark it as follow-up verification required.  
+  
+---  
+  
+## Verification rule  
+  
+Prefer MCP-based verification first.  
+  
+Verify, when relevant:  
+- template existence and path  
+- template section existence  
+- template field existence  
+- template field `Type`  
+- template `__Standard Values`  
+- folder template `__Standard Values`  
+- folder insert options / `__Masters`  
+- datasource folder path and template  
+- rendering datasource template  
+- rendering datasource location  
+- rendering component name  
+- rendering field editor button setting  
+  
+Use Content Editor verification only as a fallback when MCP cannot reliably confirm the value.  
+  
+---  
+  
+## Known tool behavior  
+  
+`list_available_insertoptions` may be most reliable for content items in a site content tree.  
+  
+For items under `/sitecore/templates/...`, prefer:  
+- `get_content_item_by_path`  
+- `get_content_item_by_id`  
+- direct inspection of `__Standard Values` and insert options fields  
+  
+Do not rely on `list_available_insertoptions` as the primary inspection tool for template items.  
+  
+---  
+  
+## Honesty rule  
+  
+Do not mark a Sitecore change as complete unless:  
+- the create/update call succeeded  
+- and the result was verified, or you explicitly state what remains unverified  
+  
+Use language like:  
+- “created and verified”  
+- “created; field update needs verification”  
+- “planned; repo process may require serialization”  
+  
+Avoid language like:  
+- “MCP does not support templates/renderings”  
+  
+unless you encountered a specific, reproducible failure and report it as such.  

@@ -1,9 +1,10 @@
-﻿// Below are built-in components that are available in the app, it's recommended to keep them as is
+// Below are built-in components that are available in the app, it's recommended to keep them as is
 
 import { BYOCServerWrapper, NextjsContentSdkComponent, FEaaSServerWrapper } from '@sitecore-content-sdk/nextjs';
 import { Form } from '@sitecore-content-sdk/nextjs';
 
 // end of built-in components
+import * as promobanner from 'src/components/uiim/banners/promo-banner';
 import * as Title from 'src/components/basic/title/Title';
 import * as RowSplitter from 'src/components/basic/row-splitter/RowSplitter';
 import * as RichText from 'src/components/basic/rich-text/RichText';
@@ -23,6 +24,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCServerWrapper],
   ['FEaaSWrapper', FEaaSServerWrapper],
   ['Form', { ...Form, componentType: 'client' }],
+  ['promo-banner', { ...promobanner }],
   ['Title', { ...Title }],
   ['RowSplitter', { ...RowSplitter }],
   ['RichText', { ...RichText }],

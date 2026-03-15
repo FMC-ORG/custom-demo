@@ -36,7 +36,7 @@ Avoid:
 ## Sitecore field rendering  
 For editable Sitecore-managed content, prefer helpers from:  
   
-- `@sitecore-jss/sitecore-jss-nextjs`  
+- `@sitecore-content-sdk/nextjs`  
   
 Use:  
 - `Text`  
@@ -101,7 +101,7 @@ import {
   LinkField,  
   RichText,  
   Text,  
-} from '@sitecore-jss/sitecore-jss-nextjs';  
+} from '@sitecore-content-sdk/nextjs';  
 import { Card, CardContent } from '@/components/ui/card';  
 import { buttonVariants } from '@/components/ui/button';  
 import { cn } from '@/lib/utils';  

@@ -1,3 +1,8 @@
+---  
+description: Sitecore MCP, documentation, verification, and honesty rules  
+alwaysApply: false  
+---  
+  
 # Sitecore tools and docs  
   
 ## Primary tool rule  
@@ -41,6 +46,7 @@ If official docs and repo conventions differ, note the difference and follow rep
 - Do not guess field-name casing or internal-name/display-name mappings.  
   
 ### Template field rule  
+  
 When creating template fields:  
 - create the field item with the standard Template field template  
 - explicitly set the field item `Type`  
@@ -49,12 +55,21 @@ When creating template fields:
 Do not assume the field type is correct by default.  
   
 ### `__Standard Values` rule  
-To create `__Standard Values`:  
-- parent = owning template item  
-- name = `__Standard Values`  
-- template ID = owning template’s own ID  
   
-Do not use a generic “Standard Values template ID” rule.  
+When creating `__Standard Values` for any template via MCP:  
+  
+- `name = "__Standard Values"`  
+- `parentId = owning template item ID`  
+- `templateId = owning template item ID`  
+  
+Example:  
+- Promo Banner template ID = `ce483486-28de-4d03-ab7a-0234f31b9914`  
+- Promo Banner `__Standard Values`:  
+  - `name = "__Standard Values"`  
+  - `parentId = "ce483486-28de-4d03-ab7a-0234f31b9914"`  
+  - `templateId = "ce483486-28de-4d03-ab7a-0234f31b9914"`  
+  
+Do **not** use the Standard template ID `1930bbeb-7805-471a-a3be-4858ac7cf696` unless you are literally creating an item based on the Standard template itself.  
   
 ---  
   
@@ -81,7 +96,9 @@ Verify, when relevant:
 - template field existence  
 - template field `Type`  
 - template `__Standard Values`  
+- template `__Standard Values` is based on the owning template  
 - folder template `__Standard Values`  
+- folder template `__Standard Values` is based on the owning folder template  
 - folder insert options / `__Masters`  
 - datasource folder path and template  
 - rendering datasource template  
@@ -95,6 +112,8 @@ Use Content Editor verification only as a fallback when MCP cannot reliably conf
   
 ## Known tool behavior  
   
+### `list_available_insertoptions`  
+  
 `list_available_insertoptions` may be most reliable for content items in a site content tree.  
   
 For items under `/sitecore/templates/...`, prefer:  
@@ -103,6 +122,16 @@ For items under `/sitecore/templates/...`, prefer:
 - direct inspection of `__Standard Values` and insert options fields  
   
 Do not rely on `list_available_insertoptions` as the primary inspection tool for template items.  
+  
+### Field update sensitivity  
+  
+`update_fields_on_content_item` can be sensitive to exact field names, casing, or the item template involved.  
+  
+When an update does not stick:  
+1. re-read the item via MCP  
+2. inspect the actual field names returned  
+3. retry using the exact returned names  
+4. if still unsuccessful, report the field as requiring follow-up verification  
   
 ---  
   

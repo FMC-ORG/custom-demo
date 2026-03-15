@@ -1,0 +1,74 @@
+project:
+  reactComponentRoot: "src/components/uiim"
+  shadcnImportBase: "@/components/ui"
+  componentMapPath: ".sitecore/component-map.ts"
+  sitecoreJssPackage: "@sitecore-content-sdk/nextjs"
+  usesTailwind: true
+  usesShadcn: true
+
+siteCollection: "new"
+siteName: "fmc"
+category: "content"
+
+component:
+  namePascal: "VideoTestimonial"
+  nameKebab: "video-testimonial"
+  kind: "simple"
+  filePath: "src/components/uiim/content/video-testimonial.tsx"
+  componentMapKey: "video-testimonial"
+  componentMapImportAlias: "videoTestimonial"
+
+design:
+  extractedLayout:
+    summary: "Testimonial block with left quote panel (dark), right image with video play button overlay."
+    visibleElements:
+      - "Quote"
+      - "Attribution"
+      - "TestimonialImage"
+      - "VideoLink"
+    inferredFields:
+      - "Quote"
+      - "Attribution"
+      - "TestimonialImage"
+      - "VideoLink"
+    repeatedItems: false
+
+templates:
+  parent:
+    path: "/sitecore/templates/Project/new/Components/Content/Video Testimonial"
+    name: "Video Testimonial"
+    sectionName: "Data"
+    fields:
+      - name: "Quote"
+        type: "Rich Text"
+      - name: "Attribution"
+        type: "Single-Line Text"
+      - name: "TestimonialImage"
+        type: "Image"
+      - name: "VideoLink"
+        type: "General Link"
+
+folderTemplate:
+  path: "/sitecore/templates/Project/new/Folders/Video Testimonial Folder"
+  name: "Video Testimonial Folder"
+
+datasourceFolder:
+  path: "/sitecore/content/new/fmc/Data/Video Testimonials"
+  name: "Video Testimonials"
+
+rendering:
+  path: "/sitecore/layout/Renderings/Project/new/Content/Video Testimonial"
+  componentName: "video-testimonial"
+  datasourceTemplatePath: "/sitecore/templates/Project/new/Components/Content/Video Testimonial"
+  datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Video Testimonial Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Video Testimonial Folder']"
+
+react:
+  propsShape: "default-jss"
+  usesSitecoreJssHelpers: true
+  usesTailwind: true
+  variants:
+    - "Default"
+
+notes:
+  - "MCP-created items. Template fields may need Type set in Content Editor: Quote→Rich Text, TestimonialImage→Image, VideoLink→General Link."
+  - "Folder __Standard Values __Masters = Video Testimonial template (43572184-179b-4dde-8714-353530072f25)."

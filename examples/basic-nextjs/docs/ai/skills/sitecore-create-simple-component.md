@@ -11,12 +11,14 @@ Use this skill when creating a Sitecore XM Cloud component backed by a **single 
   - `fields.Title`  
   - `fields.Description`  
   - `fields.PrimaryLink`  
+  - `fields.Image`  
   
 ## Do not use this skill when  
   
 - the component needs repeated child items  
 - authors must create nested cards/rows/FAQ items/testimonials  
 - the rendering depends on `ComponentQuery`  
+- the component requires authorable collections of child datasource items  
   
 Use a list/nested component workflow instead.  
   
@@ -27,7 +29,7 @@ Use a list/nested component workflow instead.
 Confirm or infer:  
   
 - component name  
-- category  
+- category/grouping  
 - site collection  
 - site name  
 - rendering name  
@@ -99,7 +101,17 @@ Preferred order:
 9. set folder insert options / `__Masters`  
 10. create datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data`  
 11. create rendering item  
-12. verify final state  
+12. update rendering fields  
+13. verify final state  
+  
+---  
+  
+### Parent resolution  
+  
+Before creating child items:  
+- resolve parents with `get_content_item_by_path`  
+- use resolved item IDs  
+- do not guess IDs  
   
 ---  
   
@@ -116,20 +128,48 @@ Common field types:
 - `Image`  
 - `General Link`  
   
+If needed, also set:  
+- `Source`  
+- `Shared`  
+- `Unversioned`  
+  
 Do not assume the field type is correct by default.  
   
 ---  
   
 ### `__Standard Values` rule  
   
-To create `__Standard Values`:  
-- parent = owning template item  
-- name = `__Standard Values`  
-- template ID = owning template’s own ID  
+To create `__Standard Values` for a template via MCP:  
   
-This applies to both datasource templates and folder templates.  
+- `name = "__Standard Values"`  
+- `parentId = owning template item ID`  
+- `templateId = owning template item ID`  
   
-Do not use a generic “Standard Values template ID” rule.  
+This applies to:  
+- datasource templates  
+- folder templates  
+  
+Example:  
+- if the Promo Banner template item ID is `ce483486-28de-4d03-ab7a-0234f31b9914`  
+- then create `__Standard Values` with:  
+  - `name = "__Standard Values"`  
+  - `parentId = "ce483486-28de-4d03-ab7a-0234f31b9914"`  
+  - `templateId = "ce483486-28de-4d03-ab7a-0234f31b9914"`  
+  
+Do **not** use the Standard template ID `1930bbeb-7805-471a-a3be-4858ac7cf696` for a template’s `__Standard Values`.  
+  
+---  
+  
+### Folder template rule  
+  
+When creating a datasource folder template:  
+- create the folder template item  
+- create its `__Standard Values` using the folder template’s own item ID as both:  
+  - `parentId`  
+  - `templateId`  
+- set insert options / `__Masters` so authors can create the correct datasource items inside the folder  
+  
+Use exact field names returned by MCP inspection when updating insert options.  
   
 ---  
   
@@ -138,7 +178,7 @@ Do not use a generic “Standard Values template ID” rule.
 Prefer **JSON Rendering** unless repo convention differs.  
   
 For simple datasource components:  
-- datasource should normally be required  
+- datasource should normally be required unless repo convention says otherwise  
 - `ComponentQuery` should remain empty  
   
 Verify rendering values such as:  
@@ -161,7 +201,9 @@ Verify, when relevant:
 - field existence  
 - field `Type`  
 - template `__Standard Values`  
+- template `__Standard Values` is based on the owning template  
 - folder template `__Standard Values`  
+- folder template `__Standard Values` is based on the owning folder template  
 - folder insert options / `__Masters`  
 - datasource folder path  
 - rendering datasource template  
@@ -195,7 +237,7 @@ Before choosing imports:
   
 Common SDKs:  
 - `@sitecore-content-sdk/nextjs`  
-
+- `@sitecore-jss/sitecore-jss-nextjs`  
   
 Do not mix SDK conventions unnecessarily.  
   
@@ -218,6 +260,8 @@ Not appropriate for this workflow:
 Update the component map file when required by the repo, for example:  
 - `.sitecore/component-map.ts`  
   
+Follow existing naming conventions for the component key and rendering name.  
+  
 ---  
   
 ## Output format  
@@ -235,3 +279,15 @@ After implementation:
 3. files changed  
 4. verification results  
 5. follow-up verification or serialization requirements  
+  
+---  
+  
+## Completion rule  
+  
+A task is only fully complete when:  
+- the React component is implemented  
+- the component map is updated when required  
+- the needed Sitecore items were created/updated or clearly reported as blocked  
+- the important Sitecore values were verified or explicitly flagged for follow-up  
+  
+Do not silently downgrade unverified Sitecore work to “manual setup required” without explaining why.  

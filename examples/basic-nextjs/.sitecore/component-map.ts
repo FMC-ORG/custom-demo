@@ -4,10 +4,7 @@ import { BYOCServerWrapper, NextjsContentSdkComponent, FEaaSServerWrapper } from
 import { Form } from '@sitecore-content-sdk/nextjs';
 
 // end of built-in components
-import * as videotestimonial from 'src/components/uiim/content/video-testimonial';
-import * as debitcardpromo from 'src/components/uiim/content/debit-card-promo';
-import * as cardbank from 'src/components/uiim/content/card-bank';
-import * as promobanner from 'src/components/uiim/banners/promo-banner';
+import * as eurobankheader from 'src/components/uiim/navigation/eurobank-header';
 import * as Title from 'src/components/basic/title/Title';
 import * as RowSplitter from 'src/components/basic/row-splitter/RowSplitter';
 import * as RichText from 'src/components/basic/rich-text/RichText';
@@ -27,10 +24,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCServerWrapper],
   ['FEaaSWrapper', FEaaSServerWrapper],
   ['Form', { ...Form, componentType: 'client' }],
-  ['video-testimonial', { ...videotestimonial }],
-  ['debit-card-promo', { ...debitcardpromo }],
-  ['card-bank', { ...cardbank }],
-  ['promo-banner', { ...promobanner }],
+  ['eurobank-header', { ...eurobankheader, componentType: 'client' }],
   ['Title', { ...Title }],
   ['RowSplitter', { ...RowSplitter }],
   ['RichText', { ...RichText }],

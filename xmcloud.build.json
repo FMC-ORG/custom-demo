@@ -1,4 +1,7 @@
 {
+  "buildTargets": [
+  "./authoring/platform/Platform.csproj"
+],
   "transforms": [
     {
       "xdtPath": "/app_data/xdts/web.config.xdt",

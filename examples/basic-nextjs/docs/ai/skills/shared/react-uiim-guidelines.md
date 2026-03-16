@@ -90,6 +90,48 @@ Use route context when confirmed:
 - `useSitecoreContext()`  
 - `sitecoreContext.route?.fields`  
   
+## Named exports and variants
+
+Every XM Cloud component must use **named exports**, not `export default` for the component function.
+
+The framework resolves variants by matching the author-selected variant name to the named export in the TSX file. If the component uses `export default`, the variant mechanism silently fails — Sitecore will always render the default and the variant picker has no effect.
+
+### Required pattern
+
+```tsx
+// Always required — the default presentation
+export const Default = (props: MyProps): JSX.Element => {
+  if (!props.fields) return <MyDefaultComponent />;
+  return ( ... );
+};
+
+// Additional variants — name must match Variant Definition item in Sitecore exactly
+export const Centered = (props: MyProps): JSX.Element => {
+  if (!props.fields) return <MyDefaultComponent />;
+  return ( ... );
+};
+```
+
+### Empty-state fallback
+
+Always include a non-exported fallback component for when no datasource is present:
+
+```tsx
+const MyDefaultComponent = (): JSX.Element => (
+  <div className="component my-component">
+    <div className="component-content">
+      <span className="is-empty-hint">MyComponent</span>
+    </div>
+  </div>
+);
+```
+
+### Variant names must match Sitecore exactly
+
+The export name (`Default`, `Centered`, `Dark`) must be **identical — same casing** — to the Variant Definition item name under `Presentation/Headless Variants/<ComponentName>/` in Sitecore.
+
+To create the Sitecore Variant Definition items, use `docs/ai/skills/sitecore-add-variants.md`.
+
 ## Example: simple component pattern  
   
 ```tsx  
@@ -118,7 +160,7 @@ type HeroProps = {
   params?: Record<string, string>;  
 };  
   
-export default function Hero({ fields }: HeroProps) {  
+export const Default = ({ fields }: HeroProps): JSX.Element => {  
   return (  
     <section className="py-12 md:py-20">  
       <Card className="overflow-hidden border-0 shadow-none">  

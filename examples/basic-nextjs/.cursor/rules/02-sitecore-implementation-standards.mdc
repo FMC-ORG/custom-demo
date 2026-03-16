@@ -21,6 +21,7 @@ Apply these rules to all Sitecore XM Cloud component work.
 ## Rendering rules  
 - Prefer **JSON Rendering** unless the repo explicitly requires otherwise.  
 - `Datasource Template` must use a **full Sitecore path**, never a GUID.  
+- `Parameters Template [shared]` must always be set — never leave it empty.  
 - `AddFieldEditorButton = 1` is preferred unless repo conventions differ.  
   
 ## Workflow-specific rendering rules  
@@ -76,6 +77,7 @@ Must normally include:
 - datasource template  
 - folder template  
 - datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/`  
+- example datasource item inside the folder
   
 ### List datasource component  
 Must normally include:  
@@ -83,6 +85,8 @@ Must normally include:
 - child template  
 - folder template  
 - datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/`  
+- example parent datasource item inside the folder
+- example child items inside the parent item
 - parent `__Standard Values` -> `__Masters` = child template  
 - parent should inherit `_HorizonDatasourceGrouping`  
 - folder template `__Standard Values` -> `__Masters` = parent template  
@@ -101,8 +105,16 @@ Do **not** create by default:
 - Use:  
   - Tailwind CSS  
   - shadcn/ui primitives from `@/components/ui/*`  
-  - Sitecore JSS helpers from `@sitecore-jss/sitecore-jss-nextjs`  
+  - Sitecore JSS helpers from `@sitecore-content-sdk/nextjs`  
   
+
+## Named exports rule
+Every component must use **named exports**, not `export default`:
+- Always export at least `export const Default`
+- Each additional named export = one variant
+- Export name must **exactly match** the Variant Definition item name in Sitecore
+- Include a non-exported empty-state fallback component
+
 ## React data shape rules  
   
 ### Context-only  

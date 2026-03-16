@@ -6,8 +6,8 @@ project:
   usesTailwind: true
   usesShadcn: true
 
-siteCollection: "new"
-siteName: "fmc"
+siteCollection: "acme"
+siteName: "main"
 category: "content"
 
 component:
@@ -35,7 +35,7 @@ design:
 
 templates:
   parent:
-    path: "/sitecore/templates/Project/new/Components/Content/Video Testimonial"
+    path: "/sitecore/templates/Project/acme/Components/Content/Video Testimonial"
     name: "Video Testimonial"
     sectionName: "Data"
     fields:
@@ -49,17 +49,38 @@ templates:
         type: "General Link"
 
 folderTemplate:
-  path: "/sitecore/templates/Project/new/Folders/Video Testimonial Folder"
+  path: "/sitecore/templates/Project/acme/Folders/Video Testimonial Folder"
   name: "Video Testimonial Folder"
 
 datasourceFolder:
-  path: "/sitecore/content/new/fmc/Data/Video Testimonials"
+  create: true
+  path: "/sitecore/content/acme/main/Data/Video Testimonials"
   name: "Video Testimonials"
+  exampleItem:
+    create: true
+    name: "Video Testimonial"
+    fields: {}
+
+renderingParamsTemplate:
+  create: true
+  path: "/sitecore/templates/Project/acme/Rendering Parameters/Content/Video Testimonial"
+  name: "Video Testimonial"
+  baseTemplates:
+    - "{4247AAD4-EBDE-4994-998F-E067A51B1FE4}"  # IComponentVariant
+    - "{5C74E985-E055-43FF-B28C-DB6C6A6450A2}"  # IStyling
+    - "{44A022DB-56D3-419A-B43B-E27E4D8E9C41}"  # Grid Parameters
+    - "{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}"  # IRenderingId
+
+headlessVariants:
+  create: true
+  containerPath: "/sitecore/content/acme/main/Presentation/Headless Variants/VideoTestimonial"
+  variants:
+  - "Default"
 
 rendering:
-  path: "/sitecore/layout/Renderings/Project/new/Content/Video Testimonial"
+  path: "/sitecore/layout/Renderings/Project/acme/Content/Video Testimonial"
   componentName: "video-testimonial"
-  datasourceTemplatePath: "/sitecore/templates/Project/new/Components/Content/Video Testimonial"
+  datasourceTemplatePath: "/sitecore/templates/Project/acme/Components/Content/Video Testimonial"
   datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Video Testimonial Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Video Testimonial Folder']"
 
 react:

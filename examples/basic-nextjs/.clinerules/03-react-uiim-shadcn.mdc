@@ -62,7 +62,7 @@ For Sitecore-managed content, preserve editability using:
 - `Link`  
   
 Use imports from:  
-- `@sitecore-jss/sitecore-jss-nextjs`  
+- `@sitecore-content-sdk/nextjs`  
   
 ### Do  
 - use `<Text field={...} />` for text fields  

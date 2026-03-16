@@ -2,7 +2,7 @@ project:
   reactComponentRoot: "src/components/uiim"  
   shadcnImportBase: "@/components/ui"  
   componentMapPath: ".sitecore/component-map.ts"  
-  sitecoreJssPackage: "@sitecore-jss/sitecore-jss-nextjs"  
+  sitecoreJssPackage: "@sitecore-content-sdk/nextjs"  
   usesTailwind: true  
   usesShadcn: true  
   
@@ -24,8 +24,8 @@ tools:
       - "GraphQL/rendering configuration is uncertain"  
       - "the agent needs product documentation verification"  
   
-siteCollection: "mysite"  
-siteName: "mysite"  
+siteCollection: "acme"  
+siteName: "main"  
 category: "Cards"  
   
 component:  
@@ -70,7 +70,7 @@ context:
 templates:  
   parent:  
     create: true  
-    path: "/sitecore/templates/Project/mysite/Components/Cards/ArticleCards"  
+    path: "/sitecore/templates/Project/acme/Components/Cards/ArticleCards"  
     name: "ArticleCards"  
     sectionName: "Data"  
     fields:  
@@ -88,7 +88,7 @@ templates:
   
   child:  
     create: true  
-    path: "/sitecore/templates/Project/mysite/Components/Cards/ArticleCard"  
+    path: "/sitecore/templates/Project/acme/Components/Cards/ArticleCard"  
     name: "ArticleCard"  
     sectionName: "Data"  
     fields:  
@@ -110,7 +110,7 @@ templates:
   
 folderTemplate:  
   create: true  
-  path: "/sitecore/templates/Project/mysite/Folders/Article Cards Folder"  
+  path: "/sitecore/templates/Project/acme/Folders/Article Cards Folder"  
   name: "Article Cards Folder"  
   standardValues:  
     create: true  
@@ -119,16 +119,37 @@ folderTemplate:
   
 datasourceFolder:  
   create: true  
-  path: "/sitecore/content/mysite/mysite/Data/ArticleCards"  
+  path: "/sitecore/content/acme/main/Data/ArticleCards"  
   name: "ArticleCards"  
   
-rendering:  
+  exampleItem:
+    create: true
+    name: "Article Cards"
+    fields: {}
+    exampleChildItems: 2
+renderingParamsTemplate:
+  create: true
+  path: "/sitecore/templates/Project/acme/Rendering Parameters/Cards/Article Cards"
+  name: "Article Cards"
+  baseTemplates:
+    - "{4247AAD4-EBDE-4994-998F-E067A51B1FE4}"  # IComponentVariant
+    - "{5C74E985-E055-43FF-B28C-DB6C6A6450A2}"  # IStyling
+    - "{44A022DB-56D3-419A-B43B-E27E4D8E9C41}"  # Grid Parameters
+    - "{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}"  # IRenderingId
+
+headlessVariants:
+  create: true
+  containerPath: "/sitecore/content/acme/main/Presentation/Headless Variants/ArticleCards"
+  variants:
+  - "Default"
+
+rendering:
   create: true  
-  path: "/sitecore/layout/Renderings/Project/mysite/Cards/ArticleCards"  
+  path: "/sitecore/layout/Renderings/Project/acme/Cards/ArticleCards"  
   name: "ArticleCards"  
   componentName: "article-cards"  
   datasourceRequired: true  
-  datasourceTemplatePath: "/sitecore/templates/Project/mysite/Components/Cards/ArticleCards"  
+  datasourceTemplatePath: "/sitecore/templates/Project/acme/Components/Cards/ArticleCards"  
   datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Article Cards Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Article Cards Folder']"  
   dataSource: ""  
   addFieldEditorButton: "1"  

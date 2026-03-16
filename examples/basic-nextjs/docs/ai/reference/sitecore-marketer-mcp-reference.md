@@ -2,7 +2,7 @@
   
 ## Core rule  
   
-Treat templates, template sections, template fields, `__Standard Values`, folder templates, datasource folders, and renderings as normal Sitecore items.  
+Treat templates, template sections, template fields, `__Standard Values`, folder templates, datasource folders, renderings, Headless Variants containers, and Variant Definition items as normal Sitecore items.  
   
 Use the marketer MCP first for Sitecore item creation and updates unless:  
 - a specific MCP action fails  
@@ -45,7 +45,20 @@ These are common Sitecore standard item template IDs:
 - Template field: `455a3e98-a627-4b40-8035-e683a0331ac7`  
 - Template folder: `0437fee2-44c9-46a6-abe9-28858d9fee8c`  
 - JSON Rendering: `04646a89-996f-4ee7-878a-ffdbf1f0ef0d`  
-  
+
+## Rendering Parameters base template IDs
+
+Every Rendering Parameters template must inherit all four of these base templates:
+
+| ID | Purpose |
+|---|---|
+| `4247aad4-ebde-4994-998f-e067a51b1fe4` | `IComponentVariant` — adds variant picker to Experience Editor |
+| `5c74e985-e055-43ff-b28c-db6c6a6450a2` | `IStyling` — adds styles support |
+| `44a022db-56d3-419a-b43b-e27e4d8e9c41` | `Grid Parameters` — adds grid field |
+| `3db3eb10-f8d0-4cc9-be26-18ce7b139ec8` | `IRenderingId` — adds HTML ID field |
+
+Set all four as `Base template` on every Rendering Parameters template item.
+
 Use these only when you truly need a standard Sitecore item template ID.  
   
 ---  
@@ -190,6 +203,51 @@ Use the project’s folder template when one exists.
   
 ---  
   
+
+### Create an example datasource item
+
+After creating the datasource folder, create one example content item inside it.
+
+This gives authors an immediate starting point — they can duplicate it or edit it rather than creating from scratch in an empty picker.
+
+**How to create:**
+- parent = the datasource folder item (resolve with `get_content_item_by_path`)
+- template = the datasource template
+- name = the component name (e.g. `Hero`, `Promo Banner`, `Article Cards`)
+
+For **list components**, the example item is the parent datasource item. Create one or two child items inside it using the child template so the component renders immediately.
+
+**Field values:** Use the `__Standard Values` defaults where set. If no defaults exist, leave fields empty — do not invent placeholder copy.
+
+**Verify** the created item with `get_content_item_by_id` or `get_content_item_by_path`.
+
+---
+
+### Create a Rendering Parameters template
+
+Every rendering requires a Rendering Parameters template. Create it before creating the rendering item.
+
+**Path:** `renderingParamsRoot` + `/<Category>/<ComponentName>`
+
+For example: `/sitecore/templates/Project/new/Rendering Parameters/Banners/Hero`
+
+**Steps:**
+1. Resolve the `renderingParamsRoot` parent with `get_content_item_by_path`
+2. Create a Category subfolder if it does not already exist (use the Template folder template ID `0437fee2-44c9-46a6-abe9-28858d9fee8c`)
+3. Create the Rendering Parameters template item:
+   - `name` = component name (e.g. `Hero`)
+   - `templateId` = `ab86861a-6030-46c5-b394-e8f99e8b87db` (standard Template)
+   - `parentId` = category folder item ID
+4. Set the `Base template` field on the new template item to all four required base templates (pipe-separated GUIDs):
+   ```
+   {4247AAD4-EBDE-4994-998F-E067A51B1FE4}|{5C74E985-E055-43FF-B28C-DB6C6A6450A2}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}|{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}
+   ```
+5. Verify with `get_content_item_by_path` that the template exists and base templates are set
+
+Do **not** skip this step for any component type — simple, list, or context-only renderings all require a Rendering Parameters template.
+
+---
+
 ### Create renderings  
   
 Prefer **JSON Rendering** unless the repository uses another convention.  
@@ -197,8 +255,11 @@ Prefer **JSON Rendering** unless the repository uses another convention.
 For the rendering item, create or verify fields such as:  
 - datasource template  
 - datasource location  
+- `Parameters Template [shared]` — set to the full Sitecore path of the Rendering Parameters template  
 - component name  
 - add field editor button  
+  
+Do **not** leave `Parameters Template [shared]` empty. Every rendering requires it.  
   
 Use the exact field names returned by item inspection for updates.  
   
@@ -238,6 +299,7 @@ After any create/update, verify the resulting item with:
 - rendering exists at the expected path  
 - datasource template is correct  
 - datasource location is correct  
+- `Parameters Template [shared]` is set and points to the correct Rendering Parameters template  
 - component name is correct  
 - add field editor button is set as intended  
   
@@ -295,20 +357,67 @@ Avoid:
   
 ## Project-specific values  
   
-Fill and maintain these per repository:  
+Project values are loaded from `docs/ai/config/project.yaml` at the start of every task.  
   
-- `siteCollection`: `<replace>`  
-- `siteName`: `<replace>`  
-- `dataRoot`: `/sitecore/content/<siteCollection>/<siteName>/Data`  
-- `renderingsRoot`: `<replace>`  
-- `projectTemplatesRoot`: `<replace>`  
-- `projectFoldersRoot`: `<replace>`  
+See rule `00-project-config-bootstrap` for the full read/create workflow.  
   
-### Example: basic-nextjs  
+### Path derivation rules  
   
-- `siteCollection`: `new`  
-- `siteName`: `fmc`  
-- `dataRoot`: `/sitecore/content/new/fmc/Data`  
-- `renderingsRoot`: `/sitecore/layout/Renderings/Project/new/Banners`  
+Read `siteCollection`, `siteName`, `renderingsRoot`, and `projectTemplatesRoot` from the config file.  
   
-Replace the example with the actual repository values if this repo differs.  
+Then derive:  
+  
+| Variable | Derivation |  
+|---|---|  
+| `dataRoot` | `/sitecore/content/<siteCollection>/<siteName>/Data` |  
+| `projectFoldersRoot` | `projectTemplatesRoot` + `/Folders` |
+| `headlessVariantsRoot` | `/sitecore/content/<siteCollection>/<siteName>/Presentation/Headless Variants` |
+| `renderingParamsRoot` | `projectTemplatesRoot` + `/Rendering Parameters` |  
+  
+If `renderingsRoot` or `projectTemplatesRoot` are absent from the config file, use these defaults:  
+  
+| Variable | Default |  
+|---|---|  
+| `renderingsRoot` | `/sitecore/layout/Renderings/Project/<siteCollection>` |  
+| `projectTemplatesRoot` | `/sitecore/templates/Project/<siteCollection>` |  
+  
+Then construct item paths using:  
+  
+| Item type | Pattern |  
+|---|---|  
+| Datasource template | `projectTemplatesRoot` + `/Components/<Category>/<TemplateName>` |  
+| Child template | `projectTemplatesRoot` + `/Components/<Category>/<ChildTemplateName>` |  
+| Folder template | `projectFoldersRoot` + `/<FolderTemplateName>` |  
+| Datasource folder | `dataRoot` + `/<ComponentNamePlural>` |  
+| Rendering | `renderingsRoot` + `/<Category>/<RenderingName>` |
+| Rendering Parameters template | `renderingParamsRoot` + `/<Category>/<ComponentName>` |
+| Headless Variants container | `headlessVariantsRoot` + `/<ComponentName>` |
+| Variant Definition item | `headlessVariantsRoot` + `/<ComponentName>/<VariantName>` |  
+  
+`<Category>` must match the component spec `category` field (PascalCase, e.g. `Banners`, `Cards`, `Content`, `Page`).  
+  
+### Verified example: Promo Banner  
+  
+A fully created and verified simple datasource component for reference.  
+Derived from `siteCollection: new`, `siteName: fmc`.  
+  
+- Datasource template: `/sitecore/templates/Project/new/Components/Banners/Promo Banner`  
+- Folder template: `/sitecore/templates/Project/new/Folders/Promo Banner Folder`  
+- Datasource folder: `/sitecore/content/new/fmc/Data/Promo Banners`  
+- Rendering Parameters template: `/sitecore/templates/Project/new/Rendering Parameters/Banners/Promo Banner`  
+- Rendering: `/sitecore/layout/Renderings/Project/new/Banners/Promo Banner`  
+  
+Known item IDs (use for cross-reference only):  
+- Promo Banner template: `ce483486-28de-4d03-ab7a-0234f31b9914`  
+- Promo Banner `__Standard Values`: `41e0101a-...` (templateId = `ce483486-...`)  
+- Promo Banner Folder template: `34d06ac8-...`  
+- Promo Banner datasource folder: `f684a188-...`  
+- Promo Banner JSON Rendering: `b8a741b2-...`  
+  
+### Verified example: Video Testimonial  
+  
+- Datasource template: `/sitecore/templates/Project/new/Components/Content/Video Testimonial`  
+- Folder template: `/sitecore/templates/Project/new/Folders/Video Testimonial Folder`  
+- Datasource folder: `/sitecore/content/new/fmc/Data/Video Testimonials`  
+- Rendering Parameters template: `/sitecore/templates/Project/new/Rendering Parameters/Content/Video Testimonial`  
+- Rendering: `/sitecore/layout/Renderings/Project/new/Content/Video Testimonial`  

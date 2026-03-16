@@ -2,7 +2,7 @@ project:
   reactComponentRoot: "src/components/uiim"  
   shadcnImportBase: "@/components/ui"  
   componentMapPath: ".sitecore/component-map.ts"  
-  sitecoreJssPackage: "@sitecore-jss/sitecore-jss-nextjs"  
+  sitecoreJssPackage: "@sitecore-content-sdk/nextjs"  
   usesTailwind: true  
   usesShadcn: true  
   
@@ -23,8 +23,8 @@ tools:
       - "GraphQL/rendering configuration is uncertain"  
       - "the agent needs product documentation verification"  
   
-siteCollection: "mysite"  
-siteName: "mysite"  
+siteCollection: "acme"  
+siteName: "main"  
 category: "Banners"  
   
 component:  
@@ -64,7 +64,7 @@ context:
 templates:  
   parent:  
     create: true  
-    path: "/sitecore/templates/Project/mysite/Components/Banners/Hero"  
+    path: "/sitecore/templates/Project/acme/Components/Banners/Hero"  
     name: "Hero"  
     sectionName: "Data"  
     fields:  
@@ -98,7 +98,7 @@ templates:
   
 folderTemplate:  
   create: true  
-  path: "/sitecore/templates/Project/mysite/Folders/Hero Folder"  
+  path: "/sitecore/templates/Project/acme/Folders/Hero Folder"  
   name: "Hero Folder"  
   standardValues:  
     create: true  
@@ -107,20 +107,41 @@ folderTemplate:
   
 datasourceFolder:  
   create: true  
-  path: "/sitecore/content/mysite/mysite/Data/Heroes"  
+  path: "/sitecore/content/acme/main/Data/Heroes"  
   name: "Heroes"  
   
-rendering:  
+  exampleItem:
+    create: true
+    name: "Hero"
+    fields: {}
+renderingParamsTemplate:
+  create: true
+  path: "/sitecore/templates/Project/acme/Rendering Parameters/Banners/Hero"
+  name: "Hero"
+  baseTemplates:
+    - "{4247AAD4-EBDE-4994-998F-E067A51B1FE4}"  # IComponentVariant
+    - "{5C74E985-E055-43FF-B28C-DB6C6A6450A2}"  # IStyling
+    - "{44A022DB-56D3-419A-B43B-E27E4D8E9C41}"  # Grid Parameters
+    - "{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}"  # IRenderingId
+
+headlessVariants:
+  create: true
+  containerPath: "/sitecore/content/acme/main/Presentation/Headless Variants/Hero"
+  variants:
+  - "Default"
+
+rendering:
   create: true  
-  path: "/sitecore/layout/Renderings/Project/mysite/Banners/Hero"  
+  path: "/sitecore/layout/Renderings/Project/acme/Banners/Hero"  
   name: "Hero"  
   componentName: "hero"  
   datasourceRequired: true  
-  datasourceTemplatePath: "/sitecore/templates/Project/mysite/Components/Banners/Hero"  
+  datasourceTemplatePath: "/sitecore/templates/Project/acme/Components/Banners/Hero"  
   datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Hero Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Hero Folder']"  
   dataSource: ""  
   addFieldEditorButton: "1"  
-  useComponentQuery: false  
+  parametersTemplatePath: "/sitecore/templates/Project/acme/Rendering Parameters/Banners/Hero"
+  useComponentQuery: false
   componentQuery: ""  
   
 react:  

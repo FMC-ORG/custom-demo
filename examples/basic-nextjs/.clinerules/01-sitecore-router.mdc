@@ -36,6 +36,12 @@ When the user asks to create, update, diagnose, or fix a Sitecore XM Cloud compo
 - authors cannot create/select datasource items  
 - datasource template, datasource location, folder template, or insert options are misconfigured  
   
+### Use `sitecore-add-variants` when
+- a component needs multiple visual presentations (variants) of the same content
+- the request mentions "variant", "variation", "alternate layout", or "alternate style"
+- a design shows two or more distinct layouts for the same component
+- an existing component needs a new named export / variant added
+
 ## Required process  
 1. Classify the request before implementing.  
 2. Load the matching skill and its referenced docs.  
@@ -55,7 +61,8 @@ Do not jump directly into code or Sitecore item changes until the request has be
 - simple datasource  
 - list datasource  
 - fix ComponentQuery  
-- fix datasource picker  
+- fix datasource picker
+- add variants  
   
 ## Repo-first rule  
 If repository conventions conflict with a default skill behavior, follow the repository convention and explain the deviation.  

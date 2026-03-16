@@ -23,8 +23,8 @@ tools:
       - "official Sitecore behavior is unclear"
       - "GraphQL/rendering configuration is uncertain"
 
-siteCollection: "new"
-siteName: "fmc"
+siteCollection: "acme"
+siteName: "main"
 category: "banners"
 
 component:
@@ -64,7 +64,7 @@ context:
 templates:
   parent:
     create: true
-    path: "/sitecore/templates/Project/new/Components/Banners/Promo Banner"
+    path: "/sitecore/templates/Project/acme/Components/Banners/Promo Banner"
     name: "Promo Banner"
     sectionName: "Data"
     fields:
@@ -98,7 +98,7 @@ templates:
 
 folderTemplate:
   create: true
-  path: "/sitecore/templates/Project/new/Folders/Promo Banner Folder"
+  path: "/sitecore/templates/Project/acme/Folders/Promo Banner Folder"
   name: "Promo Banner Folder"
   standardValues:
     create: true
@@ -107,19 +107,40 @@ folderTemplate:
 
 datasourceFolder:
   create: true
-  path: "/sitecore/content/new/fmc/Data/Promo Banners"
+  path: "/sitecore/content/acme/main/Data/Promo Banners"
   name: "Promo Banners"
+
+  exampleItem:
+    create: true
+    name: "Promo Banner"
+    fields: {}
+renderingParamsTemplate:
+  create: true
+  path: "/sitecore/templates/Project/acme/Rendering Parameters/Banners/Promo Banner"
+  name: "Promo Banner"
+  baseTemplates:
+    - "{4247AAD4-EBDE-4994-998F-E067A51B1FE4}"  # IComponentVariant
+    - "{5C74E985-E055-43FF-B28C-DB6C6A6450A2}"  # IStyling
+    - "{44A022DB-56D3-419A-B43B-E27E4D8E9C41}"  # Grid Parameters
+    - "{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}"  # IRenderingId
+
+headlessVariants:
+  create: true
+  containerPath: "/sitecore/content/acme/main/Presentation/Headless Variants/PromoBanner"
+  variants:
+  - "Default"
 
 rendering:
   create: true
-  path: "/sitecore/layout/Renderings/Project/new/Banners/Promo Banner"
+  path: "/sitecore/layout/Renderings/Project/acme/Banners/Promo Banner"
   name: "Promo Banner"
   componentName: "promo-banner"
   datasourceRequired: true
-  datasourceTemplatePath: "/sitecore/templates/Project/new/Components/Banners/Promo Banner"
+  datasourceTemplatePath: "/sitecore/templates/Project/acme/Components/Banners/Promo Banner"
   datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Promo Banner Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Promo Banner Folder']"
   dataSource: ""
   addFieldEditorButton: "1"
+  parametersTemplatePath: "/sitecore/templates/Project/acme/Rendering Parameters/Banners/Promo Banner"
   useComponentQuery: false
   componentQuery: ""
 

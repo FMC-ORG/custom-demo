@@ -2,7 +2,7 @@ project:
   reactComponentRoot: "src/components/uiim"  
   shadcnImportBase: "@/components/ui"  
   componentMapPath: ".sitecore/component-map.ts"  
-  sitecoreJssPackage: "@sitecore-jss/sitecore-jss-nextjs"  
+  sitecoreJssPackage: "@sitecore-content-sdk/nextjs"  
   usesTailwind: true  
   usesShadcn: true  
   
@@ -20,8 +20,8 @@ tools:
       - "rendering configuration is uncertain"  
       - "the agent needs product documentation verification"  
   
-siteCollection: "mysite"  
-siteName: "mysite"  
+siteCollection: "acme"  
+siteName: "main"  
 category: "Page"  
   
 component:  
@@ -110,10 +110,28 @@ datasourceFolder:
   create: false  
   path: ""  
   name: ""  
+  exampleItem:
+    create: false
   
-rendering:  
+renderingParamsTemplate:
+  create: true
+  path: "/sitecore/templates/Project/acme/Rendering Parameters/Page/Page Hero"
+  name: "Page Hero"
+  baseTemplates:
+    - "{4247AAD4-EBDE-4994-998F-E067A51B1FE4}"  # IComponentVariant
+    - "{5C74E985-E055-43FF-B28C-DB6C6A6450A2}"  # IStyling
+    - "{44A022DB-56D3-419A-B43B-E27E4D8E9C41}"  # Grid Parameters
+    - "{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}"  # IRenderingId
+
+headlessVariants:
+  create: true
+  containerPath: "/sitecore/content/acme/main/Presentation/Headless Variants/PageHero"
+  variants:
+  - "Default"
+
+rendering:
   create: true  
-  path: "/sitecore/layout/Renderings/Project/mysite/Page/PageHero"  
+  path: "/sitecore/layout/Renderings/Project/acme/Page/PageHero"  
   name: "PageHero"  
   componentName: "page-hero"  
   datasourceRequired: false  
@@ -121,7 +139,8 @@ rendering:
   datasourceLocationQuery: ""  
   dataSource: ""  
   addFieldEditorButton: "1"  
-  useComponentQuery: false  
+  parametersTemplatePath: "/sitecore/templates/Project/acme/Rendering Parameters/Page/Page Hero"
+  useComponentQuery: false
   componentQuery: ""  
   
 react:  

@@ -45,6 +45,7 @@ Do not invent official Sitecore behavior when the docs MCP can clarify it.
    - context-only component  
    - datasource picker fix  
    - ComponentQuery fix  
+   - add variants
 2. If screenshots are attached or provided by path, inspect them first.  
 3. Normalize the task into:  
    - `docs/ai/templates/sitecore-component-spec.template.yaml`  
@@ -84,6 +85,8 @@ Must create:
 - datasource template  
 - folder template  
 - datasource content folder  
+- example datasource item inside the folder
+- Rendering Parameters template
 - rendering  
   
 Must not use:  
@@ -96,6 +99,9 @@ Must create:
 - standard values for both  
 - folder template  
 - datasource content folder  
+- example parent datasource item inside the folder
+- example child items inside the parent item
+- Rendering Parameters template
 - rendering  
 - `ComponentQuery`  
   
@@ -109,6 +115,19 @@ Usually:
 - no datasource template  
 - no datasource folder  
 - rendering may have no datasource requirement  
-- fields come from route/page context or rendering params  
+- fields come from route/page context or rendering params
+
+Always create:
+- Rendering Parameters template (even for context-only — variant and style support requires it)  
   
-Confirm whether page template changes are in scope before making them.  
+Confirm whether page template changes are in scope before making them.
+
+### Variant support (all component types)
+Every component must:
+- use **named exports** (`export const Default`) — not `export default`
+- have a `Default` Variant Definition item in Sitecore under:
+  `/sitecore/content/<siteCollection>/<siteName>/Presentation/Headless Variants/<ComponentName>/Default`
+- include a non-exported empty-state fallback component
+
+To add variants beyond `Default`, use `docs/ai/skills/sitecore-add-variants.md`.
+

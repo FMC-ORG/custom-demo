@@ -1,6 +1,6 @@
 ---  
 description: Sitecore MCP, documentation, verification, and honesty rules  
-alwaysApply: false  
+alwaysApply: true  
 ---  
   
 # Sitecore tools and docs  
@@ -77,6 +77,7 @@ Do **not** use the Standard template ID `1930bbeb-7805-471a-a3be-4858ac7cf696` u
   
 When creating renderings:  
 - prefer JSON Rendering unless the repo uses a different convention  
+- always set `Parameters Template [shared]` to the Rendering Parameters template path  
 - verify datasource template  
 - verify datasource location  
 - verify component name  
@@ -103,6 +104,7 @@ Verify, when relevant:
 - datasource folder path and template  
 - rendering datasource template  
 - rendering datasource location  
+- rendering `Parameters Template [shared]` is set and points to a valid path  
 - rendering component name  
 - rendering field editor button setting  
   

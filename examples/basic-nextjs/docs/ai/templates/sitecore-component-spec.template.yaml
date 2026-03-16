@@ -2,7 +2,7 @@ project:
   reactComponentRoot: "src/components/uiim"  
   shadcnImportBase: "@/components/ui"  
   componentMapPath: ".sitecore/component-map.ts"  
-  sitecoreJssPackage: "@sitecore-jss/sitecore-jss-nextjs"  
+  sitecoreJssPackage: "@sitecore-content-sdk/nextjs"
   usesTailwind: true  
   usesShadcn: true  
   
@@ -24,8 +24,8 @@ tools:
       - "GraphQL/rendering configuration is uncertain"  
       - "the agent needs product documentation verification"  
   
-siteCollection: ""  
-siteName: ""  
+siteCollection: ""  # populated from docs/ai/config/project.yaml  
+siteName: ""        # populated from docs/ai/config/project.yaml  
 category: ""  
   
 component:  
@@ -91,8 +91,27 @@ datasourceFolder:
   create: false  
   path: ""  
   name: ""  
+  exampleItem:
+    create: false
+    name: ""   # e.g. component name — the item authors see first
+    fields: {}  # field name -> default value pairs from __Standard Values
   
-rendering:  
+renderingParamsTemplate:
+  create: true
+  path: ""  # renderingParamsRoot + /<Category>/<ComponentName>
+  name: ""  # same as component name
+  baseTemplates:
+    - "{4247AAD4-EBDE-4994-998F-E067A51B1FE4}"  # IComponentVariant
+    - "{5C74E985-E055-43FF-B28C-DB6C6A6450A2}"  # IStyling
+    - "{44A022DB-56D3-419A-B43B-E27E4D8E9C41}"  # Grid Parameters
+    - "{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}"  # IRenderingId
+
+headlessVariants:
+  create: true
+  containerPath: ""  # /sitecore/content/<siteCollection>/<siteName>/Presentation/Headless Variants/<ComponentName>
+  variants: []       # list of variant names — must match TSX named exports exactly
+
+rendering:
   create: true  
   path: ""  
   name: ""  
@@ -102,7 +121,8 @@ rendering:
   datasourceLocationQuery: ""  
   dataSource: ""  
   addFieldEditorButton: "1"  
-  useComponentQuery: false  
+  parametersTemplatePath: ""  # full path to the Rendering Parameters template
+  useComponentQuery: false
   componentQuery: ""  
   
 react:  
@@ -110,7 +130,7 @@ react:
   usesSitecoreJssHelpers: true  
   usesShadcn: true  
   usesTailwind: true  
-  variants:  
+  variants:        # named exports in TSX — must match headlessVariants.variants exactly
     - Default  
   
 mcp:  

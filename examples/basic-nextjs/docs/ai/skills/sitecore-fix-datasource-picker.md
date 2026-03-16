@@ -1,150 +1,199 @@
-  
----  
-  
-## `docs\ai\skills\sitecore-fix-datasource-picker.md`  
-  
-```md  
-# Sitecore fix datasource picker  
-  
-## Use when  
-- the datasource picker is empty  
-- the datasource picker does not show the expected items/folders  
-- the rendering cannot select datasource items correctly  
-- the component was created but authors cannot pick or create datasource content  
-- datasource location or insert options are misconfigured  
-  
-Examples:  
-- rendering shows no datasource options  
-- the `Data` folder exists but nothing appears in the picker  
-- authors cannot create datasource items from the picker  
-- picker opens to the wrong location  
-- list component parent items cannot be inserted  
-- context-only component incorrectly asks for a datasource  
-  
-## Do not use when  
-Do **not** use this workflow if the main issue is:  
-- `ComponentQuery` is invalid  
-- the React component expects the wrong data shape  
-- the query returns no child items  
-  
-In that case, use:  
-- `docs/ai/skills/sitecore-fix-componentquery.md`  
-  
-## Load first  
-- `docs/ai/skills/shared/sitecore-tooling-guidelines.md`  
-- `docs/ai/templates/sitecore-component-spec.template.yaml`  
-- `docs/ai/reference/sitecore-marketer-mcp-reference.md`  
-  
-## Required inputs  
-Collect as many of these as possible:  
-  
-- rendering name or rendering path  
-- component name  
-- component type:  
-  - simple  
-  - list  
-  - context-only  
-- current `Datasource Template`  
-- current `Datasource Location`  
-- datasource folder path  
-- folder template name/path  
-- datasource template name/path  
-- parent template / child template info for list components  
-- symptom description  
-  
-## Mandatory process  
-1. Read the request and inspect the current Sitecore setup.  
-2. Determine what the component **should** be:  
-   - simple datasource  
-   - list datasource  
-   - context-only  
-3. Inspect the current Sitecore items using the **Sitecore marketer MCP**:  
-   - rendering item  
-   - datasource template  
-   - folder template  
-   - template `__Standard Values`  
-   - folder template `__Standard Values`  
-   - datasource folder under `/Data`  
-   - parent and child template insert options for list components  
-4. Identify the root cause.  
-5. Normalize the corrected configuration into the shared spec as far as possible.  
-6. Before making changes, show:  
-   - chosen classification  
-   - diagnosis  
-   - root cause  
-   - corrected datasource settings  
-   - plan  
-7. Then implement.  
-  
-## Common root causes  
-### Rendering item problems  
-- `Datasource Template` is empty  
-- `Datasource Template` is set to a GUID instead of a full path  
-- `Datasource Template` points to the wrong template  
-- `Datasource Location` is empty or incorrect  
-- rendering points to the wrong folder template name in the query  
-- rendering incorrectly requires a datasource for a context-only component  
-  
-### Folder template problems  
-- folder template does not exist  
-- folder template `__Standard Values` does not exist  
-- folder template `__Masters` is not set  
-- folder template `__Masters` points to the wrong template  
-  
-### Datasource content problems  
-- datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/` does not exist  
-- datasource folder exists in the wrong location  
-- datasource folder was created with the wrong template or name  
-  
-### Template problems  
-- datasource template has no `__Standard Values`  
-- list parent template has no `__Standard Values`  
-- list child template has no `__Standard Values`  
-- list parent `__Standard Values` does not set `__Masters` to child template  
-- list parent is missing `_HorizonDatasourceGrouping`  
-  
-## Correction rules  
-### If the component should be simple  
-Ensure all of the following exist and are linked correctly:  
-  
-- datasource template  
-- datasource template `__Standard Values`  
-- folder template  
-- folder template `__Standard Values`  
-- folder template `__Masters` -> datasource template  
-- datasource folder under:  
-  - `/sitecore/content/<siteCollection>/<siteName>/Data/`  
-- rendering with:  
-  - valid `Datasource Template` full path  
-  - valid `Datasource Location`  
-  - empty `ComponentQuery`  
-  
-### If the component should be list  
-Ensure all of the following exist and are linked correctly:  
-  
-- parent template + `__Standard Values`  
-- child template + `__Standard Values`  
-- parent `__Standard Values` -> `__Masters` = child template  
-- parent inherits `_HorizonDatasourceGrouping`  
-- folder template + `__Standard Values`  
-- folder template `__Masters` -> parent template  
-- datasource folder under:  
-  - `/sitecore/content/<siteCollection>/<siteName>/Data/`  
-- rendering with:  
-  - valid parent `Datasource Template` full path  
-  - valid `Datasource Location`  
-  - valid `ComponentQuery`  
-  
-### If the component should be context-only  
-Ensure:  
-- rendering does **not** require datasource  
-- `Datasource Template` is empty  
-- `Datasource Location` is empty  
-- `Data source` is empty  
-- no datasource folder/template is required unless explicitly requested  
-  
-## Preferred datasource location pattern  
-For datasource-based components, use a query like:  
-  
-```txt  
-query:$site/*[@@name='Data']/*[@@templatename='<Folder Template Name>']|query:$sharedSites/*[@@name='Data']/*[@@templatename='<Folder Template Name>']  
+# Sitecore fix datasource picker
+
+## Trigger hints
+Use this skill when:
+- the datasource picker is empty
+- authors cannot create datasource items
+- the picker opens to the wrong location
+- datasource folders exist but do not appear in the picker
+- a context-only component incorrectly asks for datasource selection
+
+## Do not use this skill when
+The main issue is an invalid or mismatched `ComponentQuery`, the React component expects the wrong data shape, or child items are not loading because the query is wrong.
+
+Use instead: `docs/ai/skills/sitecore-fix-componentquery.md`
+
+If during diagnosis you discover the root cause is a `ComponentQuery` problem rather than a configuration problem, stop, state the finding clearly, and switch skills.
+
+---
+
+## Load first
+- `docs/ai/skills/shared/sitecore-tooling-guidelines.md`
+- `docs/ai/templates/sitecore-component-spec.template.yaml`
+- `docs/ai/reference/sitecore-marketer-mcp-reference.md`
+
+---
+
+## Inputs to collect
+
+- rendering name or path
+- component name
+- component type: simple, list, or context-only
+- current `Datasource Template`
+- current `Datasource Location`
+- datasource folder path
+- folder template name/path
+- datasource template name/path
+- parent/child template info for list components
+- symptom description
+
+---
+
+## Required workflow
+
+1. Read the request and inspect the current Sitecore setup using the **Sitecore marketer MCP**.
+2. Determine what the component **should** be: simple, list, or context-only.
+3. Inspect: rendering item, datasource template, folder template, `__Standard Values`, datasource folder, and parent/child insert options for list components.
+4. Identify the root cause.
+5. If the root cause is a `ComponentQuery` problem, stop and switch to `sitecore-fix-componentquery.md`.
+6. Normalize the corrected configuration into the shared spec.
+7. Before making changes, show:
+   - chosen classification
+   - diagnosis
+   - root cause
+   - corrected datasource settings
+   - plan
+8. Then implement.
+
+If the user asks for an approval gate, stop after the plan and wait.
+
+---
+
+## Common root causes
+
+### Rendering item problems
+- `Datasource Template` is empty, set to a GUID, or points to the wrong template
+- `Datasource Location` is empty or incorrect
+- rendering points to the wrong folder template name in the query
+- rendering incorrectly requires a datasource for a context-only component
+
+### Folder template problems
+- folder template does not exist
+- folder template `__Standard Values` does not exist
+- folder template `__Masters` is not set or points to the wrong template
+
+### Datasource content problems
+- datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/` does not exist
+- datasource folder exists in the wrong location or was created with the wrong template
+
+### Template problems
+- datasource template has no `__Standard Values`
+- list parent `__Standard Values` does not set `__Masters` to child template
+- list parent is missing `_HorizonDatasourceGrouping`
+
+---
+
+## Correction rules
+
+### If the component should be simple
+Ensure all exist and are linked correctly:
+- datasource template + `__Standard Values`
+- folder template + `__Standard Values`
+- folder template `__Masters` → datasource template
+- datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/`
+- rendering: valid `Datasource Template` (full path), valid `Datasource Location`, empty `ComponentQuery`
+- rendering: `Parameters Template [shared]` set to the Rendering Parameters template path
+
+### If the component should be list
+Ensure all exist and are linked correctly:
+- parent template + `__Standard Values`
+- child template + `__Standard Values`
+- parent `__Standard Values` `__Masters` = child template
+- parent inherits `_HorizonDatasourceGrouping`
+- folder template + `__Standard Values`
+- folder template `__Masters` → parent template
+- datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/`
+- rendering: valid parent `Datasource Template` (full path), valid `Datasource Location`, valid `ComponentQuery`
+- rendering: `Parameters Template [shared]` set to the Rendering Parameters template path
+
+### If the component should be context-only
+Ensure:
+- rendering does **not** require datasource
+- `Datasource Template` is empty
+- `Datasource Location` is empty
+- `Data source` is empty
+- `Parameters Template [shared]` is set to the Rendering Parameters template path
+
+---
+
+## Preferred datasource location pattern
+
+```txt
+query:$site/*[@@name='Data']/*[@@templatename='<Folder Template Name>']|query:$sharedSites/*[@@name='Data']/*[@@templatename='<Folder Template Name>']
+```
+
+---
+
+## `__Standard Values` rule
+
+- `name = "__Standard Values"`
+- `parentId = owning template item ID`
+- `templateId = owning template item ID`
+
+Do **not** use the Standard template ID `1930bbeb-7805-471a-a3be-4858ac7cf696`.
+
+---
+
+## Verification rule
+
+After correction, verify:
+- rendering datasource template (full path, not GUID)
+- rendering datasource location query
+- rendering `ComponentQuery` presence (list) or absence (simple/context-only)
+- rendering requires datasource correctly
+- folder template and its `__Standard Values` and `__Masters`
+- datasource folder path and template
+- for list: parent `__Standard Values` `__Masters` = child template
+- for list: parent inherits `_HorizonDatasourceGrouping`
+
+---
+
+## Output format
+
+Before implementation:
+1. chosen classification
+2. diagnosis
+3. root cause
+4. corrected datasource settings
+5. plan
+
+After implementation:
+1. Sitecore actions performed
+2. MCP/item operations performed
+3. verification results
+4. any follow-up verification requirements
+
+---
+
+## Completion rule
+
+A task is only fully complete when:
+- the root cause is correctly identified
+- all template, folder template, and datasource folder items exist and are correctly linked
+- the rendering datasource template and location are verified
+- authors can see and select datasource items in the picker
+
+Do not silently downgrade unverified Sitecore work to "manual setup required" without explaining why.
+
+---
+
+## Verification checklist
+
+- [ ] Component classification confirmed
+- [ ] Root cause identified
+- [ ] Datasource template exists if required
+- [ ] Datasource template has `__Standard Values` (using owning template ID)
+- [ ] Folder template exists if required
+- [ ] Folder template has `__Standard Values` (using owning template ID)
+- [ ] Folder template `__Masters` points to the correct template
+- [ ] Datasource folder exists under `/Data`
+- [ ] Rendering is a JSON Rendering
+- [ ] Rendering `Parameters Template [shared]` is set
+- [ ] Rendering `Datasource Template` uses a full Sitecore path
+- [ ] Rendering `Datasource Location` points to the expected folder template
+- [ ] Simple component has empty `ComponentQuery`
+- [ ] List component has valid parent/child insert setup
+- [ ] List parent `__Masters` points to child template
+- [ ] List parent inherits `_HorizonDatasourceGrouping`
+- [ ] Context-only rendering does not require datasource
+- [ ] Author can pick or create datasource items as intended

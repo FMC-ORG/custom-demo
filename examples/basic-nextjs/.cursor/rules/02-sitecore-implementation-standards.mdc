@@ -21,8 +21,10 @@ Apply these rules to all Sitecore XM Cloud component work.
 ## Rendering rules  
 - Prefer **JSON Rendering** unless the repo explicitly requires otherwise.  
 - `Datasource Template` must use a **full Sitecore path**, never a GUID.  
-- `Parameters Template [shared]` must always be set — never leave it empty.  
+- `Parameters Template [shared]` must always be set to the **Item ID (GUID)** of the Rendering Parameters template — **never use a path**, never leave it empty.
+- `Component Name [shared]` must be **kebab-case** and **exactly match** the TSX filename without extension (e.g. `eurobank-header` for `eurobank-header.tsx`). Do not use PascalCase or camelCase.
 - `AddFieldEditorButton = 1` is preferred unless repo conventions differ.  
+- After creating a rendering, **always register it** in the site's Available Renderings by appending the rendering ID to the `Renderings [shared]` field of the **Page Content** item at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`.  
   
 ## Workflow-specific rendering rules  
   
@@ -51,6 +53,7 @@ Apply these rules to all Sitecore XM Cloud component work.
   
 ## Template rules  
 - Every created custom template must have `__Standard Values`.  
+- Every datasource template (parent and child) must set `Base template` to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (Standard Template + Grid Parameters). This does **not** apply to folder templates.
 - Avoid collision-prone field names such as:  
   - `id`  
   - `name`  
@@ -74,17 +77,17 @@ Apply these rules to all Sitecore XM Cloud component work.
   
 ### Simple datasource component  
 Must normally include:  
-- datasource template  
+- datasource template (with base templates `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`)
 - folder template  
-- datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/`  
+- datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/` (with insert options set on the folder item itself)
 - example datasource item inside the folder
   
 ### List datasource component  
 Must normally include:  
-- parent template  
-- child template  
+- parent template (with base templates `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`)
+- child template (with same base templates)
 - folder template  
-- datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/`  
+- datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/` (with insert options set on the folder item itself)
 - example parent datasource item inside the folder
 - example child items inside the parent item
 - parent `__Standard Values` -> `__Masters` = child template  

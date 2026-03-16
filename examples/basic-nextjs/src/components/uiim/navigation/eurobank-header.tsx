@@ -11,6 +11,7 @@ import {
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import Link from 'next/link';
+import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 import { Menu, X, Search, MapPin, Calendar, Phone } from 'lucide-react';
 
@@ -25,9 +26,8 @@ type EurobankHeaderFields = {
   EBankingLink: LinkField;
 };
 
-type EurobankHeaderProps = {
+type EurobankHeaderProps = ComponentProps & {
   fields: EurobankHeaderFields;
-  params?: Record<string, string>;
 };
 
 // ---------------------------------------------------------------------------
@@ -71,8 +71,7 @@ const EurobankHeaderEmptyState = (): JSX.Element => (
 // ---------------------------------------------------------------------------
 
 export const Default = ({ fields }: EurobankHeaderProps): JSX.Element => {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
+  const [mobileOpen, setMobileOpen] = useState(false);  
   if (!fields) return <EurobankHeaderEmptyState />;
 
   const { Logo, PhoneNumber, NewCustomerLink, EBankingLink } = fields;

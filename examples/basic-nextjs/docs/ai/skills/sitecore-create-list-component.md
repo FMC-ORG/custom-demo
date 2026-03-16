@@ -89,24 +89,29 @@ Only fall back to manual/serialization output when:
 
 1. resolve or create parent container structure
 2. parent template
-3. parent `Data` section
-4. parent field items — explicitly set each field `Type`
-5. parent `__Standard Values`
-6. child template
-7. child `Data` section
-8. child field items — explicitly set each field `Type`
-9. child `__Standard Values`
-10. folder template
-11. folder template `__Standard Values`
-12. set folder insert options / `__Masters` to parent template
-13. datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/`
-14. create an example parent datasource item inside the folder (using the parent template)
-15. create one or two example child items inside the parent item (using the child template)
-16. create Rendering Parameters template under `renderingParamsRoot/<Category>/<ComponentName>`
-17. set all four base templates on the Rendering Parameters template
-18. rendering item
-19. update rendering fields including `ComponentQuery` and `Parameters Template [shared]`
-20. verify final state
+3. set `Base template` on parent template to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (Standard Template + Grid Parameters). This applies to all datasource templates, **not** folder templates.
+4. parent `Data` section
+5. parent field items — explicitly set each field `Type`
+6. parent `__Standard Values`
+7. child template
+8. set `Base template` on child template to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`
+9. child `Data` section
+10. child field items — explicitly set each field `Type`
+11. child `__Standard Values`
+12. folder template
+13. folder template `__Standard Values`
+14. set folder insert options / `__Masters` to parent template
+15. datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/`
+16. set insert options on the datasource folder item itself (not only on the folder template `__Standard Values`)
+17. create an example parent datasource item inside the folder (using the parent template)
+18. create one or two example child items inside the parent item (using the child template)
+19. create Rendering Parameters template under `renderingParamsRoot/<Category>/<ComponentName>`
+20. set all four base templates on the Rendering Parameters template
+21. rendering item
+22. update rendering fields including `ComponentQuery` and `Parameters Template [shared]` — set `Parameters Template [shared]` to the **Item ID (GUID)** of the Rendering Parameters template, **not** a path
+23. set `Component Name [shared]` on the rendering to the **kebab-case** name matching the TSX filename exactly (e.g. `article-cards` for `article-cards.tsx`)
+24. register the rendering in Available Renderings — add the rendering ID to the `Renderings` field of the **Page Content** Available Renderings item at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
+25. verify final state
 
 ### Parent resolution
 
@@ -147,6 +152,8 @@ Do **not** use the Standard template ID `1930bbeb-7805-471a-a3be-4858ac7cf696`.
 - `Datasource Location` must point to the folder template pattern
 - `ComponentQuery` is **mandatory**
 - `AddFieldEditorButton = 1`
+- `Component Name [shared]` must be **kebab-case** and **exactly match** the TSX filename without extension (e.g. `article-cards` for `article-cards.tsx`)
+- `Parameters Template [shared]` must be set to the **Item ID (GUID)** of the Rendering Parameters template — **never use a path**. Resolve the ID via MCP after creating the Rendering Parameters template.
 
 ### Preferred ComponentQuery pattern
 
@@ -193,16 +200,78 @@ Verify with `get_content_item_by_id` after creation.
 
 ---
 
+### Datasource template base templates rule
+
+Every datasource template (parent and child) must inherit these two base templates. This does **not** apply to folder templates.
+
+Set `Base template` to:
+```
+{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}
+```
+
+| ID | Purpose |
+|---|---|
+| `{1930BBEB-7805-471A-A3BE-4858AC7CF696}` | Standard Template |
+| `{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` | Grid Parameters |
+
+Set this immediately after creating each datasource template item, before creating sections or fields.
+
+---
+
+### Insert options on datasource folder instance rule
+
+After creating the datasource folder under `/Data`, you must set insert options **on the folder item itself** — not only on the folder template's `__Standard Values`.
+
+Use `update_fields_on_content_item` on the datasource folder item to set insert options / `__Masters` pointing to the parent datasource template.
+
+Without this step, authors cannot create new datasource items inside the folder.
+
+---
+
+### Available Renderings rule
+
+After creating the rendering item, you must register it in the site's **Available Renderings** so it appears in the Experience Editor / Pages editor.
+
+**Always add the rendering to the Page Content Available Renderings item:**
+- Path: `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
+
+**Steps:**
+1. Resolve the Page Content Available Renderings item via `get_content_item_by_path`
+2. Read the current `Renderings [shared]` field value (it contains pipe-separated rendering IDs)
+3. Append the new rendering's Item ID to the existing value (pipe-separated)
+4. Update the `Renderings [shared]` field with the new value
+
+Do **not** skip this step. Without it, authors cannot add the component to pages.
+
+---
+
+### Component Name rule
+
+The `Component Name [shared]` field on the rendering item must be set to the **kebab-case** name that **exactly matches** the TSX filename without extension.
+
+Examples:
+- TSX file: `article-cards.tsx` → Component Name: `article-cards`
+- TSX file: `hero.tsx` → Component Name: `hero`
+
+Do **not** use PascalCase, camelCase, or any other casing. The Next.js component resolver uses this value to find the React component file.
+
+---
+
 ### Verification rule
 
 After create/update, verify:
 - parent and child template paths, sections, fields, and `Type` values
+- parent and child datasource template `Base template` includes `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`
 - parent and child `__Standard Values`
 - parent `__Masters` points to child template
 - parent inherits `_HorizonDatasourceGrouping`
 - folder template `__Standard Values` sets `__Masters` to parent template
 - datasource folder path
+- insert options set on datasource folder instance (not only on folder template)
+- `Component Name [shared]` is kebab-case matching TSX filename
+- `Parameters Template [shared]` is set to the Item ID (GUID), not a path
 - rendering datasource template (full path), datasource location, `ComponentQuery`, component name
+- rendering is registered in Available Renderings (Page Content)
 
 ---
 
@@ -238,7 +307,7 @@ Where `renderingParamsRoot` = `projectTemplatesRoot` + `/Rendering Parameters`
    {4247AAD4-EBDE-4994-998F-E067A51B1FE4}|{5C74E985-E055-43FF-B28C-DB6C6A6450A2}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}|{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}
    ```
 4. Verify the template exists with correct base templates via MCP
-5. Then create the rendering item and set `Parameters Template [shared]` to this template's full path
+5. Then create the rendering item and set `Parameters Template [shared]` to this template's **Item ID (GUID)**, not a path. Resolve the ID via MCP after creation.
 
 This applies to **all component types** — simple, list, and context-only.
 
@@ -318,7 +387,9 @@ Do not silently downgrade unverified Sitecore work to "manual setup required" wi
 - [ ] Request correctly classified as list component
 - [ ] Shared spec filled before implementation
 - [ ] Parent template created
+- [ ] Parent template `Base template` set to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`
 - [ ] Child template created
+- [ ] Child template `Base template` set to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`
 - [ ] Parent template fields created with explicit `Type`
 - [ ] Child template fields created with explicit `Type`
 - [ ] Parent `__Standard Values` created (using owning template ID)
@@ -329,14 +400,17 @@ Do not silently downgrade unverified Sitecore work to "manual setup required" wi
 - [ ] Folder template `__Standard Values` created
 - [ ] Folder template `__Masters` points to parent template
 - [ ] Datasource folder created under `/Data`
+- [ ] Insert options set on datasource folder instance (not only folder template)
 - [ ] Example parent datasource item created inside the folder
 - [ ] Example child items created inside the parent item
 - [ ] Rendering Parameters template created under `renderingParamsRoot/<Category>`
 - [ ] Rendering Parameters template base templates set (all four IDs)
 - [ ] Rendering created as JSON Rendering
-- [ ] `Parameters Template [shared]` set on rendering
+- [ ] `Component Name [shared]` is kebab-case matching TSX filename exactly
+- [ ] `Parameters Template [shared]` set to Item ID (GUID), not a path
 - [ ] `Datasource Template` uses full Sitecore path
 - [ ] `ComponentQuery` exists and matches the component
+- [ ] Rendering registered in Available Renderings (Page Content)
 - [ ] React file created under `src/components/uiim`
 - [ ] TSX reads `fields.data.datasource.children.results`
 - [ ] TSX uses `.jsonValue`

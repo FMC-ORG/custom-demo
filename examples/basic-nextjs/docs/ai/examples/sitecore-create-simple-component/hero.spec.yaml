@@ -76,7 +76,9 @@ templates:
         type: "Image"  
       - name: "CtaLink"  
         type: "General Link"  
-    baseTemplates: []  
+    baseTemplates:
+      - "{1930BBEB-7805-471A-A3BE-4858AC7CF696}"  # Standard Template
+      - "{44A022DB-56D3-419A-B43B-E27E4D8E9C41}"  # Grid Parameters
     standardValues:  
       create: true  
       defaults:  
@@ -90,7 +92,9 @@ templates:
     name: ""  
     sectionName: "Data"  
     fields: []  
-    baseTemplates: []  
+    baseTemplates:
+      - "{1930BBEB-7805-471A-A3BE-4858AC7CF696}"  # Standard Template
+      - "{44A022DB-56D3-419A-B43B-E27E4D8E9C41}"  # Grid Parameters  
     standardValues:  
       create: false  
       defaults: {}  
@@ -110,6 +114,7 @@ datasourceFolder:
   path: "/sitecore/content/acme/main/Data/Heroes"  
   name: "Heroes"  
   
+  insertOptions: []  # REQUIRED: set on the folder item itself
   exampleItem:
     create: true
     name: "Hero"
@@ -130,17 +135,21 @@ headlessVariants:
   variants:
   - "Default"
 
+availableRenderings:
+  register: true
+  targetPath: "/sitecore/content/acme/main/Presentation/Available Renderings/Page Content"
+
 rendering:
   create: true  
   path: "/sitecore/layout/Renderings/Project/acme/Banners/Hero"  
   name: "Hero"  
-  componentName: "hero"  
+  componentName: "hero"  # MUST be kebab-case matching TSX filename exactly
   datasourceRequired: true  
   datasourceTemplatePath: "/sitecore/templates/Project/acme/Components/Banners/Hero"  
   datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Hero Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Hero Folder']"  
   dataSource: ""  
   addFieldEditorButton: "1"  
-  parametersTemplatePath: "/sitecore/templates/Project/acme/Rendering Parameters/Banners/Hero"
+  parametersTemplateId: ""  # MUST be Item ID (GUID) resolved via MCP — never a path
   useComponentQuery: false
   componentQuery: ""  
   

@@ -88,23 +88,32 @@ If the user asks for an approval gate, stop after the plan and wait.
 ### If the component should be simple
 Ensure all exist and are linked correctly:
 - datasource template + `__Standard Values`
+- datasource template `Base template` includes `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`
 - folder template + `__Standard Values`
 - folder template `__Masters` → datasource template
 - datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/`
+- insert options set on datasource folder item itself (not only on folder template)
 - rendering: valid `Datasource Template` (full path), valid `Datasource Location`, empty `ComponentQuery`
-- rendering: `Parameters Template [shared]` set to the Rendering Parameters template path
+- rendering: `Parameters Template [shared]` set to the Rendering Parameters template **Item ID (GUID)**, not a path
+- rendering: `Component Name [shared]` is kebab-case matching TSX filename exactly
+- rendering registered in Available Renderings (Page Content)
 
 ### If the component should be list
 Ensure all exist and are linked correctly:
 - parent template + `__Standard Values`
+- parent template `Base template` includes `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`
 - child template + `__Standard Values`
+- child template `Base template` includes `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`
 - parent `__Standard Values` `__Masters` = child template
 - parent inherits `_HorizonDatasourceGrouping`
 - folder template + `__Standard Values`
 - folder template `__Masters` → parent template
 - datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data/`
+- insert options set on datasource folder item itself (not only on folder template)
 - rendering: valid parent `Datasource Template` (full path), valid `Datasource Location`, valid `ComponentQuery`
-- rendering: `Parameters Template [shared]` set to the Rendering Parameters template path
+- rendering: `Parameters Template [shared]` set to the Rendering Parameters template **Item ID (GUID)**, not a path
+- rendering: `Component Name [shared]` is kebab-case matching TSX filename exactly
+- rendering registered in Available Renderings (Page Content)
 
 ### If the component should be context-only
 Ensure:
@@ -112,7 +121,9 @@ Ensure:
 - `Datasource Template` is empty
 - `Datasource Location` is empty
 - `Data source` is empty
-- `Parameters Template [shared]` is set to the Rendering Parameters template path
+- `Parameters Template [shared]` is set to the Rendering Parameters template **Item ID (GUID)**, not a path
+- `Component Name [shared]` is kebab-case matching TSX filename exactly
+- rendering registered in Available Renderings (Page Content)
 
 ---
 

@@ -109,20 +109,24 @@ Only fall back to manual/serialization/patch-ready output when:
 
 1. resolve or create the folder/container structure
 2. create datasource template
-3. create template section
-4. create template fields
-5. explicitly set each field item `Type`
-6. create template `__Standard Values`
-7. create folder template
-8. create folder template `__Standard Values`
-9. set folder insert options / `__Masters`
-10. create datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data`
-11. create an example datasource item inside the folder (using the datasource template)
-12. create Rendering Parameters template under `renderingParamsRoot/<Category>/<ComponentName>`
-13. set all four base templates on the Rendering Parameters template
-14. create rendering item
-15. update rendering fields including `Parameters Template [shared]`
-16. verify final state
+3. set `Base template` on datasource template to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (Standard Template + Grid Parameters). This applies to all datasource templates, **not** folder templates.
+4. create template section
+5. create template fields
+6. explicitly set each field item `Type`
+7. create template `__Standard Values`
+8. create folder template
+9. create folder template `__Standard Values`
+10. set folder insert options / `__Masters`
+11. create datasource folder under `/sitecore/content/<siteCollection>/<siteName>/Data`
+12. set insert options on the datasource folder item itself (not only on the folder template `__Standard Values`)
+13. create an example datasource item inside the folder (using the datasource template)
+14. create Rendering Parameters template under `renderingParamsRoot/<Category>/<ComponentName>`
+15. set all four base templates on the Rendering Parameters template
+16. create rendering item
+17. update rendering fields including `Parameters Template [shared]` — set this to the **Item ID (GUID)** of the Rendering Parameters template, **not** a path
+18. set `Component Name [shared]` on the rendering to the **kebab-case** name matching the TSX filename exactly (e.g. `eurobank-header` for `eurobank-header.tsx`)
+19. register the rendering in Available Renderings — add the rendering ID to the `Renderings` field of the **Page Content** Available Renderings item at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
+20. verify final state
 
 ---
 
@@ -187,6 +191,8 @@ For simple datasource components:
 - `ComponentQuery` must remain empty
 - `AddFieldEditorButton = 1` is preferred
 - `Datasource Template` must use a full Sitecore path
+- `Component Name [shared]` must be **kebab-case** and **exactly match** the TSX filename without extension (e.g. `eurobank-header` for `eurobank-header.tsx`)
+- `Parameters Template [shared]` must be set to the **Item ID (GUID)** of the Rendering Parameters template — **never use a path**. Resolve the ID via MCP after creating the Rendering Parameters template.
 
 Use exact field names returned by MCP inspection when updating the item.
 
@@ -215,16 +221,79 @@ Verify with `get_content_item_by_id` after creation.
 
 ---
 
+### Datasource template base templates rule
+
+Every datasource template (parent and child) must inherit these two base templates. This does **not** apply to folder templates.
+
+Set `Base template` to:
+```
+{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}
+```
+
+| ID | Purpose |
+|---|---|
+| `{1930BBEB-7805-471A-A3BE-4858AC7CF696}` | Standard Template |
+| `{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` | Grid Parameters |
+
+Set this immediately after creating the datasource template item, before creating sections or fields.
+
+---
+
+### Insert options on datasource folder instance rule
+
+After creating the datasource folder under `/Data`, you must set insert options **on the folder item itself** — not only on the folder template's `__Standard Values`.
+
+Use `update_fields_on_content_item` on the datasource folder item to set insert options / `__Masters` pointing to the datasource template.
+
+Without this step, authors cannot create new datasource items inside the folder.
+
+---
+
+### Available Renderings rule
+
+After creating the rendering item, you must register it in the site's **Available Renderings** so it appears in the Experience Editor / Pages editor.
+
+**Always add the rendering to the Page Content Available Renderings item:**
+- Path: `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
+
+**Steps:**
+1. Resolve the Page Content Available Renderings item via `get_content_item_by_path`
+2. Read the current `Renderings [shared]` field value (it contains pipe-separated rendering IDs)
+3. Append the new rendering's Item ID to the existing value (pipe-separated)
+4. Update the `Renderings [shared]` field with the new value
+
+Do **not** skip this step. Without it, authors cannot add the component to pages.
+
+---
+
+### Component Name rule
+
+The `Component Name [shared]` field on the rendering item must be set to the **kebab-case** name that **exactly matches** the TSX filename without extension.
+
+Examples:
+- TSX file: `eurobank-header.tsx` → Component Name: `eurobank-header`
+- TSX file: `hero.tsx` → Component Name: `hero`
+- TSX file: `promo-banner.tsx` → Component Name: `promo-banner`
+
+Do **not** use PascalCase, camelCase, or any other casing. The Next.js component resolver uses this value to find the React component file.
+
+---
+
 ### Verification rule
 
 Prefer MCP-based verification first. Verify:
 - template path and section
+- datasource template `Base template` includes `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`
 - field existence and `Type`
 - template `__Standard Values` is based on owning template
 - folder template `__Standard Values` is based on owning folder template
 - folder insert options / `__Masters`
 - datasource folder path
+- insert options set on datasource folder instance (not only on folder template)
 - rendering datasource template, datasource location, component name
+- `Component Name [shared]` is kebab-case matching TSX filename
+- `Parameters Template [shared]` is set to the Item ID (GUID), not a path
+- rendering is registered in Available Renderings (Page Content)
 
 If something cannot be reliably verified through MCP, state that explicitly and mark it as follow-up required.
 
@@ -258,7 +327,7 @@ Where `renderingParamsRoot` = `projectTemplatesRoot` + `/Rendering Parameters`
    {4247AAD4-EBDE-4994-998F-E067A51B1FE4}|{5C74E985-E055-43FF-B28C-DB6C6A6450A2}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}|{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}
    ```
 4. Verify the template exists with correct base templates via MCP
-5. Then create the rendering item and set `Parameters Template [shared]` to this template's full path
+5. Then create the rendering item and set `Parameters Template [shared]` to this template's **Item ID (GUID)**, not a path. Resolve the ID via MCP after creation.
 
 This applies to **all component types** — simple, list, and context-only.
 
@@ -338,6 +407,7 @@ Do not silently downgrade unverified Sitecore work to "manual setup required" wi
 - [ ] Request correctly classified as simple component
 - [ ] Shared spec filled before implementation
 - [ ] Datasource template created
+- [ ] Datasource template `Base template` set to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`
 - [ ] Template section created
 - [ ] Template fields created with explicit `Type`
 - [ ] `__Standard Values` created (using owning template ID, not Standard template ID)
@@ -345,14 +415,17 @@ Do not silently downgrade unverified Sitecore work to "manual setup required" wi
 - [ ] Folder template `__Standard Values` created
 - [ ] Folder template `__Masters` points to datasource template
 - [ ] Datasource folder created under `/Data`
+- [ ] Insert options set on datasource folder instance (not only folder template)
 - [ ] Example datasource item created inside the folder
 - [ ] Rendering Parameters template created under `renderingParamsRoot/<Category>`
 - [ ] Rendering Parameters template base templates set (all four IDs)
 - [ ] Rendering created as JSON Rendering
-- [ ] `Parameters Template [shared]` set on rendering
+- [ ] `Component Name [shared]` is kebab-case matching TSX filename exactly
+- [ ] `Parameters Template [shared]` set to Item ID (GUID), not a path
 - [ ] `Datasource Template` uses full Sitecore path
 - [ ] `Datasource Location` is valid
 - [ ] `ComponentQuery` is empty
+- [ ] Rendering registered in Available Renderings (Page Content)
 - [ ] React file created under `src/components/uiim`
 - [ ] TSX uses top-level `fields.<FieldName>`
 - [ ] TSX imports from `@sitecore-content-sdk/nextjs`

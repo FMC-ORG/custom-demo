@@ -59,6 +59,22 @@ Every Rendering Parameters template must inherit all four of these base template
 
 Set all four as `Base template` on every Rendering Parameters template item.
 
+## Datasource template base template IDs
+
+Every datasource template (parent and child) must inherit these two base templates. This does **not** apply to folder templates.
+
+| ID | Purpose |
+|---|---|
+| `{1930BBEB-7805-471A-A3BE-4858AC7CF696}` | Standard Template |
+| `{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` | Grid Parameters |
+
+Set `Base template` on every datasource template to:
+```
+{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}
+```
+
+Set this immediately after creating the datasource template item, before creating sections or fields.
+
 Use these only when you truly need a standard Sitecore item template ID.  
   
 ---  
@@ -118,17 +134,22 @@ When creating a simple datasource-backed component, prefer this order:
   
 1. Resolve or create the required folder/container structure  
 2. Create the datasource template  
-3. Create the template section (for example `Data`)  
-4. Create template fields  
-5. Update template field metadata, including explicit `Type`  
-6. Create datasource template `__Standard Values`  
-7. Create the folder template  
-8. Create folder template `__Standard Values`  
-9. Set folder template insert options / `__Masters`  
-10. Create the datasource folder under the site’s `/Data`  
-11. Create the rendering item  
-12. Update rendering fields such as datasource template, datasource location, component name, and field editor settings  
-13. Verify the final item state via MCP  
+3. Set `Base template` on datasource template to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (Standard Template + Grid Parameters). This applies to all datasource templates, **not** folder templates.
+4. Create the template section (for example `Data`)  
+5. Create template fields  
+6. Update template field metadata, including explicit `Type`  
+7. Create datasource template `__Standard Values`  
+8. Create the folder template  
+9. Create folder template `__Standard Values`  
+10. Set folder template insert options / `__Masters`  
+11. Create the datasource folder under the site's `/Data`  
+12. Set insert options on the datasource folder item itself (not only on the folder template `__Standard Values`)
+13. Create an example datasource item inside the folder
+14. Create the Rendering Parameters template
+15. Create the rendering item  
+16. Update rendering fields: datasource template, datasource location, field editor settings, `Component Name [shared]` (must be **kebab-case** matching TSX filename exactly), and `Parameters Template [shared]` (must be the **Item ID/GUID** of the Rendering Parameters template, **not** a path)
+17. Register the rendering in Available Renderings — append the rendering ID to the `Renderings [shared]` field of the **Page Content** item at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
+18. Verify the final item state via MCP  
   
 ---  
   
@@ -255,12 +276,27 @@ Prefer **JSON Rendering** unless the repository uses another convention.
 For the rendering item, create or verify fields such as:  
 - datasource template  
 - datasource location  
-- `Parameters Template [shared]` — set to the full Sitecore path of the Rendering Parameters template  
-- component name  
+- `Parameters Template [shared]` — set to the **Item ID (GUID)** of the Rendering Parameters template. **Never use a path.** Resolve the ID via MCP after creating the Rendering Parameters template.
+- `Component Name [shared]` — must be **kebab-case** and **exactly match** the TSX filename without extension (e.g. `eurobank-header` for `eurobank-header.tsx`). Do not use PascalCase.
 - add field editor button  
   
 Do **not** leave `Parameters Template [shared]` empty. Every rendering requires it.  
-  
+
+### Register in Available Renderings
+
+After creating the rendering, register it in the site's **Available Renderings** so it appears in the Experience Editor / Pages editor.
+
+**Always add the rendering to the Page Content Available Renderings item:**
+- Path: `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
+
+**Steps:**
+1. Resolve the Page Content Available Renderings item via `get_content_item_by_path`
+2. Read the current `Renderings [shared]` field value (pipe-separated rendering IDs)
+3. Append the new rendering's Item ID to the existing value (pipe-separated)
+4. Update the `Renderings [shared]` field with the new value
+
+Do **not** skip this step. Without it, authors cannot add the component to pages.
+
 Use the exact field names returned by item inspection for updates.  
   
 ---  
@@ -276,6 +312,7 @@ After any create/update, verify the resulting item with:
 ### Verify template work  
   
 - template exists at the expected path  
+- datasource template `Base template` includes `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (does not apply to folder templates)
 - section exists  
 - fields exist  
 - each field `Type` is correct  
@@ -293,15 +330,17 @@ After any create/update, verify the resulting item with:
   
 - datasource folder exists at the correct content path  
 - datasource folder uses the intended folder template  
+- insert options are set on the datasource folder item itself (not only on the folder template)  
   
 ### Verify rendering work  
   
 - rendering exists at the expected path  
 - datasource template is correct  
 - datasource location is correct  
-- `Parameters Template [shared]` is set and points to the correct Rendering Parameters template  
-- component name is correct  
+- `Parameters Template [shared]` is set to the Item ID (GUID), not a path, and points to the correct Rendering Parameters template
+- `Component Name [shared]` is kebab-case matching the TSX filename exactly
 - add field editor button is set as intended  
+- rendering is registered in Available Renderings (Page Content)  
   
 If a value cannot be reliably set or verified through MCP:  
 - state that explicitly  

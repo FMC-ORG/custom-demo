@@ -78,11 +78,11 @@ Do **not** use the Standard template ID `1930bbeb-7805-471a-a3be-4858ac7cf696` u
 When creating renderings:  
 - prefer JSON Rendering unless the repo uses a different convention  
 - always set `Parameters Template [shared]` to the **Item ID (GUID)** of the Rendering Parameters template — **never use a path**. Resolve the ID via MCP after creating the template.
-- always set `Component Name [shared]` to **kebab-case** matching the TSX filename exactly (e.g. `eurobank-header` for `eurobank-header.tsx`)
+- always set `Component Name [shared]` to **PascalCase** matching the TSX filename exactly (e.g. `EurobankHeader` for `EurobankHeader.tsx`)
 - always register the rendering in Available Renderings — append the rendering ID to the `Renderings [shared]` field of the **Page Content** item at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
 - verify datasource template  
 - verify datasource location  
-- verify component name is kebab-case
+- verify component name is PascalCase
 - verify field editor button settings when applicable  
   
 If a rendering field cannot be confidently updated or verified through MCP, state that clearly and mark it as follow-up verification required.  
@@ -109,7 +109,7 @@ Verify, when relevant:
 - rendering datasource template  
 - rendering datasource location  
 - rendering `Parameters Template [shared]` is set to Item ID (GUID), not a path
-- rendering `Component Name [shared]` is kebab-case matching TSX filename
+- rendering `Component Name [shared]` is PascalCase matching TSX filename
 - rendering field editor button setting  
 - rendering is registered in Available Renderings (Page Content)  
   

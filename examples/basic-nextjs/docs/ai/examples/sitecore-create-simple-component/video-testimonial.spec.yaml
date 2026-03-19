@@ -14,7 +14,7 @@ component:
   namePascal: "VideoTestimonial"
   nameKebab: "video-testimonial"
   kind: "simple"
-  filePath: "src/components/uiim/content/video-testimonial.tsx"
+  filePath: "src/components/uiim/content/VideoTestimonial.tsx"
   componentMapKey: "video-testimonial"
   componentMapImportAlias: "videoTestimonial"
 
@@ -84,7 +84,7 @@ availableRenderings:
 
 rendering:
   path: "/sitecore/layout/Renderings/Project/acme/Content/Video Testimonial"
-  componentName: "video-testimonial"  # MUST be kebab-case matching TSX filename exactly
+  componentName: "VideoTestimonial"  # MUST be PascalCase matching TSX filename exactly
   datasourceTemplatePath: "/sitecore/templates/Project/acme/Components/Content/Video Testimonial"
   datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Video Testimonial Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Video Testimonial Folder']"
 

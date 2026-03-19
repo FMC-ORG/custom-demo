@@ -95,7 +95,7 @@ Ensure all exist and are linked correctly:
 - insert options set on datasource folder item itself (not only on folder template)
 - rendering: valid `Datasource Template` (full path), valid `Datasource Location`, empty `ComponentQuery`
 - rendering: `Parameters Template [shared]` set to the Rendering Parameters template **Item ID (GUID)**, not a path
-- rendering: `Component Name [shared]` is kebab-case matching TSX filename exactly
+- rendering: `Component Name [shared]` is PascalCase matching TSX filename exactly
 - rendering registered in Available Renderings (Page Content)
 
 ### If the component should be list
@@ -112,7 +112,7 @@ Ensure all exist and are linked correctly:
 - insert options set on datasource folder item itself (not only on folder template)
 - rendering: valid parent `Datasource Template` (full path), valid `Datasource Location`, valid `ComponentQuery`
 - rendering: `Parameters Template [shared]` set to the Rendering Parameters template **Item ID (GUID)**, not a path
-- rendering: `Component Name [shared]` is kebab-case matching TSX filename exactly
+- rendering: `Component Name [shared]` is PascalCase matching TSX filename exactly
 - rendering registered in Available Renderings (Page Content)
 
 ### If the component should be context-only
@@ -122,7 +122,7 @@ Ensure:
 - `Datasource Location` is empty
 - `Data source` is empty
 - `Parameters Template [shared]` is set to the Rendering Parameters template **Item ID (GUID)**, not a path
-- `Component Name [shared]` is kebab-case matching TSX filename exactly
+- `Component Name [shared]` is PascalCase matching TSX filename exactly
 - rendering registered in Available Renderings (Page Content)
 
 ---

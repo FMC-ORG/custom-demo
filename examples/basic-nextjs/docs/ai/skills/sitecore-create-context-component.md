@@ -68,7 +68,7 @@ If the user asks for an approval gate, stop after the plan and wait.
 If not explicitly specified:
 
 - `component.kind = context-only`
-- `component.filePath = src/components/uiim/<category-lowercase>/<component-name-kebab>.tsx`
+- `component.filePath = src/components/uiim/<category-kebab>/<ComponentNamePascal>.tsx`
 - `rendering.datasourceRequired = false`
 - `rendering.datasourceTemplatePath = ""`
 - `rendering.datasourceLocationQuery = ""`
@@ -109,7 +109,7 @@ For a true context-only component, normally create/update only:
 - `ComponentQuery` must remain empty
 - `AddFieldEditorButton = 1` is still preferred
 - The rendering should **not** require datasource selection
-- `Component Name [shared]` must be **kebab-case** and **exactly match** the TSX filename without extension (e.g. `page-hero` for `page-hero.tsx`)
+- `Component Name [shared]` must be **PascalCase** and **exactly match** the TSX filename without extension (e.g. `PageHero` for `PageHero.tsx`)
 - `Parameters Template [shared]` must be set to the **Item ID (GUID)** of the Rendering Parameters template — **never use a path**. Resolve the ID via MCP after creating the Rendering Parameters template.
 
 ### Available Renderings rule
@@ -121,9 +121,15 @@ After creating the rendering item, register it in the site's **Available Renderi
 
 **Steps:**
 1. Resolve the Page Content Available Renderings item via `get_content_item_by_path`
-2. Read the current `Renderings [shared]` field value (pipe-separated rendering IDs)
-3. Append the new rendering's Item ID to the existing value (pipe-separated)
-4. Update the `Renderings [shared]` field with the new value
+2. Read the **current** `Renderings [shared]` field value — it contains existing rendering IDs separated by pipes
+3. **Concatenate** the new rendering's Item ID to the existing value with a pipe separator. **Do NOT replace the existing value** — overwriting it removes all other components from the page editor.
+4. Update the `Renderings [shared]` field with the concatenated value
+
+**Example:** If the current value is `{A8DB4692-0731-4067-A224-79EFFF24C639}` and the new rendering ID is `{B1234567-ABCD-1234-EFGH-123456789ABC}`, the updated value must be:
+```
+{A8DB4692-0731-4067-A224-79EFFF24C639}|{B1234567-ABCD-1234-EFGH-123456789ABC}
+```
+Never set it to just `{B1234567-ABCD-1234-EFGH-123456789ABC}` — that would remove the existing rendering.
 
 Do **not** skip this step. Without it, authors cannot add the component to pages.
 
@@ -141,7 +147,7 @@ If route fields do not exist:
 
 After create/update, verify:
 - rendering path and component name
-- `Component Name [shared]` is kebab-case matching TSX filename
+- `Component Name [shared]` is PascalCase matching TSX filename
 - `Parameters Template [shared]` is set to the Item ID (GUID), not a path
 - rendering `Datasource Template` is empty
 - rendering `Datasource Location` is empty
@@ -154,12 +160,14 @@ After create/update, verify:
 
 ## React implementation rules
 
-- Create under `src/components/uiim/<category-lowercase>/<component-name-kebab>.tsx`
+- Create under `src/components/uiim/<category-kebab>/<ComponentNamePascal>.tsx`
+- Component props type **must** extend `ComponentProps` from `lib/component-props` — never define `params` manually
+- Always use `params.styles` and `params.RenderingIdentifier` from `ComponentProps` in the wrapper element
 - Use Tailwind CSS
 - Use shadcn/ui primitives from `@/components/ui/*`
 - Always import from `@sitecore-content-sdk/nextjs`
 - Use `useSitecoreContext()` and access `sitecoreContext.route?.fields`
-- Preserve editability with `Text`, `RichText`, `Image`, `Link` helpers
+- **All** Sitecore-managed fields must use SDK editable helpers (`Text`, `RichText`, `NextImage as ContentSdkImage`, `Link as ContentSdkLink`) — never use plain `<img>`, `<a>`, or hardcoded text for authorable fields
 - Handle missing route fields safely with optional chaining
 
 
@@ -175,7 +183,7 @@ Where `renderingParamsRoot` = `projectTemplatesRoot` + `/Rendering Parameters`
 **Steps:**
 1. Resolve or create the Category folder under `renderingParamsRoot`
 2. Create the Rendering Parameters template item (using the standard Template template ID)
-3. Set `Base template` to all four required base templates (pipe-separated):
+3. Set `__Base template` to all four required base templates (pipe-separated):
    ```
    {4247AAD4-EBDE-4994-998F-E067A51B1FE4}|{5C74E985-E055-43FF-B28C-DB6C6A6450A2}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}|{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}
    ```
@@ -266,13 +274,17 @@ Do not silently downgrade unverified Sitecore work to "manual setup required" wi
 - [ ] Rendering Parameters template created under `renderingParamsRoot/<Category>`
 - [ ] Rendering Parameters template base templates set (all four IDs)
 - [ ] Rendering created as JSON Rendering
-- [ ] `Component Name [shared]` is kebab-case matching TSX filename exactly
+- [ ] `Component Name [shared]` is PascalCase matching TSX filename exactly
 - [ ] `Parameters Template [shared]` set to Item ID (GUID), not a path
 - [ ] Rendering does not require datasource
 - [ ] Rendering registered in Available Renderings (Page Content)
 - [ ] React file created under `src/components/uiim`
 - [ ] TSX uses `useSitecoreContext()` + `sitecoreContext.route?.fields`
 - [ ] TSX imports from `@sitecore-content-sdk/nextjs`
+- [ ] Props type extends `ComponentProps` from `lib/component-props`
+- [ ] Component uses `params.styles` and `params.RenderingIdentifier` in wrapper
+- [ ] All Sitecore fields use SDK editable helpers (Text, ContentSdkRichText, ContentSdkImage, ContentSdkLink)
+- [ ] No plain `<img>`, `<a>`, or hardcoded text used for Sitecore-managed fields
 - [ ] Tailwind used
 - [ ] shadcn/ui primitives used where appropriate
 - [ ] Sitecore SDK editable helpers used for authorable fields

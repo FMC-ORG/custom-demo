@@ -31,7 +31,7 @@ component:
   namePascal: "PromoBanner"
   nameKebab: "promo-banner"
   kind: "simple"
-  filePath: "src/components/uiim/banners/promo-banner.tsx"
+  filePath: "src/components/uiim/banners/PromoBanner.tsx"
   componentMapKey: "promo-banner"
   componentMapImportAlias: "promoBanner"
 
@@ -141,7 +141,7 @@ rendering:
   create: true
   path: "/sitecore/layout/Renderings/Project/acme/Banners/Promo Banner"
   name: "Promo Banner"
-  componentName: "promo-banner"  # MUST be kebab-case matching TSX filename exactly
+  componentName: "PromoBanner"  # MUST be PascalCase matching TSX filename exactly
   datasourceRequired: true
   datasourceTemplatePath: "/sitecore/templates/Project/acme/Components/Banners/Promo Banner"
   datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Promo Banner Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Promo Banner Folder']"

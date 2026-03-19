@@ -63,14 +63,17 @@ Do not invent official Sitecore behavior when the docs MCP can clarify it.
    - verification checklist  
   
 ## Non-negotiable Sitecore rules  
-- Every custom template must have `__Standard Values`.  
+- Every custom template must have `__Standard Values`. After creating `__Standard Values`, set the `Standard values` field on the template item to the `__Standard Values` Item ID to link them.  
 - `Datasource Template` must use full Sitecore paths, never GUIDs.  
 - `Parameters Template [shared]` must use the **Item ID (GUID)**, never a path. Resolve the ID via MCP after creating the Rendering Parameters template.
-- `Component Name [shared]` must be **kebab-case** and **exactly match** the TSX filename without extension (e.g. `eurobank-header` for `eurobank-header.tsx`). Do not use PascalCase or camelCase.
-- Every datasource template (parent and child) must set `Base template` to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (Standard Template + Grid Parameters). This does **not** apply to folder templates.
+- `Component Name [shared]` must be **PascalCase** and **exactly match** the TSX filename without extension (e.g. `EurobankHeader` for `EurobankHeader.tsx`).
+- Every datasource template (parent and child) must set `__Base template` to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (Standard Template + Grid Parameters). This does **not** apply to folder templates.
 - After creating a datasource folder, set insert options **on the folder item itself** — not only on the folder template's `__Standard Values`.
-- After creating a rendering, register it in the site's **Available Renderings** by appending the rendering ID to the `Renderings [shared]` field of the **Page Content** item at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`.
+- After creating a rendering, register it in the site's **Available Renderings**: read the **current** `Renderings [shared]` field value from the **Page Content** item at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`, then **concatenate** the new rendering ID with a pipe separator. **Never replace** the existing value — that removes all other components.
 - Renderings should be JSON Renderings unless the repo clearly requires otherwise.  
+- Component props **must** extend `ComponentProps` from `lib/component-props` — never define `params` manually.
+- All Sitecore-managed fields **must** use SDK editable helpers (`Text`, `RichText`/`ContentSdkRichText`, `NextImage`/`ContentSdkImage`, `Link`/`ContentSdkLink`). Never use plain `<img>`, `<a>`, `next/image`, `next/link`, or hardcoded text for authorable fields.
+- TSX files use PascalCase filenames (e.g. `EurobankHeader.tsx`). The containing folder is kebab-case (e.g. `navigation/`).
 - Avoid GraphQL collision-prone field names:  
   - `icon`  
   - `id`  

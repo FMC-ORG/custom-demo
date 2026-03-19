@@ -32,7 +32,7 @@ component:
   namePascal: "ArticleCards"  
   nameKebab: "article-cards"  
   kind: "list"  
-  filePath: "src/components/uiim/cards/article-cards.tsx"  
+  filePath: "src/components/uiim/cards/ArticleCards.tsx"  
   componentMapKey: "article-cards"  
   componentMapImportAlias: "articleCards"  
   
@@ -154,7 +154,7 @@ rendering:
   create: true  
   path: "/sitecore/layout/Renderings/Project/acme/Cards/ArticleCards"  
   name: "ArticleCards"  
-  componentName: "article-cards"  # MUST be kebab-case matching TSX filename exactly  
+  componentName: "ArticleCards"  # MUST be PascalCase matching TSX filename exactly  
   datasourceRequired: true  
   datasourceTemplatePath: "/sitecore/templates/Project/acme/Components/Cards/ArticleCards"  
   datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Article Cards Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Article Cards Folder']"  

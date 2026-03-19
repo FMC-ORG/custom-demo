@@ -28,7 +28,7 @@ component:
   namePascal: "PageHero"  
   nameKebab: "page-hero"  
   kind: "context-only"  
-  filePath: "src/components/uiim/page/page-hero.tsx"  
+  filePath: "src/components/uiim/page/PageHero.tsx"  
   componentMapKey: "page-hero"  
   componentMapImportAlias: "pageHero"  
   
@@ -137,7 +137,7 @@ rendering:
   create: true  
   path: "/sitecore/layout/Renderings/Project/acme/Page/PageHero"  
   name: "PageHero"  
-  componentName: "page-hero"  # MUST be kebab-case matching TSX filename exactly  
+  componentName: "PageHero"  # MUST be PascalCase matching TSX filename exactly  
   datasourceRequired: false  
   datasourceTemplatePath: ""  
   datasourceLocationQuery: ""  

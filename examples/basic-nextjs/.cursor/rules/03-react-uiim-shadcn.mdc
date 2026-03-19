@@ -20,14 +20,16 @@ Use these rules for React components in `src/components/uiim`.
   
 ## File placement  
 - Create components under:  
-  - `src/components/uiim/<category-lowercase>/<component-name-kebab>.tsx`  
-- Use kebab-case filenames.  
+  - `src/components/uiim/<category-lowercase>/<ComponentNamePascal>.tsx`  
+- Use PascalCase filenames (e.g. `Hero.tsx`, `EurobankHeader.tsx`). The containing folder is kebab-case.  
 - Keep one primary component per file unless a local helper is tiny and tightly coupled.  
   
 ## Component structure  
 - Use TypeScript props.  
+- Component props **must** extend `ComponentProps` from `lib/component-props` — never define `params` manually as `Record<string, string>`.
+- Always use `params.styles` and `params.RenderingIdentifier` from `ComponentProps` in the wrapper element.
 - Prefer small, readable functional components.  
-- Export the component as the default export unless the repo clearly uses a different convention.  
+- Use **named exports** (`export const Default`) — never `export default` — for Sitecore variant resolution.
 - Keep helper types close to the component if they are only used there.  
 - Follow existing repo patterns before inventing new abstractions.  
   
@@ -54,26 +56,47 @@ Use shadcn/ui primitives when they fit the design, for example:
   
 Do not rebuild primitives that already exist in the UI library unless the requirement truly cannot be met with composition.  
   
-## Sitecore editable field rules  
-For Sitecore-managed content, preserve editability using:  
-- `Text`  
-- `RichText`  
-- `Image`  
-- `Link`  
-  
+## Sitecore editable field rules (mandatory)
+**Every** Sitecore-managed field must use the appropriate SDK editable helper. This is non-negotiable.
+
 Use imports from:  
 - `@sitecore-content-sdk/nextjs`  
-  
+
+Preferred import aliases:
+```tsx
+import {
+  Field,
+  NextImage as ContentSdkImage,
+  Link as ContentSdkLink,
+  RichText as ContentSdkRichText,
+  ImageField,
+  LinkField,
+  Text,
+} from '@sitecore-content-sdk/nextjs';
+```
+
 ### Do  
-- use `<Text field={...} />` for text fields  
-- use `<RichText field={...} />` for rich text  
-- use `<Image field={...} />` for Sitecore image fields  
-- use `<Link field={...} />` for Sitecore link fields  
-  
+- use `<Text field={...} />` for Single-Line Text fields  
+- use `<ContentSdkRichText field={...} />` (or `<RichText field={...} />`) for Rich Text fields  
+- use `<ContentSdkImage field={...} />` (i.e. `NextImage`) for Sitecore Image fields  
+- use `<ContentSdkLink field={...} />` (i.e. `Link`) for Sitecore General Link fields  
+
 ### Do not  
-- replace editable Sitecore fields with plain strings unless the value is definitely not authorable  
+- use plain `<img>` or `next/image` `Image` for Sitecore Image fields — this breaks editability
+- use plain `<a>` or `next/link` `Link` for Sitecore Link fields — this breaks editability
+- use plain strings, `<p>`, or `<h1>` for Sitecore Text/RichText fields — this breaks editability
+- use hardcoded placeholder text or image URLs for fields that should be Sitecore-managed
 - use `dangerouslySetInnerHTML` for Sitecore rich text  
-- replace editable Sitecore image/link fields with `next/image` or `next/link` unless the content is not Sitecore-managed and the repo explicitly wants that  
+
+### Edit-mode visibility guard
+When fields may be empty, `{field?.value && <SDKHelper>}` hides the field in Experience Editor. Use `page?.mode?.isEditing` (from `ComponentProps`) to keep fields visible for authors:
+```tsx
+const isEditing = page?.mode?.isEditing;
+{(fields.Title?.value || isEditing) && <Text field={fields.Title} ... />}
+```
+
+### shadcn availability check
+Before importing `@/components/ui/*`, verify that `src/components/ui/` exists. If not, use plain Tailwind markup instead. Do not import missing shadcn components — it causes build errors.
   
 ## Data shape rules  
   

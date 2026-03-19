@@ -4,7 +4,7 @@ Drop design references here for AI-assisted component development.
 
 ## File naming convention
 
-Use the component's kebab-case name as the filename:
+Use the component's PascalCase name as the filename (folder is kebab-case):
 
 - `hero.png`
 - `article-cards.png`

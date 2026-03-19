@@ -22,9 +22,9 @@ Apply these rules to all Sitecore XM Cloud component work.
 - Prefer **JSON Rendering** unless the repo explicitly requires otherwise.  
 - `Datasource Template` must use a **full Sitecore path**, never a GUID.  
 - `Parameters Template [shared]` must always be set to the **Item ID (GUID)** of the Rendering Parameters template — **never use a path**, never leave it empty.
-- `Component Name [shared]` must be **kebab-case** and **exactly match** the TSX filename without extension (e.g. `eurobank-header` for `eurobank-header.tsx`). Do not use PascalCase or camelCase.
+- `Component Name [shared]` must be **PascalCase** and **exactly match** the TSX filename without extension (e.g. `EurobankHeader` for `EurobankHeader.tsx`). Do not use kebab-case or camelCase.
 - `AddFieldEditorButton = 1` is preferred unless repo conventions differ.  
-- After creating a rendering, **always register it** in the site's Available Renderings by appending the rendering ID to the `Renderings [shared]` field of the **Page Content** item at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`.  
+- After creating a rendering, **always register it** in the site's Available Renderings: read the **current** `Renderings [shared]` field from the **Page Content** item at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`, then **concatenate** the new rendering ID with a pipe separator. **Never replace** the existing value — that removes all other components.  
   
 ## Workflow-specific rendering rules  
   
@@ -53,7 +53,7 @@ Apply these rules to all Sitecore XM Cloud component work.
   
 ## Template rules  
 - Every created custom template must have `__Standard Values`.  
-- Every datasource template (parent and child) must set `Base template` to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (Standard Template + Grid Parameters). This does **not** apply to folder templates.
+- Every datasource template (parent and child) must set `__Base template` to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (Standard Template + Grid Parameters). This does **not** apply to folder templates.
 - Avoid collision-prone field names such as:  
   - `id`  
   - `name`  
@@ -104,7 +104,10 @@ Do **not** create by default:
   
 ## React implementation rules  
 - Create components under:  
-  - `src/components/uiim/<category-lowercase>/<component-name-kebab>.tsx`  
+  - `src/components/uiim/<category-kebab>/<ComponentNamePascal>.tsx`  
+  - Folder is kebab-case, TSX filename is PascalCase (e.g. `navigation/EurobankHeader.tsx`)
+- Component props **must** extend `ComponentProps` from `lib/component-props` — never define `params` manually as `Record<string, string>`
+- Always use `params.styles` and `params.RenderingIdentifier` from `ComponentProps` in the wrapper element
 - Use:  
   - Tailwind CSS  
   - shadcn/ui primitives from `@/components/ui/*`  
@@ -138,14 +141,14 @@ Use GraphQL datasource shape:
 - `fields.data.datasource.children.results`  
 - `.jsonValue`  
   
-## Editable field rules  
-Preserve Sitecore editability using:  
-- `Text`  
-- `RichText`  
-- `Image`  
-- `Link`  
-  
-Do not replace authorable Sitecore content with plain strings unless the field is definitely not Sitecore-managed.  
+## Editable field rules (mandatory)
+**Every** Sitecore-managed field must use the appropriate SDK editable helper. This is non-negotiable:
+- `Text` — for Single-Line Text fields
+- `RichText` (alias `ContentSdkRichText`) — for Rich Text fields
+- `NextImage` (alias `ContentSdkImage`) — for Image fields
+- `Link` (alias `ContentSdkLink`) — for General Link fields
+
+**Never** use plain `<img>`, `next/image Image`, `<a>`, `next/link Link`, or hardcoded strings for Sitecore-managed fields. Doing so breaks Experience Editor editability.  
   
 ## Output order  
 For Sitecore tasks, respond in this order:  

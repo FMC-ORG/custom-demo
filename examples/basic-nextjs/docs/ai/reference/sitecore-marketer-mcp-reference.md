@@ -57,7 +57,7 @@ Every Rendering Parameters template must inherit all four of these base template
 | `44a022db-56d3-419a-b43b-e27e4d8e9c41` | `Grid Parameters` — adds grid field |
 | `3db3eb10-f8d0-4cc9-be26-18ce7b139ec8` | `IRenderingId` — adds HTML ID field |
 
-Set all four as `Base template` on every Rendering Parameters template item.
+Set all four as `__Base template` on every Rendering Parameters template item.
 
 ## Datasource template base template IDs
 
@@ -68,12 +68,21 @@ Every datasource template (parent and child) must inherit these two base templat
 | `{1930BBEB-7805-471A-A3BE-4858AC7CF696}` | Standard Template |
 | `{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` | Grid Parameters |
 
-Set `Base template` on every datasource template to:
+Set `__Base template` on every datasource template to:
 ```
 {1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}
 ```
 
 Set this immediately after creating the datasource template item, before creating sections or fields.
+
+## Headless Variant template IDs
+
+Use these when creating Headless Variant containers and Variant Definition items:
+
+| Item type | Template ID |
+|---|---|
+| HeadlessVariants container | `49c111d0-6867-4798-a724-1f103166e6e9` |
+| Variant Definition item | `4d50cdae-c2d9-4de8-b080-8f992bfb1b55` |
 
 Use these only when you truly need a standard Sitecore item template ID.  
   
@@ -125,6 +134,28 @@ then create `__Standard Values` with:
 - `templateId = "ce483486-28de-4d03-ab7a-0234f31b9914"`  
   
 The same rule applies to folder templates.  
+
+### Link the template to its `__Standard Values`
+
+After creating the `__Standard Values` item, you **must** set the `Standard values` field on the **template item itself** to the Item ID of the newly created `__Standard Values` item. Without this step, the template does not know which item holds its defaults.
+
+**Steps:**
+1. Create `__Standard Values` as described above
+2. Record the Item ID of the created `__Standard Values` item (from the MCP response or via `get_content_item_by_path`)
+3. Update the **template item** (not the `__Standard Values` item) using `update_fields_on_content_item`:
+   - field name: `Standard values` (inspect via MCP first — may appear as `__Standard values`)
+   - value: the Item ID (GUID) of the `__Standard Values` item
+
+This applies to **all** templates that have `__Standard Values` — datasource templates, child templates, and folder templates.  
+
+### `__Standard Values` default field values
+
+After creating `__Standard Values`, set sensible default values for text fields to give authors an immediate starting point:
+- Title / heading fields: use `$name` (Sitecore token that inserts the item name)
+- Description / body fields: can be left empty or set to a brief placeholder
+- Image and General Link fields: leave empty — they require media picker / link picker selection
+
+This ensures new datasource items created from this template are immediately populated rather than blank.  
   
 ---  
   
@@ -132,23 +163,25 @@ The same rule applies to folder templates.
   
 When creating a simple datasource-backed component, prefer this order:  
   
-1. Resolve or create the required folder/container structure  
+1. Resolve or create the required folder/container structure. Use `get_content_item_by_path` to check each intermediate folder. If any does not exist (e.g. `projectTemplatesRoot/Components`, `Components/<Category>`, `renderingsRoot/<Category>`, `renderingParamsRoot/<Category>`, `projectFoldersRoot`), create it using template folder ID `0437fee2-44c9-46a6-abe9-28858d9fee8c`.  
 2. Create the datasource template  
-3. Set `Base template` on datasource template to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (Standard Template + Grid Parameters). This applies to all datasource templates, **not** folder templates.
+3. Set `__Base template` on datasource template to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (Standard Template + Grid Parameters). This applies to all datasource templates, **not** folder templates.
 4. Create the template section (for example `Data`)  
 5. Create template fields  
 6. Update template field metadata, including explicit `Type`  
 7. Create datasource template `__Standard Values`  
-8. Create the folder template  
-9. Create folder template `__Standard Values`  
-10. Set folder template insert options / `__Masters`  
+8. Link the datasource template to its `__Standard Values` — set the `Standard values` field on the template item to the `__Standard Values` Item ID
+9. Create the folder template  
+10. Create folder template `__Standard Values`  
+11. Link the folder template to its `__Standard Values` — same as step 8
+12. Set folder template insert options / `__Masters`  
 11. Create the datasource folder under the site's `/Data`  
 12. Set insert options on the datasource folder item itself (not only on the folder template `__Standard Values`)
 13. Create an example datasource item inside the folder
 14. Create the Rendering Parameters template
 15. Create the rendering item  
-16. Update rendering fields: datasource template, datasource location, field editor settings, `Component Name [shared]` (must be **kebab-case** matching TSX filename exactly), and `Parameters Template [shared]` (must be the **Item ID/GUID** of the Rendering Parameters template, **not** a path)
-17. Register the rendering in Available Renderings — append the rendering ID to the `Renderings [shared]` field of the **Page Content** item at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
+16. Update rendering fields via MCP using known field names: `componentName` (PascalCase), `Parameters Template` (GUID), `AddFieldEditorButton` (`1`), `Datasource Template` (full path — silent-write), `Datasource Location` (dynamic query — silent-write). Silent-write fields return empty `updatedFields` — this is normal, not a failure.
+17. Register the rendering in Available Renderings — **read the current value** of the `Renderings [shared]` field on the **Page Content** item, then **concatenate** (not replace) the new rendering ID with a pipe separator. Path: at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
 18. Verify the final item state via MCP  
   
 ---  
@@ -238,7 +271,10 @@ This gives authors an immediate starting point — they can duplicate it or edit
 
 For **list components**, the example item is the parent datasource item. Create one or two child items inside it using the child template so the component renders immediately.
 
-**Field values:** Use the `__Standard Values` defaults where set. If no defaults exist, leave fields empty — do not invent placeholder copy.
+**Field values:**
+- **If the user provided a screenshot or design reference:** populate the example item fields with content that matches the design — extract text, headings, descriptions, image URLs, and link targets from the visual reference. The goal is for the component to render identically to the design from day one.
+- **If the user provided a URL in the prompt:** use it to extract real content for the example item fields.
+- **If no visual reference was provided:** use `__Standard Values` defaults where set. If no defaults exist, leave fields empty — do not invent placeholder copy.
 
 **Verify** the created item with `get_content_item_by_id` or `get_content_item_by_path`.
 
@@ -259,7 +295,7 @@ For example: `/sitecore/templates/Project/new/Rendering Parameters/Banners/Hero`
    - `name` = component name (e.g. `Hero`)
    - `templateId` = `ab86861a-6030-46c5-b394-e8f99e8b87db` (standard Template)
    - `parentId` = category folder item ID
-4. Set the `Base template` field on the new template item to all four required base templates (pipe-separated GUIDs):
+4. Set the `__Base template` field on the new template item to all four required base templates (pipe-separated GUIDs):
    ```
    {4247AAD4-EBDE-4994-998F-E067A51B1FE4}|{5C74E985-E055-43FF-B28C-DB6C6A6450A2}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}|{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}
    ```
@@ -277,7 +313,7 @@ For the rendering item, create or verify fields such as:
 - datasource template  
 - datasource location  
 - `Parameters Template [shared]` — set to the **Item ID (GUID)** of the Rendering Parameters template. **Never use a path.** Resolve the ID via MCP after creating the Rendering Parameters template.
-- `Component Name [shared]` — must be **kebab-case** and **exactly match** the TSX filename without extension (e.g. `eurobank-header` for `eurobank-header.tsx`). Do not use PascalCase.
+- `Component Name [shared]` — must be **PascalCase** and **exactly match** the TSX filename without extension (e.g. `EurobankHeader` for `EurobankHeader.tsx`). Do not use kebab-case.
 - add field editor button  
   
 Do **not** leave `Parameters Template [shared]` empty. Every rendering requires it.  
@@ -291,9 +327,15 @@ After creating the rendering, register it in the site's **Available Renderings**
 
 **Steps:**
 1. Resolve the Page Content Available Renderings item via `get_content_item_by_path`
-2. Read the current `Renderings [shared]` field value (pipe-separated rendering IDs)
-3. Append the new rendering's Item ID to the existing value (pipe-separated)
-4. Update the `Renderings [shared]` field with the new value
+2. Read the **current** `Renderings [shared]` field value — it contains existing rendering IDs separated by pipes
+3. **Concatenate** the new rendering's Item ID to the existing value with a pipe separator. **Do NOT replace the existing value** — overwriting it removes all other components from the page editor.
+4. Update the `Renderings [shared]` field with the concatenated value
+
+**Example:** If the current value is `{A8DB4692-0731-4067-A224-79EFFF24C639}` and the new rendering ID is `{B1234567-ABCD-1234-EFGH-123456789ABC}`, the updated value must be:
+```
+{A8DB4692-0731-4067-A224-79EFFF24C639}|{B1234567-ABCD-1234-EFGH-123456789ABC}
+```
+Never set it to just `{B1234567-ABCD-1234-EFGH-123456789ABC}` — that would remove the existing rendering.
 
 Do **not** skip this step. Without it, authors cannot add the component to pages.
 
@@ -318,6 +360,7 @@ After any create/update, verify the resulting item with:
 - each field `Type` is correct  
 - `__Standard Values` exists under the template  
 - `__Standard Values` is based on the owning template, not the Standard template  
+- template `Standard values` field is set to the `__Standard Values` Item ID
   
 ### Verify folder template work  
   
@@ -338,7 +381,7 @@ After any create/update, verify the resulting item with:
 - datasource template is correct  
 - datasource location is correct  
 - `Parameters Template [shared]` is set to the Item ID (GUID), not a path, and points to the correct Rendering Parameters template
-- `Component Name [shared]` is kebab-case matching the TSX filename exactly
+- `Component Name [shared]` is PascalCase matching the TSX filename exactly
 - add field editor button is set as intended  
 - rendering is registered in Available Renderings (Page Content)  
   
@@ -367,12 +410,64 @@ Do not depend on `list_available_insertoptions` as the primary way to inspect te
 ### Field update sensitivity  
   
 `update_fields_on_content_item` can be sensitive to exact field names, casing, or the item template involved.  
-  
+
+**Critical: always inspect the item via MCP before updating fields.** Use `get_content_item_by_id` or `get_content_item_by_path` to read the item first, then use the **exact field names** returned by MCP. Do not guess field names from display names — they often differ.
+
 When an update does not stick:  
 1. re-read the item via MCP  
 2. inspect the actual field names returned  
 3. retry using the exact returned names  
 4. if still unsuccessful, report the field as requiring follow-up verification  
+
+### Known MCP field names
+
+The display names shown in Content Editor often differ from the actual MCP field names. Using the wrong name causes 400 errors. Here are known mappings:
+
+#### JSON Rendering fields
+
+| Display name (Content Editor) | MCP field name | Notes |
+|---|---|---|
+| Component Name [shared] | `componentName` | No brackets, camelCase |
+| Parameters Template [shared] | `Parameters Template` | No `[shared]` suffix |
+| Add Field Editor Button | `AddFieldEditorButton` | |
+| Component Query | `ComponentQuery` | |
+| Datasource Template | `Datasource Template` | Silent-write — write succeeds but field not returned by MCP reads |
+| Datasource Location | `Datasource Location` | Silent-write — write succeeds but field not returned by MCP reads |
+
+#### Template fields
+
+| Display name (Content Editor) | MCP field name | Notes |
+|---|---|---|
+| Base template | `__Base template` | **Double underscore prefix required** — `Base template` without `__` will return 400 |
+| Insert Options / Masters | `__Masters` | Double underscore prefix; silent-write |
+| Standard values [shared] | `Standard values` | Set on template item to link to `__Standard Values` item |
+
+**Rule:** When setting base templates on any template item, always use `__Base template` (with double underscore). The display name "Base template" (without prefix) will fail.
+
+**Rule:** When in doubt about any field name, always `get_content_item_by_id` first and use the exact field names from the response.
+
+### Silent-write fields (write succeeds, `updatedFields` returns empty)
+
+These fields are written successfully by MCP but are **not reflected** in `updatedFields` or `fields` on subsequent reads. An empty `updatedFields` response is **not a failure** for these fields:
+
+| Field | Item type | How to verify |
+|---|---|---|
+| `__Masters` | Folder template `__Standard Values`, datasource folder instance | Content Editor |
+| `Renderings` | Available Renderings Page Content item | Content Editor |
+| `Datasource Template` | JSON Rendering | Content Editor |
+| `Datasource Location` | JSON Rendering | Content Editor |
+
+**Do not** flag these as "requires manual setup" unless a hard error (400/500) was returned. Report them as: *"Written via MCP; verify in Content Editor — updatedFields is empty by design for this field."*
+
+### Standard Datasource Location query pattern
+
+For simple and list components, use this dynamic query pattern so the datasource picker resolves relative to the current site:
+
+```
+query:$site/*[@@name='Data']/*[@@templatename='<FolderTemplateName>']|query:$sharedSites/*[@@name='Data']/*[@@templatename='<FolderTemplateName>']
+```
+
+Replace `<FolderTemplateName>` with the exact Sitecore item name of the folder template (e.g. `BenefitsBlockFolder`, `Promo Banner Folder`).  
   
 ---  
   

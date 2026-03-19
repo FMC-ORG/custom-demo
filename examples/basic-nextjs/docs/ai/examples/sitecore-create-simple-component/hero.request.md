@@ -20,7 +20,7 @@ Fields:
 - create a JSON Rendering  
 - do NOT create `ComponentQuery`  
 - create the React component under:  
-  - `src/components/uiim/banners/hero.tsx`  
+  - `src/components/uiim/banners/Hero.tsx`  
 - React should use Tailwind + shadcn/ui  
 - React should use default JSS field shape:  
   - `fields.Title`  

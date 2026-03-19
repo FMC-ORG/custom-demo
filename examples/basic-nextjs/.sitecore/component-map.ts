@@ -5,6 +5,12 @@ import { Form } from '@sitecore-content-sdk/nextjs';
 
 // end of built-in components
 import * as eurobankheader from 'src/components/uiim/navigation/eurobank-header';
+import * as EurobankBenefits from 'src/components/uiim/content-blocks/EurobankBenefits';
+import * as BenefitsBlock from 'src/components/uiim/content-blocks/BenefitsBlock';
+import * as PromoBanner from 'src/components/uiim/banners/PromoBanner';
+import * as PageHero from 'src/components/uiim/banners/PageHero';
+import * as EurobankPremiumHero from 'src/components/uiim/banners/EurobankPremiumHero';
+import * as EurobankHeaderBanner from 'src/components/uiim/banners/EurobankHeaderBanner';
 import * as Title from 'src/components/basic/title/Title';
 import * as RowSplitter from 'src/components/basic/row-splitter/RowSplitter';
 import * as RichText from 'src/components/basic/rich-text/RichText';
@@ -25,6 +31,12 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['FEaaSWrapper', FEaaSServerWrapper],
   ['Form', { ...Form, componentType: 'client' }],
   ['eurobank-header', { ...eurobankheader, componentType: 'client' }],
+  ['EurobankBenefits', { ...EurobankBenefits }],
+  ['BenefitsBlock', { ...BenefitsBlock }],
+  ['PromoBanner', { ...PromoBanner }],
+  ['PageHero', { ...PageHero }],
+  ['EurobankPremiumHero', { ...EurobankPremiumHero }],
+  ['EurobankHeaderBanner', { ...EurobankHeaderBanner, componentType: 'client' }],
   ['Title', { ...Title }],
   ['RowSplitter', { ...RowSplitter }],
   ['RichText', { ...RichText }],

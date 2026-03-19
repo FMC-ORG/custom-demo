@@ -29,11 +29,11 @@ siteName: ""        # populated from docs/ai/config/project.yaml
 category: ""  
   
 component:  
-  namePascal: ""  
-  nameKebab: ""  
+  namePascal: ""  # e.g. "EurobankHeader" — used for TSX filename, Component Name [shared], rendering name, variant names
+  nameKebab: ""   # e.g. "eurobank-header" — used for folder name and component map key
   kind: "" # simple | list | context-only  
-  filePath: ""  
-  componentMapKey: ""  
+  filePath: ""    # e.g. "src/components/uiim/navigation/EurobankHeader.tsx" — folder is kebab-case, file is PascalCase
+  componentMapKey: ""  # kebab-case key in component-map.ts
   componentMapImportAlias: ""  
   
 design:  
@@ -99,7 +99,7 @@ datasourceFolder:
   exampleItem:
     create: false
     name: ""   # e.g. component name — the item authors see first
-    fields: {}  # field name -> default value pairs from __Standard Values
+    fields: {}  # If screenshot/design provided: populate with content matching the design. If URL provided: extract real content. Otherwise: use __Standard Values defaults.
   
 renderingParamsTemplate:
   create: true
@@ -126,7 +126,7 @@ rendering:
   create: true  
   path: ""  
   name: ""  
-  componentName: ""  # MUST be kebab-case and exactly match the TSX filename without extension (e.g. "eurobank-header" for eurobank-header.tsx)
+  componentName: ""  # MUST be PascalCase and exactly match the TSX filename without extension (e.g. "EurobankHeader" for EurobankHeader.tsx)
   datasourceRequired: true  
   datasourceTemplatePath: ""  
   datasourceLocationQuery: ""  

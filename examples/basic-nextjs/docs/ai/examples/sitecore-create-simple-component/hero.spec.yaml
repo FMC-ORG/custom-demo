@@ -31,9 +31,9 @@ component:
   namePascal: "Hero"  
   nameKebab: "hero"  
   kind: "simple"  
-  filePath: "src/components/uiim/banners/hero.tsx"  
+  filePath: "src/components/uiim/banners/Hero.tsx"  
   componentMapKey: "hero"  
-  componentMapImportAlias: "hero"  
+  componentMapImportAlias: "Hero"  
   
 design:  
   references: []  
@@ -143,7 +143,7 @@ rendering:
   create: true  
   path: "/sitecore/layout/Renderings/Project/acme/Banners/Hero"  
   name: "Hero"  
-  componentName: "hero"  # MUST be kebab-case matching TSX filename exactly
+  componentName: "Hero"  # MUST be PascalCase matching TSX filename exactly
   datasourceRequired: true  
   datasourceTemplatePath: "/sitecore/templates/Project/acme/Components/Banners/Hero"  
   datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Hero Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Hero Folder']"  

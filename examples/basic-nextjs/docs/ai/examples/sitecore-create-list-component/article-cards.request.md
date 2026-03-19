@@ -28,7 +28,7 @@ Child template:
 - create JSON Rendering  
 - create valid `ComponentQuery`  
 - create the React component under:  
-  - `src/components/uiim/cards/article-cards.tsx`  
+  - `src/components/uiim/cards/ArticleCards.tsx`  
 - React should use Tailwind + shadcn/ui  
 - React should use:  
   - `fields.data.datasource`  

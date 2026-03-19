@@ -5,6 +5,7 @@ import { Form } from '@sitecore-content-sdk/nextjs';
 
 // end of built-in components
 import * as eurobankheader from 'src/components/uiim/navigation/eurobank-header';
+import * as HowItWorks from 'src/components/uiim/content-blocks/HowItWorks';
 import * as EurobankBenefits from 'src/components/uiim/content-blocks/EurobankBenefits';
 import * as BenefitsBlock from 'src/components/uiim/content-blocks/BenefitsBlock';
 import * as PromoBanner from 'src/components/uiim/banners/PromoBanner';
@@ -31,6 +32,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['FEaaSWrapper', FEaaSServerWrapper],
   ['Form', { ...Form, componentType: 'client' }],
   ['eurobank-header', { ...eurobankheader, componentType: 'client' }],
+  ['HowItWorks', { ...HowItWorks }],
   ['EurobankBenefits', { ...EurobankBenefits }],
   ['BenefitsBlock', { ...BenefitsBlock }],
   ['PromoBanner', { ...PromoBanner }],

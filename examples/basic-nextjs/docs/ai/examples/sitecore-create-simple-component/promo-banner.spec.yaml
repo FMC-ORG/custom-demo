@@ -31,7 +31,7 @@ component:
   namePascal: "PromoBanner"
   nameKebab: "promo-banner"
   kind: "simple"
-  filePath: "src/components/uiim/banners/promo-banner.tsx"
+  filePath: "src/components/uiim/banners/PromoBanner.tsx"
   componentMapKey: "promo-banner"
   componentMapImportAlias: "promoBanner"
 
@@ -76,7 +76,9 @@ templates:
         type: "Image"
       - name: "PrimaryLink"
         type: "General Link"
-    baseTemplates: []
+    baseTemplates:
+      - "{1930BBEB-7805-471A-A3BE-4858AC7CF696}"  # Standard Template
+      - "{44A022DB-56D3-419A-B43B-E27E4D8E9C41}"  # Grid Parameters
     standardValues:
       create: true
       defaults:
@@ -110,6 +112,7 @@ datasourceFolder:
   path: "/sitecore/content/acme/main/Data/Promo Banners"
   name: "Promo Banners"
 
+  insertOptions: []  # REQUIRED: set on the folder item itself
   exampleItem:
     create: true
     name: "Promo Banner"
@@ -130,17 +133,21 @@ headlessVariants:
   variants:
   - "Default"
 
+availableRenderings:
+  register: true
+  targetPath: "/sitecore/content/acme/main/Presentation/Available Renderings/Page Content"
+
 rendering:
   create: true
   path: "/sitecore/layout/Renderings/Project/acme/Banners/Promo Banner"
   name: "Promo Banner"
-  componentName: "promo-banner"
+  componentName: "PromoBanner"  # MUST be PascalCase matching TSX filename exactly
   datasourceRequired: true
   datasourceTemplatePath: "/sitecore/templates/Project/acme/Components/Banners/Promo Banner"
   datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Promo Banner Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Promo Banner Folder']"
   dataSource: ""
   addFieldEditorButton: "1"
-  parametersTemplatePath: "/sitecore/templates/Project/acme/Rendering Parameters/Banners/Promo Banner"
+  parametersTemplateId: ""  # MUST be Item ID (GUID) resolved via MCP — never a path
   useComponentQuery: false
   componentQuery: ""
 

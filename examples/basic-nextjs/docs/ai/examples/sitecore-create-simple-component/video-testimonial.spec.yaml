@@ -14,7 +14,7 @@ component:
   namePascal: "VideoTestimonial"
   nameKebab: "video-testimonial"
   kind: "simple"
-  filePath: "src/components/uiim/content/video-testimonial.tsx"
+  filePath: "src/components/uiim/content/VideoTestimonial.tsx"
   componentMapKey: "video-testimonial"
   componentMapImportAlias: "videoTestimonial"
 
@@ -56,6 +56,7 @@ datasourceFolder:
   create: true
   path: "/sitecore/content/acme/main/Data/Video Testimonials"
   name: "Video Testimonials"
+  insertOptions: []  # REQUIRED: set on the folder item itself
   exampleItem:
     create: true
     name: "Video Testimonial"
@@ -77,9 +78,13 @@ headlessVariants:
   variants:
   - "Default"
 
+availableRenderings:
+  register: true
+  targetPath: "/sitecore/content/acme/main/Presentation/Available Renderings/Page Content"
+
 rendering:
   path: "/sitecore/layout/Renderings/Project/acme/Content/Video Testimonial"
-  componentName: "video-testimonial"
+  componentName: "VideoTestimonial"  # MUST be PascalCase matching TSX filename exactly
   datasourceTemplatePath: "/sitecore/templates/Project/acme/Components/Content/Video Testimonial"
   datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Video Testimonial Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Video Testimonial Folder']"
 

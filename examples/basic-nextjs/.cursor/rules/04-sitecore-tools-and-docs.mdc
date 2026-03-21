@@ -77,10 +77,12 @@ Do **not** use the Standard template ID `1930bbeb-7805-471a-a3be-4858ac7cf696` u
   
 When creating renderings:  
 - prefer JSON Rendering unless the repo uses a different convention  
-- always set `Parameters Template [shared]` to the Rendering Parameters template path  
+- always set `Parameters Template [shared]` to the **Item ID (GUID)** of the Rendering Parameters template — **never use a path**. Resolve the ID via MCP after creating the template.
+- always set `Component Name [shared]` to **PascalCase** matching the TSX filename exactly (e.g. `EurobankHeader` for `EurobankHeader.tsx`)
+- always register the rendering in Available Renderings — append the rendering ID to the `Renderings [shared]` field of the **Page Content** item at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
 - verify datasource template  
 - verify datasource location  
-- verify component name  
+- verify component name is PascalCase
 - verify field editor button settings when applicable  
   
 If a rendering field cannot be confidently updated or verified through MCP, state that clearly and mark it as follow-up verification required.  
@@ -93,6 +95,7 @@ Prefer MCP-based verification first.
   
 Verify, when relevant:  
 - template existence and path  
+- datasource template `Base template` includes `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (not for folder templates)
 - template section existence  
 - template field existence  
 - template field `Type`  
@@ -102,11 +105,13 @@ Verify, when relevant:
 - folder template `__Standard Values` is based on the owning folder template  
 - folder insert options / `__Masters`  
 - datasource folder path and template  
+- insert options set on datasource folder instance (not only on folder template)
 - rendering datasource template  
 - rendering datasource location  
-- rendering `Parameters Template [shared]` is set and points to a valid path  
-- rendering component name  
+- rendering `Parameters Template [shared]` is set to Item ID (GUID), not a path
+- rendering `Component Name [shared]` is PascalCase matching TSX filename
 - rendering field editor button setting  
+- rendering is registered in Available Renderings (Page Content)  
   
 Use Content Editor verification only as a fallback when MCP cannot reliably confirm the value.  
   

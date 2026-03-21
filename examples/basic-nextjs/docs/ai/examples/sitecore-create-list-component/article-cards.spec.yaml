@@ -32,7 +32,7 @@ component:
   namePascal: "ArticleCards"  
   nameKebab: "article-cards"  
   kind: "list"  
-  filePath: "src/components/uiim/cards/article-cards.tsx"  
+  filePath: "src/components/uiim/cards/ArticleCards.tsx"  
   componentMapKey: "article-cards"  
   componentMapImportAlias: "articleCards"  
   
@@ -100,7 +100,9 @@ templates:
         type: "General Link"  
       - name: "BadgeText"  
         type: "Single-Line Text"  
-    baseTemplates: []  
+    baseTemplates:
+      - "{1930BBEB-7805-471A-A3BE-4858AC7CF696}"  # Standard Template
+      - "{44A022DB-56D3-419A-B43B-E27E4D8E9C41}"  # Grid Parameters  
     standardValues:  
       create: true  
       defaults:  
@@ -122,6 +124,7 @@ datasourceFolder:
   path: "/sitecore/content/acme/main/Data/ArticleCards"  
   name: "ArticleCards"  
   
+  insertOptions: []  # REQUIRED: set on the folder item itself
   exampleItem:
     create: true
     name: "Article Cards"
@@ -143,11 +146,15 @@ headlessVariants:
   variants:
   - "Default"
 
+availableRenderings:
+  register: true
+  targetPath: "/sitecore/content/acme/main/Presentation/Available Renderings/Page Content"
+
 rendering:
   create: true  
   path: "/sitecore/layout/Renderings/Project/acme/Cards/ArticleCards"  
   name: "ArticleCards"  
-  componentName: "article-cards"  
+  componentName: "ArticleCards"  # MUST be PascalCase matching TSX filename exactly  
   datasourceRequired: true  
   datasourceTemplatePath: "/sitecore/templates/Project/acme/Components/Cards/ArticleCards"  
   datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Article Cards Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Article Cards Folder']"  

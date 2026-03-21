@@ -29,11 +29,11 @@ siteName: ""        # populated from docs/ai/config/project.yaml
 category: ""  
   
 component:  
-  namePascal: ""  
-  nameKebab: ""  
+  namePascal: ""  # e.g. "EurobankHeader" — used for TSX filename, Component Name [shared], rendering name, variant names
+  nameKebab: ""   # e.g. "eurobank-header" — used for folder name and component map key
   kind: "" # simple | list | context-only  
-  filePath: ""  
-  componentMapKey: ""  
+  filePath: ""    # e.g. "src/components/uiim/navigation/EurobankHeader.tsx" — folder is kebab-case, file is PascalCase
+  componentMapKey: ""  # kebab-case key in component-map.ts
   componentMapImportAlias: ""  
   
 design:  
@@ -60,7 +60,9 @@ templates:
     name: ""  
     sectionName: "Data"  
     fields: []  
-    baseTemplates: []  
+    baseTemplates:  # REQUIRED for all datasource templates (not folder templates)
+      - "{1930BBEB-7805-471A-A3BE-4858AC7CF696}"  # Standard Template
+      - "{44A022DB-56D3-419A-B43B-E27E4D8E9C41}"  # Grid Parameters  
     standardValues:  
       create: true  
       defaults: {}  
@@ -73,7 +75,9 @@ templates:
     name: ""  
     sectionName: "Data"  
     fields: []  
-    baseTemplates: []  
+    baseTemplates:  # REQUIRED for all datasource templates (not folder templates)
+      - "{1930BBEB-7805-471A-A3BE-4858AC7CF696}"  # Standard Template
+      - "{44A022DB-56D3-419A-B43B-E27E4D8E9C41}"  # Grid Parameters  
     standardValues:  
       create: false  
       defaults: {}  
@@ -91,10 +95,11 @@ datasourceFolder:
   create: false  
   path: ""  
   name: ""  
+  insertOptions: []  # REQUIRED: set insert options on the data folder instance itself, not only on the folder template __Standard Values
   exampleItem:
     create: false
     name: ""   # e.g. component name — the item authors see first
-    fields: {}  # field name -> default value pairs from __Standard Values
+    fields: {}  # If screenshot/design provided: populate with content matching the design. If URL provided: extract real content. Otherwise: use __Standard Values defaults.
   
 renderingParamsTemplate:
   create: true
@@ -111,17 +116,23 @@ headlessVariants:
   containerPath: ""  # /sitecore/content/<siteCollection>/<siteName>/Presentation/Headless Variants/<ComponentName>
   variants: []       # list of variant names — must match TSX named exports exactly
 
+availableRenderings:
+  register: true
+  # Always add the new rendering to the Page Content Available Renderings for the site
+  targetPath: "/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content"
+  targetItemId: ""  # resolve via MCP — for eurobankgr use {C72B27E5-7DFF-4922-BBB0-8226D8DEC788}
+
 rendering:
   create: true  
   path: ""  
   name: ""  
-  componentName: ""  
+  componentName: ""  # MUST be PascalCase and exactly match the TSX filename without extension (e.g. "EurobankHeader" for EurobankHeader.tsx)
   datasourceRequired: true  
   datasourceTemplatePath: ""  
   datasourceLocationQuery: ""  
   dataSource: ""  
   addFieldEditorButton: "1"  
-  parametersTemplatePath: ""  # full path to the Rendering Parameters template
+  parametersTemplateId: ""  # MUST be the Item ID (GUID) of the Rendering Parameters template, NOT a path. Resolve via MCP after creating the template.
   useComponentQuery: false
   componentQuery: ""  
   

@@ -9,13 +9,21 @@ Use this skill when:
 - the user says "analyze this homepage and build the components"
 
 ## Prerequisites
-- Template component library must be built (check manifest for 17+ components with status "complete")
+- Template component library must be built (check manifest for 18 components with status "complete")
 - Playwright scraper must be installed (`node .claude/skills/sitecore-extract-theme/scripts/site-scraper.mjs --help` should work)
 
 ## Load first
 - `docs/ai/catalog/component-registry.yaml`
 - `docs/ai/catalog/theme-component-mapping.md`
 - `docs/ai/manifests/sitecore-manifest.yaml`
+
+## Available sub-agents
+- `.claude/agents/site-analyzer.md` — decomposes homepage into component sections
+- `.claude/agents/content-scraper.md` — extracts real text content for datasource population
+
+## Available scripts
+- `.claude/skills/sitecore-extract-theme/scripts/site-scraper.mjs` — Playwright theme/screenshot scraper
+- `.claude/skills/sitecore-extract-theme/scripts/content-extractor.mjs` — Playwright content extractor
 
 ## Full workflow
 
@@ -57,71 +65,108 @@ Use the `site-analyzer` agent (`.claude/agents/site-analyzer.md`):
    - List of sections with matched components and variants
    - Any sections marked as "custom" that need building from scratch
    - Confidence levels
-   - Estimated work: N template components + M custom components
+   - Count: N template matches + M custom components
 
 **Do not proceed past Phase 2 until the user confirms the build plan.**
 
-### Phase 3 — Populate content for template components
+### Phase 3 — Extract content from the client site
 
-For each section in the build plan with `matchType: "template"`:
+Run the content extraction in parallel with user review:
 
-1. Find the component's existing datasource item in the manifest (from `exampleItem`)
-2. Update the datasource item fields with the content extracted in the build plan:
-   - Use `update_fields_on_content_item` via Marketer MCP
-   - Set text fields (Title, Description, etc.) with the content from `sections[N].content`
-   - For Image and Link fields: note them as needing manual population (images require Media Library upload, links need real URLs)
-3. If the component is a list type (has children), create the appropriate number of child items matching what's visible on the client page
+1. Run the Playwright content extractor:
+   ```
+   node .claude/skills/sitecore-extract-theme/scripts/content-extractor.mjs --url <URL> --output docs/ai/demos/<client-kebab>
+   ```
+2. Use the `content-scraper` agent (`.claude/agents/content-scraper.md`) to:
+   - Read the build plan
+   - Read `extracted-content.json` from the script
+   - Map extracted content to component fields
+   - Output `docs/ai/demos/<client-kebab>/content-map.yaml`
 
-**Content population order:**
-- Work through sections top-to-bottom following `buildOrder.phase1_sitecore`
-- Use cached item IDs from the manifest — don't re-resolve paths
+The content map contains:
+- Exact text for every Single-Line Text and Rich Text field
+- Link URLs and button text for General Link fields
+- Image URLs noted for manual Media Library upload
+- Count of child items needed vs existing example items
 
-### Phase 4 — Apply the theme
+### Phase 4 — Populate Sitecore content
 
-The theme was extracted in Phase 1. For the demo to actually look like the client site:
+For each section in the content map:
 
-1. Generate a `globals.css` override file with the CSS variables from the theme's `cssVariables` block
-2. If the theme uses Google Fonts, add the `<link>` tag to the Next.js layout or `_document`
-3. The template components already use `var(--brand-*)` — they'll automatically pick up the new theme
+**Simple components (datasource item update):**
+1. Read the component's `exampleItem.itemId` from the manifest
+2. Use `update_fields_on_content_item` to set text fields with extracted content
+3. Note Image and Link fields as needing manual update
 
-Output the theme application as a set of file changes the user can review.
+**List components (parent + children):**
+1. Read the parent `exampleItem.itemId` from the manifest
+2. Update parent fields (Title, Description) via MCP
+3. For each child in the content map:
+   - If `needsCreation: false` → update existing child item by ID
+   - If `needsCreation: true` → create new child item under the parent using `create_content_item`, then update its fields
+4. If the client has fewer children than existing examples, note the extras for deletion
 
-### Phase 5 — Build custom components (if any)
+**Context-only components (NavigationHeader, SiteFooter):**
+- No datasource content to populate
+- Note that nav items and footer links are placeholders
+
+**Content population order:** Follow `buildOrder.phase1_sitecore` from the build plan, top-to-bottom.
+
+### Phase 5 — Apply the theme
+
+The theme was extracted in Phase 1. To make the demo visually match the client:
+
+1. Generate a `globals-brand.css` file with the CSS variables from the theme's `cssVariables` block
+2. If the theme uses Google Fonts, add the import to the Next.js layout:
+   - Add `<link>` tag with `typography.googleFontsUrl` to `src/app/layout.tsx` or equivalent
+3. Import `globals-brand.css` in the app's global stylesheet
+
+Output theme files to `docs/ai/demos/<client-kebab>/theme-files/`:
+- `globals-brand.css` — CSS variable overrides
+- `layout-changes.md` — what to add to the layout file
+
+### Phase 6 — Build custom components (if any)
 
 For each section in the build plan with `matchType: "custom"`:
 
 1. Use the appropriate Sitecore creation skill (simple/list/context-only)
 2. Follow the `customComponents` section of the build plan for field specs
-3. Build the component from scratch with the client theme applied
+3. Build with theme CSS variables applied
 4. Update the manifest
 
-### Phase 6 — Summary
+### Phase 7 — Summary
 
 Present to the user:
 - Total components used: N template + M custom
-- Content populated for each section
-- Theme applied (CSS variables + fonts)
+- Content populated: X fields across Y datasource items
+- Theme applied: CSS variables + Google Fonts
+- Child items created: Z new items for list components
 - What needs manual attention:
-  - Images needing Media Library upload
-  - Links needing real URLs
-  - Any low-confidence matches that should be verified
-  - Silent-write fields needing Content Editor verification
+  - Images needing Media Library upload (with URLs)
+  - Links needing real URLs (client links won't work on demo)
+  - Any low-confidence matches to verify
+  - Silent-write fields needing Content Editor check
 
 ## Output files
 
-After completion, the demo directory should contain:
+After completion, the demo directory contains:
 ```
 docs/ai/demos/<client-kebab>/
-├── build-plan.yaml          # the section-by-component mapping
-├── theme-applied.md         # log of theme changes made
-├── content-populated.md     # log of content updates made
-└── manual-tasks.md          # things the SE needs to do manually
+├── build-plan.yaml          # section-by-component mapping
+├── extracted-content.json   # raw content from Playwright
+├── content-map.yaml         # structured content mapped to fields
+├── theme-files/
+│   ├── globals-brand.css    # CSS variable overrides
+│   └── layout-changes.md    # layout file modifications needed
+├── summary.md               # what was done + manual tasks
 ```
 
 ## Important rules
 
 - **Never replace existing Available Renderings** — template components are already registered
-- **Never recreate template components** — they already exist, just populate their datasource items with client content
-- **Always use the manifest** for item IDs — don't re-resolve paths that are already cached
-- **Always present the plan before executing** — the SE must approve the theme and build plan
-- **Mark images and links as manual** — the scraper can extract URLs but uploading to Media Library requires manual steps
+- **Never recreate template components** — they already exist, just populate their datasource items
+- **Always use the manifest** for item IDs — don't re-resolve paths
+- **Always present the plan before executing** — the SE must approve theme and build plan
+- **Extract content exactly** — don't paraphrase or improve the client's text
+- **Mark images as manual** — scraper extracts URLs but Media Library upload is manual
+- **Count children carefully** — match the client's item count, create additional children if needed

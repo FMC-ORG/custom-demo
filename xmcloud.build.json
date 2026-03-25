@@ -88,7 +88,10 @@
       "reindex": {
         "indexNames": []
       }
-    }
+    },
+    "scsModules": {
+      "modules": ["FmcCustomDemo.Content"]
+    },
   },
   "deployItems": {
   "modules": ["FmcCustomDemo.*"]

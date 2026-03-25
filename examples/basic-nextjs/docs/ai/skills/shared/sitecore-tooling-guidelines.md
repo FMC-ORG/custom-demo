@@ -46,21 +46,24 @@ Do not invent official Sitecore behavior when the docs MCP can clarify it.
    - datasource picker fix  
    - ComponentQuery fix  
    - add variants
-2. If screenshots are attached or provided by path, inspect them first.  
-3. Normalize the task into:  
+2. Read `docs/ai/manifests/sitecore-manifest.yaml` — check for existing entries for the component being worked on.
+3. If screenshots are attached or provided by path, inspect them first.  
+4. Normalize the task into:  
    - `docs/ai/templates/sitecore-component-spec.template.yaml`  
-4. Ask concise follow-up questions if required data is missing.  
-5. Show:  
+5. Ask concise follow-up questions if required data is missing.  
+6. Show:  
    - chosen skill/workflow  
    - completed or partial spec  
    - assumptions  
+   - manifest status (new / resuming partial / updating existing)
    - plan  
-6. Then implement.  
-7. Return:  
+7. Then implement.  
+8. Return:  
    - spec  
    - Sitecore actions/MCP actions  
    - code/files changed  
    - verification checklist  
+   - updated manifest entry
   
 ## Non-negotiable Sitecore rules  
 - Every custom template must have `__Standard Values`. After creating `__Standard Values`, set the `Standard values` field on the template item to the `__Standard Values` Item ID to link them.  
@@ -140,3 +143,12 @@ Every component must:
 
 To add variants beyond `Default`, use `docs/ai/skills/sitecore-add-variants.md`.
 
+## Manifest rule
+
+After every Sitecore task, update `docs/ai/manifests/sitecore-manifest.yaml`:
+- register new components as `planned` before implementation
+- record item IDs as they are created
+- set `status: complete` or `partial`/`failed` at task end
+- record verification results
+
+See `docs/ai/skills/sitecore-maintain-manifest.md` for full lifecycle and format rules.

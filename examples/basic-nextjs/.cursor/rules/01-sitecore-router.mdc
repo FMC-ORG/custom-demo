@@ -47,13 +47,17 @@ When the user asks to create, update, diagnose, or fix a Sitecore XM Cloud compo
 2. Load the matching skill and its referenced docs.  
 3. If screenshots are attached, inspect them first.  
 4. Normalize the work into `docs/ai/templates/sitecore-component-spec.template.yaml`.  
-5. Ask concise follow-up questions if critical information is missing.  
-6. Before implementation, show:  
+5. Check `docs/ai/manifests/sitecore-manifest.yaml` for an existing entry for this component.
+   - If `status: complete`, confirm with the user before re-creating.
+   - If `status: partial` or `failed`, plan to resume using recorded item IDs.
+6. Ask concise follow-up questions if critical information is missing.  
+7. Before implementation, show:  
    - chosen skill/workflow  
    - assumptions  
    - completed or partial spec  
+   - manifest status (new / resuming partial / updating existing)
    - plan  
-7. Then implement.  
+8. Then implement.  
   
 ## Do not skip classification  
 Do not jump directly into code or Sitecore item changes until the request has been classified into:  

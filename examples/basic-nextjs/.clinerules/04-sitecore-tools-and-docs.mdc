@@ -44,6 +44,7 @@ If official docs and repo conventions differ, note the difference and follow rep
 - After each create/update, verify with `get_content_item_by_id` or `get_content_item_by_path`.  
 - Use exact field names returned by item inspection when updating fields.  
 - Do not guess field-name casing or internal-name/display-name mappings.  
+- After each successful create/update batch, record item IDs in `docs/ai/manifests/sitecore-manifest.yaml`.
   
 ### Template field rule  
   
@@ -142,6 +143,17 @@ When an update does not stick:
   
 ---  
   
+## Manifest rule
+
+After every Sitecore task, update `docs/ai/manifests/sitecore-manifest.yaml` with:
+- item IDs for all created/updated items
+- verification results (passed, failed, pendingManual)
+- component status (planned → partial → complete/failed)
+
+See `docs/ai/skills/sitecore-maintain-manifest.md` for full rules.
+
+---
+
 ## Honesty rule  
   
 Do not mark a Sitecore change as complete unless:  
@@ -149,11 +161,11 @@ Do not mark a Sitecore change as complete unless:
 - and the result was verified, or you explicitly state what remains unverified  
   
 Use language like:  
-- “created and verified”  
-- “created; field update needs verification”  
-- “planned; repo process may require serialization”  
+- "created and verified"  
+- "created; field update needs verification"  
+- "planned; repo process may require serialization"  
   
 Avoid language like:  
-- “MCP does not support templates/renderings”  
+- "MCP does not support templates/renderings"  
   
 unless you encountered a specific, reproducible failure and report it as such.  

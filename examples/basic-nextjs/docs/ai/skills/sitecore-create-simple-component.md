@@ -26,6 +26,7 @@ Use instead:
 - `docs/ai/skills/shared/react-uiim-guidelines.md`
 - `docs/ai/templates/sitecore-component-spec.template.yaml`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
+- `docs/ai/skills/sitecore-maintain-manifest.md`
 
 ## Examples
 - `docs/ai/examples/sitecore-create-simple-component/hero.request.md`
@@ -59,14 +60,18 @@ If required information is missing, ask concise follow-up questions first.
 2. Inspect screenshots/design references before implementation.
 3. Normalize into `docs/ai/templates/sitecore-component-spec.template.yaml`.
 4. Apply safe defaults (see below).
-5. State assumptions clearly.
-6. Before implementation, return:
+5. Read `docs/ai/manifests/sitecore-manifest.yaml`.
+   - If the component exists with `status: complete`, confirm with user before re-creating.
+   - If `status: partial` or `failed`, resume using recorded item IDs.
+   - If not found, register a `planned` entry.
+6. State assumptions clearly.
+7. Before implementation, return:
    - chosen workflow
    - classification
    - assumptions
    - completed or partial spec
    - plan
-7. Then implement.
+8. Then implement.
 
 If the user wants approval first, stop after the plan.
 
@@ -415,6 +420,7 @@ After implementation:
 3. files changed
 4. verification results
 5. follow-up verification or serialization requirements
+6. updated manifest entry
 
 ---
 

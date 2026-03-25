@@ -22,6 +22,7 @@ If during diagnosis you discover the root cause is a datasource picker problem r
 - `docs/ai/skills/shared/react-uiim-guidelines.md`
 - `docs/ai/templates/sitecore-component-spec.template.yaml`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
+- `docs/ai/skills/sitecore-maintain-manifest.md`
 
 ---
 
@@ -158,6 +159,7 @@ After implementation:
 3. files changed
 4. verification results
 5. any follow-up verification requirements
+6. updated manifest entry (update rendering.componentQuery, status, notes)
 
 ---
 

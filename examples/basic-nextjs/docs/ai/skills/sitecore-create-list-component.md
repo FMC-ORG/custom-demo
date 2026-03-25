@@ -25,6 +25,7 @@ Use instead:
 - `docs/ai/skills/shared/react-uiim-guidelines.md`
 - `docs/ai/templates/sitecore-component-spec.template.yaml`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
+- `docs/ai/skills/sitecore-maintain-manifest.md`
 
 ## Examples
 - `docs/ai/examples/sitecore-create-list-component/article-cards.request.md`
@@ -50,15 +51,19 @@ Use instead:
 3. Confirm the request is a **list / parent-child datasource** component.
 4. Normalize into `docs/ai/templates/sitecore-component-spec.template.yaml`.
 5. Apply safe defaults (see below).
-6. Ask concise follow-up questions if required values are missing.
-7. Before implementation, show:
+6. Read `docs/ai/manifests/sitecore-manifest.yaml`.
+   - If the component exists with `status: complete`, confirm with user before re-creating.
+   - If `status: partial` or `failed`, resume using recorded item IDs.
+   - If not found, register a `planned` entry.
+7. Ask concise follow-up questions if required values are missing.
+8. Before implementation, show:
    - chosen classification
    - inferred layout
    - inferred parent and child field models
    - assumptions
    - completed or partial spec
    - plan
-8. Then implement.
+9. Then implement.
 
 If the user asks for an approval gate, stop after the plan and wait.
 
@@ -397,6 +402,7 @@ After implementation:
 3. files changed
 4. verification results
 5. any follow-up verification or serialization requirements
+6. updated manifest entry
 
 ---
 

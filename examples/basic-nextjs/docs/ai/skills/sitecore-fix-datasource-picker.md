@@ -21,6 +21,7 @@ If during diagnosis you discover the root cause is a `ComponentQuery` problem ra
 - `docs/ai/skills/shared/sitecore-tooling-guidelines.md`
 - `docs/ai/templates/sitecore-component-spec.template.yaml`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
+- `docs/ai/skills/sitecore-maintain-manifest.md`
 
 ---
 
@@ -173,6 +174,7 @@ After implementation:
 2. MCP/item operations performed
 3. verification results
 4. any follow-up verification requirements
+5. updated manifest entry (update affected fields, status, notes)
 
 ---
 

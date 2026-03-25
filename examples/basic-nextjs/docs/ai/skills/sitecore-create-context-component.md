@@ -26,6 +26,7 @@ Use instead:
 - `docs/ai/skills/shared/react-uiim-guidelines.md`
 - `docs/ai/templates/sitecore-component-spec.template.yaml`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
+- `docs/ai/skills/sitecore-maintain-manifest.md`
 
 ## Examples
 - `docs/ai/examples/sitecore-create-context-component/page-hero.request.md`
@@ -53,14 +54,18 @@ Use instead:
 3. Determine whether the request is truly context-only.
 4. Normalize into `docs/ai/templates/sitecore-component-spec.template.yaml`.
 5. Apply safe defaults (see below).
-6. Ask concise follow-up questions if required information is missing.
-7. Before implementation, show:
+6. Read `docs/ai/manifests/sitecore-manifest.yaml`.
+   - If the component exists with `status: complete`, confirm with user before re-creating.
+   - If `status: partial` or `failed`, resume using recorded item IDs.
+   - If not found, register a `planned` entry.
+7. Ask concise follow-up questions if required information is missing.
+8. Before implementation, show:
    - chosen classification
    - inferred route/context field model
    - assumptions
    - completed or partial spec
    - plan
-8. Then implement.
+9. Then implement.
 
 If the user asks for an approval gate, stop after the plan and wait.
 
@@ -248,6 +253,7 @@ After implementation:
 3. files changed
 4. verification results
 5. any follow-up verification or serialization requirements
+6. updated manifest entry
 
 ---
 

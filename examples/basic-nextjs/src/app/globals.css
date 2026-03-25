@@ -38,6 +38,18 @@
     --saga-navy: 228 62% 24%;
     --saga-light-blue: 195 50% 94%;
     --saga-teal: 180 35% 78%;
+
+    /* Brand token shim: used by Sitecore AI-authored components (AnnouncementBar, etc.). */
+    --font-open-sans: "Open Sans", Arial, sans-serif;
+    --brand-primary: hsl(var(--primary));
+    --brand-primary-foreground: hsl(var(--primary-foreground));
+    --brand-accent: hsl(var(--accent));
+    --brand-accent-foreground: hsl(var(--accent-foreground));
+    --brand-dark: hsl(var(--foreground));
+    --brand-dark-foreground: hsl(var(--background));
+    --brand-body-font: var(--font-open-sans);
+    --brand-bg: hsl(var(--background));
+    --brand-fg: hsl(var(--foreground));
   }
 }
 

@@ -1,0 +1,406 @@
+# Sitecore AI Manifest
+# Auto-maintained by the AI agent during every Sitecore component task.
+# Commit this file to the repo. The agent reads it before every task to avoid
+# duplicates and understand the current state of AI-created Sitecore items.
+#
+# Do not edit manually unless correcting a known drift between this file and
+# the actual Sitecore instance. If you do edit manually, add a note in the
+# entry's `notes` field.
+
+generatedAt: "2026-03-25T10:14:27Z"          # ISO timestamp of initial creation
+lastUpdatedAt: "2026-03-25T12:30:00Z"        # ISO timestamp of most recent agent update
+lastUpdatedBy: "claude-code"        # agent identifier or session hint (e.g. "cursor", "cline", "claude")
+
+project:
+  siteCollection: "new"     # from docs/ai/config/project.yaml
+  siteName: "fmc"           # from docs/ai/config/project.yaml
+  sdk: "@sitecore-content-sdk/nextjs"                # from docs/ai/config/project.yaml
+  renderingsRoot: "/sitecore/layout/Renderings/Project/fmc-custom-demo"
+  projectTemplatesRoot: "/sitecore/templates/Project/fmc-custom-demo"
+  dataRoot: "/sitecore/content/new/fmc/Data"           # derived
+  projectFoldersRoot: "/sitecore/templates/Project/fmc-custom-demo/Folders" # derived
+  renderingParamsRoot: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters" # derived
+  headlessVariantsRoot: "/sitecore/content/new/fmc/Presentation/Headless Variants" # derived
+
+# ─────────────────────────────────────────────
+# Component registry — one entry per component
+# ─────────────────────────────────────────────
+components:
+  - name: "AnnouncementBar" # PascalCase component name
+    kind: "simple" # simple | list | context-only
+    category: "Navigation" # PascalCase category
+    status: "complete" # complete | partial | planned | failed
+    createdAt: "2026-03-25T10:14:27Z"
+    updatedAt: "2026-03-25T10:29:20Z"
+    react:
+      filePath: "src/components/basic/navigation/AnnouncementBar.tsx"
+      componentMapKey: "announcement-bar"
+      variants:
+        - "Default"
+        - "Highlight"
+    templates:
+      datasource:
+        name: "AnnouncementBar"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Navigation/AnnouncementBar"
+        itemId: "a1dbbc6f-74dd-403a-9e1c-943c9a68fff3"
+        sectionName: "Data"
+        fields:
+          - { name: "Message", type: "Single-Line Text" }
+          - { name: "BarLink", type: "General Link" }
+          - { name: "BackgroundColor", type: "Single-Line Text" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "8b521175-43b5-4447-a43a-57eb5a8ba32c"
+          linked: true
+      child:
+        name: ""
+        path: ""
+        itemId: ""
+        sectionName: "Data"
+        fields: []
+        baseTemplatesSet: false
+        standardValues:
+          itemId: ""
+          linked: false
+      folder:
+        name: "AnnouncementBar Folder"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Folders/AnnouncementBar Folder"
+        itemId: "20e4f997-3c37-4c63-adcf-a8baf2a2d236"
+        standardValues:
+          itemId: "4ea85c1d-4d0f-4f54-95da-803a147c8235"
+          linked: true
+          masters: ["AnnouncementBar"]
+      renderingParams:
+        name: "AnnouncementBar"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Navigation/AnnouncementBar"
+        itemId: "ca3eb189-8083-46c9-9e43-8bff4329d226"
+        baseTemplatesSet: true
+      datasourceFolder:
+        name: "AnnouncementBars"
+        path: "/sitecore/content/new/fmc/Data/AnnouncementBars"
+        itemId: "dac0a397-5abf-41b1-8bac-c6330b1fa069"
+        insertOptionsSet: true
+        exampleItem:
+          name: "AnnouncementBar"
+          itemId: "94f1071c-8f9d-41d4-8111-38006e4dd204"
+      rendering:
+        name: "AnnouncementBar"
+        path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Navigation/AnnouncementBar"
+        itemId: "66a6db40-f145-4294-850d-c5985db93219"
+        componentName: "AnnouncementBar"
+        datasourceTemplatePath: "/sitecore/templates/Project/fmc-custom-demo/Components/Navigation/AnnouncementBar"
+        datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='AnnouncementBar Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='AnnouncementBar Folder']"
+        parametersTemplateId: "ca3eb189-8083-46c9-9e43-8bff4329d226"
+        componentQuery: ""
+        addFieldEditorButton: "1"
+        registeredInAvailableRenderings: true
+    headlessVariants:
+      containerPath: "/sitecore/content/new/fmc/Presentation/Headless Variants/AnnouncementBar"
+      containerId: "4975191c-8047-4784-8021-76dea19de8bc"
+      variants:
+        - { name: "Default", itemId: "5a09e674-655f-4498-abb9-5715289266b8" }
+        - { name: "Highlight", itemId: "804f9bec-f9c4-49e6-97ea-98ef9e393629" }
+    verification:
+      checkedAt: "2026-03-25T10:29:20Z"
+      passed:
+        - "Datasource template created and __Base template set"
+        - "Template section `Data` created"
+        - "Template fields created with explicit Type (Message/BarLink/BackgroundColor)"
+        - "Rendering Parameters template created and __Base template set"
+        - "Rendering created; verified componentName/Parameters Template/AddFieldEditorButton/ComponentQuery"
+        - "Headless Variants container and `Default` Variant Definition created"
+        - "`Highlight` Variant Definition created"
+      failed: []
+      pendingManual:
+        - "Template standard values linking (silent-write/unreadable via MCP fields)"
+        - "Folder __Masters on folder template __Standard Values (silent-write/unreadable via MCP fields)"
+        - "Datasource folder __Masters on folder instance (silent-write/unreadable via MCP fields)"
+        - "Rendering Datasource Template / Datasource Location (silent-write; not returned via MCP fields)"
+        - "Available Renderings registration concatenation (MCP cannot read current Renderings field; verify in Content Editor)"
+    notes: []
+
+  - name: "RichTextBlock"
+    kind: "simple"
+    category: "Content"
+    status: "complete"
+    createdAt: "2026-03-25T12:00:00Z"
+    updatedAt: "2026-03-25T12:00:00Z"
+    react:
+      filePath: "src/components/basic/content/RichTextBlock.tsx"
+      componentMapKey: "rich-text-block"
+      variants:
+        - "Default"
+        - "Centered"
+        - "Narrow"
+    templates:
+      datasource:
+        name: "RichTextBlock"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/RichTextBlock"
+        itemId: "e1a90226-7be7-497c-bcd7-be0096d0f58b"
+        sectionName: "Data"
+        fields:
+          - { name: "Title", type: "Single-Line Text" }
+          - { name: "Body", type: "Rich Text" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "8deea62b-70c5-4002-8642-b8e4a0941f98"
+          linked: true
+      child:
+        name: ""
+        path: ""
+        itemId: ""
+        sectionName: "Data"
+        fields: []
+        baseTemplatesSet: false
+        standardValues:
+          itemId: ""
+          linked: false
+      folder:
+        name: "RichTextBlock Folder"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Folders/RichTextBlock Folder"
+        itemId: "5660ccb5-597b-46a7-855e-c54b82f5de70"
+        standardValues:
+          itemId: "9e4f2e94-b74a-4883-9801-f7a0b72420e6"
+          linked: true
+          masters: ["RichTextBlock"]
+      renderingParams:
+        name: "Generic Rendering Parameters"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Generic Rendering Parameters"
+        itemId: "9dee9052-e7a9-4a1d-ba16-fff30bca3a9b"
+        baseTemplatesSet: true
+      datasourceFolder:
+        name: "RichTextBlocks"
+        path: "/sitecore/content/new/fmc/Data/RichTextBlocks"
+        itemId: "1c70ab0f-1778-4716-8f6a-3a9e9cbf9863"
+        insertOptionsSet: true
+        exampleItem:
+          name: ""
+          itemId: ""
+      rendering:
+        name: "RichTextBlock"
+        path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Content/RichTextBlock"
+        itemId: "522529ec-0dca-4514-ade2-10f9d2e255e3"
+        componentName: "rich-text-block"
+        datasourceTemplatePath: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/RichTextBlock"
+        datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='RichTextBlock Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='RichTextBlock Folder']"
+        parametersTemplateId: "9dee9052-e7a9-4a1d-ba16-fff30bca3a9b"
+        componentQuery: ""
+        addFieldEditorButton: "1"
+        registeredInAvailableRenderings: true
+    headlessVariants:
+      containerPath: "/sitecore/content/new/fmc/Presentation/Headless Variants/RichTextBlock"
+      containerId: "da9370f3-7669-4d12-8176-c59521bb8c82"
+      variants:
+        - { name: "Default", itemId: "ff269ffe-fbd2-439a-8697-a810d408181e" }
+        - { name: "Centered", itemId: "e655584a-bf94-48bf-a62d-bfb00de5cf38" }
+        - { name: "Narrow", itemId: "c2ccc994-21ff-4956-b818-5e87a914b467" }
+    verification:
+      checkedAt: "2026-03-25T12:00:00Z"
+      passed:
+        - "Datasource template created with Data section and fields (Title, Body)"
+        - "__Standard Values created with default field values"
+        - "Folder template created with __Standard Values and __Masters"
+        - "Generic Rendering Parameters template created with 4 base templates"
+        - "Rendering created with componentName/Parameters Template/AddFieldEditorButton"
+        - "Datasource folder created in Data"
+        - "Headless Variants container and 3 Variant Definitions created (Default, Centered, Narrow)"
+        - "Component registered in component-map.extended.ts and component-map.client.extended.ts"
+      failed: []
+      pendingManual:
+        - "Rendering Datasource Template / Datasource Location (silent-write; verify in Content Editor)"
+        - "Folder __Masters on folder template __Standard Values (silent-write; verify in Content Editor)"
+    notes: []
+
+  - name: "FaqAccordion"
+    kind: "list"
+    category: "Content"
+    status: "complete"
+    createdAt: "2026-03-25T12:30:00Z"
+    updatedAt: "2026-03-25T12:30:00Z"
+    react:
+      filePath: "src/components/uiim/content/FaqAccordion.tsx"
+      componentMapKey: "FaqAccordion"
+      variants:
+        - "Default"
+        - "AllOpen"
+        - "TwoColumn"
+    templates:
+      datasource:
+        name: "FaqAccordion"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/FaqAccordion"
+        itemId: "ce040d2c-9ce7-4c46-ab3f-ae24f8f468d0"
+        sectionName: "Data"
+        fields:
+          - { name: "Title", type: "Single-Line Text" }
+          - { name: "Description", type: "Rich Text" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "763c02ac-24c1-4f6a-9401-6d20d58ce7ed"
+          linked: true
+      child:
+        name: "FaqItem"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/FaqItem"
+        itemId: "63e610fe-ee7a-4d2e-98ec-98274b4c3c38"
+        sectionName: "Data"
+        fields:
+          - { name: "Question", type: "Single-Line Text" }
+          - { name: "Answer", type: "Rich Text" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "9fc04227-736e-4d5e-81db-c5ed4c5cff53"
+          linked: true
+      folder:
+        name: "FaqAccordion Folder"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Folders/FaqAccordion Folder"
+        itemId: "5c92aabe-9b93-4b80-b7d9-204f9202c96f"
+        standardValues:
+          itemId: "98e526f5-b611-414b-98eb-7d80870afb6a"
+          linked: true
+          masters: ["FaqAccordion"]
+      renderingParams:
+        name: "FaqAccordion"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Content/FaqAccordion"
+        itemId: "2663d480-7d0d-41ca-befe-aada90509174"
+        baseTemplatesSet: true
+      datasourceFolder:
+        name: "FaqAccordions"
+        path: "/sitecore/content/new/fmc/Data/FaqAccordions"
+        itemId: "f62e73a8-bd42-4775-b4d4-6434ea377859"
+        insertOptionsSet: true
+        exampleItem:
+          name: "FAQ Accordion Example"
+          itemId: "419ec464-a269-449b-8f2b-a6cc44033403"
+      rendering:
+        name: "FaqAccordion"
+        path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Content/FaqAccordion"
+        itemId: "69efbf34-23eb-4627-9b24-39d2910e2bca"
+        componentName: "FaqAccordion"
+        datasourceTemplatePath: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/FaqAccordion"
+        datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='FaqAccordion Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='FaqAccordion Folder']"
+        parametersTemplateId: "2663d480-7d0d-41ca-befe-aada90509174"
+        componentQuery: "query FaqAccordion($datasource: String!, $language: String!) { datasource: item(path: $datasource, language: $language) { ... on FaqAccordion { title { jsonValue } description { jsonValue } } children { results { ... on FaqItem { id question { jsonValue } answer { jsonValue } } } } } }"
+        addFieldEditorButton: "1"
+        registeredInAvailableRenderings: true
+    headlessVariants:
+      containerPath: "/sitecore/content/new/fmc/Presentation/Headless Variants/FaqAccordion"
+      containerId: "7afb3f44-4c06-45c1-9c6e-e97485e8e13a"
+      variants:
+        - { name: "Default", itemId: "108f646f-2ba1-421d-991f-596202301842" }
+        - { name: "AllOpen", itemId: "2417d5c9-e965-4af8-a1ce-b2ac3733af6a" }
+        - { name: "TwoColumn", itemId: "11476263-d078-4bd8-90e1-75d02e9c5da9" }
+    verification:
+      checkedAt: "2026-03-25T12:30:00Z"
+      passed:
+        - "Parent template created with __Base template (Standard Template + Grid Parameters + _HorizonDatasourceGrouping)"
+        - "Child template created with __Base template (Standard Template + Grid Parameters)"
+        - "Parent Data section with fields Title (Single-Line Text), Description (Rich Text)"
+        - "Child Data section with fields Question (Single-Line Text), Answer (Rich Text)"
+        - "Parent __Standard Values created with __Masters pointing to child template"
+        - "Child __Standard Values created with defaults"
+        - "Folder template created with __Standard Values and __Masters to parent"
+        - "Datasource folder created with insert options on instance"
+        - "Example parent datasource with 2 child items created"
+        - "Rendering Parameters template created with 4 base templates"
+        - "Rendering created with ComponentQuery, componentName=FaqAccordion, Parameters Template as GUID"
+        - "Headless Variants container and 3 Variant Definitions created (Default, AllOpen, TwoColumn)"
+        - "Component registered in component-map.extended.ts and component-map.client.extended.ts"
+      failed:
+        - "Template 'Standard values' field linking not supported via MCP (auto-linked by convention)"
+      pendingManual:
+        - "Rendering Datasource Template / Datasource Location (silent-write; verify in Content Editor)"
+        - "Folder __Masters on folder template __Standard Values (silent-write; verify in Content Editor)"
+        - "Datasource folder __Masters (silent-write; verify in Content Editor)"
+    notes:
+      - "No shadcn accordion available; used native details/summary-style accordion with CSS transitions"
+
+  # Each entry follows this shape:
+  #
+  # - name: "Hero"                        # PascalCase component name
+  #   kind: "simple"                      # simple | list | context-only
+  #   category: "Banners"                 # PascalCase category
+  #   status: "complete"                  # complete | partial | planned | failed
+  #   createdAt: "2026-03-21T14:00:00Z"
+  #   updatedAt: "2026-03-21T14:30:00Z"
+  #
+  #   react:
+  #     filePath: "src/components/uiim/banners/Hero.tsx"
+  #     componentMapKey: "hero"
+  #     variants:
+  #       - "Default"
+  #
+  #   templates:
+  #     datasource:
+  #       name: "Hero"
+  #       path: "/sitecore/templates/Project/greece/Components/Banners/Hero"
+  #       itemId: ""
+  #       sectionName: "Data"
+  #       fields:
+  #         - { name: "Title", type: "Single-Line Text" }
+  #         - { name: "Description", type: "Rich Text" }
+  #         - { name: "BackgroundImage", type: "Image" }
+  #         - { name: "CtaLink", type: "General Link" }
+  #       baseTemplatesSet: true
+  #       standardValues:
+  #         itemId: ""
+  #         linked: true          # template's Standard values field set
+  #
+  #     child:                    # only for list components
+  #       name: ""
+  #       path: ""
+  #       itemId: ""
+  #       sectionName: "Data"
+  #       fields: []
+  #       baseTemplatesSet: false
+  #       standardValues:
+  #         itemId: ""
+  #         linked: false
+  #
+  #     folder:
+  #       name: "Hero Folder"
+  #       path: "/sitecore/templates/Project/greece/Folders/Hero Folder"
+  #       itemId: ""
+  #       standardValues:
+  #         itemId: ""
+  #         linked: true
+  #         masters: ["Hero"]     # insert options on folder template SV
+  #
+  #     renderingParams:
+  #       name: "Hero"
+  #       path: "/sitecore/templates/Project/greece/Rendering Parameters/Banners/Hero"
+  #       itemId: ""
+  #       baseTemplatesSet: true
+  #
+  #   datasourceFolder:
+  #     name: "Heroes"
+  #     path: "/sitecore/content/greece/eurobankgr/Data/Heroes"
+  #     itemId: ""
+  #     insertOptionsSet: true    # insert options on the folder instance
+  #     exampleItem:
+  #       name: "Hero"
+  #       itemId: ""
+  #
+  #   rendering:
+  #     name: "Hero"
+  #     path: "/sitecore/layout/Renderings/Project/greece/Banners/Hero"
+  #     itemId: ""
+  #     componentName: "Hero"
+  #     datasourceTemplatePath: "/sitecore/templates/Project/greece/Components/Banners/Hero"
+  #     datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Hero Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Hero Folder']"
+  #     parametersTemplateId: ""
+  #     componentQuery: ""
+  #     addFieldEditorButton: "1"
+  #     registeredInAvailableRenderings: true
+  #
+  #   headlessVariants:
+  #     containerPath: "/sitecore/content/greece/eurobankgr/Presentation/Headless Variants/Hero"
+  #     containerId: ""
+  #     variants:
+  #       - { name: "Default", itemId: "" }
+  #
+  #   verification:
+  #     checkedAt: "2026-03-21T14:30:00Z"
+  #     passed: []               # list of checks that passed
+  #     failed: []               # list of checks that failed
+  #     pendingManual: []        # silent-write fields needing Content Editor check
+  #
+  #   notes: []                  # free-form agent or human notes

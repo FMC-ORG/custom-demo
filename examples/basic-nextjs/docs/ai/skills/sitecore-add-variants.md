@@ -28,6 +28,7 @@ Every component must have at least a `Default` variant. `Default` is always requ
 ## Load first
 - `docs/ai/skills/shared/react-uiim-guidelines.md`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
+- `docs/ai/skills/sitecore-maintain-manifest.md`
 
 ---
 
@@ -44,14 +45,15 @@ Every component must have at least a `Default` variant. `Default` is always requ
 ## Required workflow
 
 1. Read `docs/ai/config/project.yaml` to get `siteCollection` and `siteName`.
-2. Resolve the Headless Variants path: `/sitecore/content/<siteCollection>/<siteName>/Presentation/Headless Variants`
-3. Check whether a Variants container item for this component already exists at: `<headlessVariantsRoot>/<ComponentName>`
-4. Ask concise follow-up questions if variant names or visual differences are unclear.
-5. Before implementation, show:
+2. Read `docs/ai/manifests/sitecore-manifest.yaml` and find the component entry.
+3. Resolve the Headless Variants path: `/sitecore/content/<siteCollection>/<siteName>/Presentation/Headless Variants`
+4. Check whether a Variants container item for this component already exists at: `<headlessVariantsRoot>/<ComponentName>`
+5. Ask concise follow-up questions if variant names or visual differences are unclear.
+6. Before implementation, show:
    - list of variant names
    - Sitecore item plan
    - TSX changes plan
-6. Then implement.
+7. Then implement.
 
 If the user wants approval first, stop after the plan.
 
@@ -181,6 +183,7 @@ After implementation:
 1. Sitecore actions performed and verified
 2. TSX file changes
 3. Verification results
+4. Updated manifest entry (append new variants, update timestamp)
 
 ---
 

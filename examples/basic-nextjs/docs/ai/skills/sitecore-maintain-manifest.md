@@ -127,19 +127,90 @@ verification:
 
 ---
 
-## Recording search / lookup results
+## Lookup cache rules
 
-When the agent uses MCP to search or inspect existing items (not created by AI), it should **not** add full component entries to the manifest. Instead, use the `lookups` section if helpful:
+The `lookups` section caches frequently-resolved Sitecore item paths and their IDs. This avoids redundant `get_content_item_by_path` calls — especially for structural items that never change between component tasks.
+
+### Required lookups
+
+The following paths must be in `lookups` after the first component task. If they are missing, resolve them via MCP and add them immediately:
+
+| Path pattern | Why |
+|---|---|
+| `<dataRoot>` | Parent for all datasource folders |
+| `<projectTemplatesRoot>/Components` | Parent for all template category subfolders |
+| `<projectFoldersRoot>` | Parent for all folder templates |
+| `<renderingParamsRoot>` | Parent for all rendering parameter templates |
+| `<headlessVariantsRoot>` | Parent for all variant containers |
+| Available Renderings Page Content | Read-modify-write target for every rendering registration |
+
+Derive these paths from `docs/ai/config/project.yaml` using the bootstrap rules in rule `00`.
+
+### When to write lookups
+
+**During the first component task:**
+1. Before creating any items, resolve all 6 required paths via `get_content_item_by_path`
+2. Record each `path`, `itemId`, and `lastReadAt` in the `lookups` array
+3. Write the manifest to disk
+
+**During subsequent component tasks:**
+1. Before resolving a parent path via MCP, check `lookups` first
+2. If the path is in `lookups` and has a non-empty `itemId`, use that ID directly — skip the MCP call
+3. If the path is not in `lookups`, resolve via MCP and add it
+
+**When creating category subfolders** (e.g. `Components/Banners`, `Rendering Parameters/Content`):
+- After creating a new category subfolder, add it to `lookups` so the next component in the same category skips the resolution
+
+### When to read lookups
+
+Before every `get_content_item_by_path` call, check if the path is already in `lookups`. If it has a cached `itemId`, use it directly and skip the MCP call.
+
+### Available Renderings — special handling
+
+The Available Renderings Page Content item is the most critical lookup because:
+- Every component registration reads its `Renderings [shared]` field
+- The value is a pipe-separated list of GUIDs that grows with each component
+- Writing the wrong value (replacing instead of concatenating) removes all other components
+- **The `Renderings` field is BOTH silent-write AND silent-read** — MCP cannot read the current value
+
+Rules:
+1. **Always** have this item in `lookups` before creating any rendering
+2. **MCP cannot read the `Renderings` field.** You must ask the user for the current value, OR use the `availableRenderings.lastKnownValue` from the manifest if available
+3. Never replace — always concatenate
+4. After each successful append, update `availableRenderings.lastKnownValue` in the manifest
+
+### Available Renderings tracking in manifest
+
+Track the cumulative value in a dedicated manifest section to reduce user friction:
+
+```yaml
+availableRenderings:
+  itemId: "{2BF7E311-...}"
+  lastKnownValue: "{55790BFE-...}|{C5F905F8-...}|..."
+  lastUpdatedAt: "2026-03-25T21:30:00Z"
+  renderingCount: 21
+  warning: "MCP cannot read this field — value may be stale if modified outside this session"
+```
+
+**Within a single session:** Use `lastKnownValue` as the base for concatenation without asking the user each time. Update it after each append.
+
+**At the start of a new session:** Ask the user to verify the current value once, then track it for the rest of the session.
+
+### Lookup entry shape
 
 ```yaml
 lookups:
-  - path: "/sitecore/content/greece/eurobankgr/Presentation/Available Renderings/Page Content"
+  - path: "/sitecore/content/new/fmc/Presentation/Available Renderings/Page Content"
     itemId: "{C72B27E5-7DFF-4922-BBB0-8226D8DEC788}"
-    lastReadAt: "2026-03-21T14:00:00Z"
-    note: "Available Renderings Page Content — current Renderings field value cached here"
+    lastReadAt: "2026-03-25T10:00:00Z"
+    note: "Available Renderings — NEVER replace, always concatenate"
 ```
 
-This is optional but reduces redundant MCP calls across tasks.
+### Invalidation
+
+- If MCP returns a different item ID for a cached path, update the lookup immediately
+- If MCP returns "not found" for a cached path (item was deleted), remove the lookup entry and note the discrepancy
+- Lookups do not expire — structural Sitecore paths rarely change. But always validate via MCP if something seems wrong
 
 ---
 

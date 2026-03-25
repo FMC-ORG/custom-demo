@@ -1,0 +1,17 @@
+{
+  "namespace": "FmcCustomDemo.Project",
+  "items": {
+    "includes": [
+      {
+        "name": "templates",
+        "path": "/sitecore/templates/Project/fmc-custom-demo",
+        "scope": "ItemAndDescendants"
+      },
+      {
+        "name": "renderings",
+        "path": "/sitecore/layout/Renderings/Project/fmc-custom-demo",
+        "scope": "ItemAndDescendants"
+      }
+    ]
+  }
+}

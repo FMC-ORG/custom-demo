@@ -1,0 +1,26 @@
+﻿---
+ID: "8df02a79-10ac-4650-a995-fcaae45743f4"
+Parent: "79a9dfe3-d529-4ed3-8105-dca4c0a3b25c"
+Template: "ebb89bff-86ff-496d-b4f7-57fe722342b6"
+Path: "/sitecore/content/main/main-website/Data/HeroBanners/Hero Banner"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260325T121452Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "2cad4c83-4464-43a0-99ad-72153dc45a7d"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c61c7b75-21bd-4b9c-995e-671c9605de14"
+      Hint: Title
+      Value: Hero Banner
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260325T121452Z

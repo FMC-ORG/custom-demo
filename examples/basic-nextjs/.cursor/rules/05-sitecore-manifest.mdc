@@ -21,6 +21,7 @@ If the file does not exist, create it from the template and populate the `projec
 - **Resume partial work** — if `status` is `partial` or `failed`, pick up where the last session left off using recorded item IDs
 - **Skip redundant lookups** — use cached item IDs instead of re-resolving paths via MCP when the manifest entry is recent and trustworthy
 - **Protect Available Renderings** — if the manifest records the last-known `Renderings [shared]` value, use it as a cross-reference when concatenating new rendering IDs
+- **Skip redundant MCP calls** — check `lookups` for cached structural item IDs before calling `get_content_item_by_path`
 
 ## Update during every task
 
@@ -32,6 +33,9 @@ If the file does not exist, create it from the template and populate the `projec
 | Task complete | Set `status: "complete"`, set `updatedAt` |
 | Task failed | Set `status: "failed"`, add `notes` explaining why |
 | Existing component modified | Update changed fields, append timestamped `notes` entry |
+| First task only | Resolve all 6 structural paths via MCP, populate `lookups` |
+| Before any `get_content_item_by_path` | Check `lookups` first, use cached ID if available |
+| After creating category subfolders | Add new subfolder paths to `lookups` |
 
 Always write the manifest to disk at least once during implementation and once at task end.
 

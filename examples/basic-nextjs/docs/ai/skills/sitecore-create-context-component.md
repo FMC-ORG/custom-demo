@@ -93,6 +93,10 @@ If not explicitly specified:
 Use the **Sitecore marketer MCP** whenever Sitecore items must be created or updated.
 
 For a true context-only component, normally create/update only:
+
+0. Check `docs/ai/manifests/sitecore-manifest.yaml` → `lookups` for cached parent item IDs. Use cached IDs for structural paths instead of resolving via MCP. If lookups are empty (first task), resolve all 6 required structural paths and populate lookups before proceeding.
+
+Then create:
 1. the Rendering Parameters template
 2. the rendering item (with `Parameters Template [shared]` set)
 3. the React component file
@@ -106,11 +110,28 @@ For a true context-only component, normally create/update only:
 - datasource content folder
 - `ComponentQuery`
 
+### Content Resolver alternative
+
+Some context-only components benefit from a **Rendering Contents Resolver** instead of reading from route context. This is especially useful for navigation components.
+
+**When to use a content resolver:**
+- The component needs data from a specific item tree (e.g., navigation children)
+- The data shape is provided by Sitecore's built-in resolvers (e.g., Navigation Contents Resolver)
+- You want to avoid custom server-side data fetching
+
+**How it works:**
+1. Set the **Rendering Contents Resolver** field on the rendering item to the appropriate resolver (e.g., "Navigation Contents Resolver")
+2. The component instance's **Data Source** is set at placement time to the root item (e.g., Home for navigation)
+3. The resolver populates `fields` with the resolved data — no `ComponentQuery` or `getComponentServerProps` needed
+4. The rendering still has no `Datasource Template` or `Datasource Location` — the Data Source is set manually per instance
+
+**Note:** Components using content resolvers technically have a Data Source but no Datasource Template. The Data Source is the root item for the resolver, not a traditional datasource item. This is a valid pattern — do not create datasource templates or folders for these components.
+
 ### Rendering rules
 - Create a **JSON Rendering**
-- `Datasource Template` must remain empty
+- `Datasource Template` must remain empty (even if using a content resolver)
 - `Datasource Location` must remain empty
-- `Data source` must remain empty
+- `Data source` must remain empty (set per-instance at placement time if using a content resolver)
 - `ComponentQuery` must remain empty
 - `AddFieldEditorButton = 1` is still preferred
 - The rendering should **not** require datasource selection
@@ -124,17 +145,21 @@ After creating the rendering item, register it in the site's **Available Renderi
 **Always add the rendering to the Page Content Available Renderings item:**
 - Path: `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
 
+**⚠️ CRITICAL: The `Renderings` field is both silent-write AND silent-read.** MCP cannot read the current value. If you write a value without knowing the current contents, you will **replace** all existing renderings and break the page editor.
+
 **Steps:**
-1. Resolve the Page Content Available Renderings item via `get_content_item_by_path`
-2. Read the **current** `Renderings [shared]` field value — it contains existing rendering IDs separated by pipes
+1. Resolve the Page Content Available Renderings item via `get_content_item_by_path` (cache the `itemId` in lookups)
+2. **Ask the user for the current `Renderings` field value** — MCP cannot read it. The user must copy it from Content Editor.
 3. **Concatenate** the new rendering's Item ID to the existing value with a pipe separator. **Do NOT replace the existing value** — overwriting it removes all other components from the page editor.
-4. Update the `Renderings [shared]` field with the concatenated value
+4. Update the `Renderings` field with the concatenated value
 
 **Example:** If the current value is `{A8DB4692-0731-4067-A224-79EFFF24C639}` and the new rendering ID is `{B1234567-ABCD-1234-EFGH-123456789ABC}`, the updated value must be:
 ```
 {A8DB4692-0731-4067-A224-79EFFF24C639}|{B1234567-ABCD-1234-EFGH-123456789ABC}
 ```
 Never set it to just `{B1234567-ABCD-1234-EFGH-123456789ABC}` — that would remove the existing rendering.
+
+**If you cannot get the current value from the user**, track the last-known value in the manifest. But always warn the user that another session or manual edit may have changed it.
 
 Do **not** skip this step. Without it, authors cannot add the component to pages.
 

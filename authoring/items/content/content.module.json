@@ -1,0 +1,12 @@
+{
+  "namespace": "FmcCustomDemo.Content",
+  "items": {
+    "includes": [
+      {
+        "name": "site-content",
+        "path": "/sitecore/content/main/main-website",
+        "scope": "ItemAndDescendants"
+      }
+    ]
+  }
+}

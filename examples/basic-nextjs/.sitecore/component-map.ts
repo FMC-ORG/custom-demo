@@ -4,10 +4,23 @@ import { BYOCServerWrapper, NextjsContentSdkComponent, FEaaSServerWrapper } from
 import { Form } from '@sitecore-content-sdk/nextjs';
 
 // end of built-in components
-import * as videotestimonial from 'src/components/uiim/content/video-testimonial';
-import * as debitcardpromo from 'src/components/uiim/content/debit-card-promo';
-import * as cardbank from 'src/components/uiim/content/card-bank';
-import * as promobanner from 'src/components/uiim/banners/promo-banner';
+import * as TestimonialBlock from 'src/components/uiim/social-proof/TestimonialBlock';
+import * as LogoCloud from 'src/components/uiim/social-proof/LogoCloud';
+import * as TabNavigationSection from 'src/components/uiim/navigation/TabNavigationSection';
+import * as SiteFooter from 'src/components/uiim/navigation/SiteFooter';
+import * as NavigationHeader from 'src/components/uiim/navigation/NavigationHeader';
+import * as AnnouncementBar from 'src/components/uiim/navigation/AnnouncementBar';
+import * as ImageGallery from 'src/components/uiim/media/ImageGallery';
+import * as NewsletterSignup from 'src/components/uiim/forms/NewsletterSignup';
+import * as ValuePropositionGrid from 'src/components/uiim/content/ValuePropositionGrid';
+import * as TrustStatsRow from 'src/components/uiim/content/TrustStatsRow';
+import * as RichTextBlock from 'src/components/uiim/content/RichTextBlock';
+import * as LegalComplianceBanner from 'src/components/uiim/content/LegalComplianceBanner';
+import * as FAQAccordion from 'src/components/uiim/content/FAQAccordion';
+import * as ProductPricingCards from 'src/components/uiim/cards/ProductPricingCards';
+import * as FeatureCardsGrid from 'src/components/uiim/cards/FeatureCardsGrid';
+import * as HeroBanner from 'src/components/uiim/banners/HeroBanner';
+import * as CTABanner from 'src/components/uiim/banners/CTABanner';
 import * as Title from 'src/components/basic/title/Title';
 import * as RowSplitter from 'src/components/basic/row-splitter/RowSplitter';
 import * as RichText from 'src/components/basic/rich-text/RichText';
@@ -27,10 +40,23 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCServerWrapper],
   ['FEaaSWrapper', FEaaSServerWrapper],
   ['Form', { ...Form, componentType: 'client' }],
-  ['video-testimonial', { ...videotestimonial }],
-  ['debit-card-promo', { ...debitcardpromo }],
-  ['card-bank', { ...cardbank }],
-  ['promo-banner', { ...promobanner }],
+  ['TestimonialBlock', { ...TestimonialBlock }],
+  ['LogoCloud', { ...LogoCloud }],
+  ['TabNavigationSection', { ...TabNavigationSection }],
+  ['SiteFooter', { ...SiteFooter }],
+  ['NavigationHeader', { ...NavigationHeader, componentType: 'client' }],
+  ['AnnouncementBar', { ...AnnouncementBar }],
+  ['ImageGallery', { ...ImageGallery }],
+  ['NewsletterSignup', { ...NewsletterSignup, componentType: 'client' }],
+  ['ValuePropositionGrid', { ...ValuePropositionGrid }],
+  ['TrustStatsRow', { ...TrustStatsRow }],
+  ['RichTextBlock', { ...RichTextBlock }],
+  ['LegalComplianceBanner', { ...LegalComplianceBanner }],
+  ['FAQAccordion', { ...FAQAccordion }],
+  ['ProductPricingCards', { ...ProductPricingCards }],
+  ['FeatureCardsGrid', { ...FeatureCardsGrid }],
+  ['HeroBanner', { ...HeroBanner }],
+  ['CTABanner', { ...CTABanner }],
   ['Title', { ...Title }],
   ['RowSplitter', { ...RowSplitter }],
   ['RichText', { ...RichText }],

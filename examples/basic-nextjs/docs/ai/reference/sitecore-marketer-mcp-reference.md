@@ -195,7 +195,26 @@ Before creating a child item:
 - record the parent ID  
 - use the resolved ID for `create_content_item`  
   
-Do not guess IDs.  
+Do not guess IDs.
+
+### Lookup cache before resolution
+
+Before resolving parent items with `get_content_item_by_path`, check the manifest's `lookups` section for a cached item ID.
+
+Structural paths that should always be cached after first resolution:
+- `dataRoot`
+- `projectTemplatesRoot/Components`
+- `projectFoldersRoot`
+- `renderingParamsRoot`
+- `headlessVariantsRoot`
+- Available Renderings Page Content item
+
+If found in `lookups` with a non-empty `itemId`, use it directly — skip the MCP call.
+If not found, resolve via MCP and add to `lookups`.
+
+Category subfolders (e.g. `Components/Banners`, `Rendering Parameters/Content`) should also be cached after first creation.
+
+See `docs/ai/skills/sitecore-maintain-manifest.md` → "Lookup cache rules" for full details.  
   
 ---  
   
@@ -209,9 +228,11 @@ Create the datasource template item under the correct project/components path.
   
 Create a section item (commonly `Data`) under the datasource template using the standard **Template section** template.  
   
-#### Template fields  
-  
-Create each field item under the section using the standard **Template field** template.  
+#### Template fields
+
+Create each field item under the section using the standard **Template field** template.
+
+> **Field naming — collision risk:** Fields named `Title` or `Description` on custom templates may collide with inherited Standard Template fields of the same name. This can cause unexpected behavior in GraphQL queries. For safety, consider prefixing with the component context: `SectionTitle`, `CardTitle`, `ItemTitle`, etc. — especially for list component parent templates where the Standard Template's `Title` field is also present.
   
 After creation, explicitly set field metadata with `update_fields_on_content_item`.  
   
@@ -325,17 +346,21 @@ After creating the rendering, register it in the site's **Available Renderings**
 **Always add the rendering to the Page Content Available Renderings item:**
 - Path: `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
 
+**⚠️ CRITICAL: The `Renderings` field is both silent-write AND silent-read.** MCP cannot read the current value. If you write a value without knowing the current contents, you will **replace** all existing renderings and break the page editor.
+
 **Steps:**
-1. Resolve the Page Content Available Renderings item via `get_content_item_by_path`
-2. Read the **current** `Renderings [shared]` field value — it contains existing rendering IDs separated by pipes
+1. Resolve the Page Content Available Renderings item via `get_content_item_by_path` (cache the `itemId` in lookups)
+2. **Ask the user for the current `Renderings` field value** — MCP cannot read it. The user must copy it from Content Editor.
 3. **Concatenate** the new rendering's Item ID to the existing value with a pipe separator. **Do NOT replace the existing value** — overwriting it removes all other components from the page editor.
-4. Update the `Renderings [shared]` field with the concatenated value
+4. Update the `Renderings` field with the concatenated value
 
 **Example:** If the current value is `{A8DB4692-0731-4067-A224-79EFFF24C639}` and the new rendering ID is `{B1234567-ABCD-1234-EFGH-123456789ABC}`, the updated value must be:
 ```
 {A8DB4692-0731-4067-A224-79EFFF24C639}|{B1234567-ABCD-1234-EFGH-123456789ABC}
 ```
 Never set it to just `{B1234567-ABCD-1234-EFGH-123456789ABC}` — that would remove the existing rendering.
+
+**If you cannot get the current value from the user**, track the last-known value in the manifest. But always warn the user that another session or manual edit may have changed it.
 
 Do **not** skip this step. Without it, authors cannot add the component to pages.
 
@@ -421,6 +446,13 @@ When an update does not stick:
 
 ### Known MCP field names
 
+> **⚠️ THREE fields require the double underscore `__` prefix. Without it, MCP returns 400:**
+> - `__Base template` (not "Base template")
+> - `__Masters` (not "Masters" or "Insert Options")
+> - `__Standard values` (not "Standard values")
+>
+> This is the #1 cause of MCP update failures. Always use the `__` prefix.
+
 The display names shown in Content Editor often differ from the actual MCP field names. Using the wrong name causes 400 errors. Here are known mappings:
 
 #### JSON Rendering fields
@@ -440,7 +472,7 @@ The display names shown in Content Editor often differ from the actual MCP field
 |---|---|---|
 | Base template | `__Base template` | **Double underscore prefix required** — `Base template` without `__` will return 400 |
 | Insert Options / Masters | `__Masters` | Double underscore prefix; silent-write |
-| Standard values [shared] | `Standard values` | Set on template item to link to `__Standard Values` item |
+| Standard values [shared] | `__Standard values` | **Double underscore prefix required** — `Standard values` without `__` will return 400; silent-write |
 
 **Rule:** When setting base templates on any template item, always use `__Base template` (with double underscore). The display name "Base template" (without prefix) will fail.
 
@@ -453,7 +485,8 @@ These fields are written successfully by MCP but are **not reflected** in `updat
 | Field | Item type | How to verify |
 |---|---|---|
 | `__Masters` | Folder template `__Standard Values`, datasource folder instance | Content Editor |
-| `Renderings` | Available Renderings Page Content item | Content Editor |
+| `__Standard values` | Template items (linking to `__Standard Values` item) | Content Editor |
+| `Renderings` | Available Renderings Page Content item | Content Editor — **also silent-read (cannot be read via MCP)** |
 | `Datasource Template` | JSON Rendering | Content Editor |
 | `Datasource Location` | JSON Rendering | Content Editor |
 

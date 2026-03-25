@@ -1,0 +1,77 @@
+﻿---
+ID: "4c60b186-2f64-4502-a9fb-892204f3216d"
+Parent: "e2124310-f817-4644-8671-bff8e72b66d7"
+Template: "cebd0936-6b37-42b5-b169-369bb1c3c06a"
+Path: "/sitecore/content/main/main-website/Home/About"
+BranchID: "aa757cc9-f2da-4f78-a33d-9d382d5fcf92"
+SharedFields:
+- ID: "1fbc6a49-6281-48ee-87e9-a3970b145adb"
+  Hint: NavigationFilter
+  Value: "{D063E9D1-C7B5-4B1E-B31E-69886C9C59F5}"
+- ID: "c7c26117-dbb1-42b2-ab5e-f7223845cca3"
+  Hint: __Thumbnail
+  Value: |
+    <image mediaid="{90F30836-820E-41E1-A7D9-C2A72843C6EA}" />
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "a446556f-faf7-4848-b7d3-51586421d828"
+- ID: "f1a1fe9e-a60c-4ddb-a3a0-bb5b29fe732e"
+  Hint: __Renderings
+  Value: |
+    <r xmlns:p="p" xmlns:s="s"
+      p:p="1">
+      <d
+        id="{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}">
+        <r
+          uid="{7F7C22F8-D045-4671-8EED-D3D7B99589D9}"
+          p:before="*"
+          s:id="{7A1D9A21-B8D7-42F9-9B0B-92ABF8D1974F}"
+          s:par="?Styles=%7bE7B273EF-14C4-412B-978E-2325CAD1CC17%7d%7c%7b8EAE35F2-7561-4CBC-8C1A-5217526CDF23%7d%7c%7b7A046082-1AA9-4549-BE5B-180D0CA24D1B%7d%7c%7b5DCE83EA-DE39-4FBC-8127-DFC14069478D%7d%7c%7bBD7D4517-071F-44A4-ACB5-D602A78F98CE%7d%7c%7bE7819B6B-E36A-4116-9AAF-1F4C2B82E6C8%7d%7c%7bDC22E3FD-A9AE-44FE-B631-5E0DFD297103%7d%7c%7bB5918314-1F1E-49BD-9E12-E443C5764DD2%7d%7c%7b1973412B-CB3D-474A-A478-62D5D07926E4%7d%7c%7bC841557A-A246-4C9C-B331-ADD1F6C4FD07%7d%7c%7b3B1BF014-730A-492F-AFAD-5FA9C6C31502%7d%7c%7b0CEFF22A-47AF-425C-9411-1A629FB6278F%7d%7c%7b34E02CBA-79C5-415A-A21D-EE2C0E850255%7d&amp;GridParameters=%7b7465D855-992E-4DC2-9855-A03250DFA74B%7d&amp;DynamicPlaceholderId=1"
+          s:ph="headless-main" />
+        <r
+          uid="{41ED381A-23AB-4341-8299-25D77592DCCF}"
+          p:after="*[1=2]"
+          s:ds="local:/Data/Text 1"
+          s:id="{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}"
+          s:par="?GridParameters=%7b7465D855-992E-4DC2-9855-A03250DFA74B%7d%7c%7b959FDFBB-4691-4A17-816F-7A5330B8216A%7d%7c%7b175CB6DA-CF89-4D56-888C-EB79F514D12F%7d%7c%7b7DF615F7-0A53-42E1-A164-2B36D6126314%7d&amp;FieldNames=%7b94C2DF58-E41D-4BD6-AAC7-BD5FA73A636F%7d"
+          s:ph="/headless-main/container-1" />
+      </d>
+    </r>
+- ID: "f6d8a61c-2f84-4401-bd24-52d2068172bc"
+  Hint: __Originator
+  Value: "{B8E694EC-3576-4CC6-8628-AEE286A9AB38}"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "001dd393-96c5-490b-924a-b0f25cd9efd8"
+      Hint: __Lock
+      Value: <r />
+    - ID: "1cd91ae6-dbe5-40ef-b819-b1959a8a6903"
+      Hint: Title
+      Value: About
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260325T110618Z
+    - ID: "4e0720e9-9d50-4ddc-87cf-ecd65e8e94c8"
+      Hint: NavigationTitle
+      Value: About
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "70dcfd53-dc40-41a1-905d-6f914299ed0f"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260325T115303Z

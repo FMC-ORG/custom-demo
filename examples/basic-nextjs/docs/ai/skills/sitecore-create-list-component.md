@@ -92,10 +92,12 @@ Only fall back to manual/serialization output when:
 
 ### Creation order
 
+0. Check `docs/ai/manifests/sitecore-manifest.yaml` → `lookups` for cached parent item IDs. Use cached IDs for structural paths instead of resolving via MCP. If lookups are empty (first task), resolve all 6 required structural paths and populate lookups before proceeding.
 1. resolve or create parent container structure:
    - resolve `projectTemplatesRoot/Components` via `get_content_item_by_path`. If it does not exist, create it using template folder ID `0437fee2-44c9-46a6-abe9-28858d9fee8c`.
    - resolve or create the `<Category>` subfolder under `Components` (same template folder ID).
    - do the same for `renderingsRoot/<Category>` and `renderingParamsRoot/<Category>`.
+   - **⚠️ IMPORTANT: If creating NEW category folders, create ALL 3 category folders FIRST in their own batch and wait for IDs. Only create templates in the NEXT batch. Creating templates in the same batch as their category folders risks placing them under the wrong parent (race condition).**
 2. parent template
 3. set `__Base template` on parent template to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (Standard Template + Grid Parameters). This applies to all datasource templates, **not** folder templates.
 4. parent `Data` section
@@ -129,6 +131,24 @@ Only fall back to manual/serialization output when:
 23. register the rendering in Available Renderings
 24. register the rendering in Available Renderings — **read the current value** of the `Renderings` field on the **Page Content** Available Renderings item, then **concatenate** (not replace) the new rendering ID with a pipe separator. Path: at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
 25. verify final state
+
+### Batch operations cheat sheet (list component)
+
+Optimize MCP calls by batching independent operations. This is the proven sequence from 8+ list components:
+
+```
+Batch 1 (if new category): Create 3 category folders (Components, Rendering Parameters, Renderings)
+   ↓ wait for IDs
+Batch 2: Create parent template + child template + folder template (parallel)
+Batch 3: Set base templates on both datasource templates + create both Data sections (parallel)
+Batch 4: Create all fields — parent + child (parallel)
+Batch 5: Set all field types (parallel)
+Batch 6: Create all 3 __Standard Values (parallel)
+Batch 7: Link all SVs + set defaults + set __Masters + create datasource folder + rendering params + rendering (all parallel)
+Batch 8: Set folder insert options + rendering params base templates + rendering fields + create example parent + create variants container (all parallel)
+Batch 9: Create example children + all variant definitions (parallel)
+Batch 10: Ask user for Available Renderings value → append
+```
 
 ### Parent resolution
 
@@ -178,24 +198,36 @@ Do **not** use the Standard template ID `1930bbeb-7805-471a-a3be-4858ac7cf696`.
 
 ### Preferred ComponentQuery pattern
 
+**Always use the generic `field(name: "...")` accessor** instead of `... on TemplateName` fragments. XM Cloud instances often have multiple templates with the same name (from SXA, Foundation, Feature layers), which causes `... on` fragments to silently fail when the GraphQL type is disambiguated with a GUID suffix.
+
 ```graphql
 query ComponentName($datasource: String!, $language: String!) {
   datasource: item(path: $datasource, language: $language) {
-    ... on ParentTemplateName {
-      title { jsonValue }
-    }
+    title: field(name: "Title") { jsonValue }
     children {
       results {
-        ... on ChildTemplateName {
-          id
-          title { jsonValue }
-          image { jsonValue }
-          link { jsonValue }
-        }
+        id
+        title: field(name: "Title") { jsonValue }
+        image: field(name: "Image") { jsonValue }
+        link: field(name: "Link") { jsonValue }
       }
     }
   }
 }
+```
+
+**Rules:**
+- Use `field(name: "FieldName")` where `FieldName` is the **exact Sitecore field name** (PascalCase as created in the template)
+- Use GraphQL aliases (camelCase) before the `field()` call to keep the data shape clean: `title: field(name: "Title")`
+- Always include `id` in children results (required for React keys)
+- Always wrap with `{ jsonValue }`
+- **Do NOT use** `... on TemplateName` fragments — they are fragile in shared XM Cloud environments
+
+**Avoided pattern (causes silent failures):**
+```graphql
+# ❌ DO NOT USE — breaks when template name conflicts exist
+... on ParentTemplateName { title { jsonValue } }
+children { results { ... on ChildTemplateName { id title { jsonValue } } } }
 ```
 
 
@@ -262,17 +294,21 @@ After creating the rendering item, you must register it in the site's **Availabl
 **Always add the rendering to the Page Content Available Renderings item:**
 - Path: `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
 
+**⚠️ CRITICAL: The `Renderings` field is both silent-write AND silent-read.** MCP cannot read the current value. If you write a value without knowing the current contents, you will **replace** all existing renderings and break the page editor.
+
 **Steps:**
-1. Resolve the Page Content Available Renderings item via `get_content_item_by_path`
-2. Read the **current** `Renderings [shared]` field value — it contains existing rendering IDs separated by pipes
+1. Resolve the Page Content Available Renderings item via `get_content_item_by_path` (cache the `itemId` in lookups)
+2. **Ask the user for the current `Renderings` field value** — MCP cannot read it. The user must copy it from Content Editor.
 3. **Concatenate** the new rendering's Item ID to the existing value with a pipe separator. **Do NOT replace the existing value** — overwriting it removes all other components from the page editor.
-4. Update the `Renderings [shared]` field with the concatenated value
+4. Update the `Renderings` field with the concatenated value
 
 **Example:** If the current value is `{A8DB4692-0731-4067-A224-79EFFF24C639}` and the new rendering ID is `{B1234567-ABCD-1234-EFGH-123456789ABC}`, the updated value must be:
 ```
 {A8DB4692-0731-4067-A224-79EFFF24C639}|{B1234567-ABCD-1234-EFGH-123456789ABC}
 ```
 Never set it to just `{B1234567-ABCD-1234-EFGH-123456789ABC}` — that would remove the existing rendering.
+
+**If you cannot get the current value from the user**, track the last-known value in the manifest. But always warn the user that another session or manual edit may have changed it.
 
 Do **not** skip this step. Without it, authors cannot add the component to pages.
 

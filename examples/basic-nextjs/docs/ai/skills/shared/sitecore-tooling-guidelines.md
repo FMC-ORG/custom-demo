@@ -66,13 +66,14 @@ Do not invent official Sitecore behavior when the docs MCP can clarify it.
    - updated manifest entry
   
 ## Non-negotiable Sitecore rules  
-- Every custom template must have `__Standard Values`. After creating `__Standard Values`, set the `Standard values` field on the template item to the `__Standard Values` Item ID to link them.  
+- Every custom template must have `__Standard Values`. After creating `__Standard Values`, set the `__Standard values` field (with double underscore prefix) on the template item to the `__Standard Values` Item ID to link them. The field name `Standard values` without `__` will return 400.
 - `Datasource Template` must use full Sitecore paths, never GUIDs.  
 - `Parameters Template [shared]` must use the **Item ID (GUID)**, never a path. Resolve the ID via MCP after creating the Rendering Parameters template.
 - `Component Name [shared]` must be **PascalCase** and **exactly match** the TSX filename without extension (e.g. `EurobankHeader` for `EurobankHeader.tsx`).
 - Every datasource template (parent and child) must set `__Base template` to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}` (Standard Template + Grid Parameters). This does **not** apply to folder templates.
 - After creating a datasource folder, set insert options **on the folder item itself** — not only on the folder template's `__Standard Values`.
-- After creating a rendering, register it in the site's **Available Renderings**: read the **current** `Renderings [shared]` field value from the **Page Content** item at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`, then **concatenate** the new rendering ID with a pipe separator. **Never replace** the existing value — that removes all other components.
+- After creating a rendering, register it in the site's **Available Renderings** at `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`. **The `Renderings` field is silent-read — MCP cannot read the current value.** Always **ask the user** for the current value before appending. **Never replace** the existing value — that removes all other components.
+- **ComponentQuery must use the generic `field(name: "...")` pattern** instead of `... on TemplateName` fragments. Template name conflicts in shared XM Cloud instances cause `... on` fragments to silently fail. Use: `title: field(name: "Title") { jsonValue }` instead of `... on MyTemplate { title { jsonValue } }`.
 - Renderings should be JSON Renderings unless the repo clearly requires otherwise.  
 - Component props **must** extend `ComponentProps` from `lib/component-props` — never define `params` manually.
 - All Sitecore-managed fields **must** use SDK editable helpers (`Text`, `RichText`/`ContentSdkRichText`, `NextImage`/`ContentSdkImage`, `Link`/`ContentSdkLink`). Never use plain `<img>`, `<a>`, `next/image`, `next/link`, or hardcoded text for authorable fields.
@@ -121,18 +122,20 @@ Must set:
 - folder template standard values `__Masters` -> parent template  
 - parent base template includes `_HorizonDatasourceGrouping`  
   
-### Context-only component  
-Usually:  
-- no datasource template  
-- no datasource folder  
-- rendering may have no datasource requirement  
-- fields come from route/page context or rendering params
+### Context-only component
+Usually:
+- no datasource template
+- no datasource folder
+- rendering may have no datasource requirement
+- fields come from route/page context, rendering params, or **content resolvers**
 
 Always create:
 - Rendering Parameters template (even for context-only — variant and style support requires it)
 - rendering (registered in Available Renderings — Page Content)
-  
+
 Confirm whether page template changes are in scope before making them.
+
+**Content Resolver alternative:** Some context-only components use Rendering Contents Resolvers (e.g., Navigation Contents Resolver for nav components). These require a Data Source set per-instance but no Datasource Template. See `docs/ai/reference/sitecore-content-resolvers.md` for details.
 
 ### Variant support (all component types)
 Every component must:
@@ -152,3 +155,14 @@ After every Sitecore task, update `docs/ai/manifests/sitecore-manifest.yaml`:
 - record verification results
 
 See `docs/ai/skills/sitecore-maintain-manifest.md` for full lifecycle and format rules.
+
+## Lookup cache rule
+
+Before calling `get_content_item_by_path` for any structural path (Data root, Components root, Folders root, Rendering Parameters root, Headless Variants root, Available Renderings Page Content, or any category subfolder), first check `docs/ai/manifests/sitecore-manifest.yaml` → `lookups`.
+
+If the path has a cached `itemId`, use it directly — skip the MCP call.
+If not cached, resolve via MCP and add to `lookups` immediately.
+
+This saves 5–10 MCP calls per component task.
+
+See `docs/ai/skills/sitecore-maintain-manifest.md` → "Lookup cache rules" for full details.

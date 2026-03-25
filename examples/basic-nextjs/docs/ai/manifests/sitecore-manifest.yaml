@@ -1,5 +1,5 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-03-25T21:30:00Z"
+lastUpdatedAt: "2026-03-25T22:00:00Z"
 lastUpdatedBy: "claude-code"
 
 project:
@@ -15,9 +15,9 @@ project:
 
 availableRenderings:
   itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
-  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}"
-  lastUpdatedAt: "2026-03-25T21:30:00Z"
-  renderingCount: 21
+  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}"
+  lastUpdatedAt: "2026-03-25T22:00:00Z"
+  renderingCount: 22
   warning: "MCP cannot read this field — value may be stale if modified outside this session"
 
 components:
@@ -1826,6 +1826,101 @@ components:
       failed: []
       pendingManual:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
+        - "Silent-write fields"
+
+    notes: []
+
+  - name: "FeatureHighlight"
+    kind: "simple"
+    category: "Content"
+    status: "complete"
+    createdAt: "2026-03-25T22:00:00Z"
+    updatedAt: "2026-03-25T22:00:00Z"
+
+    react:
+      filePath: "src/components/uiim/content/FeatureHighlight.tsx"
+      componentMapKey: "FeatureHighlight"
+      variants:
+        - "Default"
+        - "Centered"
+        - "WithVideo"
+        - "IconLeft"
+
+    templates:
+      datasource:
+        name: "FeatureHighlight"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/FeatureHighlight"
+        itemId: "{73A389EE-482A-4974-B4CF-76996B15A5F3}"
+        sectionName: "Data"
+        fields:
+          - { name: "EyebrowText", type: "Single-Line Text" }
+          - { name: "Title", type: "Single-Line Text" }
+          - { name: "Description", type: "Rich Text" }
+          - { name: "FeatureImage", type: "Image" }
+          - { name: "PrimaryLink", type: "General Link" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "{57077D65-DBD5-49D8-98A1-6A3A5FFA5F69}"
+          linked: true
+
+      folder:
+        name: "FeatureHighlight Folder"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Folders/FeatureHighlight Folder"
+        itemId: "{2FEF6352-04FC-434B-A550-A0EAF916F630}"
+        standardValues:
+          itemId: "{30783D70-1791-4E45-BFEA-E152E66504E4}"
+          linked: true
+          masters: ["FeatureHighlight"]
+
+      renderingParams:
+        name: "FeatureHighlight"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Content/FeatureHighlight"
+        itemId: "{6EA32325-4741-42DF-B476-C9426314C5AA}"
+        baseTemplatesSet: true
+
+    datasourceFolder:
+      name: "FeatureHighlights"
+      path: "/sitecore/content/main/main-website/Data/FeatureHighlights"
+      itemId: "{0A212E28-4EDE-45DE-8A8F-E1004E8AAD25}"
+      insertOptionsSet: true
+      exampleItem:
+        name: "Feature Highlight"
+        itemId: "{E86837AF-5335-45AA-93FD-75259674404D}"
+
+    rendering:
+      name: "FeatureHighlight"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Content/FeatureHighlight"
+      itemId: "{85CC2A41-AC6F-4C10-9C2F-44308B48C453}"
+      componentName: "FeatureHighlight"
+      datasourceTemplatePath: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/FeatureHighlight"
+      datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='FeatureHighlight Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='FeatureHighlight Folder']"
+      parametersTemplateId: "{6EA32325-4741-42DF-B476-C9426314C5AA}"
+      componentQuery: ""
+      addFieldEditorButton: "1"
+      registeredInAvailableRenderings: true
+
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/FeatureHighlight"
+      containerId: "{D3E5415A-9247-4572-B146-73E4AEF78195}"
+      variants:
+        - { name: "Default", itemId: "{0FDFE204-724E-4850-8891-ECC443607643}" }
+        - { name: "Centered", itemId: "{3C33C16D-F0D3-4FBF-8D78-CE70CEA0868B}" }
+        - { name: "WithVideo", itemId: "{E58A4CB1-BFB4-4FDF-B48D-6254708B05CA}" }
+        - { name: "IconLeft", itemId: "{E39E52FE-885D-433B-A2D3-B20F66E8F767}" }
+
+    verification:
+      checkedAt: "2026-03-25T22:00:00Z"
+      passed:
+        - "Template with base templates, all 5 fields"
+        - "SVs created and linked"
+        - "Folder template with __Masters"
+        - "Datasource folder with insert options"
+        - "Example item, rendering params, rendering"
+        - "All 4 Headless Variant Definitions"
+        - "Available Renderings appended (using manifest lastKnownValue)"
+        - "React file with 4 variants, component map updated"
+      failed: []
+      pendingManual:
         - "Silent-write fields"
 
     notes: []

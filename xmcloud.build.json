@@ -87,11 +87,12 @@
       },
       "reindex": {
         "indexNames": []
+      },
+      "scsModules": {
+        "modules": ["FmcCustomDemo.Content"]
       }
-    },
-    "scsModules": {
-      "modules": ["FmcCustomDemo.Content"]
-    },
+    }
+   
   },
   "deployItems": {
   "modules": ["FmcCustomDemo.*"]

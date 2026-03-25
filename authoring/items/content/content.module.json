@@ -3,9 +3,16 @@
   "items": {
     "includes": [
       {
+        "name": "content-root",
+        "path": "/sitecore/content/main",
+        "scope": "SingleItem",
+        "allowedPushOperations": "CreateAndUpdate"
+      },
+      {
         "name": "site-content",
         "path": "/sitecore/content/main/main-website",
-        "scope": "ItemAndDescendants"
+        "scope": "ItemAndDescendants",
+        "allowedPushOperations": "CreateAndUpdate"
       }
     ]
   }

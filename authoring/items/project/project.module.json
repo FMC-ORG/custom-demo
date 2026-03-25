@@ -3,14 +3,47 @@
   "items": {
     "includes": [
       {
+        "name": "module",
+        "path": "/sitecore/system/settings/Project/fmc-custom-demo",
+        "allowedPushOperations": "CreateUpdateAndDelete"
+      },
+      {
         "name": "templates",
         "path": "/sitecore/templates/Project/fmc-custom-demo",
-        "scope": "ItemAndDescendants"
+        "scope": "ItemAndDescendants",
+        "allowedPushOperations": "CreateUpdateAndDelete"
       },
       {
         "name": "renderings",
         "path": "/sitecore/layout/Renderings/Project/fmc-custom-demo",
-        "scope": "ItemAndDescendants"
+        "scope": "ItemAndDescendants",
+        "allowedPushOperations": "CreateUpdateAndDelete"
+      },
+      {
+        "name": "placeholderSettings",
+        "path": "/sitecore/layout/Placeholder Settings/Project/fmc-custom-demo",
+        "allowedPushOperations": "CreateUpdateAndDelete"
+      },
+      {
+        "name": "layouts",
+        "path": "/sitecore/layout/Layouts/Project/fmc-custom-demo",
+        "allowedPushOperations": "CreateUpdateAndDelete"
+      },
+      {
+        "name": "mediaFolders",
+        "path": "/sitecore/Media Library/Project/fmc-custom-demo",
+        "rules": [
+          {
+            "path": "/shared",
+            "scope": "SingleItem",
+            "allowedPushOperations": "CreateOnly"
+          },
+          {
+            "path": "/main-website",
+            "scope": "SingleItem",
+            "allowedPushOperations": "CreateOnly"
+          }
+        ]
       }
     ]
   }

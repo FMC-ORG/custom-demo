@@ -90,5 +90,8 @@
       }
     }
   },
+  "deployItems": {
+  "modules": ["FmcCustomDemo.*"]
+  },
   "authoringPath": "./authoring"
 }

@@ -100,6 +100,52 @@ export const Default = ({ fields, params, page }: CTABannerProps): JSX.Element =
 };
 
 /* ────────────────────────────────────────────
+   SageDark — dark bg, centered, green CTA
+   ──────────────────────────────────────────── */
+export const SageDark = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-black px-4 py-16 md:py-24">
+        <div className="mx-auto max-w-3xl text-center">
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="text-3xl font-black tracking-tight text-white sm:text-4xl"
+            />
+          )}
+          {(fields.Description?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Description}
+              className="mt-4 text-lg text-white/60"
+            />
+          )}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-black transition-opacity hover:opacity-90"
+                style={{ backgroundColor: 'var(--brand-green-bright, #00c950)' }}
+              />
+            )}
+            {(fields.SecondaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.SecondaryLink}
+                className="inline-flex items-center justify-center rounded-full border border-white px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-white hover:text-black"
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    WithImage — full-bleed background with overlay
    ──────────────────────────────────────────── */
 export const WithImage = ({ fields, params, page }: CTABannerProps): JSX.Element => {

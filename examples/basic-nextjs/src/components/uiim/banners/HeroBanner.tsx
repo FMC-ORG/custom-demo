@@ -369,6 +369,61 @@ export const SageDark = ({ fields, params, page }: HeroBannerProps): JSX.Element
 };
 
 /* ────────────────────────────────────────────
+   SageDarkSplit — dark bg, text left, product screenshot right
+   ──────────────────────────────────────────── */
+export const SageDarkSplit = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative w-full overflow-hidden bg-black">
+        {/* Subtle gradient glow */}
+        <div
+          className="pointer-events-none absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full opacity-40 blur-[120px]"
+          style={{ background: 'radial-gradient(circle, var(--brand-green-bright, #00c950) 0%, transparent 70%)' }}
+        />
+
+        <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-24 md:px-6">
+          {/* Text left */}
+          <div className="space-y-6">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h1"
+                className="text-3xl font-black tracking-tight text-white sm:text-4xl md:text-5xl"
+              />
+            )}
+            {(fields.Subtitle?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Subtitle}
+                className="max-w-lg text-base leading-relaxed text-white/70"
+              />
+            )}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <PrimaryButton field={fields.PrimaryLink} isEditing={isEditing} />
+              <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+            </div>
+          </div>
+
+          {/* Product screenshot right */}
+          <div className="overflow-hidden rounded-xl border border-white/10 bg-[#0d0d0d] shadow-2xl">
+            {(fields.HeroImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.HeroImage}
+                className="h-full w-full object-cover"
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Minimal — text-only, generous padding
    ──────────────────────────────────────────── */
 export const Minimal = ({ fields, params, page }: HeroBannerProps): JSX.Element => {

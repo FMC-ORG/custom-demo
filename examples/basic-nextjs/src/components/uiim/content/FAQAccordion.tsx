@@ -141,6 +141,73 @@ export const Default = ({ fields, params, page }: FAQAccordionProps): JSX.Elemen
 };
 
 /* ────────────────────────────────────────────
+   SageDark — dark bg, green accents, white text
+   ──────────────────────────────────────────── */
+export const SageDark = ({ fields, params, page }: FAQAccordionProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FAQAccordionDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component faq-accordion', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-black px-4 py-16 md:py-24">
+        <div className="mx-auto max-w-3xl">
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <div className="mx-auto mb-10 max-w-3xl text-center">
+              <Text
+                field={datasource.title?.jsonValue}
+                tag="h2"
+                className="text-3xl font-black tracking-tight text-white sm:text-4xl"
+              />
+              {(datasource.description?.jsonValue?.value || isEditing) && (
+                <ContentSdkRichText
+                  field={datasource.description?.jsonValue}
+                  className="mt-4 text-lg text-white/60"
+                />
+              )}
+            </div>
+          )}
+          <div className="border-t border-white/10">
+            {items.map((item, index) => (
+              <details
+                key={item.id}
+                className="group border-b border-white/10"
+                open={index === 0 || undefined}
+              >
+                <summary className="flex cursor-pointer items-center justify-between py-5 text-left font-semibold text-white transition-colors hover:text-white/70 [&::-webkit-details-marker]:hidden list-none">
+                  {(item.question?.jsonValue?.value || isEditing) && (
+                    <Text field={item.question?.jsonValue} tag="span" className="flex-1 pr-4" />
+                  )}
+                  <svg
+                    className="h-5 w-5 shrink-0 transition-transform duration-200 group-open:rotate-180"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--brand-green-bright, #00c950)"
+                    strokeWidth="2"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </summary>
+                <div className="pb-5">
+                  {(item.answer?.jsonValue?.value || isEditing) && (
+                    <ContentSdkRichText
+                      field={item.answer?.jsonValue}
+                      className="text-sm leading-relaxed text-white/60"
+                    />
+                  )}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    AllOpen — all items expanded by default
    ──────────────────────────────────────────── */
 export const AllOpen = ({ fields, params, page }: FAQAccordionProps): JSX.Element => {

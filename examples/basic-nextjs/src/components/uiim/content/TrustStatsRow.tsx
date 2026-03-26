@@ -129,6 +129,62 @@ export const Default = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
 };
 
 /* ────────────────────────────────────────────
+   SageDark — black bg, green stat values, white labels
+   ──────────────────────────────────────────── */
+export const SageDark = ({ fields, params, page }: TrustStatsRowProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TrustStatsRowDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component trust-stats-row', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-black px-4 py-14 md:py-20">
+        <div className="mx-auto max-w-7xl">
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <div className="mx-auto mb-10 max-w-3xl text-center">
+              <Text
+                field={datasource.title?.jsonValue}
+                tag="h2"
+                className="text-2xl font-black tracking-tight text-white md:text-3xl"
+              />
+            </div>
+          )}
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {items.map((item) => (
+              <div key={item.id} className="text-center">
+                {(item.statValue?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={item.statValue?.jsonValue}
+                    tag="p"
+                    className="text-4xl font-black md:text-5xl"
+                    style={{ color: 'var(--brand-green-bright, #00c950)' }}
+                  />
+                )}
+                {(item.statLabel?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={item.statLabel?.jsonValue}
+                    tag="p"
+                    className="mt-2 text-sm font-semibold text-white"
+                  />
+                )}
+                {(item.statDescription?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.statDescription?.jsonValue}
+                    className="mt-1 text-xs text-white/50"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    WithIcons — icon above each stat number
    ──────────────────────────────────────────── */
 export const WithIcons = ({ fields, params, page }: TrustStatsRowProps): JSX.Element => {

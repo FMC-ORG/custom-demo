@@ -153,6 +153,83 @@ export const Default = ({ fields, params, page }: TestimonialBlockProps): JSX.El
 };
 
 /* ────────────────────────────────────────────
+   SageDark — dark bg, large quote with author photo
+   ──────────────────────────────────────────── */
+export const SageDark = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TestimonialBlockDefaultComponent />;
+  const items = datasource.children?.results || [];
+  const item = items[0];
+
+  return (
+    <div className={cn('component testimonial-block', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-black px-4 py-16 md:py-24">
+        <div className="mx-auto max-w-4xl">
+          {(datasource.sectionTitle?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.sectionTitle?.jsonValue}
+              tag="h2"
+              className="mb-10 text-center text-2xl font-black text-white"
+            />
+          )}
+          {item && (
+            <div className="flex flex-col items-center gap-8 md:flex-row md:items-start">
+              {(item.authorImage?.jsonValue?.value?.src || isEditing) && (
+                <div className="shrink-0">
+                  <ContentSdkImage
+                    field={item.authorImage?.jsonValue}
+                    className="h-32 w-32 rounded-2xl object-cover"
+                  />
+                </div>
+              )}
+              <div className="flex-1 text-center md:text-left">
+                <span
+                  className="block text-6xl leading-none font-serif select-none"
+                  style={{ color: 'var(--brand-green-bright, #00c950)' }}
+                  aria-hidden="true"
+                >
+                  &ldquo;
+                </span>
+                {(item.quoteText?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.quoteText?.jsonValue}
+                    className="mt-2 text-lg italic leading-relaxed text-white/80 md:text-xl"
+                  />
+                )}
+                <div className="mt-6 flex items-center gap-3 md:justify-start justify-center">
+                  <div>
+                    {(item.authorName?.jsonValue?.value || isEditing) && (
+                      <Text
+                        field={item.authorName?.jsonValue}
+                        tag="p"
+                        className="font-semibold text-white"
+                      />
+                    )}
+                    <div className="flex flex-wrap items-center gap-1 text-sm text-white/50">
+                      {(item.authorRole?.jsonValue?.value || isEditing) && (
+                        <Text field={item.authorRole?.jsonValue} tag="span" />
+                      )}
+                      {item.authorRole?.jsonValue?.value && item.companyName?.jsonValue?.value && (
+                        <span aria-hidden="true">&middot;</span>
+                      )}
+                      {(item.companyName?.jsonValue?.value || isEditing) && (
+                        <Text field={item.companyName?.jsonValue} tag="span" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Carousel — horizontal scrollable container
    ──────────────────────────────────────────── */
 export const Carousel = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {

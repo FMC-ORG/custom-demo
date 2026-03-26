@@ -5,8 +5,8 @@
 # Required fields — agent will ask and create this file if it does not exist.
 
 # XM Cloud site identity
-siteCollection: "main"
-siteName: "main-website"
+siteCollection: "europe"
+siteName: "sage-uk"
 
 # Sitecore SDK used by this repo's React components
 sdk: "@sitecore-content-sdk/nextjs"

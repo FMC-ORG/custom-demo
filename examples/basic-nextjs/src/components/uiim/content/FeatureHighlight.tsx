@@ -106,6 +106,71 @@ export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.El
 };
 
 /* ────────────────────────────────────────────
+   SageDark — dark bg, image left, rainbow heading
+   ──────────────────────────────────────────── */
+export const SageDark = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-black px-4 py-16 md:py-24">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:px-6">
+          {/* Image — left side */}
+          <div className="overflow-hidden">
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.FeatureImage}
+                className="h-full w-full object-contain"
+              />
+            )}
+          </div>
+
+          {/* Text — right side */}
+          <div>
+            {(fields.EyebrowText?.value || isEditing) && (
+              <Text
+                field={fields.EyebrowText}
+                tag="span"
+                className="mb-3 inline-block text-xs font-semibold uppercase tracking-wider text-white/50"
+              />
+            )}
+            {(fields.Title?.value || isEditing) && (
+              isEditing ? (
+                <Text
+                  field={fields.Title}
+                  tag="h2"
+                  className="text-3xl font-black italic tracking-tight text-white sm:text-4xl"
+                />
+              ) : (
+                <h2 className="text-3xl font-black italic tracking-tight sm:text-4xl">
+                  <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 via-blue-400 via-violet-400 to-pink-400 bg-clip-text text-transparent">
+                    {fields.Title.value}
+                  </span>
+                </h2>
+              )
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-5 text-base leading-relaxed text-white/80 [&_strong]:font-bold [&_strong]:text-white"
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="mt-6 inline-flex items-center justify-center rounded-full border border-white px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white hover:text-black"
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Centered — centered text above, image below
    ──────────────────────────────────────────── */
 export const Centered = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {

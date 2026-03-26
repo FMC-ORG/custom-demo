@@ -97,6 +97,37 @@ export const Centered = ({ fields, params, page }: RichTextBlockProps): JSX.Elem
 };
 
 /* ────────────────────────────────────────────
+   SageDark — black bg, centered white text
+   ──────────────────────────────────────────── */
+export const SageDark = ({ fields, params, page }: RichTextBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <RichTextBlockDefaultComponent />;
+
+  return (
+    <div className={cn('component rich-text-block', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-black px-4 py-14 md:py-20">
+        <div className="mx-auto max-w-3xl text-center">
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="mb-5 text-2xl font-black tracking-tight text-white md:text-3xl"
+            />
+          )}
+          {(fields.Body?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Body}
+              className="mx-auto max-w-2xl text-base leading-relaxed text-white/60"
+            />
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Narrow — constrained width for long-form readability
    ──────────────────────────────────────────── */
 export const Narrow = ({ fields, params, page }: RichTextBlockProps): JSX.Element => {

@@ -155,6 +155,45 @@ export const Grid = ({ fields, params, page }: LogoCloudProps): JSX.Element => {
 };
 
 /* ────────────────────────────────────────────
+   SageDark — black bg, white logos, subtle heading
+   ──────────────────────────────────────────── */
+export const SageDark = ({ fields, params, page }: LogoCloudProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <LogoCloudDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component logo-cloud', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-black px-4 py-14 md:py-20">
+        <div className="mx-auto max-w-7xl">
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.title?.jsonValue}
+              tag="p"
+              className="mb-10 text-center text-sm font-medium text-white/50"
+            />
+          )}
+          <div className="flex flex-wrap items-center justify-between gap-y-8 gap-x-6 md:gap-x-4">
+            {items.map((item) => (
+              <LogoWrapper key={item.id} item={item} isEditing={isEditing}>
+                {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
+                  <ContentSdkImage
+                    field={item.logoImage?.jsonValue}
+                    className="h-8 max-w-[120px] object-contain brightness-0 invert opacity-70 transition-opacity hover:opacity-100 md:h-10 md:max-w-[140px]"
+                  />
+                )}
+              </LogoWrapper>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    WithLabels — logo above, company name below
    ──────────────────────────────────────────── */
 export const WithLabels = ({ fields, params, page }: LogoCloudProps): JSX.Element => {

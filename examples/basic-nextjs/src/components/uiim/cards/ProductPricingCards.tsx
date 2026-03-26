@@ -290,6 +290,113 @@ export const Compact = ({ fields, params, page }: ProductPricingCardsProps): JSX
 /* ────────────────────────────────────────────
    Highlighted — second card gets primary border + recommended badge
    ──────────────────────────────────────────── */
+/* ────────────────────────────────────────────
+   SageDark — dark bg, white cards, gradient "with Ai"
+   ──────────────────────────────────────────── */
+export const SageDark = ({ fields, params, page }: ProductPricingCardsProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ProductPricingCardsDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component product-pricing-cards', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-16 bg-black">
+        <div className="mx-auto max-w-7xl">
+          {/* Optional section header */}
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <div className="mx-auto mb-10 max-w-3xl text-center">
+              <Text
+                field={datasource.title?.jsonValue}
+                tag="h2"
+                className="text-3xl font-bold tracking-tight text-white sm:text-4xl"
+              />
+              {(datasource.description?.jsonValue?.value || isEditing) && (
+                <ContentSdkRichText
+                  field={datasource.description?.jsonValue}
+                  className="mt-4 text-lg text-white/60"
+                />
+              )}
+            </div>
+          )}
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {cards.map((card) => {
+              // Split title to render "with Ai" in gradient
+              const titleVal = card.cardTitle?.jsonValue?.value || '';
+              const aiIndex = titleVal.toLowerCase().indexOf('with ai');
+              const titleMain = aiIndex > 0 ? titleVal.slice(0, aiIndex) : titleVal;
+              const titleAi = aiIndex > 0 ? titleVal.slice(aiIndex) : '';
+
+              return (
+                <div
+                  key={card.id}
+                  className="flex flex-col rounded-2xl bg-white p-7"
+                >
+                  {/* Badge — small grey label */}
+                  {(card.badgeText?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.badgeText?.jsonValue}
+                      tag="span"
+                      className="mb-3 text-xs font-medium text-neutral-500"
+                    />
+                  )}
+
+                  {/* Title with gradient "with Ai" */}
+                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                    isEditing ? (
+                      <Text
+                        field={card.cardTitle?.jsonValue}
+                        tag="h3"
+                        className="text-2xl font-black text-black"
+                      />
+                    ) : (
+                      <h3 className="text-2xl font-black leading-tight">
+                        <span className="text-black">{titleMain}</span>
+                        {titleAi && (
+                          <span className="bg-gradient-to-r from-emerald-500 via-teal-400 to-violet-500 bg-clip-text text-transparent">
+                            {titleAi}
+                          </span>
+                        )}
+                      </h3>
+                    )
+                  )}
+
+                  {/* Description — rich text supports bold pricing lines */}
+                  {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className="mt-3 flex-1 text-sm text-neutral-600 [&_strong]:font-bold [&_strong]:text-black"
+                    />
+                  )}
+
+                  {/* Price text */}
+                  {(card.priceText?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.priceText?.jsonValue}
+                      tag="p"
+                      className="mt-3 text-sm font-bold text-black"
+                    />
+                  )}
+
+                  {/* CTA button — dark pill */}
+                  {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                    <ContentSdkLink
+                      field={card.cardLink?.jsonValue}
+                      className="mt-5 inline-flex w-fit items-center justify-center rounded-full border-2 border-black bg-transparent px-5 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-black hover:text-white"
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 export const Highlighted = ({ fields, params, page }: ProductPricingCardsProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;

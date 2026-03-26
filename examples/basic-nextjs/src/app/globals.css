@@ -10,46 +10,58 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 228 62% 18%;
-    --card: 0 0% 100%;
-    --card-foreground: 228 62% 18%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 228 62% 18%;
-    --primary: 228 62% 24%;
+    /* ── Shadcn/ui base tokens (Sage dark theme) ── */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 152 100% 25%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 195 50% 94%;
-    --secondary-foreground: 228 62% 18%;
-    --muted: 210 20% 96%;
-    --muted-foreground: 228 10% 45%;
-    --accent: 180 35% 78%;
-    --accent-foreground: 228 62% 18%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 63%;
+    --accent: 42 100% 50%;
+    --accent-foreground: 0 0% 0%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
-    --ring: 228 62% 24%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 152 100% 25%;
+    --chart-1: 152 100% 39%;
+    --chart-2: 42 100% 50%;
+    --chart-3: 174 100% 32%;
+    --chart-4: 258 100% 69%;
+    --chart-5: 0 0% 63%;
     --radius: 0.5rem;
-    --saga-navy: 228 62% 24%;
-    --saga-light-blue: 195 50% 94%;
-    --saga-teal: 180 35% 78%;
 
-    /* Brand token shim: used by Sitecore AI-authored components (AnnouncementBar, etc.). */
-    --font-open-sans: "Open Sans", Arial, sans-serif;
-    --brand-primary: hsl(var(--primary));
-    --brand-primary-foreground: hsl(var(--primary-foreground));
-    --brand-accent: hsl(var(--accent));
-    --brand-accent-foreground: hsl(var(--accent-foreground));
-    --brand-dark: hsl(var(--foreground));
-    --brand-dark-foreground: hsl(var(--background));
-    --brand-body-font: var(--font-open-sans);
-    --brand-bg: hsl(var(--background));
-    --brand-fg: hsl(var(--foreground));
+    /* ── Sage brand tokens ── */
+    --brand-primary: #00814a;
+    --brand-primary-foreground: #ffffff;
+    --brand-secondary: #1a1a1a;
+    --brand-secondary-foreground: #ffffff;
+    --brand-accent: #ffb500;
+    --brand-accent-foreground: #000000;
+    --brand-bg: #000000;
+    --brand-fg: #ffffff;
+    --brand-muted: #1a1a1a;
+    --brand-muted-fg: #a0a0a0;
+    --brand-header-bg: #000000;
+    --brand-header-fg: #ffffff;
+    --brand-footer-bg: #000000;
+    --brand-footer-fg: #a0a0a0;
+    --brand-border: #2a2a2a;
+    --brand-ring: #00814a;
+    --brand-green-bright: #00c950;
+    --brand-dark: #0d0d0d;
+    --brand-dark-foreground: #ffffff;
+    --brand-heading-font: 'Inter', 'Helvetica Neue', Roboto, 'Segoe UI', Arial, sans-serif;
+    --brand-body-font: 'Inter', 'Helvetica Neue', Roboto, 'Segoe UI', Arial, sans-serif;
+    --brand-radius: 0.5rem;
+    --brand-button-radius: 0px;
+    --brand-card-radius: 0.5rem;
   }
 }
 

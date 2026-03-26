@@ -278,6 +278,97 @@ export const VideoBackground = ({ fields, params, page }: HeroBannerProps): JSX.
 };
 
 /* ────────────────────────────────────────────
+   SageDark — dark gradient hero with green accent
+   ──────────────────────────────────────────── */
+export const SageDark = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  // Split title to highlight first phrase in green (text before first space-delimited comma or word boundary)
+  const titleValue = fields.Title?.value || '';
+  const highlightEnd = titleValue.indexOf(' software');
+  const greenPart = highlightEnd > 0 ? titleValue.slice(0, highlightEnd) : '';
+  const whitePart = highlightEnd > 0 ? titleValue.slice(highlightEnd) : titleValue;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative flex min-h-[80vh] w-full items-center justify-center overflow-hidden bg-black">
+        {/* Gradient glow effect */}
+        <div
+          className="pointer-events-none absolute -top-32 -left-32 h-[600px] w-[600px] rounded-full opacity-60 blur-[120px]"
+          style={{ background: 'radial-gradient(circle, var(--brand-green-bright, #00c950) 0%, transparent 70%)' }}
+        />
+        <div
+          className="pointer-events-none absolute -top-20 right-0 h-[500px] w-[500px] rounded-full opacity-40 blur-[120px]"
+          style={{ background: 'radial-gradient(circle, #7b61ff 0%, transparent 70%)' }}
+        />
+
+        {/* Content */}
+        <div className="relative z-10 mx-auto max-w-4xl px-4 py-20 text-center text-white">
+          <div className="space-y-6">
+            {/* Title with green highlight */}
+            {(fields.Title?.value || isEditing) && (
+              isEditing ? (
+                <Text
+                  field={fields.Title}
+                  tag="h1"
+                  className="text-4xl font-black tracking-tight sm:text-5xl md:text-6xl"
+                />
+              ) : (
+                <h1 className="text-4xl font-black tracking-tight sm:text-5xl md:text-6xl">
+                  {greenPart && (
+                    <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
+                      {greenPart}
+                    </span>
+                  )}
+                  {whitePart}
+                </h1>
+              )
+            )}
+
+            {/* Subtitle / description */}
+            {(fields.Subtitle?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Subtitle}
+                className="mx-auto max-w-2xl text-base text-white/70 [&>p:first-child]:mb-4 [&>p:first-child]:text-sm [&>p:first-child]:text-white/60"
+              />
+            )}
+
+            {/* Hero image */}
+            {(fields.HeroImage?.value?.src || isEditing) && (
+              <div className="mx-auto mt-8 max-w-lg overflow-hidden rounded-full border border-emerald-500/40 bg-black/60 px-8 py-5">
+                <ContentSdkImage
+                  field={fields.HeroImage}
+                  className="h-auto w-full object-contain"
+                />
+              </div>
+            )}
+
+            {/* CTA buttons */}
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+              {(fields.PrimaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="inline-flex items-center justify-center rounded-full border border-emerald-500/50 bg-transparent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-500/10"
+                />
+              )}
+              {(fields.SecondaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.SecondaryLink}
+                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white/70 transition-opacity hover:text-white"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Minimal — text-only, generous padding
    ──────────────────────────────────────────── */
 export const Minimal = ({ fields, params, page }: HeroBannerProps): JSX.Element => {

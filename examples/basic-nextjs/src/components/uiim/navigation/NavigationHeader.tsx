@@ -244,6 +244,100 @@ export const Transparent = (props: NavigationHeaderProps): JSX.Element => {
   );
 };
 
+export const SageDark = (props: NavigationHeaderProps): JSX.Element => {
+  const { params, fields } = props;
+  const { styles, RenderingIdentifier } = params;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const items = getNavItems(fields);
+
+  if (!params) return <NavigationHeaderDefaultComponent />;
+
+  return (
+    <div
+      className={cn('component navigation-header', styles)}
+      id={RenderingIdentifier}
+    >
+      <header className="w-full bg-black">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+          {/* Logo */}
+          <Link href="/" className="text-2xl font-bold tracking-tight shrink-0">
+            <span style={{ color: 'var(--brand-green-bright, #00c950)' }}>Sage</span>
+          </Link>
+
+          {/* Nav links */}
+          <nav className="hidden lg:flex items-center gap-6">
+            {items.map((item) => (
+              <a
+                key={item.Id}
+                href={item.Href + (item.Querystring ? `?${item.Querystring}` : '')}
+                className="text-sm font-medium text-white/90 transition-opacity hover:opacity-70 whitespace-nowrap"
+              >
+                {getNavText(item)}
+              </a>
+            ))}
+          </nav>
+
+          {/* Right actions */}
+          <div className="flex items-center gap-4">
+            {/* Search icon */}
+            <button aria-label="Search" className="text-white hover:opacity-70 transition-opacity">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </button>
+
+            {/* Login button – outlined */}
+            <a
+              href="#"
+              className="hidden md:inline-flex items-center rounded-full border border-white px-5 py-1.5 text-sm font-medium text-white transition-colors hover:bg-white hover:text-black"
+            >
+              Login
+            </a>
+
+            {/* Mobile menu toggle */}
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+        </div>
+
+        {/* Mobile menu */}
+        {menuOpen && (
+          <div className="lg:hidden border-t border-white/10">
+            <div className="px-4 py-4 flex flex-col gap-4">
+              {items.map((item) => (
+                <a
+                  key={item.Id}
+                  href={item.Href + (item.Querystring ? `?${item.Querystring}` : '')}
+                  className="text-sm font-medium text-white/90"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {getNavText(item)}
+                </a>
+              ))}
+              <a
+                href="#"
+                className="inline-flex items-center justify-center rounded-full border border-white px-5 py-1.5 text-sm font-medium text-white"
+              >
+                Login
+              </a>
+            </div>
+          </div>
+        )}
+      </header>
+    </div>
+  );
+};
+
 export const Minimal = (props: NavigationHeaderProps): JSX.Element => {
   const { params } = props;
   const { styles, RenderingIdentifier } = params;

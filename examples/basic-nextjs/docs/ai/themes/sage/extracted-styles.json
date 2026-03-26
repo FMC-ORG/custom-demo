@@ -1,0 +1,46 @@
+{
+  "colors": {
+    "bodyBackground": "rgb(255, 255, 255)",
+    "bodyColor": "rgba(0, 0, 0, 0.9)",
+    "headerBackground": "rgb(0, 0, 0)",
+    "headerColor": "rgba(0, 0, 0, 0.9)",
+    "footerBackground": "rgb(255, 255, 255)",
+    "footerColor": "rgba(0, 0, 0, 0.9)",
+    "heroBackground": null,
+    "primaryButtonBackground": "rgb(255, 181, 0)",
+    "primaryButtonColor": "rgba(0, 0, 0, 0.9)",
+    "primaryButtonBorderRadius": "0px",
+    "linkColor": "rgb(0, 129, 70)"
+  },
+  "typography": {
+    "bodyFontFamily": "\"Sage Text\", \"Helvetica Neue\", Roboto, \"Segoe UI\", Arial",
+    "bodyFontSize": "17px",
+    "bodyFontWeight": "400",
+    "bodyLineHeight": "27.2px",
+    "h1FontFamily": "\"Sage Headline\", \"Helvetica Neue\", Roboto, \"Segoe UI\", Arial",
+    "h1FontSize": "44px",
+    "h1FontWeight": "900",
+    "h1LetterSpacing": "normal",
+    "h1TextTransform": "none",
+    "h2FontFamily": "\"Sage Text\", \"Helvetica Neue\", Roboto, \"Segoe UI\", Arial",
+    "h2FontSize": "16px",
+    "h2FontWeight": "500",
+    "h3FontFamily": "\"Sage Headline\", \"Helvetica Neue\", Roboto, \"Segoe UI\", Arial",
+    "h3FontSize": "26px",
+    "h3FontWeight": "700",
+    "pFontSize": "16px",
+    "pLineHeight": "22.4px"
+  },
+  "shape": {
+    "cardBorderRadius": "0px",
+    "cardBoxShadow": "none",
+    "cardBorder": "0px none rgba(0, 0, 0, 0.9)",
+    "imgBorderRadius": "0px"
+  },
+  "spacing": {
+    "heroMinHeight": "0px",
+    "heroPadding": "0px",
+    "containerMaxWidth": "1440px"
+  },
+  "cssVariables": {}
+}

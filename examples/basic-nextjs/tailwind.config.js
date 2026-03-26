@@ -149,9 +149,22 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-open-sans)", "Open Sans", "Arial", "Helvetica", "sans-serif"],
+        sans: ["Inter", "Helvetica Neue", "Roboto", "Segoe UI", "Arial", "sans-serif"],
+        heading: ["Inter", "Helvetica Neue", "Roboto", "Segoe UI", "Arial", "sans-serif"],
+        body: ["Inter", "Helvetica Neue", "Roboto", "Segoe UI", "Arial", "sans-serif"],
       },
       colors: {
+        /* ── Sage brand tokens ── */
+        "sage-green": "#00814a",
+        "sage-green-bright": "#00c950",
+        "sage-gold": "#ffb500",
+        "sage-dark": "#0d0d0d",
+        "sage-surface": "#1a1a1a",
+        "sage-border": "#2a2a2a",
+        "sage-gradient-start": "#00c950",
+        "sage-gradient-mid": "#00a3a3",
+        "sage-gradient-end": "#7b61ff",
+        /* ── Legacy tokens (keep for backwards compat) ── */
         "saga-navy": "#1B2A6B",
         "saga-light-blue": "#E8F4F8",
         "saga-teal": "#A8D8D8",

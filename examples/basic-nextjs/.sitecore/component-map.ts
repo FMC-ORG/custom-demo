@@ -16,6 +16,7 @@ import * as ValuePropositionGrid from 'src/components/uiim/content/ValueProposit
 import * as TrustStatsRow from 'src/components/uiim/content/TrustStatsRow';
 import * as RichTextBlock from 'src/components/uiim/content/RichTextBlock';
 import * as LegalComplianceBanner from 'src/components/uiim/content/LegalComplianceBanner';
+import * as FeatureHighlight from 'src/components/uiim/content/FeatureHighlight';
 import * as FAQAccordion from 'src/components/uiim/content/FAQAccordion';
 import * as ProductPricingCards from 'src/components/uiim/cards/ProductPricingCards';
 import * as FeatureCardsGrid from 'src/components/uiim/cards/FeatureCardsGrid';
@@ -52,6 +53,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['TrustStatsRow', { ...TrustStatsRow }],
   ['RichTextBlock', { ...RichTextBlock }],
   ['LegalComplianceBanner', { ...LegalComplianceBanner }],
+  ['FeatureHighlight', { ...FeatureHighlight }],
   ['FAQAccordion', { ...FAQAccordion }],
   ['ProductPricingCards', { ...ProductPricingCards }],
   ['FeatureCardsGrid', { ...FeatureCardsGrid }],

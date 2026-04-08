@@ -28,6 +28,34 @@ Collect from the user:
 
 If only a screenshot is provided (no URL), skip the scraper and work from the screenshot + manual input.
 
+### Phase 0.5 — Manifest health check
+
+Before any demo work, validate that the manifest is usable and pointing at the right environment.
+
+**Run the `sitecore-validate-manifest` skill in Quick mode.**
+
+This performs:
+1. Config consistency check (`project.yaml` vs manifest `project` block)
+2. Root path validation (7 parallel MCP calls to verify structural folders exist)
+3. React file existence check (all component files present)
+4. Component map cross-check
+
+**Decision tree:**
+
+| Quick result | Action |
+|---|---|
+| All PASS | Proceed to Phase 1 |
+| Config mismatch only | Auto-fix applied, re-run Quick, then proceed |
+| Root paths fail | STOP — ask user to verify environment. Do not proceed. |
+| React files missing | WARN user, but can proceed (missing components won't be used in this demo) |
+| Component map mismatch | WARN user — dev server restart may be needed after demo build |
+
+**If Quick validation finds stale IDs** (items exist but with different GUIDs), the skill auto-repairs the manifest. The user is shown what changed before proceeding.
+
+**If the user requests Full validation** (or Quick fails on multiple checks), run Full mode. This adds per-component deep checks (~3-5 minutes) but guarantees every template, rendering, datasource folder, example item, and variant container exists.
+
+**Do not skip this phase.** A stale manifest causes silent failures in Phase 3 (content population) that are hard to diagnose.
+
 ### Phase 1 — Extract the brand theme
 
 Use the `sitecore-extract-theme` skill:

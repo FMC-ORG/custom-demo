@@ -6,6 +6,7 @@ description: Build a complete Sitecore demo from a client homepage URL or screen
 Read and follow `docs/ai/skills/sitecore-build-demo.md` in full before proceeding.
 
 This skill orchestrates the full demo creation pipeline:
+0.5. Manifest health check (uses `sitecore-validate-manifest` skill — Quick mode)
 1. Theme extraction (uses `sitecore-extract-theme` skill + Playwright scraper)
 2. Homepage analysis (reads screenshots, matches to `docs/ai/catalog/component-registry.yaml`)
 3. Content population (updates existing template component datasource items via MCP)

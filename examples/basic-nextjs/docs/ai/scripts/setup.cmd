@@ -24,4 +24,4 @@ call npx playwright install chromium
 
 echo.
 echo [setup] Ready! You can now run:
-echo   node .cursor\skills\sitecore-extract-theme\scripts\site-scraper.mjs --url https://example.com --output docs\ai\themes\example
+echo   node docs\ai\scripts\site-scraper.mjs --url https://example.com --output docs\ai\themes\example

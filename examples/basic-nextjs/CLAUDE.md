@@ -2,14 +2,14 @@
 
 ## Project Rules
 
-These rules are shared with Cursor. Claude Code imports them directly:
+Canonical rules live in `docs/ai/rules/`. Both Cursor and Claude Code reference them.
 
-@.cursor/rules/00-project-config-bootstrap.mdc
-@.cursor/rules/01-sitecore-router.mdc
-@.cursor/rules/02-sitecore-implementation-standards.mdc
-@.cursor/rules/03-react-uiim-shadcn.mdc
-@.cursor/rules/04-sitecore-tools-and-docs.mdc
-@.cursor/rules/05-sitecore-manifest.mdc
+@docs/ai/rules/00-project-config-bootstrap.md
+@docs/ai/rules/01-sitecore-router.md
+@docs/ai/rules/02-sitecore-implementation-standards.md
+@docs/ai/rules/03-react-uiim-shadcn.md
+@docs/ai/rules/04-sitecore-tools-and-docs.md
+@docs/ai/rules/05-sitecore-manifest.md
 
 ## Quick Reference
 

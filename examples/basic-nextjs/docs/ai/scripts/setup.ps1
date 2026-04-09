@@ -30,4 +30,4 @@ npx playwright install chromium
 
 Write-Host ""
 Write-Host "[setup] ✓ Ready! You can now run:" -ForegroundColor Green
-Write-Host '  node .cursor/skills/sitecore-extract-theme/scripts/site-scraper.mjs --url https://example.com --output docs/ai/themes/example' -ForegroundColor Yellow
+Write-Host '  node docs/ai/scripts/site-scraper.mjs --url https://example.com --output docs/ai/themes/example' -ForegroundColor Yellow

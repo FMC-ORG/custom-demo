@@ -8,11 +8,10 @@ Read and follow `docs/ai/skills/sitecore-extract-theme.md` in full before procee
 Theme template: `docs/ai/templates/client-theme.template.yaml`
 Output to: `docs/ai/themes/<client-kebab>.theme.yaml`
 
-## Scripts
-
-- **`scripts/setup.sh`** / **`scripts/setup.cmd`** — One-time Playwright install
-- **`scripts/site-scraper.mjs`** — Headless Chromium scraper for JS-rendered sites
+Scripts live in `docs/ai/scripts/`:
+- `setup.sh` / `setup.cmd` / `setup.ps1` — One-time Playwright install
+- `site-scraper.mjs` — Headless Chromium scraper for JS-rendered sites
 
 ```bash
-node .claude/skills/sitecore-extract-theme/scripts/site-scraper.mjs --url <URL> --output docs/ai/themes/<client>
+node docs/ai/scripts/site-scraper.mjs --url <URL> --output docs/ai/themes/<client>
 ```

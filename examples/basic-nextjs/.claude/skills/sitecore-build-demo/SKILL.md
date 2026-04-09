@@ -8,10 +8,13 @@ Read and follow `docs/ai/skills/sitecore-build-demo.md` in full before proceedin
 This skill orchestrates the full demo creation pipeline:
 0.5. Manifest health check (uses `sitecore-validate-manifest` skill — Quick mode)
 1. Theme extraction (uses `sitecore-extract-theme` skill + Playwright scraper)
-2. Homepage analysis (uses `site-analyzer` agent from `.claude/agents/site-analyzer.md`)
-3. Content population (updates existing template component datasource items via MCP)
+2. Homepage analysis (uses `site-analyzer` agent from `docs/ai/agents/site-analyzer.md`)
+2.5. Content extraction + mapping (Playwright extractor script + `content-scraper` agent → content-map.yaml)
+3. Content population (creates new client datasource items via MCP from content-map.yaml)
 4. Theme application (generates CSS variable overrides)
-5. Custom component building (if needed, uses creation skills)
+5. Custom component building (if needed — must exist before page assembly)
+6. Page assembly (adds ALL components to page via MCP + generates variant checklist for SE)
+7. Summary (what was done + manual tasks including variant selection)
 
 Key references:
 - `docs/ai/catalog/component-registry.yaml` — template component library

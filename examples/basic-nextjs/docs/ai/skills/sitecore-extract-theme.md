@@ -41,12 +41,12 @@ If this is the first time running the scraper, install Playwright and Chromium:
 ```
 Or with PowerShell directly:
 ```powershell
-powershell -ExecutionPolicy Bypass -File .cursor\skills\sitecore-extract-theme\scripts\setup.ps1
+powershell -ExecutionPolicy Bypass -File docs\ai\scripts\setup.ps1
 ```
 
 **macOS / Linux:**
 ```bash
-bash .cursor/skills/sitecore-extract-theme/scripts/setup.sh
+bash docs/ai/scripts/setup.sh
 ```
 
 This installs Playwright and Chromium. Only needed once.
@@ -57,14 +57,14 @@ Run the bundled Playwright script to render the client site with full JavaScript
 
 **macOS / Linux:**
 ```bash
-node .cursor/skills/sitecore-extract-theme/scripts/site-scraper.mjs \
+node docs/ai/scripts/site-scraper.mjs \
   --url <CLIENT_URL> \
   --output docs/ai/themes/<client-kebab>
 ```
 
 **Windows:**
 ```cmd
-node .cursor\skills\sitecore-extract-theme\scripts\site-scraper.mjs --url <CLIENT_URL> --output docs\ai\themes\<client-kebab>
+node docs\ai\scripts\site-scraper.mjs --url <CLIENT_URL> --output docs\ai\themes\<client-kebab>
 ```
 
 This produces:

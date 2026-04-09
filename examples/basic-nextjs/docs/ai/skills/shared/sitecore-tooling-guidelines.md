@@ -1,9 +1,9 @@
 # Shared Sitecore tooling guidelines  
   
 ## Source of truth priority  
-1. Repo rules:  
-   - `.cursor/rules/*.mdc`  
-   - `.clinerules`  
+1. Repo rules:
+   - `docs/ai/rules/*.md` (canonical source)
+   - `.cursor/rules/*.mdc` and `CLAUDE.md` reference these  
 2. Shared skills:  
    - `docs/ai/skills/*.md`  
    - `docs/ai/skills/shared/*.md`  

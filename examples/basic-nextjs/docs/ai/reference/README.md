@@ -16,7 +16,7 @@ This folder contains internal/project-specific AI references.
   use to create/update Sitecore items whenever possible.  
   
 ## Priority  
-1. Repo rules (`.cursor/rules`, `.clinerules`)  
+1. Repo rules (`docs/ai/rules/`, referenced by `.cursor/rules/` and `CLAUDE.md`)  
 2. Shared skill docs under `docs/ai/skills`  
 3. Internal project references in this folder  
 4. Official docs via `sitecore-documentation-docs` MCP  

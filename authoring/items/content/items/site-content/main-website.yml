@@ -33,9 +33,12 @@ SharedFields:
 - ID: "85a7501a-86d9-4243-9075-0b727c3a6db4"
   Hint: Name
   Value: Main Website
+- ID: "c7c26117-dbb1-42b2-ab5e-f7223845cca3"
+  Hint: __Thumbnail
+  Value: "<image mediaid='7d81fc77-a388-4561-b577-ff94a7c27ef2' />"
 - ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
   Hint: __Shared revision
-  Value: "ed63e9cc-7a65-47d6-b842-f63ebc471e3b"
+  Value: "559a2d5d-6fcc-4839-b3c7-a3a6b704e746"
 - ID: "e2bf3c8d-a12e-45f4-98d6-a37f13bcf375"
   Hint: SiteTemplate
   Value: "{5AAE1EEA-EA24-40BF-96F1-1F43DA82C77B}"
@@ -60,11 +63,11 @@ Languages:
         sitecore\federico.mujica@sitecore.com
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "4e5f949f-fa0c-47fb-b131-c4b62e4b154c"
+      Value: "0276aafe-6205-4044-a968-e62195ff9f73"
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
-        sitecore\Anonymous
+        sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260325T110634Z
+      Value: 20260411T195421Z

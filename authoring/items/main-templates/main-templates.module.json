@@ -1,0 +1,12 @@
+{
+  "namespace": "Main.Templates",
+  "items": {
+    "includes": [
+      {
+        "name": "main-templates",
+        "path": "/sitecore/templates/Project/main",
+        "scope": "ItemAndDescendants"
+      }
+    ]
+  }
+}

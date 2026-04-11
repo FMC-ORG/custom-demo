@@ -1,22 +1,21 @@
 ﻿---
-ID: "76972c36-b419-4693-8d06-441d9837d77b"
-Parent: "4faf69c8-c273-47e0-a5fe-8dad6e00f1b5"
+ID: "e187c021-1120-44d3-a5e2-40f815504c28"
+Parent: "786317e3-1f0f-4ce6-8c6a-0683fe1c48a3"
 Template: "ab86861a-6030-46c5-b394-e8f99e8b87db"
-Path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Content/FAQAccordion"
+Path: /sitecore/templates/Project/main/Page Designs
 SharedFields:
+- ID: "06d5295c-ed2f-4a54-9bf2-26228d113318"
+  Hint: __Icon
+  Value: Office/32x32/document_chart.png
 - ID: "12c33f3f-86c5-43a5-aeb4-5598cec45116"
   Hint: __Base template
-  Value: |
-    {4247AAD4-EBDE-4994-998F-E067A51B1FE4}
-    {5C74E985-E055-43FF-B28C-DB6C6A6450A2}
-    {44A022DB-56D3-419A-B43B-E27E4D8E9C41}
-    {3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}
+  Value: "{DAAF41FD-96DB-4892-BE99-F62F16D036C4}"
 - ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
   Hint: __Shared revision
-  Value: "4de1662f-d4c0-4446-bde0-188a8612c160"
+  Value: "0449be42-0667-45ec-9807-fd8a0314d44c"
 - ID: "f7d48a55-2158-4f02-9356-756654404f73"
   Hint: __Standard values
-  Value: "{29ABB52C-BC55-4961-BA01-F208715DE453}"
+  Value: "{E5704434-DD6F-49F8-9CD7-26B7262D67B8}"
 Languages:
 - Language: en
   Versions:
@@ -24,7 +23,7 @@ Languages:
     Fields:
     - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
       Hint: __Created
-      Value: 20260325T141527Z
+      Value: 20260325T110440Z
     - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
       Hint: __Owner
       Value: |
@@ -35,11 +34,11 @@ Languages:
         sitecore\federico.mujica@sitecore.com
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "7931aea8-9061-4b8c-b90a-053a03225d1b"
+      Value: "33d2237f-9cea-4658-a90d-95bb33a11d37"
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
-        sitecore\Anonymous
+        sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260409T085814Z
+      Value: 20260325T110441Z

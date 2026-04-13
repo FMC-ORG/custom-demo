@@ -1,5 +1,5 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-03-25T22:00:00Z"
+lastUpdatedAt: "2026-04-11T10:30:00Z"
 lastUpdatedBy: "claude-code"
 
 project:
@@ -1924,6 +1924,87 @@ components:
         - "Silent-write fields"
 
     notes: []
+
+# ═══════════════════════════════════════════════════════════════
+# DEMO PAGES — Eurobank Retail Demo
+# ═══════════════════════════════════════════════════════════════
+
+demos:
+  - name: "Eurobank Retail"
+    client: "Eurobank"
+    sourceUrl: "https://www.eurobank.gr/el/retail"
+    themeFile: "docs/ai/themes/eurobank.theme.yaml"
+    buildPlanFile: "docs/ai/plans/eurobank-retail-build-plan.yaml"
+    createdAt: "2026-04-11T10:00:00Z"
+    status: "complete"
+
+    page:
+      name: "Eurobank Retail"
+      path: "/sitecore/content/main/main-website/Home/Eurobank Retail"
+      itemId: "{301024AC-126E-4D90-BAE9-777982AE81AF}"
+      previewUrl: "https://xmc-7hotomkh9usgggb1sot80s-eh.sitecorecloud.io/api/editing/render?sc_itemid=301024ac-126e-4d90-bae9-777982ae81af&sc_lang=en&sc_site=main-website&sc_version=1&mode=preview&sc_layoutkind=final&route=%2FEurobank-Retail&tenant_id=9ee3f46d-cb55-48c3-b704-08de82f884a6&secret=7lDh2DFKJYSSSNARZBxzTF"
+
+    pageComponents:
+      - order: 1
+        component: "AnnouncementBar"
+        instanceId: "{9879D902-43E6-4C28-BEFC-878F7D930BC8}"
+        datasourceId: "{7ACD7927-4070-4C2C-827B-A0643A6D301E}"
+        variant: "Default"
+      - order: 2
+        component: "NavigationHeader"
+        instanceId: null
+        note: "Context-only — must be added manually in Pages editor"
+      - order: 3
+        component: "HeroBanner"
+        instanceId: "{3D2158B1-970D-4CC1-AF81-7C3BE5532340}"
+        datasourceId: "{A6C341F3-3F79-4CC2-AD72-59248D5A0D88}"
+        variant: "SplitImageText"
+      - order: 4
+        component: "ProductPricingCards"
+        instanceId: "{F8930B5A-2775-4009-9F45-DA4E5B5B8A4F}"
+        datasourceId: "{3E1DE1F5-ABFA-4F84-9022-B8B8BF1996B2}"
+        variant: "Default"
+        children: ["Current Accounts", "Credit Cards", "Personal Loans"]
+      - order: 5
+        component: "FeatureHighlight"
+        instanceId: "{AB3D4AEC-5D67-4937-AFEE-166979611CEE}"
+        datasourceId: "{10671339-9C91-418C-9AE2-81DDC3EDCD7B}"
+        variant: "Default"
+        label: "Digital Banking"
+      - order: 6
+        component: "FeatureHighlight"
+        instanceId: "{3A79B6F5-6218-44E2-BFC4-203776783525}"
+        datasourceId: "{DB571949-3E02-42E1-8E4B-7D981115B3C3}"
+        variant: "Centered"
+        label: "Mortgage"
+      - order: 7
+        component: "ValuePropositionGrid"
+        instanceId: "{409E95D0-81A6-4C3B-B091-8AEAE4080034}"
+        datasourceId: "{6CC33F18-9AE9-4737-BFE2-A6A378BCEFB7}"
+        variant: "Default"
+        children: ["Award-winning Digital Services", "Personalized Advisory", "Extensive Network"]
+      - order: 8
+        component: "TrustStatsRow"
+        instanceId: "{85A1F4D2-957B-4773-AA9F-5DA9AC963932}"
+        datasourceId: "{D9C20B0B-C246-4BEE-90F9-A5103C5ECBC7}"
+        variant: "Default"
+        children: ["5.5M+ Customers", "300+ Branches", "1,700+ ATMs", "35+ Years"]
+      - order: 9
+        component: "CTABanner"
+        instanceId: "{B440C162-59F7-4C5D-8B10-79A8BA1823B3}"
+        datasourceId: "{849BA962-1CB1-4D4A-98FB-709D552F96CB}"
+        variant: "Default"
+      - order: 10
+        component: "SiteFooter"
+        instanceId: null
+        note: "Context-only — must be added manually in Pages editor"
+
+    pendingManual:
+      - "Add NavigationHeader to page (context-only, position 2)"
+      - "Add SiteFooter to page (context-only, position 10)"
+      - "Publish page to Web database"
+      - "Set HeroBanner variant to SplitImageText in Pages editor"
+      - "Set FeatureHighlight (Mortgage) variant to Centered in Pages editor"
 
 lookups:
   - path: "/sitecore/content/main/main-website/Data"

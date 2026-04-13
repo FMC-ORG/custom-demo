@@ -180,6 +180,121 @@ export const Minimal = (props: SiteFooterProps): JSX.Element => {
 /* ────────────────────────────────────────────
    MegaFooter — expanded with newsletter
    ──────────────────────────────────────────── */
+/* ────────────────────────────────────────────
+   EurobankFooter — Multi-section Eurobank footer with app badges
+   ──────────────────────────────────────────── */
+export const EurobankFooter = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const { styles, RenderingIdentifier } = params;
+
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  const eurobankColumns = [
+    {
+      title: 'Retail Banking',
+      links: ['Current Accounts', 'Credit Cards', 'Personal Loans', 'Mortgages', 'Insurance'],
+    },
+    {
+      title: 'Contact Us',
+      links: ['Branch Finder', 'ATM Locator', 'Phone Banking', 'Eurobank App Support'],
+    },
+    {
+      title: 'Digital Services',
+      links: ['e-Banking', 'Mobile App', 'e-Commerce Solutions', 'Open Banking'],
+    },
+    {
+      title: 'Terms & Conditions',
+      links: ['Privacy Policy', 'Cookie Policy', 'Security Center', 'Transparency'],
+    },
+  ];
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-footer-bg, #00264d)',
+          color: 'var(--brand-footer-fg, #c0c8d0)',
+        }}
+      >
+        {/* Phone banking bar */}
+        <div
+          className="border-b text-center"
+          style={{ borderColor: 'rgba(255,255,255,0.1)' }}
+        >
+          <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
+            <span className="text-sm">
+              <span className="text-[#e30613]">&#9670;</span>{' '}
+              EuroPhone Banking: <strong className="text-white">210 9555 000</strong>
+            </span>
+          </div>
+        </div>
+
+        {/* Main footer */}
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+          <div className="grid gap-8 md:grid-cols-5">
+            <div className="space-y-4">
+              <Link
+                href="/"
+                className="flex items-center gap-1.5 text-lg font-bold tracking-tight text-white"
+              >
+                <span className="text-[#e30613]">&#9670;</span>
+                <span>EUROBANK</span>
+              </Link>
+              <SocialIcons />
+            </div>
+
+            {eurobankColumns.map((col) => (
+              <div key={col.title}>
+                <h3 className="mb-3 text-sm font-semibold text-white/80 uppercase tracking-wider">
+                  {col.title}
+                </h3>
+                <ul className="space-y-2">
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <a href="#" className="text-sm opacity-60 transition-opacity hover:opacity-100">
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* App download + legal */}
+        <div
+          className="border-t"
+          style={{ borderColor: 'rgba(255,255,255,0.1)' }}
+        >
+          <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 sm:flex-row sm:px-6">
+            <div className="flex items-center gap-3">
+              <a
+                href="#"
+                className="inline-flex items-center gap-1 rounded-md bg-black px-3 py-1.5 text-xs font-medium text-white"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                App Store
+              </a>
+              <a
+                href="#"
+                className="inline-flex items-center gap-1 rounded-md bg-black px-3 py-1.5 text-xs font-medium text-white"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.69c-.51-.29-.93-.77-.93-1.33V1.64c0-.56.42-1.04.93-1.33l11.82 11.69L3.18 23.69zm1.37-23.38l12.32 12.09-3.44 3.4L4.55.31zm16.32 10.85l-3.5 1.96-3.59-3.55 3.59-3.55 3.5 1.96c.61.34.97.86.97 1.59s-.36 1.25-.97 1.59zM4.55 23.69l8.88-8.62 3.44 3.4-12.32 12.09z"/></svg>
+                Google Play
+              </a>
+            </div>
+            <p className="text-xs opacity-40">
+              &copy; {new Date().getFullYear()} Eurobank S.A. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
 export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
   const { params } = props;
   const { styles, RenderingIdentifier } = params;

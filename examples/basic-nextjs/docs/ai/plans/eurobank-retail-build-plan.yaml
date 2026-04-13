@@ -1,0 +1,176 @@
+# Eurobank Retail Demo — Build Plan
+# Source: https://www.eurobank.gr/el/retail
+# Generated: 2026-04-11
+
+client:
+  name: "Eurobank"
+  page: "Retail Banking Homepage"
+  sourceUrl: "https://www.eurobank.gr/el/retail"
+  themeFile: "docs/ai/themes/eurobank.theme.yaml"
+
+sections:
+  - order: 1
+    sectionName: "Announcement Bar"
+    componentId: "announcement-bar"
+    variant: "Default"
+    sectionBackground: "accent"
+    content:
+      Message: "Eurobank Mobile App - Your bank, always with you. Download now!"
+      BarLink:
+        text: "Learn More"
+        url: "#"
+
+  - order: 2
+    sectionName: "Navigation Header"
+    componentId: "navigation-header"
+    variant: "Default"
+    sectionBackground: "dark"
+    content:
+      note: "Context-only component — reads from Sitecore navigation structure"
+
+  - order: 3
+    sectionName: "Hero Banner — Retail Products"
+    componentId: "hero-banner"
+    variant: "SplitImageText"
+    sectionBackground: "default"
+    content:
+      Title: "Banking that fits your life"
+      Subtitle: "<p>Discover Eurobank's retail banking solutions — accounts, cards, loans, and insurance designed around you.</p>"
+      PrimaryLink:
+        text: "Open an Account"
+        url: "#"
+      SecondaryLink:
+        text: "Explore Products"
+        url: "#"
+
+  - order: 4
+    sectionName: "Product Cards — Banking Products"
+    componentId: "product-pricing-cards"
+    variant: "Default"
+    sectionBackground: "muted"
+    content:
+      parent:
+        Title: "Our Retail Banking Products"
+        Description: "<p>Choose the banking solution that suits your needs</p>"
+      children:
+        - CardTitle: "Current Accounts"
+          CardDescription: "<p>Flexible everyday banking with zero fees on basic transactions. Manage your money with ease.</p>"
+          BadgeText: "Popular"
+          PriceText: "From 0 EUR/month"
+          CardLink: { text: "Learn More", url: "#" }
+        - CardTitle: "Credit Cards"
+          CardDescription: "<p>Reward yourself with every purchase. Cashback, miles, and exclusive offers with Eurobank credit cards.</p>"
+          BadgeText: "Rewards"
+          PriceText: "0 EUR annual fee*"
+          CardLink: { text: "Apply Now", url: "#" }
+        - CardTitle: "Personal Loans"
+          CardDescription: "<p>Make your plans a reality with competitive rates and flexible repayment options up to 84 months.</p>"
+          BadgeText: "Flexible"
+          PriceText: "From 4.9% APR"
+          CardLink: { text: "Calculate Rate", url: "#" }
+
+  - order: 5
+    sectionName: "Feature Highlight — Digital Banking"
+    componentId: "feature-highlight"
+    variant: "Default"
+    sectionBackground: "default"
+    content:
+      EyebrowText: "Digital Banking"
+      Title: "Bank anytime, anywhere"
+      Description: "<p>With Eurobank Mobile App and e-Banking, manage your finances 24/7. Transfer funds, pay bills, invest, and more — all from your device.</p>"
+      PrimaryLink:
+        text: "Discover e-Banking"
+        url: "#"
+
+  - order: 6
+    sectionName: "Feature Highlight — Mortgage"
+    componentId: "feature-highlight"
+    variant: "Centered"
+    sectionBackground: "muted"
+    content:
+      EyebrowText: "Home Loans"
+      Title: "Make your dream home a reality"
+      Description: "<p>Competitive mortgage rates, expert guidance, and fast approval. Eurobank supports you at every step of your home purchase journey.</p>"
+      PrimaryLink:
+        text: "Explore Mortgages"
+        url: "#"
+
+  - order: 7
+    sectionName: "Value Propositions — Why Eurobank"
+    componentId: "value-proposition-grid"
+    variant: "Default"
+    sectionBackground: "default"
+    content:
+      parent:
+        Title: "Why choose Eurobank"
+        Description: "<p>Trusted by millions of customers across Greece and Southeast Europe</p>"
+      children:
+        - ItemTitle: "Award-winning Digital Services"
+          ItemDescription: "<p>Recognized for innovation in digital banking with multiple industry awards.</p>"
+        - ItemTitle: "Personalized Advisory"
+          ItemDescription: "<p>Dedicated relationship managers and AI-powered financial insights for every customer.</p>"
+        - ItemTitle: "Extensive Network"
+          ItemDescription: "<p>300+ branches and 1,700+ ATMs across Greece, plus digital access worldwide.</p>"
+
+  - order: 8
+    sectionName: "Trust Stats"
+    componentId: "trust-stats"
+    variant: "Default"
+    sectionBackground: "dark"
+    content:
+      parent:
+        Title: "Eurobank at a Glance"
+        EyebrowText: "Trusted since 1990"
+      children:
+        - StatValue: "5.5M+"
+          StatLabel: "Customers"
+        - StatValue: "300+"
+          StatLabel: "Branches"
+        - StatValue: "1,700+"
+          StatLabel: "ATMs"
+        - StatValue: "35+"
+          StatLabel: "Years of Service"
+
+  - order: 9
+    sectionName: "CTA Banner"
+    componentId: "cta-banner"
+    variant: "Default"
+    sectionBackground: "primary"
+    content:
+      Title: "Ready to get started?"
+      Description: "<p>Open your Eurobank account online in minutes. No branch visit required.</p>"
+      PrimaryLink:
+        text: "Open Account Online"
+        url: "#"
+      SecondaryLink:
+        text: "Contact Us"
+        url: "#"
+
+  - order: 10
+    sectionName: "Footer"
+    componentId: "footer"
+    variant: "Default"
+    sectionBackground: "dark"
+    content:
+      note: "Context-only component — reads from Sitecore site settings"
+
+componentsNeeded:
+  existing:
+    - AnnouncementBar
+    - NavigationHeader
+    - HeroBanner
+    - ProductPricingCards
+    - FeatureHighlight
+    - ValuePropositionGrid
+    - TrustStatsRow
+    - CTABanner
+    - SiteFooter
+  new: []
+
+summary:
+  totalSections: 10
+  existingComponents: 9
+  newComponentsNeeded: 0
+  datasourceItemsToCreate: 7
+  childItemsToCreate: 10
+  contextOnlyComponents: 2

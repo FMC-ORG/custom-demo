@@ -244,6 +244,94 @@ export const Transparent = (props: NavigationHeaderProps): JSX.Element => {
   );
 };
 
+/* ────────────────────────────────────────────
+   EurobankNav — Dark navy header with Eurobank branding
+   Red accent buttons, dual-row layout
+   ──────────────────────────────────────────── */
+export const EurobankNav = (props: NavigationHeaderProps): JSX.Element => {
+  const { params, fields } = props;
+  const { styles, RenderingIdentifier } = params;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const items = getNavItems(fields);
+
+  if (!params) return <NavigationHeaderDefaultComponent />;
+
+  return (
+    <div
+      className={cn('component navigation-header', styles)}
+      id={RenderingIdentifier}
+    >
+      {/* Top utility bar */}
+      <div
+        className="w-full text-xs"
+        style={{
+          backgroundColor: '#001a33',
+          color: 'rgba(255,255,255,0.7)',
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-end gap-4 px-4 py-1.5 sm:px-6">
+          <a href="#" className="hover:text-white transition-colors">ATM &amp; Branches</a>
+          <a href="#" className="hover:text-white transition-colors">Contact</a>
+          <a href="#" className="hover:text-white transition-colors">EN</a>
+        </div>
+      </div>
+
+      {/* Main header */}
+      <header
+        className="w-full border-b"
+        style={{
+          backgroundColor: 'var(--brand-header-bg, #00264d)',
+          borderColor: 'rgba(255,255,255,0.1)',
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+          {/* Eurobank Logo */}
+          <Link
+            href="/"
+            className="flex items-center gap-1.5 text-xl font-bold tracking-tight text-white"
+          >
+            <span className="text-[#e30613]">&#9670;</span>
+            <span>EUROBANK</span>
+          </Link>
+
+          {/* Nav Links */}
+          <nav className="hidden items-center gap-5 lg:flex">
+            {items.map((item) => (
+              <a
+                key={item.Id}
+                href={item.Href + (item.Querystring ? `?${item.Querystring}` : '')}
+                className="text-sm font-medium text-white/80 transition-colors hover:text-white"
+              >
+                {getNavText(item)}
+              </a>
+            ))}
+          </nav>
+
+          {/* Right side actions */}
+          <div className="flex items-center gap-3">
+            <a
+              href="#"
+              className="hidden items-center gap-1 rounded-md border border-white/30 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-white/10 md:inline-flex"
+            >
+              Sign Up
+            </a>
+            <a
+              href="#"
+              className="hidden items-center rounded-md px-4 py-1.5 text-xs font-semibold text-white transition-opacity hover:opacity-90 md:inline-flex"
+              style={{ backgroundColor: 'var(--brand-accent, #e30613)' }}
+            >
+              e-Banking
+            </a>
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+        </div>
+        <MobileMenu items={items} open={menuOpen} onClose={() => setMenuOpen(false)} />
+      </header>
+    </div>
+  );
+};
+
 export const Minimal = (props: NavigationHeaderProps): JSX.Element => {
   const { params } = props;
   const { styles, RenderingIdentifier } = params;

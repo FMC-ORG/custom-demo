@@ -19,14 +19,25 @@ Use this skill when:
 
 ## Full workflow
 
-### Phase 0 — Gather inputs
+### Phase 0 — Gather inputs (screenshot required)
 
-Collect from the user:
-1. **Client URL** (required) — the homepage to replicate
-2. **Client name** (required) — for file naming
-3. **Screenshot** (optional) — if the user provides one, use it alongside the scraper output
+A screenshot is the **primary input** for demo creation. Without a visual reference, the build plan will be wrong.
 
-If only a screenshot is provided (no URL), skip the scraper and work from the screenshot + manual input.
+**Collect from the user:**
+1. **Client name** (required) — for file naming and content
+2. **Screenshot** (required) — full-page desktop screenshot of the homepage to replicate
+3. **Client URL** (optional) — used for content extraction in Phase 2.5 and theme scraping
+
+**How to obtain the screenshot:**
+
+| User provides | Action |
+|---|---|
+| URL only | Run Playwright scraper to capture screenshot. If scraper fails (403, auth, CAPTCHA), ask user to provide a screenshot manually. Do NOT proceed without one. |
+| Screenshot only | Use it directly. URL-based content extraction (Phase 2.5) will be skipped — content comes from screenshot analysis. |
+| URL + screenshot | Use the screenshot for visual analysis (Phases 1-2). Use the URL for content extraction (Phase 2.5). |
+| Neither | Ask for at least a screenshot. Do not proceed without visual reference. |
+
+**HARD RULE: Never proceed to Phase 1 without a screenshot.** Web fetch and web search are insufficient — they miss layout, spacing, card styles, section backgrounds, and visual hierarchy that drive variant selection.
 
 ### Phase 0.5 — Manifest health check
 
@@ -78,16 +89,45 @@ Use the `site-analyzer` agent (`docs/ai/agents/site-analyzer.md`):
 1. Read the component registry and theme mapping
 2. Inspect the desktop screenshot top-to-bottom
 3. Identify every section on the page
-4. Match each section to a template component + variant
-5. Extract visible content from the screenshot
-6. Output `docs/ai/demos/<client-kebab>/build-plan.yaml`
+4. Match each section to a template component + best-fit variant
+5. **Variant gap analysis** — for each matched section:
+   - Check if the selected variant already exists (named export in TSX + Variant Definition in Sitecore)
+   - If variant exists → mark as `variantMatch: "exact"`
+   - If no existing variant matches the visual → mark as `variantMatch: "none"` and describe the custom variant needed:
+     ```yaml
+     customVariantNeeded:
+       name: "EurobankCards"     # PascalCase, will become React export name
+       description: "2x3 card grid with top images, red accent links, hover scale effect"
+       parentComponent: "FeatureCardsGrid"  # existing component to add variant to
+     ```
+   - If a variant partially matches → mark as `variantMatch: "partial"` and note what differs
+6. Extract visible content from the screenshot (in English)
+7. **API-addable classification** — classify each component:
+   - `apiAddable: true` — has a datasource template, can be added via `add_component_on_page`
+   - `apiAddable: false` — context-only component (no datasource template), must be added manually in Pages editor
+
+   Context-only components (NavigationHeader, SiteFooter) will fail with "No datasource template found" when using `add_component_on_page`. Flag these in the build plan so the assembly phase skips them and includes them in the manual tasks checklist.
+8. Output `docs/ai/demos/<client-kebab>/build-plan.yaml`
 7. Present the build plan to the user:
    - List of sections with matched components and variants
    - Any sections marked as "custom" that need building from scratch
    - Confidence levels
    - Estimated work: N template components + M custom components
 
-**Do not proceed past Phase 2 until the user confirms the build plan.**
+**⛔ MANDATORY CHECKPOINT — Do not proceed past Phase 2.**
+
+Present the build plan to the user and STOP. Wait for explicit approval before creating any Sitecore items, datasource content, or React code.
+
+Show:
+1. Section-by-section component mapping with variants
+2. Variant gap analysis (which variants exist vs. which need creation)
+3. Components classified as API-addable vs. manual-only
+4. Content language: confirm all content will be in English
+5. Estimated work: N existing components + M custom variants + P manual steps
+
+The user must say "approved", "go ahead", "looks good", or equivalent before Phase 2.5 begins. If the user requests changes, update the plan and re-present.
+
+**Why this gate exists:** In the Eurobank demo build, skipping approval led to creating wrong variants, wrong content language, and wrong page structure — all of which had to be redone. This checkpoint prevents ~15 minutes of wasted MCP calls.
 
 ### Phase 2.5 — Extract and map content
 
@@ -109,6 +149,10 @@ This produces `docs/ai/demos/<client-kebab>/extracted-content.json` with:
 The agent reads the build plan + extracted content and:
 1. Matches extracted DOM sections to build plan sections (using headings as anchors)
 2. **Translates all content to English** (if source language is not English)
+
+> **HARD RULE: All demo content must be created in English (en), regardless of source page language.**
+> Never create datasource items in the source language (Greek, Spanish, French, etc.) even if the screenshot shows non-English text. Always translate to natural English.
+> This rule exists because demos are shown to English-speaking stakeholders. Creating in the source language then translating back wastes two round-trips of MCP calls.
 3. Maps content to specific Sitecore component fields
 4. Handles field types (plain text vs Rich Text vs General Link vs Image)
 5. Outputs `docs/ai/demos/<client-kebab>/content-map.yaml`
@@ -221,6 +265,15 @@ For each child in contentMap.sections[N].children:
 The number of children matches exactly what the content map specifies (extracted from the client site). No comparison with example item children needed — these are fresh items.
 
 Children within the same parent can be created in parallel (they share a parent but are independent).
+
+> **KNOWN ISSUE: `create_component_ds` may not reliably create children.**
+>
+> The `create_component_ds` tool accepts a `children` array, but children may not actually be created. After creating any list component datasource:
+> 1. Read the parent item back with `get_content_item_by_id`
+> 2. Check if `children.results` contains the expected number of items
+> 3. If children are missing, create them individually with `create_content_item` under the parent
+>
+> This verification step adds ~5 seconds per list component but prevents empty card grids and stat rows.
 
 #### Step 5 — Note image fields for manual upload
 
@@ -369,21 +422,24 @@ Add components to the page in build-plan order and wire each to its datasource i
 
 **Known limitation:** The Agent API cannot set rendering parameters (including variant selection) when adding components. Variants must be set manually in Pages editor after assembly. See `docs/ai/reference/agent-api-limitations.md`.
 
-#### Step 1 — Determine the target page
+#### Step 1 — Use the existing Home page (default)
 
-**Option A — Use existing Home page:**
-If the build plan targets the homepage and the user confirms reuse:
-1. `get_components_on_page(homePageId)` — read current state
-2. Note which custom uiim components are already placed (match by `componentName`)
-3. Note OOB starter kit components to ignore (RichText, Image, Container, Promo — identified by paths under `/sitecore/layout/Renderings/Feature/`)
+**Always use the existing Home page** unless the user explicitly asks for a new subpage. Do not create a new page by default — the Home page is the primary demo surface and already has the correct Page Design, partial designs (header/footer), and URL routing.
 
-**Option B — Create a new page:**
-If the user wants a fresh page:
-1. `create_page(name="<client-name> Demo", parentId=<home-page-id>, templateId=<page-template-id>)`
-2. The page inherits the Page Design automatically (header + footer from partials)
-3. Save the new page ID for subsequent steps
+**Steps:**
+1. Resolve the Home page: `get_content_item_by_path("/sitecore/content/<siteCollection>/<siteName>/Home")`
+2. Read current components: `get_components_on_page(homePageId)`
+3. Inventory what's already on the page:
+   - **Custom uiim components** already placed (match by `componentName`) — these will be re-wired to new client datasources, not re-added
+   - **OOB starter kit components** (RichText, Image, Container, Promo — identified by paths under `/sitecore/layout/Renderings/Feature/`) — these cannot be removed via MCP, note them for manual cleanup
+4. Use the Home page ID for all subsequent `add_component_on_page` and `set_component_datasource` calls
 
-Present the choice to the user: "Should I add components to the existing Home page, or create a new subpage?"
+**Only create a new subpage if the user explicitly requests it:**
+```
+create_page(name="<client-name> Demo", parentId=<home-page-id>, templateId=<page-template-id>)
+```
+
+Do NOT ask the user "should I use the Home page or create a new page?" — just use the Home page.
 
 #### Step 2 — Add components to the page
 
@@ -406,8 +462,10 @@ add_component_on_page(
 **Ordering:** Use `insertAfterComponentId` to place each component after the previous one. For the first component, omit this parameter (appends to end). Track the returned component instance for the next insertion.
 
 **Context-only components** (NavigationHeader, SiteFooter):
-- If they live in partial designs, skip — they're already on the page via the Page Design
-- If they're in `headless-main` (current setup), treat them like any other component
+- These components have no datasource template and **cannot be added via `add_component_on_page`** — the API returns "No datasource template found"
+- If they live in partial designs, they're already on the page via the Page Design — skip
+- If they need to be in `headless-main`, add them to the manual tasks checklist with clear positioning instructions (e.g., "Add NavigationHeader between AnnouncementBar and HeroBanner")
+- Do NOT attempt to add them via API — it will fail and waste time
 
 **Skip adding OOB components** that aren't in the build plan (RichText, Image, Container, Promo from starter kit). These cannot be removed via MCP — note them for manual cleanup.
 
@@ -521,4 +579,5 @@ docs/ai/demos/<client-kebab>/
 - **Mark images and links as manual** — the scraper can extract URLs but uploading to Media Library requires manual steps
 - **Mark variants as manual** — generate the variant checklist, don't skip this step. See `docs/ai/reference/agent-api-limitations.md` for why.
 - **Use `insertAfterComponentId` for ordering** — add components sequentially, passing the previous component's instance ID to maintain build-plan order
-- **Prefer new page over reusing existing** — creating a fresh page avoids OOB component cleanup. Ask the user which approach they prefer.
+- **Use the existing Home page by default** — do not create a new subpage unless the user explicitly asks. The Home page already has the correct Page Design and URL routing. Note any OOB components for manual cleanup.
+- **All content in English** — regardless of source page language, all datasource content must be in English (en). Translate from the source language during content extraction, never after content creation.

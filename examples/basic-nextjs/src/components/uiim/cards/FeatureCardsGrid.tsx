@@ -208,6 +208,76 @@ export const TwoColumn = ({ fields, params, page }: FeatureCardsGridProps): JSX.
 /* ────────────────────────────────────────────
    WithImages — larger images at top of each card
    ──────────────────────────────────────────── */
+/* ────────────────────────────────────────────
+   EurobankCards — 2-row, 3-column grid with images, red accent links
+   Matches the Eurobank "Η εξυπηρέτησή σας" section
+   ──────────────────────────────────────────── */
+export const EurobankCards = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-14 md:py-20"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-7xl">
+          <SectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                className="group flex flex-col overflow-hidden rounded-lg bg-white shadow-sm transition-shadow hover:shadow-md"
+                style={{ border: '1px solid var(--brand-border, #e5e7eb)' }}
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <div className="h-44 overflow-hidden">
+                    <ContentSdkImage
+                      field={card.cardImage?.jsonValue}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                )}
+                <div className="flex flex-1 flex-col p-5">
+                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="text-base font-bold leading-snug"
+                      style={{
+                        color: 'var(--brand-fg, #1a1a1a)',
+                        fontFamily: 'var(--brand-heading-font, inherit)',
+                      }}
+                    />
+                  )}
+                  {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className="mt-2 flex-1 text-sm leading-relaxed opacity-70"
+                      style={{ color: 'var(--brand-fg, #1a1a1a)' }}
+                    />
+                  )}
+                  {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                    <ContentSdkLink
+                      field={card.cardLink?.jsonValue}
+                      className="mt-3 inline-flex items-center gap-1 text-sm font-semibold transition-colors"
+                      style={{ color: 'var(--brand-accent, #e30613)' }}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;

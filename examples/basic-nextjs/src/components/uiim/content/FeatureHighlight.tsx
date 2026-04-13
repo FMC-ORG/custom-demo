@@ -219,6 +219,144 @@ export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.
 /* ────────────────────────────────────────────
    IconLeft — small image left, text right
    ──────────────────────────────────────────── */
+/* ────────────────────────────────────────────
+   EurobankDigital — split layout with image/app screenshots left, content right
+   Matches the Eurobank "Η ψηφιακή τραπεζική" section
+   ──────────────────────────────────────────── */
+export const EurobankDigital = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-14 md:py-20"
+        style={{ backgroundColor: 'var(--brand-muted, #f5f6f8)' }}
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 text-center">
+            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-3xl font-bold tracking-tight sm:text-4xl"
+                style={{
+                  color: 'var(--brand-fg, #111)',
+                  fontFamily: 'var(--brand-heading-font, inherit)',
+                }}
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mx-auto mt-3 max-w-2xl text-base opacity-70"
+                style={{ color: 'var(--brand-fg, #111)' }}
+              />
+            )}
+          </div>
+          <div className="grid items-center gap-8 md:grid-cols-2">
+            <div className="overflow-hidden rounded-xl shadow-lg">
+              {(fields.FeatureImage?.value?.src || isEditing) && (
+                <ContentSdkImage
+                  field={fields.FeatureImage}
+                  className="h-full w-full object-cover"
+                />
+              )}
+            </div>
+            <div className="space-y-6 rounded-xl p-6" style={{ backgroundColor: 'var(--brand-bg, #fff)' }}>
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full" style={{ backgroundColor: 'var(--brand-secondary, #0073b1)' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="6,3 20,12 6,21" /></svg>
+                </div>
+                <span className="text-sm font-semibold" style={{ color: 'var(--brand-fg, #111)' }}>
+                  Watch video
+                </span>
+              </div>
+              <p className="text-sm leading-relaxed opacity-70" style={{ color: 'var(--brand-fg, #111)' }}>
+                Explore all the features of Eurobank&apos;s digital banking platform. Manage your finances on the go with our award-winning mobile app.
+              </p>
+              <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   EurobankSecurity — dark section with security content cards
+   Matches the Eurobank "Η ασφάλειά σας" section
+   ──────────────────────────────────────────── */
+export const EurobankSecurity = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-14 md:py-20"
+        style={{
+          backgroundColor: 'var(--brand-header-bg, #00264d)',
+          color: 'var(--brand-header-fg, #fff)',
+        }}
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 text-center">
+            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-3xl font-bold tracking-tight sm:text-4xl"
+                style={{ fontFamily: 'var(--brand-heading-font, inherit)' }}
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mx-auto mt-3 max-w-2xl text-base opacity-80"
+              />
+            )}
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="rounded-xl p-6"
+                style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
+              >
+                <div className="mb-4 h-40 overflow-hidden rounded-lg bg-white/5">
+                  {i === 1 && (fields.FeatureImage?.value?.src || isEditing) && (
+                    <ContentSdkImage
+                      field={fields.FeatureImage}
+                      className="h-full w-full object-cover"
+                    />
+                  )}
+                </div>
+                <p className="text-sm font-semibold">
+                  {i === 1 && 'Digital Security'}
+                  {i === 2 && 'Fraud Protection'}
+                  {i === 3 && 'Safe Transactions'}
+                </p>
+                <p className="mt-2 text-xs leading-relaxed opacity-70">
+                  Stay protected with Eurobank&apos;s advanced security measures and real-time alerts.
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;

@@ -280,6 +280,54 @@ export const VideoBackground = ({ fields, params, page }: HeroBannerProps): JSX.
 /* ────────────────────────────────────────────
    Minimal — text-only, generous padding
    ──────────────────────────────────────────── */
+/* ────────────────────────────────────────────
+   EurobankHero — full-bleed image, left-aligned text, Eurobank style
+   ──────────────────────────────────────────── */
+export const EurobankHero = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative flex min-h-[500px] w-full items-center overflow-hidden md:min-h-[600px]">
+        {(fields.HeroImage?.value?.src || isEditing) && (
+          <div className="absolute inset-0">
+            <ContentSdkImage
+              field={fields.HeroImage}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#00264d]/80 via-[#00264d]/50 to-transparent" />
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16 md:px-8">
+          <div className="max-w-lg space-y-5 text-white">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h1"
+                className="text-3xl font-bold leading-tight sm:text-4xl md:text-5xl"
+                style={{ fontFamily: 'var(--brand-heading-font, Roboto, sans-serif)' }}
+              />
+            )}
+            {(fields.Subtitle?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Subtitle}
+                className="text-base leading-relaxed opacity-90 md:text-lg"
+              />
+            )}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <PrimaryButton field={fields.PrimaryLink} isEditing={isEditing} />
+              <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 export const Minimal = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;

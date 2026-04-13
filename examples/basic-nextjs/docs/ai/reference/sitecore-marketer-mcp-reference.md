@@ -492,6 +492,27 @@ These fields are written successfully by MCP but are **not reflected** in `updat
 
 **Do not** flag these as "requires manual setup" unless a hard error (400/500) was returned. Report them as: *"Written via MCP; verify in Content Editor — updatedFields is empty by design for this field."*
 
+### `create_component_ds` children reliability
+
+**Date discovered:** 2026-04-11
+**Severity:** Medium — causes empty list components
+
+The `create_component_ds` tool accepts a `children` array parameter for creating parent+child datasource items in one call. However, children may not always be created successfully — the API reports success but the parent item has no children.
+
+**Workaround:** After creating any list component datasource with `create_component_ds`:
+1. Read the parent item back with `get_content_item_by_id`
+2. Check if children exist
+3. If missing, create children individually with `create_content_item` under the parent
+
+**Alternative approach:** Skip `create_component_ds` for list components entirely. Instead:
+1. Create the parent with `create_content_item` using the parent template and datasource folder as parent
+2. Create each child with `create_content_item` using the child template and the new parent as parent
+3. Update fields on each item with `update_content`
+
+This is more MCP calls but more reliable.
+
+---
+
 ### Standard Datasource Location query pattern
 
 For simple and list components, use this dynamic query pattern so the datasource picker resolves relative to the current site:

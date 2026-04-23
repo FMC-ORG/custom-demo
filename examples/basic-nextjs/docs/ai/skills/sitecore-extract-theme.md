@@ -4,10 +4,22 @@ Use this skill when creating a demo for a client and you need to capture their b
 
 ## Trigger hints
 Use this skill when:
-- the user provides a client website URL for demo creation
+- the user provides a screenshot of a client website for demo creation
+- the user provides a client website URL (will be screenshotted first)
 - the user asks to "match" or "replicate" a client's look and feel
-- the user asks to extract a brand theme, color palette, or design tokens from a website
+- the user asks to extract a brand theme, color palette, or design tokens
 - the demo orchestrator needs a theme before building components
+
+## Primary input: screenshot
+
+The screenshot is the **primary source of truth** for theme extraction. Playwright scraper output (CSS tokens, meta tags) is supplementary data that improves accuracy.
+
+| Available input | Extraction approach |
+|---|---|
+| Playwright scraper output + screenshot | Best: CSS tokens for exact values, screenshot for visual tone assessment |
+| Screenshot only (scraper failed) | Good: analyze screenshot for colors, typography, layout, tone. Use web search for font names and hex codes if needed. Set confidence to "medium". |
+| URL only (no screenshot yet) | Run Playwright to get screenshot first. If it fails, ask user for screenshot. Never extract theme from web search alone. |
+| Web search results only | **Insufficient.** Web search provides brand-level info (logo colors, font names) but misses page-specific layout density, section backgrounds, card styles, spacing. Always require at least a screenshot. |
 
 ## Output
 A populated theme file at:
@@ -120,6 +132,42 @@ Open `screenshot-hero.png` and assess visually:
 - **Spacing density:** compact, normal, spacious
 
 Open `screenshot-mobile.png` to check responsive behavior.
+
+### Step 3.5 — Screenshot-first analysis (when scraper failed)
+
+If the Playwright scraper failed (403, auth wall, CAPTCHA) but a screenshot is available:
+
+1. **Color extraction from screenshot:**
+   - Identify the dominant header/nav background color
+   - Identify the primary button color (usually the most prominent colored button)
+   - Identify link/accent color
+   - Identify page background and text colors
+   - Note section background alternation (white, gray, dark sections)
+   - Use web search for the client's brand guidelines to find exact hex codes
+
+2. **Typography from screenshot:**
+   - Identify heading style (serif vs sans-serif, weight, transform)
+   - Identify body text style
+   - Use web search for the client's font name (e.g., "Eurobank font family" or check Brandfetch)
+   - Find a Google Fonts substitute if the font is proprietary
+
+3. **Layout and spacing:**
+   - Assess section padding density (compact, normal, spacious)
+   - Note card border-radius (sharp, slightly rounded, very rounded)
+   - Note shadow depth (none, subtle, medium, dramatic)
+   - Note button shape (sharp, rounded, pill)
+
+4. **Set extraction metadata:**
+   ```yaml
+   extraction:
+     confidence: "medium"
+     method: "screenshot-analysis"
+     notes:
+       - "Playwright scraper failed (403). Theme extracted from screenshot + web search."
+       - "Hex codes are approximations from visual analysis — may differ from actual CSS values."
+   ```
+
+This approach was validated during the Eurobank demo build — web search provided brand colors, and the screenshot provided layout/spacing/tone details that web search alone missed.
 
 ### Step 4 — Map to theme YAML
 
@@ -275,7 +323,8 @@ If the site uses fonts from Adobe Fonts, Typography.com, or custom proprietary f
 
 ## Verification checklist
 
-- [ ] Scraper ran successfully (or fallback method documented)
+- [ ] Screenshot available (from Playwright, user-provided, or both)
+- [ ] Scraper ran successfully OR screenshot-first fallback documented
 - [ ] Screenshots captured: desktop, mobile, hero
 - [ ] `extracted-styles.json` read and values mapped
 - [ ] `meta.json` read for fonts, theme-color, OG data

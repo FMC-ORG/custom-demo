@@ -134,11 +134,51 @@ The only missing link is passing `FieldNames={variant-id}` to the API.
 
 ---
 
-## 2. Cannot remove components from a page via MCP
+## 2. Cannot add context-only components via `add_component_on_page`
+
+**Date discovered:** 2026-04-11
+**Severity:** Medium — blocks automated placement of NavigationHeader and SiteFooter
+**Status:** Confirmed limitation
+
+### The Problem
+
+`add_component_on_page` requires the rendering to have a `Datasource Template` configured. For context-only components (renderings with no datasource template, like NavigationHeader and SiteFooter), the API returns:
+
+```
+"No datasource template found for component"
+```
+
+This means context-only components cannot be added to pages via the API.
+
+### Affected Components
+
+Any rendering where `Datasource Template` is empty:
+- **NavigationHeader** — reads from navigation content resolver
+- **SiteFooter** — reads from site settings / hardcoded data
+
+### Workaround
+
+1. Flag these components in the build plan as `apiAddable: false`
+2. Skip them during automated page assembly
+3. Add them to the manual tasks checklist with clear positioning:
+   ```
+   - Add NavigationHeader in Pages editor (position: between AnnouncementBar and HeroBanner)
+   - Add SiteFooter in Pages editor (position: last component on the page)
+   ```
+4. If the components live in a Partial Design (header/footer partials), they may already be on the page — check first
+
+### Impact on Demo Build
+
+For a typical 10-section demo page, 2 components (header + footer) must be added manually. This takes ~30 seconds in Pages editor.
+
+---
+
+## 3. Cannot remove components from a page via MCP
 
 **Date discovered:** 2026-04-09
 **Severity:** Medium — affects page cleanup and reset workflows
 **Status:** No `remove_component_from_page` tool found in MCP
+**Previously numbered:** #2
 
 ### The Problem
 
@@ -153,7 +193,7 @@ Create a new empty page instead of reusing an existing one. Components are only 
 
 ---
 
-## 3. `add_component_on_page` auto-creates local datasource
+## 4. `add_component_on_page` auto-creates local datasource
 
 **Date discovered:** 2026-04-09
 **Severity:** Low — informational

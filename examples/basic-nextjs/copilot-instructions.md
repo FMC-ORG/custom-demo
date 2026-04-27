@@ -118,9 +118,10 @@ interface InteractiveSitecoreComponentProps {
   };
 }
 
-export default function InteractiveSitecoreComponent({
+// Named export — never use export default for XM Cloud components
+export const Default = ({
   fields,
-}: InteractiveSitecoreComponentProps) {
+}: InteractiveSitecoreComponentProps): JSX.Element => {
   // Client-side interactivity here
   return (
     <div>
@@ -128,7 +129,7 @@ export default function InteractiveSitecoreComponent({
       <RichText field={fields?.content} />
     </div>
   );
-}
+};
 ```
 
 ### Component Development
@@ -142,7 +143,8 @@ interface HeroProps {
   };
 }
 
-export default function Hero({ fields }: HeroProps) {
+// Named export — never use export default for XM Cloud components
+export const Default = ({ fields }: HeroProps): JSX.Element => {
   return (
     <div>
       <Text field={fields?.title} tag="h1" />
@@ -150,7 +152,7 @@ export default function Hero({ fields }: HeroProps) {
       <Image field={fields?.backgroundImage} />
     </div>
   );
-}
+};
 ```
 
 ### Error Handling

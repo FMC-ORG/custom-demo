@@ -16,7 +16,8 @@ This skill orchestrates the full demo creation pipeline:
 3. Content population (creates new client datasource items via MCP from content-map.yaml)
    - Verify `create_component_ds` children after creation (known reliability issue)
 4. Theme application (generates CSS variable overrides)
-5. Custom variant/component building (if variant gap analysis found gaps)
+5. Custom component building (if matchType: "custom" in build plan)
+5.5. **Demo variant creation** (uses `sitecore-create-demo-variants` skill) — creates pixel-perfect custom variant per component matching the screenshot's exact layout/spacing
 6. Page assembly on existing Home page (adds API-addable components + generates manual tasks for context-only)
 7. Summary (what was done + manual tasks including variant selection)
 
@@ -27,5 +28,6 @@ Key rules:
 - **Verify children** — read back list component parents to confirm children exist
 - **Context-only = manual** — NavigationHeader/SiteFooter cannot be added via API
 - **Use Home page** — always assemble on the existing Home page, never create a new subpage unless explicitly asked
+- **Resume support** — if the user says "resume demo", read `demo-progress.yaml` and skip completed phases/sections
 
 Output directory: `docs/ai/demos/<client-kebab>/`

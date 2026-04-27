@@ -37,6 +37,12 @@ When the user asks to create, update, diagnose, or fix a Sitecore XM Cloud compo
 - a design shows two or more distinct layouts for the same component
 - an existing component needs a new named export / variant added
 
+### Use `sitecore-create-demo-variants` when
+- the demo builder pipeline reaches Phase 5.5
+- the user says "create custom variants", "match the screenshot exactly", "replicate the visual style", "pixel-perfect"
+- existing template variants are close but don't match the client's exact layout, spacing, or visual details
+- the user wants each component to look identical to the client's homepage, not just color-matched
+
 ## Required process
 1. Classify the request before implementing.
 2. Load the matching skill and its referenced docs.
@@ -62,6 +68,7 @@ Do not jump directly into code or Sitecore item changes until the request has be
 - fix ComponentQuery
 - fix datasource picker
 - add variants
+- create demo variants (pixel-perfect matching)
 
 ## Repo-first rule
 If repository conventions conflict with a default skill behavior, follow the repository convention and explain the deviation.

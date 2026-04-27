@@ -17,6 +17,23 @@ Use this skill when:
 - `docs/ai/catalog/theme-component-mapping.md`
 - `docs/ai/manifests/sitecore-manifest.yaml`
 
+## Resume a demo build
+
+If the user says "resume demo", "continue demo", "pick up where we left off", or a previous session was interrupted:
+
+1. Read `docs/ai/demos/<client-kebab>/demo-progress.yaml`
+2. Find the last phase with `status: "complete"` — that's where we finished
+3. Find the first phase with `status: "partial"` or `"pending"` — that's where to resume
+4. For Phase 3 (content) or Phase 6 (assembly), check per-section status:
+   - Skip sections with `status: "populated"` or `"wired"`
+   - Resume from the first section with `status: "pending"` or `"created"` (created but not populated)
+   - Retry sections with `status: "failed"` (read the `error` field for context)
+5. Show the user a summary of what's done and what remains before continuing
+
+**Do NOT re-run completed phases.** The progress file is the source of truth for demo state.
+
+---
+
 ## Full workflow
 
 ### Phase 0 — Gather inputs (screenshot required)
@@ -38,6 +55,8 @@ A screenshot is the **primary input** for demo creation. Without a visual refere
 | Neither | Ask for at least a screenshot. Do not proceed without visual reference. |
 
 **HARD RULE: Never proceed to Phase 1 without a screenshot.** Web fetch and web search are insufficient — they miss layout, spacing, card styles, section backgrounds, and visual hierarchy that drive variant selection.
+
+**Create the progress file** at `docs/ai/demos/<client-kebab>/demo-progress.yaml` using the template at `docs/ai/templates/demo-progress.template.yaml`. Set `client.name`, `client.sourceUrl`, `client.startedAt`, and `phases.phase0_inputs.status: "complete"`.
 
 ### Phase 0.5 — Manifest health check
 
@@ -242,7 +261,7 @@ Conversion rules:
 - `href` is `#` or empty → `linktype="external"`, `url="#"`
 - `href` is relative → prepend client domain, `linktype="external"`
 - `target` is `_blank` or absent → set `target` accordingly
-- **All attributes must be present** even if empty (see `docs/ai/rules/sitecore-field-formats.md`)
+- **All attributes must be present** even if empty — `text`, `anchor`, `linktype`, `class`, `title`, `target`, `querystring`, then `id` or `url`
 
 Include link fields in the same `update_fields_on_content_item` call as text fields when possible.
 
@@ -359,6 +378,26 @@ Example: "Eurobank - Hero Banner - Families"
 Then in Pages editor: select component → Personalize → add condition → assign datasource.
 ```
 
+#### Progress tracking (Phase 3)
+
+**After each MCP call**, update the section's status in `demo-progress.yaml`:
+
+```
+sections[N].phase3.status:
+  "pending"   → not started
+  "created"   → create_content_item succeeded, itemId recorded
+  "populated" → update_fields_on_content_item succeeded
+  "failed"    → MCP call returned error, error message recorded
+```
+
+For list components, also track:
+- `childrenCreated` — increment after each child create_content_item
+- `childrenExpected` — from content-map.yaml children count
+
+**Write the progress file to disk after every 2-3 sections** (not after every MCP call — that would be too slow). Always write after the last section.
+
+**On resume:** Skip sections where `status: "populated"`. For `status: "created"`, retry the field update. For `status: "failed"`, retry the full section.
+
 #### Content population order
 
 - Work through sections top-to-bottom following `buildOrder.phase1_sitecore`
@@ -414,7 +453,27 @@ For each section in the build plan with `matchType: "custom"`:
 
 Custom components must be fully built before page assembly so they can be placed alongside template components in a single pass.
 
-If there are no custom components (`customComponents: []` in build plan), skip to Phase 6.
+If there are no custom components (`customComponents: []` in build plan), skip to Phase 5.5.
+
+### Phase 5.5 — Create demo variants (pixel-perfect matching)
+
+For each component on the page, create a custom named export that replicates the exact layout, spacing, and visual style from the client's screenshot.
+
+**Use the `sitecore-create-demo-variants` skill** (`docs/ai/skills/sitecore-create-demo-variants.md`).
+
+This phase bridges the gap between "same colors" (Phase 4 CSS variables) and "looks like their actual site" (custom layout per section).
+
+**What it produces:**
+1. A `variant-specs.yaml` file with per-section visual analysis
+2. A new named export in each component's TSX file (named after the client, e.g., `PeopleCert`)
+3. Variant Definition items in Sitecore (one per component)
+4. Updated variant checklist referencing the custom variant names
+
+**Decision:** If the user explicitly says generic variants are fine, skip this phase. Otherwise, create custom variants for all sections where `variantMatch` is `"none"` or `"partial"`. If the user wants pixel-perfect, create for ALL sections.
+
+**Update `demo-progress.yaml`** after completion:
+- `phases.phase5_5_variants.status: "complete"`
+- `phases.phase5_5_variants.variantsCreated: N`
 
 ### Phase 6 — Assemble the page
 
@@ -523,6 +582,23 @@ Components that use the **Default** variant don't need action — Default is app
 
 Save this checklist to `docs/ai/demos/<client-kebab>/variant-checklist.md`.
 
+#### Progress tracking (Phase 6)
+
+**After each component add/wire**, update the section's status in `demo-progress.yaml`:
+
+```
+sections[N].phase6.status:
+  "pending"  → not started
+  "added"    → add_component_on_page succeeded, componentInstanceId recorded
+  "wired"    → set_component_datasource succeeded
+  "skipped"  → context-only component or already on page
+  "failed"   → MCP call returned error
+```
+
+Write progress to disk after every 3-4 components.
+
+**On resume:** Skip sections where `status: "wired"` or `"skipped"`. For `status: "added"`, retry datasource wiring. For `status: "failed"`, retry the full add+wire.
+
 #### Step 5 — Verify assembly
 
 After all components are added and datasources wired:
@@ -562,7 +638,9 @@ Present to the user:
 After completion, the demo directory should contain:
 ```
 docs/ai/demos/<client-kebab>/
+├── demo-progress.yaml         # phase + section progress tracker (enables resume)
 ├── build-plan.yaml            # the section-by-component mapping
+├── content-map.yaml           # extracted + translated content mapped to fields
 ├── content-populated.md       # log of content updates made
 ├── theme-applied.md           # log of theme changes made
 ├── variant-checklist.md       # manual variant selection guide for the SE

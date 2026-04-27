@@ -21,7 +21,7 @@ Use instead:
 ---
 
 ## Load first
-- `docs/ai/skills/shared/sitecore-tooling-guidelines.md`
+- `docs/ai/reference/sitecore-rules.md`
 - `docs/ai/skills/shared/react-uiim-guidelines.md`
 - `docs/ai/templates/sitecore-component-spec.template.yaml`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
@@ -168,17 +168,10 @@ Common field types: `Single-Line Text`, `Rich Text`, `Image`, `General Link`
 
 ### `__Standard Values` rule
 
-- `name = "__Standard Values"`
-- `parentId = owning template item ID`
-- `templateId = owning template item ID`
-
-After creating `__Standard Values`, **link it to the template**: set the `Standard values` field on the **template item** to the Item ID of the newly created `__Standard Values` item. Without this step, the template does not recognize its default values.
-
-> **Note:** The `Standard values` field update may return empty `updatedFields` — this is a silent-write field. This is **not** a failure. Verify in Content Editor if needed.
-
-Applies to parent, child, and folder templates.
-
-Do **not** use the Standard template ID `1930bbeb-7805-471a-a3be-4858ac7cf696`.
+- `name = "__Standard Values"`, `parentId = owning template ID`, `templateId = owning template ID`
+- After creation, **link it**: set `__Standard values` on the template item to the SV's Item ID (silent-write — empty `updatedFields` is normal)
+- Applies to parent, child, and folder templates
+- Do NOT use Standard template ID `1930bbeb-...` as the templateId
 
 ### Parent/child rules
 
@@ -289,40 +282,11 @@ Without this step, authors cannot create new datasource items inside the folder.
 
 ### Available Renderings rule
 
-After creating the rendering item, you must register it in the site's **Available Renderings** so it appears in the Experience Editor / Pages editor.
-
-**Always add the rendering to the Page Content Available Renderings item:**
-- Path: `/sitecore/content/<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
-
-**⚠️ CRITICAL: The `Renderings` field is both silent-write AND silent-read.** MCP cannot read the current value. If you write a value without knowing the current contents, you will **replace** all existing renderings and break the page editor.
-
-**Steps:**
-1. Resolve the Page Content Available Renderings item via `get_content_item_by_path` (cache the `itemId` in lookups)
-2. **Ask the user for the current `Renderings` field value** — MCP cannot read it. The user must copy it from Content Editor.
-3. **Concatenate** the new rendering's Item ID to the existing value with a pipe separator. **Do NOT replace the existing value** — overwriting it removes all other components from the page editor.
-4. Update the `Renderings` field with the concatenated value
-
-**Example:** If the current value is `{A8DB4692-0731-4067-A224-79EFFF24C639}` and the new rendering ID is `{B1234567-ABCD-1234-EFGH-123456789ABC}`, the updated value must be:
-```
-{A8DB4692-0731-4067-A224-79EFFF24C639}|{B1234567-ABCD-1234-EFGH-123456789ABC}
-```
-Never set it to just `{B1234567-ABCD-1234-EFGH-123456789ABC}` — that would remove the existing rendering.
-
-**If you cannot get the current value from the user**, track the last-known value in the manifest. But always warn the user that another session or manual edit may have changed it.
-
-Do **not** skip this step. Without it, authors cannot add the component to pages.
-
----
-
-### Component Name rule
-
-The `Component Name [shared]` field on the rendering item must be set to the **PascalCase** name that **exactly matches** the TSX filename without extension.
-
-Examples:
-- TSX file: `ArticleCards.tsx` → Component Name: `ArticleCards`
-- TSX file: `Hero.tsx` → Component Name: `Hero`
-
-Do **not** use kebab-case or camelCase. The Next.js component resolver uses this value to find the React component file.
+**CRITICAL:** `Renderings` field is silent-write AND silent-read — MCP cannot read the current value.
+1. Ask user for current value (or use manifest `lastKnownValue`)
+2. **Concatenate**: `<existing>|{NEW-RENDERING-GUID}` (uppercase, braces, pipe)
+3. **NEVER replace** — overwriting removes all other components
+4. Path: `<siteCollection>/<siteName>/Presentation/Available Renderings/Page Content`
 
 ---
 
@@ -364,62 +328,25 @@ After create/update, verify:
 
 ### Rendering Parameters template rule
 
-Every rendering requires a Rendering Parameters template. Create it before the rendering item.
-
-**Path:** `renderingParamsRoot/<Category>/<ComponentName>`
-
-Where `renderingParamsRoot` = `projectTemplatesRoot` + `/Rendering Parameters`
-
-**Steps:**
-1. Resolve or create the Category folder under `renderingParamsRoot`
-2. Create the Rendering Parameters template item (using the standard Template template ID)
-3. Set `__Base template` to all four required base templates (pipe-separated):
-   ```
-   {4247AAD4-EBDE-4994-998F-E067A51B1FE4}|{5C74E985-E055-43FF-B28C-DB6C6A6450A2}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}|{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}
-   ```
-4. Verify the template exists with correct base templates via MCP
-5. Then create the rendering item and set `Parameters Template [shared]` to this template's **Item ID (GUID)**, not a path. Resolve the ID via MCP after creation.
-
-This applies to **all component types** — simple, list, and context-only.
+Create at `renderingParamsRoot/<Category>/<ComponentName>` before the rendering item.
+1. Create template item (standard Template template ID)
+2. Set `__Base template` to: `{4247AAD4-EBDE-4994-998F-E067A51B1FE4}|{5C74E985-E055-43FF-B28C-DB6C6A6450A2}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}|{3DB3EB10-F8D0-4CC9-BE26-18CE7B139EC8}`
+3. Set rendering `Parameters Template [shared]` to this template's **Item ID (GUID)**, not a path
 
 ---
 
 ### Named exports and variants rule
 
-Every XM Cloud component must use **named exports**, not `export default` for the component function. This is required for the Sitecore variant mechanism to work.
-
-Always export at least `Default`. Each additional named export corresponds to a variant:
-
-```tsx
-export const Default = ({ fields }: HeroProps): JSX.Element => {
-  if (!fields) return <HeroDefaultComponent />;
-  return ( ... );
-};
-
-export const Centered = ({ fields }: HeroProps): JSX.Element => {
-  if (!fields) return <HeroDefaultComponent />;
-  return ( ... );
-};
-```
-
-Include a non-exported empty-state fallback:
-
-```tsx
-const HeroDefaultComponent = (): JSX.Element => (
-  <div className="component">
-    <span className="is-empty-hint">ComponentName</span>
-  </div>
-);
-```
-
-If variants are needed beyond `Default`, use `docs/ai/skills/sitecore-add-variants.md` to create the Sitecore Variant Definition items.
+- Named exports only (`export const Default`), never `export default`
+- `Default` is mandatory and must be first export
+- Include a non-exported empty-state fallback component
+- Export name must exactly match Variant Definition item name in Sitecore
+- For variants beyond `Default`, use `docs/ai/skills/sitecore-add-variants.md`
 
 ### Component map rule
 
-When a new component is created:
-- update `.sitecore/component-map.ts`
-- use **kebab-case** for the map key
-- follow the existing naming pattern in the file
+- Update `.sitecore/component-map.ts` with the new component
+- Follow the existing naming pattern in the file
 
 ---
 
@@ -456,47 +383,19 @@ Do not silently downgrade unverified Sitecore work to "manual setup required" wi
 
 ## Verification checklist
 
+**List-component-specific:**
 - [ ] Request correctly classified as list component
-- [ ] Shared spec filled before implementation
-- [ ] Parent template created
-- [ ] Parent template `Base template` set to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`
-- [ ] Child template created
-- [ ] Child template `Base template` set to `{1930BBEB-7805-471A-A3BE-4858AC7CF696}|{44A022DB-56D3-419A-B43B-E27E4D8E9C41}`
-- [ ] Parent template fields created with explicit `Type`
-- [ ] Child template fields created with explicit `Type`
-- [ ] Parent `__Standard Values` created (using owning template ID)
-- [ ] Parent template `Standard values` field linked to its `__Standard Values` Item ID
-- [ ] Child `__Standard Values` created (using owning template ID)
-- [ ] Child template `Standard values` field linked to its `__Standard Values` Item ID
-- [ ] Parent `__Masters` points to child template
+- [ ] Parent template created with base templates `{1930BBEB-...}|{44A022DB-...}`
+- [ ] Child template created with same base templates
+- [ ] Parent + child sections + fields created with explicit `Type`
+- [ ] Parent + child `__Standard Values` created and linked
+- [ ] Parent `__Masters` → child template
 - [ ] Parent inherits `_HorizonDatasourceGrouping`
-- [ ] Folder template created
-- [ ] Folder template `__Standard Values` created
-- [ ] Folder template `__Masters` points to parent template
-- [ ] Datasource folder created under `/Data`
-- [ ] Insert options set on datasource folder instance (not only folder template)
-- [ ] Example parent datasource item created inside the folder
-- [ ] Example child items created inside the parent item
-- [ ] Rendering Parameters template created under `renderingParamsRoot/<Category>`
-- [ ] Rendering Parameters template base templates set (all four IDs)
-- [ ] Rendering created as JSON Rendering
-- [ ] `Component Name [shared]` is PascalCase matching TSX filename exactly
-- [ ] `Parameters Template [shared]` set to Item ID (GUID), not a path
+- [ ] Folder template + SV created, `__Masters` → parent template
+- [ ] Datasource folder under `/Data` with insert options on instance
+- [ ] Example parent + child items created inside folder
 - [ ] `Datasource Template` uses full Sitecore path
-- [ ] `ComponentQuery` exists and matches the component
-- [ ] Rendering registered in Available Renderings (Page Content)
-- [ ] React file created under `src/components/uiim`
-- [ ] TSX reads `fields.data.datasource.children.results`
-- [ ] TSX uses `.jsonValue`
-- [ ] TSX imports from `@sitecore-content-sdk/nextjs`
-- [ ] Props type extends `ComponentProps` from `lib/component-props`
-- [ ] Component uses `params.styles` and `params.RenderingIdentifier` in wrapper
-- [ ] All Sitecore fields use SDK editable helpers (Text, ContentSdkRichText, ContentSdkImage, ContentSdkLink)
-- [ ] No plain `<img>`, `<a>`, or hardcoded text used for Sitecore-managed fields
-- [ ] Tailwind used
-- [ ] shadcn/ui primitives used where appropriate
-- [ ] TSX uses named exports (`export const Default`, not `export default`)
-- [ ] Empty-state fallback component included
-- [ ] Headless Variants container item exists in Sitecore
-- [ ] `Default` Variant Definition item created under Headless Variants container
-- [ ] Component map updated with kebab-case key
+- [ ] `ComponentQuery` exists, uses `field(name: "...")` pattern, includes `children { results { id ... } }`
+- [ ] TSX reads `fields.data.datasource.children.results` with `.jsonValue`
+
+**Shared checks** — see `docs/ai/skills/shared/verification-checklist.md`

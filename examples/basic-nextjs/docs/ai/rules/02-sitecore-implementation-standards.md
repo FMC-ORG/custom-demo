@@ -3,7 +3,7 @@
 Apply these rules to all Sitecore XM Cloud component work.
 
 ## Shared docs to respect
-- `docs/ai/skills/shared/sitecore-tooling-guidelines.md`
+- `docs/ai/reference/sitecore-rules.md`
 - `docs/ai/skills/shared/react-uiim-guidelines.md`
 - `docs/ai/templates/sitecore-component-spec.template.yaml`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`

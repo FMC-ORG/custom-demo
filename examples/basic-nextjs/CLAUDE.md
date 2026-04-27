@@ -25,7 +25,7 @@ Canonical rules live in `docs/ai/rules/`. Both Cursor and Claude Code reference 
 ## Key References (load on demand)
 
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md` — MCP field names, creation order, known behaviors
-- `docs/ai/skills/shared/sitecore-tooling-guidelines.md` — non-negotiable Sitecore rules
+- `docs/ai/reference/sitecore-rules.md` — canonical Sitecore rules reference
 - `docs/ai/skills/shared/react-uiim-guidelines.md` — React component patterns
 - `docs/ai/catalog/component-registry.yaml` — machine-readable component library for site analysis
 - `docs/ai/catalog/theme-component-mapping.md` — how themes drive variant selection

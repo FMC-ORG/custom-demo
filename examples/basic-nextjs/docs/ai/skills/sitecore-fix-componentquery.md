@@ -18,7 +18,7 @@ If during diagnosis you discover the root cause is a datasource picker problem r
 ---
 
 ## Load first
-- `docs/ai/skills/shared/sitecore-tooling-guidelines.md`
+- `docs/ai/reference/sitecore-rules.md`
 - `docs/ai/skills/shared/react-uiim-guidelines.md`
 - `docs/ai/templates/sitecore-component-spec.template.yaml`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
@@ -71,7 +71,7 @@ If the user asks for an approval gate, stop after the plan and wait.
 ### Query structure problems
 - missing required variables: `$datasource: String!`, `$language: String!`
 - query does not fetch: `datasource: item(path: $datasource, language: $language)`
-- wrong parent or child fragment name (`... on <WrongTemplateName>`)
+- uses `... on TemplateName` fragments instead of generic `field(name: "...")` accessors — `... on` fragments silently fail when template names conflict in shared XM Cloud instances
 - child items not read from `children { results { ... } }`
 - missing child `id`
 - authorable fields missing `jsonValue`
@@ -109,24 +109,30 @@ If the user asks for an approval gate, stop after the plan and wait.
 
 ### Preferred list query pattern
 
+**Always use the generic `field(name: "...")` accessor** instead of `... on TemplateName` fragments. XM Cloud instances often have multiple templates with the same name (from SXA, Foundation, Feature layers), which causes `... on` fragments to silently fail.
+
 ```graphql
 query ComponentName($datasource: String!, $language: String!) {
   datasource: item(path: $datasource, language: $language) {
-    ... on ParentTemplateName {
-      title { jsonValue }
-    }
+    title: field(name: "Title") { jsonValue }
+    description: field(name: "Description") { jsonValue }
     children {
       results {
-        ... on ChildTemplateName {
-          id
-          title { jsonValue }
-          image { jsonValue }
-          link { jsonValue }
-        }
+        id
+        title: field(name: "Title") { jsonValue }
+        image: field(name: "Image") { jsonValue }
+        link: field(name: "Link") { jsonValue }
       }
     }
   }
 }
+```
+
+**Do NOT use this pattern (causes silent failures):**
+```graphql
+# BAD — breaks when template name conflicts exist
+... on ParentTemplateName { title { jsonValue } }
+children { results { ... on ChildTemplateName { id title { jsonValue } } } }
 ```
 
 ---

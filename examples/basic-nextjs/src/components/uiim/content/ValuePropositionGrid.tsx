@@ -245,6 +245,137 @@ export const FourColumn = ({ fields, params, page }: ValuePropositionGridProps):
 };
 
 /* ────────────────────────────────────────────
+   Howdens — round colour-swatch row.
+   Reads each child's ItemDescription RichText as a hex colour (e.g. "<p>#4A5D43</p>")
+   and applies it as the swatch background. Used for "Explore our kitchens by colour".
+   ──────────────────────────────────────────── */
+export const Howdens = ({ fields, params, page }: ValuePropositionGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ValuePropositionGridDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  // Extract a hex colour from a RichText value like "<p>#4A5D43</p>".
+  // Falls back to a neutral grey if no hex is found.
+  const extractHex = (rt?: string): string => {
+    if (!rt) return 'var(--brand-muted)';
+    const match = rt.match(/#[0-9A-Fa-f]{3,8}/);
+    return match ? match[0] : 'var(--brand-muted)';
+  };
+
+  return (
+    <div className={cn('component value-proposition-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-14 md:py-16" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-7xl">
+          <SectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid grid-cols-3 gap-6 md:grid-cols-6 md:gap-8">
+            {items.map((item) => {
+              const hex = extractHex(item.itemDescription?.jsonValue?.value);
+              const linkField = item.itemLink?.jsonValue;
+              const hasLink = !!linkField?.value?.href || isEditing;
+              const Swatch = (
+                <div className="flex flex-col items-center gap-3 text-center">
+                  <div
+                    className="h-20 w-20 md:h-24 md:w-24 ring-2 ring-[var(--brand-border)] transition-transform group-hover:scale-105"
+                    style={{ backgroundColor: hex, borderRadius: '9999px' }}
+                  />
+                  {(item.itemTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={item.itemTitle?.jsonValue}
+                      tag="span"
+                      className="text-sm font-semibold font-[var(--brand-body-font,inherit)]"
+                      style={{ color: 'var(--brand-fg)' }}
+                    />
+                  )}
+                </div>
+              );
+
+              return hasLink ? (
+                <ContentSdkLink
+                  key={item.id}
+                  field={linkField}
+                  className="group block"
+                  // Suppress default underline; entire swatch is the link
+                  style={{ textDecoration: 'none' }}
+                >
+                  {Swatch}
+                </ContentSdkLink>
+              ) : (
+                <div key={item.id} className="group block">{Swatch}</div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   HowdensCTA — 3-col cards, large heading + body + green pill button per card
+   Used for "Feel inspired / FREE design service / Ready to fit" 3-up.
+   ──────────────────────────────────────────── */
+export const HowdensCTA = ({ fields, params, page }: ValuePropositionGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ValuePropositionGridDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component value-proposition-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-14 md:py-16" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-6xl">
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <SectionHeader datasource={datasource} isEditing={isEditing} />
+          )}
+          <div className="grid gap-6 md:grid-cols-3">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="flex flex-col items-center text-center p-8"
+                style={{
+                  backgroundColor: 'var(--brand-muted)',
+                  borderRadius: 'var(--brand-card-radius)',
+                }}
+              >
+                {(item.itemTitle?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={item.itemTitle?.jsonValue}
+                    tag="h3"
+                    className="text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                {(item.itemDescription?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.itemDescription?.jsonValue}
+                    className="mt-3 max-w-xs flex-1 text-sm opacity-80 font-[var(--brand-body-font,inherit)]"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                {(item.itemLink?.jsonValue?.value?.href || isEditing) && (
+                  <ContentSdkLink
+                    field={item.itemLink?.jsonValue}
+                    className="mt-6 inline-flex items-center justify-center px-7 py-3 text-sm font-bold uppercase tracking-wider transition-opacity hover:opacity-90"
+                    style={{
+                      backgroundColor: 'var(--brand-accent)',
+                      color: 'var(--brand-accent-foreground)',
+                      borderRadius: 'var(--brand-button-radius)',
+                    }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Horizontal — icon left, text right, stacked vertically
    ──────────────────────────────────────────── */
 export const Horizontal = ({ fields, params, page }: ValuePropositionGridProps): JSX.Element => {

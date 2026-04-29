@@ -278,6 +278,93 @@ export const VideoBackground = ({ fields, params, page }: HeroBannerProps): JSX.
 };
 
 /* ────────────────────────────────────────────
+   Howdens — dark slate split, oversized product image right,
+   red round 3-Year Guarantee badge top-right of image
+   ──────────────────────────────────────────── */
+export const Howdens = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-secondary)',
+          color: 'var(--brand-secondary-foreground)',
+        }}
+      >
+        <div className="mx-auto grid min-h-[70vh] max-w-7xl items-center gap-10 px-6 py-16 md:grid-cols-[1fr_1.2fr] md:py-24">
+          <div className="space-y-6">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h1"
+                className="text-4xl font-bold tracking-tight sm:text-5xl md:text-[3.5rem] md:leading-[1.05] font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Subtitle?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Subtitle}
+                className="max-w-xl text-lg opacity-85"
+              />
+            )}
+            <div className="flex flex-wrap items-center gap-4 pt-4">
+              {(fields.PrimaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="inline-flex items-center justify-center px-8 py-3 text-sm font-semibold uppercase tracking-wide transition-opacity hover:opacity-90"
+                  style={{
+                    backgroundColor: 'var(--brand-bg)',
+                    color: 'var(--brand-secondary)',
+                    borderRadius: 'var(--brand-button-radius)',
+                  }}
+                />
+              )}
+              {(fields.SecondaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.SecondaryLink}
+                  className="inline-flex items-center gap-2 text-sm font-semibold underline-offset-4 hover:underline"
+                  style={{ color: 'var(--brand-secondary-foreground)' }}
+                />
+              )}
+            </div>
+          </div>
+          <div className="relative">
+            <div
+              className="overflow-hidden"
+              style={{ borderRadius: 'var(--brand-card-radius)' }}
+            >
+              {(fields.HeroImage?.value?.src || isEditing) && (
+                <ContentSdkImage
+                  field={fields.HeroImage}
+                  className="h-full w-full object-cover aspect-[4/3]"
+                />
+              )}
+            </div>
+            {/* 3-Year Guarantee badge — Howdens signature corner mark */}
+            <div
+              className="absolute -top-4 -right-4 flex h-24 w-24 flex-col items-center justify-center text-center text-xs font-bold uppercase leading-tight md:h-28 md:w-28"
+              style={{
+                backgroundColor: 'var(--brand-primary)',
+                color: 'var(--brand-primary-foreground)',
+                borderRadius: '9999px',
+              }}
+            >
+              <span className="text-2xl md:text-3xl leading-none">3</span>
+              <span>Year</span>
+              <span>Guarantee</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Minimal — text-only, generous padding
    ──────────────────────────────────────────── */
 export const Minimal = ({ fields, params, page }: HeroBannerProps): JSX.Element => {

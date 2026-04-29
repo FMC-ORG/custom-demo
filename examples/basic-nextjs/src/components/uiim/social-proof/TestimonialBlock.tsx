@@ -271,6 +271,89 @@ export const Grid = ({ fields, params, page }: TestimonialBlockProps): JSX.Eleme
 };
 
 /* ────────────────────────────────────────────
+   HowdensTrustpilot — Trustpilot-style header (green Excellent badge + 4.5/5 stars
+   + review count) over a horizontal row of compact quote cards.
+   ──────────────────────────────────────────── */
+const TrustpilotStars = ({ count = 5 }: { count?: number }) => (
+  <div className="flex items-center gap-0.5" aria-hidden="true">
+    {Array.from({ length: count }).map((_, i) => (
+      <span
+        key={i}
+        className="flex h-5 w-5 items-center justify-center text-white text-xs font-bold"
+        style={{ backgroundColor: '#00B67A' }}
+      >
+        ★
+      </span>
+    ))}
+  </div>
+);
+
+export const HowdensTrustpilot = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TestimonialBlockDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component testimonial-block', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-12 md:py-16" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-7xl">
+          {/* Trustpilot rating header */}
+          <div className="mb-8 flex flex-wrap items-center justify-center gap-3 text-center">
+            <span
+              className="inline-flex items-center px-3 py-1.5 text-sm font-bold uppercase tracking-wide text-white"
+              style={{ backgroundColor: '#00B67A', borderRadius: '0.25rem' }}
+            >
+              Excellent
+            </span>
+            <TrustpilotStars count={5} />
+            {(datasource.sectionTitle?.jsonValue?.value || isEditing) && (
+              <Text
+                field={datasource.sectionTitle?.jsonValue}
+                tag="span"
+                className="text-sm font-semibold font-[var(--brand-body-font,inherit)]"
+                style={{ color: 'var(--brand-fg)' }}
+              />
+            )}
+          </div>
+          {/* Compact horizontal quote-card row */}
+          <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="flex min-w-[260px] max-w-[320px] shrink-0 snap-start flex-col gap-3 p-5"
+                style={{
+                  backgroundColor: 'var(--brand-muted)',
+                  borderRadius: 'var(--brand-card-radius)',
+                }}
+              >
+                <TrustpilotStars count={5} />
+                {(item.quoteText?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.quoteText?.jsonValue}
+                    className="flex-1 text-sm font-[var(--brand-body-font,inherit)]"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                {(item.authorName?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={item.authorName?.jsonValue}
+                    tag="p"
+                    className="text-xs font-semibold uppercase tracking-wider"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    WithPhoto — single quote with large author photo
    ──────────────────────────────────────────── */
 export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {

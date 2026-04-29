@@ -196,6 +196,74 @@ export const Split = ({ fields, params, page }: CTABannerProps): JSX.Element => 
 };
 
 /* ────────────────────────────────────────────
+   Howdens — full-width dark slate banner with image left + white pill CTA right.
+   Used for "New brochures out now" and "Bedroom inspiration".
+   ──────────────────────────────────────────── */
+export const Howdens = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-secondary)',
+          color: 'var(--brand-secondary-foreground)',
+        }}
+      >
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-12 md:grid-cols-[1fr_1.2fr] md:py-16">
+          <div className="overflow-hidden" style={{ borderRadius: 'var(--brand-card-radius)' }}>
+            {(fields.BackgroundImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.BackgroundImage}
+                className="h-full w-full object-cover aspect-[5/3]"
+              />
+            )}
+          </div>
+          <div className="space-y-5">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-3xl font-bold tracking-tight sm:text-4xl md:text-[2.5rem] font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="max-w-lg text-base opacity-85 font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              {(fields.PrimaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="inline-flex items-center justify-center px-7 py-3 text-sm font-bold uppercase tracking-wider transition-opacity hover:opacity-90"
+                  style={{
+                    backgroundColor: 'var(--brand-bg)',
+                    color: 'var(--brand-secondary)',
+                    borderRadius: 'var(--brand-button-radius)',
+                  }}
+                />
+              )}
+              {(fields.SecondaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.SecondaryLink}
+                  className="text-sm font-semibold underline underline-offset-4 hover:opacity-80"
+                  style={{ color: 'var(--brand-secondary-foreground)' }}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Minimal — subtle background, inline text + link
    ──────────────────────────────────────────── */
 export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element => {

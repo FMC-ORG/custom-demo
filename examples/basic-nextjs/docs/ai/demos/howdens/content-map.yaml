@@ -1,0 +1,434 @@
+# Content Map — Howdens
+# Maps extracted homepage content to Sitecore field names per the manifest schema.
+# Source language: English (UK) — no translation needed.
+# Source: user-provided desktop screenshot + WebFetch of https://www.howdens.com/
+# Phase 2.5 extractor not run (Playwright networkidle timed out on howdens.com).
+
+client:
+  name: "Howdens"
+  contentSource: "screenshot+webfetch"
+  language: "en"
+  createdAt: "2026-04-29T08:55:00Z"
+
+# Each section corresponds to a build-plan position.
+# itemId fields are populated during Phase 3 after create_content_item calls.
+datasourceItems:
+
+  - position: 2
+    componentName: "HeroBanner"
+    itemName: "Howdens - Hero Banner"
+    parentFolderId: "{79A9DFE3-D529-4ED3-8105-DCA4C0A3B25C}"
+    templateId: "{EBB89BFF-86FF-496D-B4F7-57FE722342B6}"
+    itemId: ""                # filled by Phase 3
+    fields:
+      Title: "The UK's Number 1 Built-in Cooking Appliance Brand"
+      Subtitle: "<p><strong>LAMONA</strong> &mdash; Quality without complexity. Backed by our 3-year guarantee.</p>"
+      PrimaryLink:
+        text: "Discover LAMONA"
+        href: "https://www.howdens.com/kitchens/appliances/appliance-brands/lamona"
+        target: "_self"
+      SecondaryLink:
+        text: "View all appliances"
+        href: "https://www.howdens.com/kitchens/appliances"
+        target: "_self"
+    imageFields:
+      - name: "HeroImage"
+        sourceUrl: "https://www.howdens.com/_/media/lamona-induction-hob-hero.jpg"
+        altText: "LAMONA induction hob with cooking pan, dark slate background"
+        mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/hero/lamona-induction-hob"
+    notes:
+      - "Headline split between eyebrow-style intro and bold subtitle in screenshot. Combined into Title + Rich-Text Subtitle here for HeroBanner field schema (no EyebrowText field on HeroBanner)."
+
+  - position: 3
+    componentName: "FeatureHighlight"
+    itemName: "Howdens - Book Design Appointment"
+    parentFolderId: "{0A212E28-4EDE-45DE-8A8F-E1004E8AAD25}"
+    templateId: "{73A389EE-482A-4974-B4CF-76996B15A5F3}"
+    itemId: ""
+    fields:
+      EyebrowText: ""
+      Title: "Book a FREE design appointment"
+      Description: "<ul><li>Tell us your needs and ideas</li><li>We'll measure up and create a 3D plan</li><li>Refine your design until you're happy</li></ul>"
+      PrimaryLink:
+        text: "BOOK A DESIGN APPOINTMENT"
+        href: "https://www.howdens.com/book-a-design-appointment"
+        target: "_self"
+    imageFields:
+      - name: "FeatureImage"
+        sourceUrl: "https://www.howdens.com/_/media/designer-with-customer-cooking.jpg"
+        altText: "Howdens designer planning a kitchen with customer at home"
+        mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/lifestyle/design-appointment"
+
+  - position: 4
+    componentName: "FeatureCardsGrid"
+    itemName: "Howdens - Categories"
+    parentFolderId: "{BAB76C01-9A6E-49D5-9F44-22D7EDBE13FE}"
+    templateId: "{E94D3C21-7DE5-4270-B691-8E29673A1E2C}"
+    childTemplateId: "{E2014BDC-3AF2-4ADD-A731-86E873EBF24C}"
+    itemId: ""
+    fields:
+      Title: ""
+      Description: ""
+    children:
+      - name: "Howdens - Kitchens"
+        itemId: ""
+        fields:
+          CardTitle: "Kitchens"
+          CardDescription: ""
+          CardLink: { text: "View all Kitchens", href: "https://www.howdens.com/kitchens", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/kitchens-category.jpg", altText: "Modern blue kitchen with island", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/categories/kitchens" }
+      - name: "Howdens - Bedrooms"
+        itemId: ""
+        fields:
+          CardTitle: "Bedrooms"
+          CardDescription: ""
+          CardLink: { text: "View all Bedrooms", href: "https://www.howdens.com/bedrooms", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/bedrooms-category.jpg", altText: "Fitted bedroom wardrobes in oak finish", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/categories/bedrooms" }
+      - name: "Howdens - Joinery"
+        itemId: ""
+        fields:
+          CardTitle: "Joinery"
+          CardDescription: ""
+          CardLink: { text: "View all Joinery", href: "https://www.howdens.com/joinery", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/joinery-category.jpg", altText: "Oak doors and stair joinery interior", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/categories/joinery" }
+
+  - position: 5
+    componentName: "ImageGallery"
+    itemName: "Howdens - Real Homes Gallery"
+    parentFolderId: "{98392731-3CBC-498C-888B-9669BA639B96}"
+    templateId: "{2CA92B60-D88F-428E-A222-8A601C3D99DE}"
+    itemId: ""
+    fields:
+      Caption: "Real Homes with Howdens — Ideas and inspiration for all areas of the home"
+      AltText: "Six lifestyle photos of real homes featuring Howdens kitchens and joinery"
+    imageFields:
+      - name: "GalleryImage"
+        sourceUrl: "https://www.howdens.com/_/media/real-homes-collage.jpg"
+        altText: "Six-tile collage of real Howdens kitchens, bedrooms, bathrooms, and utility rooms"
+        mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/galleries/real-homes"
+    notes:
+      - "ImageGallery is a single-image component (Gallery variant tiles via Tailwind grid). For pixel-perfect 6-tile look, the Howdens variant should use 6 sub-image references; for now the manifest schema only allows a single GalleryImage so we use a 6-tile composite."
+
+  - position: 6
+    componentName: "ValuePropositionGrid"
+    itemName: "Howdens - Kitchens by Colour"
+    parentFolderId: "{BE69F95D-9D08-4C4B-ADF3-59007B2E0BB4}"
+    templateId: "{C0E69319-CE82-4A4A-B23C-F291A306F7BE}"
+    childTemplateId: "{18975833-7FD9-4CA6-A4DC-D01CD3454D4B}"
+    itemId: ""
+    fields:
+      Title: "Explore our kitchens by colour"
+      Description: "<p>Kitchen ranges to suit a variety of budgets, in our most popular colours.</p>"
+    children:
+      - name: "Howdens - Green Kitchens"
+        itemId: ""
+        fields:
+          ItemTitle: "Green"
+          # ItemDescription doubles as the swatch hex — the Howdens variant reads it as a CSS color
+          ItemDescription: "<p>#4A5D43</p>"
+          ItemLink: { text: "View green kitchens", href: "https://www.howdens.com/kitchens/fitted-kitchens/kitchen-colours/green-kitchens", target: "_self" }
+      - name: "Howdens - Cream Kitchens"
+        itemId: ""
+        fields:
+          ItemTitle: "Cream"
+          ItemDescription: "<p>#E8DCC4</p>"
+          ItemLink: { text: "View cream kitchens", href: "https://www.howdens.com/kitchens/fitted-kitchens/kitchen-colours/cream-kitchens", target: "_self" }
+      - name: "Howdens - Blue Kitchens"
+        itemId: ""
+        fields:
+          ItemTitle: "Blue"
+          ItemDescription: "<p>#314A5A</p>"
+          ItemLink: { text: "View blue kitchens", href: "https://www.howdens.com/kitchens/fitted-kitchens/kitchen-colours/blue-kitchens", target: "_self" }
+      - name: "Howdens - Oak Kitchens"
+        itemId: ""
+        fields:
+          ItemTitle: "Oak"
+          ItemDescription: "<p>#9B7A55</p>"
+          ItemLink: { text: "View oak kitchens", href: "https://www.howdens.com/kitchens/fitted-kitchens/kitchen-colours/oak-kitchens", target: "_self" }
+      - name: "Howdens - White Kitchens"
+        itemId: ""
+        fields:
+          ItemTitle: "White"
+          ItemDescription: "<p>#F4F1EC</p>"
+          ItemLink: { text: "View white kitchens", href: "https://www.howdens.com/kitchens/fitted-kitchens/kitchen-colours/white-kitchens", target: "_self" }
+      - name: "Howdens - Grey Kitchens"
+        itemId: ""
+        fields:
+          ItemTitle: "Grey"
+          ItemDescription: "<p>#7E8189</p>"
+          ItemLink: { text: "View grey kitchens", href: "https://www.howdens.com/kitchens/fitted-kitchens/kitchen-colours/grey-kitchens", target: "_self" }
+    notes:
+      - "ItemDescription is repurposed as a hex swatch colour for the Howdens variant. Phase 5.5 variant reads <p>#XXXXXX</p> from the RichText and applies it as the swatch background."
+
+  - position: 7
+    componentName: "FeatureHighlight"
+    itemName: "Howdens - Howdens Quartz"
+    parentFolderId: "{0A212E28-4EDE-45DE-8A8F-E1004E8AAD25}"
+    templateId: "{73A389EE-482A-4974-B4CF-76996B15A5F3}"
+    itemId: ""
+    fields:
+      EyebrowText: ""
+      Title: "Howdens Quartz"
+      Description: "<p>From template to fit in 5 working days, Quartz worktops add a sophisticated touch to any kitchen. Made from natural quartz crystals and resins, they're highly durable, heat resistant, and available in various colours and designs.</p>"
+      PrimaryLink:
+        text: "Quartz Worktops"
+        href: "https://www.howdens.com/kitchens/worktops/quartz-worktops"
+        target: "_self"
+    imageFields:
+      - name: "FeatureImage"
+        sourceUrl: "https://www.howdens.com/_/media/quartz-worktop-kitchen.jpg"
+        altText: "Howdens Quartz worktop installed in a modern kitchen"
+        mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/products/quartz-worktops"
+
+  - position: 8
+    componentName: "FeatureCardsGrid"
+    itemName: "Howdens - Brand Promos"
+    parentFolderId: "{BAB76C01-9A6E-49D5-9F44-22D7EDBE13FE}"
+    templateId: "{E94D3C21-7DE5-4270-B691-8E29673A1E2C}"
+    childTemplateId: "{E2014BDC-3AF2-4ADD-A731-86E873EBF24C}"
+    itemId: ""
+    fields:
+      Title: ""
+      Description: ""
+    children:
+      - name: "Howdens - The Howdens Expo"
+        itemId: ""
+        fields:
+          CardTitle: "The Howdens Expo"
+          CardDescription: "<p>Explore our latest catalog of kitchens, bedrooms, and joinery.</p>"
+          CardLink: { text: "View Expo", href: "https://www.howdens.com/help-and-advice/inspiration/expo", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/howdens-expo.jpg", altText: "The Howdens Expo catalog cover", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/promos/howdens-expo" }
+      - name: "Howdens - Kitchen Visualiser"
+        itemId: ""
+        fields:
+          CardTitle: "Kitchen Visualiser"
+          CardDescription: "<p>Visualise your dream kitchen in 3D before you buy.</p>"
+          CardLink: { text: "Try Visualiser", href: "https://www.howdens.com/kitchens/kitchen-visualiser", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/kitchen-visualiser.jpg", altText: "Howdens 3D Kitchen Visualiser tool", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/promos/kitchen-visualiser" }
+      - name: "Howdens - Grand Designs Live"
+        itemId: ""
+        fields:
+          CardTitle: "Grand Designs Live"
+          CardDescription: "<p>Visit Howdens at Grand Designs Live, ExCeL London, 1st&ndash;4th May.</p>"
+          CardLink: { text: "Find out more", href: "https://www.howdens.com/help-and-advice/about-us/events/grand-designs-live", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/grand-designs-live.jpg", altText: "Grand Designs Live event banner", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/promos/grand-designs-live" }
+
+  - position: 9
+    componentName: "CTABanner"
+    itemName: "Howdens - New Brochures"
+    parentFolderId: "{F86BE13D-2F5E-4D7E-B2E5-EF4C9637FC4C}"
+    templateId: "{980CB544-BD26-4866-83BB-6DBEB9156558}"
+    itemId: ""
+    fields:
+      Title: "New brochures out now"
+      Description: "<p>Explore our latest kitchen, bedroom and joinery brochures.</p>"
+      PrimaryLink:
+        text: "Download the latest brochures"
+        href: "https://www.howdens.com/help-and-advice/buying-guides#brochures"
+        target: "_self"
+      SecondaryLink: { text: "", href: "" }
+    imageFields:
+      - name: "BackgroundImage"
+        sourceUrl: "https://www.howdens.com/_/media/brochure-collage.jpg"
+        altText: "Collage of Howdens brochure covers (Kitchens / Bedrooms / Joinery)"
+        mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/banners/brochures"
+
+  - position: 10
+    componentName: "FeatureCardsGrid"
+    itemName: "Howdens - Product Categories"
+    parentFolderId: "{BAB76C01-9A6E-49D5-9F44-22D7EDBE13FE}"
+    templateId: "{E94D3C21-7DE5-4270-B691-8E29673A1E2C}"
+    childTemplateId: "{E2014BDC-3AF2-4ADD-A731-86E873EBF24C}"
+    itemId: ""
+    fields:
+      Title: ""
+      Description: ""
+    children:
+      - name: "Howdens - Oak Wall Panelling"
+        itemId: ""
+        fields:
+          CardTitle: "Oak wall panelling"
+          CardDescription: ""
+          CardLink: { text: "View oak wall panelling", href: "https://www.howdens.com/joinery/wall-panelling", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/oak-wall-panelling.jpg", altText: "Oak wall panelling in a living room", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/products/oak-wall-panelling" }
+      - name: "Howdens - Oak Doors"
+        itemId: ""
+        fields:
+          CardTitle: "Oak doors"
+          CardDescription: ""
+          CardLink: { text: "View oak doors", href: "https://www.howdens.com/joinery/doors", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/oak-doors.jpg", altText: "Oak internal door", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/products/oak-doors" }
+      - name: "Howdens - Bedroom Lighting"
+        itemId: ""
+        fields:
+          CardTitle: "Bedroom lighting"
+          CardDescription: ""
+          CardLink: { text: "View bedroom lighting", href: "https://www.howdens.com/bedrooms/bedroom-lighting", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/bedroom-lighting.jpg", altText: "Bedroom with built-in lighting", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/products/bedroom-lighting" }
+      - name: "Howdens - Oak Flooring"
+        itemId: ""
+        fields:
+          CardTitle: "Oak flooring"
+          CardDescription: ""
+          CardLink: { text: "View oak flooring", href: "https://www.howdens.com/joinery/floors/flooring", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/oak-flooring.jpg", altText: "Oak flooring in a hallway", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/products/oak-flooring" }
+
+  - position: 11
+    componentName: "CTABanner"
+    itemName: "Howdens - Bedroom Inspiration"
+    parentFolderId: "{F86BE13D-2F5E-4D7E-B2E5-EF4C9637FC4C}"
+    templateId: "{980CB544-BD26-4866-83BB-6DBEB9156558}"
+    itemId: ""
+    fields:
+      Title: "Bedroom inspiration"
+      Description: "<p>From makeovers to real-home examples, explore creative ways to master a fitted bedroom design.</p>"
+      PrimaryLink:
+        text: "View bedroom inspiration"
+        href: "https://www.howdens.com/help-and-advice/inspiration/room-ideas/bedroom-inspiration"
+        target: "_self"
+      SecondaryLink: { text: "", href: "" }
+    imageFields:
+      - name: "BackgroundImage"
+        sourceUrl: "https://www.howdens.com/_/media/bedroom-inspiration.jpg"
+        altText: "Fitted bedroom with built-in wardrobes and styling"
+        mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/banners/bedroom-inspiration"
+
+  - position: 12
+    componentName: "FeatureCardsGrid"
+    itemName: "Howdens - Buying from Howdens"
+    parentFolderId: "{BAB76C01-9A6E-49D5-9F44-22D7EDBE13FE}"
+    templateId: "{E94D3C21-7DE5-4270-B691-8E29673A1E2C}"
+    childTemplateId: "{E2014BDC-3AF2-4ADD-A731-86E873EBF24C}"
+    itemId: ""
+    fields:
+      Title: "Buying from Howdens"
+      Description: "<p>With your tradesperson on board and products from local stock, start your Howdens journey, from inspiration to ordering and fitting.</p>"
+    children:
+      - name: "Howdens - Tell Us Your Needs"
+        itemId: ""
+        fields:
+          CardTitle: "Tell us your needs"
+          CardDescription: "<p>Share your ideas and let us measure up your space.</p>"
+          CardLink: { text: "Get inspired", href: "https://www.howdens.com/kitchens/kitchen-style-finder", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/tell-us-needs.jpg", altText: "Howdens designer talking with customer", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/journey/tell-us-needs" }
+      - name: "Howdens - Get a 3D Plan"
+        itemId: ""
+        fields:
+          CardTitle: "Get a 3D plan"
+          CardDescription: "<p>Our designers create a personalised 3D plan free of charge.</p>"
+          CardLink: { text: "Book your appointment", href: "https://www.howdens.com/book-a-design-appointment", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/get-3d-plan.jpg", altText: "3D kitchen plan being created on screen", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/journey/3d-plan" }
+      - name: "Howdens - Order and Fit"
+        itemId: ""
+        fields:
+          CardTitle: "Order and fit"
+          CardDescription: "<p>Pick up from your local depot, ready for your tradesperson to fit.</p>"
+          CardLink: { text: "Find a depot", href: "https://www.howdens.com/find-a-depot", target: "_self" }
+        imageFields:
+          - { name: "CardImage", sourceUrl: "https://www.howdens.com/_/media/order-and-fit.jpg", altText: "Howdens depot pickup with tradesperson", mediaLibraryPath: "/sitecore/media library/Project/main/main-website/howdens/journey/order-and-fit" }
+
+  - position: 13
+    componentName: "ValuePropositionGrid"
+    itemName: "Howdens - Three CTAs"
+    parentFolderId: "{BE69F95D-9D08-4C4B-ADF3-59007B2E0BB4}"
+    templateId: "{C0E69319-CE82-4A4A-B23C-F291A306F7BE}"
+    childTemplateId: "{18975833-7FD9-4CA6-A4DC-D01CD3454D4B}"
+    itemId: ""
+    fields:
+      Title: ""
+      Description: ""
+    children:
+      - name: "Howdens - Feel Inspired"
+        itemId: ""
+        fields:
+          ItemTitle: "Feel inspired"
+          ItemDescription: "<p>Find styles, colours and layouts that match your taste.</p>"
+          ItemLink: { text: "KITCHEN STYLE FINDER", href: "https://www.howdens.com/kitchens/kitchen-style-finder", target: "_self" }
+      - name: "Howdens - Free Design Service"
+        itemId: ""
+        fields:
+          ItemTitle: "FREE design service"
+          ItemDescription: "<p>Get a personalised 3D plan from our trained designers.</p>"
+          ItemLink: { text: "BOOK A DESIGN APPOINTMENT", href: "https://www.howdens.com/book-a-design-appointment", target: "_self" }
+      - name: "Howdens - Ready to Fit"
+        itemId: ""
+        fields:
+          ItemTitle: "Ready to fit"
+          ItemDescription: "<p>Pick up your kitchen from a local depot, ready for your tradesperson.</p>"
+          ItemLink: { text: "FIND A DEPOT", href: "https://www.howdens.com/find-a-depot", target: "_self" }
+
+  - position: 14
+    componentName: "TestimonialBlock"
+    itemName: "Howdens - Trustpilot Reviews"
+    parentFolderId: "{E5004E14-EA49-43B7-A093-006648A14A60}"
+    templateId: "{BBF97517-1FE5-405B-AAE7-5309BE26249A}"
+    childTemplateId: "{29792B9C-9B29-4D8F-BF71-02084EE8102A}"
+    itemId: ""
+    fields:
+      SectionTitle: "Excellent — 4.5 / 5 based on 79,394 reviews"
+    children:
+      - name: "Howdens - Review Juliet Graham"
+        itemId: ""
+        fields:
+          QuoteText: "<p>Friendly knowledgeable staff and good quality kitchen products delivered on time.</p>"
+          AuthorName: "Juliet Graham"
+          AuthorRole: ""
+          CompanyName: "Trustpilot review"
+      - name: "Howdens - Review Mark H"
+        itemId: ""
+        fields:
+          QuoteText: "<p>Reopened trade account was seamless and team very helpful.</p>"
+          AuthorName: "Mark H"
+          AuthorRole: ""
+          CompanyName: "Trustpilot review"
+      - name: "Howdens - Review Sam Law"
+        itemId: ""
+        fields:
+          QuoteText: "<p>The guys at the Anniesland branch are so helpful, great to deal with.</p>"
+          AuthorName: "Sam Law"
+          AuthorRole: ""
+          CompanyName: "Trustpilot review"
+      - name: "Howdens - Review Paul Customer"
+        itemId: ""
+        fields:
+          QuoteText: "<p>Paul couldn't have been more knowledgeable and helpful. A tremendous asset for the business. Quality and price were great.</p>"
+          AuthorName: "Trade customer"
+          AuthorRole: ""
+          CompanyName: "Trustpilot review"
+      - name: "Howdens - Review Jb"
+        itemId: ""
+        fields:
+          QuoteText: "<p>Redesigned space to make it more functional. Lynne also changed the plan when we added on extras.</p>"
+          AuthorName: "Jb"
+          AuthorRole: ""
+          CompanyName: "Trustpilot review"
+      - name: "Howdens - Review Rahman Famuditimi"
+        itemId: ""
+        fields:
+          QuoteText: "<p>I have been a Trade customer for almost a decade. I have never been let down one day! High level of customer service across all the shops I had the privilege of visiting.</p>"
+          AuthorName: "Rahman Famuditimi"
+          AuthorRole: ""
+          CompanyName: "Trustpilot review"
+
+# Context-only components — no datasource (manual placement only)
+manualOnlyComponents:
+  - componentName: "NavigationHeader"
+    notes:
+      - "Datasource set to /sitecore/content/main/main-website/Home for nav root."
+      - "Variant: Howdens (Phase 5.5)"
+  - componentName: "SiteFooter"
+    notes:
+      - "No datasource."
+      - "Variant: Howdens (Phase 5.5)"

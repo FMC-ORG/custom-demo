@@ -217,6 +217,139 @@ export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.
 };
 
 /* ────────────────────────────────────────────
+   Howdens — white split, image left, bullet RichText + green pill CTA right
+   Used for "Book a FREE design appointment" section.
+   ──────────────────────────────────────────── */
+export const Howdens = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-14 md:py-20"
+        style={{ backgroundColor: 'var(--brand-bg)' }}
+      >
+        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-[1.1fr_1fr] md:px-6">
+          <div className="overflow-hidden" style={{ borderRadius: 'var(--brand-card-radius)' }}>
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.FeatureImage}
+                className="h-full w-full object-cover aspect-[4/3]"
+              />
+            )}
+          </div>
+          <div className="space-y-4">
+            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-3xl font-bold tracking-tight sm:text-4xl md:text-[2.5rem] font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-fg)' }}
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="howdens-rt text-base font-[var(--brand-body-font,inherit)] [&_ul]:mt-2 [&_ul]:space-y-2 [&_li]:relative [&_li]:pl-6 [&_li]:list-none [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-2 [&_li]:before:h-2 [&_li]:before:w-2 [&_li]:before:rounded-full"
+                style={{ color: 'var(--brand-fg)' }}
+              />
+            )}
+            <style>{`.howdens-rt li::before { background-color: var(--brand-accent); }`}</style>
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="mt-4 inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-wider transition-opacity hover:opacity-90"
+                style={{
+                  backgroundColor: 'var(--brand-accent)',
+                  color: 'var(--brand-accent-foreground)',
+                  borderRadius: 'var(--brand-button-radius)',
+                }}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   HowdensQuartz — full-width dark slate band, image/video left,
+   light-grey body text + white pill CTA right
+   Used for "Howdens Quartz" worktops section.
+   ──────────────────────────────────────────── */
+export const HowdensQuartz = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-secondary)',
+          color: 'var(--brand-secondary-foreground)',
+        }}
+      >
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
+          <div className="relative overflow-hidden" style={{ borderRadius: 'var(--brand-card-radius)' }}>
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.FeatureImage}
+                className="h-full w-full object-cover aspect-[4/3]"
+              />
+            )}
+            <div className="absolute inset-0 flex items-center justify-center bg-black/15">
+              <div
+                className="flex h-16 w-16 items-center justify-center opacity-90"
+                style={{
+                  backgroundColor: 'var(--brand-primary)',
+                  borderRadius: '9999px',
+                }}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--brand-primary-foreground)">
+                  <polygon points="6,3 20,12 6,21" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-5">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-3xl font-bold tracking-tight sm:text-4xl md:text-[2.75rem] font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="text-base opacity-85 font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="mt-2 inline-flex items-center gap-2 px-7 py-3 text-sm font-semibold uppercase tracking-wide transition-opacity hover:opacity-90"
+                style={{
+                  backgroundColor: 'var(--brand-bg)',
+                  color: 'var(--brand-secondary)',
+                  borderRadius: 'var(--brand-button-radius)',
+                }}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    IconLeft — small image left, text right
    ──────────────────────────────────────────── */
 export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {

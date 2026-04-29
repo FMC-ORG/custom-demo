@@ -178,6 +178,108 @@ export const Minimal = (props: SiteFooterProps): JSX.Element => {
 };
 
 /* ────────────────────────────────────────────
+   Howdens — dark navy 4-column footer with crown logo, copyright row,
+   and a small social-icon row above the columns.
+   ──────────────────────────────────────────── */
+const HOWDENS_FOOTER_COLUMNS = [
+  {
+    title: 'Social media',
+    links: ['Facebook', 'Instagram', 'YouTube', 'LinkedIn', 'TikTok'],
+  },
+  {
+    title: 'Help',
+    links: ['Contact us', 'Find a depot', 'Brochures', 'FAQs', 'Trade account'],
+  },
+  {
+    title: 'About Howdens',
+    links: ['Our story', 'Sustainability', 'Careers', 'News', 'Investor relations'],
+  },
+  {
+    title: 'More from us',
+    links: ['Howdens Live', 'Howdens Insider', 'Trade benefits', 'Kitchen Visualiser'],
+  },
+];
+
+const HowdensCrown = () => (
+  <svg
+    width="36"
+    height="28"
+    viewBox="0 0 36 28"
+    fill="none"
+    aria-hidden="true"
+    style={{ color: 'var(--brand-footer-fg)' }}
+  >
+    <path
+      d="M3 22 L8 6 L13 16 L18 4 L23 16 L28 6 L33 22 Z"
+      fill="currentColor"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const Howdens = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const { styles, RenderingIdentifier } = params;
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-footer-bg)',
+          color: 'var(--brand-footer-fg)',
+        }}
+      >
+        <div className="mx-auto max-w-7xl px-6 py-14 md:py-16">
+          <div className="grid gap-10 md:grid-cols-4">
+            {HOWDENS_FOOTER_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <h3
+                  className="mb-4 text-xs font-bold uppercase tracking-wider font-[var(--brand-heading-font,inherit)]"
+                  style={{ color: 'var(--brand-footer-fg)' }}
+                >
+                  {col.title}
+                </h3>
+                <ul className="space-y-2.5">
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <a
+                        href="#"
+                        className="text-sm opacity-70 transition-opacity hover:opacity-100 font-[var(--brand-body-font,inherit)]"
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div
+            className="mt-12 flex flex-col items-center gap-4 border-t pt-8 md:flex-row md:justify-between"
+            style={{ borderColor: 'rgba(255,255,255,0.1)' }}
+          >
+            <div className="flex items-center gap-3">
+              <HowdensCrown />
+              <span className="text-sm font-semibold tracking-wide font-[var(--brand-heading-font,inherit)]">
+                Howden Joinery Ltd
+              </span>
+            </div>
+            <p className="text-xs opacity-60 font-[var(--brand-body-font,inherit)]">
+              &copy; {new Date().getFullYear()} Howden Joinery Ltd. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    MegaFooter — expanded with newsletter
    ──────────────────────────────────────────── */
 export const MegaFooter = (props: SiteFooterProps): JSX.Element => {

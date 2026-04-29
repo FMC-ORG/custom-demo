@@ -1,0 +1,148 @@
+# Howdens Variant Specs — Phase 5.5
+# Per-section visual analysis and Tailwind-class plan for the custom Howdens
+# named export in each component's TSX file.
+
+variantSpecs:
+
+  - position: 1
+    componentName: "NavigationHeader"
+    variantName: "Howdens"
+    baseVariant: "Default"
+    visualDifferences:
+      layout: "white solid bar, red Howdens rooster on left, nav links centered, search + account + depots + green pill BOOK button right"
+      spacing: "py-3, max-w-7xl, gap-6"
+      typography: "small uppercase nav labels in dark slate"
+      buttons: "BOOK is bright green pill (--brand-accent), uppercase, bold"
+      distinctive: "red logo + green CTA contrast"
+
+  - position: 2
+    componentName: "HeroBanner"
+    variantName: "Howdens"
+    baseVariant: "SplitImageText"
+    visualDifferences:
+      layout: "dark slate left text, oversized product photo right, red round 3-year-guarantee badge top-right of image"
+      spacing: "py-20, gap-10"
+      typography: "Title is uppercase eyebrow + bold display heading; Subtitle uses 'LAMONA' large bold + neutral subtitle"
+      background: "dark slate (--brand-secondary)"
+      buttons: "primary is white pill (--brand-bg / --brand-secondary), secondary is white text link with arrow"
+      distinctive: "red round 3-year guarantee badge overlapping top-right corner of image"
+
+  - position: 3
+    componentName: "FeatureHighlight"
+    variantName: "Howdens"
+    baseVariant: "Default"
+    visualDifferences:
+      layout: "white split: image left (60%), text+bullets+CTA right (40%)"
+      spacing: "py-14, gap-12, large left image padding"
+      typography: "Title is bold display, RichText body renders <ul> bullets in --brand-fg"
+      background: "white (--brand-bg)"
+      buttons: "primary is bright green pill (--brand-accent), uppercase bold, larger px-8 py-4"
+      distinctive: "bullet list inside RichText renders with custom list-disc marker in brand-accent"
+
+  - position: 4
+    componentName: "FeatureCardsGrid"
+    variantName: "Howdens"
+    baseVariant: "WithImages"
+    visualDifferences:
+      layout: "3-col cards, photo fills card, white rounded-pill label centered near bottom of each photo"
+      spacing: "py-12, gap-6, aspect-[4/5] cards"
+      typography: "CardTitle is uppercase bold inside white pill"
+      background: "default --brand-bg"
+      buttons: "white pill label IS the entry CTA — wraps the entire card with the CardLink"
+      distinctive: "absolute-positioned white pill bottom-center, mid-card hover scale-105"
+
+  - position: 7
+    componentName: "FeatureHighlight"
+    variantName: "HowdensQuartz"
+    baseVariant: "WithVideo"
+    visualDifferences:
+      layout: "full-width dark slate band, video/image left (50%), light-grey body + white pill CTA right (50%)"
+      spacing: "py-16, gap-10"
+      typography: "Title is bold white display, RichText body in light-grey (--brand-footer-fg)"
+      background: "dark slate (--brand-secondary)"
+      buttons: "primary is white pill, dark text"
+      distinctive: "play-button overlay on video/image"
+
+  - position: 8
+    componentName: "FeatureCardsGrid"
+    variantName: "HowdensJourney"   # reused later for "Buying from Howdens" section 12
+    baseVariant: "Default"
+    visualDifferences:
+      layout: "3-col cards on muted bg, large circular image at top centered, then headline + body + link beneath"
+      spacing: "py-16, gap-8, circular image w-32 h-32"
+      typography: "CardTitle bold center, CardDescription neutral, CardLink underline accent"
+      background: "muted (--brand-muted)"
+      buttons: "CardLink as inline text link, no button"
+      distinctive: "circular images centered above text in each card"
+
+  - position: 9
+    componentName: "CTABanner"
+    variantName: "Howdens"
+    baseVariant: "WithImage"
+    visualDifferences:
+      layout: "full-width dark slate band, BackgroundImage on left (40%), Title + CTA stacked right (60%)"
+      spacing: "py-12, gap-10"
+      typography: "Title bold display, white"
+      background: "dark slate (--brand-secondary)"
+      buttons: "primary is white pill, dark text"
+      distinctive: "left-side photo with rounded-l-card-radius, right-side text with green pill CTA"
+
+  - position: 10
+    componentName: "FeatureCardsGrid"
+    variantName: "HowdensCompact"
+    baseVariant: "WithImages"
+    visualDifferences:
+      layout: "4-col compact image tiles, each a square photo with bottom-overlay 'View ...' link"
+      spacing: "py-8, gap-3, aspect-square cards"
+      typography: "small CardTitle in white inside the link overlay"
+      background: "default --brand-bg"
+      buttons: "no button; entire card clickable; bottom overlay strip with View label"
+      distinctive: "dark gradient overlay at bottom of card containing label"
+
+  - position: 6
+    componentName: "ValuePropositionGrid"
+    variantName: "Howdens"
+    baseVariant: "Default"
+    visualDifferences:
+      layout: "centered title + subtitle, then 6 round colour swatches in a 6-col row, label below each swatch"
+      spacing: "py-14, gap-8"
+      typography: "Title bold center, swatch labels in body-fg below"
+      background: "default --brand-bg"
+      buttons: "no per-swatch buttons; one global 'VIEW ALL KITCHEN COLOURS' pill below row"
+      distinctive: "round w-24 h-24 swatch circles with hex colour read from ItemDescription RichText"
+
+  - position: 13
+    componentName: "ValuePropositionGrid"
+    variantName: "HowdensCTA"
+    baseVariant: "Default"
+    visualDifferences:
+      layout: "3-col cards on muted bg with large heading + body + bright green pill button per card"
+      spacing: "py-12, gap-6"
+      typography: "ItemTitle bold, ItemDescription muted, button uppercase"
+      background: "default --brand-bg"
+      buttons: "all three children render as bright green pill CTAs"
+      distinctive: "no icons, equal-height card stacks"
+
+  - position: 14
+    componentName: "TestimonialBlock"
+    variantName: "HowdensTrustpilot"
+    baseVariant: "Carousel"
+    visualDifferences:
+      layout: "header row with green Excellent badge + 4.5/5 stars + review count, then horizontal scroll/grid of compact quote cards each with green stars + snippet + author"
+      spacing: "py-12, gap-4"
+      typography: "snippet text small, author name bold small caps"
+      background: "default --brand-bg"
+      buttons: "none"
+      distinctive: "Trustpilot green (#00B67A) inline for the rating bar — does NOT use --brand-primary because Trustpilot is a third-party brand element"
+
+  - position: 15
+    componentName: "SiteFooter"
+    variantName: "Howdens"
+    baseVariant: "MegaFooter"
+    visualDifferences:
+      layout: "dark navy 4-column layout (Social media / Help / About Howdens / More from us), crown logo centered above copyright row"
+      spacing: "py-14, gap-10"
+      typography: "column headings small caps + bold, links in light-grey"
+      background: "dark navy (--brand-footer-bg)"
+      buttons: "social icon row + region selector"
+      distinctive: "small crown logo centered above '© Copyright 2026 Howden Joinery Ltd' line"

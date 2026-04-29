@@ -1,0 +1,85 @@
+# Demo Progress Tracker — Howdens
+client:
+  name: "Howdens"
+  sourceUrl: "https://www.howdens.com/"
+  startedAt: "2026-04-29T08:53:00Z"
+  lastUpdatedAt: "2026-04-29T11:15:00Z"
+  finishedAt: "2026-04-29T11:15:00Z"
+
+phases:
+  phase0_inputs:
+    status: "complete"
+    screenshot: true
+    url: "https://www.howdens.com/"
+
+  phase0_5_manifest:
+    status: "complete"
+    validationMode: "quick"
+    result: "pass"
+
+  phase1_theme:
+    status: "complete"
+    themeFile: "docs/ai/themes/howdens.theme.yaml"
+    userApproved: false
+
+  phase2_analysis:
+    status: "complete"
+    buildPlanFile: "docs/ai/demos/howdens/build-plan.yaml"
+    totalSections: 15
+    userApproved: false
+
+  phase2_5_content:
+    status: "complete"
+    contentMapFile: "docs/ai/demos/howdens/content-map.yaml"
+    extractorUsed: false        # extractor failed (networkidle timeout); used screenshot+webfetch fallback
+
+  phase3_content:
+    status: "complete"
+    completedSections: 13
+    totalSections: 13
+
+  phase4_theme:
+    status: "complete"
+    cssFileWritten: true
+    fontsAdded: true
+
+  phase5_custom:
+    status: "skipped"
+    customComponentsNeeded: 0
+    customComponentsBuilt: 0
+    skippedReason: "All Howdens sections fit existing 18 templates"
+
+  phase5_5_variants:
+    status: "complete"
+    variantsNeeded: 12
+    variantsCreated: 12
+    variantSpecsFile: "docs/ai/demos/howdens/variant-specs.yaml"
+    variantDefinitionItems:
+      - { component: "NavigationHeader", variant: "Howdens", itemId: "{8C5E014A-420C-4380-ADF7-F7A543EB4989}" }
+      - { component: "HeroBanner", variant: "Howdens", itemId: "{BDAC170B-CDE4-4A57-91D5-3BC134A3C386}" }
+      - { component: "FeatureHighlight", variant: "Howdens", itemId: "{5B08A2B9-794E-40F4-BEA3-1CDA19760388}" }
+      - { component: "FeatureHighlight", variant: "HowdensQuartz", itemId: "{D7335B84-7550-4017-A742-B9655FD6973A}" }
+      - { component: "FeatureCardsGrid", variant: "Howdens", itemId: "{24FC77BC-E347-49B9-97F6-E27A6793DFE6}" }
+      - { component: "FeatureCardsGrid", variant: "HowdensCompact", itemId: "{83745481-598A-424B-BF84-0BCBAB4A30A7}" }
+      - { component: "FeatureCardsGrid", variant: "HowdensJourney", itemId: "{ADFD2B69-DBC2-4463-B9DD-B488507B6DC6}" }
+      - { component: "ValuePropositionGrid", variant: "Howdens", itemId: "{530F92AD-4BD2-4277-B137-F1564532EFEF}" }
+      - { component: "ValuePropositionGrid", variant: "HowdensCTA", itemId: "{2DCD6F4B-E20E-4D6E-84D0-DC3FC08B5A7E}" }
+      - { component: "CTABanner", variant: "Howdens", itemId: "{AEB3C3CB-C429-4ECB-9A23-E7855349153F}" }
+      - { component: "TestimonialBlock", variant: "HowdensTrustpilot", itemId: "{409BD6DC-90E1-4B62-AB8B-1769C6BDAA6D}" }
+      - { component: "SiteFooter", variant: "Howdens", itemId: "{B001FC97-555C-406A-8121-CDBE445DD6CF}" }
+
+  phase6_assembly:
+    status: "complete"
+    componentsAdded: 13
+    datasourcesWired: 13
+    totalComponents: 13
+    homePageId: "{E2124310-F817-4644-8671-BFF8E72B66D7}"
+    placeholder: "headless-main"
+    pageAssemblyLog: "docs/ai/demos/howdens/page-assembly.md"
+    variantChecklist: "docs/ai/demos/howdens/variant-checklist.md"
+
+  phase7_summary:
+    status: "complete"
+    manualTasksFile: "docs/ai/demos/howdens/manual-tasks.md"
+
+sections: []

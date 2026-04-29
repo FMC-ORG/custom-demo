@@ -1,6 +1,6 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-03-25T22:00:00Z"
-lastUpdatedBy: "claude-code"
+lastUpdatedAt: "2026-04-29T11:15:00Z"
+lastUpdatedBy: "claude-code (Howdens demo build)"
 
 project:
   siteCollection: "main"
@@ -184,6 +184,7 @@ components:
         - { name: "Default", itemId: "{150B9AFE-2B9F-48AD-8F01-036666057814}" }
         - { name: "Transparent", itemId: "{A46EFC9D-7CF0-4C92-9577-1D94FD1D9782}" }
         - { name: "Minimal", itemId: "{608E0EC7-E2C6-4093-A1A1-3962FF17885A}" }
+        - { name: "Howdens", itemId: "{8C5E014A-420C-4380-ADF7-F7A543EB4989}" }
 
     verification:
       checkedAt: "2026-03-25T12:30:00Z"
@@ -292,6 +293,7 @@ components:
         - { name: "BackgroundImage", itemId: "{948210B2-B8AF-47C1-A04F-E220071C0A63}" }
         - { name: "VideoBackground", itemId: "{96586509-EBD7-4642-A127-0C65AEE1BD99}" }
         - { name: "Minimal", itemId: "{FA46BF9A-3783-4615-B4E6-5F5B33A78B48}" }
+        - { name: "Howdens", itemId: "{BDAC170B-CDE4-4A57-91D5-3BC134A3C386}" }
 
     verification:
       checkedAt: "2026-03-25T13:30:00Z"
@@ -769,6 +771,8 @@ components:
         - { name: "TwoColumn", itemId: "{3935D1DD-DC84-4A01-B271-BEF9475C5AE1}" }
         - { name: "FourColumn", itemId: "{5F5B90A2-F88D-4415-B8B1-D9DCDE1A6B5C}" }
         - { name: "Horizontal", itemId: "{EF716EAC-BEBF-484A-8826-D2051F549F2F}" }
+        - { name: "Howdens", itemId: "{530F92AD-4BD2-4277-B137-F1564532EFEF}" }
+        - { name: "HowdensCTA", itemId: "{2DCD6F4B-E20E-4D6E-84D0-DC3FC08B5A7E}" }
 
     verification:
       checkedAt: "2026-03-25T16:30:00Z"
@@ -1010,6 +1014,7 @@ components:
         - { name: "Carousel", itemId: "{0F34A807-A42C-4E7D-BD54-EF222EB2D952}" }
         - { name: "Grid", itemId: "{508FF66A-D30F-4C2D-B82F-2009E0B6E207}" }
         - { name: "WithPhoto", itemId: "{9C2EFAD0-6E36-415A-AFC5-EDCD1DA4A805}" }
+        - { name: "HowdensTrustpilot", itemId: "{409BD6DC-90E1-4B62-AB8B-1769C6BDAA6D}" }
 
     verification:
       checkedAt: "2026-03-25T17:30:00Z"
@@ -1110,6 +1115,7 @@ components:
         - { name: "WithImage", itemId: "{2DC4E1E9-79A0-48C7-A6D9-AC7DD8AFAAA0}" }
         - { name: "Split", itemId: "{9DBA839A-E0F8-47D2-AA8E-29EDA7CC68E6}" }
         - { name: "Minimal", itemId: "{E63EE25F-C889-4FE1-81B7-4611CF5969BE}" }
+        - { name: "Howdens", itemId: "{AEB3C3CB-C429-4ECB-9A23-E7855349153F}" }
 
     verification:
       checkedAt: "2026-03-25T18:00:00Z"
@@ -1227,6 +1233,9 @@ components:
         - { name: "Default", itemId: "{495EF058-D306-4328-ABE4-261E7CFE8E9E}" }
         - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
         - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
+        - { name: "Howdens", itemId: "{24FC77BC-E347-49B9-97F6-E27A6793DFE6}" }
+        - { name: "HowdensCompact", itemId: "{83745481-598A-424B-BF84-0BCBAB4A30A7}" }
+        - { name: "HowdensJourney", itemId: "{ADFD2B69-DBC2-4463-B9DD-B488507B6DC6}" }
 
     verification:
       checkedAt: "2026-03-25T18:30:00Z"
@@ -1506,6 +1515,7 @@ components:
         - { name: "Default", itemId: "{143CFE84-1E77-4961-975C-38564DC43DB9}" }
         - { name: "Minimal", itemId: "{AF87D61B-F6A8-4036-9BF8-FDB586268D24}" }
         - { name: "MegaFooter", itemId: "{DA131066-F9A2-47F0-A099-F614E61817AA}" }
+        - { name: "Howdens", itemId: "{B001FC97-555C-406A-8121-CDBE445DD6CF}" }
 
     verification:
       checkedAt: "2026-03-25T20:00:00Z"
@@ -1907,6 +1917,8 @@ components:
         - { name: "Centered", itemId: "{3C33C16D-F0D3-4FBF-8D78-CE70CEA0868B}" }
         - { name: "WithVideo", itemId: "{E58A4CB1-BFB4-4FDF-B48D-6254708B05CA}" }
         - { name: "IconLeft", itemId: "{E39E52FE-885D-433B-A2D3-B20F66E8F767}" }
+        - { name: "Howdens", itemId: "{5B08A2B9-794E-40F4-BEA3-1CDA19760388}" }
+        - { name: "HowdensQuartz", itemId: "{D7335B84-7550-4017-A742-B9655FD6973A}" }
 
     verification:
       checkedAt: "2026-03-25T22:00:00Z"

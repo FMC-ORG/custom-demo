@@ -410,19 +410,27 @@ For list components, also track:
 
 The theme was extracted in Phase 1. All 18 template components consume `--brand-*` CSS variables (see `docs/ai/reference/brand-variables.md` for the full contract).
 
-**Write `src/app/globals-brand.css`:**
+**Where to write the `:root` overrides (choose one that actually applies in the browser):**
 
 1. Read the theme YAML's `cssVariables` block (produced in Phase 1)
-2. Write a `:root` block to `src/app/globals-brand.css` with all `--brand-*` overrides:
+2. Generate a **plain (unlayered)** `:root { ... }` block with all `--brand-*` overrides — same shape as today:
    ```css
    :root {
      --brand-primary: #00827f;
      --brand-primary-foreground: #ffffff;
      --brand-heading-font: 'Poppins', sans-serif;
-     /* ... all 19 variables from the theme */
+     /* ... all variables from the theme */
    }
    ```
-3. The import is already in place (`globals.css` imports `globals-brand.css`) — no additional wiring needed
+
+**Delivery options (in order):**
+
+| Approach | When to use |
+|----------|-------------|
+| **`src/app/globals-brand.css` + `@import` in `globals.css`** | Prefer when `@import './globals-brand.css'` appears in the built CSS and DevTools shows your `--brand-*` values winning over `@layer base`. |
+| **Inline the same `:root` block at the top of `src/app/globals.css`** | Use when the App Router / Tailwind pipeline **drops or ignores** the separate-file import so client tokens never override `@layer base` defaults. Place the block **after** the three `@tailwind` lines and **before** any `@layer` rules, and add a short comment that this is intentional so the cascade beats layered `:root`. |
+
+3. Record which delivery was used in `demo-progress.yaml` under `phases.phase4_theme.themeDelivery`: `"globals-brand-import"` or `"globals-inlined"`.
 
 **Google Fonts (if applicable):**
 
@@ -432,7 +440,7 @@ The theme was extracted in Phase 1. All 18 template components consume `--brand-
    ```
 
 **Present the theme diff to the user before proceeding:**
-- Show the `globals-brand.css` content
+- Show the `:root` block (whether in `globals-brand.css` or the top of `globals.css`)
 - Show the Google Fonts link (if any)
 - Note any font substitutions (proprietary -> Google Fonts alternative)
 - Ask: "Does this look correct? Ready to apply?"

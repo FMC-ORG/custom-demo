@@ -4,7 +4,7 @@
 
 | File | Change |
 |------|--------|
-| [src/app/globals-brand.css](../../../../src/app/globals-brand.css) | Replaced commented placeholder with Howdens `:root` brand overrides (21 CSS variables) |
+| [src/app/globals.css](../../../../src/app/globals.css) | Howdens `:root` brand overrides inlined at top (after `@tailwind`, before `@layer`) — App Router was not applying a separate `@import './globals-brand.css'` reliably |
 | [src/app/layout.tsx](../../../../src/app/layout.tsx) | Added Google Fonts `<link>` for Poppins (500/700/900) and Inter (400/500/600) + preconnect tags |
 
 ## Brand variables applied

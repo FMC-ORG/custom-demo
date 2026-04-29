@@ -44,6 +44,7 @@ phases:
   phase4_theme:
     status: "pending"       # pending | complete
     cssFileWritten: false
+    themeDelivery: ""       # globals-brand-import | globals-inlined (see sitecore-build-demo Phase 4 — App Router may drop @import)
     fontsAdded: false
 
   phase5_custom:

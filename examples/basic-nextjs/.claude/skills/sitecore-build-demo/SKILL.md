@@ -11,7 +11,7 @@ This skill orchestrates the full demo creation pipeline:
 2. Homepage analysis (uses `site-analyzer` agent from `docs/ai/agents/site-analyzer.md`)
 2.5. Content extraction + mapping (Playwright extractor script + `content-scraper` agent → content-map.yaml)
 3. Content population (creates new client datasource items via MCP from content-map.yaml)
-4. Theme application (generates CSS variable overrides)
+4. Theme application (writes `--brand-*` overrides — `globals-brand.css` + import when reliable, else unlayered `:root` at top of `globals.css` if App Router drops the import)
 5. Custom component building (if needed — must exist before page assembly)
 6. Page assembly (adds ALL components to page via MCP + generates variant checklist for SE)
 7. Summary (what was done + manual tasks including variant selection)

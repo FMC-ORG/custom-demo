@@ -217,8 +217,10 @@ export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.
 };
 
 /* ────────────────────────────────────────────
-   Howdens — white split, image left, bullet RichText + green pill CTA right
-   Used for "Book a FREE design appointment" section.
+   Howdens — dark slate split, image left, checkmark RichText + white pill CTA right.
+   Matches the howdens.com "Book a FREE design appointment" section.
+   - Bullets render as ✓ check icons (CSS ::before with SVG-shaped marker)
+   - CTA is a white pill with dark text
    ──────────────────────────────────────────── */
 export const Howdens = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
@@ -229,9 +231,12 @@ export const Howdens = ({ fields, params, page }: FeatureHighlightProps): JSX.El
     <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
       <section
         className="w-full px-4 py-14 md:py-20"
-        style={{ backgroundColor: 'var(--brand-bg)' }}
+        style={{
+          backgroundColor: 'var(--brand-secondary)',
+          color: 'var(--brand-secondary-foreground)',
+        }}
       >
-        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-[1.1fr_1fr] md:px-6">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:px-6">
           <div className="overflow-hidden" style={{ borderRadius: 'var(--brand-card-radius)' }}>
             {(fields.FeatureImage?.value?.src || isEditing) && (
               <ContentSdkImage
@@ -240,31 +245,43 @@ export const Howdens = ({ fields, params, page }: FeatureHighlightProps): JSX.El
               />
             )}
           </div>
-          <div className="space-y-4">
+          <div className="space-y-5">
             <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
             {(fields.Title?.value || isEditing) && (
               <Text
                 field={fields.Title}
                 tag="h2"
                 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-[2.5rem] font-[var(--brand-heading-font,inherit)]"
-                style={{ color: 'var(--brand-fg)' }}
+                style={{ color: 'var(--brand-secondary-foreground)' }}
               />
             )}
             {(fields.Description?.value || isEditing) && (
               <ContentSdkRichText
                 field={fields.Description}
-                className="howdens-rt text-base font-[var(--brand-body-font,inherit)] [&_ul]:mt-2 [&_ul]:space-y-2 [&_li]:relative [&_li]:pl-6 [&_li]:list-none [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-2 [&_li]:before:h-2 [&_li]:before:w-2 [&_li]:before:rounded-full"
-                style={{ color: 'var(--brand-fg)' }}
+                className="howdens-fh-rt text-base font-[var(--brand-body-font,inherit)] [&_ul]:mt-2 [&_ul]:space-y-3 [&_li]:relative [&_li]:pl-8 [&_li]:list-none"
+                style={{ color: 'var(--brand-secondary-foreground)', opacity: 0.92 }}
               />
             )}
-            <style>{`.howdens-rt li::before { background-color: var(--brand-accent); }`}</style>
+            <style>{`
+              .howdens-fh-rt li::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0.35rem;
+                width: 1.1rem;
+                height: 1.1rem;
+                background-color: var(--brand-secondary-foreground);
+                -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M9 12l2 2 4-4'/></svg>") center / contain no-repeat;
+                        mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M9 12l2 2 4-4'/></svg>") center / contain no-repeat;
+              }
+            `}</style>
             {(fields.PrimaryLink?.value?.href || isEditing) && (
               <ContentSdkLink
                 field={fields.PrimaryLink}
                 className="mt-4 inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-wider transition-opacity hover:opacity-90"
                 style={{
-                  backgroundColor: 'var(--brand-accent)',
-                  color: 'var(--brand-accent-foreground)',
+                  backgroundColor: 'var(--brand-secondary-foreground)',
+                  color: 'var(--brand-secondary)',
                   borderRadius: 'var(--brand-button-radius)',
                 }}
               />

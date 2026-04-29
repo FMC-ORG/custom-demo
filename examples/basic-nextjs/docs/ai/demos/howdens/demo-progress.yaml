@@ -41,6 +41,7 @@ phases:
   phase4_theme:
     status: "complete"
     cssFileWritten: true
+    themeDelivery: "globals-inlined"
     fontsAdded: true
 
   phase5_custom:

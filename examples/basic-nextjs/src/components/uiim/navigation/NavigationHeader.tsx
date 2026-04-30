@@ -268,3 +268,103 @@ export const Minimal = (props: NavigationHeaderProps): JSX.Element => {
     </div>
   );
 };
+
+/** Howdens-style masthead: utility strip, wordmark, centred nav, search affordance, green estimate CTA */
+export const HowdensMasthead = (props: NavigationHeaderProps): JSX.Element => {
+  const { params, fields } = props;
+  const { styles, RenderingIdentifier } = params;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const items = getNavItems(fields);
+
+  if (!params) return <NavigationHeaderDefaultComponent />;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className="w-full border-b"
+        style={{
+          backgroundColor: 'var(--brand-header-bg, #ffffff)',
+          borderColor: 'var(--brand-border, #e5e7eb)',
+        }}
+      >
+        <div
+          className="hidden border-b sm:block"
+          style={{ borderColor: 'var(--brand-border)', backgroundColor: 'var(--brand-muted, #f4f4f4)' }}
+        >
+          <div
+            className="mx-auto flex max-w-7xl justify-end gap-6 px-4 py-1.5 text-xs font-medium font-[var(--brand-body-font,inherit)]"
+            style={{ color: 'var(--brand-muted-fg, #6b7280)' }}
+          >
+            <a href="#" className="transition-opacity hover:opacity-80">
+              Trade account
+            </a>
+            <a href="#" className="transition-opacity hover:opacity-80">
+              Find a branch
+            </a>
+            <a href="#" className="transition-opacity hover:opacity-80">
+              Help
+            </a>
+          </div>
+        </div>
+
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-2.5 sm:gap-4 sm:px-6 sm:py-3">
+          <Link
+            href="/"
+            className="shrink-0 text-xl font-bold tracking-tight sm:text-2xl font-[var(--brand-heading-font,inherit)]"
+            style={{ color: 'var(--brand-header-fg, inherit)' }}
+          >
+            <span style={{ color: 'var(--brand-primary)' }}>HOW</span>DENS
+          </Link>
+
+          <NavLinks
+            items={items}
+            className="order-3 hidden w-full flex-wrap justify-center gap-x-6 gap-y-2 md:order-none md:flex md:flex-1 md:gap-8"
+          />
+
+          <div className="ml-auto flex flex-1 items-center justify-end gap-2 sm:gap-3 md:flex-none">
+            <div className="hidden min-w-[10rem] max-w-[14rem] md:block">
+              <span
+                className="block w-full rounded-md border px-3 py-1.5 text-left text-xs font-[var(--brand-body-font,inherit)]"
+                style={{
+                  borderColor: 'var(--brand-border)',
+                  color: 'var(--brand-muted-fg, #6b7280)',
+                  backgroundColor: 'var(--brand-bg, #ffffff)',
+                }}
+              >
+                Search
+              </span>
+            </div>
+            <a
+              href="#"
+              className="hidden rounded-md px-3 py-2 text-xs font-semibold transition-opacity hover:opacity-90 sm:inline-flex sm:px-4 sm:text-sm"
+              style={{
+                backgroundColor: 'var(--brand-primary)',
+                color: 'var(--brand-primary-foreground)',
+              }}
+            >
+              Get an estimate
+            </a>
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+        </div>
+
+        <div className="border-t md:hidden" style={{ borderColor: 'var(--brand-border)' }}>
+          <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2 px-4 py-2">
+            {items.slice(0, 6).map((item) => (
+              <a
+                key={item.Id}
+                href={item.Href + (item.Querystring ? `?${item.Querystring}` : '')}
+                className="text-xs font-medium"
+                style={{ color: 'var(--brand-header-fg, inherit)' }}
+              >
+                {getNavText(item)}
+              </a>
+            ))}
+          </nav>
+        </div>
+
+        <MobileMenu items={items} open={menuOpen} onClose={() => setMenuOpen(false)} />
+      </header>
+    </div>
+  );
+};

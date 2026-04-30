@@ -234,3 +234,51 @@ export const LogoRow = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
     </div>
   );
 };
+
+/* Howdens variant — compact trust summary strip */
+export const HowdensTrustStrip = ({ fields, params, page }: TrustStatsRowProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TrustStatsRowDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component trust-stats-row', styles)} id={RenderingIdentifier}>
+      <section className="w-full border-y border-[var(--brand-border)] px-4 py-10 md:py-12" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
+        <div className="mx-auto max-w-5xl">
+          <SectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-4">
+            {items.map((item) => (
+              <div key={item.id} className="flex flex-col items-center border-t border-[var(--brand-border)] pt-6 text-center first:border-t-0 first:pt-0 sm:border-t-0 sm:pt-0 sm:first:border-l-0">
+                {(item.statValue?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={item.statValue?.jsonValue}
+                    tag="p"
+                    className="text-4xl font-bold leading-none md:text-5xl font-[var(--brand-heading-font,inherit)]"
+                    style={{ color: 'var(--brand-primary)' }}
+                  />
+                )}
+                {(item.statLabel?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={item.statLabel?.jsonValue}
+                    tag="p"
+                    className="mt-2 text-sm font-medium font-[var(--brand-body-font,inherit)]"
+                    style={{ color: 'var(--brand-fg, #111111)' }}
+                  />
+                )}
+                {(item.statDescription?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.statDescription?.jsonValue}
+                    className="mt-1 text-xs opacity-65 font-[var(--brand-body-font,inherit)]"
+                    style={{ color: 'var(--brand-muted-fg, #6b7280)' }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

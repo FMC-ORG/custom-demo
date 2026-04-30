@@ -307,3 +307,114 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
     </div>
   );
 };
+
+const HOWDENS_FOOTER_COLUMNS = [
+  {
+    title: 'Kitchens & joinery',
+    links: ['Kitchen collections', 'Worktops', 'Appliances', 'Flooring'],
+  },
+  {
+    title: 'Trade',
+    links: ['Open a trade account', 'Branch finder', 'Delivery', 'Returns'],
+  },
+  {
+    title: 'About',
+    links: ['Our story', 'Careers', 'Sustainability', 'Press'],
+  },
+  {
+    title: 'Legal',
+    links: ['Privacy', 'Terms', 'Cookies', 'Modern slavery'],
+  },
+];
+
+/* Howdens variant — dark trade footer, crest placeholder row, four columns */
+export const HowdensRoyalFooter = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const { styles, RenderingIdentifier } = params;
+
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-footer-bg, #111111)',
+          color: 'var(--brand-footer-fg, #ffffff)',
+        }}
+      >
+        <div
+          className="border-b"
+          style={{ borderColor: 'rgba(255,255,255,0.12)' }}
+        >
+          <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-6 md:py-12">
+            <div className="max-w-md space-y-3">
+              <Link
+                href="/"
+                className="inline-block text-2xl font-bold tracking-tight font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-footer-fg, #ffffff)' }}
+              >
+                <span style={{ color: 'var(--brand-primary)' }}>HOW</span>DENS
+              </Link>
+              <p className="text-sm leading-relaxed opacity-70 font-[var(--brand-body-font,inherit)]">
+                The UK&apos;s number one trade kitchen supplier, supporting installers and builders nationwide.
+              </p>
+            </div>
+            <div
+              className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full border-2 border-dashed text-center text-[10px] font-semibold uppercase leading-tight tracking-wide opacity-80 font-[var(--brand-body-font,inherit)]"
+              style={{ borderColor: 'var(--brand-primary)', color: 'var(--brand-primary)' }}
+              aria-label="Royal Warrant holder placeholder"
+            >
+              Royal Warrant
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 md:py-12">
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            {HOWDENS_FOOTER_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider opacity-80 font-[var(--brand-heading-font,inherit)]">
+                  {col.title}
+                </h3>
+                <ul className="space-y-2.5">
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <a
+                        href="#"
+                        className="text-sm opacity-70 transition-opacity hover:opacity-100 font-[var(--brand-body-font,inherit)]"
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 flex flex-col gap-6 border-t pt-8 sm:flex-row sm:items-center sm:justify-between" style={{ borderColor: 'rgba(255,255,255,0.12)' }}>
+            <SocialIcons />
+            <p
+              className="text-sm opacity-50 font-[var(--brand-body-font,inherit)]"
+              style={{ color: 'var(--brand-footer-fg, #ffffff)' }}
+            >
+              &copy; {new Date().getFullYear()} Howdens Joinery Limited. All rights reserved.
+            </p>
+            <div className="flex flex-wrap gap-4 text-xs opacity-50">
+              <a href="#" className="hover:opacity-100 transition-opacity">
+                Privacy
+              </a>
+              <a href="#" className="hover:opacity-100 transition-opacity">
+                Terms
+              </a>
+              <a href="#" className="hover:opacity-100 transition-opacity">
+                Cookies
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};

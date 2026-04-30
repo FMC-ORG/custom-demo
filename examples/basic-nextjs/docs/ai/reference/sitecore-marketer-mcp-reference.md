@@ -27,10 +27,10 @@ Do **not** claim that marketer MCP cannot create templates or renderings.
 - `list_components` — Inspect existing renderings/components
 - `list_available_insertoptions` — Inspect insert options (content items only)
 
-**Assets (Media Library):**
-- `upload_asset` — Upload an image file to Media Library. Returns `{ success, mediaItem: { id } }`
+**Assets (search/verify only — upload uses Content Hub API, not MCP):**
 - `search_assets` — Search for assets by name/path
-- `get_asset_information` — Retrieve asset details by ID
+- `get_asset_information` — Retrieve asset details by UUID
+- `update_asset` — Update alt text and metadata on existing assets
 
 Use the server's actual tool names if they differ.
 

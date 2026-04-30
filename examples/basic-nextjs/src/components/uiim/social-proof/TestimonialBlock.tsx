@@ -207,6 +207,52 @@ export const Carousel = ({ fields, params, page }: TestimonialBlockProps): JSX.E
   );
 };
 
+/* Howdens variant — tighter review rail for Trustpilot-style rows */
+export const HowdensReviewRail = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TestimonialBlockDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component testimonial-block', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-12 md:py-16" style={{ backgroundColor: 'var(--brand-muted, #f4f4f4)' }}>
+        <div className="mx-auto max-w-6xl">
+          {(datasource.sectionTitle?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.sectionTitle?.jsonValue}
+              tag="h2"
+              className="mb-6 text-center text-xl font-bold md:text-2xl font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-fg, #111111)' }}
+            />
+          )}
+          <div className="flex gap-4 overflow-x-auto pb-3 pt-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="min-w-[260px] max-w-[320px] shrink-0 rounded-[var(--brand-card-radius,0.75rem)] border border-[var(--brand-border)] bg-[var(--brand-bg)] p-5 shadow-sm"
+              >
+                <QuoteMark />
+                {(item.quoteText?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.quoteText?.jsonValue}
+                    className="mt-2 line-clamp-4 text-sm leading-snug font-[var(--brand-body-font,inherit)]"
+                    style={{ color: 'var(--brand-fg, #111111)' }}
+                  />
+                )}
+                <div className="mt-3">
+                  <AuthorAttribution item={item} isEditing={isEditing} size="sm" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 /* ────────────────────────────────────────────
    Grid — 2-3 testimonial cards
    ──────────────────────────────────────────── */

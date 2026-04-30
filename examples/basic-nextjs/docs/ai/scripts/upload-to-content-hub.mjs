@@ -111,7 +111,7 @@ try {
 } catch { /* file doesn't exist — use CLI args only */ }
 
 // CLI args override credentials file, which overrides env vars
-const host = getArg('host') || process.env.CH_HOST || creds.host;
+const host = (getArg('host') || process.env.CH_HOST || creds.host || '').replace(/\/+$/, '');
 let token = getArg('token') || process.env.CH_TOKEN || creds.token || '';
 const imagesDir = getArg('images-dir');
 const uploadConfig = getArg('config') || creds.uploadConfig || 'AssetUploadConfiguration';
@@ -362,10 +362,12 @@ for (const img of uploadable) {
       console.log(`    WARN  Approve failed (${step4.status}) — asset may need manual approval`);
     }
 
-    // Step 5: Create public link (required for public URL to work)
+    // Step 5: Create public link with custom RelativeUrl: {assetId}-{cleanName}
+    const cleanName = fileName.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9-_]/g, '-');
+    const relativeUrl = `${assetId}-${cleanName}`;
     const plBody = JSON.stringify({
       entitydefinition: { href: `${host}/api/entitydefinitions/M.PublicLink` },
-      properties: { Resource: 'downloadOriginal' },
+      properties: { Resource: 'downloadOriginal', RelativeUrl: relativeUrl },
       relations: {
         AssetToPublicLink: { parents: [{ href: `${host}/api/entities/${assetId}` }] }
       }

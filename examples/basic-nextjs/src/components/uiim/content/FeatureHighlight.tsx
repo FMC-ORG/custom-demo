@@ -269,3 +269,168 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
     </div>
   );
 };
+
+/* Howdens variant — design appointment band: image left, copy on muted panel */
+export const HowdensDesignBand = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-14 md:px-6 md:py-20"
+        style={{ backgroundColor: 'var(--brand-muted, #f4f4f4)' }}
+      >
+        <div className="mx-auto grid max-w-7xl items-stretch gap-0 overflow-hidden rounded-[var(--brand-card-radius,0.75rem)] md:grid-cols-2 md:shadow-sm">
+          <div className="relative min-h-[240px] md:min-h-[320px]">
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.FeatureImage}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
+          </div>
+          <div
+            className="flex flex-col justify-center px-6 py-10 md:px-10 md:py-12"
+            style={{ backgroundColor: 'var(--brand-muted, #f4f4f4)' }}
+          >
+            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-4 max-w-xl text-base leading-relaxed opacity-90 font-[var(--brand-body-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              />
+            )}
+            <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* Howdens variant — quartz split: warm panel behind copy */
+export const HowdensQuartzSplit = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-14 md:py-20" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
+        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:gap-14 md:px-6">
+          <div className="overflow-hidden rounded-[var(--brand-card-radius,0.75rem)] shadow-sm">
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.FeatureImage}
+                className="h-full min-h-[260px] w-full object-cover md:min-h-[320px]"
+              />
+            )}
+          </div>
+          <div
+            className="rounded-[var(--brand-card-radius,0.75rem)] px-8 py-10 md:px-10 md:py-12"
+            style={{
+              backgroundColor: 'var(--brand-muted, #f4f4f4)',
+              color: 'var(--brand-fg, #111111)',
+            }}
+          >
+            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-4 text-base leading-relaxed opacity-85 font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <div className="mt-6">
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="inline-flex items-center justify-center rounded-[var(--brand-button-radius,0.375rem)] border-2 px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
+                  style={{
+                    borderColor: 'var(--brand-fg, #111111)',
+                    color: 'var(--brand-fg, #111111)',
+                    backgroundColor: 'var(--brand-bg, #ffffff)',
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* Howdens variant — bedroom inspiration: dark copy panel */
+export const HowdensBedroomSplit = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-14 md:py-20" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
+        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:gap-0 md:px-6">
+          <div className="overflow-hidden md:rounded-l-[var(--brand-card-radius,0.75rem)]">
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.FeatureImage}
+                className="h-full min-h-[260px] w-full object-cover md:min-h-[340px]"
+              />
+            )}
+          </div>
+          <div
+            className="flex flex-col justify-center px-8 py-10 md:rounded-r-[var(--brand-card-radius,0.75rem)] md:px-12 md:py-14"
+            style={{
+              backgroundColor: 'var(--brand-dark, #1b1f22)',
+              color: 'var(--brand-dark-foreground, #ffffff)',
+            }}
+          >
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-4 text-base leading-relaxed opacity-90 font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <div className="mt-6">
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="inline-flex items-center justify-center rounded-[var(--brand-button-radius,0.375rem)] px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
+                  style={{
+                    backgroundColor: 'var(--brand-bg, #ffffff)',
+                    color: 'var(--brand-dark, #1b1f22)',
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

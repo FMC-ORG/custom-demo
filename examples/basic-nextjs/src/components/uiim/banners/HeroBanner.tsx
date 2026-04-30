@@ -318,3 +318,71 @@ export const Minimal = ({ fields, params, page }: HeroBannerProps): JSX.Element 
     </div>
   );
 };
+
+const HeroOutlineCta = ({ field, isEditing }: { field: LinkField; isEditing?: boolean }) => {
+  if (!field?.value?.href && !isEditing) return null;
+  return (
+    <ContentSdkLink
+      field={field}
+      className="inline-flex items-center justify-center rounded-[var(--brand-button-radius,0.375rem)] border-2 px-8 py-3 text-sm font-semibold uppercase tracking-wide transition-colors hover:bg-white/10"
+      style={{
+        borderColor: 'var(--brand-header-fg, #ffffff)',
+        color: 'var(--brand-header-fg, #ffffff)',
+        backgroundColor: 'transparent',
+      }}
+    />
+  );
+};
+
+/* Howdens variant — trade hero: softer overlay, outline CTA, carousel dot affordance */
+export const HowdensHero = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative flex min-h-[72vh] w-full items-center justify-center overflow-hidden pb-14">
+        {(fields.HeroImage?.value?.src || isEditing) && (
+          <div className="absolute inset-0">
+            <ContentSdkImage
+              field={fields.HeroImage}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        )}
+        <div className="absolute inset-0 bg-black/45" />
+        <div className="relative z-10 mx-auto max-w-4xl px-4 py-16 text-center text-white md:py-20">
+          <div className="space-y-5">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h1"
+                className="text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Subtitle?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Subtitle}
+                className="mx-auto max-w-2xl text-lg opacity-90"
+              />
+            )}
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+              <HeroOutlineCta field={fields.PrimaryLink} isEditing={isEditing} />
+              <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+            </div>
+          </div>
+        </div>
+        <div
+          className="absolute bottom-6 left-0 right-0 z-10 flex justify-center gap-2"
+          aria-hidden="true"
+        >
+          <span className="h-2 w-8 rounded-full bg-white/90" />
+          <span className="h-2 w-2 rounded-full bg-white/40" />
+          <span className="h-2 w-2 rounded-full bg-white/40" />
+        </div>
+      </section>
+    </div>
+  );
+};

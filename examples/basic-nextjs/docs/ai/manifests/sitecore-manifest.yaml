@@ -1,5 +1,5 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-04-29T20:30:00Z"
+lastUpdatedAt: "2026-04-30T12:00:00Z"
 lastUpdatedBy: "cursor-agent"
 
 project:
@@ -130,7 +130,7 @@ components:
     category: "Navigation"
     status: "complete"
     createdAt: "2026-03-25T12:30:00Z"
-    updatedAt: "2026-03-25T14:00:00Z"
+    updatedAt: "2026-04-30T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/navigation/NavigationHeader.tsx"
@@ -140,6 +140,7 @@ components:
         - "Default"
         - "Transparent"
         - "Minimal"
+        - "HowdensMasthead"
 
     pageTemplateChanges:
       templatePath: "/sitecore/templates/Project/main/Page"
@@ -184,9 +185,10 @@ components:
         - { name: "Default", itemId: "{150B9AFE-2B9F-48AD-8F01-036666057814}" }
         - { name: "Transparent", itemId: "{A46EFC9D-7CF0-4C92-9577-1D94FD1D9782}" }
         - { name: "Minimal", itemId: "{608E0EC7-E2C6-4093-A1A1-3962FF17885A}" }
+        - { name: "HowdensMasthead", itemId: "{7B6EDF08-52BF-4FAB-947A-BD96A2D111E7}" }
 
     verification:
-      checkedAt: "2026-03-25T12:30:00Z"
+      checkedAt: "2026-04-30T12:00:00Z"
       passed:
         - "No datasource template created (context-only)"
         - "No datasource folder created"
@@ -198,7 +200,7 @@ components:
         - "AddFieldEditorButton set to 1"
         - "Rendering registered in Available Renderings (appended)"
         - "Headless Variants container created"
-        - "Default, Transparent, Minimal Variant Definitions created"
+        - "Default, Transparent, Minimal, HowdensMasthead Variant Definitions"
         - "React file uses Navigation Contents Resolver fields"
         - "Component map updated with componentType client"
         - "Server module removed (no getComponentServerProps)"
@@ -218,7 +220,7 @@ components:
     category: "Banners"
     status: "complete"
     createdAt: "2026-03-25T13:30:00Z"
-    updatedAt: "2026-03-25T13:30:00Z"
+    updatedAt: "2026-04-30T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/banners/HeroBanner.tsx"
@@ -229,6 +231,7 @@ components:
         - "BackgroundImage"
         - "VideoBackground"
         - "Minimal"
+        - "HowdensHero"
 
     templates:
       datasource:
@@ -292,9 +295,10 @@ components:
         - { name: "BackgroundImage", itemId: "{948210B2-B8AF-47C1-A04F-E220071C0A63}" }
         - { name: "VideoBackground", itemId: "{96586509-EBD7-4642-A127-0C65AEE1BD99}" }
         - { name: "Minimal", itemId: "{FA46BF9A-3783-4615-B4E6-5F5B33A78B48}" }
+        - { name: "HowdensHero", itemId: "{F31ABAFF-F7BF-4F33-A921-270C1F4DF971}" }
 
     verification:
-      checkedAt: "2026-03-25T13:30:00Z"
+      checkedAt: "2026-04-30T12:00:00Z"
       passed:
         - "Template exists with base templates set"
         - "Fields created with correct Types"
@@ -307,8 +311,8 @@ components:
         - "Datasource folder created with insert options"
         - "Example datasource item created"
         - "Rendering registered in Available Renderings (appended)"
-        - "All 5 Headless Variant Definitions created"
-        - "React file created with 5 variants"
+        - "All 6 Headless Variant Definitions (incl. HowdensHero)"
+        - "React file created with 6 variants"
         - "Component map updated"
       failed: []
       pendingManual:
@@ -326,7 +330,7 @@ components:
     category: "Navigation"
     status: "complete"
     createdAt: "2026-03-25T14:30:00Z"
-    updatedAt: "2026-03-25T15:00:00Z"
+    updatedAt: "2026-04-30T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/navigation/TabNavigationSection.tsx"
@@ -335,6 +339,7 @@ components:
         - "Default"
         - "Underline"
         - "Boxed"
+        - "HowdensColourTabs"
 
     templates:
       datasource:
@@ -411,9 +416,10 @@ components:
         - { name: "Default", itemId: "{37CD0AB0-A6F4-4F5B-9032-666FA10925D4}" }
         - { name: "Underline", itemId: "{F6AB5E2B-D266-4BAC-8536-48404A6EF04A}" }
         - { name: "Boxed", itemId: "{3A61A7A8-3D68-498D-A79D-9D0191AE4F90}" }
+        - { name: "HowdensColourTabs", itemId: "{AC82AD1B-7A4E-49E2-B99D-C18DAA4B70C6}" }
 
     verification:
-      checkedAt: "2026-03-25T14:30:00Z"
+      checkedAt: "2026-04-30T12:00:00Z"
       passed:
         - "Parent template created with base templates + HorizonDatasourceGrouping"
         - "Child template created with base templates"
@@ -428,8 +434,8 @@ components:
         - "Component Name is PascalCase matching TSX filename"
         - "Parameters Template set to GUID"
         - "Rendering registered in Available Renderings (appended)"
-        - "All 3 Headless Variant Definitions created"
-        - "React file created with 3 variants"
+        - "All 4 Headless Variant Definitions (incl. HowdensColourTabs)"
+        - "React file created with 4 variants"
         - "Component map updated"
       failed: []
       pendingManual:
@@ -443,6 +449,7 @@ components:
 
     notes:
       - "2026-03-25: ComponentQuery originally used '... on TabNavigationSection' fragments which failed due to GraphQL type name conflicts with other templates of the same name. Switched to generic field(name: ...) pattern which bypasses type conflicts entirely."
+      - "2026-04-30: HowdensColourTabs demo variant + Sitecore Variant Definition."
 
   - name: "ProductPricingCards"
     kind: "list"
@@ -678,7 +685,7 @@ components:
     category: "Content"
     status: "complete"
     createdAt: "2026-03-25T16:30:00Z"
-    updatedAt: "2026-03-25T16:30:00Z"
+    updatedAt: "2026-04-30T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/content/ValuePropositionGrid.tsx"
@@ -688,6 +695,7 @@ components:
         - "TwoColumn"
         - "FourColumn"
         - "Horizontal"
+        - "HowdensBuyingPillars"
 
     templates:
       datasource:
@@ -769,9 +777,10 @@ components:
         - { name: "TwoColumn", itemId: "{3935D1DD-DC84-4A01-B271-BEF9475C5AE1}" }
         - { name: "FourColumn", itemId: "{5F5B90A2-F88D-4415-B8B1-D9DCDE1A6B5C}" }
         - { name: "Horizontal", itemId: "{EF716EAC-BEBF-484A-8826-D2051F549F2F}" }
+        - { name: "HowdensBuyingPillars", itemId: "{2D409F7C-2A2F-48F3-9417-8BE48D4A2DFF}" }
 
     verification:
-      checkedAt: "2026-03-25T16:30:00Z"
+      checkedAt: "2026-04-30T12:00:00Z"
       passed:
         - "Parent template created with base templates + HorizonDatasourceGrouping"
         - "Child template created with base templates"
@@ -783,8 +792,8 @@ components:
         - "Rendering Parameters template with 4 base templates"
         - "Rendering with ComponentQuery (generic field access)"
         - "Component Name PascalCase, Parameters Template GUID"
-        - "All 4 Headless Variant Definitions created"
-        - "React file created with 4 variants"
+        - "All 5 Headless Variant Definitions (incl. HowdensBuyingPillars)"
+        - "React file created with 5 variants"
         - "Component map updated"
       failed: []
       pendingManual:
@@ -801,7 +810,7 @@ components:
     category: "Content"
     status: "complete"
     createdAt: "2026-03-25T17:00:00Z"
-    updatedAt: "2026-03-25T17:00:00Z"
+    updatedAt: "2026-04-30T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/content/TrustStatsRow.tsx"
@@ -810,6 +819,7 @@ components:
         - "Default"
         - "WithIcons"
         - "LogoRow"
+        - "HowdensTrustStrip"
 
     templates:
       datasource:
@@ -891,9 +901,10 @@ components:
         - { name: "Default", itemId: "{71BDCB75-6061-460C-98BE-86C4E5E79B3A}" }
         - { name: "WithIcons", itemId: "{A31EA0E4-1E93-43EE-9615-EC73A1451E63}" }
         - { name: "LogoRow", itemId: "{1E5484B5-F633-4339-9A3E-AD6416C3B8AD}" }
+        - { name: "HowdensTrustStrip", itemId: "{6BAE9A77-6576-4395-86F8-840474347C6E}" }
 
     verification:
-      checkedAt: "2026-03-25T17:00:00Z"
+      checkedAt: "2026-04-30T12:00:00Z"
       passed:
         - "Parent template with base templates + HorizonDatasourceGrouping"
         - "Child template with base templates"
@@ -904,8 +915,8 @@ components:
         - "Example parent + 4 child items"
         - "Rendering Parameters with 4 base templates"
         - "Rendering with ComponentQuery (generic field access)"
-        - "All 3 Headless Variant Definitions"
-        - "React file with 3 variants"
+        - "All 4 Headless Variant Definitions (incl. HowdensTrustStrip)"
+        - "React file with 4 variants"
         - "Component map updated"
       failed: []
       pendingManual:
@@ -919,7 +930,7 @@ components:
     category: "Social Proof"
     status: "complete"
     createdAt: "2026-03-25T17:30:00Z"
-    updatedAt: "2026-03-25T17:30:00Z"
+    updatedAt: "2026-04-30T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/social-proof/TestimonialBlock.tsx"
@@ -929,6 +940,7 @@ components:
         - "Carousel"
         - "Grid"
         - "WithPhoto"
+        - "HowdensReviewRail"
 
     templates:
       datasource:
@@ -1010,9 +1022,10 @@ components:
         - { name: "Carousel", itemId: "{0F34A807-A42C-4E7D-BD54-EF222EB2D952}" }
         - { name: "Grid", itemId: "{508FF66A-D30F-4C2D-B82F-2009E0B6E207}" }
         - { name: "WithPhoto", itemId: "{9C2EFAD0-6E36-415A-AFC5-EDCD1DA4A805}" }
+        - { name: "HowdensReviewRail", itemId: "{F4C66661-96F9-4A13-8ED5-36B5226AE8C3}" }
 
     verification:
-      checkedAt: "2026-03-25T17:30:00Z"
+      checkedAt: "2026-04-30T12:00:00Z"
       passed:
         - "Parent template with base templates + HorizonDatasourceGrouping"
         - "Child template with base templates"
@@ -1023,8 +1036,8 @@ components:
         - "Example parent + 2 child items"
         - "Rendering Parameters with 4 base templates"
         - "Rendering with ComponentQuery (generic field access)"
-        - "All 4 Headless Variant Definitions"
-        - "React file with 4 variants"
+        - "All 5 Headless Variant Definitions (incl. HowdensReviewRail)"
+        - "React file with 5 variants"
         - "Component map updated"
       failed: []
       pendingManual:
@@ -1038,7 +1051,7 @@ components:
     category: "Banners"
     status: "complete"
     createdAt: "2026-03-25T18:00:00Z"
-    updatedAt: "2026-03-25T18:00:00Z"
+    updatedAt: "2026-04-30T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/banners/CTABanner.tsx"
@@ -1048,6 +1061,7 @@ components:
         - "WithImage"
         - "Split"
         - "Minimal"
+        - "HowdensBrochureSplit"
 
     templates:
       datasource:
@@ -1110,9 +1124,10 @@ components:
         - { name: "WithImage", itemId: "{2DC4E1E9-79A0-48C7-A6D9-AC7DD8AFAAA0}" }
         - { name: "Split", itemId: "{9DBA839A-E0F8-47D2-AA8E-29EDA7CC68E6}" }
         - { name: "Minimal", itemId: "{E63EE25F-C889-4FE1-81B7-4611CF5969BE}" }
+        - { name: "HowdensBrochureSplit", itemId: "{F0A202F2-D4F9-435A-B560-D94A95F48069}" }
 
     verification:
-      checkedAt: "2026-03-25T18:00:00Z"
+      checkedAt: "2026-04-30T12:00:00Z"
       passed:
         - "Template with base templates"
         - "All 5 fields with correct Types"
@@ -1123,8 +1138,8 @@ components:
         - "Rendering Parameters with 4 base templates"
         - "Rendering created (no ComponentQuery)"
         - "Component Name PascalCase, Parameters Template GUID"
-        - "All 4 Headless Variant Definitions"
-        - "React file with 4 variants"
+        - "All 5 Headless Variant Definitions (incl. HowdensBrochureSplit)"
+        - "React file with 5 variants"
         - "Component map updated"
       failed: []
       pendingManual:
@@ -1138,7 +1153,7 @@ components:
     category: "Cards"
     status: "complete"
     createdAt: "2026-03-25T18:30:00Z"
-    updatedAt: "2026-03-25T18:30:00Z"
+    updatedAt: "2026-04-30T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/cards/FeatureCardsGrid.tsx"
@@ -1147,6 +1162,10 @@ components:
         - "Default"
         - "TwoColumn"
         - "WithImages"
+        - "HowdensCategoryTiles"
+        - "HowdensMosaicGrid"
+        - "HowdensPromoRow"
+        - "HowdensInspoFour"
 
     templates:
       datasource:
@@ -1227,9 +1246,13 @@ components:
         - { name: "Default", itemId: "{495EF058-D306-4328-ABE4-261E7CFE8E9E}" }
         - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
         - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
+        - { name: "HowdensCategoryTiles", itemId: "{F3B662DF-466C-41E7-9E58-7CDCD97ABAE1}" }
+        - { name: "HowdensMosaicGrid", itemId: "{5AFBA0E3-3933-469C-9D87-07F6EEB582B9}" }
+        - { name: "HowdensPromoRow", itemId: "{10B7BC2E-14A7-4591-AC3A-AFC1DE51C292}" }
+        - { name: "HowdensInspoFour", itemId: "{5E2EEA9C-32D4-450C-A1A5-915A48F96231}" }
 
     verification:
-      checkedAt: "2026-03-25T18:30:00Z"
+      checkedAt: "2026-04-30T12:00:00Z"
       passed:
         - "Parent template with base templates + HorizonDatasourceGrouping"
         - "Child template with base templates"
@@ -1240,8 +1263,8 @@ components:
         - "Example parent + 3 child items"
         - "Rendering Parameters with 4 base templates"
         - "Rendering with ComponentQuery (generic field access)"
-        - "All 3 Headless Variant Definitions"
-        - "React file with 3 variants"
+        - "All 7 Headless Variant Definitions (incl. Howdens* card layouts)"
+        - "React file with 7 variants"
         - "Component map updated"
       failed: []
       pendingManual:
@@ -1465,7 +1488,7 @@ components:
     category: "Navigation"
     status: "complete"
     createdAt: "2026-03-25T20:00:00Z"
-    updatedAt: "2026-03-25T20:00:00Z"
+    updatedAt: "2026-04-30T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/navigation/SiteFooter.tsx"
@@ -1474,6 +1497,7 @@ components:
         - "Default"
         - "Minimal"
         - "MegaFooter"
+        - "HowdensRoyalFooter"
 
     templates:
       datasource: null
@@ -1506,16 +1530,17 @@ components:
         - { name: "Default", itemId: "{143CFE84-1E77-4961-975C-38564DC43DB9}" }
         - { name: "Minimal", itemId: "{AF87D61B-F6A8-4036-9BF8-FDB586268D24}" }
         - { name: "MegaFooter", itemId: "{DA131066-F9A2-47F0-A099-F614E61817AA}" }
+        - { name: "HowdensRoyalFooter", itemId: "{C029A274-DA33-4FC3-8C26-965FB266F021}" }
 
     verification:
-      checkedAt: "2026-03-25T20:00:00Z"
+      checkedAt: "2026-04-30T12:00:00Z"
       passed:
         - "No datasource template (context-only)"
         - "Rendering Parameters with 4 base templates"
         - "Rendering created (no datasource, no ComponentQuery)"
         - "Component Name PascalCase"
-        - "All 3 Headless Variant Definitions"
-        - "React file with 3 variants"
+        - "All 4 Headless Variant Definitions (incl. HowdensRoyalFooter)"
+        - "React file with 4 variants"
         - "Component map updated"
       failed: []
       pendingManual:
@@ -1835,7 +1860,7 @@ components:
     category: "Content"
     status: "complete"
     createdAt: "2026-03-25T22:00:00Z"
-    updatedAt: "2026-03-25T22:00:00Z"
+    updatedAt: "2026-04-30T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/content/FeatureHighlight.tsx"
@@ -1845,6 +1870,9 @@ components:
         - "Centered"
         - "WithVideo"
         - "IconLeft"
+        - "HowdensDesignBand"
+        - "HowdensQuartzSplit"
+        - "HowdensBedroomSplit"
 
     templates:
       datasource:
@@ -1907,18 +1935,21 @@ components:
         - { name: "Centered", itemId: "{3C33C16D-F0D3-4FBF-8D78-CE70CEA0868B}" }
         - { name: "WithVideo", itemId: "{E58A4CB1-BFB4-4FDF-B48D-6254708B05CA}" }
         - { name: "IconLeft", itemId: "{E39E52FE-885D-433B-A2D3-B20F66E8F767}" }
+        - { name: "HowdensDesignBand", itemId: "{FCBAFE4D-F7C8-4BD4-8BCD-1A054DF745FA}" }
+        - { name: "HowdensQuartzSplit", itemId: "{ABBDE0FE-2D51-46D0-964F-09968C3B3260}" }
+        - { name: "HowdensBedroomSplit", itemId: "{2E07308A-21F4-46B3-90F2-7D156DE63AD0}" }
 
     verification:
-      checkedAt: "2026-03-25T22:00:00Z"
+      checkedAt: "2026-04-30T12:00:00Z"
       passed:
         - "Template with base templates, all 5 fields"
         - "SVs created and linked"
         - "Folder template with __Masters"
         - "Datasource folder with insert options"
         - "Example item, rendering params, rendering"
-        - "All 4 Headless Variant Definitions"
+        - "All 7 Headless Variant Definitions (incl. Howdens* splits)"
         - "Available Renderings appended (using manifest lastKnownValue)"
-        - "React file with 4 variants, component map updated"
+        - "React file with 7 variants, component map updated"
       failed: []
       pendingManual:
         - "Silent-write fields"
@@ -2021,20 +2052,21 @@ demoContent:
     label: "Howdens homepage demo"
     homePageId: "{E2124310-F817-4644-8671-BFF8E72B66D7}"
     homePagePath: "/sitecore/content/main/main-website/Home"
-    recordedAt: "2026-04-29T20:30:00Z"
+    recordedAt: "2026-04-30T12:00:00Z"
     notes:
-      - "Datasource items under Data/*; layout instance IDs in docs/ai/demos/howdens/page-assembly.md"
+      - "Datasource items under main-website Data folders; layout instance IDs in docs/ai/demos/howdens/page-assembly.md"
+      - "2026-04-30: Phase 3+6 — DAM images on fields where applicable; Home headless-main wired. Howdens* variants must be selected manually in Pages (see variant-checklist.md)."
     datasources:
-      - { name: "Howdens - Hero Banner", itemId: "{A9CB67E1-8DC0-4CAE-B2CA-8A0B5056838D}", template: "HeroBanner" }
-      - { name: "Howdens - CTA Design Appointment", itemId: "{D637A67A-2142-464B-8F94-DEF1B4FBC654}", template: "CTABanner" }
-      - { name: "Howdens - Feature Cards Category Tiles", itemId: "{EDFD0E15-15CB-4EB2-ACC1-61BAE66D1082}", template: "FeatureCardsGrid" }
-      - { name: "Howdens - Feature Cards Real Homes", itemId: "{4F3190D1-D510-4847-84F4-A56243637219}", template: "FeatureCardsGrid" }
-      - { name: "Howdens - Tab Navigation Kitchen Colours", itemId: "{39D31505-9838-47BD-98E9-21EA23EBB854}", template: "TabNavigationSection" }
-      - { name: "Howdens - Feature Highlight Quartz", itemId: "{A51EE9BA-890D-4554-9CFC-57513F355005}", template: "FeatureHighlight" }
-      - { name: "Howdens - Feature Cards News Events", itemId: "{3741819A-073A-45BB-93F4-43FDD16C5DA8}", template: "FeatureCardsGrid" }
-      - { name: "Howdens - CTA Brochures", itemId: "{5C24A2D2-7FA2-4873-AA82-F9C430C5A6D0}", template: "CTABanner" }
-      - { name: "Howdens - Feature Cards Editorial Links", itemId: "{3E4AA833-EAA5-47C4-8062-0013B7AF9317}", template: "FeatureCardsGrid" }
-      - { name: "Howdens - CTA Bedroom Inspiration", itemId: "{DA48CD2D-5B87-4ACC-AFBA-A3E842C81606}", template: "CTABanner" }
-      - { name: "Howdens - Value Prop Buying Journey", itemId: "{C90817CD-40F6-413C-A8F4-CB79B3C4F293}", template: "ValuePropositionGrid" }
-      - { name: "Howdens - Trust Stats Row", itemId: "{09572178-554A-4192-8EC6-098E8D934224}", template: "TrustStatsRow" }
-      - { name: "Howdens - Testimonial Block", itemId: "{2F3CB671-2526-48F1-A1AF-FA00D540766D}", template: "TestimonialBlock" }
+      - { name: "Howdens - Hero Banner", itemId: "{2FFCE904-320E-4B1F-9B93-88883F79C690}", template: "HeroBanner" }
+      - { name: "Howdens - Feature Highlight Design Appointment", itemId: "{12DDCBF8-CDB2-4872-B447-964E635695B7}", template: "FeatureHighlight" }
+      - { name: "Howdens - Feature Cards Shop By Room", itemId: "{65A30BD6-BEDF-4FC9-A946-4CE7B1F21B66}", template: "FeatureCardsGrid" }
+      - { name: "Howdens - Feature Cards Real Homes", itemId: "{485DB5CC-E495-475B-8A96-4C66D77904A4}", template: "FeatureCardsGrid" }
+      - { name: "Howdens - Tab Navigation Kitchen Colours", itemId: "{D5B86C05-68E5-4107-AEA6-CAC6A357706B}", template: "TabNavigationSection" }
+      - { name: "Howdens - Feature Highlight Quartz", itemId: "{462FC56B-D4AA-49F4-9186-65A1F10B70EA}", template: "FeatureHighlight" }
+      - { name: "Howdens - Feature Cards Events And Tools", itemId: "{3C8A55F4-470C-4927-B23C-41EFD9504387}", template: "FeatureCardsGrid" }
+      - { name: "Howdens - CTA Brochures", itemId: "{E1DAF2C7-5E30-4787-A683-7E1D1BA5BAA4}", template: "CTABanner" }
+      - { name: "Howdens - Feature Cards Feel Inspired", itemId: "{7CEB88F4-ED1F-4F1D-BC6F-E924AFB50DF9}", template: "FeatureCardsGrid" }
+      - { name: "Howdens - Feature Highlight Bedroom Inspiration", itemId: "{07CB97F3-F81B-4551-B6CC-89A176426482}", template: "FeatureHighlight" }
+      - { name: "Howdens - Value Proposition Buying Journey", itemId: "{FF20EB65-4C6A-4443-ABED-D066FA458426}", template: "ValuePropositionGrid" }
+      - { name: "Howdens - Trust Stats Row", itemId: "{66FB3F57-D386-4D9B-BF9F-8687D0C6887F}", template: "TrustStatsRow" }
+      - { name: "Howdens - Testimonial Block", itemId: "{5B4169A1-8720-4479-8A13-049E2DD5D777}", template: "TestimonialBlock" }

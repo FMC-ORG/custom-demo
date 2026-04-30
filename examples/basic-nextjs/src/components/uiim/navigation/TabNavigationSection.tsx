@@ -212,3 +212,61 @@ export const Boxed = ({ fields, params, page }: TabNavigationSectionProps): JSX.
     </div>
   );
 };
+
+/* Howdens variant — centred colour explorer row */
+export const HowdensColourTabs = ({ fields, params, page }: TabNavigationSectionProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TabNavigationSectionDefaultComponent />;
+
+  const tabs = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component tab-navigation-section', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-10 md:py-14"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-5xl text-center">
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.title?.jsonValue}
+              tag="h2"
+              className="text-2xl font-bold tracking-tight md:text-3xl font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-fg, #111111)' }}
+            />
+          )}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:gap-4">
+            {tabs.map((tab, index) => (
+              <ContentSdkLink
+                key={tab.id}
+                field={tab.tabLink?.jsonValue}
+                className={cn(
+                  'inline-flex min-h-[3rem] min-w-[3rem] items-center justify-center rounded-full border-2 px-4 py-2 text-sm font-semibold transition-all md:min-h-[3.25rem] md:min-w-[3.25rem]',
+                  index === 0 ? 'shadow-sm' : 'hover:opacity-80'
+                )}
+                style={
+                  index === 0
+                    ? {
+                        backgroundColor: 'var(--brand-primary)',
+                        color: 'var(--brand-primary-foreground)',
+                        borderColor: 'var(--brand-primary)',
+                      }
+                    : {
+                        backgroundColor: 'var(--brand-muted, #f3f4f6)',
+                        color: 'var(--brand-fg, #111111)',
+                        borderColor: 'var(--brand-border, #e5e7eb)',
+                      }
+                }
+              >
+                <Text field={tab.tabLabel?.jsonValue} />
+              </ContentSdkLink>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

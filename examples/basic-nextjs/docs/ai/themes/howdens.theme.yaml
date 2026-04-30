@@ -1,0 +1,120 @@
+# Client Brand Theme — Howdens
+# Source: https://www.howdens.com/ + full-page homepage reference screenshot
+# Playwright scraper output under docs/ai/themes/howdens/ (cookie-policy redirect skewed button colors).
+
+client:
+  name: "Howdens"
+  sourceUrl: "https://www.howdens.com/"
+  extractedAt: "2026-04-30T00:00:00Z"
+  extractedBy: "cursor-agent"
+
+colors:
+  primary: "#0CAD51"
+  primaryForeground: "#ffffff"
+  secondary: "#243036"
+  secondaryForeground: "#ffffff"
+  accent: "#E42313"
+  accentForeground: "#ffffff"
+  background: "#ffffff"
+  foreground: "#243036"
+  muted: "#F4F4F4"
+  mutedForeground: "#5C656B"
+  headerBackground: "#ffffff"
+  headerForeground: "#243036"
+  footerBackground: "#1B1F22"
+  footerForeground: "#C8CDD0"
+  border: "#D9DEE1"
+  ring: "#0CAD51"
+  extra:
+    - { name: "promoBand", value: "#3D4549" }
+
+typography:
+  headingFamily: "'Barlow Condensed', system-ui, sans-serif"
+  headingWeight: "600"
+  bodyFamily: "'Source Sans 3', system-ui, sans-serif"
+  bodyWeight: "400"
+  monoFamily: "ui-monospace, monospace"
+  googleFontsUrl: "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600&display=swap"
+  scale:
+    hero: "2.75rem"
+    h1: "2.25rem"
+    h2: "1.75rem"
+    h3: "1.25rem"
+    body: "1rem"
+    small: "0.875rem"
+  headingTransform: "none"
+  letterSpacing: "normal"
+  lineHeight: "normal"
+
+spacing:
+  density: "normal"
+  sectionGap: "4.5rem"
+  containerMaxWidth: "1600px"
+  containerPadding: "1.25rem"
+
+shape:
+  borderRadius: "0.25rem"
+  buttonRadius: "0.25rem"
+  cardRadius: "0.25rem"
+  imageRadius: "0.25rem"
+  shadowStyle: "subtle"
+  borderStyle: "subtle"
+
+tone:
+  overall: "trade-retail"
+  colorMode: "light"
+  contrast: "high"
+  imagery: "photography"
+  heroStyle: "full-bleed-image"
+  cardStyle: "image-top"
+  navStyle: "solid-bar"
+
+tailwind:
+  colors:
+    brand:
+      primary: "#0CAD51"
+      secondary: "#243036"
+      accent: "#E42313"
+  fontFamily:
+    heading: ["Barlow Condensed", "system-ui", "sans-serif"]
+    body: ["Source Sans 3", "system-ui", "sans-serif"]
+  borderRadius:
+    DEFAULT: "0.25rem"
+    button: "0.25rem"
+    card: "0.25rem"
+
+cssVariables: |
+  :root {
+    --brand-primary: #0CAD51;
+    --brand-primary-foreground: #ffffff;
+    --brand-secondary: #243036;
+    --brand-secondary-foreground: #ffffff;
+    --brand-accent: #E42313;
+    --brand-accent-foreground: #ffffff;
+    --brand-dark: #1B1F22;
+    --brand-dark-foreground: #ffffff;
+    --brand-bg: #ffffff;
+    --brand-fg: #243036;
+    --brand-muted: #F4F4F4;
+    --brand-muted-fg: #5C656B;
+    --brand-header-bg: #ffffff;
+    --brand-header-fg: #243036;
+    --brand-footer-bg: #1B1F22;
+    --brand-footer-fg: #C8CDD0;
+    --brand-border: #D9DEE1;
+    --brand-ring: #0CAD51;
+    --brand-heading-font: 'Barlow Condensed', system-ui, sans-serif;
+    --brand-body-font: 'Source Sans 3', system-ui, sans-serif;
+    --brand-radius: 0.25rem;
+    --brand-button-radius: 0.25rem;
+    --brand-card-radius: 0.25rem;
+  }
+
+extraction:
+  confidence: "medium"
+  method: "playwright-partial"
+  notes:
+    - "Playwright session resolved to cookie policy HTML title; computed primaryButton/link colors are unreliable."
+    - "Palette aligned to public Howdens homepage: green primary CTA, red rooster accent, slate body text, dark footer."
+    - "Proprietary 'Rooster' typeface substituted with Barlow Condensed (headings) and Source Sans 3 (body) via Google Fonts."
+    - "Scraper assets still useful: logo SVG, favicon, container max-width 1600px, footer rgb(36,48,54)."

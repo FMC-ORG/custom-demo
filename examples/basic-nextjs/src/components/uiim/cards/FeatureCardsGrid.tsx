@@ -3,12 +3,12 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import { SitecoreNextImage } from '@/lib/sitecore-next-image';
 import { cn } from '@/lib/utils';
 
 interface FeatureCardItemFields {
@@ -100,10 +100,11 @@ export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.El
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <div className="mb-4 h-12 w-12 overflow-hidden">
-                    <ContentSdkImage
+                  <div className="relative mb-4 h-12 w-12 overflow-hidden">
+                    <SitecoreNextImage
                       field={card.cardImage?.jsonValue}
-                      className="h-full w-full object-contain"
+                      className="object-contain"
+                      sizes="48px"
                     />
                   </div>
                 )}
@@ -154,11 +155,12 @@ export const HowdensPrimary = ({ fields, params, page }: FeatureCardsGridProps):
           <div className="grid gap-4 md:grid-cols-3 md:gap-5">
             {cards.map((card) => (
               <div key={card.id} className="group flex flex-col">
-                <div className="overflow-hidden rounded-[var(--brand-card-radius,0.25rem)]">
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--brand-card-radius,0.25rem)]">
                   {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                    <ContentSdkImage
+                    <SitecoreNextImage
                       field={card.cardImage?.jsonValue}
-                      className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   )}
                 </div>
@@ -204,11 +206,12 @@ export const HowdensSecondary = ({ fields, params, page }: FeatureCardsGridProps
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 lg:gap-4">
             {cards.map((card) => (
               <div key={card.id} className="flex flex-col text-center">
-                <div className="overflow-hidden rounded-[var(--brand-card-radius,0.25rem)]">
+                <div className="relative aspect-square w-full overflow-hidden rounded-[var(--brand-card-radius,0.25rem)]">
                   {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                    <ContentSdkImage
+                    <SitecoreNextImage
                       field={card.cardImage?.jsonValue}
-                      className="aspect-square w-full object-cover"
+                      className="object-cover"
+                      sizes="(max-width: 640px) 50vw, 20vw"
                     />
                   )}
                 </div>
@@ -250,7 +253,13 @@ export const HowdensNews = ({ fields, params, page }: FeatureCardsGridProps): JS
                 style={{ borderColor: 'var(--brand-border)' }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage field={card.cardImage?.jsonValue} className="h-44 w-full object-cover md:h-48" />
+                  <div className="relative h-44 w-full md:h-48">
+                    <SitecoreNextImage
+                      field={card.cardImage?.jsonValue}
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
                 )}
                 <div className="flex flex-1 flex-col p-5">
                   {(card.cardTitle?.jsonValue?.value || isEditing) && (
@@ -314,10 +323,11 @@ export const TwoColumn = ({ fields, params, page }: FeatureCardsGridProps): JSX.
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <div className="mb-5 h-14 w-14 overflow-hidden">
-                    <ContentSdkImage
+                  <div className="relative mb-5 h-14 w-14 overflow-hidden">
+                    <SitecoreNextImage
                       field={card.cardImage?.jsonValue}
-                      className="h-full w-full object-contain"
+                      className="object-contain"
+                      sizes="56px"
                     />
                   </div>
                 )}
@@ -381,10 +391,13 @@ export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage
-                    field={card.cardImage?.jsonValue}
-                    className="h-48 w-full object-cover"
-                  />
+                  <div className="relative h-48 w-full">
+                    <SitecoreNextImage
+                      field={card.cardImage?.jsonValue}
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
                 )}
                 <div className="flex flex-1 flex-col p-6">
                   {(card.cardTitle?.jsonValue?.value || isEditing) && (

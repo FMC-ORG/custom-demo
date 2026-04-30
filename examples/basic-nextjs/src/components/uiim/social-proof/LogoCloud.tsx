@@ -1,13 +1,7 @@
 import React, { JSX } from 'react';
-import {
-  Field,
-  ImageField,
-  LinkField,
-  NextImage as ContentSdkImage,
-  Link as ContentSdkLink,
-  Text,
-} from '@sitecore-content-sdk/nextjs';
+import { Field, ImageField, LinkField, Link as ContentSdkLink, Text } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import { SitecoreNextImage } from '@/lib/sitecore-next-image';
 import { cn } from '@/lib/utils';
 
 interface LogoItemFields {
@@ -104,10 +98,13 @@ export const Default = ({ fields, params, page }: LogoCloudProps): JSX.Element =
             {items.map((item) => (
               <LogoWrapper key={item.id} item={item} isEditing={isEditing}>
                 {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage
-                    field={item.logoImage?.jsonValue}
-                    className="h-10 max-w-[140px] object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
-                  />
+                  <div className="relative h-10 w-[140px]">
+                    <SitecoreNextImage
+                      field={item.logoImage?.jsonValue}
+                      className="object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
+                      sizes="140px"
+                    />
+                  </div>
                 )}
               </LogoWrapper>
             ))}
@@ -140,10 +137,13 @@ export const Grid = ({ fields, params, page }: LogoCloudProps): JSX.Element => {
             {items.map((item) => (
               <LogoWrapper key={item.id} item={item} isEditing={isEditing}>
                 {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage
-                    field={item.logoImage?.jsonValue}
-                    className="h-10 max-w-[140px] object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
-                  />
+                  <div className="relative h-10 w-[140px]">
+                    <SitecoreNextImage
+                      field={item.logoImage?.jsonValue}
+                      className="object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
+                      sizes="140px"
+                    />
+                  </div>
                 )}
               </LogoWrapper>
             ))}
@@ -177,10 +177,13 @@ export const WithLabels = ({ fields, params, page }: LogoCloudProps): JSX.Elemen
               <div key={item.id} className="flex flex-col items-center gap-2">
                 <LogoWrapper item={item} isEditing={isEditing}>
                   {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
-                    <ContentSdkImage
-                      field={item.logoImage?.jsonValue}
-                      className="h-10 max-w-[140px] object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
-                    />
+                    <div className="relative h-10 w-[140px]">
+                      <SitecoreNextImage
+                        field={item.logoImage?.jsonValue}
+                        className="object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
+                        sizes="140px"
+                      />
+                    </div>
                   )}
                 </LogoWrapper>
                 {(item.companyName?.jsonValue?.value || isEditing) && (

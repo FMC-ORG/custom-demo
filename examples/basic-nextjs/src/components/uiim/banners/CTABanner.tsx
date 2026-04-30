@@ -3,12 +3,12 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import { SitecoreNextImage } from '@/lib/sitecore-next-image';
 import { cn } from '@/lib/utils';
 
 interface CTABannerFields {
@@ -112,9 +112,10 @@ export const WithImage = ({ fields, params, page }: CTABannerProps): JSX.Element
       <section className="relative w-full overflow-hidden">
         {(fields.BackgroundImage?.value?.src || isEditing) && (
           <div className="absolute inset-0">
-            <ContentSdkImage
+            <SitecoreNextImage
               field={fields.BackgroundImage}
-              className="h-full w-full object-cover"
+              className="object-cover"
+              sizes="100vw"
             />
           </div>
         )}
@@ -259,9 +260,10 @@ export const Howdens = ({ fields, params, page }: CTABannerProps): JSX.Element =
         <div className="grid md:grid-cols-12">
           <div className="relative min-h-[220px] md:col-span-5">
             {(fields.BackgroundImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SitecoreNextImage
                 field={fields.BackgroundImage}
-                className="absolute inset-0 h-full w-full object-cover object-left"
+                className="object-cover object-left"
+                sizes="(max-width: 768px) 100vw, 40vw"
               />
             )}
           </div>

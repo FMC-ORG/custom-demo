@@ -1,13 +1,13 @@
 import {
   Field,
   ImageField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   LinkField,
   Text,
 } from "@sitecore-content-sdk/nextjs";
 import React from "react";
 import { ComponentProps } from "lib/component-props";
+import { SitecoreNextImage } from "@/lib/sitecore-next-image";
 
 interface ImageFields {
   Image: ImageField;
@@ -53,11 +53,13 @@ export const Banner: React.FC<ImageProps> = ({ params, fields }) => {
 
   return (
     <div className={`component hero-banner ${styles}`.trim()} id={id}>
-      <div className="component-content sc-sxa-image-hero-banner" style={backgroundStyle}>
-        <ContentSdkImage
+      <div className="component-content relative min-h-[320px] sc-sxa-image-hero-banner" style={backgroundStyle}>
+        <SitecoreNextImage
           field={imageField}
           loading="eager"
           fetchPriority="high"
+          className="object-cover"
+          sizes="100vw"
         />
       </div>
     </div>
@@ -72,7 +74,11 @@ export const Default: React.FC<ImageProps> = (props) => {
     return <ImageDefault {...props} />;
   }
 
-  const Image = () => <ContentSdkImage field={fields.Image} />;
+  const Image = () => (
+    <div className="relative min-h-[200px] w-full">
+      <SitecoreNextImage field={fields.Image} className="object-contain" sizes="(max-width: 768px) 100vw, 800px" />
+    </div>
+  );
   const shouldWrapWithLink =
     !page?.mode?.isEditing && fields.TargetUrl?.value?.href;
 

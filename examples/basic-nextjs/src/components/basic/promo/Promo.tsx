@@ -1,6 +1,5 @@
 import React, { JSX } from 'react';
 import {
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   ImageField,
@@ -8,6 +7,7 @@ import {
   LinkField,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import { SitecoreNextImage } from '@/lib/sitecore-next-image';
 
 interface Fields {
   PromoIcon: ImageField;
@@ -47,8 +47,8 @@ const PromoContent = (props: PromoContentProps): JSX.Element => {
   return (
     <Wrapper>
       <>
-        <div className="field-promoicon">
-          <ContentSdkImage field={fields.PromoIcon} />
+        <div className="field-promoicon relative h-16 w-16 shrink-0">
+          <SitecoreNextImage field={fields.PromoIcon} className="object-contain" sizes="64px" />
         </div>
         <div className="promo-text">{renderText(fields)}</div>
       </>

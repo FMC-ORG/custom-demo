@@ -3,12 +3,12 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import { SitecoreNextImage } from '@/lib/sitecore-next-image';
 import { cn } from '@/lib/utils';
 
 interface ValuePropositionItemFields {
@@ -93,10 +93,11 @@ export const Default = ({ fields, params, page }: ValuePropositionGridProps): JS
             {items.map((item) => (
               <div key={item.id} className="flex flex-col items-center text-center">
                 {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
-                  <div className="mb-4 h-16 w-16 overflow-hidden">
-                    <ContentSdkImage
+                  <div className="relative mb-4 h-16 w-16 overflow-hidden">
+                    <SitecoreNextImage
                       field={item.itemIcon?.jsonValue}
-                      className="h-full w-full object-contain"
+                      className="object-contain"
+                      sizes="64px"
                     />
                   </div>
                 )}
@@ -153,10 +154,11 @@ export const TwoColumn = ({ fields, params, page }: ValuePropositionGridProps): 
             {items.map((item) => (
               <div key={item.id} className="flex flex-col items-center text-center">
                 {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
-                  <div className="mb-5 h-20 w-20 overflow-hidden">
-                    <ContentSdkImage
+                  <div className="relative mb-5 h-20 w-20 overflow-hidden">
+                    <SitecoreNextImage
                       field={item.itemIcon?.jsonValue}
-                      className="h-full w-full object-contain"
+                      className="object-contain"
+                      sizes="80px"
                     />
                   </div>
                 )}
@@ -213,10 +215,11 @@ export const FourColumn = ({ fields, params, page }: ValuePropositionGridProps):
             {items.map((item) => (
               <div key={item.id} className="flex flex-col items-center text-center">
                 {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
-                  <div className="mb-3 h-12 w-12 overflow-hidden">
-                    <ContentSdkImage
+                  <div className="relative mb-3 h-12 w-12 overflow-hidden">
+                    <SitecoreNextImage
                       field={item.itemIcon?.jsonValue}
-                      className="h-full w-full object-contain"
+                      className="object-contain"
+                      sizes="48px"
                     />
                   </div>
                 )}
@@ -266,10 +269,11 @@ export const Horizontal = ({ fields, params, page }: ValuePropositionGridProps):
             {items.map((item) => (
               <div key={item.id} className="flex items-start gap-5">
                 {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
-                  <div className="h-14 w-14 shrink-0 overflow-hidden">
-                    <ContentSdkImage
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden">
+                    <SitecoreNextImage
                       field={item.itemIcon?.jsonValue}
-                      className="h-full w-full object-contain"
+                      className="object-contain"
+                      sizes="56px"
                     />
                   </div>
                 )}
@@ -323,13 +327,14 @@ export const Howdens = ({ fields, params, page }: ValuePropositionGridProps): JS
             {items.map((item) => (
               <div key={item.id} className="flex flex-col items-center text-center">
                 <div
-                  className="h-36 w-36 overflow-hidden rounded-full border-4 shadow-md md:h-40 md:w-40"
+                  className="relative h-36 w-36 overflow-hidden rounded-full border-4 shadow-md md:h-40 md:w-40"
                   style={{ borderColor: 'var(--brand-bg)' }}
                 >
                   {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
-                    <ContentSdkImage
+                    <SitecoreNextImage
                       field={item.itemIcon?.jsonValue}
-                      className="h-full w-full object-cover"
+                      className="object-cover"
+                      sizes="160px"
                     />
                   )}
                 </div>

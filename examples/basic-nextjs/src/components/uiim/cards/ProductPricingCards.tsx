@@ -3,12 +3,12 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import { SitecoreNextImage } from '@/lib/sitecore-next-image';
 import { cn } from '@/lib/utils';
 
 interface ProductCardFields {
@@ -137,10 +137,13 @@ export const Default = ({ fields, params, page }: ProductPricingCardsProps): JSX
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage
-                    field={card.cardImage?.jsonValue}
-                    className="h-48 w-full object-cover"
-                  />
+                  <div className="relative h-48 w-full">
+                    <SitecoreNextImage
+                      field={card.cardImage?.jsonValue}
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
                 )}
                 <div className="flex flex-1 flex-col p-6">
                   <Badge field={card.badgeText?.jsonValue} isEditing={isEditing} />
@@ -197,10 +200,11 @@ export const Horizontal = ({ fields, params, page }: ProductPricingCardsProps): 
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <div className="md:w-1/3">
-                    <ContentSdkImage
+                  <div className="relative min-h-[200px] md:w-1/3">
+                    <SitecoreNextImage
                       field={card.cardImage?.jsonValue}
-                      className="h-full w-full object-cover"
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
                 )}
@@ -333,10 +337,13 @@ export const Highlighted = ({ fields, params, page }: ProductPricingCardsProps):
                     </div>
                   )}
                   {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                    <ContentSdkImage
-                      field={card.cardImage?.jsonValue}
-                      className="h-48 w-full object-cover"
-                    />
+                    <div className="relative h-48 w-full">
+                      <SitecoreNextImage
+                        field={card.cardImage?.jsonValue}
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    </div>
                   )}
                   <div className="flex flex-1 flex-col p-6">
                     <Badge field={card.badgeText?.jsonValue} isEditing={isEditing} />

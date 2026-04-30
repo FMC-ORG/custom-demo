@@ -1,12 +1,7 @@
 import React, { JSX } from 'react';
-import {
-  Field,
-  ImageField,
-  NextImage as ContentSdkImage,
-  RichText as ContentSdkRichText,
-  Text,
-} from '@sitecore-content-sdk/nextjs';
+import { Field, ImageField, RichText as ContentSdkRichText, Text } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import { SitecoreNextImage } from '@/lib/sitecore-next-image';
 import { cn } from '@/lib/utils';
 
 interface StatItemFields {
@@ -150,10 +145,11 @@ export const WithIcons = ({ fields, params, page }: TrustStatsRowProps): JSX.Ele
             {items.map((item) => (
               <div key={item.id} className="flex flex-col items-center text-center">
                 {(item.statIcon?.jsonValue?.value?.src || isEditing) && (
-                  <div className="mb-3 h-12 w-12 overflow-hidden">
-                    <ContentSdkImage
+                  <div className="relative mb-3 h-12 w-12 overflow-hidden">
+                    <SitecoreNextImage
                       field={item.statIcon?.jsonValue}
-                      className="h-full w-full object-contain"
+                      className="object-contain"
+                      sizes="48px"
                     />
                   </div>
                 )}
@@ -211,10 +207,11 @@ export const LogoRow = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
             {items.map((item) => (
               <div key={item.id} className="flex flex-col items-center">
                 {(item.statIcon?.jsonValue?.value?.src || isEditing) && (
-                  <div className="h-12 w-auto overflow-hidden opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0">
-                    <ContentSdkImage
+                  <div className="relative h-12 w-[160px] overflow-hidden opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0">
+                    <SitecoreNextImage
                       field={item.statIcon?.jsonValue}
-                      className="h-full w-auto object-contain"
+                      className="object-contain"
+                      sizes="160px"
                     />
                   </div>
                 )}

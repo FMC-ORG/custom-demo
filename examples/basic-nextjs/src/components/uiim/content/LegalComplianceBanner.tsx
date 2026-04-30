@@ -3,12 +3,12 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import { SitecoreNextImage } from '@/lib/sitecore-next-image';
 import { cn } from '@/lib/utils';
 
 interface LegalComplianceBannerFields {
@@ -120,10 +120,13 @@ export const WithImage = ({ fields, params, page }: LegalComplianceBannerProps):
           </div>
           <div className="flex items-center justify-center">
             {(fields.BannerImage?.value?.src || isEditing) && (
-              <ContentSdkImage
-                field={fields.BannerImage}
-                className="max-h-64 w-auto object-contain"
-              />
+              <div className="relative h-64 w-64 max-w-full">
+                <SitecoreNextImage
+                  field={fields.BannerImage}
+                  className="object-contain"
+                  sizes="256px"
+                />
+              </div>
             )}
           </div>
         </div>

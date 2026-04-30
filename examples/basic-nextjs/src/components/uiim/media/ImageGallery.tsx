@@ -1,11 +1,7 @@
 import React, { JSX } from 'react';
-import {
-  Field,
-  ImageField,
-  NextImage as ContentSdkImage,
-  Text,
-} from '@sitecore-content-sdk/nextjs';
+import { Field, ImageField, Text } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import { SitecoreNextImage } from '@/lib/sitecore-next-image';
 import { cn } from '@/lib/utils';
 
 interface ImageGalleryFields {
@@ -38,10 +34,13 @@ export const Default = ({ fields, params, page }: ImageGalleryProps): JSX.Elemen
     <div className={cn('component image-gallery', styles)} id={RenderingIdentifier}>
       <figure className="w-full">
         {(fields.GalleryImage?.value?.src || isEditing) && (
-          <ContentSdkImage
-            field={fields.GalleryImage}
-            className="w-full max-h-[70vh] object-cover"
-          />
+          <div className="relative aspect-video w-full max-h-[70vh]">
+            <SitecoreNextImage
+              field={fields.GalleryImage}
+              className="object-cover"
+              sizes="100vw"
+            />
+          </div>
         )}
         {(fields.Caption?.value || isEditing) && (
           <figcaption
@@ -68,10 +67,11 @@ export const Gallery = ({ fields, params, page }: ImageGalleryProps): JSX.Elemen
     <div className={cn('component image-gallery', styles)} id={RenderingIdentifier}>
       <figure className="mx-auto max-w-7xl px-4 py-8">
         {(fields.GalleryImage?.value?.src || isEditing) && (
-          <div className="overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
-            <ContentSdkImage
+          <div className="relative aspect-video w-full max-h-[60vh] overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
+            <SitecoreNextImage
               field={fields.GalleryImage}
-              className="w-full max-h-[60vh] object-cover"
+              className="object-cover"
+              sizes="(max-width: 1280px) 100vw, 1280px"
             />
           </div>
         )}
@@ -109,10 +109,11 @@ export const Parallax = ({ fields, params, page }: ImageGalleryProps): JSX.Eleme
             }}
           >
             {isEditing && (
-              <div className="flex h-full items-center justify-center">
-                <ContentSdkImage
+              <div className="relative flex h-full items-center justify-center">
+                <SitecoreNextImage
                   field={fields.GalleryImage}
-                  className="max-h-full max-w-full object-contain opacity-50"
+                  className="object-contain opacity-50"
+                  sizes="100vw"
                 />
               </div>
             )}
@@ -152,11 +153,15 @@ export const Howdens = ({ fields, params, page }: ImageGalleryProps): JSX.Elemen
               style={{ color: 'var(--brand-muted-foreground)' }}
             />
           )}
-          <figure className="overflow-hidden rounded-[var(--brand-card-radius,0.25rem)] border shadow-sm" style={{ borderColor: 'var(--brand-border)' }}>
+          <figure
+            className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--brand-card-radius,0.25rem)] border shadow-sm md:aspect-[16/9]"
+            style={{ borderColor: 'var(--brand-border)' }}
+          >
             {(fields.GalleryImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SitecoreNextImage
                 field={fields.GalleryImage}
-                className="aspect-[4/3] w-full object-cover md:aspect-[16/9]"
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 1024px"
               />
             )}
           </figure>

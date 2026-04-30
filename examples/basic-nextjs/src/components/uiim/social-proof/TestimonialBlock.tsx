@@ -1,12 +1,7 @@
 import React, { JSX } from 'react';
-import {
-  Field,
-  ImageField,
-  NextImage as ContentSdkImage,
-  RichText as ContentSdkRichText,
-  Text,
-} from '@sitecore-content-sdk/nextjs';
+import { Field, ImageField, RichText as ContentSdkRichText, Text } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import { SitecoreNextImage } from '@/lib/sitecore-next-image';
 import { cn } from '@/lib/utils';
 
 interface TestimonialItemFields {
@@ -65,13 +60,18 @@ const AuthorAttribution = ({
 }) => (
   <div className={cn('flex items-center', size === 'lg' ? 'gap-4' : 'gap-3')}>
     {(item.authorImage?.jsonValue?.value?.src || isEditing) && (
-      <ContentSdkImage
-        field={item.authorImage?.jsonValue}
+      <div
         className={cn(
-          'rounded-full object-cover',
+          'relative shrink-0 overflow-hidden rounded-full',
           size === 'lg' ? 'h-14 w-14' : 'h-12 w-12'
         )}
-      />
+      >
+        <SitecoreNextImage
+          field={item.authorImage?.jsonValue}
+          className="object-cover"
+          sizes={size === 'lg' ? '56px' : '48px'}
+        />
+      </div>
     )}
     <div>
       {(item.authorName?.jsonValue?.value || isEditing) && (
@@ -137,10 +137,11 @@ export const Default = ({ fields, params, page }: TestimonialBlockProps): JSX.El
                 <AuthorAttribution item={item} isEditing={isEditing} />
               </div>
               {(item.companyLogo?.jsonValue?.value?.src || isEditing) && (
-                <div className="mt-4 flex justify-center">
-                  <ContentSdkImage
+                <div className="relative mx-auto mt-4 h-8 w-[120px]">
+                  <SitecoreNextImage
                     field={item.companyLogo?.jsonValue}
-                    className="h-8 max-w-[120px] object-contain opacity-60"
+                    className="object-contain opacity-60"
+                    sizes="120px"
                   />
                 </div>
               )}
@@ -254,10 +255,11 @@ export const Grid = ({ fields, params, page }: TestimonialBlockProps): JSX.Eleme
                   <AuthorAttribution item={item} isEditing={isEditing} />
                 </div>
                 {(item.companyLogo?.jsonValue?.value?.src || isEditing) && (
-                  <div className="mt-3">
-                    <ContentSdkImage
+                  <div className="relative mt-3 h-6 w-[100px]">
+                    <SitecoreNextImage
                       field={item.companyLogo?.jsonValue}
-                      className="h-6 max-w-[100px] object-contain opacity-50"
+                      className="object-contain opacity-50"
+                      sizes="100px"
                     />
                   </div>
                 )}
@@ -299,10 +301,11 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
           {item && (
             <div className="flex flex-col items-center gap-8 md:flex-row md:items-start">
               {(item.authorImage?.jsonValue?.value?.src || isEditing) && (
-                <div className="shrink-0">
-                  <ContentSdkImage
+                <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-full shadow-md">
+                  <SitecoreNextImage
                     field={item.authorImage?.jsonValue}
-                    className="h-32 w-32 rounded-full object-cover shadow-md"
+                    className="object-cover"
+                    sizes="128px"
                   />
                 </div>
               )}
@@ -319,10 +322,11 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
                   <AuthorAttribution item={item} isEditing={isEditing} size="lg" />
                 </div>
                 {(item.companyLogo?.jsonValue?.value?.src || isEditing) && (
-                  <div className="mt-4">
-                    <ContentSdkImage
+                  <div className="relative mt-4 h-8 w-[120px]">
+                    <SitecoreNextImage
                       field={item.companyLogo?.jsonValue}
-                      className="h-8 max-w-[120px] object-contain opacity-60"
+                      className="object-contain opacity-60"
+                      sizes="120px"
                     />
                   </div>
                 )}

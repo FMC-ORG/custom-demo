@@ -3,12 +3,12 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import { SitecoreNextImage } from '@/lib/sitecore-next-image';
 import { cn } from '@/lib/utils';
 
 interface HeroBannerFields {
@@ -147,11 +147,12 @@ export const SplitImageText = ({ fields, params, page }: HeroBannerProps): JSX.E
               <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
             </div>
           </div>
-          <div className="overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
+          <div className="relative min-h-[280px] overflow-hidden rounded-[var(--brand-card-radius,0.75rem)] md:min-h-[360px]">
             {(fields.HeroImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SitecoreNextImage
                 field={fields.HeroImage}
-                className="h-full w-full object-cover"
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             )}
           </div>
@@ -176,9 +177,11 @@ export const BackgroundImage = ({ fields, params, page }: HeroBannerProps): JSX.
         {/* Background image */}
         {(fields.HeroImage?.value?.src || isEditing) && (
           <div className="absolute inset-0">
-            <ContentSdkImage
+            <SitecoreNextImage
               field={fields.HeroImage}
-              className="h-full w-full object-cover"
+              className="object-cover"
+              sizes="100vw"
+              priority
             />
           </div>
         )}
@@ -226,9 +229,11 @@ export const VideoBackground = ({ fields, params, page }: HeroBannerProps): JSX.
         {/* Poster / background image */}
         {(fields.HeroImage?.value?.src || isEditing) && (
           <div className="absolute inset-0">
-            <ContentSdkImage
+            <SitecoreNextImage
               field={fields.HeroImage}
-              className="h-full w-full object-cover"
+              className="object-cover"
+              sizes="100vw"
+              priority
             />
           </div>
         )}
@@ -331,9 +336,11 @@ export const Howdens = ({ fields, params, page }: HeroBannerProps): JSX.Element 
       <section className="relative flex min-h-[85vh] w-full items-end overflow-hidden pb-16 pt-28 md:items-center md:pb-24">
         {(fields.HeroImage?.value?.src || isEditing) && (
           <div className="absolute inset-0">
-            <ContentSdkImage
+            <SitecoreNextImage
               field={fields.HeroImage}
-              className="h-full w-full object-cover object-center"
+              className="object-cover object-center"
+              sizes="100vw"
+              priority
             />
           </div>
         )}

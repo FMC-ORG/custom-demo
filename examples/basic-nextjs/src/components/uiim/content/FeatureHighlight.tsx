@@ -3,12 +3,12 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
+import { SitecoreNextImage } from '@/lib/sitecore-next-image';
 import { cn } from '@/lib/utils';
 
 interface FeatureHighlightFields {
@@ -91,11 +91,12 @@ export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.El
             )}
             <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
           </div>
-          <div className="overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
+          <div className="relative min-h-[280px] overflow-hidden rounded-[var(--brand-card-radius,0.75rem)] md:min-h-[360px]">
             {(fields.FeatureImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SitecoreNextImage
                 field={fields.FeatureImage}
-                className="h-full w-full object-cover"
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             )}
           </div>
@@ -140,10 +141,11 @@ export const Centered = ({ fields, params, page }: FeatureHighlightProps): JSX.E
             <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
           </div>
           {(fields.FeatureImage?.value?.src || isEditing) && (
-            <div className="mt-10 overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
-              <ContentSdkImage
+            <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
+              <SitecoreNextImage
                 field={fields.FeatureImage}
-                className="w-full object-cover"
+                className="object-cover"
+                sizes="(max-width: 896px) 100vw, 896px"
               />
             </div>
           )}
@@ -187,11 +189,12 @@ export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.
             )}
             <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
           </div>
-          <div className="relative overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
+          <div className="relative min-h-[280px] overflow-hidden rounded-[var(--brand-card-radius,0.75rem)] md:min-h-[360px]">
             {(fields.FeatureImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SitecoreNextImage
                 field={fields.FeatureImage}
-                className="h-full w-full object-cover"
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             )}
             <div className="absolute inset-0 flex items-center justify-center bg-black/20">
@@ -232,10 +235,11 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
       >
         <div className="mx-auto flex max-w-4xl items-start gap-6 md:px-6">
           {(fields.FeatureImage?.value?.src || isEditing) && (
-            <div className="h-16 w-16 shrink-0 overflow-hidden">
-              <ContentSdkImage
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden">
+              <SitecoreNextImage
                 field={fields.FeatureImage}
-                className="h-full w-full object-contain"
+                className="object-contain"
+                sizes="64px"
               />
             </div>
           )}
@@ -282,9 +286,10 @@ export const HowdensAppointment = ({ fields, params, page }: FeatureHighlightPro
         <div className="mx-auto grid max-w-[1600px] items-stretch md:grid-cols-2">
           <div className="relative min-h-[280px] md:min-h-[360px]">
             {(fields.FeatureImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SitecoreNextImage
                 field={fields.FeatureImage}
-                className="absolute inset-0 h-full w-full object-cover"
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             )}
           </div>
@@ -330,9 +335,13 @@ export const HowdensQuartz = ({ fields, params, page }: FeatureHighlightProps): 
     <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
       <section className="w-full px-4 py-12 md:py-16" style={{ backgroundColor: 'var(--brand-muted)' }}>
         <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:gap-14 md:px-6">
-          <div className="overflow-hidden rounded-[var(--brand-card-radius,0.25rem)] shadow-sm">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--brand-card-radius,0.25rem)] shadow-sm">
             {(fields.FeatureImage?.value?.src || isEditing) && (
-              <ContentSdkImage field={fields.FeatureImage} className="aspect-[4/3] h-full w-full object-cover" />
+              <SitecoreNextImage
+                field={fields.FeatureImage}
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
             )}
           </div>
           <div
@@ -385,9 +394,13 @@ export const HowdensBedroom = ({ fields, params, page }: FeatureHighlightProps):
     <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
       <section className="w-full px-4 py-12 md:py-16" style={{ backgroundColor: 'var(--brand-bg)' }}>
         <div className="mx-auto grid max-w-7xl items-stretch overflow-hidden rounded-[var(--brand-card-radius,0.25rem)] shadow-md md:grid-cols-2">
-          <div className="min-h-[280px]">
+          <div className="relative min-h-[280px] w-full">
             {(fields.FeatureImage?.value?.src || isEditing) && (
-              <ContentSdkImage field={fields.FeatureImage} className="h-full min-h-[280px] w-full object-cover" />
+              <SitecoreNextImage
+                field={fields.FeatureImage}
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
             )}
           </div>
           <div

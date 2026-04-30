@@ -71,21 +71,15 @@ Read `docs/ai/config/credentials.local.yaml`.
    - Update `credentials.local.yaml` with new values
 
 **If no credentials** (file doesn't exist or `contentHub.host` is empty):
-1. Ask the user:
+1. Show the user: *"I need Content Hub credentials to upload images automatically. See `docs/ai/config/credentials.example.yaml` for the expected format."*
+2. Ask the user:
    - **Content Hub hostname** — e.g., `https://your-instance.sitecorecontenthub.cloud`
    - **Username and password**
    - **Client ID and secret** (only if they want OAuth instead of simple auth)
-2. Validate immediately by calling `POST <host>/api/authenticate`
-3. If **200 OK** → save to `docs/ai/config/credentials.local.yaml` (gitignored):
-   ```yaml
-   contentHub:
-     host: "https://your-instance.sitecorecontenthub.cloud"
-     authMethod: "simple"
-     user: "admin"
-     password: "secret"
-   ```
-4. Tell the user: *"Credentials saved and verified. They'll be reused for future demo builds. Delete `credentials.local.yaml` to reset."*
-5. If **401 / failed** → ask the user to check and retry
+3. Validate immediately by calling `POST <host>/api/authenticate`
+4. If **200 OK** → copy from `credentials.example.yaml` to `credentials.local.yaml` and fill in values (gitignored)
+5. Tell the user: *"Credentials saved and verified. They'll be reused for future demo builds. Delete `credentials.local.yaml` to reset."*
+6. If **401 / failed** → ask the user to check and retry
 
 **If the user declines to provide credentials**, that's fine — set `contentHub.host: ""` and images will fall back to the manual `images-to-upload.md` checklist in Phase 3 Step 5.
 
@@ -183,6 +177,12 @@ Show:
 4. Content language: confirm all content will be in English
 5. Estimated work: N existing components + M custom variants + P manual steps
 
+**Ask TWO questions — do not continue without answers to both:**
+1. "Does the build plan look correct? Approved to proceed?"
+2. "Do you want pixel-perfect custom variants for each component (Phase 5.5), or are the generic template variants sufficient?"
+
+Record the Phase 5.5 decision in `demo-progress.yaml` (`phases.phase5_5_variants.skippedReason` if declined).
+
 The user must say "approved", "go ahead", "looks good", or equivalent before Phase 2.5 begins. If the user requests changes, update the plan and re-present.
 
 **Why this gate exists:** In the Eurobank demo build, skipping approval led to creating wrong variants, wrong content language, and wrong page structure — all of which had to be redone. This checkpoint prevents ~15 minutes of wasted MCP calls.
@@ -253,7 +253,33 @@ Data/HeroBanners/
   └── Eurobank - Hero Banner - Retirees           # personalization (SE creates)
 ```
 
-#### Step 1 — Create client datasource items
+#### Step 1 — Upload images to Content Hub
+
+**Run this FIRST** — before creating datasource items. The `imageFieldXml` values are needed when populating fields in Step 3.
+
+Images were downloaded during Phase 2.5 (content extraction with `--download-images`). The local files and manifest are at `docs/ai/demos/<client>/images/`.
+
+**If Content Hub credentials are available** (check `docs/ai/config/credentials.local.yaml`):
+
+```bash
+node docs/ai/scripts/upload-to-content-hub.mjs \
+  --images-dir docs/ai/demos/<client>/images
+```
+
+The script reads credentials automatically and performs 5 steps per image:
+1. `POST /api/v2.0/upload` — request upload URL
+2. `POST /api/v2.0/upload/process` — upload file binary
+3. `POST /api/v2.0/upload/finalize` — get `asset_id` + `asset_identifier`
+4. `POST /api/entities/{id}/lifecycle/approve` — auto-approve (Created → Approved)
+5. `POST /api/entities` (M.PublicLink) — create public link → get working public URL
+
+After completion, `image-manifest.json` is updated with per-image:
+- `assetId`, `assetIdentifier`, `publicUrl`, `thumbnailUrl`
+- `imageFieldXml` — ready-to-use DAM Image field XML for datasource items
+
+**If no Content Hub credentials:** Skip this step. Image fields will be left empty and added to `images-to-upload.md` for manual upload later.
+
+#### Step 2 — Create client datasource items
 
 For each section in `buildOrder.phase1_sitecore` with `matchType: "template"`:
 
@@ -267,7 +293,7 @@ create_content_item(
   parentId=manifest.datasourceFolder.itemId
 )
 ```
-Save the returned `itemId` — Phase 6 (page assembly) will wire this to the page.
+Save the returned `itemId`.
 
 **List components (parent + children):**
 ```
@@ -279,7 +305,7 @@ create_content_item(
 ```
 Then create each child item under the new parent (see Step 4).
 
-#### Step 2 — Populate all fields (text + links + images in one call)
+#### Step 3 — Populate all fields (text + links + images in one call)
 
 For each new client datasource item, build a single field update that includes **all field types**:
 
@@ -292,7 +318,7 @@ update_fields_on_content_item(newItemId, {
   // Link fields — convert { text, href, target } to Sitecore XML
   "PrimaryLink": '<link text="Learn more" anchor="" linktype="external" class="" title="" target="_blank" querystring="" url="https://client.com/page" />',
 
-  // Image fields — from image-manifest.json imageFieldXml (if images were uploaded)
+  // Image fields — from image-manifest.json imageFieldXml (uploaded in Step 1)
   "HeroImage": '<Image src="https://host/api/public/content/abc?v=def" dam-id="xyz" alt="Hero" dam-content-type="Image" thumbnailsrc="https://host/api/gateway/123/thumbnail" />'
 })
 ```
@@ -302,7 +328,7 @@ update_fields_on_content_item(newItemId, {
 2. Use the manifest's `imageFieldXml` as the field value
 3. Include it in the same `update_fields_on_content_item` call as text and link fields
 
-**If images were not uploaded** (no Content Hub credentials), skip Image fields — they'll be set manually later or via the fallback in Step 5.
+**If images were not uploaded** (Step 1 was skipped), omit Image fields — add them to `images-to-upload.md` for manual handling.
 
 **Link field conversion rules:**
 - `href` starts with `http` → `linktype="external"`, set `url` attribute
@@ -322,7 +348,7 @@ For each child in contentMap.sections[N].children:
   create_content_item(
     name="<ClientName> - <descriptive child name>",
     templateId=manifest.templates.child.itemId,
-    parentId=<new client parent itemId from Step 1>
+    parentId=<new client parent itemId from Step 2>
   )
   update_fields_on_content_item(newChildId, {
     // Text + link + image fields — all in one call
@@ -335,7 +361,7 @@ For each child in contentMap.sections[N].children:
 
 Include child image fields (e.g., `CardImage`) in the same update call — match `child.imageFields[].src` to `image-manifest.json` entries.
 
-The number of children matches exactly what the content map specifies (extracted from the client site). No comparison with example item children needed — these are fresh items.
+The number of children matches exactly what the content map specifies (extracted from the client site).
 
 Children within the same parent can be created in parallel (they share a parent but are independent).
 
@@ -348,75 +374,17 @@ Children within the same parent can be created in parallel (they share a parent 
 >
 > This verification step adds ~5 seconds per list component but prevents empty card grids and stat rows.
 
-#### Step 5 — Upload images to Content Hub
+#### Step 5 — Handle image upload failures
 
-**Execution order:** Run this step AFTER creating datasource items (Step 1) but the upload script itself should have been run BEFORE Step 2 starts, so `imageFieldXml` values are available when populating fields. The recommended flow is:
+If any images failed to upload in Step 1, or Step 1 was skipped entirely:
 
-```
-Step 1:  Create all datasource items (empty)
-Step 5:  Run upload script → image-manifest.json gets imageFieldXml values
-Step 2:  Populate all fields (text + links + images) using content-map + image-manifest
-Step 4:  Create and populate children (text + links + images)
-```
-
-Images were downloaded during Phase 2.5 (content extraction with `--download-images`). The local files and manifest are at `docs/ai/demos/<client>/images/`.
-
-**Read credentials:** Check `docs/ai/config/credentials.local.yaml` for `contentHub` settings. If `contentHub.host` is empty, skip automated upload and generate `images-to-upload.md` instead.
-
-**Step 5a — Run the upload script:**
-
-```bash
-node docs/ai/scripts/upload-to-content-hub.mjs \
-  --images-dir docs/ai/demos/<client>/images
-```
-
-The script reads credentials from `credentials.local.yaml` automatically. No CLI args needed if credentials are saved.
-
-The script performs 5 steps per image:
-1. `POST /api/v2.0/upload` — request upload URL
-2. `POST /api/v2.0/upload/process` — upload file binary
-3. `POST /api/v2.0/upload/finalize` — finalize → get `asset_id` + `asset_identifier`
-4. `POST /api/entities/{id}/lifecycle/approve` — auto-approve (Created → Approved)
-5. `POST /api/entities` (M.PublicLink) — create public link → get working public URL
-
-After completion, `image-manifest.json` is updated with per-image:
-- `assetId` — Content Hub numeric ID
-- `assetIdentifier` — Content Hub string identifier (used as `dam-id`)
-- `publicUrl` — publicly accessible URL (e.g., `https://host/api/public/content/{relativeUrl}?v={hash}`)
-- `thumbnailUrl` — thumbnail URL
-- `imageFieldXml` — ready-to-use Image field XML for XM Cloud datasource items
-
-**Step 5b — Set Image fields on datasource items:**
-
-For each uploaded image, read `imageFieldXml` from the manifest and update the datasource item:
-```
-update_fields_on_content_item(datasourceItemId, {
-  "HeroImage": '<Image src="https://host/api/public/content/abc123?v=def456" dam-id="assetIdentifier" alt="Hero" dam-content-type="Image" thumbnailsrc="https://host/api/gateway/12345/thumbnail" />'
-})
-```
-
-The `imageFieldXml` value from the manifest can be used directly — it contains the correct DAM Image format with `src`, `dam-id`, `alt`, `dam-content-type`, and `thumbnailsrc` attributes.
-
-Image field updates can run in parallel — they're independent items.
-
-**Step 5c — Handle failures:**
-
-If upload fails for any image:
-1. Record the failure in `demo-progress.yaml` section tracking: `imagesFailed` count
-2. Add the failed image to `docs/ai/demos/<client>/images-to-upload.md` with:
-   - Local file path (already downloaded)
+1. Generate `docs/ai/demos/<client>/images-to-upload.md` with:
+   - Local file path (already downloaded in Phase 2.5)
    - Content Hub host URL
    - Source URL
-3. Continue with the next image — do NOT block the pipeline
-
-**Step 5d — Manual fallback (if no Content Hub credentials):**
-
-If the user didn't provide Content Hub credentials in Phase 0:
-1. Generate `images-to-upload.md` with local file paths and source URLs
-2. SE uploads manually to Content Hub
-3. SE confirms images are uploaded and approved
-4. Agent uses `search_assets` to find uploaded media items by name
-5. Agent builds Image field XML manually and sets on datasource items
+   - Target datasource item + field name
+2. Record `imagesFailed` count in `demo-progress.yaml`
+3. After the SE uploads manually and confirms, use `search_assets` to find items by name, build `imageFieldXml`, and set on datasource items
 
 #### Step 6 — Record all new items
 

@@ -1,33 +1,19 @@
 ---
 name: sitecore-build-demo
-description: Build a complete Sitecore demo from a client homepage screenshot (required) and optional URL. Extracts brand theme, analyzes the page visually, matches sections to template components + variants, populates English content, and applies theming. Use when an SE says "build a demo for [client]", "replicate this site", or provides a homepage screenshot for demo creation. REQUIRES a screenshot before proceeding.
+description: Build a complete Sitecore demo from a client homepage screenshot (required) and optional URL. Extracts brand theme, analyzes the page, matches sections to template components, populates content with images, and applies theming. Use when an SE says "build a demo for [client]", "replicate this site", or provides a homepage screenshot.
 ---
 
 Read and follow `docs/ai/skills/sitecore-build-demo.md` in full before proceeding.
 
-This skill orchestrates the full demo creation pipeline:
+**Critical behaviors that must not be skipped:**
 
-0. **Gather inputs** — screenshot is REQUIRED. URL is optional. Never proceed without a visual reference.
-0.5. Manifest health check (uses `sitecore-validate-manifest` skill — Quick mode)
-1. Theme extraction (uses `sitecore-extract-theme` skill — screenshot is primary input)
-2. Homepage analysis + variant gap analysis + API-addable classification
-   **⛔ MANDATORY CHECKPOINT — show plan, wait for user approval before proceeding**
-2.5. Content extraction + mapping — ALL CONTENT IN ENGLISH regardless of source language
-3. Content population (creates new client datasource items via MCP from content-map.yaml)
-   - Verify `create_component_ds` children after creation (known reliability issue)
-4. Theme application — prefer inlining `:root` in `globals.css` above `@layer base` (unlayered wins cascade); fall back to `globals-brand.css` import only if verified in DevTools
-5. Custom component building (if matchType: "custom" in build plan)
-5.5. **Demo variant creation** (uses `sitecore-create-demo-variants` skill) — creates pixel-perfect custom variant per component matching the screenshot's exact layout/spacing
-6. Page assembly on existing Home page (adds API-addable components + generates manual tasks for context-only)
-7. Summary (what was done + manual tasks including variant selection)
+1. **Phase 0 — Content Hub credentials:** ALWAYS check `docs/ai/config/credentials.local.yaml`. If missing or invalid, ASK the user for Content Hub URL + username + password before proceeding. Without credentials, images cannot be uploaded automatically.
 
-Key rules:
-- **Screenshot required** — never start without one
-- **Approval gate** — stop after Phase 2, show plan, wait for "go ahead"
-- **English only** — all content in English, translate from source language
-- **Verify children** — read back list component parents to confirm children exist
-- **Context-only = manual** — NavigationHeader/SiteFooter cannot be added via API
-- **Use Home page** — always assemble on the existing Home page, never create a new subpage unless explicitly asked
-- **Resume support** — if the user says "resume demo", read `demo-progress.yaml` and skip completed phases/sections
+2. **Phase 2 — Two mandatory questions at the approval checkpoint:**
+   - "Does the build plan look correct? Approved to proceed?"
+   - "Do you want pixel-perfect custom variants (Phase 5.5), or are generic template variants sufficient?"
+   Record the answer in `demo-progress.yaml`. Do NOT defer the variant question.
+
+3. **Phase 3 — Image upload runs FIRST:** Run `upload-to-content-hub.mjs` BEFORE creating datasource items. The `imageFieldXml` values it produces are needed when populating fields (text + links + images all in one `update_fields_on_content_item` call).
 
 Output directory: `docs/ai/demos/<client-kebab>/`

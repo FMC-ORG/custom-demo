@@ -1,6 +1,6 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-03-25T22:00:00Z"
-lastUpdatedBy: "claude-code"
+lastUpdatedAt: "2026-04-29T20:30:00Z"
+lastUpdatedBy: "cursor-agent"
 
 project:
   siteCollection: "main"
@@ -2014,3 +2014,27 @@ lookups:
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Forms"
     itemId: "{0A7AA74E-9652-4890-B218-EAC82F157663}"
     lastReadAt: "2026-03-25T20:30:00Z"
+
+# Demo datasource items (AI-created content, not new component definitions)
+demoContent:
+  - slug: howdens
+    label: "Howdens homepage demo"
+    homePageId: "{E2124310-F817-4644-8671-BFF8E72B66D7}"
+    homePagePath: "/sitecore/content/main/main-website/Home"
+    recordedAt: "2026-04-29T20:30:00Z"
+    notes:
+      - "Datasource items under Data/*; layout instance IDs in docs/ai/demos/howdens/page-assembly.md"
+    datasources:
+      - { name: "Howdens - Hero Banner", itemId: "{A9CB67E1-8DC0-4CAE-B2CA-8A0B5056838D}", template: "HeroBanner" }
+      - { name: "Howdens - CTA Design Appointment", itemId: "{D637A67A-2142-464B-8F94-DEF1B4FBC654}", template: "CTABanner" }
+      - { name: "Howdens - Feature Cards Category Tiles", itemId: "{EDFD0E15-15CB-4EB2-ACC1-61BAE66D1082}", template: "FeatureCardsGrid" }
+      - { name: "Howdens - Feature Cards Real Homes", itemId: "{4F3190D1-D510-4847-84F4-A56243637219}", template: "FeatureCardsGrid" }
+      - { name: "Howdens - Tab Navigation Kitchen Colours", itemId: "{39D31505-9838-47BD-98E9-21EA23EBB854}", template: "TabNavigationSection" }
+      - { name: "Howdens - Feature Highlight Quartz", itemId: "{A51EE9BA-890D-4554-9CFC-57513F355005}", template: "FeatureHighlight" }
+      - { name: "Howdens - Feature Cards News Events", itemId: "{3741819A-073A-45BB-93F4-43FDD16C5DA8}", template: "FeatureCardsGrid" }
+      - { name: "Howdens - CTA Brochures", itemId: "{5C24A2D2-7FA2-4873-AA82-F9C430C5A6D0}", template: "CTABanner" }
+      - { name: "Howdens - Feature Cards Editorial Links", itemId: "{3E4AA833-EAA5-47C4-8062-0013B7AF9317}", template: "FeatureCardsGrid" }
+      - { name: "Howdens - CTA Bedroom Inspiration", itemId: "{DA48CD2D-5B87-4ACC-AFBA-A3E842C81606}", template: "CTABanner" }
+      - { name: "Howdens - Value Prop Buying Journey", itemId: "{C90817CD-40F6-413C-A8F4-CB79B3C4F293}", template: "ValuePropositionGrid" }
+      - { name: "Howdens - Trust Stats Row", itemId: "{09572178-554A-4192-8EC6-098E8D934224}", template: "TrustStatsRow" }
+      - { name: "Howdens - Testimonial Block", itemId: "{2F3CB671-2526-48F1-A1AF-FA00D540766D}", template: "TestimonialBlock" }

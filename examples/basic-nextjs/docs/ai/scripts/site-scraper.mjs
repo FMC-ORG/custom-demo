@@ -7,6 +7,7 @@
  *   - Full-page screenshot (desktop + mobile)
  *   - Hero section screenshot
  *   - Computed CSS tokens (colors, fonts, spacing, radii, shadows)
+ *   Page load uses `waitUntil: 'load'` (not networkidle) so analytics-heavy sites complete.
  *   - Google Fonts / font-face URLs
  *   - Key images (logo, hero background, OG image)
  *   - Meta tags (theme-color, OG data)
@@ -96,7 +97,8 @@ try {
   });
   const desktopPage = await desktopContext.newPage();
 
-  await desktopPage.goto(siteUrl, { waitUntil: 'networkidle', timeout });
+  // `load` — many retail sites never reach `networkidle` (analytics, video, long-polling).
+  await desktopPage.goto(siteUrl, { waitUntil: 'load', timeout });
   await desktopPage.waitForTimeout(extraWait);
 
   // ── Dismiss popups, cookie banners, overlays ─────────────
@@ -219,15 +221,46 @@ try {
     console.log('[scraper] No popups detected');
   }
 
+  // Cookie/region flows may navigate after clicks — re-attach to the live document.
+  try {
+    await desktopPage.waitForLoadState('load', { timeout: 20000 });
+  } catch {
+    /* already settled */
+  }
+  await desktopPage.waitForTimeout(800);
+
   // Scroll down and back to trigger lazy-loaded content
-  await desktopPage.evaluate(() => {
-    window.scrollTo(0, document.body.scrollHeight);
-  });
-  await desktopPage.waitForTimeout(1000);
-  await desktopPage.evaluate(() => {
-    window.scrollTo(0, 0);
-  });
-  await desktopPage.waitForTimeout(500);
+  const scrollFullCycle = async () => {
+    await desktopPage.evaluate(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+    await desktopPage.waitForTimeout(1000);
+    await desktopPage.evaluate(() => {
+      window.scrollTo(0, 0);
+    });
+    await desktopPage.waitForTimeout(500);
+  };
+  try {
+    await scrollFullCycle();
+  } catch (e) {
+    const msg = e?.message || '';
+    if (msg.includes('Execution context was destroyed')) {
+      console.log('[scraper] Navigation after dismiss — waiting for load, retrying scroll...');
+      try {
+        await desktopPage.waitForLoadState('load', { timeout: 30000 });
+      } catch {
+        /* ignore */
+      }
+      await desktopPage.waitForTimeout(1000);
+      try {
+        await scrollFullCycle();
+      } catch {
+        console.log('[scraper] ⚠ Scroll skipped after navigation');
+      }
+    } else {
+      throw e;
+    }
+  }
 
   // Full page screenshot
   await desktopPage.screenshot({
@@ -564,7 +597,7 @@ try {
   });
   const mobilePage = await mobileContext.newPage();
 
-  await mobilePage.goto(siteUrl, { waitUntil: 'networkidle', timeout });
+  await mobilePage.goto(siteUrl, { waitUntil: 'load', timeout });
   await mobilePage.waitForTimeout(extraWait);
 
   // Dismiss popups on mobile too (they often differ from desktop)

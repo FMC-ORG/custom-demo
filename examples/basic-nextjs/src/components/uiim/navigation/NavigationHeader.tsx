@@ -268,3 +268,70 @@ export const Minimal = (props: NavigationHeaderProps): JSX.Element => {
     </div>
   );
 };
+
+/* Howdens — utility strip + search row + category bar */
+export const Howdens = (props: NavigationHeaderProps): JSX.Element => {
+  const { params, fields } = props;
+  const { styles, RenderingIdentifier } = params;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const items = getNavItems(fields);
+
+  if (!params) return <NavigationHeaderDefaultComponent />;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header className="w-full">
+        <div
+          className="hidden border-b text-[11px] font-medium uppercase tracking-wide md:block"
+          style={{
+            backgroundColor: 'var(--brand-muted)',
+            color: 'var(--brand-muted-foreground)',
+            borderColor: 'var(--brand-border)',
+          }}
+        >
+          <div className="mx-auto flex max-w-[1600px] items-center justify-end gap-6 px-6 py-2">
+            <span className="cursor-default">Find a depot</span>
+            <span className="cursor-default">Sign in</span>
+            <span
+              className="cursor-default rounded px-3 py-1 text-[10px] font-bold"
+              style={{ backgroundColor: 'var(--brand-accent)', color: 'var(--brand-accent-foreground)' }}
+            >
+              Request a brochure
+            </span>
+          </div>
+        </div>
+        <div style={{ backgroundColor: 'var(--brand-bg)', borderBottom: '1px solid var(--brand-border)' }}>
+          <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-4 px-4 py-3 sm:px-6">
+            <Logo />
+            <div
+              className="order-last flex min-h-[40px] w-full flex-1 items-center rounded-sm border px-3 text-sm md:order-none md:max-w-xl"
+              style={{ borderColor: 'var(--brand-border)', color: 'var(--brand-muted-foreground)' }}
+            >
+              <span className="opacity-60">Search kitchens, doors, hardware…</span>
+            </div>
+            <div className="ml-auto flex items-center gap-2">
+              <CtaButton />
+              <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+            </div>
+          </div>
+        </div>
+        <div style={{ backgroundColor: 'var(--brand-header-bg)', color: 'var(--brand-header-fg)' }}>
+          <div className="mx-auto hidden max-w-[1600px] items-center gap-8 px-6 py-3 text-sm font-semibold uppercase tracking-wide md:flex">
+            {items.slice(0, 6).map((item) => (
+              <a
+                key={item.Id}
+                href={item.Href + (item.Querystring ? `?${item.Querystring}` : '')}
+                className="transition-opacity hover:opacity-80"
+                style={{ color: 'var(--brand-header-fg)' }}
+              >
+                {getNavText(item)}
+              </a>
+            ))}
+          </div>
+        </div>
+        <MobileMenu items={items} open={menuOpen} onClose={() => setMenuOpen(false)} />
+      </header>
+    </div>
+  );
+};

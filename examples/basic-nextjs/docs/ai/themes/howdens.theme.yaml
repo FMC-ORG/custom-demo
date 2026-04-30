@@ -1,0 +1,120 @@
+# Howdens — extracted brand theme (trade kitchens / joinery)
+# Source: Playwright scraper + homepage visual reference.
+# Note: Scraper session resolved to cookie/consent UI; colors tuned using
+# homepage screenshot (dark nav, slate body, green CTAs, dark footer) and
+# Howdens typography hints (Rooster → Google substitute).
+
+client:
+  name: "Howdens"
+  sourceUrl: "https://www.howdens.com/"
+  extractedAt: "2026-04-30T00:00:00Z"
+  extractedBy: "sitecore-build-demo"
+
+colors:
+  primary: "#243036"
+  primaryForeground: "#ffffff"
+  secondary: "#3d4f57"
+  secondaryForeground: "#ffffff"
+  accent: "#2d6a4f"
+  accentForeground: "#ffffff"
+  background: "#ffffff"
+  foreground: "#243036"
+  muted: "#f4f5f5"
+  mutedForeground: "#5c6b72"
+  headerBackground: "#243036"
+  headerForeground: "#ffffff"
+  footerBackground: "#243036"
+  footerForeground: "#e8eaec"
+  border: "#d5d9dc"
+  ring: "#2d6a4f"
+  extra:
+    - name: "ctaGreen"
+      value: "#2d6a4f"
+    - name: "heroOverlay"
+      value: "rgba(36, 48, 54, 0.45)"
+
+typography:
+  headingFamily: "'Oswald', system-ui, sans-serif"
+  headingWeight: "600"
+  bodyFamily: "'Source Sans 3', system-ui, sans-serif"
+  bodyWeight: "400"
+  monoFamily: "ui-monospace, monospace"
+  googleFontsUrl: "https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap"
+  scale:
+    hero: "clamp(2rem, 4vw, 3.25rem)"
+    h1: "2.5rem"
+    h2: "1.875rem"
+    h3: "1.5rem"
+    body: "1rem"
+    small: "0.875rem"
+  headingTransform: "none"
+  letterSpacing: "normal"
+  lineHeight: "1.5"
+
+spacing:
+  density: "comfortable"
+  sectionGap: "4rem"
+  containerMaxWidth: "1600px"
+  containerPadding: "1.25rem"
+
+shape:
+  borderRadius: "0.25rem"
+  buttonRadius: "0.25rem"
+  cardRadius: "0.25rem"
+  imageRadius: "0"
+  shadowStyle: "subtle"
+  borderStyle: "solid"
+
+tone:
+  overall: "Trade supplier: confident, practical, UK retail joinery leader."
+  colorMode: "mixed"
+  contrast: "high"
+  imagery: "Kitchen and bedroom lifestyle photography; product and brochure shots."
+  heroStyle: "full-bleed-image"
+  cardStyle: "image-forward tiles and split promos"
+  navStyle: "solid-bar"
+
+tailwind:
+  colors:
+    brand:
+      primary: "#243036"
+      secondary: "#3d4f57"
+      accent: "#2d6a4f"
+  fontFamily:
+    heading: ["Oswald", "system-ui", "sans-serif"]
+    body: ["Source Sans 3", "system-ui", "sans-serif"]
+  borderRadius:
+    DEFAULT: "0.25rem"
+    button: "0.25rem"
+    card: "0.25rem"
+
+cssVariables: |
+  :root {
+    --brand-primary: #243036;
+    --brand-primary-foreground: #ffffff;
+    --brand-accent: #2d6a4f;
+    --brand-accent-foreground: #ffffff;
+    --brand-dark: #243036;
+    --brand-dark-foreground: #ffffff;
+    --brand-bg: #ffffff;
+    --brand-fg: #243036;
+    --brand-muted: #f4f5f5;
+    --brand-muted-foreground: #5c6b72;
+    --brand-border: #d5d9dc;
+    --brand-header-bg: #243036;
+    --brand-header-fg: #ffffff;
+    --brand-footer-bg: #243036;
+    --brand-footer-fg: #e8eaec;
+    --brand-heading-font: 'Oswald', system-ui, sans-serif;
+    --brand-body-font: 'Source Sans 3', system-ui, sans-serif;
+    --brand-button-radius: 0.25rem;
+    --brand-card-radius: 0.25rem;
+  }
+
+extraction:
+  confidence: "medium"
+  method: "playwright-scraper-plus-visual-reference"
+  notes:
+    - "Scraper meta title was cookie policy — primary button colors from that page are not representative; theme aligned to real homepage (dark nav/footer, green brochure CTAs)."
+    - "Rooster is proprietary; using Oswald (headings) + Source Sans 3 (body) as Google Fonts substitutes."
+    - "Add the googleFontsUrl link to layout.tsx in Phase 4 when theme is applied."

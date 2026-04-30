@@ -246,3 +246,58 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
     </div>
   );
 };
+
+/* Howdens — brochure strip: product visual + dark copy column */
+export const Howdens = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative w-full overflow-hidden md:min-h-[320px]">
+        <div className="grid md:grid-cols-12">
+          <div className="relative min-h-[220px] md:col-span-5">
+            {(fields.BackgroundImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.BackgroundImage}
+                className="absolute inset-0 h-full w-full object-cover object-left"
+              />
+            )}
+          </div>
+          <div
+            className="flex flex-col justify-center px-6 py-12 md:col-span-7 md:px-14 md:py-16"
+            style={{ backgroundColor: 'var(--brand-header-bg)', color: 'var(--brand-header-fg)' }}
+          >
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="max-w-xl text-3xl font-bold uppercase leading-tight tracking-tight md:text-4xl font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-4 max-w-lg text-base opacity-85 font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+            <div className="mt-8 flex flex-wrap gap-4">
+              {(fields.PrimaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="inline-flex items-center justify-center px-8 py-3 text-sm font-semibold uppercase tracking-wide transition-opacity hover:opacity-90 rounded-[var(--brand-button-radius,0.25rem)]"
+                  style={{
+                    backgroundColor: 'var(--brand-accent)',
+                    color: 'var(--brand-accent-foreground)',
+                  }}
+                />
+              )}
+              <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

@@ -307,3 +307,80 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
     </div>
   );
 };
+
+/* Howdens — crest row + dense link grid + social strip */
+export const Howdens = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const { styles, RenderingIdentifier } = params;
+
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  const columns = [
+    { title: 'Help', links: ['Aftersales', 'Book a design appointment', 'Buying from us', 'Contact us'] },
+    { title: 'About Howdens', links: ['About Howdens UK', 'Careers', 'Newsroom', 'Sustainability'] },
+    { title: 'More from us', links: ['Accessibility', 'Privacy policy', 'Cookie policy', 'Trade terms'] },
+  ];
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-footer-bg)',
+          color: 'var(--brand-footer-fg)',
+        }}
+      >
+        <div className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 md:py-14">
+          <div
+            className="mb-10 flex flex-col items-center justify-between gap-6 border-b pb-8 md:flex-row md:items-start"
+            style={{ borderColor: 'rgba(255,255,255,0.12)' }}
+          >
+            <div
+              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border text-xs font-semibold uppercase"
+              style={{ borderColor: 'rgba(255,255,255,0.25)' }}
+              aria-hidden
+            >
+              Crest
+            </div>
+            <SocialIcons />
+          </div>
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="space-y-3">
+              <Logo />
+              <p className="max-w-xs text-xs leading-relaxed opacity-60 font-[var(--brand-body-font,inherit)]">
+                The UK&apos;s number 1 trade kitchen supplier — local stock, design service, and support for
+                professionals.
+              </p>
+            </div>
+            {columns.map((col) => (
+              <div key={col.title}>
+                <h3 className="mb-3 text-xs font-bold uppercase tracking-widest opacity-80 font-[var(--brand-heading-font,inherit)]">
+                  {col.title}
+                </h3>
+                <ul className="space-y-2">
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <a
+                        href="#"
+                        className="text-sm opacity-70 transition-opacity hover:opacity-100 font-[var(--brand-body-font,inherit)]"
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div
+            className="mt-10 flex flex-col items-center justify-between gap-4 border-t pt-8 text-xs opacity-60 sm:flex-row"
+            style={{ borderColor: 'rgba(255,255,255,0.12)' }}
+          >
+            <Copyright />
+            <p className="text-center sm:text-right">Howden Joinery Ltd · Registered in England and Wales</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};

@@ -334,3 +334,73 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
     </div>
   );
 };
+
+/* Howdens — Trustpilot-style summary + horizontal review scroller */
+export const Howdens = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TestimonialBlockDefaultComponent />;
+  const reviewItems = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component testimonial-block', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-12 md:py-16" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex flex-col items-center justify-between gap-4 border-b pb-8 text-center md:flex-row md:text-left" style={{ borderColor: 'var(--brand-border)' }}>
+            <div>
+              {(datasource.sectionTitle?.jsonValue?.value || isEditing) && (
+                <Text
+                  field={datasource.sectionTitle?.jsonValue}
+                  tag="h2"
+                  className="text-2xl font-bold uppercase tracking-tight md:text-3xl font-[var(--brand-heading-font,inherit)]"
+                  style={{ color: 'var(--brand-fg)' }}
+                />
+              )}
+              <p className="mt-1 text-sm font-[var(--brand-body-font,inherit)]" style={{ color: 'var(--brand-muted-foreground)' }}>
+                Showing our latest reviews
+              </p>
+            </div>
+            <div className="flex flex-col items-center gap-1 md:items-end">
+              <span className="text-sm font-semibold uppercase tracking-wide" style={{ color: 'var(--brand-accent)' }}>
+                Excellent
+              </span>
+              <span className="text-lg tracking-tight" style={{ color: 'var(--brand-accent)' }} aria-hidden>
+                ★★★★★
+              </span>
+              <span className="text-xs opacity-70" style={{ color: 'var(--brand-muted-foreground)' }}>
+                4.5 · based on many reviews
+              </span>
+            </div>
+          </div>
+          <div className="flex gap-4 overflow-x-auto pb-2 pt-2 md:gap-6">
+            {reviewItems.map((item) => (
+              <div
+                key={item.id}
+                className="min-w-[280px] max-w-[340px] shrink-0 rounded-[var(--brand-card-radius,0.25rem)] border p-5 md:min-w-[300px]"
+                style={{
+                  backgroundColor: 'var(--brand-muted)',
+                  borderColor: 'var(--brand-border)',
+                }}
+              >
+                <div className="mb-2 text-sm" style={{ color: 'var(--brand-accent)' }} aria-hidden>
+                  ★★★★★
+                </div>
+                {(item.quoteText?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.quoteText?.jsonValue}
+                    className="line-clamp-4 text-sm leading-relaxed font-[var(--brand-body-font,inherit)]"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                <div className="mt-4 border-t pt-3" style={{ borderColor: 'var(--brand-border)' }}>
+                  <AuthorAttribution item={item} isEditing={isEditing} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

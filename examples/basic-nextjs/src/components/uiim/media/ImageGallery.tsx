@@ -133,3 +133,35 @@ export const Parallax = ({ fields, params, page }: ImageGalleryProps): JSX.Eleme
     </div>
   );
 };
+
+/* Howdens — inspiration row: caption-forward, tight square crop */
+export const Howdens = ({ fields, params, page }: ImageGalleryProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <ImageGalleryDefaultComponent />;
+
+  return (
+    <div className={cn('component image-gallery', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-8 md:py-10" style={{ backgroundColor: 'var(--brand-muted)' }}>
+        <div className="mx-auto max-w-5xl">
+          {(fields.Caption?.value || isEditing) && (
+            <Text
+              field={fields.Caption}
+              tag="p"
+              className="mb-6 text-center text-xs font-bold uppercase tracking-[0.2em] font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-muted-foreground)' }}
+            />
+          )}
+          <figure className="overflow-hidden rounded-[var(--brand-card-radius,0.25rem)] border shadow-sm" style={{ borderColor: 'var(--brand-border)' }}>
+            {(fields.GalleryImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.GalleryImage}
+                className="aspect-[4/3] w-full object-cover md:aspect-[16/9]"
+              />
+            )}
+          </figure>
+        </div>
+      </section>
+    </div>
+  );
+};

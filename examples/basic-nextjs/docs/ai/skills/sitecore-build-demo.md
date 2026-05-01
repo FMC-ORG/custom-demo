@@ -319,7 +319,7 @@ update_fields_on_content_item(newItemId, {
   "PrimaryLink": '<link text="Learn more" anchor="" linktype="external" class="" title="" target="_blank" querystring="" url="https://client.com/page" />',
 
   // Image fields — from image-manifest.json imageFieldXml (uploaded in Step 1)
-  "HeroImage": '<Image src="https://host/api/public/content/abc?v=def" dam-id="xyz" alt="Hero" dam-content-type="Image" thumbnailsrc="https://host/api/gateway/123/thumbnail" />'
+  "HeroImage": '<Image src="https://host/api/public/content/84088-hero?v=def" dam-id="xyz" width="1200" height="600" alt="Hero" dam-content-type="Image" thumbnailsrc="https://host/api/gateway/84088/thumbnail" />'
 })
 ```
 
@@ -355,7 +355,7 @@ For each child in contentMap.sections[N].children:
     "CardTitle": child.fields.CardTitle,
     "CardDescription": child.fields.CardDescription,
     "CardLink": '<link text="..." ... />',
-    "CardImage": '<Image src="..." dam-id="..." ... />'  // from image-manifest.json
+    "CardImage": '<Image src="..." dam-id="..." width="..." height="..." ... />'  // from image-manifest.json — width/height REQUIRED
   })
 ```
 

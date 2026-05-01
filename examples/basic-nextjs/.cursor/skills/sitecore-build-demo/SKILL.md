@@ -48,7 +48,7 @@ Run content-scraper agent → `content-map.yaml`
 **Order matters:**
 1. Upload images: `node docs/ai/scripts/upload-to-content-hub.mjs --images-dir docs/ai/demos/<client>/images`
 2. Create datasource items via MCP
-3. Populate ALL fields per item in one call — text + link XML + `imageFieldXml` from manifest
+3. Populate ALL fields per item in one call — text + link XML + `imageFieldXml` from manifest (MUST include `width` and `height` attributes — Next.js Image throws without them)
 4. Create + populate children for list components
 **Say: "N datasource items created, M images uploaded. Ready for Phase 4?"**
 

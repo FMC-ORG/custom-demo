@@ -74,7 +74,7 @@ The script performs 5 steps per image:
 **Image field format (DAM):**
 ```
 update_fields_on_content_item(itemId, {
-  "HeroImage": '<Image src="https://<CH_HOST>/api/public/content/<relativeUrl>?v=<hash>" dam-id="<assetIdentifier>" alt="Description" dam-content-type="Image" thumbnailsrc="https://<CH_HOST>/api/gateway/<assetId>/thumbnail" />'
+  "HeroImage": '<Image src="https://<CH_HOST>/api/public/content/<assetId>-<name>?v=<hash>" dam-id="<assetIdentifier>" width="<width>" height="<height>" alt="Description" dam-content-type="Image" thumbnailsrc="https://<CH_HOST>/api/gateway/<assetId>/thumbnail" />'
 })
 ```
 

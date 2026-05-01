@@ -165,17 +165,20 @@ query:$site/*[@@name='Data']/*[@@templatename='<FolderTemplateName>']|query:$sha
 When using Content Hub as the DAM, Image fields use the DAM format with `src`, `dam-id`, `dam-content-type`, and `thumbnailsrc` attributes:
 
 ```xml
-<Image src="https://<CH_HOST>/api/public/content/<relativeUrl>?v=<versionHash>"
+<Image src="https://<CH_HOST>/api/public/content/<assetId>-<name>?v=<versionHash>"
        dam-id="<assetIdentifier>"
+       width="<width>" height="<height>"
        alt="Description"
        dam-content-type="Image"
        thumbnailsrc="https://<CH_HOST>/api/gateway/<assetId>/thumbnail" />
 ```
 
+**`width` and `height` are REQUIRED** — without them, Next.js `Image` component throws: `Image with src "..." is missing required "width" property.`
+
 **MCP field update:**
 ```
 update_fields_on_content_item(itemId, {
-  "HeroImage": '<Image src="https://host/api/public/content/abc123?v=def" dam-id="xyz" alt="Hero" dam-content-type="Image" thumbnailsrc="https://host/api/gateway/12345/thumbnail" />'
+  "HeroImage": '<Image src="https://host/api/public/content/84088-hero?v=abc" dam-id="xyz" width="1200" height="600" alt="Hero" dam-content-type="Image" thumbnailsrc="https://host/api/gateway/84088/thumbnail" />'
 })
 ```
 

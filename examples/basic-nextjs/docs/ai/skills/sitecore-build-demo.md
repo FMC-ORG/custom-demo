@@ -85,7 +85,7 @@ Read `docs/ai/config/credentials.local.yaml`.
 
 **Validation script shortcut** (agent can run this instead of manual HTTP call):
 ```bash
-node docs/ai/scripts/upload-to-content-hub.mjs --images-dir docs/ai/demos/test --dry-run
+node docs/ai/scripts/upload-to-content-hub.mjs --dry-run
 ```
 If it prints `[auth] OK`, credentials are valid. If it prints `ERROR`, they need updating.
 

@@ -21,29 +21,32 @@
    An unlayered :root block above @layer base ALWAYS wins the cascade.
    =================================================================== */
 
-/* CLIENT THEME — uncomment or replace with client values from Phase 4:
+/* CLIENT THEME — Howdens (Phase 4 / build-demo) */
 :root {
-  --brand-primary: #00827f;
+  --brand-primary: #434c54;
   --brand-primary-foreground: #ffffff;
-  --brand-accent: #00dc00;
-  --brand-accent-foreground: #1a1a1a;
-  --brand-dark: #1a1a2e;
-  --brand-dark-foreground: #ffffff;
+  --brand-secondary: #1a3d2e;
+  --brand-secondary-foreground: #ffffff;
+  --brand-accent: #c41230;
+  --brand-accent-foreground: #ffffff;
   --brand-bg: #ffffff;
-  --brand-fg: #1a1a2e;
-  --brand-muted: #f5f5f5;
-  --brand-muted-foreground: #6b7280;
-  --brand-border: #e5e7eb;
-  --brand-header-bg: #1a1a2e;
+  --brand-fg: #243036;
+  --brand-muted: #eef1ef;
+  --brand-muted-fg: #5c6569;
+  --brand-header-bg: #434c54;
   --brand-header-fg: #ffffff;
-  --brand-footer-bg: #1a1a2e;
-  --brand-footer-fg: #9ca3af;
-  --brand-heading-font: 'Poppins', sans-serif;
-  --brand-body-font: 'Open Sans', sans-serif;
-  --brand-button-radius: 0.375rem;
-  --brand-card-radius: 0.75rem;
+  --brand-footer-bg: #434c54;
+  --brand-footer-fg: #e8eaeb;
+  --brand-border: #d4d9d6;
+  --brand-ring: #434c54;
+  --brand-dark: #434c54;
+  --brand-dark-foreground: #ffffff;
+  --brand-heading-font: 'Playfair Display', serif;
+  --brand-body-font: 'Source Sans 3', sans-serif;
+  --brand-radius: 0.25rem;
+  --brand-button-radius: 0px;
+  --brand-card-radius: 0.25rem;
 }
-*/
 
 @layer base {
   :root {

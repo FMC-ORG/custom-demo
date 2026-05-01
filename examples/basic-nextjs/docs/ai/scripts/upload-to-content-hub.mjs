@@ -201,6 +201,14 @@ if (!token && !dryRun) {
     process.exit(1);
   }
 }
+
+// ── Auth-only dry-run (no images-dir needed) ──
+if (dryRun && !imagesDir) {
+  console.log('[dry-run] Auth validated. Content Hub connection OK.');
+  console.log(`[dry-run] Host: ${host}`);
+  process.exit(0);
+}
+
 if (!imagesDir) { console.error('ERROR: --images-dir required'); process.exit(1); }
 
 // ── Load manifest ──

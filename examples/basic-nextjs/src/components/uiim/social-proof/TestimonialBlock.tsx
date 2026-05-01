@@ -334,3 +334,80 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
     </div>
   );
 };
+
+const StarRow = ({ small }: { small?: boolean }) => (
+  <div
+    className={cn(
+      'flex justify-center gap-0.5 font-[var(--brand-heading-font,inherit)]',
+      small ? 'text-sm' : 'text-lg'
+    )}
+    style={{ color: 'var(--brand-accent)' }}
+    aria-hidden
+  >
+    ★★★★★
+  </div>
+);
+
+/* Howdens — Trustpilot-style dense review grid */
+export const HowdensTrustpilot = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TestimonialBlockDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component testimonial-block', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-14 md:py-16" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-[1600px]">
+          <div className="mb-10 flex flex-col items-center gap-3 text-center">
+            {(datasource.sectionTitle?.jsonValue?.value || isEditing) && (
+              <Text
+                field={datasource.sectionTitle?.jsonValue}
+                tag="h2"
+                className="text-2xl font-bold md:text-3xl font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-fg)' }}
+              />
+            )}
+            <StarRow />
+            <p
+              className="text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
+              style={{ color: 'var(--brand-muted-fg)' }}
+            >
+              Based on recent reviews
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="flex flex-col bg-[var(--brand-bg)] p-5 shadow-sm"
+                style={{ border: '1px solid var(--brand-border)' }}
+              >
+                <StarRow small />
+                {(item.quoteText?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.quoteText?.jsonValue}
+                    className="mt-3 flex-1 text-sm leading-relaxed font-[var(--brand-body-font,inherit)]"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                <div className="mt-4 border-t pt-4" style={{ borderColor: 'var(--brand-border)' }}>
+                  <AuthorAttribution item={item} isEditing={isEditing} />
+                </div>
+                {(item.companyLogo?.jsonValue?.value?.src || isEditing) && (
+                  <div className="mt-3 flex justify-end opacity-70">
+                    <ContentSdkImage
+                      field={item.companyLogo?.jsonValue}
+                      className="h-5 max-w-[90px] object-contain"
+                    />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

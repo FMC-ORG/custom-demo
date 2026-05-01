@@ -133,3 +133,43 @@ export const Parallax = ({ fields, params, page }: ImageGalleryProps): JSX.Eleme
     </div>
   );
 };
+
+/* Howdens — Real Homes: section title + full-bleed feature image in container */
+export const HowdensRealHomes = ({ fields, params, page }: ImageGalleryProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <ImageGalleryDefaultComponent />;
+
+  return (
+    <div className={cn('component image-gallery', styles)} id={RenderingIdentifier}>
+      <section className="w-full py-12 md:py-16" style={{ backgroundColor: 'var(--brand-muted)' }}>
+        <div className="mx-auto max-w-[1600px] px-4">
+          {(fields.Caption?.value || isEditing) && (
+            <Text
+              field={fields.Caption}
+              tag="h2"
+              className="text-center text-3xl font-bold md:text-4xl font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-fg)' }}
+            />
+          )}
+          {(fields.AltText?.value || isEditing) && (
+            <Text
+              field={fields.AltText}
+              tag="p"
+              className="mx-auto mt-3 max-w-2xl text-center text-base opacity-80 font-[var(--brand-body-font,inherit)]"
+              style={{ color: 'var(--brand-fg)' }}
+            />
+          )}
+          {(fields.GalleryImage?.value?.src || isEditing) && (
+            <div className="mt-10 overflow-hidden rounded-[var(--brand-card-radius,0.25rem)] shadow-sm">
+              <ContentSdkImage
+                field={fields.GalleryImage}
+                className="w-full max-h-[62vh] object-cover"
+              />
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};

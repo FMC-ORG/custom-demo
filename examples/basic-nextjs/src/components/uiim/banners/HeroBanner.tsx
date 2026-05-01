@@ -318,3 +318,76 @@ export const Minimal = ({ fields, params, page }: HeroBannerProps): JSX.Element 
     </div>
   );
 };
+
+/* Howdens trade hero — full-bleed kitchen, lighter overlay, serif headline, square uppercase CTA, carousel dots */
+export const HowdensHero = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative flex min-h-[72vh] w-full items-end justify-center overflow-hidden md:items-center md:justify-start">
+        {(fields.HeroImage?.value?.src || isEditing) && (
+          <div className="absolute inset-0">
+            <ContentSdkImage
+              field={fields.HeroImage}
+              className="h-full w-full object-cover object-center"
+            />
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-black/20 md:bg-gradient-to-r md:from-black/55 md:via-black/25 md:to-transparent" />
+        <div className="relative z-10 w-full max-w-[1600px] px-5 pb-14 pt-28 md:px-10 md:pb-20 md:pt-24 md:text-left">
+          <div className="mx-auto max-w-2xl space-y-5 text-center text-white md:mx-0 md:text-left">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h1"
+                className="text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.25rem] font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Subtitle?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Subtitle}
+                className="mx-auto max-w-xl text-base opacity-95 md:mx-0 md:text-lg font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2 md:justify-start">
+              {(fields.PrimaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="inline-flex min-h-[48px] items-center justify-center px-8 py-3 text-xs font-bold uppercase tracking-[0.18em] transition-opacity hover:opacity-90 rounded-[var(--brand-button-radius,0)]"
+                  style={{
+                    backgroundColor: 'var(--brand-primary)',
+                    color: 'var(--brand-primary-foreground)',
+                  }}
+                />
+              )}
+              {(fields.SecondaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.SecondaryLink}
+                  className="inline-flex min-h-[48px] items-center justify-center border border-white/80 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white transition-opacity hover:opacity-80 rounded-[var(--brand-button-radius,0)]"
+                />
+              )}
+            </div>
+            <div
+              className="flex justify-center gap-2 pt-8 md:justify-start"
+              aria-hidden="true"
+            >
+              {[0, 1, 2, 3, 4].map((i) => (
+                <span
+                  key={i}
+                  className="h-2 w-2 rounded-full"
+                  style={{
+                    backgroundColor: i === 0 ? 'var(--brand-primary-foreground)' : 'rgba(255,255,255,0.35)',
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

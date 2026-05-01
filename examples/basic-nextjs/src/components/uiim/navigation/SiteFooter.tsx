@@ -307,3 +307,112 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
     </div>
   );
 };
+
+/* Howdens — trade mega-footer: no newsletter row, crest strip, dense link grid */
+export const HowdensMegaTradeFooter = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const { styles, RenderingIdentifier } = params;
+
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  const extraColumns = [
+    { title: 'Help', links: ['Aftersales', 'Buying guides', 'Inspiration', 'Contact'] },
+    { title: 'Legal', links: ['Privacy', 'Terms', 'Cookies', 'Accessibility'] },
+  ];
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-footer-bg)',
+          color: 'var(--brand-footer-fg)',
+        }}
+      >
+        <div
+          className="border-b px-4 py-6 text-center sm:px-6"
+          style={{ borderColor: 'rgba(255,255,255,0.12)' }}
+        >
+          <div
+            className="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-full border-2 text-xs font-semibold uppercase tracking-wider opacity-60"
+            style={{ borderColor: 'var(--brand-footer-fg)' }}
+          >
+            RW
+          </div>
+          <p className="mt-2 text-xs opacity-50 font-[var(--brand-body-font,inherit)]">Royal Warrant holder</p>
+        </div>
+
+        <div className="mx-auto max-w-[1600px] px-4 py-12 sm:px-6">
+          <div className="grid gap-10 md:grid-cols-5 lg:gap-12">
+            <div className="md:col-span-2 space-y-4">
+              <Logo />
+              <p className="max-w-sm text-sm leading-relaxed opacity-65 font-[var(--brand-body-font,inherit)]">
+                The UK&apos;s number one trade kitchen supplier — local stock, design support, and fitting
+                expertise for the trade.
+              </p>
+              <SocialIcons />
+            </div>
+
+            {LINK_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.15em] opacity-80 font-[var(--brand-heading-font,inherit)]">
+                  {col.title}
+                </h3>
+                <ul className="space-y-2.5">
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <a
+                        href="#"
+                        className="text-sm opacity-70 transition-opacity hover:opacity-100 font-[var(--brand-body-font,inherit)]"
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+
+            {extraColumns.map((col) => (
+              <div key={col.title}>
+                <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.15em] opacity-80 font-[var(--brand-heading-font,inherit)]">
+                  {col.title}
+                </h3>
+                <ul className="space-y-2.5">
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <a
+                        href="#"
+                        className="text-sm opacity-70 transition-opacity hover:opacity-100 font-[var(--brand-body-font,inherit)]"
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div
+            className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 sm:flex-row"
+            style={{ borderColor: 'rgba(255,255,255,0.12)' }}
+          >
+            <Copyright />
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs opacity-55">
+              <a href="#" className="transition-opacity hover:opacity-100">
+                Terms &amp; Conditions
+              </a>
+              <a href="#" className="transition-opacity hover:opacity-100">
+                Privacy Policy
+              </a>
+              <a href="#" className="transition-opacity hover:opacity-100">
+                Cookies
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};

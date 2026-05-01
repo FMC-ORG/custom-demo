@@ -246,3 +246,132 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
     </div>
   );
 };
+
+/* Howdens — narrow strip, kitchen colours CTA */
+export const HowdensColoursCta = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-8" style={{ backgroundColor: 'var(--brand-muted)' }}>
+        <div className="mx-auto flex max-w-4xl flex-col items-center justify-center gap-4 text-center sm:flex-row sm:gap-8">
+          <div>
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-lg font-bold font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-fg)' }}
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-1 text-sm opacity-80 font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+          </div>
+          <PrimaryButton
+            field={fields.PrimaryLink}
+            isEditing={isEditing}
+            className="min-h-[44px] bg-[var(--brand-primary)] px-8 text-xs font-bold uppercase tracking-[0.15em] text-[var(--brand-primary-foreground)] rounded-[var(--brand-button-radius,0)]"
+          />
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* Howdens — brochure: image + dark copy panel */
+export const HowdensBrochure = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <div className="mx-auto grid max-w-[1600px] md:grid-cols-2">
+        <div className="relative min-h-[240px] md:min-h-[360px]">
+          {(fields.BackgroundImage?.value?.src || isEditing) && (
+            <ContentSdkImage
+              field={fields.BackgroundImage}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          )}
+        </div>
+        <div
+          className="flex flex-col justify-center px-8 py-12 md:px-14"
+          style={{
+            backgroundColor: 'var(--brand-header-bg)',
+            color: 'var(--brand-header-fg)',
+          }}
+        >
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="text-3xl font-bold font-[var(--brand-heading-font,inherit)]"
+            />
+          )}
+          {(fields.Description?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Description}
+              className="mt-4 max-w-md text-base opacity-90 font-[var(--brand-body-font,inherit)]"
+            />
+          )}
+          <div className="mt-8">
+            <PrimaryButton
+              field={fields.PrimaryLink}
+              isEditing={isEditing}
+              className="min-h-[48px] bg-[var(--brand-primary-foreground)] px-8 text-xs font-bold uppercase tracking-[0.15em] text-[var(--brand-primary)] rounded-[var(--brand-button-radius,0)]"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* Howdens — bedroom inspiration band */
+export const HowdensBedroom = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-20"
+        style={{
+          backgroundColor: 'var(--brand-header-bg)',
+          color: 'var(--brand-header-fg)',
+        }}
+      >
+        <div className="mx-auto max-w-3xl text-center">
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="text-3xl font-bold font-[var(--brand-heading-font,inherit)]"
+            />
+          )}
+          {(fields.Description?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Description}
+              className="mt-4 text-base opacity-90 font-[var(--brand-body-font,inherit)]"
+            />
+          )}
+          <div className="mt-8 flex justify-center">
+            <PrimaryButton
+              field={fields.PrimaryLink}
+              isEditing={isEditing}
+              className="min-h-[48px] border-2 border-[var(--brand-header-fg)] bg-transparent px-8 text-xs font-bold uppercase tracking-[0.15em] text-[var(--brand-header-fg)] rounded-[var(--brand-button-radius,0)]"
+            />
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

@@ -1,5 +1,5 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-04-29T20:30:00Z"
+lastUpdatedAt: "2026-05-01T16:30:00Z"
 lastUpdatedBy: "cursor-agent"
 
 project:
@@ -140,6 +140,7 @@ components:
         - "Default"
         - "Transparent"
         - "Minimal"
+        - "HowdensTradeHeader"
 
     pageTemplateChanges:
       templatePath: "/sitecore/templates/Project/main/Page"
@@ -184,6 +185,7 @@ components:
         - { name: "Default", itemId: "{150B9AFE-2B9F-48AD-8F01-036666057814}" }
         - { name: "Transparent", itemId: "{A46EFC9D-7CF0-4C92-9577-1D94FD1D9782}" }
         - { name: "Minimal", itemId: "{608E0EC7-E2C6-4093-A1A1-3962FF17885A}" }
+        - { name: "HowdensTradeHeader", itemId: "{9E9F5D35-3843-4839-AA3E-CD93E84B52F0}" }
 
     verification:
       checkedAt: "2026-03-25T12:30:00Z"
@@ -229,6 +231,7 @@ components:
         - "BackgroundImage"
         - "VideoBackground"
         - "Minimal"
+        - "HowdensHero"
 
     templates:
       datasource:
@@ -292,6 +295,7 @@ components:
         - { name: "BackgroundImage", itemId: "{948210B2-B8AF-47C1-A04F-E220071C0A63}" }
         - { name: "VideoBackground", itemId: "{96586509-EBD7-4642-A127-0C65AEE1BD99}" }
         - { name: "Minimal", itemId: "{FA46BF9A-3783-4615-B4E6-5F5B33A78B48}" }
+        - { name: "HowdensHero", itemId: "{F2ADD38D-20B4-4C33-8B72-E43227ECFE0A}" }
 
     verification:
       checkedAt: "2026-03-25T13:30:00Z"
@@ -319,7 +323,8 @@ components:
         - "Renderings on Available Renderings (silent-write)"
         - "__Standard values link on templates (silent-write)"
 
-    notes: []
+    notes:
+      - "2026-05-01: Howdens demo Phase 5.5 — HowdensHero variant + 14 sibling Howdens* variants (see docs/ai/demos/howdens/variant-checklist.md)."
 
   - name: "TabNavigationSection"
     kind: "list"
@@ -335,6 +340,7 @@ components:
         - "Default"
         - "Underline"
         - "Boxed"
+        - "HowdensColourTabs"
 
     templates:
       datasource:
@@ -411,6 +417,7 @@ components:
         - { name: "Default", itemId: "{37CD0AB0-A6F4-4F5B-9032-666FA10925D4}" }
         - { name: "Underline", itemId: "{F6AB5E2B-D266-4BAC-8536-48404A6EF04A}" }
         - { name: "Boxed", itemId: "{3A61A7A8-3D68-498D-A79D-9D0191AE4F90}" }
+        - { name: "HowdensColourTabs", itemId: "{087818F3-5257-4F13-9F91-EA28C855A8A1}" }
 
     verification:
       checkedAt: "2026-03-25T14:30:00Z"
@@ -688,6 +695,7 @@ components:
         - "TwoColumn"
         - "FourColumn"
         - "Horizontal"
+        - "HowdensBuying"
 
     templates:
       datasource:
@@ -769,6 +777,7 @@ components:
         - { name: "TwoColumn", itemId: "{3935D1DD-DC84-4A01-B271-BEF9475C5AE1}" }
         - { name: "FourColumn", itemId: "{5F5B90A2-F88D-4415-B8B1-D9DCDE1A6B5C}" }
         - { name: "Horizontal", itemId: "{EF716EAC-BEBF-484A-8826-D2051F549F2F}" }
+        - { name: "HowdensBuying", itemId: "{B0B340A4-58E1-40EA-A582-6F0372463638}" }
 
     verification:
       checkedAt: "2026-03-25T16:30:00Z"
@@ -929,6 +938,7 @@ components:
         - "Carousel"
         - "Grid"
         - "WithPhoto"
+        - "HowdensTrustpilot"
 
     templates:
       datasource:
@@ -1010,6 +1020,7 @@ components:
         - { name: "Carousel", itemId: "{0F34A807-A42C-4E7D-BD54-EF222EB2D952}" }
         - { name: "Grid", itemId: "{508FF66A-D30F-4C2D-B82F-2009E0B6E207}" }
         - { name: "WithPhoto", itemId: "{9C2EFAD0-6E36-415A-AFC5-EDCD1DA4A805}" }
+        - { name: "HowdensTrustpilot", itemId: "{068AB874-4CFA-44F2-835D-725DF5AB24E2}" }
 
     verification:
       checkedAt: "2026-03-25T17:30:00Z"
@@ -1048,6 +1059,9 @@ components:
         - "WithImage"
         - "Split"
         - "Minimal"
+        - "HowdensColoursCta"
+        - "HowdensBrochure"
+        - "HowdensBedroom"
 
     templates:
       datasource:
@@ -1110,6 +1124,9 @@ components:
         - { name: "WithImage", itemId: "{2DC4E1E9-79A0-48C7-A6D9-AC7DD8AFAAA0}" }
         - { name: "Split", itemId: "{9DBA839A-E0F8-47D2-AA8E-29EDA7CC68E6}" }
         - { name: "Minimal", itemId: "{E63EE25F-C889-4FE1-81B7-4611CF5969BE}" }
+        - { name: "HowdensColoursCta", itemId: "{D6D5BC85-BD48-4056-842A-D99521D424B2}" }
+        - { name: "HowdensBrochure", itemId: "{FCD8633E-231F-4422-A539-008A3BB63FD7}" }
+        - { name: "HowdensBedroom", itemId: "{3440931F-FBCF-41C7-9CF6-83A0CDC9A4B3}" }
 
     verification:
       checkedAt: "2026-03-25T18:00:00Z"
@@ -1147,6 +1164,9 @@ components:
         - "Default"
         - "TwoColumn"
         - "WithImages"
+        - "HowdensCategoryRow"
+        - "HowdensPromoTriplet"
+        - "HowdensInspireQuad"
 
     templates:
       datasource:
@@ -1227,6 +1247,9 @@ components:
         - { name: "Default", itemId: "{495EF058-D306-4328-ABE4-261E7CFE8E9E}" }
         - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
         - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
+        - { name: "HowdensCategoryRow", itemId: "{5996EC0B-A7CF-48AE-B317-364CAF872981}" }
+        - { name: "HowdensPromoTriplet", itemId: "{DACAA762-2DB3-4D4A-B18E-43D63EE1AD2B}" }
+        - { name: "HowdensInspireQuad", itemId: "{786EC99F-33DF-44A5-9AA2-8E10E631C955}" }
 
     verification:
       checkedAt: "2026-03-25T18:30:00Z"
@@ -1264,6 +1287,7 @@ components:
         - "Default"
         - "Gallery"
         - "Parallax"
+        - "HowdensRealHomes"
 
     templates:
       datasource:
@@ -1323,6 +1347,7 @@ components:
         - { name: "Default", itemId: "{36325627-294D-44ED-BD63-2E622F782684}" }
         - { name: "Gallery", itemId: "{CF1F5876-5157-441C-A6FB-7BF150651345}" }
         - { name: "Parallax", itemId: "{CBFFE582-C802-49D8-BFB0-94353D067F8E}" }
+        - { name: "HowdensRealHomes", itemId: "{D471F79D-8282-4524-8544-449DB8989A47}" }
 
     verification:
       checkedAt: "2026-03-25T19:00:00Z"
@@ -1474,6 +1499,7 @@ components:
         - "Default"
         - "Minimal"
         - "MegaFooter"
+        - "HowdensMegaTradeFooter"
 
     templates:
       datasource: null
@@ -1506,6 +1532,7 @@ components:
         - { name: "Default", itemId: "{143CFE84-1E77-4961-975C-38564DC43DB9}" }
         - { name: "Minimal", itemId: "{AF87D61B-F6A8-4036-9BF8-FDB586268D24}" }
         - { name: "MegaFooter", itemId: "{DA131066-F9A2-47F0-A099-F614E61817AA}" }
+        - { name: "HowdensMegaTradeFooter", itemId: "{28CB4C3E-C77B-4B56-B1BD-B89CA4CB06C5}" }
 
     verification:
       checkedAt: "2026-03-25T20:00:00Z"
@@ -1845,6 +1872,8 @@ components:
         - "Centered"
         - "WithVideo"
         - "IconLeft"
+        - "HowdensAppointment"
+        - "HowdensQuartz"
 
     templates:
       datasource:
@@ -1907,6 +1936,8 @@ components:
         - { name: "Centered", itemId: "{3C33C16D-F0D3-4FBF-8D78-CE70CEA0868B}" }
         - { name: "WithVideo", itemId: "{E58A4CB1-BFB4-4FDF-B48D-6254708B05CA}" }
         - { name: "IconLeft", itemId: "{E39E52FE-885D-433B-A2D3-B20F66E8F767}" }
+        - { name: "HowdensAppointment", itemId: "{8A8A4CD4-E989-4DE8-A384-DF6035CCEB63}" }
+        - { name: "HowdensQuartz", itemId: "{138A7005-BE08-4F72-8EE5-B49BA364A1C5}" }
 
     verification:
       checkedAt: "2026-03-25T22:00:00Z"
@@ -2021,20 +2052,21 @@ demoContent:
     label: "Howdens homepage demo"
     homePageId: "{E2124310-F817-4644-8671-BFF8E72B66D7}"
     homePagePath: "/sitecore/content/main/main-website/Home"
-    recordedAt: "2026-04-29T20:30:00Z"
+    recordedAt: "2026-05-01T18:00:00Z"
     notes:
-      - "Datasource items under Data/*; layout instance IDs in docs/ai/demos/howdens/page-assembly.md"
+      - "Live datasource GUIDs and layout instance IDs: docs/ai/demos/howdens/content-map.yaml and page-assembly.md"
+      - "Phase 7 complete — demo-summary.md, manual-tasks.md; variants + footer/header manual in Pages."
     datasources:
-      - { name: "Howdens - Hero Banner", itemId: "{A9CB67E1-8DC0-4CAE-B2CA-8A0B5056838D}", template: "HeroBanner" }
-      - { name: "Howdens - CTA Design Appointment", itemId: "{D637A67A-2142-464B-8F94-DEF1B4FBC654}", template: "CTABanner" }
-      - { name: "Howdens - Feature Cards Category Tiles", itemId: "{EDFD0E15-15CB-4EB2-ACC1-61BAE66D1082}", template: "FeatureCardsGrid" }
-      - { name: "Howdens - Feature Cards Real Homes", itemId: "{4F3190D1-D510-4847-84F4-A56243637219}", template: "FeatureCardsGrid" }
-      - { name: "Howdens - Tab Navigation Kitchen Colours", itemId: "{39D31505-9838-47BD-98E9-21EA23EBB854}", template: "TabNavigationSection" }
-      - { name: "Howdens - Feature Highlight Quartz", itemId: "{A51EE9BA-890D-4554-9CFC-57513F355005}", template: "FeatureHighlight" }
-      - { name: "Howdens - Feature Cards News Events", itemId: "{3741819A-073A-45BB-93F4-43FDD16C5DA8}", template: "FeatureCardsGrid" }
-      - { name: "Howdens - CTA Brochures", itemId: "{5C24A2D2-7FA2-4873-AA82-F9C430C5A6D0}", template: "CTABanner" }
-      - { name: "Howdens - Feature Cards Editorial Links", itemId: "{3E4AA833-EAA5-47C4-8062-0013B7AF9317}", template: "FeatureCardsGrid" }
-      - { name: "Howdens - CTA Bedroom Inspiration", itemId: "{DA48CD2D-5B87-4ACC-AFBA-A3E842C81606}", template: "CTABanner" }
-      - { name: "Howdens - Value Prop Buying Journey", itemId: "{C90817CD-40F6-413C-A8F4-CB79B3C4F293}", template: "ValuePropositionGrid" }
-      - { name: "Howdens - Trust Stats Row", itemId: "{09572178-554A-4192-8EC6-098E8D934224}", template: "TrustStatsRow" }
-      - { name: "Howdens - Testimonial Block", itemId: "{2F3CB671-2526-48F1-A1AF-FA00D540766D}", template: "TestimonialBlock" }
+      - { name: "Howdens - Hero Banner", itemId: "{06D06035-1986-479A-9D03-4AF05817FFF8}", template: "HeroBanner" }
+      - { name: "Howdens - Feature Highlight Design Appointment", itemId: "{D024411B-2ADC-4F8F-B3F7-B25CB190922F}", template: "FeatureHighlight" }
+      - { name: "Howdens - Feature Cards Category Row", itemId: "{12CE76CA-BDAE-4025-ABAA-0C0144168E30}", template: "FeatureCardsGrid" }
+      - { name: "Howdens - Image Gallery Real Homes", itemId: "{4B9C1A0D-97C8-41CC-A0FC-010950C00748}", template: "ImageGallery" }
+      - { name: "Howdens - Tab Navigation Kitchen Colours", itemId: "{2A32BBCA-2EE2-4357-807D-0ACB01B665C5}", template: "TabNavigationSection" }
+      - { name: "Howdens - CTA View All Kitchen Colours", itemId: "{D36466B4-3A4A-472A-8972-BEE4DA1B5A09}", template: "CTABanner" }
+      - { name: "Howdens - Feature Highlight Quartz", itemId: "{17AB7693-6229-439A-B1E4-D21050C79237}", template: "FeatureHighlight" }
+      - { name: "Howdens - Feature Cards Promo Events", itemId: "{966B8A79-5344-400C-8A1A-45CDF3AFD083}", template: "FeatureCardsGrid" }
+      - { name: "Howdens - CTA Brochures", itemId: "{AE8FED37-ABD2-4413-A953-E04FA5B344F6}", template: "CTABanner" }
+      - { name: "Howdens - Feature Cards Inspiration Quad", itemId: "{781E7FA4-DD82-4F6A-8311-3343360A977B}", template: "FeatureCardsGrid" }
+      - { name: "Howdens - CTA Bedroom Inspiration", itemId: "{5220C3BB-99F8-4CD3-A3CF-F66491124D16}", template: "CTABanner" }
+      - { name: "Howdens - Value Prop Buying Journey", itemId: "{5FC1C9C8-7860-486A-9857-A4BD64D6C26E}", template: "ValuePropositionGrid" }
+      - { name: "Howdens - Testimonials Trustpilot", itemId: "{94B04087-0286-4D4C-B96C-8DBA0B77C55B}", template: "TestimonialBlock" }

@@ -305,3 +305,60 @@ export const Horizontal = ({ fields, params, page }: ValuePropositionGridProps):
     </div>
   );
 };
+
+/* Howdens — Buying from Howdens: circular photography, CTA under each column */
+export const HowdensBuying = ({ fields, params, page }: ValuePropositionGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ValuePropositionGridDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component value-proposition-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-16 md:py-20" style={{ backgroundColor: 'var(--brand-muted)' }}>
+        <div className="mx-auto max-w-[1600px]">
+          <SectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid gap-12 md:grid-cols-3 md:gap-8">
+            {items.map((item) => (
+              <div key={item.id} className="flex flex-col items-center text-center">
+                {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
+                  <div className="mb-6 h-36 w-36 overflow-hidden rounded-full border-4 shadow-md" style={{ borderColor: 'var(--brand-border)' }}>
+                    <ContentSdkImage
+                      field={item.itemIcon?.jsonValue}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                )}
+                {(item.itemTitle?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={item.itemTitle?.jsonValue}
+                    tag="h3"
+                    className="text-lg font-bold font-[var(--brand-heading-font,inherit)]"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                {(item.itemDescription?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.itemDescription?.jsonValue}
+                    className="mt-3 max-w-xs text-sm opacity-80 font-[var(--brand-body-font,inherit)]"
+                  />
+                )}
+                {(item.itemLink?.jsonValue?.value?.href || isEditing) && (
+                  <ContentSdkLink
+                    field={item.itemLink?.jsonValue}
+                    className="mt-6 inline-flex min-h-[44px] items-center justify-center px-8 text-xs font-bold uppercase tracking-[0.14em] transition-opacity hover:opacity-90 rounded-[var(--brand-button-radius,0)]"
+                    style={{
+                      backgroundColor: 'var(--brand-primary)',
+                      color: 'var(--brand-primary-foreground)',
+                    }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

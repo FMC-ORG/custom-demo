@@ -1,0 +1,120 @@
+# Client Brand Theme — Howdens
+# Primary visual reference: full-page homepage screenshot (Playwright initially landed on cookie policy).
+# Colors and typography tuned to Howdens trade kitchen positioning (neutral grey primary chrome, forest green secondary, red accent, wood tones).
+
+client:
+  name: "Howdens"
+  sourceUrl: "https://www.howdens.com/"
+  extractedAt: "2026-05-01T12:00:00Z"
+  extractedBy: "cursor-agent"
+
+colors:
+  primary: "#434c54"
+  primaryForeground: "#ffffff"
+  secondary: "#1a3d2e"
+  secondaryForeground: "#ffffff"
+  accent: "#c41230"
+  accentForeground: "#ffffff"
+  background: "#ffffff"
+  foreground: "#243036"
+  muted: "#eef1ef"
+  mutedForeground: "#5c6569"
+  headerBackground: "#434c54"
+  headerForeground: "#ffffff"
+  footerBackground: "#434c54"
+  footerForeground: "#e8eaeb"
+  border: "#d4d9d6"
+  ring: "#434c54"
+  extra:
+    - { name: "forestGreen", value: "#1a3d2e" }
+    - { name: "panelDark", value: "#2f3d38" }
+    - { name: "woodWarm", value: "#c4a574" }
+
+typography:
+  headingFamily: "'Playfair Display', serif"
+  headingWeight: "700"
+  bodyFamily: "'Source Sans 3', sans-serif"
+  bodyWeight: "400"
+  monoFamily: "'Source Sans 3', monospace"
+  googleFontsUrl: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap"
+  scale:
+    hero: "2.75rem"
+    h1: "2.25rem"
+    h2: "1.875rem"
+    h3: "1.375rem"
+    body: "1rem"
+    small: "0.875rem"
+  headingTransform: "none"
+  letterSpacing: "normal"
+  lineHeight: "relaxed"
+
+spacing:
+  density: "normal"
+  sectionGap: "4.5rem"
+  containerMaxWidth: "1600px"
+  containerPadding: "1.25rem"
+
+shape:
+  borderRadius: "0.25rem"
+  buttonRadius: "0px"
+  cardRadius: "0.25rem"
+  imageRadius: "0.25rem"
+  shadowStyle: "subtle"
+  borderStyle: "subtle"
+
+tone:
+  overall: "modern-trade-retail"
+  colorMode: "mixed"
+  contrast: "high"
+  imagery: "photography"
+  heroStyle: "full-bleed-image"
+  cardStyle: "image-top"
+  navStyle: "solid-bar"
+
+tailwind:
+  colors:
+    brand:
+      primary: "#434c54"
+      secondary: "#1a3d2e"
+      accent: "#c41230"
+  fontFamily:
+    heading: ["Playfair Display", "serif"]
+    body: ["Source Sans 3", "sans-serif"]
+  borderRadius:
+    DEFAULT: "0.25rem"
+    button: "0px"
+    card: "0.25rem"
+
+cssVariables: |
+  :root {
+    --brand-primary: #434c54;
+    --brand-primary-foreground: #ffffff;
+    --brand-secondary: #1a3d2e;
+    --brand-secondary-foreground: #ffffff;
+    --brand-accent: #c41230;
+    --brand-accent-foreground: #ffffff;
+    --brand-bg: #ffffff;
+    --brand-fg: #243036;
+    --brand-muted: #eef1ef;
+    --brand-muted-fg: #5c6569;
+    --brand-header-bg: #434c54;
+    --brand-header-fg: #ffffff;
+    --brand-footer-bg: #434c54;
+    --brand-footer-fg: #e8eaeb;
+    --brand-border: #d4d9d6;
+    --brand-ring: #434c54;
+    --brand-heading-font: 'Playfair Display', serif;
+    --brand-body-font: 'Source Sans 3', sans-serif;
+    --brand-radius: 0.25rem;
+    --brand-button-radius: 0px;
+    --brand-card-radius: 0.25rem;
+  }
+
+extraction:
+  confidence: "medium"
+  method: "playwright-partial"
+  notes:
+    - "Primary brand chrome uses neutral grey (#434c54); forest green retained as secondary for trade/kitchen cues; accent red aligns with stacked rooster logo treatment."
+    - "Site uses proprietary 'Rooster' / 'Rooster Condensed' fonts — substituted Playfair Display (hero serif feel) + Source Sans 3 (clean UI body)."
+    - "Buttons on site are often square-edged — button radius set to 0px."
+    - "Container max-width matched scraper spacing hint (1600px)."

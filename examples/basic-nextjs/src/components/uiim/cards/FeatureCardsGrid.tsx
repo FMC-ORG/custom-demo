@@ -271,3 +271,154 @@ export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX
     </div>
   );
 };
+
+/* Howdens — trade category tiles, tight 3-up, label under image */
+export const HowdensCategoryRow = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-12 md:py-16" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-[1600px]">
+          <SectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            {cards.map((card) => (
+              <div key={card.id} className="group flex flex-col">
+                <div
+                  className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--brand-card-radius,0.25rem)]"
+                  style={{ backgroundColor: 'var(--brand-muted)' }}
+                >
+                  {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                    <ContentSdkImage
+                      field={card.cardImage?.jsonValue}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                    />
+                  )}
+                </div>
+                <div className="pt-4 text-center">
+                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="text-sm font-bold uppercase tracking-[0.12em] font-[var(--brand-heading-font,inherit)]"
+                      style={{ color: 'var(--brand-fg)' }}
+                    />
+                  )}
+                  {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                    <ContentSdkLink
+                      field={card.cardLink?.jsonValue}
+                      className="mt-2 inline-block text-xs font-semibold uppercase tracking-wider transition-opacity hover:opacity-70"
+                      style={{ color: 'var(--brand-primary)' }}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* Howdens — promotional triplet, editorial cards */
+export const HowdensPromoTriplet = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-12 md:py-16" style={{ backgroundColor: 'var(--brand-muted)' }}>
+        <div className="mx-auto max-w-[1600px]">
+          <SectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid gap-4 md:grid-cols-3">
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                className="flex flex-col overflow-hidden bg-[var(--brand-bg)] shadow-sm"
+                style={{ border: '1px solid var(--brand-border)' }}
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <ContentSdkImage
+                    field={card.cardImage?.jsonValue}
+                    className="h-52 w-full object-cover md:h-56"
+                  />
+                )}
+                <div className="flex flex-1 flex-col p-5">
+                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="text-base font-bold font-[var(--brand-heading-font,inherit)]"
+                      style={{ color: 'var(--brand-fg)' }}
+                    />
+                  )}
+                  {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className="mt-2 flex-1 text-sm opacity-80 font-[var(--brand-body-font,inherit)]"
+                    />
+                  )}
+                  {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                    <ContentSdkLink
+                      field={card.cardLink?.jsonValue}
+                      className="mt-4 text-xs font-bold uppercase tracking-wider"
+                      style={{ color: 'var(--brand-primary)' }}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* Howdens — 4-up inspiration mosaic */
+export const HowdensInspireQuad = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-12 md:py-14" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-[1600px]">
+          <SectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
+            {cards.map((card) => (
+              <div key={card.id} className="group relative aspect-square overflow-hidden rounded-[var(--brand-card-radius,0.25rem)]">
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <ContentSdkImage
+                    field={card.cardImage?.jsonValue}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                )}
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-3 pb-3 pt-10">
+                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="p"
+                      className="text-center text-[11px] font-semibold uppercase tracking-wider text-white drop-shadow-sm md:text-xs"
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

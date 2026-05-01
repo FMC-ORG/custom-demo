@@ -268,3 +268,76 @@ export const Minimal = (props: NavigationHeaderProps): JSX.Element => {
     </div>
   );
 };
+
+/* Howdens — utility strip + deep green bar, trade CTAs, rooster mark block */
+export const HowdensTradeHeader = (props: NavigationHeaderProps): JSX.Element => {
+  const { params, fields } = props;
+  const { styles, RenderingIdentifier } = params;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const items = getNavItems(fields);
+
+  if (!params) return <NavigationHeaderDefaultComponent />;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header className="w-full">
+        <div
+          className="hidden border-b md:block"
+          style={{
+            backgroundColor: 'var(--brand-muted)',
+            borderColor: 'var(--brand-border)',
+          }}
+        >
+          <div
+            className="mx-auto flex max-w-[1600px] items-center justify-end gap-6 px-4 py-2 text-xs font-medium font-[var(--brand-body-font,inherit)]"
+            style={{ color: 'var(--brand-fg)' }}
+          >
+            <span className="cursor-pointer opacity-80 transition-opacity hover:opacity-100">Find a depot</span>
+            <span className="cursor-pointer opacity-80 transition-opacity hover:opacity-100">Sign in</span>
+            <span className="cursor-pointer opacity-80 transition-opacity hover:opacity-100">Register</span>
+          </div>
+        </div>
+        <div
+          className="border-b"
+          style={{
+            backgroundColor: 'var(--brand-header-bg)',
+            borderColor: 'var(--brand-border)',
+          }}
+        >
+          <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 sm:px-6">
+            <Link href="/" className="flex shrink-0 items-center gap-2">
+              <span
+                className="px-3 py-2 text-xs font-bold uppercase tracking-wider sm:text-sm"
+                style={{
+                  backgroundColor: 'var(--brand-accent)',
+                  color: 'var(--brand-accent-foreground)',
+                }}
+              >
+                Howdens
+              </span>
+            </Link>
+            <NavLinks
+              items={items}
+              className="!gap-6 lg:!gap-10 [&_a]:!text-xs [&_a]:!font-semibold [&_a]:!uppercase [&_a]:!tracking-[0.1em] [&_a]:!text-[var(--brand-header-fg)]"
+            />
+            <div className="flex items-center gap-2">
+              <a
+                href="#"
+                className="hidden md:inline-flex min-h-[40px] items-center border-2 px-4 py-2 text-xs font-bold uppercase tracking-wider transition-opacity hover:opacity-90 lg:px-5 rounded-[var(--brand-button-radius,0)]"
+                style={{
+                  borderColor: 'var(--brand-header-fg)',
+                  color: 'var(--brand-header-fg)',
+                }}
+              >
+                Brochure
+              </a>
+              <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+            </div>
+          </div>
+          <MobileMenu items={items} open={menuOpen} onClose={() => setMenuOpen(false)} />
+        </div>
+      </header>
+    </div>
+  );
+};

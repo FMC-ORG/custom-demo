@@ -212,3 +212,55 @@ export const Boxed = ({ fields, params, page }: TabNavigationSectionProps): JSX.
     </div>
   );
 };
+
+/* Howdens — colour explorer: vertical swatch disc + label */
+export const HowdensColourTabs = ({ fields, params, page }: TabNavigationSectionProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TabNavigationSectionDefaultComponent />;
+
+  const tabs = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component tab-navigation-section', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-12 md:py-16" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-[1600px] text-center">
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.title?.jsonValue}
+              tag="h2"
+              className="text-3xl font-bold md:text-4xl font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-fg)' }}
+            />
+          )}
+          <div className="mt-10 flex flex-wrap items-start justify-center gap-x-8 gap-y-10 md:gap-x-12">
+            {tabs.map((tab) => (
+              <ContentSdkLink
+                key={tab.id}
+                field={tab.tabLink?.jsonValue}
+                className="flex w-[88px] flex-col items-center gap-3 text-center transition-opacity hover:opacity-80 md:w-[100px]"
+              >
+                <span
+                  className="h-16 w-16 shrink-0 rounded-full border-2 shadow-inner md:h-[4.5rem] md:w-[4.5rem]"
+                  style={{
+                    borderColor: 'var(--brand-border)',
+                    backgroundColor: 'var(--brand-muted)',
+                  }}
+                  aria-hidden
+                />
+                <Text
+                  field={tab.tabLabel?.jsonValue}
+                  tag="span"
+                  className="text-xs font-semibold uppercase tracking-wider"
+                  style={{ color: 'var(--brand-fg)' }}
+                />
+              </ContentSdkLink>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

@@ -269,3 +269,116 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
     </div>
   );
 };
+
+/* Howdens — dark appointment band, showroom image left */
+export const HowdensAppointment = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section className="w-full">
+        <div className="mx-auto grid max-w-[1600px] md:grid-cols-2">
+          <div className="relative min-h-[280px] md:min-h-[440px]">
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.FeatureImage}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
+          </div>
+          <div
+            className="flex flex-col justify-center px-6 py-12 md:px-14 md:py-16 lg:px-20"
+            style={{
+              backgroundColor: 'var(--brand-header-bg)',
+              color: 'var(--brand-header-fg)',
+            }}
+          >
+            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="mt-2 text-3xl font-bold leading-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-5 max-w-xl text-base opacity-90 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="mt-8 inline-flex min-h-[48px] max-w-fit items-center justify-center px-8 py-3 text-xs font-bold uppercase tracking-[0.16em] transition-opacity hover:opacity-90 rounded-[var(--brand-button-radius,0)]"
+                style={{
+                  backgroundColor: 'var(--brand-primary-foreground)',
+                  color: 'var(--brand-primary)',
+                }}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* Howdens — quartz split: lifestyle kitchen left, warm panel right */
+export const HowdensQuartz = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-10 md:py-14" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto grid max-w-[1600px] items-stretch gap-0 overflow-hidden rounded-[var(--brand-card-radius,0.25rem)] border md:grid-cols-2 border-[var(--brand-border)]">
+          <div className="relative min-h-[260px] md:min-h-[400px]">
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.FeatureImage}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
+          </div>
+          <div
+            className="flex flex-col justify-center px-8 py-12 md:px-14 lg:px-16"
+            style={{
+              backgroundColor: 'var(--brand-muted)',
+              color: 'var(--brand-fg)',
+            }}
+          >
+            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="mt-2 text-3xl font-bold font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-4 max-w-lg text-base opacity-85 font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="mt-8 inline-flex min-h-[44px] max-w-fit items-center justify-center border-2 px-8 py-2 text-xs font-bold uppercase tracking-[0.15em] transition-opacity hover:opacity-80 rounded-[var(--brand-button-radius,0)]"
+                style={{
+                  borderColor: 'var(--brand-fg)',
+                  color: 'var(--brand-fg)',
+                  backgroundColor: 'transparent',
+                }}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

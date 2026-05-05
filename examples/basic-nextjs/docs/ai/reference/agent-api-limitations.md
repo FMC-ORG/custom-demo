@@ -251,8 +251,6 @@ Phase 2.5: `content-extractor.mjs --download-images` downloads all section image
 Phase 3 Step 1: `upload-to-content-hub.mjs` uploads + approves + creates public links with `{assetId}-{name}` URL format
 Phase 3 Step 3: Agent reads `imageFieldXml` from manifest, includes Image fields in same `update_fields_on_content_item` call as text + link fields
 
-**Tested:** 50 images from howdens.com uploaded to `ffde.sitecoresandbox.cloud`, all approved, all public URLs working, Image field set on datasource item via MCP — confirmed in Pages editor.
-
 ### MCP asset tools (for search/verify only)
 
 - `search_assets` — search for assets by name (not for upload)

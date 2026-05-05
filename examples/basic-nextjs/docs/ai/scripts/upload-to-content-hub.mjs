@@ -15,7 +15,7 @@
  *   node docs/ai/scripts/upload-to-content-hub.mjs \
  *     --host https://your-instance.sitecorecontenthub.cloud \
  *     --token "Bearer eyJ..." \
- *     --images-dir docs/ai/demos/howdens-test/images \
+ *     --images-dir docs/ai/demos/<client>/images \
  *     --config AssetUploadConfiguration \
  *     --dry-run
  *

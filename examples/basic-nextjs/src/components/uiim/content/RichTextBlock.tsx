@@ -131,3 +131,32 @@ export const Narrow = ({ fields, params, page }: RichTextBlockProps): JSX.Elemen
     </div>
   );
 };
+
+/* MandarinOrientalIntro — editorial centered intro */
+export const MandarinOrientalIntro = ({ fields, params, page }: RichTextBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <RichTextBlockDefaultComponent />;
+
+  return (
+    <div className={cn('component rich-text-block', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 py-16 md:py-24"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-2xl text-center">
+          {(fields.Title?.value || isEditing) && (
+            <Text field={fields.Title} tag="h2" className="sr-only" />
+          )}
+          {(fields.Body?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Body}
+              className="prose prose-neutral mx-auto max-w-none text-base leading-relaxed md:text-lg font-[var(--brand-body-font,inherit)]"
+              style={{ color: 'var(--brand-fg, #111111)' }}
+            />
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};

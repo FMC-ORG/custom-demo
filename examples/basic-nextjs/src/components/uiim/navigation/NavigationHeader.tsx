@@ -294,6 +294,67 @@ export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JS
   );
 };
 
+/* MandarinOrientalHeader — transparent nav with wider canvas + pill CTA */
+export const MandarinOrientalHeader = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const datasource = fields?.data?.datasource;
+
+  useEffect(() => {
+    if (!datasource) return;
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [datasource]);
+
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+
+  const links = datasource.children?.results || [];
+  const brandLogo = datasource.brandLogo?.jsonValue;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className={cn(
+          'fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300',
+          scrolled ? 'border-b shadow-sm' : ''
+        )}
+        style={{
+          backgroundColor: scrolled ? 'var(--brand-header-bg, #ffffff)' : 'transparent',
+          borderColor: scrolled ? 'var(--brand-border, #e5e7eb)' : 'transparent',
+        }}
+      >
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-5 sm:px-8">
+          <Logo
+            brandLogo={brandLogo}
+            className={cn('transition-colors duration-300', !scrolled && 'drop-shadow-md')}
+          />
+          <NavLinks
+            items={links}
+            className={cn(
+              'gap-8 lg:gap-10 transition-colors duration-300',
+              !scrolled && '[&_a]:!text-white [&_a]:drop-shadow-sm'
+            )}
+          />
+          <div className="flex items-center gap-3">
+            <CtaButton
+              label={datasource.ctaLabel?.jsonValue}
+              link={datasource.ctaLink?.jsonValue}
+              isEditing={isEditing}
+              className="rounded-full px-7 py-2.5 text-xs font-semibold uppercase tracking-[0.18em]"
+            />
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+        </div>
+        <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
+      </header>
+    </div>
+  );
+};
+
 export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
 

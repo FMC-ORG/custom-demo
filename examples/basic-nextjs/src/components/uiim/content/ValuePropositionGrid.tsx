@@ -305,3 +305,81 @@ export const Horizontal = ({ fields, params, page }: ValuePropositionGridProps):
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   MandarinOrientalWellness — two immersive tiles, minimal chrome
+   ──────────────────────────────────────────── */
+export const MandarinOrientalWellness = ({ fields, params, page }: ValuePropositionGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ValuePropositionGridDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component value-proposition-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-24"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-[1600px]">
+          <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
+            {(datasource.title?.jsonValue?.value || isEditing) && (
+              <Text
+                field={datasource.title?.jsonValue}
+                tag="h2"
+                className="text-3xl font-normal uppercase tracking-[0.12em] md:text-4xl font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              />
+            )}
+            {(datasource.description?.jsonValue?.value || isEditing) && (
+              <ContentSdkRichText
+                field={datasource.description?.jsonValue}
+                className="mt-4 text-base opacity-70 font-[var(--brand-body-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              />
+            )}
+          </div>
+          <div className="grid gap-8 md:grid-cols-2 md:gap-10">
+            {items.map((item) => (
+              <article key={item.id} className="group flex flex-col">
+                {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
+                  <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-100">
+                    <ContentSdkImage
+                      field={item.itemIcon?.jsonValue}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                    />
+                  </div>
+                )}
+                <div className="mt-6 md:mt-8">
+                  {(item.itemTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={item.itemTitle?.jsonValue}
+                      tag="h3"
+                      className="text-xl font-normal uppercase tracking-[0.14em] md:text-2xl font-[var(--brand-heading-font,inherit)]"
+                      style={{ color: 'var(--brand-fg, #111111)' }}
+                    />
+                  )}
+                  {(item.itemDescription?.jsonValue?.value || isEditing) && (
+                    <ContentSdkRichText
+                      field={item.itemDescription?.jsonValue}
+                      className="mt-3 text-sm leading-relaxed opacity-75 font-[var(--brand-body-font,inherit)]"
+                      style={{ color: 'var(--brand-fg, #111111)' }}
+                    />
+                  )}
+                  {(item.itemLink?.jsonValue?.value?.href || isEditing) && (
+                    <ContentSdkLink
+                      field={item.itemLink?.jsonValue}
+                      className="mt-5 inline-block text-xs font-semibold uppercase tracking-[0.2em] transition-opacity hover:opacity-70"
+                      style={{ color: 'var(--brand-primary)' }}
+                    />
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

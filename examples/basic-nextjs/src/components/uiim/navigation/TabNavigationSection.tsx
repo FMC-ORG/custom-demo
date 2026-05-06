@@ -212,3 +212,58 @@ export const Boxed = ({ fields, params, page }: TabNavigationSectionProps): JSX.
     </div>
   );
 };
+
+/* MandarinOrientalStayTabs — large editorial section title + underline tabs */
+export const MandarinOrientalStayTabs = ({ fields, params, page }: TabNavigationSectionProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TabNavigationSectionDefaultComponent />;
+
+  const tabs = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component tab-navigation-section', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-10 md:py-14"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-[1600px]">
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.title?.jsonValue}
+              tag="h2"
+              className="mb-10 text-4xl font-normal uppercase tracking-[0.14em] md:text-5xl font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-fg, #111111)' }}
+            />
+          )}
+          <div
+            className="flex flex-wrap items-center gap-8 border-b md:gap-12"
+            style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}
+          >
+            {tabs.map((tab, index) => (
+              <ContentSdkLink
+                key={tab.id}
+                field={tab.tabLink?.jsonValue}
+                className={cn(
+                  'relative pb-4 text-xs font-medium uppercase tracking-[0.2em] transition-all md:text-sm',
+                  index === 0 ? '' : 'opacity-50 hover:opacity-90'
+                )}
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              >
+                <Text field={tab.tabLabel?.jsonValue} />
+                {index === 0 && (
+                  <span
+                    className="absolute bottom-0 left-0 right-0 h-[2px]"
+                    style={{ backgroundColor: 'var(--brand-primary)' }}
+                  />
+                )}
+              </ContentSdkLink>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

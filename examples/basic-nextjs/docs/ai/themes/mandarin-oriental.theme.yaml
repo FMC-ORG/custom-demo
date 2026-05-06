@@ -1,0 +1,119 @@
+# Client Brand Theme — Mandarin Oriental Hotel Group
+# Source: Playwright scraper + full-page screenshot analysis
+# Live site: https://www.mandarinoriental.com/en
+
+client:
+  name: "Mandarin Oriental Hotel Group"
+  sourceUrl: "https://www.mandarinoriental.com/en"
+  extractedAt: "2026-05-06T14:30:00Z"
+  extractedBy: "cursor"
+
+colors:
+  primary: "#b7cdc2"
+  primaryForeground: "#000000"
+  secondary: "#1a1a1a"
+  secondaryForeground: "#ffffff"
+  accent: "#b7cdc2"
+  accentForeground: "#000000"
+  background: "#ffffff"
+  foreground: "#000000"
+  muted: "#f4f4f4"
+  mutedForeground: "#525252"
+  headerBackground: "rgba(0, 0, 0, 0.65)"
+  headerForeground: "#ffffff"
+  footerBackground: "#000000"
+  footerForeground: "#a3a3a3"
+  border: "#e5e5e5"
+  ring: "#b7cdc2"
+  extra:
+    - { name: "luxurySerif", value: "#1a1a1a" }
+
+typography:
+  headingFamily: "'Cormorant Garamond', 'Times New Roman', serif"
+  headingWeight: "500"
+  bodyFamily: "'Nunito Sans', system-ui, sans-serif"
+  bodyWeight: "400"
+  monoFamily: "ui-monospace, monospace"
+  googleFontsUrl: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap"
+  scale:
+    hero: "3.5rem"
+    h1: "2.5rem"
+    h2: "2.25rem"
+    h3: "1.75rem"
+    body: "0.9375rem"
+    small: "0.8125rem"
+  headingTransform: "uppercase"
+  letterSpacing: "0.12em"
+  lineHeight: "relaxed"
+
+spacing:
+  density: "spacious"
+  sectionGap: "6rem"
+  containerMaxWidth: "1280px"
+  containerPadding: "1.5rem"
+
+shape:
+  borderRadius: "0"
+  buttonRadius: "1.75rem"
+  cardRadius: "0"
+  imageRadius: "0"
+  shadowStyle: "none"
+  borderStyle: "hairline"
+
+tone:
+  overall: "luxury"
+  colorMode: "mixed"
+  contrast: "medium"
+  imagery: "photography"
+  heroStyle: "full-bleed-image"
+  cardStyle: "flat"
+  navStyle: "transparent-overlay"
+
+tailwind:
+  colors:
+    brand:
+      primary: "#b7cdc2"
+      secondary: "#1a1a1a"
+      accent: "#b7cdc2"
+  fontFamily:
+    heading: ["Cormorant Garamond", "Times New Roman", "serif"]
+    body: ["Nunito Sans", "system-ui", "sans-serif"]
+  borderRadius:
+    DEFAULT: "0"
+    button: "1.75rem"
+    card: "0"
+
+cssVariables: |
+  :root {
+    --brand-primary: #b7cdc2;
+    --brand-primary-foreground: #000000;
+    --brand-accent: #b7cdc2;
+    --brand-accent-foreground: #000000;
+    --brand-dark: #000000;
+    --brand-dark-foreground: #ffffff;
+    --brand-bg: #ffffff;
+    --brand-fg: #000000;
+    --brand-muted: #f4f4f4;
+    --brand-muted-foreground: #525252;
+    --brand-border: #e5e5e5;
+    --brand-ring: #b7cdc2;
+    --brand-header-bg: rgba(0, 0, 0, 0.72);
+    --brand-header-fg: #ffffff;
+    --brand-footer-bg: #000000;
+    --brand-footer-fg: #a3a3a3;
+    --brand-heading-font: 'Cormorant Garamond', 'Times New Roman', serif;
+    --brand-body-font: 'Nunito Sans', system-ui, sans-serif;
+    --brand-button-radius: 1.75rem;
+    --brand-card-radius: 0;
+  }
+
+extraction:
+  confidence: "high"
+  method: "playwright-full"
+  notes:
+    - "Primary CTA 'Book Now' uses soft sage/mint green (~#b7cdc2) from computed primary button styles."
+    - "Footer and deep UI regions read as true black (#000) with white/light gray text."
+    - "Live site uses proprietary Futura PT + Avenir Next; mapped to Cormorant Garamond + Nunito Sans for Google Fonts."
+    - "Section titles (STAY, DINE, WELLNESS) appear as large uppercase serif-style display type — Cormorant provides similar luxury editorial feel."
+    - "Cards and image frames use minimal radius (0) on the live homepage — flat luxury aesthetic."
+    - "Hero is full-bleed photography with navigation overlaid; nav maps to transparent-overlay tone."

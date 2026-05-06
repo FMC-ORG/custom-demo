@@ -113,3 +113,37 @@ export const Highlight = ({ fields, params, page }: AnnouncementBarProps): JSX.E
     </div>
   );
 };
+
+/* MandarinOrientalBar — thin luxury utility strip */
+export const MandarinOrientalBar = ({ fields, params, page }: AnnouncementBarProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <AnnouncementBarDefaultComponent />;
+
+  const barStyles = getBarStyles(fields.BackgroundColor?.value || 'dark');
+
+  return (
+    <div className={cn('component announcement-bar', styles)} id={RenderingIdentifier}>
+      <div
+        className={cn(
+          'w-full py-2 px-4 text-center text-[11px] font-medium tracking-[0.28em] uppercase',
+          barStyles.bg,
+          barStyles.text
+        )}
+      >
+        <div className="mx-auto flex max-w-[1600px] items-center justify-center gap-6">
+          {(fields.Message?.value || isEditing) && (
+            <Text field={fields.Message} tag="span" className="opacity-95" />
+          )}
+          {(fields.BarLink?.value?.href || isEditing) && (
+            <ContentSdkLink
+              field={fields.BarLink}
+              className="underline underline-offset-4 decoration-[var(--brand-primary)] transition-opacity hover:opacity-80"
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -345,3 +345,95 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
     </div>
   );
 };
+
+const MO_FOOTER_COLUMNS = [
+  { title: 'Stay', links: ['Hotels', 'Residences', 'Offers', 'Gift Cards'] },
+  { title: 'Dine', links: ['Restaurants', 'Bars', 'Private Dining', 'Chef\'s Table'] },
+  { title: 'Wellness', links: ['Spa', 'Fitness', 'Pools', 'Retreats'] },
+  { title: 'Company', links: ['About', 'Careers', 'Press', 'Contact'] },
+];
+
+const MandarinCopyright = () => (
+  <p
+    className="text-xs uppercase tracking-[0.15em] opacity-50 font-[var(--brand-body-font,inherit)]"
+    style={{ color: 'var(--brand-footer-fg, #ffffff)' }}
+  >
+    &copy; {new Date().getFullYear()} Mandarin Oriental Hotel Group
+  </p>
+);
+
+/* ────────────────────────────────────────────
+   MandarinOrientalFooter — dense black footer, no newsletter band
+   ──────────────────────────────────────────── */
+export const MandarinOrientalFooter = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const { styles, RenderingIdentifier } = params;
+  const brandLogo = getBrandLogo(props);
+
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-footer-bg, #111111)',
+          color: 'var(--brand-footer-fg, #ffffff)',
+        }}
+      >
+        <div className="mx-auto max-w-[1600px] px-4 py-14 sm:px-8 md:py-16">
+          <div className="grid gap-12 md:grid-cols-6 md:gap-10">
+            <div className="md:col-span-2 space-y-5">
+              <Logo brandLogo={brandLogo} />
+              <p className="max-w-sm text-sm leading-relaxed opacity-55 font-[var(--brand-body-font,inherit)]">
+                Legendary service and timeless design in the world&apos;s most sought-after destinations.
+              </p>
+              <SocialIcons />
+            </div>
+
+            {MO_FOOTER_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <h3 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] opacity-90 font-[var(--brand-heading-font,inherit)]">
+                  {col.title}
+                </h3>
+                <ul className="space-y-2.5">
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <a
+                        href="#"
+                        className="text-sm opacity-55 transition-opacity hover:opacity-100 font-[var(--brand-body-font,inherit)]"
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div
+            className="mt-14 flex flex-col items-center justify-between gap-6 border-t pt-10 sm:flex-row"
+            style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+          >
+            <MandarinCopyright />
+            <div className="flex flex-wrap justify-center gap-8 text-[11px] uppercase tracking-[0.18em] opacity-45">
+              <a href="#" className="transition-opacity hover:opacity-100">
+                Privacy
+              </a>
+              <a href="#" className="transition-opacity hover:opacity-100">
+                Terms
+              </a>
+              <a href="#" className="transition-opacity hover:opacity-100">
+                Cookies
+              </a>
+              <a href="#" className="transition-opacity hover:opacity-100">
+                Accessibility
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};

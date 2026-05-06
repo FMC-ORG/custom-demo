@@ -83,10 +83,27 @@ const SecondaryButton = ({
   );
 };
 
-/* ────────────────────────────────────────────
-   Default — full-width slides with dot indicators
-   ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => {
+type CarouselChrome = {
+  slideMinClass: string;
+  overlayClass: string;
+  dotsRowClass: string;
+  titleClass: string;
+};
+
+const CAROUSEL_DEFAULT_CHROME: CarouselChrome = {
+  slideMinClass: 'min-h-[80vh]',
+  overlayClass: 'bg-black/50',
+  dotsRowClass: 'bottom-6',
+  titleClass:
+    'text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]',
+};
+
+const HeroCarouselVariantBody = ({
+  fields,
+  params,
+  page,
+  chrome,
+}: HeroBannerCarouselProps & { chrome: CarouselChrome }): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const datasource = fields?.data?.datasource;
@@ -121,7 +138,6 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        {/* Slides */}
         <div
           className="flex transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${activeIndex * 100}%)` }}
@@ -129,9 +145,11 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
           {slides.map((slide) => (
             <div
               key={slide.id}
-              className="relative flex min-h-[80vh] w-full flex-shrink-0 items-center justify-center overflow-hidden"
+              className={cn(
+                'relative flex w-full flex-shrink-0 items-center justify-center overflow-hidden',
+                chrome.slideMinClass
+              )}
             >
-              {/* Background image */}
               {(slide.slideImage?.jsonValue?.value?.src || isEditing) && (
                 <div className="absolute inset-0">
                   <ContentSdkImage
@@ -140,16 +158,14 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
                   />
                 </div>
               )}
-              {/* Dark overlay */}
-              <div className="absolute inset-0 bg-black/50" />
-              {/* Content */}
+              <div className={cn('absolute inset-0', chrome.overlayClass)} />
               <div className="relative z-10 mx-auto max-w-4xl px-4 py-20 text-center text-white">
                 <div className="space-y-6">
                   {(slide.slideTitle?.jsonValue?.value || isEditing) && (
                     <Text
                       field={slide.slideTitle?.jsonValue}
                       tag="h2"
-                      className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
+                      className={chrome.titleClass}
                     />
                   )}
                   {(slide.slideSubtitle?.jsonValue?.value || isEditing) && (
@@ -168,7 +184,6 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
           ))}
         </div>
 
-        {/* Prev / Next arrows */}
         {slides.length > 1 && !isEditing && (
           <>
             <button
@@ -194,9 +209,13 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
           </>
         )}
 
-        {/* Dot indicators */}
         {slides.length > 1 && (
-          <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+          <div
+            className={cn(
+              'absolute left-1/2 z-20 flex -translate-x-1/2 gap-2',
+              chrome.dotsRowClass
+            )}
+          >
             {slides.map((slide, i) => (
               <button
                 key={slide.id}
@@ -215,6 +234,45 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Default — full-width slides with dot indicators
+   ──────────────────────────────────────────── */
+export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => (
+  <HeroCarouselVariantBody fields={fields} params={params} page={page} chrome={CAROUSEL_DEFAULT_CHROME} />
+);
+
+/* MandarinOrientalHero — taller immersive primary carousel */
+export const MandarinOrientalHero = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => (
+  <HeroCarouselVariantBody
+    fields={fields}
+    params={params}
+    page={page}
+    chrome={{
+      slideMinClass: 'min-h-[88vh]',
+      overlayClass: 'bg-black/35',
+      dotsRowClass: 'bottom-10',
+      titleClass:
+        'text-3xl font-light tracking-[0.08em] sm:text-4xl md:text-5xl font-[var(--brand-heading-font,inherit)] uppercase',
+    }}
+  />
+);
+
+/* MandarinOrientalPromo — shorter strip for featured stories */
+export const MandarinOrientalPromo = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => (
+  <HeroCarouselVariantBody
+    fields={fields}
+    params={params}
+    page={page}
+    chrome={{
+      slideMinClass: 'min-h-[44vh] md:min-h-[50vh]',
+      overlayClass: 'bg-black/45',
+      dotsRowClass: 'bottom-5',
+      titleClass:
+        'text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl font-[var(--brand-heading-font,inherit)]',
+    }}
+  />
+);
 
 /* ────────────────────────────────────────────
    WithThumbnails — thumbnail strip below main slide

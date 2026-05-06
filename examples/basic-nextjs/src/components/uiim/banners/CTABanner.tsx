@@ -246,3 +246,66 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   MandarinOrientalFans — muted copy left, full-height lifestyle image right
+   ──────────────────────────────────────────── */
+export const MandarinOrientalFans = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section className="w-full">
+        <div className="mx-auto grid max-w-[1600px] md:grid-cols-2 md:min-h-[min(75vh,640px)]">
+          <div
+            className="flex flex-col justify-center px-6 py-14 md:px-16 md:py-20"
+            style={{ backgroundColor: 'var(--brand-muted, #eceae6)' }}
+          >
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-3xl font-normal tracking-wide md:text-4xl font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-6 text-base leading-relaxed opacity-80 font-[var(--brand-body-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              />
+            )}
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <PrimaryButton
+                field={fields.PrimaryLink}
+                isEditing={isEditing}
+                className="border-2 border-transparent bg-[var(--brand-primary)] text-[var(--brand-primary-foreground)]"
+              />
+              {(fields.SecondaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.SecondaryLink}
+                  className="inline-flex items-center justify-center border-2 bg-transparent px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90 rounded-[var(--brand-button-radius,0.375rem)]"
+                  style={{
+                    borderColor: 'var(--brand-primary)',
+                    color: 'var(--brand-fg, #111111)',
+                  }}
+                />
+              )}
+            </div>
+          </div>
+          <div className="relative min-h-[280px] md:min-h-0">
+            {(fields.BackgroundImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.BackgroundImage}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

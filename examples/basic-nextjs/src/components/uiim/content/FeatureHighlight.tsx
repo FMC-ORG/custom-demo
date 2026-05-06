@@ -269,3 +269,63 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   MandarinOrientalSpotlight — image flush left, charcoal panel right
+   ──────────────────────────────────────────── */
+export const MandarinOrientalSpotlight = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  const charcoal = '#1a1a1a';
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section className="w-full" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
+        <div className="mx-auto grid max-w-[1600px] md:grid-cols-2 md:min-h-[min(85vh,720px)]">
+          <div className="relative min-h-[320px] md:min-h-0">
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.FeatureImage}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
+          </div>
+          <div
+            className="flex flex-col justify-center px-8 py-14 md:px-14 md:py-20"
+            style={{ backgroundColor: charcoal, color: '#f5f5f5' }}
+          >
+            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="mt-2 text-3xl font-normal tracking-wide md:text-4xl font-[var(--brand-heading-font,inherit)]"
+                style={{ color: '#fafafa' }}
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-6 text-base leading-relaxed opacity-85 font-[var(--brand-body-font,inherit)]"
+                style={{ color: '#e5e5e5' }}
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="mt-8 inline-flex w-fit items-center justify-center border px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition-opacity hover:opacity-90"
+                style={{
+                  borderColor: 'var(--brand-primary)',
+                  color: 'var(--brand-primary)',
+                  backgroundColor: 'transparent',
+                }}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

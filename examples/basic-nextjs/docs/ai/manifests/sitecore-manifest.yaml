@@ -34,6 +34,7 @@ components:
       variants:
         - "Default"
         - "Highlight"
+        - "MandarinOrientalBar"
 
     templates:
       datasource:
@@ -92,6 +93,7 @@ components:
       variants:
         - { name: "Default", itemId: "{C443BF0E-5B40-4F84-98A2-F0825E83E345}" }
         - { name: "Highlight", itemId: "{6A6E7095-E948-46F1-A37B-260ADA3604FF}" }
+        - { name: "MandarinOrientalBar", itemId: "{0BF901C6-6906-4CA5-BF04-2ED853209BA4}" }
 
     verification:
       checkedAt: "2026-03-25T12:00:00Z"
@@ -140,6 +142,7 @@ components:
         - "Default"
         - "Transparent"
         - "Minimal"
+        - "MandarinOrientalHeader"
 
     templates:
       parent:
@@ -218,6 +221,7 @@ components:
         - { name: "Default", itemId: "{150B9AFE-2B9F-48AD-8F01-036666057814}" }
         - { name: "Transparent", itemId: "{A46EFC9D-7CF0-4C92-9577-1D94FD1D9782}" }
         - { name: "Minimal", itemId: "{608E0EC7-E2C6-4093-A1A1-3962FF17885A}" }
+        - { name: "MandarinOrientalHeader", itemId: "{41CE7AD2-1C21-49E7-91DB-EB3E9075B65E}" }
 
     verification:
       checkedAt: "2026-05-05T16:00:00Z"
@@ -363,6 +367,7 @@ components:
         - "Default"
         - "Underline"
         - "Boxed"
+        - "MandarinOrientalStayTabs"
 
     templates:
       datasource:
@@ -439,6 +444,7 @@ components:
         - { name: "Default", itemId: "{37CD0AB0-A6F4-4F5B-9032-666FA10925D4}" }
         - { name: "Underline", itemId: "{F6AB5E2B-D266-4BAC-8536-48404A6EF04A}" }
         - { name: "Boxed", itemId: "{3A61A7A8-3D68-498D-A79D-9D0191AE4F90}" }
+        - { name: "MandarinOrientalStayTabs", itemId: "{A02FE26C-6970-4F6F-A7E3-A9F173E019F7}" }
 
     verification:
       checkedAt: "2026-03-25T14:30:00Z"
@@ -716,6 +722,7 @@ components:
         - "TwoColumn"
         - "FourColumn"
         - "Horizontal"
+        - "MandarinOrientalWellness"
 
     templates:
       datasource:
@@ -797,6 +804,7 @@ components:
         - { name: "TwoColumn", itemId: "{3935D1DD-DC84-4A01-B271-BEF9475C5AE1}" }
         - { name: "FourColumn", itemId: "{5F5B90A2-F88D-4415-B8B1-D9DCDE1A6B5C}" }
         - { name: "Horizontal", itemId: "{EF716EAC-BEBF-484A-8826-D2051F549F2F}" }
+        - { name: "MandarinOrientalWellness", itemId: "{E1CBBD37-0A34-4DDB-BF48-B77E10A5570E}" }
 
     verification:
       checkedAt: "2026-03-25T16:30:00Z"
@@ -1076,6 +1084,7 @@ components:
         - "WithImage"
         - "Split"
         - "Minimal"
+        - "MandarinOrientalFans"
 
     templates:
       datasource:
@@ -1138,6 +1147,7 @@ components:
         - { name: "WithImage", itemId: "{2DC4E1E9-79A0-48C7-A6D9-AC7DD8AFAAA0}" }
         - { name: "Split", itemId: "{9DBA839A-E0F8-47D2-AA8E-29EDA7CC68E6}" }
         - { name: "Minimal", itemId: "{E63EE25F-C889-4FE1-81B7-4611CF5969BE}" }
+        - { name: "MandarinOrientalFans", itemId: "{10DF63DF-C2FE-4151-A1E9-12BED21B8974}" }
 
     verification:
       checkedAt: "2026-03-25T18:00:00Z"
@@ -1175,6 +1185,10 @@ components:
         - "Default"
         - "TwoColumn"
         - "WithImages"
+        - "MandarinOrientalHeroDock"
+        - "MandarinOrientalStayCards"
+        - "MandarinOrientalDineCards"
+        - "MandarinOrientalMoreCards"
 
     templates:
       datasource:
@@ -1255,6 +1269,10 @@ components:
         - { name: "Default", itemId: "{495EF058-D306-4328-ABE4-261E7CFE8E9E}" }
         - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
         - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
+        - { name: "MandarinOrientalHeroDock", itemId: "{0B7165C7-3D93-469D-B197-C4002A5809B5}" }
+        - { name: "MandarinOrientalStayCards", itemId: "{0084F864-D545-495D-ABE6-60F651DC529D}" }
+        - { name: "MandarinOrientalDineCards", itemId: "{824B4317-94EA-4F2D-B2A6-957DCBCD0E4A}" }
+        - { name: "MandarinOrientalMoreCards", itemId: "{FB259796-D9F4-429C-AAB3-917B1764D212}" }
 
     verification:
       checkedAt: "2026-03-25T18:30:00Z"
@@ -1503,6 +1521,7 @@ components:
         - "Default"
         - "Minimal"
         - "MegaFooter"
+        - "MandarinOrientalFooter"
 
     templates:
       datasource:
@@ -1560,6 +1579,7 @@ components:
         - { name: "Default", itemId: "{143CFE84-1E77-4961-975C-38564DC43DB9}" }
         - { name: "Minimal", itemId: "{AF87D61B-F6A8-4036-9BF8-FDB586268D24}" }
         - { name: "MegaFooter", itemId: "{DA131066-F9A2-47F0-A099-F614E61817AA}" }
+        - { name: "MandarinOrientalFooter", itemId: "{EC116E0C-3F3D-4D30-BFFE-4CACBAC1DEB3}" }
 
     verification:
       checkedAt: "2026-03-25T20:00:00Z"
@@ -1804,6 +1824,7 @@ components:
         - "Default"
         - "Centered"
         - "Narrow"
+        - "MandarinOrientalIntro"
 
     templates:
       datasource:
@@ -1862,6 +1883,7 @@ components:
         - { name: "Default", itemId: "{68885D4E-9808-421D-AB93-30E9FF27D8F1}" }
         - { name: "Centered", itemId: "{61BF7CB2-B65C-4C85-902D-CFA95D0F429D}" }
         - { name: "Narrow", itemId: "{CCF0292C-9EE3-4BF8-A4F1-3FFA774CA133}" }
+        - { name: "MandarinOrientalIntro", itemId: "{D586F538-5BFC-4260-B235-D167E4CF60C4}" }
 
     verification:
       checkedAt: "2026-03-25T21:30:00Z"
@@ -1899,6 +1921,7 @@ components:
         - "Centered"
         - "WithVideo"
         - "IconLeft"
+        - "MandarinOrientalSpotlight"
 
     templates:
       datasource:
@@ -1961,6 +1984,7 @@ components:
         - { name: "Centered", itemId: "{3C33C16D-F0D3-4FBF-8D78-CE70CEA0868B}" }
         - { name: "WithVideo", itemId: "{E58A4CB1-BFB4-4FDF-B48D-6254708B05CA}" }
         - { name: "IconLeft", itemId: "{E39E52FE-885D-433B-A2D3-B20F66E8F767}" }
+        - { name: "MandarinOrientalSpotlight", itemId: "{E15A74A4-FBF1-4B84-A10F-F93A011519B1}" }
 
     verification:
       checkedAt: "2026-03-25T22:00:00Z"
@@ -1984,7 +2008,7 @@ components:
     category: "Banners"
     status: "complete"
     createdAt: "2026-05-05T12:00:00Z"
-    updatedAt: "2026-05-05T12:00:00Z"
+    updatedAt: "2026-05-06T18:00:00Z"
 
     react:
       filePath: "src/components/uiim/banners/HeroBannerCarousel.tsx"
@@ -1992,6 +2016,8 @@ components:
       variants:
         - "Default"
         - "WithThumbnails"
+        - "MandarinOrientalHero"
+        - "MandarinOrientalPromo"
 
     templates:
       parent:
@@ -2063,6 +2089,15 @@ components:
       addFieldEditorButton: "1"
       registeredInAvailableRenderings: true
 
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/HeroBannerCarousel"
+      containerId: "{CD4DB121-F8ED-41FF-98E3-5DDA7E3D14E2}"
+      variants:
+        - { name: "Default", itemId: "{A086DD27-F05E-42BC-9C44-21DC7BB98DEF}" }
+        - { name: "WithThumbnails", itemId: "{42574532-74BF-42A0-9833-DF40D8041D4A}" }
+        - { name: "MandarinOrientalHero", itemId: "{4A71E134-703F-4056-B333-C35232A48C32}" }
+        - { name: "MandarinOrientalPromo", itemId: "{9C7BC568-D114-40FF-BA17-2BF05B5EA768}" }
+
     verification:
       passed:
         - "Parent template created with base templates"
@@ -2074,11 +2109,13 @@ components:
         - "Example parent + 2 child items created"
         - "Rendering created as Json Rendering with ComponentQuery"
         - "Rendering registered in Available Renderings"
+        - "Headless Variants container + 4 Variant Definitions (2026-05-06)"
       pendingManual:
         - "Silent-write fields (__Masters on parent SV, folder SV, folder instance insert options)"
         - "Available Renderings (silent-write)"
 
-    notes: []
+    notes:
+      - "2026-05-06: Created Presentation/Headless Variants/HeroBannerCarousel and Variant Definitions for Default, WithThumbnails, MandarinOrientalHero, MandarinOrientalPromo."
 
 lookups:
   - path: "/sitecore/content/main/main-website/Data"
@@ -2099,6 +2136,9 @@ lookups:
   - path: "/sitecore/content/main/main-website/Presentation/Headless Variants"
     itemId: "{7BC665DC-D7DA-418E-AEC6-124D6291E93F}"
     lastReadAt: "2026-03-25T12:00:00Z"
+  - path: "/sitecore/content/main/main-website/Presentation/Headless Variants/HeroBannerCarousel"
+    itemId: "{CD4DB121-F8ED-41FF-98E3-5DDA7E3D14E2}"
+    lastReadAt: "2026-05-06T18:00:00Z"
   - path: "/sitecore/content/main/main-website/Presentation/Available Renderings/Page Content"
     itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
     lastReadAt: "2026-03-25T12:00:00Z"

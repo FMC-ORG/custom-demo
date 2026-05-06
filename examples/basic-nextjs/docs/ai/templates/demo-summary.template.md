@@ -104,6 +104,22 @@
 
 ---
 
+## Videos
+
+<!-- Only include this section if manualVideoTasks has entries. Otherwise omit entirely. -->
+
+> [!NOTE]
+> {{VIDEOS_COUNT}} section(s) on the live site use video. Videos are not uploaded automatically — poster images are used as static fallbacks. Upload videos to Content Hub manually if needed.
+
+| # | Section | Component | Poster | Video Source | What to do |
+|---|---------|-----------|--------|-------------|------------|
+| 1 | Hero | HeroBanner (VideoBackground) | `hero-poster.jpg` | `https://client.com/hero.mp4` | Upload to Content Hub, set URL on component |
+| ... | ... | ... | ... | ... | ... |
+
+<!-- If no videos found, omit this entire section. -->
+
+---
+
 ## Manual Tasks
 
 These items require action in the **Pages editor** or **Content Editor**. Work through them in order.
@@ -181,7 +197,8 @@ _Use these while finishing the demo in Pages editor._
 
 | File | When to use it |
 |------|---------------|
-| `demo-summary.md` | Start here — full overview of what was built and what needs manual work |
+| `build-plan-summary.md` | Review before approving — shows what each page section maps to |
+| `demo-summary.md` | Start here after build — full overview of what was built and what needs manual work |
 | `manual-tasks.md` | Step-by-step checklist for remaining manual tasks (variants, context components, links, cleanup) |
 | `variant-checklist.md` | Quick-reference table for setting component variants in Pages editor |
 

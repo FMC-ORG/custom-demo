@@ -269,3 +269,61 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
     </div>
   );
 };
+
+/* MandarinOriental — image left, charcoal editorial panel right */
+export const MandarinOriental = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-0 py-0 md:py-0" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
+        <div className="mx-auto grid max-w-7xl md:grid-cols-2 md:gap-0">
+          <div className="relative min-h-[320px] md:min-h-[480px]">
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.FeatureImage}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
+          </div>
+          <div
+            className="flex flex-col justify-center px-8 py-14 md:px-16 md:py-20"
+            style={{
+              backgroundColor: 'var(--brand-dark)',
+              color: 'var(--brand-dark-foreground)',
+            }}
+          >
+            {(fields.EyebrowText?.value || isEditing) && (
+              <Text
+                field={fields.EyebrowText}
+                tag="span"
+                className="text-xs font-semibold uppercase tracking-[0.25em] opacity-70"
+              />
+            )}
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="mt-4 text-3xl font-medium uppercase tracking-[0.12em] md:text-4xl font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-6 text-base leading-relaxed opacity-85 font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="mt-10 inline-flex items-center justify-center border border-[var(--brand-dark-foreground)] px-8 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition-opacity hover:opacity-80"
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

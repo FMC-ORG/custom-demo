@@ -345,3 +345,104 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
     </div>
   );
 };
+
+const MO_COLUMNS = [
+  {
+    title: 'Corporate',
+    links: [
+      { label: 'Our Company', href: 'https://www.mandarinoriental.com/en/corporate-information/corporate-overview' },
+      { label: 'Careers', href: 'https://www.mandarinoriental.com/en/careers' },
+      { label: 'Sustainability', href: 'https://www.mandarinoriental.com/en/corporate-information/sustainability' },
+      { label: 'Investors', href: 'https://www.mandarinoriental.com/en/investors' },
+    ],
+  },
+  {
+    title: 'Explore',
+    links: [
+      { label: 'Mobile App', href: '#' },
+      { label: 'Gift Cards', href: 'https://www.mandarinoriental.com/en/shop' },
+      { label: 'Residences', href: 'https://www.mandarinoriental.com/en/residences' },
+      { label: 'Mandarin Oriental Shop', href: 'https://www.mandarinoriental.com/en/shop' },
+    ],
+  },
+  {
+    title: 'Support',
+    links: [
+      { label: 'Contact Us', href: 'https://www.mandarinoriental.com/en/contact' },
+      { label: 'Fans of M.O.', href: 'https://www.mandarinoriental.com/en/fans-of-mo/login' },
+      { label: 'Best Rate Promise', href: '#' },
+    ],
+  },
+];
+
+/* MandarinOriental — luxury editorial footer inspired by MO.com */
+export const MandarinOriental = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const { styles, RenderingIdentifier } = params;
+  const brandLogo = getBrandLogo(props);
+
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-footer-bg, #000000)',
+          color: 'var(--brand-footer-fg, #a3a3a3)',
+        }}
+      >
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+          <div className="grid gap-12 md:grid-cols-5">
+            <div className="md:col-span-2 space-y-6">
+              <Logo brandLogo={brandLogo} />
+              <p className="max-w-sm text-xs leading-relaxed opacity-70 font-[var(--brand-body-font,inherit)]">
+                Mandarin Oriental Hotel Group — 8th Floor, One Island East, Taikoo Place, 18 Westlands Road, Quarry Bay,
+                Hong Kong
+              </p>
+              <SocialIcons />
+            </div>
+            {MO_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <h3 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.35em] opacity-90 font-[var(--brand-heading-font,inherit)]">
+                  {col.title}
+                </h3>
+                <ul className="space-y-3">
+                  {col.links.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        className="text-sm opacity-70 transition-opacity hover:opacity-100 font-[var(--brand-body-font,inherit)]"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div
+            className="mt-14 flex flex-col items-center justify-between gap-4 border-t pt-8 text-[11px] uppercase tracking-wider sm:flex-row"
+            style={{ borderColor: 'rgba(255,255,255,0.12)' }}
+          >
+            <p className="opacity-50">
+              © {new Date().getFullYear()} Mandarin Oriental Hotel Group Limited
+            </p>
+            <div className="flex flex-wrap justify-center gap-6 opacity-50">
+              <a href="#" className="transition-opacity hover:opacity-100">
+                Privacy Policy
+              </a>
+              <a href="#" className="transition-opacity hover:opacity-100">
+                Ad &amp; Cookie Policy
+              </a>
+              <a href="#" className="transition-opacity hover:opacity-100">
+                Legal Notices
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};

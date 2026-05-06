@@ -271,3 +271,82 @@ export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   MandarinOriental — editorial portrait cards, horizontal rail + snap (MO Stay/Dine)
+   ──────────────────────────────────────────── */
+export const MandarinOriental = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-0 py-16 md:py-24"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-7xl px-4 md:px-6">
+          <SectionHeader datasource={datasource} isEditing={isEditing} />
+          <div
+            className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 pt-1 [scrollbar-width:none] md:-mx-0 md:px-0 [&::-webkit-scrollbar]:hidden"
+          >
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                className="flex w-[min(280px,85vw)] shrink-0 snap-start flex-col overflow-hidden md:w-[min(300px,28vw)]"
+                style={{
+                  borderRadius: 'var(--brand-card-radius, 0)',
+                  border: '1px solid var(--brand-border, #e5e7eb)',
+                }}
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <ContentSdkImage
+                    field={card.cardImage?.jsonValue}
+                    className="aspect-[3/4] w-full object-cover"
+                  />
+                )}
+                <div className="flex flex-1 flex-col bg-[var(--brand-bg)] px-5 pb-6 pt-5">
+                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="text-xs font-semibold uppercase tracking-[0.2em] font-[var(--brand-heading-font,inherit)]"
+                      style={{ color: 'var(--brand-fg, #111111)' }}
+                    />
+                  )}
+                  {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className="mt-3 flex-1 text-sm leading-relaxed opacity-70 font-[var(--brand-body-font,inherit)]"
+                      style={{ color: 'var(--brand-fg, #111111)' }}
+                    />
+                  )}
+                  {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                    <ContentSdkLink
+                      field={card.cardLink?.jsonValue}
+                      className="mt-6 inline-flex text-xs font-semibold uppercase tracking-[0.15em] underline underline-offset-8 transition-opacity hover:opacity-70"
+                      style={{ color: 'var(--brand-fg, #111111)' }}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 flex justify-center gap-2">
+            {cards.slice(0, 6).map((card) => (
+              <span
+                key={`dot-${card.id}`}
+                className="h-1.5 w-1.5 rounded-full opacity-30"
+                style={{ backgroundColor: 'var(--brand-fg, #111111)' }}
+                aria-hidden
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

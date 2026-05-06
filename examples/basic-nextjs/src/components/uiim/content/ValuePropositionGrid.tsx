@@ -305,3 +305,88 @@ export const Horizontal = ({ fields, params, page }: ValuePropositionGridProps):
     </div>
   );
 };
+
+/* MandarinOriental — asymmetric wellness band: tall photography + stacked charcoal tiles */
+export const MandarinOriental = ({ fields, params, page }: ValuePropositionGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ValuePropositionGridDefaultComponent />;
+  const items = datasource.children?.results || [];
+  const hero = items[0];
+  const tiles = items.slice(1);
+
+  return (
+    <div className={cn('component value-proposition-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-24"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-7xl">
+          <SectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid gap-4 md:grid-cols-2 md:grid-rows-2 md:gap-6">
+            <div className="relative min-h-[340px] md:row-span-2 md:min-h-[520px]">
+              {(hero?.itemIcon?.jsonValue?.value?.src || isEditing) && (
+                <ContentSdkImage
+                  field={hero.itemIcon?.jsonValue}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              )}
+              <div className="relative z-10 flex h-full flex-col justify-end p-8 md:p-12">
+                {(hero?.itemTitle?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={hero.itemTitle?.jsonValue}
+                    tag="h3"
+                    className="text-2xl font-medium uppercase tracking-[0.15em] text-white drop-shadow md:text-3xl font-[var(--brand-heading-font,inherit)]"
+                  />
+                )}
+                {(hero?.itemDescription?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={hero.itemDescription?.jsonValue}
+                    className="mt-4 max-w-md text-sm leading-relaxed text-white/90 font-[var(--brand-body-font,inherit)]"
+                  />
+                )}
+                {(hero?.itemLink?.jsonValue?.value?.href || isEditing) && (
+                  <ContentSdkLink
+                    field={hero.itemLink?.jsonValue}
+                    className="mt-8 inline-flex text-xs font-semibold uppercase tracking-[0.2em] text-white underline underline-offset-8"
+                  />
+                )}
+              </div>
+            </div>
+            {tiles.map((item) => (
+              <div
+                key={item.id}
+                className="flex flex-col justify-center px-8 py-10 md:px-12"
+                style={{
+                  backgroundColor: 'var(--brand-dark)',
+                  color: 'var(--brand-dark-foreground)',
+                }}
+              >
+                {(item.itemTitle?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={item.itemTitle?.jsonValue}
+                    tag="h3"
+                    className="text-lg font-semibold uppercase tracking-[0.2em] font-[var(--brand-heading-font,inherit)]"
+                  />
+                )}
+                {(item.itemDescription?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.itemDescription?.jsonValue}
+                    className="mt-4 text-sm leading-relaxed opacity-85 font-[var(--brand-body-font,inherit)]"
+                  />
+                )}
+                {(item.itemLink?.jsonValue?.value?.href || isEditing) && (
+                  <ContentSdkLink
+                    field={item.itemLink?.jsonValue}
+                    className="mt-8 inline-flex text-xs font-semibold uppercase tracking-[0.15em] underline underline-offset-8"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

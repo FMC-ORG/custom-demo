@@ -113,3 +113,34 @@ export const Highlight = ({ fields, params, page }: AnnouncementBarProps): JSX.E
     </div>
   );
 };
+
+/* MandarinOriental — slim utility rail */
+export const MandarinOriental = ({ fields, params, page }: AnnouncementBarProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <AnnouncementBarDefaultComponent />;
+
+  const bg =
+    fields.BackgroundColor?.value?.startsWith('#') || fields.BackgroundColor?.value === '#000000'
+      ? { backgroundColor: fields.BackgroundColor?.value || '#000000' }
+      : { backgroundColor: 'var(--brand-dark)' };
+
+  return (
+    <div className={cn('component announcement-bar', styles)} id={RenderingIdentifier}>
+      <div
+        className="w-full px-4 py-2 text-center text-[11px] font-medium uppercase tracking-[0.28em]"
+        style={{ ...bg, color: 'var(--brand-dark-foreground)' }}
+      >
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-1">
+          {(fields.Message?.value || isEditing) && (
+            <Text field={fields.Message} tag="span" />
+          )}
+          {(fields.BarLink?.value?.href || isEditing) && (
+            <ContentSdkLink field={fields.BarLink} className="underline underline-offset-4 transition-opacity hover:opacity-80" />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};

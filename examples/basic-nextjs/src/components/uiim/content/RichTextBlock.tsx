@@ -131,3 +131,37 @@ export const Narrow = ({ fields, params, page }: RichTextBlockProps): JSX.Elemen
     </div>
   );
 };
+
+/* MandarinOriental — spacious editorial intro band */
+export const MandarinOriental = ({ fields, params, page }: RichTextBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <RichTextBlockDefaultComponent />;
+
+  return (
+    <div className={cn('component rich-text-block', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 py-16 md:py-24"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-4xl text-center">
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="mb-8 text-sm font-semibold uppercase tracking-[0.35em] font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-fg, #111111)' }}
+            />
+          )}
+          {(fields.Body?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Body}
+              className="prose prose-neutral mx-auto max-w-3xl text-base leading-[1.85] md:text-lg font-[var(--brand-body-font,inherit)]"
+              style={{ color: 'var(--brand-fg, #111111)' }}
+            />
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};

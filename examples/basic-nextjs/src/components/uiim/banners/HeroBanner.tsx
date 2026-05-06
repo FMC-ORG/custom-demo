@@ -277,6 +277,53 @@ export const VideoBackground = ({ fields, params, page }: HeroBannerProps): JSX.
   );
 };
 
+/* MandarinOriental — cinematic full-bleed, gradient veil, anchored CTAs */
+export const MandarinOriental = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative flex min-h-[88vh] w-full items-end justify-center overflow-hidden pb-16 md:pb-24">
+        {(fields.HeroImage?.value?.src || isEditing) && (
+          <div className="absolute inset-0">
+            <ContentSdkImage
+              field={fields.HeroImage}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/20" />
+        <div className="relative z-10 mx-auto w-full max-w-5xl px-6 text-center text-white md:text-left">
+          <div className="flex flex-col items-center gap-6 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-2xl space-y-4 md:text-left">
+              {(fields.Title?.value || isEditing) && (
+                <Text
+                  field={fields.Title}
+                  tag="h1"
+                  className="text-4xl font-medium uppercase tracking-[0.08em] md:text-5xl font-[var(--brand-heading-font,inherit)]"
+                />
+              )}
+              {(fields.Subtitle?.value || isEditing) && (
+                <ContentSdkRichText
+                  field={fields.Subtitle}
+                  className="text-base opacity-90 md:text-lg"
+                />
+              )}
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 md:justify-end">
+              <PrimaryButton field={fields.PrimaryLink} isEditing={isEditing} />
+              <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 /* ────────────────────────────────────────────
    Minimal — text-only, generous padding
    ──────────────────────────────────────────── */

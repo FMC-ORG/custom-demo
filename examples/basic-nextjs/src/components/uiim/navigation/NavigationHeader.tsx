@@ -317,3 +317,73 @@ export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element 
     </div>
   );
 };
+
+/* MandarinOriental — editorial uppercase nav + pill CTA over imagery */
+export const MandarinOriental = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const datasource = fields?.data?.datasource;
+
+  useEffect(() => {
+    if (!datasource) return;
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [datasource]);
+
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+
+  const links = datasource.children?.results || [];
+  const brandLogo = datasource.brandLogo?.jsonValue;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className={cn(
+          'fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300',
+          scrolled ? 'border-b shadow-sm' : ''
+        )}
+        style={{
+          backgroundColor: scrolled ? 'var(--brand-header-bg, #ffffff)' : 'transparent',
+          borderColor: scrolled ? 'var(--brand-border, #e5e7eb)' : 'transparent',
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
+          <Logo
+            brandLogo={brandLogo}
+            className={cn('transition-colors duration-300', !scrolled && 'drop-shadow-md')}
+          />
+          <NavLinks
+            items={links}
+            className={cn(
+              'gap-8 text-[11px] font-semibold uppercase tracking-[0.28em]',
+              !scrolled && '[&_a]:!text-white [&_a]:drop-shadow-sm'
+            )}
+          />
+          <div className="flex items-center gap-2">
+            {(datasource.ctaLink?.jsonValue?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={datasource.ctaLink?.jsonValue}
+                className={cn(
+                  'hidden md:inline-flex items-center rounded-full border px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] transition-opacity hover:opacity-90',
+                  scrolled
+                    ? 'border-[var(--brand-border)] bg-[var(--brand-primary)] text-[var(--brand-primary-foreground)]'
+                    : 'border-white/90 bg-transparent text-white drop-shadow-sm'
+                )}
+              >
+                {datasource.ctaLabel?.jsonValue?.value && (
+                  <Text field={datasource.ctaLabel?.jsonValue} />
+                )}
+              </ContentSdkLink>
+            )}
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+        </div>
+        <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
+      </header>
+    </div>
+  );
+};

@@ -246,3 +246,53 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
     </div>
   );
 };
+
+/* MandarinOriental — split editorial band (copy left, full-height photography right) */
+export const MandarinOriental = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section className="grid w-full md:grid-cols-2">
+        <div
+          className="flex flex-col justify-center px-8 py-16 md:px-16 md:py-24"
+          style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+        >
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="text-3xl font-medium uppercase tracking-[0.08em] md:text-4xl font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-fg, #111111)' }}
+            />
+          )}
+          {(fields.Description?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Description}
+              className="mt-8 max-w-xl text-base leading-relaxed font-[var(--brand-body-font,inherit)]"
+              style={{ color: 'var(--brand-muted-foreground, #6b6b6b)' }}
+            />
+          )}
+          <div className="mt-12 flex flex-wrap items-center gap-4">
+            <PrimaryButton
+              field={fields.PrimaryLink}
+              isEditing={isEditing}
+              className="border border-[var(--brand-fg)] bg-transparent text-[var(--brand-fg)] hover:opacity-90"
+            />
+            <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+          </div>
+        </div>
+        <div className="relative min-h-[280px] md:min-h-[420px]">
+          {(fields.BackgroundImage?.value?.src || isEditing) && (
+            <ContentSdkImage
+              field={fields.BackgroundImage}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};

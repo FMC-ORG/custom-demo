@@ -238,16 +238,14 @@ const HeroCarouselVariantBody = ({
 /* ────────────────────────────────────────────
    Default — full-width slides with dot indicators
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => (
-  <HeroCarouselVariantBody fields={fields} params={params} page={page} chrome={CAROUSEL_DEFAULT_CHROME} />
+export const Default = (props: HeroBannerCarouselProps): JSX.Element => (
+  <HeroCarouselVariantBody {...props} chrome={CAROUSEL_DEFAULT_CHROME} />
 );
 
 /* MandarinOrientalHero — taller immersive primary carousel */
-export const MandarinOrientalHero = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => (
+export const MandarinOrientalHero = (props: HeroBannerCarouselProps): JSX.Element => (
   <HeroCarouselVariantBody
-    fields={fields}
-    params={params}
-    page={page}
+    {...props}
     chrome={{
       slideMinClass: 'min-h-[88vh]',
       overlayClass: 'bg-black/35',
@@ -259,11 +257,9 @@ export const MandarinOrientalHero = ({ fields, params, page }: HeroBannerCarouse
 );
 
 /* MandarinOrientalPromo — shorter strip for featured stories */
-export const MandarinOrientalPromo = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => (
+export const MandarinOrientalPromo = (props: HeroBannerCarouselProps): JSX.Element => (
   <HeroCarouselVariantBody
-    fields={fields}
-    params={params}
-    page={page}
+    {...props}
     chrome={{
       slideMinClass: 'min-h-[44vh] md:min-h-[50vh]',
       overlayClass: 'bg-black/45',
@@ -277,7 +273,7 @@ export const MandarinOrientalPromo = ({ fields, params, page }: HeroBannerCarous
 /* ────────────────────────────────────────────
    WithThumbnails — thumbnail strip below main slide
    ──────────────────────────────────────────── */
-export const WithThumbnails = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => {
+export const WithThumbnails = ({ fields, params, page, rendering }: HeroBannerCarouselProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const datasource = fields?.data?.datasource;

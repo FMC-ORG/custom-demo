@@ -160,7 +160,7 @@ Use the `site-analyzer` agent (`docs/ai/agents/site-analyzer.md`):
 
    Context-only components (NavigationHeader, SiteFooter) will fail with "No datasource template found" when using `add_component_on_page`. Flag these in the build plan so the assembly phase skips them and includes them in the manual tasks checklist.
 8. Output `docs/ai/demos/<client-kebab>/build-plan.yaml`
-7. Present the build plan to the user:
+9. Present the build plan to the user:
    - List of sections with matched components and variants
    - Any sections marked as "custom" that need building from scratch
    - Confidence levels
@@ -712,32 +712,66 @@ Page assembly complete:
 
 ### Phase 7 — Summary
 
-Present to the user:
-- Total components used: N template + M custom
-- Content populated: X fields across Y datasource items
-- Theme applied: CSS variables + Google Fonts
-- Page assembled: Z components in `headless-main`
-- What needs manual attention:
-  - **Variant selection** — see `variant-checklist.md` (~2 min)
-  - Images needing Media Library upload (with source URLs)
-  - Links needing real URLs (client links won't work on demo)
-  - OOB components to remove from page (if reusing existing page)
-  - Any low-confidence matches that should be verified
-  - Silent-write fields needing Content Editor verification
+Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `docs/ai/templates/demo-summary.template.md`.
+
+**How to populate the template:**
+
+1. **Build Overview table** — pull counts from `demo-progress.yaml`:
+   - `TEMPLATE_COUNT` = sections with `matchType: "template"`
+   - `CUSTOM_COUNT` = `phases.phase5_custom.customComponentsBuilt`
+   - `VARIANT_COUNT` = `phases.phase5_5_variants.variantsCreated`
+   - `DATASOURCE_COUNT` = count of `sections[*].phase3.itemId` that are non-empty
+   - `FIELDS_COUNT` = sum of populated fields across all sections (from `content-map.yaml`)
+   - `IMAGES_UPLOADED` / `IMAGES_TOTAL` = sum of `imagesUploaded` / `imagesExpected` across sections
+
+2. **Component Inventory table** — one row per section from `build-plan.yaml`:
+   - Status from `sections[N].phase6.status`: `wired` = "✅ Wired", `skipped` = "✅ On page", `added` (but not wired) = "⚠️ Needs datasource", `failed` = "❌ Failed"
+   - If variant is non-Default and Phase 5.5 was skipped, append "⚠️ Needs variant" to status
+
+3. **Theme section** — from the theme YAML produced in Phase 1
+
+4. **Image Upload Summary** — read `docs/ai/demos/<client>/images/image-manifest.json`:
+   - Count entries by `uploadStatus`: `"uploaded"` with `approved: true` = OK, `"uploaded"` with `approved: false` = pending approval, `"failed"` = failed, `"downloaded"` (not attempted) = skipped
+   - **Summary table**: show totals per result category
+   - **If all OK**: show the NOTE callout, include the Successful Uploads table for reference
+   - **If any failed**: show the WARNING callout + Failed/Skipped Images table. For each failed image, pull `uploadError` from the manifest entry to populate the Error column
+   - **If skipped** (no credentials): show the NOTE with the upload script command
+   - **Successful Uploads table**: one row per `uploadStatus: "uploaded"` entry — show file, section (from `sectionPosition`), `assetId`, clickable `publicUrl`, and `width x height`
+   - **Remove empty sub-tables** — if no failures, omit the Failed table. If no successes, omit the Successful table.
+
+5. **Manual Tasks** — populate each subsection:
+   - **Variant Selection**: only include components where the build plan variant differs from Default
+   - **Context-Only Components**: only include NavigationHeader/SiteFooter if they appear in the build plan
+   - **Link Verification**: list links from content-map that point to the client's domain
+   - **Cleanup**: only include if reusing an existing page that had OOB components
+   - **Personalization**: always include — it's optional guidance for the SE
+
+6. **Remove unused sections** — if a manual task or image subsection has zero items, remove it entirely. Don't leave empty tables.
+
+**Present the summary to the user in the chat** (not just saved to file). Copy the populated content directly into the chat response so the SE can read it immediately.
+
+Also save the standalone `manual-tasks.md` with just the Manual Tasks section (subsections 1-5) for quick reference in the Pages editor.
 
 ## Output files
 
 After completion, the demo directory should contain:
+
 ```
 docs/ai/demos/<client-kebab>/
-├── demo-progress.yaml         # phase + section progress tracker (enables resume)
-├── build-plan.yaml            # the section-by-component mapping
-├── content-map.yaml           # extracted + translated content mapped to fields
-├── content-populated.md       # log of content updates made
-├── theme-applied.md           # log of theme changes made
-├── variant-checklist.md       # manual variant selection guide for the SE
-├── page-assembly.md           # log of components added + datasources wired
-└── manual-tasks.md            # everything the SE needs to do manually
+│
+│  BUILD PIPELINE FILES (automation internals — enable resume)
+├── demo-progress.yaml         # which phases/sections are done
+├── build-plan.yaml            # page sections mapped to components + variants
+├── content-map.yaml           # client content mapped to Sitecore field names
+│
+│  SE REFERENCE FILES (use while finishing the demo)
+├── demo-summary.md            # start here — full build overview + manual tasks
+├── manual-tasks.md            # step-by-step checklist for remaining work
+├── variant-checklist.md       # quick-ref table for setting variants in Pages
+│
+│  ASSETS
+├── images/                    # downloaded source images from client site
+└── images/image-manifest.json # maps images to Content Hub IDs + upload status
 ```
 
 ## Important rules

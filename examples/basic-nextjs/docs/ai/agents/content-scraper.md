@@ -114,7 +114,52 @@ For each build plan section, map the extracted (and translated) content to the s
   note: "Context-only — no datasource content to populate"
 ```
 
-### Step 5 — Handle field types correctly
+### Step 5 — Filter images to relevant ones only
+
+The extractor may capture 50-100+ images per site (different resolutions, decorative elements, icons, tracking pixels). Only map images that correspond to **actual component fields**.
+
+**Include:**
+- Hero/banner background images (largest image in the section)
+- Card images (one per list item)
+- Feature images (the main image in a feature highlight)
+- Logo images (brand logos, partner logos)
+- Video poster images (static fallback for video sections)
+
+**Exclude:**
+- Duplicate images at different resolutions (keep the largest)
+- Decorative icons and UI chrome (arrows, close buttons, social icons)
+- Tracking pixels and spacer images
+- Images from the navigation or footer (unless mapping to NavigationHeader BrandLogo or SiteFooter BrandLogo)
+- Background gradient images
+
+**How to deduplicate:** Compare the filename portion of URLs (strip query params and resolution suffixes). If two images share the same base filename, keep the one with the highest resolution (largest `width` or longest URL path).
+
+Set `imageFields` only for images that map to a specific component field. All other images are ignored — they're decorative.
+
+### Step 6 — Handle videos
+
+The extractor may find `videos` arrays on sections. Videos are **not uploaded automatically** — they are metadata only.
+
+For each section with videos:
+
+```yaml
+  videoFields:
+    - type: "video"                    # or "iframe-video"
+      poster: "https://..."            # static fallback image (already in images)
+      sources:
+        - src: "https://...video.mp4"
+          type: "video/mp4"
+      provider: ""                     # "youtube", "vimeo", or empty
+      note: "Live site has video here. Use poster image as static fallback, or upload video to Content Hub manually."
+```
+
+**Rules:**
+- Do NOT attempt to download video files — they're too large
+- Map the video **poster** image to the component's Image field as a static fallback
+- If the component variant supports video (e.g., HeroBanner VideoBackground), note the source URL for manual setup
+- Add an entry to `manualVideoTasks` in the content map summary
+
+### Step 7 — Handle field types correctly
 
 | Sitecore field type | How to format the value |
 |---|---|
@@ -123,7 +168,7 @@ For each build plan section, map the extracted (and translated) content to the s
 | General Link | Object: `{ text, href, target }` — Phase 3 converts to Sitecore XML |
 | Image | Object: `{ src, alt }` — Phase 3 downloads images, uploads to Content Hub via `upload-to-content-hub.mjs`, and sets field using DAM format (`<Image src="..." dam-id="..." />`) |
 
-### Step 6 — Handle missing content
+### Step 8 — Handle missing content
 
 Not every field will have extractable content. When content is missing:
 
@@ -135,7 +180,7 @@ Not every field will have extractable content. When content is missing:
 | Link field with `javascript:void(0)` or empty href | Set href to `"#"` |
 | Link field with relative URL | Prepend client domain to make absolute |
 
-### Step 7 — Write the content map
+### Step 9 — Write the content map
 
 Save to `docs/ai/demos/<client>/content-map.yaml`:
 
@@ -229,9 +274,22 @@ summary:
   sectionsWithContent: 12
   contextOnlySkipped: 2
   fieldsPopulated: 45
-  imageFieldsPending: 8
+  imageFieldsMapped: 8         # images that map to component fields
+  imagesSkipped: 74            # decorative/duplicate images not mapped
+  videosFound: 1               # sections with video content
   translationApplied: true
   sourceLanguage: "el"
+
+# Videos found on the page (not uploaded — manual reference only)
+manualVideoTasks:
+  - position: 3
+    componentName: "HeroBanner"
+    variant: "VideoBackground"
+    posterImage: "https://client.com/hero-poster.jpg"   # already in imageFields
+    videoSources:
+      - src: "https://client.com/hero.mp4"
+        type: "video/mp4"
+    note: "Upload video to Content Hub and set URL on the HeroBanner VideoUrl field."
 ```
 
 ## Content extraction rules

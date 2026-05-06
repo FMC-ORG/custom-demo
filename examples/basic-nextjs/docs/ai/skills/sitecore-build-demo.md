@@ -159,23 +159,19 @@ Use the `site-analyzer` agent (`docs/ai/agents/site-analyzer.md`):
    - `apiAddable: false` — context-only component (no datasource template), must be added manually in Pages editor
 
    Context-only components (NavigationHeader, SiteFooter) will fail with "No datasource template found" when using `add_component_on_page`. Flag these in the build plan so the assembly phase skips them and includes them in the manual tasks checklist.
-8. Output `docs/ai/demos/<client-kebab>/build-plan.yaml`
-9. Present the build plan to the user:
-   - List of sections with matched components and variants
-   - Any sections marked as "custom" that need building from scratch
-   - Confidence levels
-   - Estimated work: N template components + M custom components
+8. Output two files:
+   - `docs/ai/demos/<client-kebab>/build-plan.yaml` — machine-readable plan for subsequent phases
+   - `docs/ai/demos/<client-kebab>/build-plan-summary.md` — human-readable summary using the template at `docs/ai/templates/build-plan-summary.template.md`
+9. **Present the summary (not the YAML) to the user in chat.** The summary includes:
+   - Section-by-section table with plain-language descriptions, matched components, variants, and confidence
+   - Sections needing attention (low confidence or custom)
+   - Variant decisions with reasoning
+   - Components grouped by type (API-addable vs manual vs custom)
+   - Build order in plain language
 
 **⛔ MANDATORY CHECKPOINT — Do not proceed past Phase 2.**
 
-Present the build plan to the user and STOP. Wait for explicit approval before creating any Sitecore items, datasource content, or React code.
-
-Show:
-1. Section-by-section component mapping with variants
-2. Variant gap analysis (which variants exist vs. which need creation)
-3. Components classified as API-addable vs. manual-only
-4. Content language: confirm all content will be in English
-5. Estimated work: N existing components + M custom variants + P manual steps
+Present the **build plan summary** to the user and STOP. The SE reads the summary to validate the plan — not the raw YAML. Wait for explicit approval before creating any Sitecore items, datasource content, or React code.
 
 **Ask TWO questions — do not continue without answers to both:**
 1. "Does the build plan look correct? Approved to proceed?"
@@ -386,7 +382,20 @@ If any images failed to upload in Step 1, or Step 1 was skipped entirely:
 2. Record `imagesFailed` count in `demo-progress.yaml`
 3. After the SE uploads manually and confirms, use `search_assets` to find items by name, build `imageFieldXml`, and set on datasource items
 
-#### Step 6 — Record all new items
+#### Step 6 — Handle videos (metadata only)
+
+Videos are NOT downloaded or uploaded. If `content-map.yaml` has a `manualVideoTasks` section:
+
+1. Use the video **poster image** as the component's Image field value (the poster is already in the image manifest — it was downloaded as a regular image)
+2. Add each video to `manual-tasks.md` with:
+   - Section position and component name
+   - Video source URL(s)
+   - Instructions: "Upload video to Content Hub, create public link, set URL on component"
+3. If the matched component variant is `VideoBackground`, note the video URL in the datasource field as a placeholder text so the SE knows where to find it
+
+Do NOT attempt to download `.mp4`/`.webm` files — they're 10-100MB and would slow the pipeline significantly.
+
+#### Step 7 — Record all new items
 
 Save all created item IDs to `docs/ai/demos/<client>/content-map.yaml`:
 
@@ -739,14 +748,19 @@ Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `d
    - **Successful Uploads table**: one row per `uploadStatus: "uploaded"` entry — show file, section (from `sectionPosition`), `assetId`, clickable `publicUrl`, and `width x height`
    - **Remove empty sub-tables** — if no failures, omit the Failed table. If no successes, omit the Successful table.
 
-5. **Manual Tasks** — populate each subsection:
+5. **Videos** — read `content-map.yaml` `manualVideoTasks`:
+   - Only include this section if there are video entries
+   - One row per video with section, component, poster image file, source URL, and action
+   - If no videos found, omit the entire Videos section
+
+6. **Manual Tasks** — populate each subsection:
    - **Variant Selection**: only include components where the build plan variant differs from Default
    - **Context-Only Components**: only include NavigationHeader/SiteFooter if they appear in the build plan
    - **Link Verification**: list links from content-map that point to the client's domain
    - **Cleanup**: only include if reusing an existing page that had OOB components
    - **Personalization**: always include — it's optional guidance for the SE
 
-6. **Remove unused sections** — if a manual task or image subsection has zero items, remove it entirely. Don't leave empty tables.
+7. **Remove unused sections** — if a manual task, image, or video subsection has zero items, remove it entirely. Don't leave empty tables.
 
 **Present the summary to the user in the chat** (not just saved to file). Copy the populated content directly into the chat response so the SE can read it immediately.
 
@@ -761,10 +775,11 @@ docs/ai/demos/<client-kebab>/
 │
 │  BUILD PIPELINE FILES (automation internals — enable resume)
 ├── demo-progress.yaml         # which phases/sections are done
-├── build-plan.yaml            # page sections mapped to components + variants
+├── build-plan.yaml            # page sections mapped to components + variants (machine-readable)
 ├── content-map.yaml           # client content mapped to Sitecore field names
 │
 │  SE REFERENCE FILES (use while finishing the demo)
+├── build-plan-summary.md      # human-readable build plan (reviewed in Phase 2)
 ├── demo-summary.md            # start here — full build overview + manual tasks
 ├── manual-tasks.md            # step-by-step checklist for remaining work
 ├── variant-checklist.md       # quick-ref table for setting variants in Pages

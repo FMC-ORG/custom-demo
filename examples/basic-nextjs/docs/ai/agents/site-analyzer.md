@@ -71,7 +71,22 @@ For each matched section, extract the **actual text content** visible in the scr
 
 ### Step 6 — Output the build plan
 
-Write the plan to `docs/ai/demos/<client-kebab>/build-plan.yaml`.
+Write two files:
+
+1. **`docs/ai/demos/<client-kebab>/build-plan.yaml`** — machine-readable plan consumed by subsequent phases
+2. **`docs/ai/demos/<client-kebab>/build-plan-summary.md`** — human-readable summary for the SE to review
+
+Use the template at `docs/ai/templates/build-plan-summary.template.md` for the summary. This is what the SE actually reads to approve or request changes.
+
+**Rules for the summary:**
+- The "What's on the page" column must be a plain-language description in *italics* — write it as if describing the screenshot to someone who can't see it
+- The "What we'll use" column must use the component's display name (e.g., "Hero Banner" not `hero-banner`)
+- Only include the "Sections that need attention" table if there are low-confidence or custom sections
+- Only include the "Variant Decisions" rows for non-Default variants
+- The "Build Order" section should list components in page order with human-readable names
+- Keep the summary concise — the YAML has the full details
+
+**Present the summary to the user in chat** (not just saved to file). The YAML is written to disk for the pipeline — the summary is what the SE reviews.
 
 ---
 
@@ -174,6 +189,9 @@ See `docs/ai/catalog/theme-component-mapping.md` for the full mapping.
 | Large heading + subtitle + CTA, dark/full-width | HeroBanner | Default |
 | Large heading + image on the side | HeroBanner | SplitImageText |
 | Full-bleed photo with text overlay | HeroBanner | BackgroundImage |
+| Full-bleed hero with icon categories or accordion overlay | **Split:** HeroBanner + FAQAccordion/TabNav, or mark custom | — |
+| Multiple full-width rotating slides with dots/arrows | HeroBannerCarousel | Default |
+| Row of cards in horizontal carousel with dots | FeatureCardsGrid (note carousel in contentNotes) | WithImages |
 | Horizontal row of pill/tab buttons | TabNavigationSection | Default |
 | 2-3 cards with title, price, CTA | ProductPricingCards | Default |
 | Single feature with image + text side by side | FeatureHighlight | Default |
@@ -202,6 +220,31 @@ See `docs/ai/catalog/theme-component-mapping.md` for the full mapping.
 | FeatureHighlight vs HeroBanner | Hero is above the fold and full-width. FeatureHighlight is mid-page, typically half-width image |
 | CTABanner vs HeroBanner | CTA is conversion-focused (single action), appears toward page bottom. Hero is the main intro section at top |
 | ProductPricingCards vs FeatureCardsGrid | PricingCards have price/badge fields. FeatureCards have icon + description but no pricing |
+| HeroBanner vs HeroBanner + FAQAccordion | If the hero section has expandable/collapsible categories, icon navigation, or accordion-style content overlaid on the hero image, do NOT map to plain HeroBanner. See "Compound/interactive sections" below. |
+| FeatureCardsGrid vs HeroBannerCarousel | If cards are in a horizontal carousel with dots/arrows (not a static grid), consider HeroBannerCarousel if they're hero-sized, or note the carousel behavior in `contentNotes` for Phase 5.5 |
+
+### Compound / interactive sections
+
+Some homepage sections combine multiple behaviors that don't map to a single template component. Do NOT force these into one component — split them or mark as custom.
+
+**Hero with accordion/category navigation:**
+If a hero section includes expandable categories, icon-based navigation tabs, or an accordion overlay on top of the hero image:
+- Split into: **HeroBanner** (BackgroundImage) for the visual + **FAQAccordion** or **TabNavigationSection** for the interactive overlay
+- Or mark as `matchType: "custom"` if the interaction is tightly coupled
+- **Never** map to a plain HeroBanner and silently drop the interactive content
+- Note what's being lost in `contentNotes` so the SE can decide
+
+**Carousel sections that aren't hero-sized:**
+If a section shows cards in a horizontal carousel with dots/arrows:
+- If the cards are hero-sized with full-bleed images → **HeroBannerCarousel**
+- If the cards are mid-page content cards → **FeatureCardsGrid** with `contentNotes` noting the carousel behavior
+- Note in `contentNotes`: "Live site uses carousel; template renders as grid. Phase 5.5 can add carousel variant."
+
+**Asymmetric layouts:**
+If a section has one large image + smaller tiles (not a uniform grid):
+- Do NOT force into a symmetric grid component
+- Mark as `matchConfidence: "low"` with a note about the asymmetry
+- Suggest splitting into ImageGallery + FeatureCardsGrid, or mark custom
 
 ### Confidence levels
 

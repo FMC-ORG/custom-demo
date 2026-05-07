@@ -363,6 +363,7 @@ components:
         - "Default"
         - "Underline"
         - "Boxed"
+        - "MandarinOriental"
 
     templates:
       datasource:
@@ -439,6 +440,7 @@ components:
         - { name: "Default", itemId: "{37CD0AB0-A6F4-4F5B-9032-666FA10925D4}" }
         - { name: "Underline", itemId: "{F6AB5E2B-D266-4BAC-8536-48404A6EF04A}" }
         - { name: "Boxed", itemId: "{3A61A7A8-3D68-498D-A79D-9D0191AE4F90}" }
+        - { name: "MandarinOriental", itemId: "{C3BDD244-4F30-44E9-88BC-4D942E6FE94A}" }
 
     verification:
       checkedAt: "2026-03-25T14:30:00Z"
@@ -1176,6 +1178,7 @@ components:
         - "TwoColumn"
         - "WithImages"
         - "Carousel"
+        - "MandarinOrientalDark"
 
     templates:
       datasource:
@@ -1256,7 +1259,8 @@ components:
         - { name: "Default", itemId: "{495EF058-D306-4328-ABE4-261E7CFE8E9E}" }
         - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
         - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
-        - { name: "Carousel", itemId: "" }  # TODO: create in Sitecore
+        - { name: "Carousel", itemId: "{F2C49451-6C21-4004-A70C-B346385D5F5F}" }
+        - { name: "MandarinOrientalDark", itemId: "{FD513A7B-43C6-4D25-B171-27FDE40EBD4C}" }
 
     verification:
       checkedAt: "2026-03-25T18:30:00Z"
@@ -1806,6 +1810,7 @@ components:
         - "Default"
         - "Centered"
         - "Narrow"
+        - "MandarinOriental"
 
     templates:
       datasource:
@@ -1864,6 +1869,7 @@ components:
         - { name: "Default", itemId: "{68885D4E-9808-421D-AB93-30E9FF27D8F1}" }
         - { name: "Centered", itemId: "{61BF7CB2-B65C-4C85-902D-CFA95D0F429D}" }
         - { name: "Narrow", itemId: "{CCF0292C-9EE3-4BF8-A4F1-3FFA774CA133}" }
+        - { name: "MandarinOriental", itemId: "{D30D50F0-2CAC-44B9-A90C-119AAFDA8444}" }
 
     verification:
       checkedAt: "2026-03-25T21:30:00Z"
@@ -1901,6 +1907,8 @@ components:
         - "Centered"
         - "WithVideo"
         - "IconLeft"
+        - "MandarinOrientalSplit"
+        - "MandarinOrientalFullBleed"
 
     templates:
       datasource:
@@ -1963,6 +1971,8 @@ components:
         - { name: "Centered", itemId: "{3C33C16D-F0D3-4FBF-8D78-CE70CEA0868B}" }
         - { name: "WithVideo", itemId: "{E58A4CB1-BFB4-4FDF-B48D-6254708B05CA}" }
         - { name: "IconLeft", itemId: "{E39E52FE-885D-433B-A2D3-B20F66E8F767}" }
+        - { name: "MandarinOrientalSplit", itemId: "{DD377204-B981-479A-9E9E-9BAC99360C8D}" }
+        - { name: "MandarinOrientalFullBleed", itemId: "{A6C88BE0-1059-4C42-8B47-97177046F5C7}" }
 
     verification:
       checkedAt: "2026-03-25T22:00:00Z"
@@ -1994,6 +2004,7 @@ components:
       variants:
         - "Default"
         - "WithThumbnails"
+        - "MandarinOriental"
 
     templates:
       parent:
@@ -2064,6 +2075,14 @@ components:
       componentQuery: "query HeroBannerCarousel($datasource: String!, $language: String!) { datasource: item(path: $datasource, language: $language) { title: field(name: \"Title\") { jsonValue } children { results { id slideTitle: field(name: \"SlideTitle\") { jsonValue } slideSubtitle: field(name: \"SlideSubtitle\") { jsonValue } slideImage: field(name: \"SlideImage\") { jsonValue } primaryLink: field(name: \"PrimaryLink\") { jsonValue } secondaryLink: field(name: \"SecondaryLink\") { jsonValue } } } } }"
       addFieldEditorButton: "1"
       registeredInAvailableRenderings: true
+
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/HeroBannerCarousel"
+      containerId: "{15F2EDAF-19BF-4B3D-A065-C7340F985901}"
+      variants:
+        - { name: "Default", itemId: "{6638540D-948F-4671-866D-059C3EAF3911}" }
+        - { name: "WithThumbnails", itemId: "{DA961689-9E73-4F27-BBEC-D070840A8B84}" }
+        - { name: "MandarinOriental", itemId: "{2C4ABAA0-37C1-468E-A425-E659DEE869AB}" }
 
     verification:
       passed:

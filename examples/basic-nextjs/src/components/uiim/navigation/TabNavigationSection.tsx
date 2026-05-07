@@ -154,6 +154,47 @@ export const Underline = ({ fields, params, page }: TabNavigationSectionProps): 
 };
 
 /* ────────────────────────────────────────────
+   MandarinOriental — black strip, icon+label columns, white text
+   ──────────────────────────────────────────── */
+export const MandarinOriental = ({ fields, params, page }: TabNavigationSectionProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TabNavigationSectionDefaultComponent />;
+
+  const tabs = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component tab-navigation-section', styles)} id={RenderingIdentifier}>
+      <nav
+        className="w-full py-6"
+        style={{ backgroundColor: 'var(--brand-header-bg, #000000)' }}
+        aria-label={datasource.title?.jsonValue?.value || 'Property navigation'}
+      >
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="flex items-stretch divide-x divide-white/20">
+            {tabs.map((tab) => (
+              <ContentSdkLink
+                key={tab.id}
+                field={tab.tabLink?.jsonValue}
+                className="flex flex-1 flex-col items-center gap-1.5 px-3 py-2 text-center transition-opacity hover:opacity-70"
+              >
+                <Text
+                  field={tab.tabLabel?.jsonValue}
+                  tag="span"
+                  className="text-[10px] tracking-[0.2em] uppercase font-medium text-white"
+                />
+              </ContentSdkLink>
+            ))}
+          </div>
+        </div>
+      </nav>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Boxed — rectangular tabs with border
    ──────────────────────────────────────────── */
 export const Boxed = ({ fields, params, page }: TabNavigationSectionProps): JSX.Element => {

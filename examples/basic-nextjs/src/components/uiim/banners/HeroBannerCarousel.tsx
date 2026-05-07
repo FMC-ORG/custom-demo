@@ -217,6 +217,144 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
 };
 
 /* ────────────────────────────────────────────
+   MandarinOriental — cinematic full-screen, bottom-left content, gradient overlay
+   ──────────────────────────────────────────── */
+export const MandarinOriental = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  const slides = datasource?.children?.results || [];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const goTo = useCallback(
+    (index: number) => {
+      if (slides.length === 0) return;
+      setActiveIndex(((index % slides.length) + slides.length) % slides.length);
+    },
+    [slides.length]
+  );
+
+  useEffect(() => {
+    if (isPaused || isEditing || slides.length <= 1) return;
+    const timer = setInterval(() => goTo(activeIndex + 1), 6000);
+    return () => clearInterval(timer);
+  }, [activeIndex, isPaused, isEditing, slides.length, goTo]);
+
+  if (!datasource || slides.length === 0) return <HeroBannerCarouselDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner-carousel', styles)} id={RenderingIdentifier}>
+      <section
+        className="relative w-full overflow-hidden"
+        aria-label={datasource.title?.jsonValue?.value || 'Hero carousel'}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        {/* Slides */}
+        <div
+          className="flex transition-transform duration-700 ease-in-out"
+          style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+        >
+          {slides.map((slide) => (
+            <div
+              key={slide.id}
+              className="relative flex min-h-screen w-full flex-shrink-0 items-end overflow-hidden"
+            >
+              {(slide.slideImage?.jsonValue?.value?.src || isEditing) && (
+                <div className="absolute inset-0">
+                  <ContentSdkImage
+                    field={slide.slideImage?.jsonValue}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              )}
+              {/* Cinematic gradient — heavy at bottom, fades upward */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+              {/* Content — bottom-left */}
+              <div className="relative z-10 max-w-2xl px-8 pb-16 text-white md:px-16 md:pb-24">
+                {(slide.slideTitle?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={slide.slideTitle?.jsonValue}
+                    tag="h2"
+                    className="text-4xl font-light tracking-wide leading-tight md:text-6xl"
+                    style={{ fontFamily: 'var(--brand-heading-font)' }}
+                  />
+                )}
+                {(slide.slideSubtitle?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={slide.slideSubtitle?.jsonValue}
+                    className="mt-4 max-w-lg text-sm leading-relaxed opacity-80 md:text-base"
+                    style={{ fontFamily: 'var(--brand-body-font)' }}
+                  />
+                )}
+                {(slide.primaryLink?.jsonValue?.value?.href || isEditing) && (
+                  <ContentSdkLink
+                    field={slide.primaryLink?.jsonValue}
+                    className="mt-8 inline-flex items-center gap-3 px-7 py-3 text-xs tracking-[0.15em] uppercase transition-opacity hover:opacity-80"
+                    style={{
+                      backgroundColor: 'var(--brand-primary)',
+                      color: 'var(--brand-primary-foreground)',
+                      borderRadius: 'var(--brand-button-radius)',
+                      fontFamily: 'var(--brand-body-font)',
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Slim arrow navigation */}
+        {slides.length > 1 && !isEditing && (
+          <>
+            <button
+              type="button"
+              onClick={() => goTo(activeIndex - 1)}
+              className="absolute left-4 top-1/2 z-20 -translate-y-1/2 p-2 text-white/70 transition-colors hover:text-white"
+              aria-label="Previous slide"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => goTo(activeIndex + 1)}
+              className="absolute right-4 top-1/2 z-20 -translate-y-1/2 p-2 text-white/70 transition-colors hover:text-white"
+              aria-label="Next slide"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <polyline points="9 6 15 12 9 18" />
+              </svg>
+            </button>
+          </>
+        )}
+
+        {/* Slim line indicators at bottom */}
+        {slides.length > 1 && (
+          <div className="absolute bottom-6 right-8 z-20 flex gap-1.5">
+            {slides.map((slide, i) => (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={() => goTo(i)}
+                className={cn(
+                  'h-px w-8 transition-all duration-300',
+                  i === activeIndex ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
+                )}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    WithThumbnails — thumbnail strip below main slide
    ──────────────────────────────────────────── */
 export const WithThumbnails = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => {

@@ -443,3 +443,83 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   MandarinOrientalDark — black section, 4-col photography cards, editorial typography
+   Used for: Destinations (pos 5), Dining Carousel (pos 8), Wellness / More-at-MO (pos 9/10)
+   ──────────────────────────────────────────── */
+export const MandarinOrientalDark = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-20"
+        style={{ backgroundColor: 'var(--brand-header-bg, #000000)' }}
+      >
+        <div className="mx-auto max-w-7xl">
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.title?.jsonValue}
+              tag="h2"
+              className="mb-8 text-4xl font-light tracking-wide text-white md:text-5xl"
+              style={{ fontFamily: 'var(--brand-heading-font)' }}
+            />
+          )}
+          {(datasource.description?.jsonValue?.value || isEditing) && (
+            <ContentSdkRichText
+              field={datasource.description?.jsonValue}
+              className="mb-10 max-w-xl text-sm leading-relaxed text-white/60"
+              style={{ fontFamily: 'var(--brand-body-font)' }}
+            />
+          )}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                className="group flex cursor-pointer flex-col overflow-hidden"
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <div className="aspect-[4/3] overflow-hidden">
+                    <ContentSdkImage
+                      field={card.cardImage?.jsonValue}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                )}
+                <div className="mt-3 flex flex-col gap-1.5">
+                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="text-sm font-medium uppercase tracking-[0.15em] text-white"
+                      style={{ fontFamily: 'var(--brand-heading-font)' }}
+                    />
+                  )}
+                  {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className="line-clamp-2 text-xs leading-relaxed text-white/60"
+                      style={{ fontFamily: 'var(--brand-body-font)' }}
+                    />
+                  )}
+                  {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                    <ContentSdkLink
+                      field={card.cardLink?.jsonValue}
+                      className="mt-1 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.15em] text-white/60 transition-colors hover:text-white"
+                      style={{ fontFamily: 'var(--brand-body-font)' }}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

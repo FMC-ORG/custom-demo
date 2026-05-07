@@ -97,6 +97,49 @@ export const Centered = ({ fields, params, page }: RichTextBlockProps): JSX.Elem
 };
 
 /* ────────────────────────────────────────────
+   MandarinOriental — generous whitespace, editorial large body text, centered
+   ──────────────────────────────────────────── */
+export const MandarinOriental = ({ fields, params, page }: RichTextBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <RichTextBlockDefaultComponent />;
+
+  return (
+    <div className={cn('component rich-text-block', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 py-16 md:py-24"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-3xl text-center">
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="mb-8 text-3xl font-light tracking-wide md:text-4xl"
+              style={{
+                color: 'var(--brand-fg, #1a1a1a)',
+                fontFamily: 'var(--brand-heading-font)',
+              }}
+            />
+          )}
+          {(fields.Body?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Body}
+              className="text-lg leading-relaxed md:text-xl"
+              style={{
+                color: 'var(--brand-fg, #1a1a1a)',
+                fontFamily: 'var(--brand-body-font)',
+                opacity: 0.85,
+              }}
+            />
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Narrow — constrained width for long-form readability
    ──────────────────────────────────────────── */
 export const Narrow = ({ fields, params, page }: RichTextBlockProps): JSX.Element => {

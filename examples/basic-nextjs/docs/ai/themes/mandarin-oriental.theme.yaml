@@ -1,0 +1,110 @@
+client: "Mandarin Oriental Hotel Group"
+extractedAt: "2026-05-07T14:23:00Z"
+sourceUrl: "https://www.mandarinoriental.com/en"
+
+# ─────────────────────────────────────────────
+# COLOR PALETTE
+# ─────────────────────────────────────────────
+# Sage-green accent (#B7CDC2) from button styles
+# Black/near-black hero, header, footer
+# Pure white content sections
+# Warm off-white for muted section breaks
+
+colors:
+  primary: "#B7CDC2"           # Sage/mint green — signature CTA button
+  primaryForeground: "#000000" # Black text on sage
+  secondary: "#8FA99E"         # Deeper sage for secondary buttons
+  secondaryForeground: "#FFFFFF"
+  accent: "#B7CDC2"            # Same sage as primary
+  accentForeground: "#000000"
+  background: "#FFFFFF"
+  foreground: "#1A1A1A"        # Near-black body text
+  muted: "#F5F3EF"             # Warm off-white for alternating sections
+  mutedForeground: "#6B6B6B"
+  headerBackground: "#000000"  # Black header (transparent over hero)
+  headerForeground: "#FFFFFF"
+  footerBackground: "#000000"  # Black footer
+  footerForeground: "#FFFFFF"
+  border: "#E5E5E5"
+  ring: "#B7CDC2"
+
+# ─────────────────────────────────────────────
+# TYPOGRAPHY
+# ─────────────────────────────────────────────
+# Proprietary: Futura PT Medium (headings), AvenirNext LT Pro (body)
+# Google Fonts substitutions applied below
+
+typography:
+  headingFamily: "Josefin Sans"       # Closest to Futura PT — geometric, elegant
+  bodyFamily: "DM Sans"               # Closest to Avenir Next — humanist sans
+  headingWeight: "500"
+  bodyWeight: "400"
+  headingFontSource: "proprietary"
+  headingFontOriginal: "Futura PT Medium"
+  bodyFontSource: "proprietary"
+  bodyFontOriginal: "AvenirNext LT Pro"
+  googleFontsUrl: "https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap"
+  baseFontSize: "14px"
+  baseLineHeight: "1.5"
+
+# ─────────────────────────────────────────────
+# SHAPE
+# ─────────────────────────────────────────────
+shape:
+  borderRadius: "0px"           # Sharp corners — very refined minimal
+  buttonRadius: "28px"          # Pill-shaped CTAs (from site)
+  cardRadius: "0px"             # Flat cards, no radius
+  cardShadow: "none"
+  imageBorderRadius: "0px"
+
+# ─────────────────────────────────────────────
+# TONE / VARIANT HINTS
+# ─────────────────────────────────────────────
+tone:
+  heroStyle: "full-bleed-image"         # Full-screen photography with text overlay
+  navStyle: "transparent-overlay"       # Nav transparent on hero, darkens on scroll
+  colorMode: "mixed"                    # Dark hero+footer, light content, dark dine/wellness
+  cardStyle: "flat-images"              # Portrait/landscape cards with images, no shadows
+  sectionRhythm: "alternating-dark-light"
+
+# ─────────────────────────────────────────────
+# CSS VARIABLES BLOCK (ready for globals.css)
+# ─────────────────────────────────────────────
+cssVariables: |
+  :root {
+    --brand-primary: #B7CDC2;
+    --brand-primary-foreground: #000000;
+    --brand-secondary: #8FA99E;
+    --brand-secondary-foreground: #ffffff;
+    --brand-accent: #B7CDC2;
+    --brand-accent-foreground: #000000;
+    --brand-bg: #ffffff;
+    --brand-fg: #1A1A1A;
+    --brand-muted: #F5F3EF;
+    --brand-muted-fg: #6B6B6B;
+    --brand-header-bg: #000000;
+    --brand-header-fg: #ffffff;
+    --brand-footer-bg: #000000;
+    --brand-footer-fg: #ffffff;
+    --brand-border: #E5E5E5;
+    --brand-ring: #B7CDC2;
+    --brand-radius: 0px;
+    --brand-button-radius: 28px;
+    --brand-card-radius: 0px;
+    --brand-heading-font: 'Josefin Sans', 'Futura PT', sans-serif;
+    --brand-body-font: 'DM Sans', 'AvenirNext LT Pro', Arial, sans-serif;
+  }
+
+# ─────────────────────────────────────────────
+# EXTRACTION NOTES
+# ─────────────────────────────────────────────
+extraction:
+  confidence: "high"
+  notes:
+    - "Heading font Futura PT Medium is proprietary — substituted with Josefin Sans (geometric sans, similar weight distribution)"
+    - "Body font AvenirNext LT Pro is proprietary — substituted with DM Sans (humanist sans, clean and modern)"
+    - "Sage green #B7CDC2 is the signature brand accent color, derived from extracted button background"
+    - "Footer background is pure black — creates strong contrast"
+    - "Navigation is transparent over hero images"
+    - "All corners are sharp (0px radius) except CTA pill buttons (28px)"
+    - "Site alternates between dark sections (hero, dine, wellness) and light sections (stay, more at MO)"

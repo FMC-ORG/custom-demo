@@ -12,6 +12,90 @@ You map extracted DOM content to Sitecore component fields based on an approved 
 
 An **enriched content map** saved to `docs/ai/demos/<client>/content-map.yaml` with exact text content for every section in the build plan, ready for Phase 3 to create datasource items and populate fields.
 
+---
+
+## OUTPUT FORMAT CONTRACT
+
+Phase 3 reads the content map using **exact key names**. If you use different keys, Phase 3 will skip the section and content will not be populated.
+
+### MANDATORY top-level keys
+
+```yaml
+client:           # NOT "meta" — Phase 3 reads client.name
+sections:         # array of section objects
+summary:          # counts for Phase 7
+manualVideoTasks: # only if videos found, otherwise omit
+```
+
+### MANDATORY per-section keys
+
+```yaml
+- position: 1                              # matches build-plan position
+  componentName: "AnnouncementBar"          # PascalCase, matches manifestName
+  manifestName: "AnnouncementBar"           # exact manifest entry name
+  kind: "simple"                            # REQUIRED: "simple", "list", or "context-only"
+  datasourceItemName: "Client - Announcement Bar"  # item name for Phase 3 create
+  apiAddable: true                          # can add_component_on_page work?
+  fields:                                   # parent fields
+    Title: "..."
+  children: []                              # ALWAYS "children" — see below
+  imageFields: []                           # ALWAYS "imageFields" — see below
+  matchConfidence: "high"                   # "high", "medium", "low"
+  contentSource: "extractor"                # "extractor", "screenshot", or "empty"
+```
+
+### CRITICAL: Always use `children` — never use custom key names
+
+```yaml
+# CORRECT — Phase 3 reads this
+children:
+  - name: "Client - Slide 1"
+    fields:
+      SlideTitle: "..."
+    imageFields:
+      - field: "SlideImage"
+        src: "https://..."
+        alt: "..."
+
+# WRONG — Phase 3 cannot read these, content will NOT be populated
+slideChildren:        # NEVER
+cardChildren:         # NEVER
+tabChildren:          # NEVER
+itemChildren:         # NEVER
+navigationLinksChildren:  # NEVER
+```
+
+This applies to ALL list components: HeroBannerCarousel, FeatureCardsGrid, ProductPricingCards, TabNavigationSection, ValuePropositionGrid, FAQAccordion, LogoCloud, TestimonialBlock, NavigationHeader.
+
+### CRITICAL: Always include `imageFields` array
+
+```yaml
+# For sections WITH images mapped to component fields:
+imageFields:
+  - field: "HeroImage"          # exact Sitecore field name
+    src: "https://cdn.../img.jpg"
+    alt: "description"
+
+# For sections with NO mapped images:
+imageFields: []
+
+# WRONG — Phase 3 Step 1 cannot match uploads without this
+# (omitting imageFields entirely)
+```
+
+The `imageFields` array is how Phase 3 matches downloaded images to Content Hub uploads to Sitecore field values. Without it, image fields remain empty.
+
+### CRITICAL: Always include `kind`
+
+Phase 3 uses `kind` to decide the creation strategy:
+- `"simple"` → create one datasource item, populate `fields`
+- `"list"` → create parent item (`fields`), then create each child in `children`
+- `"context-only"` → skip datasource creation entirely
+
+Without `kind`, Phase 3 cannot determine how to create items.
+
+---
+
 ## Process
 
 ### Step 1 — Load inputs
@@ -61,57 +145,103 @@ For each build plan section, map the extracted (and translated) content to the s
 #### Simple components (HeroBanner, CTABanner, FeatureHighlight, etc.)
 
 ```yaml
-- componentName: "HeroBanner"
+- position: 3
+  componentName: "HeroBanner"
+  manifestName: "HeroBanner"
+  kind: "simple"
+  datasourceItemName: "Eurobank - Hero Banner"
+  apiAddable: true
   fields:
-    Title: "Banking that grows with you"          # from headings[0]
-    Subtitle: "<p>Eurobank offers personal and business banking solutions.</p>"  # from paragraphs[0], wrapped in <p>
-    PrimaryLink:                                   # from links[0]
+    Title: "Banking that grows with you"
+    Subtitle: "<p>Eurobank offers personal and business banking solutions.</p>"
+    PrimaryLink:
       text: "Open an account"
       href: "https://eurobank.gr/open"
       target: ""
-    SecondaryLink:                                 # from links[1]
+    SecondaryLink:
       text: "Explore services"
       href: "https://eurobank.gr/services"
       target: ""
-    HeroImage:                                     # from images[0] — manual upload
+  children: []
+  imageFields:
+    - field: "HeroImage"
       src: "https://eurobank.gr/hero.jpg"
       alt: "Family banking"
-      note: "needs Media Library upload"
+  matchConfidence: "high"
+  contentSource: "extractor"
 ```
 
-#### List components (ProductPricingCards, FAQAccordion, etc.)
+#### List components (ProductPricingCards, HeroBannerCarousel, FeatureCardsGrid, etc.)
 
 ```yaml
-- componentName: "ProductPricingCards"
+- position: 5
+  componentName: "ProductPricingCards"
+  manifestName: "ProductPricingCards"
+  kind: "list"
+  datasourceItemName: "Eurobank - Product Pricing Cards"
+  apiAddable: true
   fields:
-    Title: "Our Products"                          # from headings[0]
-    Description: "<p>Choose the right account.</p>"  # from paragraphs[0]
-  children:
+    Title: "Our Products"
+    Description: "<p>Choose the right account for you.</p>"
+  children:                                    # ALWAYS "children"
     - name: "Eurobank - Personal Account"
       fields:
-        CardTitle: "Personal Account"              # from listItems[0].title
-        CardDescription: "<p>Everyday banking with no monthly fees.</p>"  # from listItems[0].description
-        BadgeText: "Most popular"                  # from listItems[0].badge
-        PriceText: "Free"                          # from listItems[0].price
-        CardLink:                                  # from listItems[0].link
+        CardTitle: "Personal Account"
+        CardDescription: "<p>Everyday banking with no monthly fees.</p>"
+        BadgeText: "Most popular"
+        PriceText: "Free"
+        CardLink:
           text: "Learn more"
           href: "https://eurobank.gr/personal"
-        CardImage:                                 # from listItems[0].image
+      imageFields:
+        - field: "CardImage"
           src: "https://eurobank.gr/card1.png"
           alt: "Personal account"
-          note: "needs Media Library upload"
     - name: "Eurobank - Business Account"
       fields:
         CardTitle: "Business Account"
-        # ... same pattern
+        CardDescription: "<p>Built for entrepreneurs and growing businesses.</p>"
+      imageFields:
+        - field: "CardImage"
+          src: "https://eurobank.gr/card2.png"
+          alt: "Business account"
+  imageFields: []                              # parent-level images (if any)
+  matchConfidence: "high"
+  contentSource: "extractor"
 ```
 
 #### Context-only components (NavigationHeader, SiteFooter)
 
+NavigationHeader and SiteFooter are now list datasource components (not context-only). They have datasource items with children.
+
 ```yaml
-- componentName: "NavigationHeader"
-  fields: {}
-  note: "Context-only — no datasource content to populate"
+- position: 2
+  componentName: "NavigationHeader"
+  manifestName: "NavigationHeader"
+  kind: "list"
+  datasourceItemName: "Eurobank - Main Navigation"
+  apiAddable: true
+  fields:
+    CtaLabel: "Book now"
+    CtaLink:
+      text: "Book now"
+      href: "https://eurobank.gr/book"
+      target: "_self"
+  children:                                    # nav links as children
+    - name: "Eurobank - Nav Home"
+      fields:
+        LinkText: "Home"
+        LinkUrl:
+          text: "Home"
+          href: "https://eurobank.gr/"
+          target: "_self"
+      imageFields: []
+  imageFields:
+    - field: "BrandLogo"
+      src: "https://eurobank.gr/logo.svg"
+      alt: "Eurobank"
+  matchConfidence: "high"
+  contentSource: "extractor"
 ```
 
 ### Step 5 — Filter images to relevant ones only
@@ -134,30 +264,31 @@ The extractor may capture 50-100+ images per site (different resolutions, decora
 
 **How to deduplicate:** Compare the filename portion of URLs (strip query params and resolution suffixes). If two images share the same base filename, keep the one with the highest resolution (largest `width` or longest URL path).
 
-Set `imageFields` only for images that map to a specific component field. All other images are ignored — they're decorative.
+Every mapped image MUST go in an `imageFields` array (on the section or on a child). Unmapped images are ignored.
 
 ### Step 6 — Handle videos
 
 The extractor may find `videos` arrays on sections. Videos are **not uploaded automatically** — they are metadata only.
 
-For each section with videos:
+For each section with videos, add to the `manualVideoTasks` array at the content map root level:
 
 ```yaml
-  videoFields:
-    - type: "video"                    # or "iframe-video"
-      poster: "https://..."            # static fallback image (already in images)
-      sources:
-        - src: "https://...video.mp4"
-          type: "video/mp4"
-      provider: ""                     # "youtube", "vimeo", or empty
-      note: "Live site has video here. Use poster image as static fallback, or upload video to Content Hub manually."
+manualVideoTasks:
+  - position: 3
+    componentName: "HeroBanner"
+    variant: "VideoBackground"
+    posterImage: "https://client.com/hero-poster.jpg"
+    videoSources:
+      - src: "https://client.com/hero.mp4"
+        type: "video/mp4"
+    note: "Upload video to Content Hub and set URL on the HeroBanner VideoUrl field."
 ```
 
 **Rules:**
 - Do NOT attempt to download video files — they're too large
 - Map the video **poster** image to the component's Image field as a static fallback
 - If the component variant supports video (e.g., HeroBanner VideoBackground), note the source URL for manual setup
-- Add an entry to `manualVideoTasks` in the content map summary
+- Only include `manualVideoTasks` if there are videos — omit entirely if none
 
 ### Step 7 — Handle field types correctly
 
@@ -166,7 +297,7 @@ For each section with videos:
 | Single-Line Text | Plain text string, no HTML |
 | Rich Text | Wrap in `<p>` tags. Preserve `<strong>`, `<em>`, `<ul>`, `<li>` if present in source. Strip classes, IDs, and inline styles. |
 | General Link | Object: `{ text, href, target }` — Phase 3 converts to Sitecore XML |
-| Image | Object: `{ src, alt }` — Phase 3 downloads images, uploads to Content Hub via `upload-to-content-hub.mjs`, and sets field using DAM format (`<Image src="..." dam-id="..." />`) |
+| Image | Object: `{ src, alt }` in `imageFields` array — Phase 3 matches to Content Hub uploads |
 
 ### Step 8 — Handle missing content
 
@@ -176,13 +307,13 @@ Not every field will have extractable content. When content is missing:
 |---|---|
 | Field has no matching content in extractor | Use the build plan's approximate content (from screenshot) |
 | Neither extractor nor build plan has content | Set to empty string `""` with a note |
-| Image field | Always set as manual with source URL if available |
+| Image field | Always include in `imageFields` with source URL if available |
 | Link field with `javascript:void(0)` or empty href | Set href to `"#"` |
 | Link field with relative URL | Prepend client domain to make absolute |
 
 ### Step 9 — Write the content map
 
-Save to `docs/ai/demos/<client>/content-map.yaml`:
+Save to `docs/ai/demos/<client>/content-map.yaml` using the EXACT structure below.
 
 ```yaml
 client:
@@ -199,32 +330,33 @@ sections:
     componentName: "AnnouncementBar"
     manifestName: "AnnouncementBar"
     kind: "simple"
+    datasourceItemName: "Eurobank - Announcement Bar"
+    apiAddable: true
     fields:
       Message: "Special offer: 0% interest for 12 months"
       BarLink:
         text: "Learn more"
         href: "https://eurobank.gr/offers"
         target: "_blank"
-      BackgroundColor: "accent"
+    children: []
     imageFields: []
     matchConfidence: "high"
-    contentSource: "extractor"  # or "screenshot" or "empty"
+    contentSource: "extractor"
 
   - position: 3
     componentName: "HeroBanner"
     manifestName: "HeroBanner"
     kind: "simple"
+    datasourceItemName: "Eurobank - Hero Banner"
+    apiAddable: true
     fields:
       Title: "Banking that grows with you"
-      Subtitle: "<p>Eurobank offers personal and business banking solutions tailored to your needs.</p>"
+      Subtitle: "<p>Eurobank offers personal and business banking solutions.</p>"
       PrimaryLink:
         text: "Open an account"
         href: "https://eurobank.gr/open"
         target: ""
-      SecondaryLink:
-        text: "Explore services"
-        href: "https://eurobank.gr/services"
-        target: ""
+    children: []
     imageFields:
       - field: "HeroImage"
         src: "https://eurobank.gr/hero.jpg"
@@ -236,6 +368,8 @@ sections:
     componentName: "ProductPricingCards"
     manifestName: "ProductPricingCards"
     kind: "list"
+    datasourceItemName: "Eurobank - Product Pricing Cards"
+    apiAddable: true
     fields:
       Title: "Our Products"
       Description: "<p>Choose the right account for you.</p>"
@@ -257,40 +391,38 @@ sections:
         fields:
           CardTitle: "Business Account"
           CardDescription: "<p>Built for entrepreneurs and growing businesses.</p>"
-          BadgeText: "New"
-          PriceText: "From 9.90/mo"
-          CardLink:
-            text: "Learn more"
-            href: "https://eurobank.gr/business"
         imageFields:
           - field: "CardImage"
             src: "https://eurobank.gr/card2.png"
             alt: "Business account"
+    imageFields: []
     matchConfidence: "high"
     contentSource: "extractor"
 
 summary:
   totalSections: 14
   sectionsWithContent: 12
-  contextOnlySkipped: 2
+  contextOnlySkipped: 0
   fieldsPopulated: 45
-  imageFieldsMapped: 8         # images that map to component fields
-  imagesSkipped: 74            # decorative/duplicate images not mapped
-  videosFound: 1               # sections with video content
-  translationApplied: true
-  sourceLanguage: "el"
+  imageFieldsMapped: 8
+  imagesSkipped: 74
+  videosFound: 0
+  translationApplied: false
+  sourceLanguage: "en"
 
-# Videos found on the page (not uploaded — manual reference only)
+# Only include if videos were found:
 manualVideoTasks:
   - position: 3
     componentName: "HeroBanner"
     variant: "VideoBackground"
-    posterImage: "https://client.com/hero-poster.jpg"   # already in imageFields
+    posterImage: "https://client.com/hero-poster.jpg"
     videoSources:
       - src: "https://client.com/hero.mp4"
         type: "video/mp4"
-    note: "Upload video to Content Hub and set URL on the HeroBanner VideoUrl field."
+    note: "Upload video to Content Hub and set URL on component."
 ```
+
+---
 
 ## Content extraction rules
 
@@ -318,9 +450,12 @@ manualVideoTasks:
 
 ## Do not
 
+- Do not use custom key names for children arrays (`slideChildren`, `cardChildren`, etc.) — always use `children`
+- Do not use `meta` as the top-level key — always use `client`
+- Do not omit `kind`, `imageFields`, or `children` from any section
 - Do not modify or improve the client's text beyond translation
 - Do not invent content that isn't on the page
-- Do not download images — just record source URLs
+- Do not download images — just record source URLs in `imageFields`
 - Do not create Sitecore items — only produce the content map
 - Do not guess content for fields that have no matching content — set to empty with a note
 - Do not extract content from pages other than the one specified

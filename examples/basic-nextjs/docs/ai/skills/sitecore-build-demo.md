@@ -231,6 +231,15 @@ Create **new datasource items** with the client's content. Never modify the exam
 
 **Input:** Read `docs/ai/demos/<client>/content-map.yaml` (produced by Phase 2.5). This contains exact, English-translated field values for every section, with content already mapped to Sitecore field names.
 
+**Validate the content map before proceeding.** Check these required keys:
+- Top-level `client` key exists (NOT `meta`) with `client.name`
+- Every section has: `componentName`, `manifestName`, `kind`, `datasourceItemName`, `fields`, `children`, `imageFields`
+- `children` is always the key name (not `slideChildren`, `cardChildren`, `tabChildren`, etc.)
+- `kind` is one of: `"simple"`, `"list"`, `"context-only"`
+- `imageFields` is an array (may be empty `[]`)
+
+If any key is missing or uses a non-standard name, **fix the content map first** before creating items. Do NOT silently skip sections with wrong keys.
+
 **Context:** Each demo runs on an isolated branch + dedicated Sitecore environment deployed from serialization. All manifest IDs are valid (serialization preserves GUIDs). Example items remain untouched.
 
 #### Naming convention
@@ -462,9 +471,25 @@ Example: "Eurobank - Hero Banner - Families"
 Then in Pages editor: select component → Personalize → add condition → assign datasource.
 ```
 
-#### Progress tracking (Phase 3)
+#### Progress tracking (Phase 3) — MANDATORY
 
-**After each MCP call**, update the section's status in `demo-progress.yaml`:
+**HARD REQUIREMENT:** The `sections` array in `demo-progress.yaml` must NOT be empty. Before starting Phase 3, initialize one entry per content-map section:
+
+```yaml
+sections:
+  - position: 1
+    componentName: "AnnouncementBar"
+    kind: "simple"
+    phase3:
+      status: "pending"
+      itemId: ""
+      fieldsPopulated: false
+      childrenCreated: 0
+      childrenExpected: 0
+      error: ""
+```
+
+**After each MCP call**, update the section's status:
 
 ```
 sections[N].phase3.status:
@@ -476,9 +501,11 @@ sections[N].phase3.status:
 
 For list components, also track:
 - `childrenCreated` — increment after each child create_content_item
-- `childrenExpected` — from content-map.yaml children count
+- `childrenExpected` — from content-map.yaml `children` count
 
 **Write the progress file to disk after every 2-3 sections** (not after every MCP call — that would be too slow). Always write after the last section.
+
+**If `sections` is empty at the end of Phase 3, the phase FAILED** — even if `phase3_content.status` says "complete". An empty sections array means no per-section tracking was done and resume is impossible.
 
 **On resume:** Skip sections where `status: "populated"`. For `status: "created"`, retry the field update. For `status: "failed"`, retry the full section.
 
@@ -720,6 +747,13 @@ Page assembly complete:
 ```
 
 ### Phase 7 — Summary
+
+**GATE: Do not proceed to Phase 7 if Phase 6 is incomplete.**
+
+Check `demo-progress.yaml`:
+- `phase6_assembly.datasourcesWired` must be >= `phase6_assembly.totalComponents` minus context-only components
+- If `datasourcesWired` is significantly less than expected, Phase 6 failed silently — go back and retry failed sections before generating the summary
+- Mark Phase 6 as `"complete"` only when all wirable components have datasources
 
 Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `docs/ai/templates/demo-summary.template.md`.
 

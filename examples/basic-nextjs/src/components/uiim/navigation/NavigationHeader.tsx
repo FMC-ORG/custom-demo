@@ -294,6 +294,140 @@ export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JS
   );
 };
 
+/* ────────────────────────────────────────────
+   MandarinOriental — fixed transparent nav, always-white links, pill Book CTA
+   Transparent on hero, solid black on scroll
+   ──────────────────────────────────────────── */
+export const MandarinOriental = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const datasource = fields?.data?.datasource;
+
+  useEffect(() => {
+    if (isEditing) return;
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [isEditing]);
+
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+
+  const links = datasource.children?.results || [];
+  const brandLogo = datasource.brandLogo?.jsonValue;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className={cn(
+          'fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300',
+          scrolled ? 'border-b border-white/10' : ''
+        )}
+        style={{
+          backgroundColor: scrolled ? 'rgba(0,0,0,0.95)' : 'transparent',
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-10">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="flex items-center"
+          >
+            {brandLogo?.value?.src ? (
+              <ContentSdkImage
+                field={brandLogo}
+                className="h-7 w-auto object-contain brightness-0 invert sm:h-8"
+              />
+            ) : (
+              <span
+                className="text-sm font-light tracking-[0.3em] uppercase text-white"
+                style={{ fontFamily: 'var(--brand-heading-font)' }}
+              >
+                Mandarin Oriental
+              </span>
+            )}
+          </Link>
+
+          {/* Nav links — always white, small-caps */}
+          <nav className="hidden items-center gap-7 md:flex">
+            {links.map((item) => (
+              <ContentSdkLink
+                key={item.id}
+                field={item.linkUrl?.jsonValue}
+                className="text-[10px] font-medium tracking-[0.2em] uppercase text-white transition-opacity hover:opacity-60"
+                style={{ fontFamily: 'var(--brand-body-font)' }}
+              >
+                {item.linkText?.jsonValue?.value && (
+                  <Text field={item.linkText?.jsonValue} />
+                )}
+              </ContentSdkLink>
+            ))}
+          </nav>
+
+          {/* Book CTA — pill, sage green */}
+          <div className="flex items-center gap-3">
+            {(datasource.ctaLink?.jsonValue?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={datasource.ctaLink?.jsonValue}
+                className="hidden items-center px-6 py-2 text-[10px] font-medium tracking-[0.2em] uppercase transition-opacity hover:opacity-80 md:inline-flex"
+                style={{
+                  backgroundColor: 'var(--brand-primary)',
+                  color: 'var(--brand-primary-foreground)',
+                  borderRadius: 'var(--brand-button-radius)',
+                  fontFamily: 'var(--brand-body-font)',
+                }}
+              >
+                {datasource.ctaLabel?.jsonValue?.value && (
+                  <Text field={datasource.ctaLabel?.jsonValue} />
+                )}
+              </ContentSdkLink>
+            )}
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+        </div>
+
+        {/* Mobile menu — dark overlay */}
+        {menuOpen && (
+          <div className="border-t border-white/10 bg-black/95 md:hidden">
+            <div className="flex flex-col gap-4 px-6 py-5">
+              {links.map((item) => (
+                <ContentSdkLink
+                  key={item.id}
+                  field={item.linkUrl?.jsonValue}
+                  className="text-[11px] font-medium tracking-[0.2em] uppercase text-white opacity-80 transition-opacity hover:opacity-100"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.linkText?.jsonValue?.value && (
+                    <Text field={item.linkText?.jsonValue} />
+                  )}
+                </ContentSdkLink>
+              ))}
+              {(datasource.ctaLink?.jsonValue?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={datasource.ctaLink?.jsonValue}
+                  className="mt-2 inline-flex w-fit items-center px-6 py-2.5 text-[10px] font-medium tracking-[0.2em] uppercase"
+                  style={{
+                    backgroundColor: 'var(--brand-primary)',
+                    color: 'var(--brand-primary-foreground)',
+                    borderRadius: 'var(--brand-button-radius)',
+                  }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {datasource.ctaLabel?.jsonValue?.value && (
+                    <Text field={datasource.ctaLabel?.jsonValue} />
+                  )}
+                </ContentSdkLink>
+              )}
+            </div>
+          </div>
+        )}
+      </header>
+    </div>
+  );
+};
+
 export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
 

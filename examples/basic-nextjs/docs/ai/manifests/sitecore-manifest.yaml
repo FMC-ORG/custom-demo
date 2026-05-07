@@ -140,6 +140,7 @@ components:
         - "Default"
         - "Transparent"
         - "Minimal"
+        - "MandarinOriental"
 
     templates:
       parent:
@@ -197,6 +198,14 @@ components:
       exampleChildren:
         - { name: "Home", itemId: "{F244D21A-540D-4451-B3E0-7BDEDCB00DC3}" }
         - { name: "About", itemId: "{C3B693C8-0135-4B86-BE16-7823180171DD}" }
+      moItem:
+        name: "Mandarin Oriental Navigation"
+        itemId: "{B1C1CF3D-BF0D-4DC3-B574-17509AECA6CB}"
+      moChildren:
+        - { name: "Hotels and Resorts", itemId: "{1492283A-F682-4378-B387-7CA18D48CF6A}", linkText: "Hotels & Resorts" }
+        - { name: "Experiences", itemId: "{79E1EF53-D226-40F2-869D-AD9E6A5C8CAA}", linkText: "Experiences" }
+        - { name: "Dine and Bar", itemId: "{8772B00E-FA3C-4846-9691-CC4B4CC2C4D9}", linkText: "Dine & Bar" }
+        - { name: "Spa and Wellness", itemId: "{AA61AFEC-9F6C-459E-AE5B-E7F6968EC5BA}", linkText: "Spa & Wellness" }
 
     rendering:
       name: "NavigationHeader"
@@ -218,6 +227,7 @@ components:
         - { name: "Default", itemId: "{150B9AFE-2B9F-48AD-8F01-036666057814}" }
         - { name: "Transparent", itemId: "{A46EFC9D-7CF0-4C92-9577-1D94FD1D9782}" }
         - { name: "Minimal", itemId: "{608E0EC7-E2C6-4093-A1A1-3962FF17885A}" }
+        - { name: "MandarinOriental", itemId: "{1C1C6480-9608-4D78-AC2E-94ECF04BDF1E}" }
 
     verification:
       checkedAt: "2026-05-05T16:00:00Z"
@@ -1509,6 +1519,7 @@ components:
         - "Default"
         - "Minimal"
         - "MegaFooter"
+        - "MandarinOriental"
 
     templates:
       datasource:
@@ -1566,6 +1577,7 @@ components:
         - { name: "Default", itemId: "{143CFE84-1E77-4961-975C-38564DC43DB9}" }
         - { name: "Minimal", itemId: "{AF87D61B-F6A8-4036-9BF8-FDB586268D24}" }
         - { name: "MegaFooter", itemId: "{DA131066-F9A2-47F0-A099-F614E61817AA}" }
+        - { name: "MandarinOriental", itemId: "{B3623CBF-F02D-4F32-AA7F-2AE29A0B6A51}" }
 
     verification:
       checkedAt: "2026-03-25T20:00:00Z"

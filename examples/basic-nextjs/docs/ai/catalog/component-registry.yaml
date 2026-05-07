@@ -258,17 +258,21 @@ components:
     kind: list
     category: Cards
     priority: 12
-    variants: [Default, TwoColumn, WithImages]
+    variants: [Default, TwoColumn, WithImages, Carousel]
     visualKeywords:
       - feature cards
       - service cards
       - capability cards
       - offering grid
       - info cards with icons
+      - horizontal card carousel
+      - card slider with dots
+      - scrollable cards with arrows
     variantSelectionHints:
       Default: "3-column cards with icons and text"
       TwoColumn: "2 wider cards"
       WithImages: "cards with top images instead of icons"
+      Carousel: "horizontal scrolling cards with portrait images, dot indicators and arrows — use for card carousels, destination cards, restaurant cards, category browsing rows"
     fieldCount: 6  # parent 2 + child 4
 
   - id: image-gallery

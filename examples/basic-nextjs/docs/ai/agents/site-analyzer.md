@@ -108,7 +108,7 @@ Use this table to set both `registryId` and `manifestName` in the build plan:
 | `trust-stats` | `TrustStatsRow` | list | Default, WithIcons, LogoRow |
 | `testimonial-quote` | `TestimonialBlock` | list | Default, Carousel, Grid, WithPhoto |
 | `cta-banner` | `CTABanner` | simple | Default, WithImage, Split, Minimal |
-| `feature-cards-grid` | `FeatureCardsGrid` | list | Default, TwoColumn, WithImages |
+| `feature-cards-grid` | `FeatureCardsGrid` | list | Default, TwoColumn, WithImages, Carousel |
 | `image-gallery` | `ImageGallery` | simple | Default, Gallery, Parallax |
 | `logo-cloud` | `LogoCloud` | list | Default, Grid, WithLabels |
 | `footer` | `SiteFooter` | context-only | Default, Minimal, MegaFooter |
@@ -191,7 +191,7 @@ See `docs/ai/catalog/theme-component-mapping.md` for the full mapping.
 | Full-bleed photo with text overlay | HeroBanner | BackgroundImage |
 | Full-bleed hero with icon categories or accordion overlay | **Split:** HeroBanner + FAQAccordion/TabNav, or mark custom | — |
 | Multiple full-width rotating slides with dots/arrows | HeroBannerCarousel | Default |
-| Row of cards in horizontal carousel with dots | FeatureCardsGrid (note carousel in contentNotes) | WithImages |
+| Row of cards in horizontal carousel with dots/arrows | FeatureCardsGrid | Carousel |
 | Horizontal row of pill/tab buttons | TabNavigationSection | Default |
 | 2-3 cards with title, price, CTA | ProductPricingCards | Default |
 | Single feature with image + text side by side | FeatureHighlight | Default |

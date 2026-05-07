@@ -1175,6 +1175,7 @@ components:
         - "Default"
         - "TwoColumn"
         - "WithImages"
+        - "Carousel"
 
     templates:
       datasource:
@@ -1255,6 +1256,7 @@ components:
         - { name: "Default", itemId: "{495EF058-D306-4328-ABE4-261E7CFE8E9E}" }
         - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
         - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
+        - { name: "Carousel", itemId: "" }  # TODO: create in Sitecore
 
     verification:
       checkedAt: "2026-03-25T18:30:00Z"

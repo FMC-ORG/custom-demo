@@ -172,6 +172,75 @@ export const Default = ({ fields, params, page }: ProductPricingCardsProps): JSX
 };
 
 /* ────────────────────────────────────────────
+   GuinnessWorldRecords — 4-col product grid, centered images, coral buttons, description below
+   ──────────────────────────────────────────── */
+export const GuinnessWorldRecords = ({ fields, params, page }: ProductPricingCardsProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ProductPricingCardsDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component product-pricing-cards', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-12" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
+        <div className="mx-auto max-w-5xl">
+          {/* Product cards — 4 columns */}
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+            {cards.map((card) => (
+              <div key={card.id} className="flex flex-col items-center text-center">
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <div className="mb-3 h-32 w-32">
+                    <ContentSdkImage
+                      field={card.cardImage?.jsonValue}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                )}
+                {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={card.cardTitle?.jsonValue}
+                    tag="h3"
+                    className="text-sm font-medium font-[var(--brand-heading-font,inherit)]"
+                    style={{ color: 'var(--brand-fg, #111111)' }}
+                  />
+                )}
+                {(card.priceText?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={card.priceText?.jsonValue}
+                    tag="p"
+                    className="mt-1 text-sm font-bold"
+                    style={{ color: 'var(--brand-fg, #111111)' }}
+                  />
+                )}
+                {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                  <ContentSdkLink
+                    field={card.cardLink?.jsonValue}
+                    className="mt-3 inline-flex items-center justify-center rounded-[var(--brand-button-radius,6px)] px-5 py-2 text-xs font-semibold text-white transition-opacity hover:opacity-90"
+                    style={{ backgroundColor: 'var(--brand-accent, #DF3A56)' }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Description below cards */}
+          {(datasource.description?.jsonValue?.value || isEditing) && (
+            <div className="mt-10 text-center">
+              <ContentSdkRichText
+                field={datasource.description?.jsonValue}
+                className="text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              />
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Horizontal — wide cards stacked vertically
    ──────────────────────────────────────────── */
 export const Horizontal = ({ fields, params, page }: ProductPricingCardsProps): JSX.Element => {

@@ -21,7 +21,28 @@
    An unlayered :root block above @layer base ALWAYS wins the cascade.
    =================================================================== */
 
-/* CLIENT THEME */
+/* CLIENT THEME — Guinness World Records */
+:root {
+  --brand-primary: #003DA5;
+  --brand-primary-foreground: #FFFFFF;
+  --brand-accent: #DF3A56;
+  --brand-accent-foreground: #FFFFFF;
+  --brand-dark: #003DA5;
+  --brand-dark-foreground: #FFFFFF;
+  --brand-bg: #FFFFFF;
+  --brand-fg: #333333;
+  --brand-muted: #F1F1F1;
+  --brand-muted-foreground: #666666;
+  --brand-header-bg: #FFFFFF;
+  --brand-header-fg: #333333;
+  --brand-footer-bg: #F1F1F1;
+  --brand-footer-fg: #333333;
+  --brand-border: #E0E0E0;
+  --brand-heading-font: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --brand-body-font: 'Rubik', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --brand-button-radius: 6px;
+  --brand-card-radius: 8px;
+}
 
 @layer base {
   :root {

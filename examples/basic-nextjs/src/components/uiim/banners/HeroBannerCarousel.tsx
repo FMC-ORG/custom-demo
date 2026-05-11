@@ -217,6 +217,122 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
 };
 
 /* ────────────────────────────────────────────
+   GuinnessWorldRecords — deep blue bg, left-aligned text, product image right
+   ──────────────────────────────────────────── */
+export const GuinnessWorldRecords = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  const slides = datasource?.children?.results || [];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const goTo = useCallback(
+    (index: number) => {
+      if (slides.length === 0) return;
+      setActiveIndex(((index % slides.length) + slides.length) % slides.length);
+    },
+    [slides.length]
+  );
+
+  useEffect(() => {
+    if (isPaused || isEditing || slides.length <= 1) return;
+    const timer = setInterval(() => goTo(activeIndex + 1), 5000);
+    return () => clearInterval(timer);
+  }, [activeIndex, isPaused, isEditing, slides.length, goTo]);
+
+  if (!datasource || slides.length === 0) return <HeroBannerCarouselDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner-carousel', styles)} id={RenderingIdentifier}>
+      <section
+        className="relative w-full overflow-hidden"
+        style={{ backgroundColor: 'var(--brand-primary, #003DA5)' }}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        <div
+          className="flex transition-transform duration-700 ease-in-out"
+          style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+        >
+          {slides.map((slide) => (
+            <div
+              key={slide.id}
+              className="relative flex min-h-[420px] w-full flex-shrink-0 items-center md:min-h-[500px]"
+            >
+              <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-6 py-16 md:grid-cols-5">
+                {/* Text — left 60% */}
+                <div className="space-y-5 text-white md:col-span-3">
+                  {(slide.slideTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={slide.slideTitle?.jsonValue}
+                      tag="h2"
+                      className="text-3xl font-black uppercase leading-tight tracking-tight sm:text-4xl md:text-5xl font-[var(--brand-heading-font,inherit)]"
+                    />
+                  )}
+                  {(slide.slideSubtitle?.jsonValue?.value || isEditing) && (
+                    <ContentSdkRichText
+                      field={slide.slideSubtitle?.jsonValue}
+                      className="max-w-lg text-base opacity-90 md:text-lg"
+                    />
+                  )}
+                  <div className="flex flex-wrap gap-3 pt-2">
+                    {(slide.primaryLink?.jsonValue?.value?.href || isEditing) && (
+                      <ContentSdkLink
+                        field={slide.primaryLink?.jsonValue}
+                        className="inline-flex items-center justify-center rounded-[var(--brand-button-radius,6px)] px-7 py-3 text-sm font-bold uppercase tracking-wider text-white transition-opacity hover:opacity-90"
+                        style={{ backgroundColor: '#44AD49' }}
+                      />
+                    )}
+                    <SecondaryButton field={slide.secondaryLink?.jsonValue} isEditing={isEditing} />
+                  </div>
+                </div>
+                {/* Image — right 40% */}
+                <div className="hidden md:col-span-2 md:flex md:items-center md:justify-center">
+                  {(slide.slideImage?.jsonValue?.value?.src || isEditing) && (
+                    <ContentSdkImage
+                      field={slide.slideImage?.jsonValue}
+                      className="max-h-[360px] w-full object-contain drop-shadow-xl"
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Arrows */}
+        {slides.length > 1 && !isEditing && (
+          <>
+            <button
+              type="button"
+              onClick={() => goTo(activeIndex - 1)}
+              className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/20 p-3 text-white backdrop-blur-sm transition hover:bg-white/40"
+              aria-label="Previous slide"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => goTo(activeIndex + 1)}
+              className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/20 p-3 text-white backdrop-blur-sm transition hover:bg-white/40"
+              aria-label="Next slide"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="9 6 15 12 9 18" />
+              </svg>
+            </button>
+          </>
+        )}
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    WithThumbnails — thumbnail strip below main slide
    ──────────────────────────────────────────── */
 export const WithThumbnails = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => {

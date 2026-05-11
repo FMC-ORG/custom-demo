@@ -97,6 +97,56 @@ export const Centered = ({ fields, params, page }: RichTextBlockProps): JSX.Elem
 };
 
 /* ────────────────────────────────────────────
+   GuinnessWorldRecords — two-tone OFFICIALLY AMAZING tagline
+   ──────────────────────────────────────────── */
+export const GuinnessWorldRecords = ({ fields, params, page }: RichTextBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <RichTextBlockDefaultComponent />;
+
+  const titleText = fields.Title?.value || '';
+  const words = titleText.split(' ');
+  const lastWord = words.pop() || '';
+  const firstWords = words.join(' ');
+
+  return (
+    <div className={cn('component rich-text-block', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-10"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-4xl text-center">
+          {(fields.Title?.value || isEditing) && (
+            isEditing ? (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-3xl font-black uppercase tracking-wider md:text-5xl font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              />
+            ) : (
+              <h2
+                className="text-3xl font-black uppercase tracking-wider md:text-5xl font-[var(--brand-heading-font,inherit)]"
+              >
+                <span style={{ color: 'var(--brand-fg, #111111)' }}>{firstWords} </span>
+                <span style={{ color: 'var(--brand-accent, #DF3A56)' }}>{lastWord}</span>
+              </h2>
+            )
+          )}
+          {(fields.Body?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Body}
+              className="mt-4 prose prose-neutral mx-auto max-w-none font-[var(--brand-body-font,inherit)]"
+              style={{ color: 'var(--brand-fg, #111111)' }}
+            />
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Narrow — constrained width for long-form readability
    ──────────────────────────────────────────── */
 export const Narrow = ({ fields, params, page }: RichTextBlockProps): JSX.Element => {

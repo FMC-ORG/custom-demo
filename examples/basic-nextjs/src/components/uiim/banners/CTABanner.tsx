@@ -150,6 +150,56 @@ export const WithImage = ({ fields, params, page }: CTABannerProps): JSX.Element
 };
 
 /* ────────────────────────────────────────────
+   GuinnessWorldRecords — dark bg image, left-aligned italic heading, outlined white button
+   ──────────────────────────────────────────── */
+export const GuinnessWorldRecords = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative w-full overflow-hidden">
+        {(fields.BackgroundImage?.value?.src || isEditing) && (
+          <div className="absolute inset-0">
+            <ContentSdkImage
+              field={fields.BackgroundImage}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        )}
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 px-6 py-16 md:py-24">
+          <div className="mx-auto max-w-7xl">
+            <div className="max-w-md space-y-4">
+              {(fields.Title?.value || isEditing) && (
+                <Text
+                  field={fields.Title}
+                  tag="h2"
+                  className="text-2xl font-bold italic text-white md:text-3xl font-[var(--brand-heading-font,inherit)]"
+                />
+              )}
+              {(fields.Description?.value || isEditing) && (
+                <ContentSdkRichText
+                  field={fields.Description}
+                  className="text-sm leading-relaxed text-white/90 font-[var(--brand-body-font,inherit)]"
+                />
+              )}
+              {(fields.PrimaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="mt-4 inline-flex items-center justify-center rounded-[var(--brand-button-radius,6px)] border-2 border-white bg-transparent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white hover:text-black"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Split — text left, buttons right
    ──────────────────────────────────────────── */
 export const Split = ({ fields, params, page }: CTABannerProps): JSX.Element => {

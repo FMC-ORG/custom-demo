@@ -275,6 +275,77 @@ export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX
 };
 
 /* ────────────────────────────────────────────
+   GWRBento — asymmetric bento/mosaic news grid
+   ──────────────────────────────────────────── */
+const bentoCellStyles: Record<number, string> = {
+  0: 'md:col-span-2 md:row-span-2', // large featured card
+  1: 'md:col-span-2',                // medium card
+  2: '',                              // small
+  3: '',                              // small
+  4: '',                              // small
+  5: '',                              // small
+  6: 'md:col-span-2',                // wide bottom card
+};
+
+export const GWRBento = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full py-4" style={{ backgroundColor: 'var(--brand-primary, #003DA5)' }}>
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-4 md:grid-rows-3">
+            {cards.map((card, idx) => (
+              <div
+                key={card.id}
+                className={cn(
+                  'group relative overflow-hidden rounded-sm',
+                  bentoCellStyles[idx] || '',
+                  idx === 0 ? 'min-h-[300px] md:min-h-[400px]' : 'min-h-[180px]'
+                )}
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <ContentSdkImage
+                    field={card.cardImage?.jsonValue}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className={cn(
+                        'font-bold leading-tight text-white font-[var(--brand-heading-font,inherit)]',
+                        idx === 0 ? 'text-xl md:text-2xl' : 'text-sm md:text-base'
+                      )}
+                    />
+                  )}
+                  {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                    <ContentSdkLink
+                      field={card.cardLink?.jsonValue}
+                      className="absolute inset-0"
+                      aria-label={card.cardTitle?.jsonValue?.value || 'Read more'}
+                    >
+                      <span className="sr-only">Read more</span>
+                    </ContentSdkLink>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Carousel — horizontal scrolling cards with dots + arrows
    ──────────────────────────────────────────── */
 export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {

@@ -176,6 +176,107 @@ export const Default = (props: SiteFooterProps): JSX.Element => {
 };
 
 /* ────────────────────────────────────────────
+   GuinnessWorldRecords — light gray bg, strapline image, 2 link columns, social icons
+   ──────────────────────────────────────────── */
+export const GuinnessWorldRecords = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const { styles, RenderingIdentifier } = params;
+  const brandLogo = getBrandLogo(props);
+
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  const GWR_LINKS = [
+    { title: 'USING THIS SITE', links: ['Terms & Conditions', 'Cookie Policy', 'Privacy Policy'] },
+    { title: 'CONTACT US', links: ['Get in touch', 'GWR for Business', 'Advertise with us', 'Press Centre'] },
+  ];
+
+  const SOCIAL = ['Fb', 'X', 'Li', 'Pi', 'Yt', 'Ig', 'Tk'];
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-muted, #F1F1F1)',
+          color: 'var(--brand-footer-fg, #333333)',
+        }}
+      >
+        {/* Strapline */}
+        <div className="flex justify-center py-8">
+          {brandLogo?.value?.src ? (
+            <ContentSdkImage
+              field={brandLogo}
+              className="h-8 w-auto object-contain sm:h-10"
+            />
+          ) : (
+            <span
+              className="text-2xl font-black uppercase tracking-wider font-[var(--brand-heading-font,inherit)]"
+            >
+              <span style={{ color: 'var(--brand-fg, #333)' }}>OFFICIALLY </span>
+              <span style={{ color: 'var(--brand-accent, #DF3A56)' }}>AMAZING</span>
+            </span>
+          )}
+        </div>
+
+        {/* Link columns */}
+        <div className="mx-auto max-w-3xl px-6 pb-8">
+          <div className="grid grid-cols-2 gap-12">
+            {GWR_LINKS.map((col) => (
+              <div key={col.title}>
+                <h3
+                  className="mb-3 text-xs font-bold uppercase tracking-wider"
+                  style={{ color: 'var(--brand-accent, #DF3A56)' }}
+                >
+                  {col.title}
+                </h3>
+                <ul className="space-y-1.5">
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <a
+                        href="#"
+                        className="text-sm transition-opacity hover:opacity-70 font-[var(--brand-body-font,inherit)]"
+                        style={{ color: 'var(--brand-footer-fg, #333333)' }}
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Social icons */}
+        <div className="flex justify-center gap-4 pb-6">
+          {SOCIAL.map((label) => (
+            <a
+              key={label}
+              href="#"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-opacity hover:opacity-70"
+              style={{ color: 'var(--brand-footer-fg, #333333)' }}
+              aria-label={label}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
+
+        {/* Copyright */}
+        <div
+          className="border-t py-4 text-center"
+          style={{ borderColor: 'var(--brand-border, #e0e0e0)' }}
+        >
+          <p className="text-xs opacity-60 font-[var(--brand-body-font,inherit)]">
+            &copy; Guinness World Records Limited {new Date().getFullYear()}. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Minimal — single row
    ──────────────────────────────────────────── */
 export const Minimal = (props: SiteFooterProps): JSX.Element => {

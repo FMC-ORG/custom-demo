@@ -294,6 +294,82 @@ export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JS
   );
 };
 
+/* GuinnessWorldRecords variant — white solid bar, uppercase bold nav links, colorful utility area */
+export const GuinnessWorldRecords = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+
+  const links = datasource.children?.results || [];
+  const brandLogo = datasource.brandLogo?.jsonValue;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className="w-full border-b"
+        style={{
+          backgroundColor: 'var(--brand-header-bg, #ffffff)',
+          borderColor: 'var(--brand-border, #e5e7eb)',
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6">
+          {/* Logo + hamburger */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="flex items-center"
+              style={{ color: 'var(--brand-header-fg, inherit)' }}
+            >
+              {brandLogo?.value?.src ? (
+                <ContentSdkImage
+                  field={brandLogo}
+                  className="h-10 w-10 rounded-full object-contain sm:h-12 sm:w-12"
+                />
+              ) : (
+                <span className="text-xl font-bold" style={{ color: 'var(--brand-primary)' }}>GWR</span>
+              )}
+            </Link>
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+
+          {/* Nav links — uppercase, bold, tight spacing */}
+          <nav className="hidden items-center gap-5 lg:flex">
+            {links.map((item) => (
+              <ContentSdkLink
+                key={item.id}
+                field={item.linkUrl?.jsonValue}
+                className="text-xs font-bold uppercase tracking-wide transition-opacity hover:opacity-70"
+                style={{ color: 'var(--brand-header-fg, #333333)' }}
+              >
+                {item.linkText?.jsonValue?.value && (
+                  <Text field={item.linkText?.jsonValue} />
+                )}
+              </ContentSdkLink>
+            ))}
+          </nav>
+
+          {/* Right utility area — colored icon blocks */}
+          <div className="flex items-center gap-0">
+            <div className="hidden h-10 w-10 items-center justify-center text-xs font-bold text-white sm:flex" style={{ backgroundColor: '#44AD49' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" /></svg>
+            </div>
+            <div className="hidden h-10 w-10 items-center justify-center text-xs font-bold text-white sm:flex" style={{ backgroundColor: '#F47B20' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+            </div>
+            <div className="hidden h-10 w-10 items-center justify-center text-xs font-bold text-white sm:flex" style={{ backgroundColor: '#E91E63' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+            </div>
+          </div>
+        </div>
+        <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
+      </header>
+    </div>
+  );
+};
+
 export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
 

@@ -477,7 +477,7 @@ components:
     category: "Cards"
     status: "complete"
     createdAt: "2026-03-25T15:30:00Z"
-    updatedAt: "2026-03-25T15:30:00Z"
+    updatedAt: "2026-05-08T13:00:00Z"
 
     react:
       filePath: "src/components/uiim/cards/ProductPricingCards.tsx"
@@ -706,7 +706,7 @@ components:
     category: "Content"
     status: "complete"
     createdAt: "2026-03-25T16:30:00Z"
-    updatedAt: "2026-03-25T16:30:00Z"
+    updatedAt: "2026-05-08T13:00:00Z"
 
     react:
       filePath: "src/components/uiim/content/ValuePropositionGrid.tsx"
@@ -1166,7 +1166,7 @@ components:
     category: "Cards"
     status: "complete"
     createdAt: "2026-03-25T18:30:00Z"
-    updatedAt: "2026-03-25T18:30:00Z"
+    updatedAt: "2026-05-08T13:00:00Z"
 
     react:
       filePath: "src/components/uiim/cards/FeatureCardsGrid.tsx"
@@ -1256,7 +1256,7 @@ components:
         - { name: "Default", itemId: "{495EF058-D306-4328-ABE4-261E7CFE8E9E}" }
         - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
         - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
-        - { name: "Carousel", itemId: "" }  # TODO: create in Sitecore
+        - { name: "Carousel", itemId: "{F2C49451-6C21-4004-A70C-B346385D5F5F}" }
 
     verification:
       checkedAt: "2026-03-25T18:30:00Z"
@@ -1986,7 +1986,7 @@ components:
     category: "Banners"
     status: "complete"
     createdAt: "2026-05-05T12:00:00Z"
-    updatedAt: "2026-05-05T12:00:00Z"
+    updatedAt: "2026-05-08T13:00:00Z"
 
     react:
       filePath: "src/components/uiim/banners/HeroBannerCarousel.tsx"
@@ -1994,6 +1994,13 @@ components:
       variants:
         - "Default"
         - "WithThumbnails"
+
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/HeroBannerCarousel"
+      containerId: "{71033316-9D9C-4C06-884B-E4DBF534EC19}"
+      variants:
+        - { name: "Default", itemId: "{CEDF3C00-2AB0-44A7-9592-E8CBB9DF83AD}" }
+        - { name: "WithThumbnails", itemId: "{A3F2A1FE-83D6-4F88-8625-EC826930F3F0}" }
 
     templates:
       parent:

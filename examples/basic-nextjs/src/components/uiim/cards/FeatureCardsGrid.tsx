@@ -296,7 +296,7 @@ export const GWRBento = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
 
   return (
     <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
-      <section className="w-full py-4" style={{ backgroundColor: 'var(--brand-primary, #003DA5)' }}>
+      <section className="w-full py-4" style={{ backgroundColor: 'var(--brand-muted, #F1F1F1)' }}>
         <div className="mx-auto max-w-7xl px-4">
           <div className="grid grid-cols-1 gap-2 md:grid-cols-4 md:grid-rows-3">
             {cards.map((card, idx) => (

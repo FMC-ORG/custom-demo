@@ -217,7 +217,7 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
 };
 
 /* ────────────────────────────────────────────
-   GuinnessWorldRecords — deep blue bg, left-aligned text, product image right
+   GuinnessWorldRecords — full background image, left-aligned text overlay, green CTA
    ──────────────────────────────────────────── */
 export const GuinnessWorldRecords = ({ fields, params, page }: HeroBannerCarouselProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
@@ -248,7 +248,6 @@ export const GuinnessWorldRecords = ({ fields, params, page }: HeroBannerCarouse
     <div className={cn('component hero-banner-carousel', styles)} id={RenderingIdentifier}>
       <section
         className="relative w-full overflow-hidden"
-        style={{ backgroundColor: 'var(--brand-primary, #003DA5)' }}
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -261,9 +260,21 @@ export const GuinnessWorldRecords = ({ fields, params, page }: HeroBannerCarouse
               key={slide.id}
               className="relative flex min-h-[420px] w-full flex-shrink-0 items-center md:min-h-[500px]"
             >
-              <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-6 py-16 md:grid-cols-5">
-                {/* Text — left 60% */}
-                <div className="space-y-5 text-white md:col-span-3">
+              {/* Full background image */}
+              {(slide.slideImage?.jsonValue?.value?.src || isEditing) && (
+                <div className="absolute inset-0">
+                  <ContentSdkImage
+                    field={slide.slideImage?.jsonValue}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              )}
+              {/* Blue overlay for text readability */}
+              <div className="absolute inset-0" style={{ backgroundColor: 'var(--brand-primary, #003DA5)', opacity: 0.7 }} />
+
+              {/* Left-aligned text overlay */}
+              <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16">
+                <div className="max-w-xl space-y-5 text-white">
                   {(slide.slideTitle?.jsonValue?.value || isEditing) && (
                     <Text
                       field={slide.slideTitle?.jsonValue}
@@ -287,15 +298,6 @@ export const GuinnessWorldRecords = ({ fields, params, page }: HeroBannerCarouse
                     )}
                     <SecondaryButton field={slide.secondaryLink?.jsonValue} isEditing={isEditing} />
                   </div>
-                </div>
-                {/* Image — right 40% */}
-                <div className="hidden md:col-span-2 md:flex md:items-center md:justify-center">
-                  {(slide.slideImage?.jsonValue?.value?.src || isEditing) && (
-                    <ContentSdkImage
-                      field={slide.slideImage?.jsonValue}
-                      className="max-h-[360px] w-full object-contain drop-shadow-xl"
-                    />
-                  )}
                 </div>
               </div>
             </div>

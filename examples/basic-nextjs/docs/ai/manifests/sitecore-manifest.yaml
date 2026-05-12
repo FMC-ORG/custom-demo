@@ -1,6 +1,6 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-04-29T20:30:00Z"
-lastUpdatedBy: "cursor-agent"
+lastUpdatedAt: "2026-05-12T21:00:00Z"
+lastUpdatedBy: "claude-agent"
 
 project:
   siteCollection: "main"
@@ -15,9 +15,9 @@ project:
 
 availableRenderings:
   itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
-  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}"
-  lastUpdatedAt: "2026-05-05T12:00:00Z"
-  renderingCount: 23
+  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{58C6109D-9C56-4F58-BC28-AAA484763254}"
+  lastUpdatedAt: "2026-05-12T21:00:00Z"
+  renderingCount: 24
   warning: "MCP cannot read this field — value may be stale if modified outside this session"
 
 components:
@@ -2171,6 +2171,95 @@ lookups:
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Forms"
     itemId: "{0A7AA74E-9652-4890-B218-EAC82F157663}"
     lastReadAt: "2026-03-25T20:30:00Z"
+
+# ──── Worldpay Migration Demo (Phase 5) ────
+
+  - name: "DualPromoBanner"
+    kind: "list"
+    category: "Content"
+    status: "complete"
+    createdAt: "2026-05-12T21:00:00Z"
+    updatedAt: "2026-05-12T21:00:00Z"
+
+    react:
+      filePath: "src/components/uiim/content/DualPromoBanner.tsx"
+      componentMapKey: "DualPromoBanner"
+      variants:
+        - "Default"
+
+    templates:
+      datasource:
+        name: "DualPromoBanner"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/DualPromoBanner"
+        itemId: "{23E45CBB-6CE4-44E8-B7E8-49C5CCD5CF77}"
+        sectionName: "Data"
+        fields:
+          - { name: "PromoImage", type: "Image" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "{E2C24F88-28AD-428D-A0E3-75D3270D9F63}"
+      child:
+        name: "DualPromoBlock"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/DualPromoBlock"
+        itemId: "{B9BEE1FA-9D3F-4D29-87F2-436A73D458A2}"
+        sectionName: "Data"
+        fields:
+          - { name: "BlockTitle", type: "Single-Line Text" }
+          - { name: "BlockDescription", type: "Rich Text" }
+          - { name: "BlockLink", type: "General Link" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "{65277016-61D8-48D5-83E3-71D7CAFEBFCA}"
+      folder:
+        name: "DualPromoBanner Folder"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Folders/DualPromoBanner Folder"
+        itemId: "{0A304DBE-C9C6-4106-B3CF-C6704931FF6A}"
+        standardValues:
+          itemId: "{C7531105-9BB7-48BE-B97D-8F6235C99EE6}"
+
+    rendering:
+      name: "DualPromoBanner"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Content/DualPromoBanner"
+      itemId: "{58C6109D-9C56-4F58-BC28-AAA484763254}"
+      componentName: "DualPromoBanner"
+      componentQuery: true
+      datasourceTemplate: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/DualPromoBanner"
+      datasourceLocation: "/sitecore/content/main/main-website/Data/DualPromoBanner"
+      registeredInAvailableRenderings: true
+
+    datasourceFolder:
+      path: "/sitecore/content/main/main-website/Data/DualPromoBanner"
+      itemId: "{0B93FCE4-4A69-4EF5-A013-185F254B14EC}"
+
+    variants:
+      group:
+        path: "/sitecore/content/main/main-website/Presentation/Headless Variants/DualPromoBanner"
+        itemId: "{EDC9F08C-DAC2-47A7-A78C-F8A286EB3D59}"
+      definitions:
+        - name: "Default"
+          itemId: "{779C279D-046D-4CA3-8D7F-7D16C02544C4}"
+
+# Worldpay variant definitions (on existing components)
+worldpayVariants:
+  HeroBanner:
+    - { name: "WorldpaySplitHero", itemId: "{97078335-0995-448A-8164-A155BF08E21C}" }
+    - { name: "WorldpayArticleHero", itemId: "{D7ED7070-F8A1-4F14-9D90-9A21D0F11DB6}" }
+  CTABanner:
+    - { name: "WorldpayDarkCTA", itemId: "{252D9BEA-0912-4987-BE54-20D95CE33796}" }
+    - { name: "WorldpayHelpCTA", itemId: "{595CE11B-CF43-4F2E-9F3B-B1AC1195D1E6}" }
+  FeatureCardsGrid:
+    - { name: "WorldpayFeatureCarousel", itemId: "{8EC5DBF8-E417-47BE-81A5-49BD78AF7432}" }
+    - { name: "WorldpayJourneyCards", itemId: "{BEC708DB-1F13-434D-8801-B25F2D91227C}" }
+    - { name: "WorldpayStoryCards", itemId: "{2076F039-8ECE-4FE3-8266-C0D741DD3A8D}" }
+    - { name: "WorldpayInsightCards", itemId: "{D7CD2A52-9F21-4A06-9FFB-FC0331A289AF}" }
+  LogoCloud:
+    - { name: "WorldpayLogoStrip", itemId: "{CB9D1765-3C82-465C-8FD9-8AB65F26B0D8}" }
+  NavigationHeader:
+    - { name: "WorldpayMegaNav", itemId: "{ECCE414C-5F08-487F-AD55-22121C424DA0}" }
+  SiteFooter:
+    - { name: "WorldpayMegaFooter", itemId: "{EE74BAA1-F3AE-46BB-9C76-4983A31654EF}" }
+  RichTextBlock:
+    - { name: "WorldpayArticleBody", itemId: "{58E84530-0048-4704-84B4-77C37138A6D2}" }
 
 # Demo datasource items (AI-created content, not new component definitions)
 demoContent: []

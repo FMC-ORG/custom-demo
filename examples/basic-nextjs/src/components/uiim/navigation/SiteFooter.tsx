@@ -215,6 +215,107 @@ export const Minimal = (props: SiteFooterProps): JSX.Element => {
 };
 
 /* ────────────────────────────────────────────
+   WorldpayMegaFooter — 7-column Worldpay footer with region selector
+   ──────────────────────────────────────────── */
+export const WorldpayMegaFooter = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const { styles, RenderingIdentifier } = params;
+  const brandLogo = getBrandLogo(props);
+
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  const wpColumns = [
+    { title: 'Accept', links: ['Online', 'In-store', 'Omnichannel', 'Semi-integrated', 'Payment Methods', 'Payouts'] },
+    { title: 'Protect', links: ['Fraud protection', 'Authentication', 'Dispute management', 'Credential management', 'Loyalty and gift cards'] },
+    { title: 'Optimize', links: ['Advanced Boost', 'Revenue Boost', 'Network tokenization', 'Software Platforms'] },
+    { title: 'Who We Serve', links: ['Small business', 'Enterprise', 'Software platforms', 'Crypto'] },
+    { title: 'Insights', links: ['Articles', 'Customer stories', 'Reports and reporting'] },
+    { title: 'Resources', links: ['Developer portal', 'Customer stories', 'Worldpay offices'] },
+    { title: 'Company', links: ['Support', 'About', 'Board of Directors', 'Careers'] },
+  ];
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer className="w-full bg-[#0C0033] text-white">
+        {/* Top bar — logo, region, sign in, contact */}
+        <div className="border-b border-white/10">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5">
+            <div className="flex items-center gap-6">
+              <Link href="/" className="flex items-center">
+                {brandLogo?.value?.src ? (
+                  <ContentSdkImage
+                    field={brandLogo}
+                    className="h-7 w-auto object-contain brightness-0 invert"
+                  />
+                ) : (
+                  <span className="text-lg font-bold text-white">Worldpay</span>
+                )}
+              </Link>
+              <span className="flex items-center gap-1 text-xs text-white/60">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                United States (English)
+              </span>
+            </div>
+            <div className="flex items-center gap-4">
+              <a href="#" className="text-sm text-white/70 transition-colors hover:text-white">Sign in</a>
+              <a href="#" className="rounded-full bg-[#E02020] px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#C41B1B]">
+                Contact us
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Link columns */}
+        <div className="mx-auto max-w-7xl px-6 py-10">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
+            {wpColumns.map((col) => (
+              <div key={col.title}>
+                <h3 className="mb-3 text-sm font-bold text-white">{col.title}</h3>
+                <ul className="space-y-2">
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <a href="#" className="text-xs text-white/60 transition-colors hover:text-white">
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom bar — legal + social */}
+        <div className="border-t border-white/10 bg-[#080022]">
+          <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-5 sm:flex-row">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-white/50">
+              <a href="#" className="hover:text-white">Your Privacy Choices</a>
+              <a href="#" className="hover:text-white">Privacy</a>
+              <a href="#" className="hover:text-white">Cookies</a>
+              <a href="#" className="hover:text-white">Terms of use</a>
+              <a href="#" className="hover:text-white">Accessibility disclosure</a>
+              <a href="#" className="hover:text-white">Preferences center</a>
+            </div>
+            <div className="flex items-center gap-3">
+              {['Li', 'X', 'YT', 'Ig'].map((icon) => (
+                <a key={icon} href="#" className="flex h-7 w-7 items-center justify-center rounded-full text-xs text-white/50 transition-colors hover:text-white" aria-label={icon}>
+                  {icon}
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="mx-auto max-w-7xl px-6 pb-5">
+            <p className="text-xs text-white/40">
+              Copyright &copy; {new Date().getFullYear()} FIS Worldpay Ltd. and its affiliates.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    MegaFooter — expanded with newsletter
    ──────────────────────────────────────────── */
 export const MegaFooter = (props: SiteFooterProps): JSX.Element => {

@@ -199,3 +199,37 @@ export const WithLabels = ({ fields, params, page }: LogoCloudProps): JSX.Elemen
     </div>
   );
 };
+
+/* ════════════════════════════════════════════
+   WORLDPAY DEMO VARIANTS
+   ════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────
+   WorldpayLogoStrip — horizontal partner logos, dark navy treatment
+   ──────────────────────────────────────────── */
+export const WorldpayLogoStrip = ({ fields, params, page }: LogoCloudProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <LogoCloudDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component logo-cloud', styles)} id={RenderingIdentifier}>
+      <section className="w-full border-y border-gray-100 bg-white px-6 py-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-10 md:gap-14">
+          {items.map((item) => (
+            <LogoWrapper key={item.id} item={item} isEditing={isEditing}>
+              {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
+                <ContentSdkImage
+                  field={item.logoImage?.jsonValue}
+                  className="h-7 max-w-[120px] object-contain opacity-70 transition-opacity hover:opacity-100 sm:h-8"
+                />
+              )}
+            </LogoWrapper>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+};

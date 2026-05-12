@@ -131,3 +131,41 @@ export const Narrow = ({ fields, params, page }: RichTextBlockProps): JSX.Elemen
     </div>
   );
 };
+
+/* ════════════════════════════════════════════
+   WORLDPAY DEMO VARIANTS
+   ════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────
+   WorldpayArticleBody — Article body with Worldpay typography
+   Max-width 720px, navy headings, blue links
+   ──────────────────────────────────────────── */
+export const WorldpayArticleBody = ({ fields, params, page }: RichTextBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <RichTextBlockDefaultComponent />;
+
+  return (
+    <div className={cn('component rich-text-block', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-white px-4 py-12 md:py-16">
+        <div className="mx-auto max-w-[720px]">
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="mb-8 text-3xl font-bold"
+              style={{ color: '#00237D' }}
+            />
+          )}
+          {(fields.Body?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Body}
+              className="prose prose-lg max-w-none prose-headings:text-[#00237D] prose-headings:font-bold prose-a:text-[#0066FF] prose-a:underline prose-img:rounded-xl"
+              style={{ color: '#333333', lineHeight: '1.8' }}
+            />
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};

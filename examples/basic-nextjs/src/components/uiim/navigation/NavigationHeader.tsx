@@ -317,3 +317,83 @@ export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element 
     </div>
   );
 };
+
+/* ════════════════════════════════════════════
+   WORLDPAY DEMO VARIANTS
+   ════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────
+   WorldpayMegaNav — Worldpay navigation with utility bar and pill CTA
+   ──────────────────────────────────────────── */
+export const WorldpayMegaNav = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+
+  const links = datasource.children?.results || [];
+  const brandLogo = datasource.brandLogo?.jsonValue;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header className="w-full border-b border-gray-100 bg-white shadow-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+          {/* Left — Logo */}
+          <Link href="/" className="flex items-center">
+            {brandLogo?.value?.src ? (
+              <ContentSdkImage
+                field={brandLogo}
+                className="h-7 w-auto object-contain sm:h-8"
+              />
+            ) : (
+              <span className="text-xl font-bold" style={{ color: '#00237D' }}>
+                <span style={{ color: '#E02020' }}>world</span>pay
+              </span>
+            )}
+          </Link>
+
+          {/* Center — Nav links */}
+          <nav className="hidden items-center gap-6 lg:flex">
+            {links.map((item) => (
+              <ContentSdkLink
+                key={item.id}
+                field={item.linkUrl?.jsonValue}
+                className="text-sm font-semibold transition-opacity hover:opacity-70"
+                style={{ color: '#00237D' }}
+              >
+                {item.linkText?.jsonValue?.value && (
+                  <Text field={item.linkText?.jsonValue} />
+                )}
+              </ContentSdkLink>
+            ))}
+          </nav>
+
+          {/* Right — Utility links + CTA */}
+          <div className="flex items-center gap-4">
+            <div className="hidden items-center gap-3 text-sm md:flex">
+              <button type="button" aria-label="Search" className="p-1 text-[#00237D] transition-opacity hover:opacity-70">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </button>
+            </div>
+            {(datasource.ctaLink?.jsonValue?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={datasource.ctaLink?.jsonValue}
+                className="hidden rounded-full bg-[#00237D] px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#001A5C] md:inline-flex"
+              >
+                {datasource.ctaLabel?.jsonValue?.value && (
+                  <Text field={datasource.ctaLabel?.jsonValue} />
+                )}
+              </ContentSdkLink>
+            )}
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+        </div>
+        <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
+      </header>
+    </div>
+  );
+};

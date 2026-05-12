@@ -170,6 +170,16 @@ module.exports = {
         "compare-orange": "#F97316",
         "compare-green": "#34D399",
         "trustpilot-green": "#00B67A",
+        // Worldpay brand colors
+        "wp-navy": "#00237D",
+        "wp-dark-navy": "#1A0826",
+        "wp-deep-purple": "#0C0033",
+        "wp-coral": "#E02020",
+        "wp-coral-hover": "#C41B1B",
+        "wp-purple": "#7B61FF",
+        "wp-light-purple": "#E8E0FF",
+        "wp-blue": "#0066FF",
+        "wp-off-white": "#F8F7FC",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -225,6 +235,10 @@ module.exports = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        // Worldpay rounded corners
+        "wp": "16px",
+        "wp-lg": "24px",
+        "wp-xl": "32px",
       },
       keyframes: {
         "accordion-down": {

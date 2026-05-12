@@ -15,6 +15,10 @@
 .env.*.local
 .env
 
+# Customer XP codebase and SDK source (reference only, not part of the project)
+/GPN-Sitecore/
+/content-sdk/
+
 # AI demo builder — never commit
 docs/ai/config/credentials.local.yaml
 docs/ai/demos/*/

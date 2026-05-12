@@ -246,3 +246,95 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
     </div>
   );
 };
+
+/* ════════════════════════════════════════════
+   WORLDPAY DEMO VARIANTS
+   ════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────
+   WorldpayDarkCTA — "What's your big dream?"
+   Dark navy gradient, large text, no CTA button
+   ──────────────────────────────────────────── */
+export const WorldpayDarkCTA = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 py-24 md:py-32"
+        style={{ background: 'linear-gradient(135deg, #1A0826 0%, #0C0033 100%)' }}
+      >
+        <div className="mx-auto max-w-4xl">
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-[48px]"
+            />
+          )}
+          {(fields.Description?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Description}
+              className="mt-6 max-w-2xl text-base leading-relaxed text-white/60"
+            />
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   WorldpayHelpCTA — "Need help?"
+   Dark navy bg, text left, 3D mascot image right, coral CTA
+   ──────────────────────────────────────────── */
+export const WorldpayHelpCTA = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-[#1A0826]">
+        <div className="mx-auto grid max-w-7xl items-end gap-8 px-6 py-16 md:grid-cols-2 md:py-24">
+          {/* Left — Text + CTA */}
+          <div className="space-y-4">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl"
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="text-base text-white/70"
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <div className="pt-4">
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="inline-flex items-center gap-2 rounded-full bg-[#E02020] px-6 py-3 text-base font-medium text-white transition-colors hover:bg-[#C41B1B]"
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Right — Mascot/image */}
+          <div className="flex justify-center md:justify-end">
+            {(fields.BackgroundImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.BackgroundImage}
+                className="h-auto max-h-[400px] w-auto object-contain"
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

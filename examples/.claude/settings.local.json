@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__sitecore-marketer__list_sites",
+      "mcp__sitecore-marketer__get_site_information",
+      "mcp__sitecore-marketer__get_all_pages_by_site",
+      "mcp__sitecore-marketer__list_components",
+      "WebFetch(domain:www.worldpay.com)",
+      "Bash(npx tsc:*)",
+      "mcp__sitecore-marketer__get_content_item_by_path",
+      "mcp__sitecore-marketer__create_content_item",
+      "mcp__sitecore-marketer__update_fields_on_item",
+      "mcp__sitecore-marketer__get_content_item_by_id",
+      "mcp__sitecore-marketer__get_components_on_page",
+      "mcp__sitecore-marketer__get_allowed_comps_by_ph",
+      "mcp__sitecore-marketer__add_component_on_page",
+      "mcp__sitecore-marketer__create_page",
+      "Bash(curl:*)",
+      "Bash(sort -k2)",
+      "Read(//c/Users/fmf/Projects/newdemo/maincustomdemo/custom-demo/examples/basic-nextjs/**)"
+    ]
+  }
+}

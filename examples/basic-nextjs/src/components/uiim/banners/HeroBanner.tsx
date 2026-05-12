@@ -318,3 +318,118 @@ export const Minimal = ({ fields, params, page }: HeroBannerProps): JSX.Element 
     </div>
   );
 };
+
+/* ════════════════════════════════════════════
+   WORLDPAY DEMO VARIANTS
+   ════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────
+   WorldpaySplitHero — "Making everyday commerce better"
+   Split layout: text left with coral CTA, illustration right with purple accent
+   ──────────────────────────────────────────── */
+export const WorldpaySplitHero = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-white">
+        <div className="mx-auto grid min-h-[600px] max-w-7xl items-center gap-8 px-6 py-16 md:grid-cols-2">
+          {/* Left — Text content */}
+          <div className="space-y-6">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h1"
+                className="text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-[56px]"
+                style={{ color: '#00237D' }}
+              />
+            )}
+            {(fields.Subtitle?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Subtitle}
+                className="max-w-lg text-lg leading-relaxed text-gray-600"
+              />
+            )}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              {(fields.PrimaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="inline-flex items-center gap-2 rounded-full bg-[#E02020] px-6 py-3 text-base font-medium text-white transition-colors hover:bg-[#C41B1B]"
+                />
+              )}
+              {(fields.SecondaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.SecondaryLink}
+                  className="inline-flex items-center gap-1 text-base font-semibold text-[#00237D] transition-opacity hover:opacity-70"
+                />
+              )}
+            </div>
+          </div>
+
+          {/* Right — Hero image with purple accent background */}
+          <div className="relative">
+            <div className="absolute -right-8 -top-8 bottom-8 left-8 rounded-3xl bg-gradient-to-br from-[#E8E0FF] to-[#F8F7FC]" />
+            <div className="relative overflow-hidden rounded-2xl">
+              {(fields.HeroImage?.value?.src || isEditing) && (
+                <ContentSdkImage
+                  field={fields.HeroImage}
+                  className="h-full w-full object-cover"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   WorldpayArticleHero — Insights article page hero
+   Dark background, eyebrow, title, subtitle, full-width image below
+   ──────────────────────────────────────────── */
+export const WorldpayArticleHero = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-[#1A0826]">
+        <div className="mx-auto max-w-4xl px-6 pb-0 pt-20 text-center">
+          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-widest text-[#E8E0FF]">
+            Insights
+          </span>
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h1"
+              className="text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
+            />
+          )}
+          {(fields.Subtitle?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Subtitle}
+              className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70"
+            />
+          )}
+        </div>
+      </section>
+      {/* Full-width article hero image */}
+      {(fields.HeroImage?.value?.src || isEditing) && (
+        <div className="mx-auto -mt-2 max-w-5xl px-6 pb-12">
+          <div className="overflow-hidden rounded-2xl">
+            <ContentSdkImage
+              field={fields.HeroImage}
+              className="h-auto w-full object-cover"
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};

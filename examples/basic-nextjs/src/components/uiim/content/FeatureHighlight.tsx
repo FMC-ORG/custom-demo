@@ -219,6 +219,52 @@ export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.
 /* ────────────────────────────────────────────
    IconLeft — small image left, text right
    ──────────────────────────────────────────── */
+/* ────────────────────────────────────────────
+   WorldpayPromoCard — image top, title + description + navy pill CTA below
+   Used as individual card inside a ColumnSplitter for side-by-side promo layout
+   ──────────────────────────────────────────── */
+export const WorldpayPromoCard = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
+        {(fields.FeatureImage?.value?.src || isEditing) && (
+          <div className="aspect-[4/3] overflow-hidden">
+            <ContentSdkImage
+              field={fields.FeatureImage}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        )}
+        <div className="p-8">
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h3"
+              className="text-2xl font-bold tracking-tight text-wp-navy"
+            />
+          )}
+          {(fields.Description?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Description}
+              className="mt-2 text-base text-gray-600"
+            />
+          )}
+          {(fields.PrimaryLink?.value?.href || isEditing) && (
+            <ContentSdkLink
+              field={fields.PrimaryLink}
+              className="mt-4 inline-flex items-center gap-2 rounded-full bg-wp-navy px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;

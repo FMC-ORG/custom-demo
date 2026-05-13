@@ -17,7 +17,9 @@
       "mcp__sitecore-marketer__create_page",
       "Bash(curl:*)",
       "Bash(sort -k2)",
-      "Read(//c/Users/fmf/Projects/newdemo/maincustomdemo/custom-demo/examples/basic-nextjs/**)"
+      "Read(//c/Users/fmf/Projects/newdemo/maincustomdemo/custom-demo/examples/basic-nextjs/**)",
+      "Bash(mktemp:*)",
+      "mcp__sitecore-marketer__search_assets"
     ]
   }
 }

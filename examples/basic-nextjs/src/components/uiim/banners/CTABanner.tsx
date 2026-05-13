@@ -252,33 +252,74 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
    ════════════════════════════════════════════ */
 
 /* ────────────────────────────────────────────
+   Helper — detect if a Sitecore Image field holds a video asset
+   Checks dam-content-type attribute and src URL extension
+   ──────────────────────────────────────────── */
+const isVideoAsset = (field: ImageField | undefined): boolean => {
+  if (!field?.value) return false;
+  const val = field.value as Record<string, unknown>;
+  // Check Content Hub dam-content-type attribute
+  const damType = (val['dam-content-type'] as string) || '';
+  if (damType.toLowerCase() === 'video') return true;
+  // Fallback: check src URL extension
+  const src = (val.src as string) || '';
+  return /\.(mp4|webm|mov|ogg)(\?|$)/i.test(src);
+};
+
+/* ────────────────────────────────────────────
    WorldpayDarkCTA — "What's your big dream?"
-   Dark navy gradient, large text, no CTA button
+   Light purple bg, text left, video/image right
+   BackgroundImage auto-detects video vs image from Content Hub
    ──────────────────────────────────────────── */
 export const WorldpayDarkCTA = ({ fields, params, page }: CTABannerProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <CTABannerDefaultComponent />;
 
+  const hasMedia = fields.BackgroundImage?.value?.src || isEditing;
+  const isVideo = isVideoAsset(fields.BackgroundImage);
+  const mediaSrc = (fields.BackgroundImage?.value?.src as string) || '';
+
   return (
     <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
-      <section
-        className="w-full px-6 py-24 md:py-32"
-        style={{ background: 'linear-gradient(135deg, #1A0826 0%, #0C0033 100%)' }}
-      >
-        <div className="mx-auto max-w-4xl">
-          {(fields.Title?.value || isEditing) && (
-            <Text
-              field={fields.Title}
-              tag="h2"
-              className="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-[48px]"
-            />
-          )}
-          {(fields.Description?.value || isEditing) && (
-            <ContentSdkRichText
-              field={fields.Description}
-              className="mt-6 max-w-2xl text-base leading-relaxed text-white/60"
-            />
+      <section className="w-full bg-[#f2eeff] px-6 py-16 md:py-24">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2">
+          {/* Left — Text */}
+          <div>
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-4xl font-bold leading-tight tracking-tight text-wp-navy sm:text-5xl"
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-6 max-w-lg text-base leading-relaxed text-gray-700"
+              />
+            )}
+          </div>
+
+          {/* Right — Video or Image */}
+          {hasMedia && (
+            <div className="overflow-hidden rounded-2xl shadow-lg">
+              {isVideo ? (
+                <video
+                  src={mediaSrc}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <ContentSdkImage
+                  field={fields.BackgroundImage}
+                  className="h-full w-full object-cover"
+                />
+              )}
+            </div>
           )}
         </div>
       </section>

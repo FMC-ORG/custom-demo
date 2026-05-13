@@ -29,6 +29,26 @@ interface ColumnSplitterProps extends ComponentProps {
   params: ComponentProps["params"] & ColumnWidths & ColumnStyles;
 }
 
+/**
+ * Parse a ColumnWidth param into a CSS flex-basis value.
+ * Supports: "50%", "33.33%", "1/2", "1/3", "2/3", "1/4", "3/4"
+ * Returns null if the value can't be parsed (falls back to auto-equal).
+ */
+function parseFlexBasis(value: string): string | null {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  // Already a percentage
+  if (/^\d+(\.\d+)?%$/.test(trimmed)) return trimmed;
+  // Fraction like "1/2", "2/3"
+  const fractionMatch = trimmed.match(/^(\d+)\/(\d+)$/);
+  if (fractionMatch) {
+    const numerator = parseInt(fractionMatch[1], 10);
+    const denominator = parseInt(fractionMatch[2], 10);
+    if (denominator > 0) return `${(numerator / denominator) * 100}%`;
+  }
+  return null;
+}
+
 export const Default = ({
   params,
   rendering,
@@ -37,6 +57,9 @@ export const Default = ({
   const { EnabledPlaceholders, RenderingIdentifier: id, styles } = params;
 
   const enabledColumns = EnabledPlaceholders?.split(",") ?? [];
+  const defaultBasis = enabledColumns.length > 0
+    ? `${100 / enabledColumns.length}%`
+    : '100%';
 
   return (
     <div
@@ -48,14 +71,15 @@ export const Default = ({
         const num = Number(columnNum) as ColumnNumber;
         const columnWidth = (params[`ColumnWidth${num}`] ?? "").trim();
         const columnStyle = (params[`Styles${num}`] ?? "").trim();
-        const hasExplicitWidth = columnWidth.length > 0;
-        const columnClassNames = hasExplicitWidth
-          ? `shrink-0 ${columnWidth} ${columnStyle}`.trim()
-          : `flex-1 min-w-0 ${columnStyle}`.trim();
+        const explicitBasis = parseFlexBasis(columnWidth);
 
         return (
-          <div key={index} className={columnClassNames}>
-            <div className="w-full min-w-0">
+          <div
+            key={index}
+            className={columnStyle || undefined}
+            style={{ flexBasis: explicitBasis || defaultBasis, flexShrink: 0, minWidth: 0 }}
+          >
+            <div style={{ width: '100%', minWidth: 0 }}>
               <AppPlaceholder
                 name={`column-${columnNum}-{*}`}
                 rendering={rendering}

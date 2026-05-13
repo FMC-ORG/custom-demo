@@ -33,6 +33,9 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    // Allow SVG images from Content Hub through the image optimizer
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     // Disable image optimization in development to avoid upstream timeouts
     unoptimized: process.env.NODE_ENV === 'development',
   },

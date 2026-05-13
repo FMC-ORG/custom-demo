@@ -39,7 +39,11 @@ export const Default = ({
   const enabledColumns = EnabledPlaceholders?.split(",") ?? [];
 
   return (
-    <div className={`flex flex-nowrap w-full min-w-full flex-1 component column-splitter ${styles}`} id={id}>
+    <div
+      className={`component column-splitter ${styles}`}
+      id={id}
+      style={{ display: 'flex', flexWrap: 'nowrap', width: '100%', maxWidth: '1280px', margin: '0 auto', padding: '0 1rem' }}
+    >
       {enabledColumns.map((columnNum, index) => {
         const num = Number(columnNum) as ColumnNumber;
         const columnWidth = (params[`ColumnWidth${num}`] ?? "").trim();

@@ -230,35 +230,37 @@ export const WorldpayPromoCard = ({ fields, params, page }: FeatureHighlightProp
 
   return (
     <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
-      <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
-        {(fields.FeatureImage?.value?.src || isEditing) && (
-          <div className="aspect-[4/3] overflow-hidden">
-            <SmartMedia
-              field={fields.FeatureImage}
-              className="h-full w-full object-cover"
-            />
+      <div className="px-3 py-6">
+        <div className="mx-auto max-w-[630px] overflow-hidden rounded-[20px] bg-white shadow-xl">
+          {(fields.FeatureImage?.value?.src || isEditing) && (
+            <div className="aspect-[16/9] overflow-hidden">
+              <SmartMedia
+                field={fields.FeatureImage}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          )}
+          <div className="px-6 pb-8 pt-5">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h3"
+                className="text-xl font-bold tracking-tight text-wp-navy"
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-2 text-sm text-gray-600"
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="mt-4 inline-flex items-center gap-2 rounded-full bg-wp-navy px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              />
+            )}
           </div>
-        )}
-        <div className="p-8">
-          {(fields.Title?.value || isEditing) && (
-            <Text
-              field={fields.Title}
-              tag="h3"
-              className="text-2xl font-bold tracking-tight text-wp-navy"
-            />
-          )}
-          {(fields.Description?.value || isEditing) && (
-            <ContentSdkRichText
-              field={fields.Description}
-              className="mt-2 text-base text-gray-600"
-            />
-          )}
-          {(fields.PrimaryLink?.value?.href || isEditing) && (
-            <ContentSdkLink
-              field={fields.PrimaryLink}
-              className="mt-4 inline-flex items-center gap-2 rounded-full bg-wp-navy px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-            />
-          )}
         </div>
       </div>
     </div>

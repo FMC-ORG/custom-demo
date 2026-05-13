@@ -3,13 +3,13 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface ProductCardFields {
   id: string;
@@ -137,7 +137,7 @@ export const Default = ({ fields, params, page }: ProductPricingCardsProps): JSX
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage
+                  <SmartMedia
                     field={card.cardImage?.jsonValue}
                     className="h-48 w-full object-cover"
                   />
@@ -198,7 +198,7 @@ export const Horizontal = ({ fields, params, page }: ProductPricingCardsProps): 
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
                   <div className="md:w-1/3">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={card.cardImage?.jsonValue}
                       className="h-full w-full object-cover"
                     />
@@ -333,7 +333,7 @@ export const Highlighted = ({ fields, params, page }: ProductPricingCardsProps):
                     </div>
                   )}
                   {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                    <ContentSdkImage
+                    <SmartMedia
                       field={card.cardImage?.jsonValue}
                       className="h-48 w-full object-cover"
                     />

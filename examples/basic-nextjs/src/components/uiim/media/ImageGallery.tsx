@@ -2,11 +2,11 @@ import React, { JSX } from 'react';
 import {
   Field,
   ImageField,
-  NextImage as ContentSdkImage,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface ImageGalleryFields {
   GalleryImage: ImageField;
@@ -38,7 +38,7 @@ export const Default = ({ fields, params, page }: ImageGalleryProps): JSX.Elemen
     <div className={cn('component image-gallery', styles)} id={RenderingIdentifier}>
       <figure className="w-full">
         {(fields.GalleryImage?.value?.src || isEditing) && (
-          <ContentSdkImage
+          <SmartMedia
             field={fields.GalleryImage}
             className="w-full max-h-[70vh] object-cover"
           />
@@ -69,7 +69,7 @@ export const Gallery = ({ fields, params, page }: ImageGalleryProps): JSX.Elemen
       <figure className="mx-auto max-w-7xl px-4 py-8">
         {(fields.GalleryImage?.value?.src || isEditing) && (
           <div className="overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
-            <ContentSdkImage
+            <SmartMedia
               field={fields.GalleryImage}
               className="w-full max-h-[60vh] object-cover"
             />
@@ -110,7 +110,7 @@ export const Parallax = ({ fields, params, page }: ImageGalleryProps): JSX.Eleme
           >
             {isEditing && (
               <div className="flex h-full items-center justify-center">
-                <ContentSdkImage
+                <SmartMedia
                   field={fields.GalleryImage}
                   className="max-h-full max-w-full object-contain opacity-50"
                 />

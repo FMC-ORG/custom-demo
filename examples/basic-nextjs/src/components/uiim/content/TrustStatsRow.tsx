@@ -2,12 +2,12 @@ import React, { JSX } from 'react';
 import {
   Field,
   ImageField,
-  NextImage as ContentSdkImage,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface StatItemFields {
   id: string;
@@ -151,7 +151,7 @@ export const WithIcons = ({ fields, params, page }: TrustStatsRowProps): JSX.Ele
               <div key={item.id} className="flex flex-col items-center text-center">
                 {(item.statIcon?.jsonValue?.value?.src || isEditing) && (
                   <div className="mb-3 h-12 w-12 overflow-hidden">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={item.statIcon?.jsonValue}
                       className="h-full w-full object-contain"
                     />
@@ -212,7 +212,7 @@ export const LogoRow = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
               <div key={item.id} className="flex flex-col items-center">
                 {(item.statIcon?.jsonValue?.value?.src || isEditing) && (
                   <div className="h-12 w-auto overflow-hidden opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={item.statIcon?.jsonValue}
                       className="h-full w-auto object-contain"
                     />

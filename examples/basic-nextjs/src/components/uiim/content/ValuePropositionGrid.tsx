@@ -3,13 +3,13 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface ValuePropositionItemFields {
   id: string;
@@ -94,7 +94,7 @@ export const Default = ({ fields, params, page }: ValuePropositionGridProps): JS
               <div key={item.id} className="flex flex-col items-center text-center">
                 {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
                   <div className="mb-4 h-16 w-16 overflow-hidden">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={item.itemIcon?.jsonValue}
                       className="h-full w-full object-contain"
                     />
@@ -154,7 +154,7 @@ export const TwoColumn = ({ fields, params, page }: ValuePropositionGridProps): 
               <div key={item.id} className="flex flex-col items-center text-center">
                 {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
                   <div className="mb-5 h-20 w-20 overflow-hidden">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={item.itemIcon?.jsonValue}
                       className="h-full w-full object-contain"
                     />
@@ -214,7 +214,7 @@ export const FourColumn = ({ fields, params, page }: ValuePropositionGridProps):
               <div key={item.id} className="flex flex-col items-center text-center">
                 {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
                   <div className="mb-3 h-12 w-12 overflow-hidden">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={item.itemIcon?.jsonValue}
                       className="h-full w-full object-contain"
                     />
@@ -267,7 +267,7 @@ export const Horizontal = ({ fields, params, page }: ValuePropositionGridProps):
               <div key={item.id} className="flex items-start gap-5">
                 {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
                   <div className="h-14 w-14 shrink-0 overflow-hidden">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={item.itemIcon?.jsonValue}
                       className="h-full w-full object-contain"
                     />

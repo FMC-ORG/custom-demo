@@ -1,11 +1,11 @@
 import React, { JSX } from 'react';
 import {
   ImageField,
-  NextImage as ContentSdkImage,
 } from '@sitecore-content-sdk/nextjs';
 import Link from 'next/link';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 type SiteFooterProps = ComponentProps & {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,7 +60,7 @@ const Logo = ({ brandLogo }: { brandLogo?: ImageField }) => {
       style={{ color: 'var(--brand-footer-fg, #ffffff)' }}
     >
       {hasImage ? (
-        <ContentSdkImage
+        <SmartMedia
           field={brandLogo}
           className="h-8 w-auto object-contain brightness-0 invert sm:h-10"
         />
@@ -243,7 +243,7 @@ export const WorldpayMegaFooter = (props: SiteFooterProps): JSX.Element => {
             <div className="flex items-center gap-6">
               <Link href="/" className="flex items-center">
                 {brandLogo?.value?.src ? (
-                  <ContentSdkImage
+                  <SmartMedia
                     field={brandLogo}
                     className="h-7 w-auto object-contain brightness-0 invert"
                   />

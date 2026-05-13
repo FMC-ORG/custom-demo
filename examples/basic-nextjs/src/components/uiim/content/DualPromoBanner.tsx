@@ -5,13 +5,13 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface DualPromoBlockFields {
   id: string;
@@ -65,7 +65,7 @@ export const Default = ({ fields, params, page }: DualPromoBannerProps): JSX.Ele
             {/* Left — Promo image */}
             <div className="overflow-hidden rounded-2xl">
               {(datasource.promoImage?.jsonValue?.value?.src || isEditing) && (
-                <ContentSdkImage
+                <SmartMedia
                   field={datasource.promoImage?.jsonValue}
                   className="h-full w-full object-cover"
                 />

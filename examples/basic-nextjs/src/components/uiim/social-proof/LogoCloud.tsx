@@ -3,12 +3,12 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface LogoItemFields {
   id: string;
@@ -104,7 +104,7 @@ export const Default = ({ fields, params, page }: LogoCloudProps): JSX.Element =
             {items.map((item) => (
               <LogoWrapper key={item.id} item={item} isEditing={isEditing}>
                 {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage
+                  <SmartMedia
                     field={item.logoImage?.jsonValue}
                     className="h-10 max-w-[140px] object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
                   />
@@ -140,7 +140,7 @@ export const Grid = ({ fields, params, page }: LogoCloudProps): JSX.Element => {
             {items.map((item) => (
               <LogoWrapper key={item.id} item={item} isEditing={isEditing}>
                 {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage
+                  <SmartMedia
                     field={item.logoImage?.jsonValue}
                     className="h-10 max-w-[140px] object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
                   />
@@ -177,7 +177,7 @@ export const WithLabels = ({ fields, params, page }: LogoCloudProps): JSX.Elemen
               <div key={item.id} className="flex flex-col items-center gap-2">
                 <LogoWrapper item={item} isEditing={isEditing}>
                   {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
-                    <ContentSdkImage
+                    <SmartMedia
                       field={item.logoImage?.jsonValue}
                       className="h-10 max-w-[140px] object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
                     />
@@ -221,7 +221,7 @@ export const WorldpayLogoStrip = ({ fields, params, page }: LogoCloudProps): JSX
           {items.map((item) => (
             <LogoWrapper key={item.id} item={item} isEditing={isEditing}>
               {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
-                <ContentSdkImage
+                <SmartMedia
                   field={item.logoImage?.jsonValue}
                   className="h-7 max-w-[120px] object-contain opacity-70 transition-opacity hover:opacity-100 sm:h-8"
                 />

@@ -5,13 +5,13 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import Link from 'next/link';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface NavigationLinkFields {
   id: string;
@@ -61,7 +61,7 @@ const Logo = ({
       style={{ color: 'var(--brand-header-fg, inherit)' }}
     >
       {hasImage ? (
-        <ContentSdkImage
+        <SmartMedia
           field={brandLogo}
           className="h-8 w-auto object-contain sm:h-10"
         />
@@ -343,7 +343,7 @@ export const WorldpayMegaNav = ({ fields, params, page }: NavigationHeaderProps)
           {/* Left — Logo */}
           <Link href="/" className="flex items-center">
             {brandLogo?.value?.src ? (
-              <ContentSdkImage
+              <SmartMedia
                 field={brandLogo}
                 className="h-7 w-auto object-contain sm:h-8"
               />

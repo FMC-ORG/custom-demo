@@ -2,12 +2,12 @@ import React, { JSX } from 'react';
 import {
   Field,
   ImageField,
-  NextImage as ContentSdkImage,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface TestimonialItemFields {
   id: string;
@@ -65,7 +65,7 @@ const AuthorAttribution = ({
 }) => (
   <div className={cn('flex items-center', size === 'lg' ? 'gap-4' : 'gap-3')}>
     {(item.authorImage?.jsonValue?.value?.src || isEditing) && (
-      <ContentSdkImage
+      <SmartMedia
         field={item.authorImage?.jsonValue}
         className={cn(
           'rounded-full object-cover',
@@ -138,7 +138,7 @@ export const Default = ({ fields, params, page }: TestimonialBlockProps): JSX.El
               </div>
               {(item.companyLogo?.jsonValue?.value?.src || isEditing) && (
                 <div className="mt-4 flex justify-center">
-                  <ContentSdkImage
+                  <SmartMedia
                     field={item.companyLogo?.jsonValue}
                     className="h-8 max-w-[120px] object-contain opacity-60"
                   />
@@ -255,7 +255,7 @@ export const Grid = ({ fields, params, page }: TestimonialBlockProps): JSX.Eleme
                 </div>
                 {(item.companyLogo?.jsonValue?.value?.src || isEditing) && (
                   <div className="mt-3">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={item.companyLogo?.jsonValue}
                       className="h-6 max-w-[100px] object-contain opacity-50"
                     />
@@ -300,7 +300,7 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
             <div className="flex flex-col items-center gap-8 md:flex-row md:items-start">
               {(item.authorImage?.jsonValue?.value?.src || isEditing) && (
                 <div className="shrink-0">
-                  <ContentSdkImage
+                  <SmartMedia
                     field={item.authorImage?.jsonValue}
                     className="h-32 w-32 rounded-full object-cover shadow-md"
                   />
@@ -320,7 +320,7 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
                 </div>
                 {(item.companyLogo?.jsonValue?.value?.src || isEditing) && (
                   <div className="mt-4">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={item.companyLogo?.jsonValue}
                       className="h-8 max-w-[120px] object-contain opacity-60"
                     />

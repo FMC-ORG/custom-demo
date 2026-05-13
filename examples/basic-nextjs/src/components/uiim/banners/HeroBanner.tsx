@@ -3,13 +3,13 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface HeroBannerFields {
   Title: Field<string>;
@@ -149,7 +149,7 @@ export const SplitImageText = ({ fields, params, page }: HeroBannerProps): JSX.E
           </div>
           <div className="overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
             {(fields.HeroImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SmartMedia
                 field={fields.HeroImage}
                 className="h-full w-full object-cover"
               />
@@ -176,7 +176,7 @@ export const BackgroundImage = ({ fields, params, page }: HeroBannerProps): JSX.
         {/* Background image */}
         {(fields.HeroImage?.value?.src || isEditing) && (
           <div className="absolute inset-0">
-            <ContentSdkImage
+            <SmartMedia
               field={fields.HeroImage}
               className="h-full w-full object-cover"
             />
@@ -226,7 +226,7 @@ export const VideoBackground = ({ fields, params, page }: HeroBannerProps): JSX.
         {/* Poster / background image */}
         {(fields.HeroImage?.value?.src || isEditing) && (
           <div className="absolute inset-0">
-            <ContentSdkImage
+            <SmartMedia
               field={fields.HeroImage}
               className="h-full w-full object-cover"
             />
@@ -374,7 +374,7 @@ export const WorldpaySplitHero = ({ fields, params, page }: HeroBannerProps): JS
             <div className="absolute -right-8 -top-8 bottom-8 left-8 rounded-3xl bg-gradient-to-br from-[#E8E0FF] to-[#F8F7FC]" />
             <div className="relative overflow-hidden rounded-2xl">
               {(fields.HeroImage?.value?.src || isEditing) && (
-                <ContentSdkImage
+                <SmartMedia
                   field={fields.HeroImage}
                   className="h-full w-full object-cover"
                 />
@@ -423,7 +423,7 @@ export const WorldpayArticleHero = ({ fields, params, page }: HeroBannerProps): 
       {(fields.HeroImage?.value?.src || isEditing) && (
         <div className="mx-auto -mt-2 max-w-5xl px-6 pb-12">
           <div className="overflow-hidden rounded-2xl">
-            <ContentSdkImage
+            <SmartMedia
               field={fields.HeroImage}
               className="h-auto w-full object-cover"
             />

@@ -5,13 +5,13 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface FeatureCardItemFields {
   id: string;
@@ -103,7 +103,7 @@ export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.El
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
                   <div className="mb-4 h-12 w-12 overflow-hidden">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={card.cardImage?.jsonValue}
                       className="h-full w-full object-contain"
                     />
@@ -170,7 +170,7 @@ export const TwoColumn = ({ fields, params, page }: FeatureCardsGridProps): JSX.
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
                   <div className="mb-5 h-14 w-14 overflow-hidden">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={card.cardImage?.jsonValue}
                       className="h-full w-full object-contain"
                     />
@@ -236,7 +236,7 @@ export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage
+                  <SmartMedia
                     field={card.cardImage?.jsonValue}
                     className="h-48 w-full object-cover"
                   />
@@ -335,7 +335,7 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
                       {/* Card image — tall portrait ratio */}
                       {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
                         <div className="relative aspect-[3/4] overflow-hidden">
-                          <ContentSdkImage
+                          <SmartMedia
                             field={card.cardImage?.jsonValue}
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
@@ -585,7 +585,7 @@ export const WorldpayFeatureCarousel = ({ fields, params, page }: FeatureCardsGr
                     </div>
                     <div className="overflow-hidden rounded-2xl">
                       {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                        <ContentSdkImage
+                        <SmartMedia
                           field={card.cardImage?.jsonValue}
                           className="h-full w-full object-cover"
                         />
@@ -629,7 +629,7 @@ export const WorldpayJourneyCards = ({ fields, params, page }: FeatureCardsGridP
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
                   <div className="overflow-hidden rounded-t-2xl">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={card.cardImage?.jsonValue}
                       className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
@@ -687,7 +687,7 @@ export const WorldpayStoryCards = ({ fields, params, page }: FeatureCardsGridPro
               <div key={card.id} className="flex flex-col">
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
                   <div className="overflow-hidden rounded-2xl">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={card.cardImage?.jsonValue}
                       className="aspect-[4/3] w-full object-cover"
                     />
@@ -753,7 +753,7 @@ export const WorldpayInsightCards = ({ fields, params, page }: FeatureCardsGridP
               <div key={card.id} className="flex flex-col">
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
                   <div className="overflow-hidden rounded-2xl">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={card.cardImage?.jsonValue}
                       className="aspect-[4/3] w-full object-cover"
                     />

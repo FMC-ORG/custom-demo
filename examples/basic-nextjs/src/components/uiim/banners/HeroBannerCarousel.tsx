@@ -5,13 +5,13 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface HeroBannerCarouselSlideFields {
   id: string;
@@ -134,7 +134,7 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
               {/* Background image */}
               {(slide.slideImage?.jsonValue?.value?.src || isEditing) && (
                 <div className="absolute inset-0">
-                  <ContentSdkImage
+                  <SmartMedia
                     field={slide.slideImage?.jsonValue}
                     className="h-full w-full object-cover"
                   />
@@ -247,7 +247,7 @@ export const WithThumbnails = ({ fields, params, page }: HeroBannerCarouselProps
               >
                 {(slide.slideImage?.jsonValue?.value?.src || isEditing) && (
                   <div className="absolute inset-0">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={slide.slideImage?.jsonValue}
                       className="h-full w-full object-cover"
                     />
@@ -300,7 +300,7 @@ export const WithThumbnails = ({ fields, params, page }: HeroBannerCarouselProps
                 aria-label={`Go to slide ${i + 1}`}
               >
                 {slide.slideImage?.jsonValue?.value?.src && (
-                  <ContentSdkImage
+                  <SmartMedia
                     field={slide.slideImage?.jsonValue}
                     className="h-full w-full object-cover"
                   />

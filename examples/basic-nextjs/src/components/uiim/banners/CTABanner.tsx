@@ -3,13 +3,13 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface CTABannerFields {
   Title: Field<string>;
@@ -112,7 +112,7 @@ export const WithImage = ({ fields, params, page }: CTABannerProps): JSX.Element
       <section className="relative w-full overflow-hidden">
         {(fields.BackgroundImage?.value?.src || isEditing) && (
           <div className="absolute inset-0">
-            <ContentSdkImage
+            <SmartMedia
               field={fields.BackgroundImage}
               className="h-full w-full object-cover"
             />
@@ -252,33 +252,14 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
    ════════════════════════════════════════════ */
 
 /* ────────────────────────────────────────────
-   Helper — detect if a Sitecore Image field holds a video asset
-   Checks dam-content-type attribute and src URL extension
-   ──────────────────────────────────────────── */
-const isVideoAsset = (field: ImageField | undefined): boolean => {
-  if (!field?.value) return false;
-  const val = field.value as Record<string, unknown>;
-  // Check Content Hub dam-content-type attribute
-  const damType = (val['dam-content-type'] as string) || '';
-  if (damType.toLowerCase() === 'video') return true;
-  // Fallback: check src URL extension
-  const src = (val.src as string) || '';
-  return /\.(mp4|webm|mov|ogg)(\?|$)/i.test(src);
-};
-
-/* ────────────────────────────────────────────
    WorldpayDarkCTA — "What's your big dream?"
    Light purple bg, text left, video/image right
-   BackgroundImage auto-detects video vs image from Content Hub
+   BackgroundImage auto-detects video vs image via SmartMedia
    ──────────────────────────────────────────── */
 export const WorldpayDarkCTA = ({ fields, params, page }: CTABannerProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <CTABannerDefaultComponent />;
-
-  const hasMedia = fields.BackgroundImage?.value?.src || isEditing;
-  const isVideo = isVideoAsset(fields.BackgroundImage);
-  const mediaSrc = (fields.BackgroundImage?.value?.src as string) || '';
 
   return (
     <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
@@ -302,23 +283,12 @@ export const WorldpayDarkCTA = ({ fields, params, page }: CTABannerProps): JSX.E
           </div>
 
           {/* Right — Video or Image */}
-          {hasMedia && (
+          {(fields.BackgroundImage?.value?.src || isEditing) && (
             <div className="overflow-hidden rounded-2xl shadow-lg">
-              {isVideo ? (
-                <video
-                  src={mediaSrc}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <ContentSdkImage
-                  field={fields.BackgroundImage}
-                  className="h-full w-full object-cover"
-                />
-              )}
+              <SmartMedia
+                field={fields.BackgroundImage}
+                className="h-full w-full object-cover"
+              />
             </div>
           )}
         </div>
@@ -368,7 +338,7 @@ export const WorldpayHelpCTA = ({ fields, params, page }: CTABannerProps): JSX.E
           {/* Right — Mascot/image */}
           <div className="flex justify-center md:justify-end">
             {(fields.BackgroundImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SmartMedia
                 field={fields.BackgroundImage}
                 className="h-auto max-h-[400px] w-auto object-contain"
               />

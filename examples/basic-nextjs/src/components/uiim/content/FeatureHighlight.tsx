@@ -3,13 +3,13 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface FeatureHighlightFields {
   EyebrowText: Field<string>;
@@ -93,7 +93,7 @@ export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.El
           </div>
           <div className="overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
             {(fields.FeatureImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SmartMedia
                 field={fields.FeatureImage}
                 className="h-full w-full object-cover"
               />
@@ -141,7 +141,7 @@ export const Centered = ({ fields, params, page }: FeatureHighlightProps): JSX.E
           </div>
           {(fields.FeatureImage?.value?.src || isEditing) && (
             <div className="mt-10 overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
-              <ContentSdkImage
+              <SmartMedia
                 field={fields.FeatureImage}
                 className="w-full object-cover"
               />
@@ -189,7 +189,7 @@ export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.
           </div>
           <div className="relative overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
             {(fields.FeatureImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SmartMedia
                 field={fields.FeatureImage}
                 className="h-full w-full object-cover"
               />
@@ -233,7 +233,7 @@ export const WorldpayPromoCard = ({ fields, params, page }: FeatureHighlightProp
       <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
         {(fields.FeatureImage?.value?.src || isEditing) && (
           <div className="aspect-[4/3] overflow-hidden">
-            <ContentSdkImage
+            <SmartMedia
               field={fields.FeatureImage}
               className="h-full w-full object-cover"
             />
@@ -279,7 +279,7 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
         <div className="mx-auto flex max-w-4xl items-start gap-6 md:px-6">
           {(fields.FeatureImage?.value?.src || isEditing) && (
             <div className="h-16 w-16 shrink-0 overflow-hidden">
-              <ContentSdkImage
+              <SmartMedia
                 field={fields.FeatureImage}
                 className="h-full w-full object-contain"
               />

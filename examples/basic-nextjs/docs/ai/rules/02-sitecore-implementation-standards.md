@@ -119,8 +119,8 @@ Every component must use **named exports**, not `export default`:
 
 ### Context-only
 Use:
-- `useSitecoreContext()`
-- `sitecoreContext.route?.fields`
+- `useSitecore()` (SDK 2.0 — replaces the removed `useSitecoreContext()`)
+- `page?.layout?.sitecore?.route?.fields` (or access `page` from `ComponentProps`)
 
 ### Simple datasource
 Use top-level fields:

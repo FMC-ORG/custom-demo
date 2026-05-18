@@ -25,9 +25,9 @@ Route fields:
 - create the React component under:  
   - `src/components/uiim/page/page-hero.tsx`  
 - React should use Tailwind + shadcn/ui  
-- React should use:  
-  - `useSitecoreContext()`  
-  - `sitecoreContext.route?.fields`  
+- React should use:
+  - `useSitecore()` (SDK 2.0)
+  - `page?.layout?.sitecore?.route?.fields` (or `page` from `ComponentProps`)  
 - use Sitecore JSS helpers for editable route fields  
 - update the component map  
 - if the route fields do not already exist, ask before changing the page template  

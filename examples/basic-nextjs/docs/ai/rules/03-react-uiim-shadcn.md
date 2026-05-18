@@ -93,8 +93,8 @@ Before importing `@/components/ui/*`, verify that `src/components/ui/` exists. I
 
 ### Context-only components
 Use:
-- `useSitecoreContext()`
-- `sitecoreContext.route?.fields`
+- `useSitecore()` (SDK 2.0 — replaces the removed `useSitecoreContext()`)
+- `page?.layout?.sitecore?.route?.fields` (or access `page` from `ComponentProps`)
 
 ### Simple datasource components
 Use top-level field access, for example:

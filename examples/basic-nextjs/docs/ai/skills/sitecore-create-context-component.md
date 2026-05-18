@@ -179,7 +179,7 @@ After create/update, verify:
 - Use Tailwind CSS
 - Use shadcn/ui primitives from `@/components/ui/*`
 - Always import from `@sitecore-content-sdk/nextjs`
-- Use `useSitecoreContext()` and access `sitecoreContext.route?.fields`
+- Use `useSitecore()` (SDK 2.0 — replaces the removed `useSitecoreContext()`) and access route fields via `page?.layout?.sitecore?.route?.fields` or the `page` prop from `ComponentProps`
 - **All** Sitecore-managed fields must use SDK editable helpers (`Text`, `RichText`, `NextImage as ContentSdkImage`, `Link as ContentSdkLink`) — never use plain `<img>`, `<a>`, or hardcoded text for authorable fields
 - Handle missing route fields safely with optional chaining
 
@@ -248,7 +248,7 @@ Do not silently downgrade unverified Sitecore work to "manual setup required" wi
 - [ ] No datasource template, folder, or `ComponentQuery` created
 - [ ] Rendering does not require datasource
 - [ ] `Datasource Template`, `Datasource Location`, `ComponentQuery` all empty
-- [ ] TSX uses `useSitecoreContext()` + `sitecoreContext.route?.fields`
+- [ ] TSX uses `useSitecore()` + `page?.layout?.sitecore?.route?.fields` (or `page` from `ComponentProps`)
 - [ ] If page template changed, `__Standard Values` created
 
 **Shared checks** — see `docs/ai/skills/shared/verification-checklist.md`

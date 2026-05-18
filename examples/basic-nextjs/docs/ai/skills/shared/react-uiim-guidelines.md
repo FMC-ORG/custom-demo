@@ -100,7 +100,7 @@ const isEditing = page?.mode?.isEditing;
 )}
 ```
 
-`page` is already available on `ComponentProps` — no `useSitecoreContext` hook required.  
+`page` is already available on `ComponentProps` — no `useSitecore` hook required.  
   
 ## Utility imports  
 If available in the repo, use:  
@@ -170,10 +170,10 @@ Use GraphQL datasource shape:
 - child items: `fields.data.datasource.children.results`  
 - field values via `.jsonValue`  
   
-### Context-only component  
-Use route context when confirmed:  
-- `useSitecoreContext()`  
-- `sitecoreContext.route?.fields`  
+### Context-only component
+Use route context when confirmed:
+- `useSitecore()` (SDK 2.0 — replaces the removed `useSitecoreContext()`)
+- `page?.layout?.sitecore?.route?.fields` (or access `page` from `ComponentProps`)  
   
 ## Named exports and variants
 

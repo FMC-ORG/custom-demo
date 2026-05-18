@@ -94,7 +94,7 @@ If the user asks for an approval gate, stop after the plan and wait.
 ### If the component should be context-only
 - remove `ComponentQuery` from the rendering
 - disable datasource requirement if appropriate
-- update TSX to use `useSitecoreContext()` and `sitecoreContext.route?.fields`
+- update TSX to use `useSitecore()` and access route fields via `page?.layout?.sitecore?.route?.fields` (or `page` from `ComponentProps`)
 - verify rendering via MCP after update
 
 ### If the component should be list

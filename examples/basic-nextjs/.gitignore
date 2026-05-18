@@ -1,5 +1,9 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+# Playwright screenshots (visual comparison)
+/.screenshots/
+/.playwright-mcp/
+
 # dependencies
 /node_modules
 

@@ -323,7 +323,9 @@ export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element 
    ════════════════════════════════════════════ */
 
 /* ────────────────────────────────────────────
-   WorldpayMegaNav — Worldpay navigation with utility bar and pill CTA
+   WorldpayMegaNav — Worldpay navigation with dark utility bar and pill CTA
+   Top: dark navy utility bar (United States, Careers, Sign In)
+   Bottom: white main nav (logo, links, search, red Contact us CTA)
    ──────────────────────────────────────────── */
 export const WorldpayMegaNav = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
@@ -338,6 +340,20 @@ export const WorldpayMegaNav = ({ fields, params, page }: NavigationHeaderProps)
 
   return (
     <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      {/* Utility bar — dark navy */}
+      <div style={{ backgroundColor: '#0C0033' }}>
+        <div className="mx-auto flex max-w-7xl items-center justify-end gap-5 px-6 py-2 text-xs text-white/80">
+          <button type="button" className="flex items-center gap-1.5 transition-opacity hover:text-white">
+            <span className="text-base leading-none">🇺🇸</span>
+            <span>United States (English)</span>
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M2 4l3 3 3-3z"/></svg>
+          </button>
+          <a href="/en/careers" className="transition-opacity hover:text-white">Careers</a>
+          <a href="/en/sign-in" className="transition-opacity hover:text-white">Sign in</a>
+        </div>
+      </div>
+
+      {/* Main nav — white */}
       <header className="w-full border-b border-gray-100 bg-white shadow-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
           {/* Left — Logo */}
@@ -350,6 +366,7 @@ export const WorldpayMegaNav = ({ fields, params, page }: NavigationHeaderProps)
             ) : (
               <span className="text-xl font-bold" style={{ color: '#00237D' }}>
                 <span style={{ color: '#E02020' }}>world</span>pay
+                <span className="ml-1 text-[10px] font-normal text-gray-500">is now global<b>payments</b></span>
               </span>
             )}
           </Link>
@@ -370,19 +387,18 @@ export const WorldpayMegaNav = ({ fields, params, page }: NavigationHeaderProps)
             ))}
           </nav>
 
-          {/* Right — Utility links + CTA */}
+          {/* Right — Search + CTA */}
           <div className="flex items-center gap-4">
-            <div className="hidden items-center gap-3 text-sm md:flex">
-              <button type="button" aria-label="Search" className="p-1 text-[#00237D] transition-opacity hover:opacity-70">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-              </button>
-            </div>
+            <button type="button" aria-label="Search" className="hidden p-1 text-[#00237D] transition-opacity hover:opacity-70 md:block">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </button>
             {(datasource.ctaLink?.jsonValue?.value?.href || isEditing) && (
               <ContentSdkLink
                 field={datasource.ctaLink?.jsonValue}
-                className="hidden rounded-full bg-[#00237D] px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#001A5C] md:inline-flex"
+                className="hidden rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-colors md:inline-flex"
+                style={{ backgroundColor: '#E02020' }}
               >
                 {datasource.ctaLabel?.jsonValue?.value && (
                   <Text field={datasource.ctaLabel?.jsonValue} />

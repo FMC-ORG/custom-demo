@@ -45,5 +45,21 @@ export const SmartMedia = ({ field, className, isEditing }: SmartMediaProps): JS
     );
   }
 
+  // Next.js Image requires width+height. If missing (e.g. manually set Content Hub images
+  // without dimensions in the XML), fall back to a plain <img> to avoid runtime crashes.
+  const val = field?.value as Record<string, unknown> | undefined;
+  const hasSize = val?.width && val?.height;
+
+  if (hasSrc && !hasSize) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={val?.src as string}
+        alt={(val?.alt as string) || ''}
+        className={className}
+      />
+    );
+  }
+
   return <ContentSdkImage field={field} className={className} />;
 };

@@ -2272,7 +2272,7 @@ pageTemplates:
     templates:
       pageTemplate:
         name: "Article Page"
-        path: "/sitecore/templates/Project/fmc-custom-demo/Page Types/Article Page"
+        path: "/sitecore/templates/Project/main/Page Types/Article Page"
         itemId: "{74360ad2-d3df-4fce-834c-2f5420488677}"
         sectionName: "Article Data"
         sectionId: "{522fdf75-94d9-4aa8-882b-cbe30fe54efb}"
@@ -2324,6 +2324,7 @@ pageTemplates:
 
     notes:
       - "2026-05-18: Created Article Page template (Issue #10). Inherits from Page template. Insert options on Articles parent set via __Masters (silent-write)."
+      - "2026-05-18: Template moved from /sitecore/templates/Project/fmc-custom-demo/Page Types to /sitecore/templates/Project/main/Page Types per project conventions."
       - "2026-05-18: Created Article Layout partial design + Article page design (Issue #15). Components placed in headless-main. Page Design and Partial Design association via MCP (silent-write) — verify linkage in Content Editor."
 
 lookups:
@@ -2425,10 +2426,10 @@ lookups:
   - path: "/sitecore/content/main/main-website/Data/People"
     itemId: "{b4a7e448-2620-458e-9108-e6123c433660}"
     lastReadAt: "2026-05-18T12:00:00Z"
-  - path: "/sitecore/templates/Project/fmc-custom-demo/Page Types"
+  - path: "/sitecore/templates/Project/main/Page Types"
     itemId: "{e7769708-59a5-4636-a9ea-c02245185e61}"
     lastReadAt: "2026-05-18T12:00:00Z"
-  - path: "/sitecore/templates/Project/fmc-custom-demo/Page Types/Article Page"
+  - path: "/sitecore/templates/Project/main/Page Types/Article Page"
     itemId: "{74360ad2-d3df-4fce-834c-2f5420488677}"
     lastReadAt: "2026-05-18T12:00:00Z"
   - path: "/sitecore/content/main/main-website/Home/Articles"

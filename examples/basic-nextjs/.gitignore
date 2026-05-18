@@ -20,6 +20,9 @@ docs/ai/config/credentials.local.yaml
 docs/ai/demos/*/
 docs/ai/themes/*/
 
+# Content SDK reference clone (used by coding agents, not project code)
+content-sdk/
+
 # Log files
 *.log*
 

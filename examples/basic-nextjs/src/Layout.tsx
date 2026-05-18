@@ -17,9 +17,9 @@ interface LayoutProps {
 }
 
 export interface PersonFields {
-  personFirstName?: Field;
-  personLastName?: Field;
-  personJobTitle?: Field;
+  personFirstName?: Field<string>;
+  personLastName?: Field<string>;
+  personJobTitle?: Field<string>;
   personProfileImage?: ImageField;
   personBio?: RichTextField;
   personLinkedIn?: LinkField;

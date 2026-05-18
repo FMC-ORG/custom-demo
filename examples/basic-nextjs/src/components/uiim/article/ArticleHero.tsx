@@ -1,0 +1,331 @@
+'use client';
+
+import React, { JSX, useState } from 'react';
+import {
+  Field,
+  ImageField,
+  Text,
+  NextImage as ContentSdkImage,
+  DateField,
+} from '@sitecore-content-sdk/nextjs';
+import { ComponentProps } from 'lib/component-props';
+import { cn } from '@/lib/utils';
+import { PersonReference } from 'src/Layout';
+
+interface ArticleHeroRouteFields {
+  Title?: Field<string>;
+  ArticleImage?: ImageField;
+  ArticleAuthor?: PersonReference;
+  ArticlePublicationDate?: Field<string>;
+  ArticleReadTime?: Field<string>;
+}
+
+const ArticleHeroDefaultComponent = (): JSX.Element => (
+  <div className="component article-hero">
+    <div className="component-content">
+      <span className="is-empty-hint">ArticleHero</span>
+    </div>
+  </div>
+);
+
+function getRouteFields(page: ComponentProps['page']): ArticleHeroRouteFields | null {
+  const fields = page?.layout?.sitecore?.route?.fields;
+  return fields ? (fields as unknown as ArticleHeroRouteFields) : null;
+}
+
+function ShareButtons() {
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = (platform: string) => {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(document.title);
+    let shareUrl = '';
+
+    switch (platform) {
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+        break;
+      case 'linkedin':
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+        break;
+      case 'email':
+        window.location.href = `mailto:?subject=${title}&body=${url}`;
+        return;
+      case 'copy':
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        });
+        return;
+    }
+    window.open(shareUrl, '_blank', 'width=600,height=400');
+  };
+
+  return (
+    <div className="flex items-center gap-3" data-testid="share-buttons">
+      <span className="text-sm font-medium opacity-70">Share</span>
+      {['facebook', 'twitter', 'linkedin', 'email'].map((platform) => (
+        <button
+          key={platform}
+          onClick={() => handleShare(platform)}
+          className="rounded-full p-2 transition-colors hover:bg-white/10"
+          aria-label={`Share on ${platform}`}
+          data-testid={`share-${platform}`}
+        >
+          <span className="text-sm capitalize">{platform}</span>
+        </button>
+      ))}
+      <button
+        onClick={() => handleShare('copy')}
+        className="rounded-full p-2 transition-colors hover:bg-white/10"
+        aria-label={copied ? 'Link copied' : 'Copy link'}
+        data-testid="share-copy"
+      >
+        <span className="text-sm">{copied ? 'Copied!' : 'Copy'}</span>
+      </button>
+    </div>
+  );
+}
+
+function AuthorMeta({
+  author,
+  isEditing,
+}: {
+  author?: PersonReference;
+  isEditing?: boolean;
+}) {
+  if (!author?.fields && !isEditing) return null;
+  const fields = author?.fields;
+
+  return (
+    <div className="flex items-center gap-3" data-testid="author-meta">
+      {fields?.personProfileImage?.value?.src && (
+        <div className="h-10 w-10 overflow-hidden rounded-full">
+          <ContentSdkImage
+            field={fields.personProfileImage}
+            className="h-full w-full object-cover"
+            width={40}
+            height={40}
+          />
+        </div>
+      )}
+      <div>
+        {(fields?.personFirstName?.value || fields?.personLastName?.value || isEditing) && (
+          <p className="text-sm font-medium" data-testid="author-name">
+            {fields?.personFirstName?.value} {fields?.personLastName?.value}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────
+   Default — full-bleed image with dark overlay, centered title
+   ──────────────────────────────────────────── */
+export const Default = ({ params, page }: ComponentProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const routeFields = getRouteFields(page);
+
+  if (!routeFields) return <ArticleHeroDefaultComponent />;
+
+  const { Title: title, ArticleImage, ArticleAuthor, ArticlePublicationDate, ArticleReadTime } =
+    routeFields;
+
+  return (
+    <div className={cn('component article-hero', styles)} id={RenderingIdentifier}>
+      <header className="relative overflow-hidden" data-testid="article-hero-header">
+        {/* Background image with overlay */}
+        <div className="relative min-h-[60vh] bg-gray-900">
+          {(ArticleImage?.value?.src || isEditing) && (
+            <div className="absolute inset-0 opacity-40">
+              <ContentSdkImage
+                field={ArticleImage}
+                className="h-full w-full object-cover"
+                fill
+                sizes="100vw"
+              />
+            </div>
+          )}
+
+          {/* Content overlay */}
+          <div className="relative z-10 flex min-h-[60vh] flex-col items-center justify-center px-4 py-20 text-center text-white">
+            {/* Title */}
+            {(title?.value || isEditing) && (
+              <Text
+                field={title}
+                tag="h1"
+                className="mx-auto max-w-4xl text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+                data-testid="article-title"
+              />
+            )}
+
+            {/* Metadata row */}
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-sm opacity-90">
+              <AuthorMeta author={ArticleAuthor} isEditing={isEditing} />
+              {(ArticlePublicationDate?.value || isEditing) && (
+                <time data-testid="article-date">
+                  <DateField
+                    field={ArticlePublicationDate}
+                    tag="span"
+                    render={(date) =>
+                      new Date(String(date)).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })
+                    }
+                  />
+                </time>
+              )}
+              {(ArticleReadTime?.value || isEditing) && (
+                <Text
+                  field={ArticleReadTime}
+                  tag="span"
+                  data-testid="article-read-time"
+                />
+              )}
+            </div>
+
+            {/* Share buttons */}
+            <div className="mt-8">
+              <ShareButtons />
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   Minimal — no image, clean background, large title
+   ──────────────────────────────────────────── */
+export const Minimal = ({ params, page }: ComponentProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const routeFields = getRouteFields(page);
+
+  if (!routeFields) return <ArticleHeroDefaultComponent />;
+
+  const { Title: title, ArticleAuthor, ArticlePublicationDate, ArticleReadTime } = routeFields;
+
+  return (
+    <div className={cn('component article-hero', styles)} id={RenderingIdentifier}>
+      <header className="bg-white" data-testid="article-hero-header">
+        <div className="mx-auto max-w-4xl px-4 py-16 md:py-24">
+          {(title?.value || isEditing) && (
+            <Text
+              field={title}
+              tag="h1"
+              className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
+              data-testid="article-title"
+            />
+          )}
+
+          <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-gray-600">
+            <AuthorMeta author={ArticleAuthor} isEditing={isEditing} />
+            {(ArticlePublicationDate?.value || isEditing) && (
+              <time data-testid="article-date">
+                <DateField
+                  field={ArticlePublicationDate}
+                  tag="span"
+                  render={(date) =>
+                    new Date(String(date)).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })
+                  }
+                />
+              </time>
+            )}
+            {(ArticleReadTime?.value || isEditing) && (
+              <Text field={ArticleReadTime} tag="span" data-testid="article-read-time" />
+            )}
+          </div>
+
+          <div className="mt-6">
+            <ShareButtons />
+          </div>
+        </div>
+      </header>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   SplitImage — two-column: image right, title + metadata left
+   ──────────────────────────────────────────── */
+export const SplitImage = ({ params, page }: ComponentProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const routeFields = getRouteFields(page);
+
+  if (!routeFields) return <ArticleHeroDefaultComponent />;
+
+  const { Title: title, ArticleImage, ArticleAuthor, ArticlePublicationDate, ArticleReadTime } =
+    routeFields;
+
+  return (
+    <div className={cn('component article-hero', styles)} id={RenderingIdentifier}>
+      <header data-testid="article-hero-header">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-2 md:py-20">
+          {/* Left column — text */}
+          <div className="flex flex-col justify-center">
+            {(title?.value || isEditing) && (
+              <Text
+                field={title}
+                tag="h1"
+                className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl"
+                data-testid="article-title"
+              />
+            )}
+
+            <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-gray-600">
+              <AuthorMeta author={ArticleAuthor} isEditing={isEditing} />
+              {(ArticlePublicationDate?.value || isEditing) && (
+                <time data-testid="article-date">
+                  <DateField
+                    field={ArticlePublicationDate}
+                    tag="span"
+                    render={(date) =>
+                      new Date(String(date)).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })
+                    }
+                  />
+                </time>
+              )}
+              {(ArticleReadTime?.value || isEditing) && (
+                <Text field={ArticleReadTime} tag="span" data-testid="article-read-time" />
+              )}
+            </div>
+
+            <div className="mt-8">
+              <ShareButtons />
+            </div>
+          </div>
+
+          {/* Right column — image */}
+          {(ArticleImage?.value?.src || isEditing) && (
+            <div className="aspect-[4/3] overflow-hidden rounded-lg" data-testid="split-image">
+              <ContentSdkImage
+                field={ArticleImage}
+                className="h-full w-full object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+          )}
+        </div>
+      </header>
+    </div>
+  );
+};

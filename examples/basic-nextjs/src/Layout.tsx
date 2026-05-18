@@ -16,8 +16,25 @@ interface LayoutProps {
   page: Page;
 }
 
+export interface PersonFields {
+  personFirstName?: Field;
+  personLastName?: Field;
+  personJobTitle?: Field;
+  personProfileImage?: ImageField;
+  personBio?: RichTextField;
+  personLinkedIn?: LinkField;
+}
+
+export interface PersonReference {
+  id?: string;
+  name?: string;
+  url?: string;
+  fields?: PersonFields;
+}
+
 export interface RouteFields {
   [key: string]: unknown;
+  // Standard page fields
   Title?: Field;
   MetaTitle?: Field;
   OpenGraphTitle?: Field;
@@ -28,14 +45,6 @@ export interface RouteFields {
   TwitterImage?: ImageField;
   Robots?: Field;
   CanonicalUrl?: LinkField;
-  Content?: RichTextField;
-  Expert?: Field;
-  MainImage?: ImageField;
-  Author?: Field;
-  PublicationDate?: Field;
-  Excerpt?: Field;
-  KeyTakeaways?: RichTextField;
-  ReadTime?: Field;
   BackgroundColor?: Field;
   metadataTitle?: Field;
   metadataKeywords?: Field;
@@ -46,6 +55,13 @@ export interface RouteFields {
   ogDescription?: Field;
   ogImage?: ImageField;
   thumbnailImage?: ImageField;
+  // Article Page fields
+  ArticleContent?: RichTextField;
+  ArticleImage?: ImageField;
+  ArticleAuthor?: PersonReference;
+  ArticlePublicationDate?: Field;
+  ArticleKeyTakeaways?: RichTextField;
+  ArticleReadTime?: Field;
 }
 
 const Layout = ({ page }: LayoutProps): JSX.Element => {

@@ -37,6 +37,18 @@ When the user asks to create, update, diagnose, or fix a Sitecore XM Cloud compo
 - a design shows two or more distinct layouts for the same component
 - an existing component needs a new named export / variant added
 
+### Use `sitecore-create-page-template` when
+- the user wants a new **page type** (route template) that inherits from an existing base template
+- the request involves creating a page template with custom fields (not a datasource component template)
+- the user says "create a page template", "new page type", "event template", "case study page"
+- a page-type orchestrator skill delegates template creation here
+
+### Use `sitecore-create-article-page` when
+- the user wants a complete **Article page type** with template, context components, variants, and partial design
+- the user says "create article page", "article template", "blog page type", "news page template"
+- the request involves editorial/blog/news content with a hero, body, author, and metadata
+- this is an orchestrator that calls `sitecore-create-page-template` + `sitecore-create-context-component` + `sitecore-add-variants`
+
 ### Use `sitecore-create-demo-variants` when
 - the demo builder pipeline reaches Phase 5.5
 - the user says "create custom variants", "match the screenshot exactly", "replicate the visual style", "pixel-perfect"
@@ -68,6 +80,8 @@ Do not jump directly into code or Sitecore item changes until the request has be
 - fix ComponentQuery
 - fix datasource picker
 - add variants
+- create page template
+- create article page (orchestrator)
 - create demo variants (pixel-perfect matching)
 
 ## Repo-first rule

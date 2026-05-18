@@ -1,0 +1,94 @@
+# Page Template Registry
+# Machine-readable index of page types and their associated context components.
+# Separate from component-registry.yaml which catalogs datasource-based homepage components.
+#
+# Used by page-type creation skills (sitecore-create-article-page, future page-type skills)
+# to understand what templates, fields, and components a page type requires.
+
+pageTemplates:
+
+  - id: article
+    name: "Article Page"
+    inheritsFrom: "base-page-template"  # resolved via MCP at implementation time
+    description: "Blog post, news article, or editorial content page"
+    templateSection: "Article Data"
+    fields:
+      - { name: "ArticleContent", type: "Rich Text", purpose: "article body text" }
+      - { name: "ArticleImage", type: "Image", purpose: "hero/featured image" }
+      - { name: "ArticleAuthor", type: "Droptree", purpose: "reference to Person item", source: "/sitecore/content/main/main-website/Data/People" }
+      - { name: "ArticlePublicationDate", type: "Date", purpose: "publication date" }
+      - { name: "ArticleKeyTakeaways", type: "Rich Text", purpose: "highlights or bullet summary" }
+      - { name: "ArticleReadTime", type: "Single-Line Text", purpose: "e.g. 5 min read" }
+    inheritedFieldsUsed:
+      - "Title"
+      - "pageSummary"
+      - "ogTitle"
+      - "ogDescription"
+      - "ogImage"
+      - "thumbnailImage"
+      - "metadataTitle"
+      - "metadataDescription"
+      - "metadataKeywords"
+
+    sharedDataTemplates:
+      - id: person
+        name: "Person"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Data/Person"
+        section: "Person Data"
+        fields:
+          - { name: "personFirstName", type: "Single-Line Text" }
+          - { name: "personLastName", type: "Single-Line Text" }
+          - { name: "personJobTitle", type: "Single-Line Text" }
+          - { name: "personProfileImage", type: "Image" }
+          - { name: "personBio", type: "Rich Text" }
+          - { name: "personLinkedIn", type: "General Link" }
+        dataFolder:
+          name: "People"
+          path: "/sitecore/content/main/main-website/Data/People"
+
+    contextComponents:
+      - id: article-hero
+        name: "ArticleHero"
+        category: "article"
+        filePath: "src/components/uiim/article/ArticleHero.tsx"
+        routeFieldsUsed:
+          - "ArticleImage"
+          - "Title"
+          - "ArticleAuthor"
+          - "ArticlePublicationDate"
+          - "ArticleReadTime"
+        variants:
+          - name: "Default"
+            description: "full-bleed image with dark overlay, centered title, metadata row, share buttons"
+          - name: "Minimal"
+            description: "no image, clean background, large title, metadata row"
+          - name: "SplitImage"
+            description: "two-column: image right, title + metadata left"
+
+      - id: article-body
+        name: "ArticleBody"
+        category: "article"
+        filePath: "src/components/uiim/article/ArticleBody.tsx"
+        routeFieldsUsed:
+          - "ArticleContent"
+          - "ArticleKeyTakeaways"
+          - "ArticleAuthor"
+        variants:
+          - name: "Default"
+            description: "narrow centered column, key takeaways callout above body, author bio card at bottom"
+          - name: "WithSidebar"
+            description: "two-column: body left (~65%), sticky sidebar right with takeaways + author bio"
+          - name: "Wide"
+            description: "full-width body, takeaways inline as highlighted section, author bio as full-width band"
+
+    partialDesign:
+      name: "Article Layout"
+      placeholder: "headless-main"
+      components: ["ArticleHero", "ArticleBody"]
+
+    contentTree:
+      parentPage:
+        name: "Articles"
+        path: "/Home/Articles"
+        template: "base-page-template"
+        insertOptions: ["Article Page"]

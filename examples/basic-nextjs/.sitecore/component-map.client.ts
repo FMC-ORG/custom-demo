@@ -11,6 +11,8 @@ import * as Navigation from 'src/components/basic/navigation/Navigation';
 import * as SitecoreStyles from 'src/components/basic/content-sdk/SitecoreStyles';
 import * as CdpPageView from 'src/components/basic/content-sdk/CdpPageView';
 import * as ContentBlock from 'src/components/basic/content-block/ContentBlock';
+import * as ArticleHero from 'src/components/uiim/article/ArticleHero';
+import * as ArticleBody from 'src/components/uiim/article/ArticleBody';
 
 export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCClientWrapper],
@@ -24,6 +26,8 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['SitecoreStyles', { ...SitecoreStyles }],
   ['CdpPageView', { ...CdpPageView }],
   ['ContentBlock', { ...ContentBlock }],
+  ['ArticleHero', { ...ArticleHero }],
+  ['ArticleBody', { ...ArticleBody }],
 ]);
 
 export default componentMap;

@@ -1,6 +1,6 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-04-29T20:30:00Z"
-lastUpdatedBy: "cursor-agent"
+lastUpdatedAt: "2026-05-18T12:00:00Z"
+lastUpdatedBy: "claude-agent"
 
 project:
   siteCollection: "main"
@@ -15,9 +15,9 @@ project:
 
 availableRenderings:
   itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
-  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}"
-  lastUpdatedAt: "2026-05-05T12:00:00Z"
-  renderingCount: 23
+  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}"
+  lastUpdatedAt: "2026-05-18T12:00:00Z"
+  renderingCount: 25
   warning: "MCP cannot read this field — value may be stale if modified outside this session"
 
 components:
@@ -2082,6 +2082,250 @@ components:
 
     notes: []
 
+  - name: "ArticleHero"
+    kind: "context-only"
+    category: "Article"
+    status: "complete"
+    createdAt: "2026-05-18T12:00:00Z"
+    updatedAt: "2026-05-18T12:00:00Z"
+    githubIssue: "#11"
+
+    react:
+      filePath: "src/components/uiim/article/ArticleHero.tsx"
+      componentMapKey: "ArticleHero"
+      variants:
+        - "Default"
+        - "Minimal"
+        - "SplitImage"
+
+    templates:
+      renderingParams:
+        name: "ArticleHero"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Article/ArticleHero"
+        itemId: "{04e653c6-cd34-4435-8a9f-2224164f1cc5}"
+        baseTemplatesSet: true
+
+    rendering:
+      name: "ArticleHero"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Article/ArticleHero"
+      itemId: "{83bd1231-a48f-4f54-a361-20904c69a641}"
+      componentName: "ArticleHero"
+      parametersTemplate: "{04E653C6-CD34-4435-8A9F-2224164F1CC5}"
+      datasourceRequired: false
+      registeredInAvailableRenderings: true
+
+    verification:
+      renderingExists: passed
+      componentNamePascalCase: passed
+      parametersTemplateIsGuid: passed
+      datasourceTemplateEmpty: passed
+      datasourceLocationEmpty: passed
+      componentQueryEmpty: passed
+      registeredInAvailableRenderings: passed
+      reactComponentExists: passed
+      componentMapUpdated: passed
+      testsCreated: passed
+
+    headlessVariants:
+      containerId: "{9894746a-f336-4856-bd1f-c1663374703c}"
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/ArticleHero"
+      definitions:
+        - { name: "Default", itemId: "{71d4165d-543e-4b4f-8c88-da9d8d395163}" }
+        - { name: "Minimal", itemId: "{fc567658-54d2-465e-80f4-85feb79c8598}" }
+        - { name: "SplitImage", itemId: "{f039eb26-e4f5-46b9-86dd-ca050ed2fbf2}" }
+
+    notes:
+      - "2026-05-18: Created ArticleHero context component (Issue #11). Default variant."
+      - "2026-05-18: Added Minimal + SplitImage variants (Issue #13). 3 Variant Definitions created."
+
+  - name: "ArticleBody"
+    kind: "context-only"
+    category: "Article"
+    status: "complete"
+    createdAt: "2026-05-18T12:00:00Z"
+    updatedAt: "2026-05-18T12:00:00Z"
+    githubIssue: "#12"
+
+    react:
+      filePath: "src/components/uiim/article/ArticleBody.tsx"
+      componentMapKey: "ArticleBody"
+      variants:
+        - "Default"
+        - "WithSidebar"
+        - "Wide"
+
+    templates:
+      renderingParams:
+        name: "ArticleBody"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Article/ArticleBody"
+        itemId: "{93d4326d-3525-45c4-bc6b-bc3b5d9c1e9a}"
+        baseTemplatesSet: true
+
+    rendering:
+      name: "ArticleBody"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Article/ArticleBody"
+      itemId: "{0e64edca-06dd-469a-b3d1-93d8700a8f41}"
+      componentName: "ArticleBody"
+      parametersTemplate: "{93D4326D-3525-45C4-BC6B-BC3B5D9C1E9A}"
+      datasourceRequired: false
+      registeredInAvailableRenderings: true
+
+    verification:
+      renderingExists: passed
+      componentNamePascalCase: passed
+      parametersTemplateIsGuid: passed
+      datasourceTemplateEmpty: passed
+      datasourceLocationEmpty: passed
+      componentQueryEmpty: passed
+      registeredInAvailableRenderings: passed
+      reactComponentExists: passed
+      componentMapUpdated: passed
+      testsCreated: passed
+
+    headlessVariants:
+      containerId: "{2e05330b-e438-4006-9096-165a2c36e425}"
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/ArticleBody"
+      definitions:
+        - { name: "Default", itemId: "{4ffc7bca-050e-4867-838d-f3bd19238f8c}" }
+        - { name: "WithSidebar", itemId: "{bae365fb-8958-4b03-b494-1beccfd5d897}" }
+        - { name: "Wide", itemId: "{fd852024-0d88-48a5-ba05-5783887456ef}" }
+
+    notes:
+      - "2026-05-18: Created ArticleBody context component (Issue #12). Default variant."
+      - "2026-05-18: Added WithSidebar + Wide variants (Issue #14). 3 Variant Definitions created."
+
+sharedDataTemplates:
+  - name: "Person"
+    kind: "shared-data"
+    category: "Data"
+    status: "complete"
+    createdAt: "2026-05-18T12:00:00Z"
+    updatedAt: "2026-05-18T12:00:00Z"
+    githubIssue: "#9"
+
+    templates:
+      datasource:
+        name: "Person"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Data/Person"
+        itemId: "{513c2b76-7415-48b7-84a5-e663d3bb9129}"
+        sectionName: "Person Data"
+        sectionId: "{b6dcff32-14b5-4942-b443-fb57f6431bfb}"
+        fields:
+          - { name: "personFirstName", type: "Single-Line Text", itemId: "{3d30f382-ff2d-4687-ba06-450575f55a7f}" }
+          - { name: "personLastName", type: "Single-Line Text", itemId: "{93cd7933-7e2d-4423-a9ae-3d745868bcc5}" }
+          - { name: "personJobTitle", type: "Single-Line Text", itemId: "{7703b7da-c3db-44aa-baad-ffc8a0fc0620}" }
+          - { name: "personProfileImage", type: "Image", itemId: "{b1b2a570-7edf-4bd7-8598-842d735c2e24}" }
+          - { name: "personBio", type: "Rich Text", itemId: "{1ef53a42-6d08-4e93-a944-754ba96073f6}" }
+          - { name: "personLinkedIn", type: "General Link", itemId: "{6389c179-2aa6-43d2-bf2c-b1332a4e8a85}" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "{22957218-e642-406f-80f2-bb81d44c965f}"
+          linked: true
+
+      folder:
+        name: "Person Folder"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Folders/Person Folder"
+        itemId: "{b3f8d738-07bf-4f8d-b4af-68a875d78ac6}"
+        standardValues:
+          itemId: "{4fe086ce-ebbe-4d8d-ae49-c7091f16d6b6}"
+          linked: true
+          masters: ["Person"]
+
+    datasourceFolder:
+      name: "People"
+      path: "/sitecore/content/main/main-website/Data/People"
+      itemId: "{b4a7e448-2620-458e-9108-e6123c433660}"
+      insertOptionsSet: true
+      exampleItem:
+        name: "Jane Smith"
+        itemId: "{18a183c6-6e69-40f3-a0d9-0973d05c8d3b}"
+
+    verification:
+      templateExists: passed
+      baseTemplatesSet: passed
+      sectionExists: passed
+      fieldsExist: passed
+      fieldTypesCorrect: passed
+      standardValuesLinked: passed
+      folderTemplateExists: passed
+      folderStandardValuesLinked: passed
+      dataFolderExists: passed
+      insertOptions: pendingManual
+      exampleItemExists: passed
+
+    notes:
+      - "2026-05-18: Created Person data model (Issue #9). Insert options set via __Masters on folder SV and folder instance — MCP returned empty updatedFields (known silent-write behavior). Verify insert options in Content Editor if needed."
+
+pageTemplates:
+  - name: "Article Page"
+    kind: "page-template"
+    category: "Page Types"
+    status: "complete"
+    createdAt: "2026-05-18T12:00:00Z"
+    updatedAt: "2026-05-18T12:00:00Z"
+    githubIssue: "#10"
+
+    baseTemplate:
+      name: "Page"
+      itemId: "{CEBD0936-6B37-42B5-B169-369BB1C3C06A}"
+
+    templates:
+      pageTemplate:
+        name: "Article Page"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Page Types/Article Page"
+        itemId: "{74360ad2-d3df-4fce-834c-2f5420488677}"
+        sectionName: "Article Data"
+        sectionId: "{522fdf75-94d9-4aa8-882b-cbe30fe54efb}"
+        fields:
+          - { name: "ArticleContent", type: "Rich Text", itemId: "{63471bba-943c-4d82-b7bf-d7ec82babbf7}" }
+          - { name: "ArticleImage", type: "Image", itemId: "{bb96e156-f355-4cc6-894b-5e70a45d8f30}" }
+          - { name: "ArticleAuthor", type: "Droptree", itemId: "{068d4fa8-7b15-4b86-b38a-9e40a58c548b}", source: "/sitecore/content/main/main-website/Data/People" }
+          - { name: "ArticlePublicationDate", type: "Date", itemId: "{2fecdae7-6f5d-46a8-a9c9-c128dc4f4d0c}" }
+          - { name: "ArticleKeyTakeaways", type: "Rich Text", itemId: "{bfa05db5-8ccf-4ba2-b312-21194a8a5d75}" }
+          - { name: "ArticleReadTime", type: "Single-Line Text", itemId: "{76c93dec-a8a6-4185-9fd9-8247ebfb2dd0}" }
+        inheritsFrom: "Page"
+        standardValues:
+          itemId: "{f3ebd849-cdfb-43e5-84f0-7609e70c04d9}"
+          linked: true
+
+    contentTree:
+      articlesParent:
+        name: "Articles"
+        path: "/sitecore/content/main/main-website/Home/Articles"
+        itemId: "{d8b01498-2838-4388-a68f-86665d9c1c80}"
+        insertOptionsSet: true
+
+    codeChanges:
+      - "Layout.tsx: RouteFields updated with ArticleContent, ArticleImage, ArticleAuthor, ArticlePublicationDate, ArticleKeyTakeaways, ArticleReadTime. Aspirational fields (Content, Expert, MainImage, Author, PublicationDate, Excerpt, KeyTakeaways, ReadTime) removed. PersonFields and PersonReference interfaces added."
+
+    verification:
+      templateExists: passed
+      baseTemplateSet: passed
+      sectionExists: passed
+      fieldsExist: passed
+      fieldTypesCorrect: passed
+      droptreeSourceSet: passed
+      standardValuesLinked: passed
+      articlesParentExists: passed
+      insertOptions: pendingManual
+      layoutTsxUpdated: passed
+
+    partialDesign:
+      name: "Article Layout"
+      path: "/sitecore/content/main/main-website/Presentation/Partial Designs/Article Layout"
+      itemId: "{4e09b734-6f98-4599-bc8d-9b15b07b291c}"
+      components: ["ArticleHero", "ArticleBody"]
+      placeholder: "headless-main"
+
+    pageDesign:
+      name: "Article"
+      path: "/sitecore/content/main/main-website/Presentation/Page Designs/Article"
+      itemId: "{ea8b44fc-b855-40ea-b8e5-b210119c9aab}"
+
+    notes:
+      - "2026-05-18: Created Article Page template (Issue #10). Inherits from Page template. Insert options on Articles parent set via __Masters (silent-write)."
+      - "2026-05-18: Created Article Layout partial design + Article page design (Issue #15). Components placed in headless-main. Page Design and Partial Design association via MCP (silent-write) — verify linkage in Content Editor."
+
 lookups:
   - path: "/sitecore/content/main/main-website/Data"
     itemId: "{E6C852B5-B70D-412C-B5C6-E6502842F74E}"
@@ -2171,6 +2415,34 @@ lookups:
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Forms"
     itemId: "{0A7AA74E-9652-4890-B218-EAC82F157663}"
     lastReadAt: "2026-03-25T20:30:00Z"
+
+  - path: "/sitecore/templates/Project/fmc-custom-demo/Data"
+    itemId: "{6a4bb397-d787-422d-896a-1f3f9941f0ec}"
+    lastReadAt: "2026-05-18T12:00:00Z"
+  - path: "/sitecore/templates/Project/fmc-custom-demo/Data/Person"
+    itemId: "{513c2b76-7415-48b7-84a5-e663d3bb9129}"
+    lastReadAt: "2026-05-18T12:00:00Z"
+  - path: "/sitecore/content/main/main-website/Data/People"
+    itemId: "{b4a7e448-2620-458e-9108-e6123c433660}"
+    lastReadAt: "2026-05-18T12:00:00Z"
+  - path: "/sitecore/templates/Project/fmc-custom-demo/Page Types"
+    itemId: "{e7769708-59a5-4636-a9ea-c02245185e61}"
+    lastReadAt: "2026-05-18T12:00:00Z"
+  - path: "/sitecore/templates/Project/fmc-custom-demo/Page Types/Article Page"
+    itemId: "{74360ad2-d3df-4fce-834c-2f5420488677}"
+    lastReadAt: "2026-05-18T12:00:00Z"
+  - path: "/sitecore/content/main/main-website/Home/Articles"
+    itemId: "{d8b01498-2838-4388-a68f-86665d9c1c80}"
+    lastReadAt: "2026-05-18T12:00:00Z"
+  - path: "/sitecore/content/main/main-website/Home"
+    itemId: "{e2124310-f817-4644-8671-bff8e72b66d7}"
+    lastReadAt: "2026-05-18T12:00:00Z"
+  - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Article"
+    itemId: "{e29ea544-4c99-4a0e-af12-f2c7309db279}"
+    lastReadAt: "2026-05-18T12:00:00Z"
+  - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Article"
+    itemId: "{222fab12-4e0e-49c6-85f8-363b1956528f}"
+    lastReadAt: "2026-05-18T12:00:00Z"
 
 # Demo datasource items (AI-created content, not new component definitions)
 demoContent: []

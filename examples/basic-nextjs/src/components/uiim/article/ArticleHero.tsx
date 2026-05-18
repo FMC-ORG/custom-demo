@@ -167,7 +167,7 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
             {/* Metadata row */}
             <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-sm opacity-90">
               <AuthorMeta author={ArticleAuthor} isEditing={isEditing} />
-              {(ArticlePublicationDate?.value || isEditing) && (
+              {(ArticlePublicationDate?.value || isEditing) && ArticlePublicationDate && (
                 <time data-testid="article-date">
                   <DateField
                     field={ArticlePublicationDate}
@@ -182,7 +182,7 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
                   />
                 </time>
               )}
-              {(ArticleReadTime?.value || isEditing) && (
+              {(ArticleReadTime?.value || isEditing) && ArticleReadTime && (
                 <Text
                   field={ArticleReadTime}
                   tag="span"
@@ -229,7 +229,7 @@ export const Minimal = ({ params, page }: ComponentProps): JSX.Element => {
 
           <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-gray-600">
             <AuthorMeta author={ArticleAuthor} isEditing={isEditing} />
-            {(ArticlePublicationDate?.value || isEditing) && (
+            {(ArticlePublicationDate?.value || isEditing) && ArticlePublicationDate && (
               <time data-testid="article-date">
                 <DateField
                   field={ArticlePublicationDate}
@@ -244,7 +244,7 @@ export const Minimal = ({ params, page }: ComponentProps): JSX.Element => {
                 />
               </time>
             )}
-            {(ArticleReadTime?.value || isEditing) && (
+            {(ArticleReadTime?.value || isEditing) && ArticleReadTime && (
               <Text field={ArticleReadTime} tag="span" data-testid="article-read-time" />
             )}
           </div>
@@ -288,7 +288,7 @@ export const SplitImage = ({ params, page }: ComponentProps): JSX.Element => {
 
             <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-gray-600">
               <AuthorMeta author={ArticleAuthor} isEditing={isEditing} />
-              {(ArticlePublicationDate?.value || isEditing) && (
+              {(ArticlePublicationDate?.value || isEditing) && ArticlePublicationDate && (
                 <time data-testid="article-date">
                   <DateField
                     field={ArticlePublicationDate}
@@ -303,7 +303,7 @@ export const SplitImage = ({ params, page }: ComponentProps): JSX.Element => {
                   />
                 </time>
               )}
-              {(ArticleReadTime?.value || isEditing) && (
+              {(ArticleReadTime?.value || isEditing) && ArticleReadTime && (
                 <Text field={ArticleReadTime} tag="span" data-testid="article-read-time" />
               )}
             </div>

@@ -6,6 +6,8 @@ import { Form } from '@sitecore-content-sdk/nextjs';
 // end of built-in components
 import * as TestimonialBlock from 'src/components/uiim/social-proof/TestimonialBlock';
 import * as LogoCloud from 'src/components/uiim/social-proof/LogoCloud';
+import * as SearchResults from 'src/components/uiim/search/SearchResults';
+import * as PreviewSearch from 'src/components/uiim/search/PreviewSearch';
 import * as TabNavigationSection from 'src/components/uiim/navigation/TabNavigationSection';
 import * as SiteFooter from 'src/components/uiim/navigation/SiteFooter';
 import * as NavigationHeader from 'src/components/uiim/navigation/NavigationHeader';
@@ -25,6 +27,7 @@ import * as HeroBanner from 'src/components/uiim/banners/HeroBanner';
 import * as CTABanner from 'src/components/uiim/banners/CTABanner';
 import * as ArticleHero from 'src/components/uiim/article/ArticleHero';
 import * as ArticleBody from 'src/components/uiim/article/ArticleBody';
+import * as CloudSDKInit from 'src/components/cloud-sdk/CloudSDKInit';
 import * as Title from 'src/components/basic/title/Title';
 import * as RowSplitter from 'src/components/basic/row-splitter/RowSplitter';
 import * as RichText from 'src/components/basic/rich-text/RichText';
@@ -46,6 +49,8 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['Form', { ...Form, componentType: 'client' }],
   ['TestimonialBlock', { ...TestimonialBlock }],
   ['LogoCloud', { ...LogoCloud }],
+  ['SearchResults', { ...SearchResults, componentType: 'client' }],
+  ['PreviewSearch', { ...PreviewSearch, componentType: 'client' }],
   ['TabNavigationSection', { ...TabNavigationSection }],
   ['SiteFooter', { ...SiteFooter }],
   ['NavigationHeader', { ...NavigationHeader, componentType: 'client' }],
@@ -65,6 +70,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['CTABanner', { ...CTABanner }],
   ['ArticleHero', { ...ArticleHero, componentType: 'client' }],
   ['ArticleBody', { ...ArticleBody }],
+  ['CloudSDKInit', { ...CloudSDKInit, componentType: 'client' }],
   ['Title', { ...Title }],
   ['RowSplitter', { ...RowSplitter }],
   ['RichText', { ...RichText }],

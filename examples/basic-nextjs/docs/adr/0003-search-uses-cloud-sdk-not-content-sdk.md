@@ -1,41 +1,44 @@
-# ADR 0003: Search components use Sitecore Cloud SDK, not Content SDK Search API
+# ADR 0003: Search uses OOTB SitecoreAI SearchExperience component
 
 ## Status
 
-Accepted
+Accepted (revised)
 
 ## Context
 
-The project needs search functionality — a preview search bar with typeahead suggestions and a full search results page with facets, sorting, and pagination. The project already uses `@sitecore-content-sdk/nextjs` for all Sitecore integration.
+The project needs search functionality for demos. The project uses `@sitecore-content-sdk/nextjs` for all Sitecore integration.
 
-Two SDK options exist for search:
-
-1. **Content SDK Search API** (`@sitecore-content-sdk/search`) — a lightweight `SearchService` class that queries SitecoreAI search indexes. Supports sort, paginate, limit, and keyphrase search. No built-in facets, personalization, recommendations, or Q&A. Part of the existing Content SDK ecosystem.
-
-2. **Sitecore Cloud SDK** (`@sitecore-cloudsdk/search`) — a full search experience SDK wrapping the Sitecore Search REST APIs. Supports search widgets, preview search, facets, personalization, recommendations, Q&A, and event tracking. Introduces a new SDK family (`core` + `events` + `search`) requiring global initialization.
+An initial implementation used custom components with the Sitecore Cloud SDK (`@sitecore-cloudsdk/search`), introducing three new npm dependencies and ~600 lines of custom search logic. During review, it was discovered that SitecoreAI provides an OOTB SearchExperience component in the starter kit that integrates natively with Page Builder, uses the existing Content SDK search hooks, and offers visual field mapping via the Search Configuration Manager Marketplace app.
 
 ## Decision
 
-Search components use the **Sitecore Cloud SDK** (`@sitecore-cloudsdk/search`) for all search functionality. The SDK is initialized globally via a dedicated `CloudSDKInit` component added to the app layout, conditional on `SITECORE_EDGE_CONTEXT_ID` being available.
+Search uses the **OOTB SitecoreAI SearchExperience component** copied from the upstream starter kit. The component uses `useSearch` and `useInfiniteSearch` hooks from `@sitecore-content-sdk/nextjs/search` — already part of the project's SDK ecosystem. No new packages are needed.
 
-Two simple datasource components are built:
-- **PreviewSearch** — typeahead suggestions using `rfkid_6` widget
-- **SearchResults** — full results page using `rfkid_7` widget with dynamic facets
+The component is configured via a JSON field on a datasource content item containing `searchIndex` (the source GUID) and `fieldsMapping` (maps UI fields to search index fields). Authors configure this visually in Page Builder via the Search Configuration Manager Marketplace app.
 
-Both degrade gracefully when Sitecore Search is not configured.
+Two variants are provided: `Default` (pagination) and `LoadMore` (infinite scroll).
 
-## Alternatives considered
+The custom Cloud SDK implementation was removed.
 
-1. **Content SDK Search API** (`@sitecore-content-sdk/search`) — stays in the existing SDK ecosystem, simpler integration, but lacks facets, personalization, Q&A, event tracking, and widget infrastructure. Would require building all of that from scratch. Rejected because the demo builder needs to showcase Sitecore Search's full capabilities to prospects, not a minimal search box.
+## Alternatives considered and rejected
 
-2. **Sitecore Search REST APIs directly** — maximum flexibility, no SDK dependency, but requires handling authentication, request formatting, response parsing, and event tracking manually. Significantly more development effort for the same result. Rejected because the Cloud SDK already wraps these APIs.
+1. **Sitecore Cloud SDK** (`@sitecore-cloudsdk/search`) — custom PreviewSearch + SearchResults components wrapping the Cloud SDK's `getWidgetData` API. **Initially implemented, then removed.** Rejected because it bypasses SitecoreAI's native Page Builder integration, requires three new npm dependencies, global SDK initialization, and ~600 lines of custom search logic — all of which the OOTB component handles for free.
 
-3. **Sitecore Search JS SDK for React** (`@sitecore/search-react`) — pre-built React components, fastest to integrate, but a third SDK family with its own patterns that don't align with the project's Tailwind/shadcn component architecture. Rejected because the project needs custom-styled components that match the UIIM design system.
+2. **Content SDK Search API directly** (`@sitecore-content-sdk/search`) — using `SearchService` class for programmatic queries. Part of the existing SDK but provides only raw search without UI, field mapping, or Page Builder integration. Rejected because the OOTB component already uses the same underlying hooks (`useSearch`, `useInfiniteSearch`) with full UI and configuration.
+
+3. **Sitecore Search REST APIs** — maximum flexibility but maximum development effort. Rejected for the same reason as the Cloud SDK: the OOTB component exists.
+
+4. **Sitecore Search JS SDK for React** (`@sitecore/search-react`) — pre-built React components with their own widget system. Rejected because it's a separate SDK family that doesn't integrate with SitecoreAI's Page Builder or Content SDK ecosystem.
 
 ## Consequences
 
-- The project now has **two SDK families**: `@sitecore-content-sdk/nextjs` for content rendering and `@sitecore-cloudsdk/*` for search (and potentially personalization, events in the future).
-- A global `CloudSDKInit` component must be present in the layout for search to function. This is a cross-cutting concern, not a component-level one.
-- The Cloud SDK adds `@sitecore-cloudsdk/core`, `@sitecore-cloudsdk/events`, and `@sitecore-cloudsdk/search` to the dependency tree and bundle.
-- Future Cloud SDK capabilities (personalization, event tracking, recommendations) can be added incrementally by chaining `.addPersonalize()` etc. onto the existing initialization — no additional setup required.
-- Search components require a configured Sitecore Search domain with indexed content and published widgets to return results. Without this, they render a graceful fallback state.
+- **Zero new dependencies** — the component uses hooks already available in `@sitecore-content-sdk/nextjs/search`.
+- **One component, not two** — SearchExperience replaces both PreviewSearch and SearchResults.
+- **Visual configuration** — field mapping done in Page Builder via the Search Configuration Manager tab, not in code.
+- **Starter kit alignment** — the component matches the upstream starter kit pattern exactly, making upgrades straightforward.
+- The Search Configuration Manager Marketplace app must be installed in the SitecoreAI environment.
+- The feature is part of a phased rollout — may not be available in all environments yet.
+
+## Lessons learned
+
+Always check for OOTB capabilities in the SitecoreAI platform before building custom solutions. The Cloud SDK approach was technically correct but architecturally wrong — it duplicated functionality that SitecoreAI already provides with better integration.

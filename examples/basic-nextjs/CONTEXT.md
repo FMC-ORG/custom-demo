@@ -26,13 +26,11 @@
 
 ## Search
 
-- **Cloud SDK** — The `@sitecore-cloudsdk/*` package family used for search, event tracking, and personalization. Separate from the Content SDK (`@sitecore-content-sdk/nextjs`) used for content rendering. Initialized globally via a `CloudSDKInit` component in the app layout. Requires `SITECORE_EDGE_CONTEXT_ID`.
+- **SearchExperience** — An OOTB component copied from the SitecoreAI starter kit that provides a full search results experience. Uses Content SDK search hooks (`useSearch`, `useInfiniteSearch`) from `@sitecore-content-sdk/nextjs/search`. Configured via a JSON content item containing the search index ID and field mappings, with visual configuration in Page Builder via the Search Configuration Manager. Two variants: Default (pagination) and LoadMore (infinite scroll).
 
-- **PreviewSearch** — A simple datasource component that renders a typeahead search bar with instant suggestions. Uses Cloud SDK widget type `rfkid_6`. Placeable in any placeholder. Navigates to a search results page on Enter.
+- **Search Configuration Manager** — A SitecoreAI Marketplace app that provides a visual UI tab in Page Builder for selecting a search source and mapping content fields (title, description, images, tags) to UI output in the SearchExperience component.
 
-- **SearchResults** — A simple datasource component that renders a full search results page with dynamically rendered facets, sorting, and pagination. Uses Cloud SDK widget type `rfkid_7`. Reads the keyphrase from a URL query parameter.
-
-- **Search Domain** — A Sitecore Search configuration containing indexed content, published widgets, and search settings. Required for search components to return results. Configured by the SE as part of demo setup, not by the component itself.
+- **Search Source** — An indexed content source in SitecoreAI that the SearchExperience component queries. Created and configured by the SE in the SitecoreAI UI as part of demo setup.
 
 ## Catalogs
 

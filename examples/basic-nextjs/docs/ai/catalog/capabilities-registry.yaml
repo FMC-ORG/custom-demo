@@ -10,48 +10,38 @@ capabilities:
 
   - id: search
     name: "Site Search"
-    description: "Full-text search with typeahead suggestions, faceted results, and pagination"
-    sdk: "@sitecore-cloudsdk/search"
-    sdkDependencies:
-      - "@sitecore-cloudsdk/core"
-      - "@sitecore-cloudsdk/events"
-      - "@sitecore-cloudsdk/search"
-    initialization:
-      component: "src/components/cloud-sdk/CloudSDKInit.tsx"
-      placement: "src/app/[site]/layout.tsx"
-      conditional: true
-      conditionEnvVar: "SITECORE_EDGE_CONTEXT_ID"
+    description: "Full-text search with pagination or infinite scroll, configured via Page Builder"
+    approach: "OOTB SitecoreAI SearchExperience component from starter kit"
+    sdk: "@sitecore-content-sdk/nextjs/search"
+    sdkDependencies: []  # No new dependencies — uses existing Content SDK
+    initialization: null  # No global init needed — hooks work via SitecoreProvider
     prerequisites:
-      - "Sitecore Search subscription"
-      - "Configured search domain with indexed content"
-      - "Published search widgets (rfkid_6 for preview, rfkid_7 for results)"
+      - "Search sources available in the SitecoreAI environment (enabled by default)"
+      - "Search Configuration Manager Marketplace app installed"
+      - "SearchExperience component copied from starter kit into the project"
+      - "Content item created with JSON template (searchIndex + fieldsMapping)"
     components:
-      - id: preview-search
-        name: "PreviewSearch"
+      - id: search-experience
+        name: "SearchExperience"
         kind: simple
         category: search
-        filePath: "src/components/uiim/search/PreviewSearch.tsx"
-        variants: [Default]
+        filePath: "src/components/search-experience/SearchExperience.tsx"
+        variants: [Default, LoadMore]
         datasourceFields:
-          - { name: "SearchPlaceholderText", type: "Single-Line Text", purpose: "input placeholder text" }
-          - { name: "SearchLabel", type: "Single-Line Text", purpose: "accessible label / heading" }
-          - { name: "ResultsPageLink", type: "General Link", purpose: "URL to navigate on Enter" }
-        widgetType: "rfkid_6"
-        placement: "any placeholder (typically headless-header)"
-
-      - id: search-results
-        name: "SearchResults"
-        kind: simple
-        category: search
-        filePath: "src/components/uiim/search/SearchResults.tsx"
-        variants: [Default]
-        datasourceFields:
-          - { name: "SearchHeading", type: "Single-Line Text", purpose: "page heading" }
-          - { name: "NoResultsMessage", type: "Single-Line Text", purpose: "message when no results" }
-          - { name: "SearchPlaceholderText", type: "Single-Line Text", purpose: "input placeholder text" }
-        widgetType: "rfkid_7"
-        placement: "headless-main"
+          - { name: "Search", type: "Multi-Line Text", purpose: "JSON config with searchIndex GUID and fieldsMapping" }
+        renderingParams:
+          - { name: "columns", type: "Single-Line Text", purpose: "grid columns: 1, 2, or 3" }
+          - { name: "pageSize", type: "Single-Line Text", purpose: "results per page" }
+        placement: "any placeholder (typically headless-main)"
+        hooks:
+          - "useSearch (pagination variant)"
+          - "useInfiniteSearch (load-more variant)"
+    configuration:
+      - "In Page Builder: add SearchExperience component to a page"
+      - "Assign a content item with JSON template containing searchIndex and fieldsMapping"
+      - "Use the Search Configuration Manager tab to select source and map fields visually"
+      - "Configure columns and pageSize via rendering parameters"
     gracefulDegradation:
-      - "CloudSDKInit skips silently if SITECORE_EDGE_CONTEXT_ID is missing"
-      - "Components render a 'Search not configured' placeholder when SDK not initialized or API errors"
-      - "Fully functional when Sitecore Search domain is configured"
+      - "Shows skeleton items in editing/preview mode"
+      - "Shows empty results message when search returns no matches"
+      - "Shows error state with retry button on API failure"

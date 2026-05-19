@@ -6,8 +6,6 @@ import { Form } from '@sitecore-content-sdk/nextjs';
 // end of built-in components
 import * as TestimonialBlock from 'src/components/uiim/social-proof/TestimonialBlock';
 import * as LogoCloud from 'src/components/uiim/social-proof/LogoCloud';
-import * as SearchResults from 'src/components/uiim/search/SearchResults';
-import * as PreviewSearch from 'src/components/uiim/search/PreviewSearch';
 import * as TabNavigationSection from 'src/components/uiim/navigation/TabNavigationSection';
 import * as SiteFooter from 'src/components/uiim/navigation/SiteFooter';
 import * as NavigationHeader from 'src/components/uiim/navigation/NavigationHeader';
@@ -27,7 +25,29 @@ import * as HeroBanner from 'src/components/uiim/banners/HeroBanner';
 import * as CTABanner from 'src/components/uiim/banners/CTABanner';
 import * as ArticleHero from 'src/components/uiim/article/ArticleHero';
 import * as ArticleBody from 'src/components/uiim/article/ArticleBody';
-import * as CloudSDKInit from 'src/components/cloud-sdk/CloudSDKInit';
+import * as SearchExperienceLoadMore from 'src/components/search-experience/SearchExperience.LoadMore';
+import * as SearchExperience from 'src/components/search-experience/SearchExperience';
+import * as useSearchField from 'src/components/search-experience/search-components/useSearchField';
+import * as useRouter from 'src/components/search-experience/search-components/useRouter';
+import * as useParams from 'src/components/search-experience/search-components/useParams';
+import * as useEvent from 'src/components/search-experience/search-components/useEvent';
+import * as useDebounce from 'src/components/search-experience/search-components/useDebounce';
+import * as SearchSkeletonItem from 'src/components/search-experience/search-components/SearchSkeletonItem';
+import * as SearchPagination from 'src/components/search-experience/search-components/SearchPagination';
+import * as SearchItemCommon from 'src/components/search-experience/search-components/SearchItemCommon';
+import * as SearchInput from 'src/components/search-experience/search-components/SearchInput';
+import * as SearchError from 'src/components/search-experience/search-components/SearchError';
+import * as SearchEmptyResults from 'src/components/search-experience/search-components/SearchEmptyResults';
+import * as models from 'src/components/search-experience/search-components/models';
+import * as constants from 'src/components/search-experience/search-components/constants';
+import * as SearchItemTitle from 'src/components/search-experience/search-components/SearchItem/SearchItemTitle';
+import * as SearchItemTags from 'src/components/search-experience/search-components/SearchItem/SearchItemTags';
+import * as SearchItemSummary from 'src/components/search-experience/search-components/SearchItem/SearchItemSummary';
+import * as SearchItemSubTitle from 'src/components/search-experience/search-components/SearchItem/SearchItemSubTitle';
+import * as SearchItemLink from 'src/components/search-experience/search-components/SearchItem/SearchItemLink';
+import * as SearchItemImage from 'src/components/search-experience/search-components/SearchItem/SearchItemImage';
+import * as SearchItemCategory from 'src/components/search-experience/search-components/SearchItem/SearchItemCategory';
+import * as index from 'src/components/search-experience/search-components/SearchItem/index';
 import * as Title from 'src/components/basic/title/Title';
 import * as RowSplitter from 'src/components/basic/row-splitter/RowSplitter';
 import * as RichText from 'src/components/basic/rich-text/RichText';
@@ -49,8 +69,6 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['Form', { ...Form, componentType: 'client' }],
   ['TestimonialBlock', { ...TestimonialBlock }],
   ['LogoCloud', { ...LogoCloud }],
-  ['SearchResults', { ...SearchResults, componentType: 'client' }],
-  ['PreviewSearch', { ...PreviewSearch, componentType: 'client' }],
   ['TabNavigationSection', { ...TabNavigationSection }],
   ['SiteFooter', { ...SiteFooter }],
   ['NavigationHeader', { ...NavigationHeader, componentType: 'client' }],
@@ -70,7 +88,28 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['CTABanner', { ...CTABanner }],
   ['ArticleHero', { ...ArticleHero, componentType: 'client' }],
   ['ArticleBody', { ...ArticleBody }],
-  ['CloudSDKInit', { ...CloudSDKInit, componentType: 'client' }],
+  ['SearchExperience', { ...SearchExperienceLoadMore, ...SearchExperience, componentType: 'client' }],
+  ['useSearchField', { ...useSearchField, componentType: 'client' }],
+  ['useRouter', { ...useRouter, componentType: 'client' }],
+  ['useParams', { ...useParams, componentType: 'client' }],
+  ['useEvent', { ...useEvent, componentType: 'client' }],
+  ['useDebounce', { ...useDebounce, componentType: 'client' }],
+  ['SearchSkeletonItem', { ...SearchSkeletonItem, componentType: 'client' }],
+  ['SearchPagination', { ...SearchPagination, componentType: 'client' }],
+  ['SearchItemCommon', { ...SearchItemCommon, componentType: 'client' }],
+  ['SearchInput', { ...SearchInput, componentType: 'client' }],
+  ['SearchError', { ...SearchError, componentType: 'client' }],
+  ['SearchEmptyResults', { ...SearchEmptyResults, componentType: 'client' }],
+  ['models', { ...models }],
+  ['constants', { ...constants }],
+  ['SearchItemTitle', { ...SearchItemTitle, componentType: 'client' }],
+  ['SearchItemTags', { ...SearchItemTags, componentType: 'client' }],
+  ['SearchItemSummary', { ...SearchItemSummary, componentType: 'client' }],
+  ['SearchItemSubTitle', { ...SearchItemSubTitle, componentType: 'client' }],
+  ['SearchItemLink', { ...SearchItemLink, componentType: 'client' }],
+  ['SearchItemImage', { ...SearchItemImage, componentType: 'client' }],
+  ['SearchItemCategory', { ...SearchItemCategory, componentType: 'client' }],
+  ['index', { ...index, componentType: 'client' }],
   ['Title', { ...Title }],
   ['RowSplitter', { ...RowSplitter }],
   ['RichText', { ...RichText }],

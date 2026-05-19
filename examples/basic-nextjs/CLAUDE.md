@@ -22,6 +22,7 @@ Canonical rules live in `docs/ai/rules/`. Both Cursor and Claude Code reference 
 - **Theme Template**: `docs/ai/templates/client-theme.template.yaml`
 - **Component Catalog**: `docs/ai/catalog/component-library-catalog.md`
 - **Page Template Registry**: `docs/ai/catalog/page-template-registry.yaml`
+- **Capabilities Registry**: `docs/ai/catalog/capabilities-registry.yaml`
 - **Domain Glossary**: `CONTEXT.md`
 
 ## Key References (load on demand)
@@ -31,4 +32,5 @@ Canonical rules live in `docs/ai/rules/`. Both Cursor and Claude Code reference 
 - `docs/ai/skills/shared/react-uiim-guidelines.md` — React component patterns
 - `docs/ai/catalog/component-registry.yaml` — machine-readable component library for site analysis
 - `docs/ai/catalog/page-template-registry.yaml` — machine-readable page type registry (Article, future types)
+- `docs/ai/catalog/capabilities-registry.yaml` — cross-cutting platform capabilities (search, future: personalization)
 - `docs/ai/catalog/theme-component-mapping.md` — how themes drive variant selection

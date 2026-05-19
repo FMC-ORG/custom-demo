@@ -24,8 +24,20 @@
 
 - **Articles Parent Page** — A regular page at `/Home/Articles/` with insert options allowing Article child pages. Provides clean URL structure: `/articles/my-first-article`. Does not require a special template.
 
+## Search
+
+- **Cloud SDK** — The `@sitecore-cloudsdk/*` package family used for search, event tracking, and personalization. Separate from the Content SDK (`@sitecore-content-sdk/nextjs`) used for content rendering. Initialized globally via a `CloudSDKInit` component in the app layout. Requires `SITECORE_EDGE_CONTEXT_ID`.
+
+- **PreviewSearch** — A simple datasource component that renders a typeahead search bar with instant suggestions. Uses Cloud SDK widget type `rfkid_6`. Placeable in any placeholder. Navigates to a search results page on Enter.
+
+- **SearchResults** — A simple datasource component that renders a full search results page with dynamically rendered facets, sorting, and pagination. Uses Cloud SDK widget type `rfkid_7`. Reads the keyphrase from a URL query parameter.
+
+- **Search Domain** — A Sitecore Search configuration containing indexed content, published widgets, and search settings. Required for search components to return results. Configured by the SE as part of demo setup, not by the component itself.
+
 ## Catalogs
 
 - **Component Registry** (`component-registry.yaml`) — Machine-readable index of datasource-based homepage components used by the Site Analyzer in the demo builder pipeline.
 
 - **Page Template Registry** (`page-template-registry.yaml`) — Machine-readable index of page types (Article, and future types like Event, Case Study). Separate from the component registry because page types define data models, not droppable homepage sections.
+
+- **Capabilities Registry** (`capabilities-registry.yaml`) — Machine-readable index of cross-cutting platform features (search, personalization, analytics) that SEs enable manually. Separate from the component registry (visual homepage sections) and page template registry (page types).

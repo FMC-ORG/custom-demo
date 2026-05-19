@@ -1,0 +1,57 @@
+# Capabilities Registry
+# Machine-readable index of cross-cutting platform features that SEs enable manually.
+# Separate from component-registry.yaml (visual homepage sections) and
+# page-template-registry.yaml (page types).
+#
+# These are not detected by the Site Analyzer from screenshots — they are
+# platform capabilities that an SE decides to enable for a demo.
+
+capabilities:
+
+  - id: search
+    name: "Site Search"
+    description: "Full-text search with typeahead suggestions, faceted results, and pagination"
+    sdk: "@sitecore-cloudsdk/search"
+    sdkDependencies:
+      - "@sitecore-cloudsdk/core"
+      - "@sitecore-cloudsdk/events"
+      - "@sitecore-cloudsdk/search"
+    initialization:
+      component: "src/components/cloud-sdk/CloudSDKInit.tsx"
+      placement: "src/app/[site]/layout.tsx"
+      conditional: true
+      conditionEnvVar: "SITECORE_EDGE_CONTEXT_ID"
+    prerequisites:
+      - "Sitecore Search subscription"
+      - "Configured search domain with indexed content"
+      - "Published search widgets (rfkid_6 for preview, rfkid_7 for results)"
+    components:
+      - id: preview-search
+        name: "PreviewSearch"
+        kind: simple
+        category: search
+        filePath: "src/components/uiim/search/PreviewSearch.tsx"
+        variants: [Default]
+        datasourceFields:
+          - { name: "SearchPlaceholderText", type: "Single-Line Text", purpose: "input placeholder text" }
+          - { name: "SearchLabel", type: "Single-Line Text", purpose: "accessible label / heading" }
+          - { name: "ResultsPageLink", type: "General Link", purpose: "URL to navigate on Enter" }
+        widgetType: "rfkid_6"
+        placement: "any placeholder (typically headless-header)"
+
+      - id: search-results
+        name: "SearchResults"
+        kind: simple
+        category: search
+        filePath: "src/components/uiim/search/SearchResults.tsx"
+        variants: [Default]
+        datasourceFields:
+          - { name: "SearchHeading", type: "Single-Line Text", purpose: "page heading" }
+          - { name: "NoResultsMessage", type: "Single-Line Text", purpose: "message when no results" }
+          - { name: "SearchPlaceholderText", type: "Single-Line Text", purpose: "input placeholder text" }
+        widgetType: "rfkid_7"
+        placement: "headless-main"
+    gracefulDegradation:
+      - "CloudSDKInit skips silently if SITECORE_EDGE_CONTEXT_ID is missing"
+      - "Components render a 'Search not configured' placeholder when SDK not initialized or API errors"
+      - "Fully functional when Sitecore Search domain is configured"

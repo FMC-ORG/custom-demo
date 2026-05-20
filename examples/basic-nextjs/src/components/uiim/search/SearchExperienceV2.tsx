@@ -6,16 +6,16 @@ import { useSearch } from '@sitecore-content-sdk/nextjs/search';
 import { useInfiniteSearch } from '@sitecore-content-sdk/nextjs/search';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { SearchDocument, SearchExperienceProps, SearchFieldsMapping } from './search-components/models';
-import { SearchEmptyResults } from './search-components/SearchEmptyResults';
-import { SearchError } from './search-components/SearchError';
-import { SearchItem } from './search-components/SearchItem';
-import { SearchSkeletonItem } from './search-components/SearchSkeletonItem';
-import { SearchPagination } from './search-components/SearchPagination';
-import { SearchInput } from './search-components/SearchInput';
-import { useEvent } from './search-components/useEvent';
-import { useRouter } from './search-components/useRouter';
-import { DICTIONARY_KEYS, DEFAULT_PAGE_SIZE, gridColsClass } from './search-components/constants';
+import { SearchDocument, SearchExperienceProps, SearchFieldsMapping } from '@/lib/search/search-components/models';
+import { SearchEmptyResults } from '@/lib/search/search-components/SearchEmptyResults';
+import { SearchError } from '@/lib/search/search-components/SearchError';
+import { SearchItem } from '@/lib/search/search-components/SearchItem';
+import { SearchSkeletonItem } from '@/lib/search/search-components/SearchSkeletonItem';
+import { SearchPagination } from '@/lib/search/search-components/SearchPagination';
+import { SearchInput } from '@/lib/search/search-components/SearchInput';
+import { useEvent } from '@/lib/search/search-components/useEvent';
+import { useRouter } from '@/lib/search/search-components/useRouter';
+import { DICTIONARY_KEYS, DEFAULT_PAGE_SIZE, gridColsClass } from '@/lib/search/search-components/constants';
 
 // --- Helpers ---
 

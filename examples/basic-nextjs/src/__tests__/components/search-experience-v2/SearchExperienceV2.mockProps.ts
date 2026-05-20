@@ -1,5 +1,5 @@
 import { Field, Page, PageMode, ComponentRendering } from '@sitecore-content-sdk/nextjs';
-import { SearchExperienceProps } from '@/components/uiim/search/search-components/models';
+import { SearchExperienceProps } from '@/lib/search/search-components/models';
 
 const mockPageBase: Page = {
   mode: {

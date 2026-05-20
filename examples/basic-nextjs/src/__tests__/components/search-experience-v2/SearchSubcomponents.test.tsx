@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { SearchItem } from '@/components/uiim/search/search-components/SearchItem';
-import { SearchPagination } from '@/components/uiim/search/search-components/SearchPagination';
-import { SearchInput } from '@/components/uiim/search/search-components/SearchInput';
+import { SearchItem } from '@/lib/search/search-components/SearchItem';
+import { SearchPagination } from '@/lib/search/search-components/SearchPagination';
+import { SearchInput } from '@/lib/search/search-components/SearchInput';
 import type { Field, TextField } from '@sitecore-content-sdk/nextjs';
-import type { SearchFieldsMapping } from '@/components/uiim/search/search-components/models';
+import type { SearchFieldsMapping } from '@/lib/search/search-components/models';
 
 // --- Mocks ---
 

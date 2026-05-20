@@ -3,6 +3,7 @@
 import { BYOCClientWrapper, NextjsContentSdkComponent, FEaaSClientWrapper } from '@sitecore-content-sdk/nextjs';
 import { Form } from '@sitecore-content-sdk/nextjs';
 
+import * as SearchExperienceV2 from 'src/components/uiim/search/SearchExperienceV2';
 import * as NavigationHeader from 'src/components/uiim/navigation/NavigationHeader';
 import * as NewsletterSignup from 'src/components/uiim/forms/NewsletterSignup';
 import * as FeatureCardsGrid from 'src/components/uiim/cards/FeatureCardsGrid';
@@ -38,6 +39,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCClientWrapper],
   ['FEaaSWrapper', FEaaSClientWrapper],
   ['Form', Form],
+  ['SearchExperienceV2', { ...SearchExperienceV2 }],
   ['NavigationHeader', { ...NavigationHeader }],
   ['NewsletterSignup', { ...NewsletterSignup }],
   ['FeatureCardsGrid', { ...FeatureCardsGrid }],

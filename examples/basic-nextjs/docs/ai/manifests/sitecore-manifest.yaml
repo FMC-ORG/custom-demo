@@ -1,5 +1,5 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-05-18T12:00:00Z"
+lastUpdatedAt: "2026-05-20T12:00:00Z"
 lastUpdatedBy: "claude-agent"
 
 project:
@@ -15,9 +15,9 @@ project:
 
 availableRenderings:
   itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
-  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}"
-  lastUpdatedAt: "2026-05-18T12:00:00Z"
-  renderingCount: 25
+  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}"
+  lastUpdatedAt: "2026-05-20T12:00:00Z"
+  renderingCount: 26
   warning: "MCP cannot read this field — value may be stale if modified outside this session"
 
 components:
@@ -2326,6 +2326,97 @@ pageTemplates:
       - "2026-05-18: Created Article Page template (Issue #10). Inherits from Page template. Insert options on Articles parent set via __Masters (silent-write)."
       - "2026-05-18: Template moved from /sitecore/templates/Project/fmc-custom-demo/Page Types to /sitecore/templates/Project/main/Page Types per project conventions."
       - "2026-05-18: Created Article Layout partial design + Article page design (Issue #15). Components placed in headless-main. Page Design and Partial Design association via MCP (silent-write) — verify linkage in Content Editor."
+
+  - name: "SearchExperienceV2"
+    kind: "simple"
+    category: "Search"
+    status: "complete"
+    createdAt: "2026-05-20T12:00:00Z"
+    updatedAt: "2026-05-20T12:00:00Z"
+
+    react:
+      filePath: "src/components/uiim/search/SearchExperienceV2.tsx"
+      componentMapKey: "SearchExperienceV2"
+      variants:
+        - "Default"
+        - "LoadMore"
+
+    templates:
+      datasource:
+        name: "Search Experience V2"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Search/Search Experience V2"
+        itemId: "{C48E0097-5DEC-4A99-9780-CC6C5F5ED0DB}"
+        sectionName: "Search Configuration"
+        fields:
+          - { name: "SearchIndex", type: "Single-Line Text" }
+          - { name: "TitleMapping", type: "Single-Line Text" }
+          - { name: "DescriptionMapping", type: "Single-Line Text" }
+          - { name: "ImageMapping", type: "Single-Line Text" }
+          - { name: "TagsMapping", type: "Single-Line Text" }
+          - { name: "LinkMapping", type: "Single-Line Text" }
+          - { name: "TypeMapping", type: "Single-Line Text" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "{2EE6D31B-1491-4076-8724-370B1238335A}"
+          linked: true
+
+      folder:
+        name: "Search Experience V2 Folder"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Folders/Search Experience V2 Folder"
+        itemId: "{A75BC153-964F-4F97-8A3D-AB3FA61496CB}"
+        standardValues:
+          itemId: "{B451D7E9-63F7-4FB4-9098-EB8DD2B56EBC}"
+          linked: true
+          masters: ["Search Experience V2"]
+
+      renderingParams:
+        name: "SearchExperienceV2"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Search/SearchExperienceV2"
+        itemId: "{8D097502-7D90-4690-822E-A1C9D3432F91}"
+        baseTemplatesSet: true
+        fields:
+          - { name: "columns", type: "Single-Line Text" }
+          - { name: "pageSize", type: "Single-Line Text" }
+
+    datasourceFolder:
+      name: "Search Experiences V2"
+      path: "/sitecore/content/main/main-website/Data/Search Experiences V2"
+      itemId: "{D5C6A76F-1A01-4B05-8B62-337B1B684D45}"
+      insertOptionsSet: true
+      exampleItem:
+        name: "Search Experience V2 Example"
+        itemId: "{0AF8CFA6-8411-4E37-9D1C-6CDA9795449C}"
+
+    rendering:
+      name: "SearchExperienceV2"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Search/SearchExperienceV2"
+      itemId: "{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}"
+      componentName: "SearchExperienceV2"
+      datasourceTemplate: "/sitecore/templates/Project/fmc-custom-demo/Components/Search/Search Experience V2"
+      datasourceLocation: "/sitecore/content/main/main-website/Data/Search Experiences V2"
+      parametersTemplate: "{8D097502-7D90-4690-822E-A1C9D3432F91}"
+      addFieldEditorButton: true
+      registeredInAvailableRenderings: true
+
+    verification:
+      templateExists: true
+      templateFields: true
+      templateBaseTemplates: true
+      standardValuesLinked: true
+      folderTemplateExists: true
+      folderStandardValuesLinked: true
+      datasourceFolderExists: true
+      renderingExists: true
+      renderingComponentName: true
+      renderingParametersTemplate: true
+      renderingDatasourceTemplate: pendingManual
+      renderingDatasourceLocation: pendingManual
+      registeredInAvailableRenderings: pendingManual
+
+    notes:
+      - "2026-05-20: Created SearchExperienceV2 (Issue #34). Replaces JSON config with 7 individual template fields. ADR 0004."
+      - "2026-05-20: Datasource Template and Datasource Location fields set via MCP but not readable back — verify in Content Editor."
+      - "2026-05-20: Available Renderings updated with pipe-appended rendering ID — MCP cannot confirm field value, verify in Content Editor."
 
 lookups:
   - path: "/sitecore/content/main/main-website/Data"

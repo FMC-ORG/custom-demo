@@ -78,18 +78,27 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@jest/types": "^30.4.1",
     "@sitecore-content-sdk/cli": "^2.0.0",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.10.4",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "cross-env": "^10.0.0",
     "eslint": "^9.33.0",
     "eslint-config-next": "16.1.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
     "npm-run-all2": "^8.0.4",
     "playwright": "^1.58.2",
     "postcss": "^8.4.49",
     "tailwindcss": "^4",
+    "ts-jest": "^29.4.10",
     "typescript": "5.7.3"
   },
   "overrides": {
@@ -116,6 +125,9 @@
     "sitecore-tools:generate-map:watch": "sitecore-tools project component generate-map --watch",
     "sitecore-tools:build": "sitecore-tools project build",
     "dev": "cross-env NODE_ENV=development npm-run-all --serial sitecore-tools:generate-map sitecore-tools:build --parallel next:dev sitecore-tools:generate-map:watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "start": "cross-env-shell NODE_ENV=production npm-run-all --serial build next:start"
   }
 }

@@ -1,0 +1,9 @@
+- generic [active] [ref=e1]:
+  - button "Open Next.js Dev Tools" [ref=e7] [cursor=pointer]:
+    - img [ref=e8]
+  - generic [ref=e11]:
+    - heading "Page not found" [level=1] [ref=e12]
+    - paragraph [ref=e13]: This page does not exist.
+    - link "Go to the Home page" [ref=e14] [cursor=pointer]:
+      - /url: /
+  - alert [ref=e15]

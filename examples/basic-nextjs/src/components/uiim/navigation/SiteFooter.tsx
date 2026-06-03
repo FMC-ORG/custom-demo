@@ -345,3 +345,132 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   HCA — deep navy footer with phone, pill quick-actions, 3 link columns,
+   social icons, legal links, copyright
+   ──────────────────────────────────────────── */
+const HCA_QUICK_ACTIONS = [
+  'App Download',
+  'Get a second opinion',
+  'Find a doctor',
+  'Pay my bill',
+];
+
+const HCA_LINK_COLUMNS = [
+  {
+    title: 'About HCA',
+    links: ['About HCA UK', 'News & press', 'Careers', 'Our locations'],
+  },
+  {
+    title: 'Media',
+    links: ['Press releases', 'Latest news', 'Insights', 'Patient stories'],
+  },
+  {
+    title: 'Service lines',
+    links: ["Women's health", 'Orthopaedics & spine', 'Maternity', 'Cardiac', 'Cancer care', 'Neurology'],
+  },
+];
+
+export const HCA = (props: SiteFooterProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = props.params;
+  if (!props.fields && !props.rendering) return <SiteFooterDefaultComponent />;
+  const brandLogo = getBrandLogo(props);
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full px-4 py-16 md:py-20"
+        style={{
+          backgroundColor: 'var(--brand-footer-bg, #0C2141)',
+          color: 'var(--brand-footer-fg, #ffffff)',
+          fontFamily: 'var(--brand-body-font, inherit)',
+        }}
+      >
+        <div className="mx-auto max-w-7xl">
+          {/* Top row: logo + phone, quick actions */}
+          <div className="flex flex-col gap-6 border-b border-white/10 pb-8 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-6">
+              <Logo brandLogo={brandLogo} />
+              <a
+                href="tel:02070794344"
+                className="hidden text-sm font-medium opacity-80 hover:opacity-100 transition-opacity md:inline-block"
+              >
+                020 7079 4344
+              </a>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {HCA_QUICK_ACTIONS.map((action) => (
+                <a
+                  key={action}
+                  href="#"
+                  className="inline-flex items-center rounded-full border border-white/30 px-4 py-2 text-xs font-semibold transition-colors hover:bg-white/10"
+                >
+                  {action}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Middle: 3 link columns + CQC card */}
+          <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-4">
+            {HCA_LINK_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <h3
+                  className="mb-4 text-xs font-semibold uppercase tracking-[0.18em]"
+                  style={{ fontFamily: 'var(--brand-heading-font, inherit)' }}
+                >
+                  {col.title}
+                </h3>
+                <ul className="space-y-2.5">
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <a
+                        href="#"
+                        className="text-sm opacity-80 transition-opacity hover:opacity-100"
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+
+            {/* CQC review card */}
+            <div className="rounded-lg border border-white/15 p-5 text-sm">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] opacity-70">
+                Verified reviews
+              </p>
+              <p className="mt-3 font-medium leading-tight">
+                CQC rating: <span className="font-semibold">Outstanding</span>
+              </p>
+              <div className="mt-3 flex items-center gap-1 text-base">
+                {'★★★★★'.split('').map((s, i) => (
+                  <span key={i} aria-hidden>{s}</span>
+                ))}
+              </div>
+              <p className="mt-1 text-xs opacity-80">32,000+ patient reviews</p>
+              <p className="mt-3 text-[10px] font-medium uppercase tracking-wider opacity-70">
+                Verified by doctify
+              </p>
+            </div>
+          </div>
+
+          {/* Bottom row: social icons + legal links + copyright */}
+          <div className="mt-12 flex flex-col gap-6 border-t border-white/10 pt-6 md:flex-row md:items-center md:justify-between">
+            <SocialIcons />
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs opacity-70">
+              <a href="#" className="hover:opacity-100 transition-opacity">Terms</a>
+              <a href="#" className="hover:opacity-100 transition-opacity">Privacy</a>
+              <a href="#" className="hover:opacity-100 transition-opacity">Modern slavery</a>
+              <a href="#" className="hover:opacity-100 transition-opacity">Accessibility</a>
+              <a href="#" className="hover:opacity-100 transition-opacity">Cookie settings</a>
+            </div>
+            <Copyright />
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};

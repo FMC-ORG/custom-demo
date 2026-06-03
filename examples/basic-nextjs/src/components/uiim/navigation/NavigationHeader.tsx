@@ -294,6 +294,100 @@ export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JS
   );
 };
 
+/* ────────────────────────────────────────────
+   HCA — white bar, navy nav links centered, logo left, search/CTA right
+   ──────────────────────────────────────────── */
+export const HCA = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+
+  const links = datasource.children?.results || [];
+  const brandLogo = datasource.brandLogo?.jsonValue;
+  const ctaLabel = datasource.ctaLabel?.jsonValue;
+  const ctaLink = datasource.ctaLink?.jsonValue;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-header-bg, #ffffff)',
+          color: 'var(--brand-header-fg, #0C2141)',
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6">
+          {/* Logo left */}
+          <div className="shrink-0">
+            <Link
+              href="/"
+              className="flex items-center"
+              style={{ color: 'var(--brand-header-fg, #0C2141)' }}
+            >
+              {brandLogo?.value?.src ? (
+                <ContentSdkImage
+                  field={brandLogo}
+                  className="h-10 w-auto object-contain sm:h-12"
+                />
+              ) : (
+                <span className="text-xl font-bold tracking-tight">HCA</span>
+              )}
+            </Link>
+          </div>
+
+          {/* Centered nav links */}
+          <nav className="hidden flex-1 items-center justify-center gap-7 lg:flex">
+            {links.map((item) => (
+              <ContentSdkLink
+                key={item.id}
+                field={item.linkUrl?.jsonValue}
+                className="text-[15px] font-medium transition-opacity hover:opacity-70"
+                style={{ color: 'var(--brand-header-fg, #0C2141)' }}
+              >
+                {item.linkText?.jsonValue?.value && (
+                  <Text field={item.linkText?.jsonValue} />
+                )}
+              </ContentSdkLink>
+            ))}
+          </nav>
+
+          {/* Right: search icon + optional pill CTA */}
+          <div className="flex shrink-0 items-center gap-3">
+            <button
+              type="button"
+              aria-label="Search"
+              className="hidden h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-black/5 md:flex"
+              style={{ color: 'var(--brand-header-fg, #0C2141)' }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="7" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </button>
+            {(ctaLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={ctaLink}
+                className="hidden md:inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90"
+                style={{
+                  backgroundColor: 'var(--brand-primary)',
+                  color: 'var(--brand-primary-foreground)',
+                }}
+              >
+                {ctaLabel?.value && <Text field={ctaLabel} />}
+              </ContentSdkLink>
+            )}
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+        </div>
+        <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
+      </header>
+    </div>
+  );
+};
+
 export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
 

@@ -141,6 +141,99 @@ export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.El
 };
 
 /* ────────────────────────────────────────────
+   HCA — uniform image-top cards (3-up), left-aligned section header,
+   navy heading, copper eyebrow, pill "Learn more" link
+   ──────────────────────────────────────────── */
+export const HCA = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-24"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-7xl md:px-6">
+          {/* Left-aligned header */}
+          <div className="mb-12 max-w-3xl">
+            {(datasource.title?.jsonValue?.value || isEditing) && (
+              <Text
+                field={datasource.title?.jsonValue}
+                tag="h2"
+                className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-primary, #0C2141)' }}
+              />
+            )}
+            {(datasource.description?.jsonValue?.value || isEditing) && (
+              <ContentSdkRichText
+                field={datasource.description?.jsonValue}
+                className="mt-5 text-lg opacity-80 font-[var(--brand-body-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              />
+            )}
+          </div>
+
+          {/* Cards grid - 3 columns at md+, 2 at sm, 1 on mobile */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {cards.map((card) => (
+              <article
+                key={card.id}
+                className="group flex flex-col overflow-hidden bg-white rounded-2xl shadow-sm transition-shadow hover:shadow-md"
+                style={{
+                  border: '1px solid var(--brand-border, #e5e7eb)',
+                }}
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <ContentSdkImage
+                      field={card.cardImage?.jsonValue}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                )}
+                <div className="flex flex-1 flex-col p-6">
+                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="text-xl font-bold leading-snug font-[var(--brand-heading-font,inherit)]"
+                      style={{ color: 'var(--brand-primary, #0C2141)' }}
+                    />
+                  )}
+                  {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className="mt-3 flex-1 text-sm opacity-75 font-[var(--brand-body-font,inherit)]"
+                      style={{ color: 'var(--brand-fg, #111111)' }}
+                    />
+                  )}
+                  {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                    <div className="mt-5">
+                      <ContentSdkLink
+                        field={card.cardLink?.jsonValue}
+                        className="inline-flex items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold transition-colors hover:bg-[var(--brand-primary,#0C2141)] hover:text-white hover:border-[var(--brand-primary,#0C2141)]"
+                        style={{
+                          color: 'var(--brand-primary, #0C2141)',
+                          borderColor: 'var(--brand-primary, #0C2141)',
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    TwoColumn — 2 wider cards
    ──────────────────────────────────────────── */
 export const TwoColumn = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {

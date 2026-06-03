@@ -153,6 +153,93 @@ export const Default = ({ fields, params, page }: TestimonialBlockProps): JSX.El
 };
 
 /* ────────────────────────────────────────────
+   HCA — 3-up patient story cards: portrait photo on top,
+   short quote + author below in white card with navy heading style
+   ──────────────────────────────────────────── */
+export const HCA = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TestimonialBlockDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component testimonial-block', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-24"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-7xl md:px-6">
+          {(datasource.sectionTitle?.jsonValue?.value || isEditing) && (
+            <div className="mb-12 max-w-3xl">
+              <Text
+                field={datasource.sectionTitle?.jsonValue}
+                tag="h2"
+                className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-primary, #0C2141)' }}
+              />
+            </div>
+          )}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {items.map((item) => (
+              <article
+                key={item.id}
+                className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-md"
+                style={{
+                  border: '1px solid var(--brand-border, #e5e7eb)',
+                }}
+              >
+                {(item.authorImage?.jsonValue?.value?.src || isEditing) && (
+                  <div className="aspect-[4/5] overflow-hidden">
+                    <ContentSdkImage
+                      field={item.authorImage?.jsonValue}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                )}
+                <div className="flex flex-1 flex-col gap-4 p-6">
+                  {(item.quoteText?.jsonValue?.value || isEditing) && (
+                    <ContentSdkRichText
+                      field={item.quoteText?.jsonValue}
+                      className="flex-1 text-base leading-snug font-[var(--brand-body-font,inherit)]"
+                      style={{ color: 'var(--brand-primary, #0C2141)' }}
+                    />
+                  )}
+                  <div className="pt-2">
+                    {(item.authorName?.jsonValue?.value || isEditing) && (
+                      <Text
+                        field={item.authorName?.jsonValue}
+                        tag="p"
+                        className="text-sm font-semibold font-[var(--brand-heading-font,inherit)]"
+                        style={{ color: 'var(--brand-fg, #111111)' }}
+                      />
+                    )}
+                    <div
+                      className="flex flex-wrap items-center gap-1 text-xs opacity-70"
+                      style={{ color: 'var(--brand-fg, #111111)' }}
+                    >
+                      {(item.authorRole?.jsonValue?.value || isEditing) && (
+                        <Text field={item.authorRole?.jsonValue} tag="span" />
+                      )}
+                      {item.authorRole?.jsonValue?.value && item.companyName?.jsonValue?.value && (
+                        <span aria-hidden="true">&middot;</span>
+                      )}
+                      {(item.companyName?.jsonValue?.value || isEditing) && (
+                        <Text field={item.companyName?.jsonValue} tag="span" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Carousel — horizontal scrollable container
    ──────────────────────────────────────────── */
 export const Carousel = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {

@@ -196,6 +196,105 @@ export const Split = ({ fields, params, page }: CTABannerProps): JSX.Element => 
 };
 
 /* ────────────────────────────────────────────
+   HCA — mint-aqua locations panel: text left + standalone navy stat card right
+   ──────────────────────────────────────────── */
+export const HCA = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative w-full overflow-hidden bg-[#D8E5DE] px-4 py-20 md:py-28">
+        {/* Decorative faint UK map illustration on the right via radial gradient */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 opacity-30 md:block"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 50% 50%, rgba(12,33,65,0.15) 1px, transparent 2px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 md:grid-cols-2 md:px-6">
+          <div>
+            <p
+              className="mb-3 text-xs font-semibold uppercase tracking-[0.18em]"
+              style={{ color: 'var(--brand-primary)', fontFamily: 'var(--brand-body-font, inherit)' }}
+            >
+              Our locations
+            </p>
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl"
+                style={{ color: 'var(--brand-primary)', fontFamily: 'var(--brand-heading-font, inherit)' }}
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-6 max-w-md text-base leading-relaxed"
+                style={{ color: 'var(--brand-primary)', fontFamily: 'var(--brand-body-font, inherit)', opacity: 0.85 }}
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <div className="mt-8">
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
+                  style={{
+                    backgroundColor: 'var(--brand-primary)',
+                    color: 'var(--brand-primary-foreground)',
+                  }}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Navy stat card right */}
+          <div className="md:justify-self-end">
+            <div
+              className="w-full max-w-sm rounded-lg p-8 text-center"
+              style={{
+                backgroundColor: 'var(--brand-primary)',
+                color: 'var(--brand-primary-foreground)',
+              }}
+            >
+              <p
+                className="text-7xl font-medium leading-none"
+                style={{ fontFamily: 'var(--brand-heading-font, inherit)' }}
+              >
+                63
+              </p>
+              <p className="mt-3 text-sm" style={{ fontFamily: 'var(--brand-body-font, inherit)', opacity: 0.85 }}>
+                Locations across the UK
+              </p>
+              <p
+                className="mt-6 text-[10px] font-semibold uppercase tracking-[0.2em]"
+                style={{ opacity: 0.7 }}
+              >
+                Scroll down to explore
+              </p>
+              {(fields.SecondaryLink?.value?.href || isEditing) && (
+                <div className="mt-5">
+                  <ContentSdkLink
+                    field={fields.SecondaryLink}
+                    className="inline-flex items-center justify-center rounded-full border border-white/40 px-5 py-2 text-xs font-semibold transition-colors hover:bg-white/10"
+                    style={{ color: 'var(--brand-primary-foreground)' }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Minimal — subtle background, inline text + link
    ──────────────────────────────────────────── */
 export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element => {

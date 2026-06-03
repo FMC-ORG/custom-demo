@@ -106,6 +106,76 @@ export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.El
 };
 
 /* ────────────────────────────────────────────
+   HCA — 50/50 split: navy eyebrow + heading + paragraph left,
+   single dark pill CTA, large photo right (no rounded corners on image)
+   ──────────────────────────────────────────── */
+export const HCA = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-24"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:gap-14 md:px-6">
+          {/* Text column */}
+          <div className="space-y-5">
+            {(fields.EyebrowText?.value || isEditing) && (
+              <Text
+                field={fields.EyebrowText}
+                tag="span"
+                className="inline-block text-xs font-semibold uppercase tracking-[0.18em]"
+                style={{ color: 'var(--brand-accent, #BE552E)' }}
+              />
+            )}
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-primary, #0C2141)' }}
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="text-base opacity-80 font-[var(--brand-body-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <div className="pt-2">
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
+                  style={{
+                    backgroundColor: 'var(--brand-primary, #0C2141)',
+                    color: 'var(--brand-primary-foreground, #ffffff)',
+                  }}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Image column - full bleed, no rounded corners */}
+          <div className="overflow-hidden">
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <ContentSdkImage
+                field={fields.FeatureImage}
+                className="h-full w-full object-cover aspect-[4/3]"
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Centered — centered text above, image below
    ──────────────────────────────────────────── */
 export const Centered = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {

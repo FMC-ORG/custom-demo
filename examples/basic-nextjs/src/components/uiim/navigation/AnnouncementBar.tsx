@@ -78,6 +78,46 @@ export const Default = ({ fields, params, page }: AnnouncementBarProps): JSX.Ele
   );
 };
 
+/* ────────────────────────────────────────────
+   HCA — warm cream utility strip, tiny text with dot separators
+   ──────────────────────────────────────────── */
+export const HCA = ({ fields, params, page }: AnnouncementBarProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <AnnouncementBarDefaultComponent />;
+
+  return (
+    <div
+      className={cn('component announcement-bar', styles)}
+      id={RenderingIdentifier}
+    >
+      <div
+        className="w-full py-1.5 px-4 text-[11px]"
+        style={{
+          backgroundColor: 'var(--brand-muted, #F5EFE6)',
+          color: 'var(--brand-fg, #0C2141)',
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-end gap-x-3 gap-y-1">
+          {(fields.Message?.value || isEditing) && (
+            <Text field={fields.Message} tag="span" className="opacity-80" />
+          )}
+          {(fields.Message?.value && fields.BarLink?.value?.href) && (
+            <span aria-hidden="true" className="opacity-40">&middot;</span>
+          )}
+          {(fields.BarLink?.value?.href || isEditing) && (
+            <ContentSdkLink
+              field={fields.BarLink}
+              className="font-medium underline-offset-2 hover:underline transition-opacity"
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const Highlight = ({ fields, params, page }: AnnouncementBarProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;

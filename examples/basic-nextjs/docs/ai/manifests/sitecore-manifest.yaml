@@ -1689,6 +1689,8 @@ components:
       variants:
         - "Default"
         - "AllOpen"
+        - "HCA"
+        - "HCAWithImage"
         - "TwoColumn"
 
     templates:
@@ -1700,6 +1702,8 @@ components:
         fields:
           - { name: "Title", type: "Single-Line Text" }
           - { name: "Description", type: "Rich Text" }
+          - { name: "Eyebrow", type: "Single-Line Text", itemId: "{8183B1CE-7D0A-4E34-A98B-95C057C977E3}" }
+          - { name: "Image", type: "Image", itemId: "{3E5F3AB4-99E7-4E63-83DF-AF9B034C5C90}" }
         baseTemplatesSet: true
         horizonDatasourceGrouping: true
         standardValues:
@@ -1756,7 +1760,7 @@ components:
       datasourceTemplatePath: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/FAQAccordion"
       datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='FAQAccordion Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='FAQAccordion Folder']"
       parametersTemplateId: "{76972C36-B419-4693-8D06-441D9837D77B}"
-      componentQuery: "query FAQAccordion($datasource: String!, $language: String!) { datasource: item(path: $datasource, language: $language) { title: field(name: \"Title\") { jsonValue } description: field(name: \"Description\") { jsonValue } children { results { id question: field(name: \"Question\") { jsonValue } answer: field(name: \"Answer\") { jsonValue } } } } }"
+      componentQuery: "query FAQAccordion($datasource: String!, $language: String!) { datasource: item(path: $datasource, language: $language) { title: field(name: \"Title\") { jsonValue } description: field(name: \"Description\") { jsonValue } eyebrow: field(name: \"Eyebrow\") { jsonValue } image: field(name: \"Image\") { jsonValue } children { results { id question: field(name: \"Question\") { jsonValue } answer: field(name: \"Answer\") { jsonValue } } } } }"
       componentQueryPattern: "generic-field-access"
       addFieldEditorButton: "1"
       registeredInAvailableRenderings: true
@@ -1767,6 +1771,8 @@ components:
       variants:
         - { name: "Default", itemId: "{3D01B4ED-75E0-4AD3-A6F4-FA47606082CB}" }
         - { name: "AllOpen", itemId: "{FFC0D7F8-8D1C-4A6E-8FC1-DD429718057A}" }
+        - { name: "HCA", itemId: "{BF47AE46-EE6A-4EB5-874B-795FF551A064}" }
+        - { name: "HCAWithImage", itemId: "{303CF69E-3BC8-416C-877D-479815BC1B79}" }
         - { name: "TwoColumn", itemId: "{9221A2EC-3D89-40AF-9569-ADF828F398F4}" }
 
     verification:

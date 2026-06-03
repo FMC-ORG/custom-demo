@@ -96,6 +96,8 @@ export const Default = ({ fields, params, page }: ValuePropositionGridProps): JS
                   <div className="mb-4 h-16 w-16 overflow-hidden">
                     <ContentSdkImage
                       field={item.itemIcon?.jsonValue}
+                      width={64}
+                      height={64}
                       className="h-full w-full object-contain"
                     />
                   </div>
@@ -156,6 +158,8 @@ export const TwoColumn = ({ fields, params, page }: ValuePropositionGridProps): 
                   <div className="mb-5 h-20 w-20 overflow-hidden">
                     <ContentSdkImage
                       field={item.itemIcon?.jsonValue}
+                      width={80}
+                      height={80}
                       className="h-full w-full object-contain"
                     />
                   </div>
@@ -216,6 +220,8 @@ export const FourColumn = ({ fields, params, page }: ValuePropositionGridProps):
                   <div className="mb-3 h-12 w-12 overflow-hidden">
                     <ContentSdkImage
                       field={item.itemIcon?.jsonValue}
+                      width={48}
+                      height={48}
                       className="h-full w-full object-contain"
                     />
                   </div>
@@ -269,6 +275,8 @@ export const Horizontal = ({ fields, params, page }: ValuePropositionGridProps):
                   <div className="h-14 w-14 shrink-0 overflow-hidden">
                     <ContentSdkImage
                       field={item.itemIcon?.jsonValue}
+                      width={56}
+                      height={56}
                       className="h-full w-full object-contain"
                     />
                   </div>

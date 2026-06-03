@@ -11,6 +11,7 @@ import * as TabNavigationSection from 'src/components/uiim/navigation/TabNavigat
 import * as SiteFooter from 'src/components/uiim/navigation/SiteFooter';
 import * as NavigationHeader from 'src/components/uiim/navigation/NavigationHeader';
 import * as AnnouncementBar from 'src/components/uiim/navigation/AnnouncementBar';
+import * as SmartMedia from 'src/components/uiim/media/SmartMedia';
 import * as ImageGallery from 'src/components/uiim/media/ImageGallery';
 import * as NewsletterSignup from 'src/components/uiim/forms/NewsletterSignup';
 import * as ValuePropositionGrid from 'src/components/uiim/content/ValuePropositionGrid';
@@ -79,6 +80,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['SiteFooter', { ...SiteFooter }],
   ['NavigationHeader', { ...NavigationHeader, componentType: 'client' }],
   ['AnnouncementBar', { ...AnnouncementBar }],
+  ['SmartMedia', { ...SmartMedia }],
   ['ImageGallery', { ...ImageGallery }],
   ['NewsletterSignup', { ...NewsletterSignup, componentType: 'client' }],
   ['ValuePropositionGrid', { ...ValuePropositionGrid }],

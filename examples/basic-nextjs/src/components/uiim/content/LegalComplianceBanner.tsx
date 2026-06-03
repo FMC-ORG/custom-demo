@@ -122,6 +122,8 @@ export const WithImage = ({ fields, params, page }: LegalComplianceBannerProps):
             {(fields.BannerImage?.value?.src || isEditing) && (
               <ContentSdkImage
                 field={fields.BannerImage}
+                width={400}
+                height={256}
                 className="max-h-64 w-auto object-contain"
               />
             )}

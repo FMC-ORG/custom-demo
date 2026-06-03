@@ -10,6 +10,7 @@ import {
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface FeatureHighlightFields {
   EyebrowText: Field<string>;
@@ -91,11 +92,14 @@ export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.El
             )}
             <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
           </div>
-          <div className="overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
+          <div className="relative min-h-[400px] overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
             {(fields.FeatureImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SmartMedia
                 field={fields.FeatureImage}
-                className="h-full w-full object-cover"
+                isEditing={isEditing}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
               />
             )}
           </div>
@@ -161,11 +165,14 @@ export const HCA = ({ fields, params, page }: FeatureHighlightProps): JSX.Elemen
           </div>
 
           {/* Image column - full bleed, no rounded corners */}
-          <div className="overflow-hidden">
+          <div className="relative overflow-hidden aspect-[4/3]">
             {(fields.FeatureImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SmartMedia
                 field={fields.FeatureImage}
-                className="h-full w-full object-cover aspect-[4/3]"
+                isEditing={isEditing}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
               />
             )}
           </div>
@@ -211,8 +218,11 @@ export const Centered = ({ fields, params, page }: FeatureHighlightProps): JSX.E
           </div>
           {(fields.FeatureImage?.value?.src || isEditing) && (
             <div className="mt-10 overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
-              <ContentSdkImage
+              <SmartMedia
                 field={fields.FeatureImage}
+                isEditing={isEditing}
+                width={1600}
+                height={900}
                 className="w-full object-cover"
               />
             </div>
@@ -257,11 +267,14 @@ export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.
             )}
             <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
           </div>
-          <div className="relative overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
+          <div className="relative min-h-[400px] overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
             {(fields.FeatureImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SmartMedia
                 field={fields.FeatureImage}
-                className="h-full w-full object-cover"
+                isEditing={isEditing}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
               />
             )}
             <div className="absolute inset-0 flex items-center justify-center bg-black/20">
@@ -305,6 +318,8 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
             <div className="h-16 w-16 shrink-0 overflow-hidden">
               <ContentSdkImage
                 field={fields.FeatureImage}
+                width={64}
+                height={64}
                 className="h-full w-full object-contain"
               />
             </div>

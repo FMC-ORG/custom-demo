@@ -105,6 +105,8 @@ export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.El
                   <div className="mb-4 h-12 w-12 overflow-hidden">
                     <ContentSdkImage
                       field={card.cardImage?.jsonValue}
+                      width={48}
+                      height={48}
                       className="h-full w-full object-contain"
                     />
                   </div>
@@ -191,7 +193,9 @@ export const HCA = ({ fields, params, page }: FeatureCardsGridProps): JSX.Elemen
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <ContentSdkImage
                       field={card.cardImage?.jsonValue}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
                 )}
@@ -265,6 +269,8 @@ export const TwoColumn = ({ fields, params, page }: FeatureCardsGridProps): JSX.
                   <div className="mb-5 h-14 w-14 overflow-hidden">
                     <ContentSdkImage
                       field={card.cardImage?.jsonValue}
+                      width={56}
+                      height={56}
                       className="h-full w-full object-contain"
                     />
                   </div>
@@ -329,10 +335,14 @@ export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage
-                    field={card.cardImage?.jsonValue}
-                    className="h-48 w-full object-cover"
-                  />
+                  <div className="relative h-48 w-full overflow-hidden">
+                    <ContentSdkImage
+                      field={card.cardImage?.jsonValue}
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
                 )}
                 <div className="flex flex-1 flex-col p-6">
                   {(card.cardTitle?.jsonValue?.value || isEditing) && (
@@ -430,7 +440,9 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
                         <div className="relative aspect-[3/4] overflow-hidden">
                           <ContentSdkImage
                             field={card.cardImage?.jsonValue}
-                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            fill
+                            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                           {/* Bottom gradient for text readability */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />

@@ -12,6 +12,7 @@ import {
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface HeroBannerCarouselSlideFields {
   id: string;
@@ -134,9 +135,12 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
               {/* Background image */}
               {(slide.slideImage?.jsonValue?.value?.src || isEditing) && (
                 <div className="absolute inset-0">
-                  <ContentSdkImage
+                  <SmartMedia
                     field={slide.slideImage?.jsonValue}
-                    className="h-full w-full object-cover"
+                    isEditing={isEditing}
+                    fill
+                    sizes="100vw"
+                    className="object-cover"
                   />
                 </div>
               )}
@@ -247,9 +251,12 @@ export const WithThumbnails = ({ fields, params, page }: HeroBannerCarouselProps
               >
                 {(slide.slideImage?.jsonValue?.value?.src || isEditing) && (
                   <div className="absolute inset-0">
-                    <ContentSdkImage
+                    <SmartMedia
                       field={slide.slideImage?.jsonValue}
-                      className="h-full w-full object-cover"
+                      isEditing={isEditing}
+                      fill
+                      sizes="100vw"
+                      className="object-cover"
                     />
                   </div>
                 )}
@@ -302,7 +309,9 @@ export const WithThumbnails = ({ fields, params, page }: HeroBannerCarouselProps
                 {slide.slideImage?.jsonValue?.value?.src && (
                   <ContentSdkImage
                     field={slide.slideImage?.jsonValue}
-                    className="h-full w-full object-cover"
+                    fill
+                    sizes="128px"
+                    className="object-cover"
                   />
                 )}
               </button>

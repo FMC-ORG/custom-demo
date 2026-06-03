@@ -38,10 +38,14 @@ export const Default = ({ fields, params, page }: ImageGalleryProps): JSX.Elemen
     <div className={cn('component image-gallery', styles)} id={RenderingIdentifier}>
       <figure className="w-full">
         {(fields.GalleryImage?.value?.src || isEditing) && (
-          <ContentSdkImage
-            field={fields.GalleryImage}
-            className="w-full max-h-[70vh] object-cover"
-          />
+          <div className="relative w-full" style={{ aspectRatio: '16 / 9' }}>
+            <ContentSdkImage
+              field={fields.GalleryImage}
+              fill
+              sizes="100vw"
+              className="object-cover"
+            />
+          </div>
         )}
         {(fields.Caption?.value || isEditing) && (
           <figcaption
@@ -68,10 +72,15 @@ export const Gallery = ({ fields, params, page }: ImageGalleryProps): JSX.Elemen
     <div className={cn('component image-gallery', styles)} id={RenderingIdentifier}>
       <figure className="mx-auto max-w-7xl px-4 py-8">
         {(fields.GalleryImage?.value?.src || isEditing) && (
-          <div className="overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
+          <div
+            className="relative w-full overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]"
+            style={{ aspectRatio: '16 / 9' }}
+          >
             <ContentSdkImage
               field={fields.GalleryImage}
-              className="w-full max-h-[60vh] object-cover"
+              fill
+              sizes="100vw"
+              className="object-cover"
             />
           </div>
         )}
@@ -112,6 +121,8 @@ export const Parallax = ({ fields, params, page }: ImageGalleryProps): JSX.Eleme
               <div className="flex h-full items-center justify-center">
                 <ContentSdkImage
                   field={fields.GalleryImage}
+                  width={400}
+                  height={400}
                   className="max-h-full max-w-full object-contain opacity-50"
                 />
               </div>

@@ -79,7 +79,7 @@ export const Default = ({ fields, params, page }: AnnouncementBarProps): JSX.Ele
 };
 
 /* ────────────────────────────────────────────
-   HCA — warm cream utility strip, tiny text with dot separators
+   HCA — warm cream utility strip; Message renders left, BarLink renders right
    ──────────────────────────────────────────── */
 export const HCA = ({ fields, params, page }: AnnouncementBarProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
@@ -87,31 +87,33 @@ export const HCA = ({ fields, params, page }: AnnouncementBarProps): JSX.Element
 
   if (!fields) return <AnnouncementBarDefaultComponent />;
 
+  const hasMessage = fields.Message?.value || isEditing;
+  const hasLink = fields.BarLink?.value?.href || isEditing;
+
   return (
     <div
       className={cn('component announcement-bar', styles)}
       id={RenderingIdentifier}
     >
       <div
-        className="w-full py-1.5 px-4 text-[11px]"
+        className="w-full py-2 px-4 text-[12px]"
         style={{
-          backgroundColor: 'var(--brand-muted, #F5EFE6)',
+          backgroundColor: '#F8E9C8',
           color: 'var(--brand-fg, #0C2141)',
         }}
       >
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-end gap-x-3 gap-y-1">
-          {(fields.Message?.value || isEditing) && (
-            <Text field={fields.Message} tag="span" className="opacity-80" />
-          )}
-          {(fields.Message?.value && fields.BarLink?.value?.href) && (
-            <span aria-hidden="true" className="opacity-40">&middot;</span>
-          )}
-          {(fields.BarLink?.value?.href || isEditing) && (
-            <ContentSdkLink
-              field={fields.BarLink}
-              className="font-medium underline-offset-2 hover:underline transition-opacity"
-            />
-          )}
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-4 gap-y-1">
+          <div className="flex flex-wrap items-center gap-x-4">
+            {hasMessage && <Text field={fields.Message} tag="span" />}
+          </div>
+          <div className="flex flex-wrap items-center gap-x-4">
+            {hasLink && (
+              <ContentSdkLink
+                field={fields.BarLink}
+                className="font-semibold hover:underline transition-opacity"
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

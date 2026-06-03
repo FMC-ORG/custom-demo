@@ -32,6 +32,12 @@
 
 - **Search Source** — An indexed content source in SitecoreAI that the SearchExperience component queries. Created and configured by the SE in the SitecoreAI UI as part of demo setup.
 
+## Media
+
+- **SmartMedia** — A wrapper component at `src/components/uiim/media/SmartMedia.tsx` that auto-detects whether a Sitecore Image field holds a video asset (via Content Hub's `dam-content-type='video'` attribute) and renders `<video>` or delegates to `ContentSdkImage` accordingly. Extends `ContentSdkImage`'s API with `width`/`height`/`fill`/`sizes` pass-through props and a default-dimension fallback (1600×900) that preserves Experience Editor editability when field values lack width/height. Scoped to [[Video-capable surface]]s only. See `docs/adr/0005-smartmedia-for-video-capable-surfaces.md`.
+
+- **Video-capable surface** — One of the five components allowed to use [[SmartMedia]] instead of `ContentSdkImage`: HeroBanner, HeroBannerCarousel (main slide only), CTABanner (`WithImage` variant), FeatureHighlight, ArticleHero (background only). Bounded scope prevents autoplay-video-in-icon-slot accidents. Other surfaces (icons, avatars, logos, footer marks, card thumbnails) stay on `ContentSdkImage`.
+
 ## Catalogs
 
 - **Component Registry** (`component-registry.yaml`) — Machine-readable index of datasource-based homepage components used by the Site Analyzer in the demo builder pipeline.

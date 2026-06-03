@@ -1,0 +1,138 @@
+# Client Brand Theme — HCA Healthcare UK
+# Source: https://www.hcahealthcare.co.uk/
+# Extracted: 2026-06-03
+
+client:
+  name: "HCA Healthcare UK"
+  sourceUrl: "https://www.hcahealthcare.co.uk/"
+  extractedAt: "2026-06-03T14:10:00Z"
+  extractedBy: "sitecore-extract-theme via Playwright scraper"
+
+colors:
+  # Deep navy — HCA primary brand color (used for headers, CTAs, dark sections)
+  primary: "#0C2141"
+  primaryForeground: "#FFFFFF"
+
+  # Warm copper / terracotta — call-to-action accent button color
+  secondary: "#BE552E"
+  secondaryForeground: "#FFFFFF"
+
+  # Accent (same as secondary for HCA — copper used as the accent throughout)
+  accent: "#BE552E"
+  accentForeground: "#FFFFFF"
+
+  # Page chrome
+  background: "#FFFFFF"
+  foreground: "#0C2141"
+  muted: "#F5F4EE"           # warm cream — used in alternating sections
+  mutedForeground: "#3A4D6E"  # mid navy for secondary text
+
+  # Header (white with dark navy text)
+  headerBackground: "#FFFFFF"
+  headerForeground: "#0C2141"
+
+  # Footer (deep navy)
+  footerBackground: "#0C2141"
+  footerForeground: "#FFFFFF"
+
+  border: "#E2E0D7"
+  ring: "#BE552E"
+  extra:
+    - name: "soft-cream"
+      hex: "#F8F5EC"
+      use: "alternating section background, card fills"
+    - name: "mint-aqua"
+      hex: "#D8E5DE"
+      use: "decorative section background (locations panel)"
+
+typography:
+  headingFamily: "'DM Sans', system-ui, sans-serif"
+  headingWeight: "500"
+  bodyFamily: "'DM Sans', system-ui, sans-serif"
+  bodyWeight: "400"
+  monoFamily: "ui-monospace, SFMono-Regular, monospace"
+  googleFontsUrl: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+  scale:
+    hero: "3rem"      # ~48px
+    h1: "2.25rem"     # ~36px
+    h2: "1.75rem"     # ~28px
+    h3: "1.25rem"     # ~20px
+    body: "1rem"      # 16px
+    small: "0.875rem"
+  headingTransform: "none"
+  letterSpacing: "-0.02em"
+  lineHeight: "1.4"
+
+spacing:
+  density: "comfortable"
+  sectionGap: "5rem"
+  containerMaxWidth: "1440px"
+  containerPadding: "1.5rem"
+
+shape:
+  borderRadius: "0.5rem"
+  buttonRadius: "9999px"   # HCA uses fully-rounded pill buttons in hero
+  cardRadius: "0.5rem"
+  imageRadius: "0.5rem"
+  shadowStyle: "none"      # HCA uses borders, not shadows
+  borderStyle: "1px solid var(--brand-border)"
+
+tone:
+  overall: "trustworthy, premium, calm"
+  colorMode: "light"
+  contrast: "high"
+  imagery: "real clinical staff and patients, warm lighting, candid portraits"
+  heroStyle: "full-bleed image with dark gradient overlay and white pill CTAs"
+  cardStyle: "rounded borders, image-top with white text on dark overlay, large clickable tiles"
+  navStyle: "white top bar with deep navy text + logo, minimal links, search icon"
+
+tailwind:
+  colors:
+    brand:
+      primary: "#0C2141"
+      secondary: "#BE552E"
+      accent: "#BE552E"
+  fontFamily:
+    heading: ["DM Sans", "system-ui", "sans-serif"]
+    body: ["DM Sans", "system-ui", "sans-serif"]
+  borderRadius:
+    DEFAULT: "0.5rem"
+    button: "9999px"
+    card: "0.5rem"
+
+# CSS :root block ready to inline into globals.css (above @layer base)
+cssVariables: |
+  :root {
+    /* HCA Healthcare UK brand theme */
+    --brand-primary: #0C2141;
+    --brand-primary-foreground: #FFFFFF;
+    --brand-accent: #BE552E;
+    --brand-accent-foreground: #FFFFFF;
+    --brand-dark: #0C2141;
+    --brand-dark-foreground: #FFFFFF;
+    --brand-bg: #FFFFFF;
+    --brand-fg: #0C2141;
+    --brand-muted: #F5F4EE;
+    --brand-muted-foreground: #3A4D6E;
+    --brand-border: #E2E0D7;
+    --brand-header-bg: #FFFFFF;
+    --brand-header-fg: #0C2141;
+    --brand-footer-bg: #0C2141;
+    --brand-footer-fg: #FFFFFF;
+    --brand-heading-font: 'DM Sans', system-ui, sans-serif;
+    --brand-body-font: 'DM Sans', system-ui, sans-serif;
+    --brand-button-radius: 9999px;
+    --brand-card-radius: 0.5rem;
+  }
+
+extraction:
+  confidence: "high"
+  method: "Playwright scraper + visual inspection of desktop and hero screenshots"
+  notes:
+    - "Primary brand color (deep navy #0C2141) extracted directly from CSS bodyColor / heroBackground"
+    - "Accent / CTA color (warm copper #BE552E) extracted from primaryButtonBackground"
+    - "HCA uses a proprietary font 'Mark for HCA' which is not free. Substituted with 'DM Sans' (Google Font) — closest modern, friendly geometric sans match for healthcare context"
+    - "Button radius reduced from 2px scraper value to fully-rounded pill (9999px) based on visual hero screenshot — HCA hero CTAs are pill-shaped"
+    - "Card border radius 8px → 0.5rem"
+    - "Soft cream (#F5F4EE) and mint-aqua (#D8E5DE) detected as alternating section backgrounds via visual review (Becoming a patient, Locations panels)"
+    - "Hero text/links are white on dark — handled via --brand-dark-foreground"

@@ -153,6 +153,8 @@ export const WithIcons = ({ fields, params, page }: TrustStatsRowProps): JSX.Ele
                   <div className="mb-3 h-12 w-12 overflow-hidden">
                     <ContentSdkImage
                       field={item.statIcon?.jsonValue}
+                      width={48}
+                      height={48}
                       className="h-full w-full object-contain"
                     />
                   </div>
@@ -214,6 +216,8 @@ export const LogoRow = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
                   <div className="h-12 w-auto overflow-hidden opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0">
                     <ContentSdkImage
                       field={item.statIcon?.jsonValue}
+                      width={140}
+                      height={48}
                       className="h-full w-auto object-contain"
                     />
                   </div>

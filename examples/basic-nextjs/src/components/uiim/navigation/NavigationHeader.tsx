@@ -63,6 +63,8 @@ const Logo = ({
       {hasImage ? (
         <ContentSdkImage
           field={brandLogo}
+          width={160}
+          height={40}
           className="h-8 w-auto object-contain sm:h-10"
         />
       ) : (
@@ -295,11 +297,27 @@ export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JS
 };
 
 /* ────────────────────────────────────────────
-   HCA — white bar, navy nav links centered, logo left, search/CTA right
+   HCA — white bar, logo left (with "Healthcare UK" subtitle), nav links right, search icon only
    ──────────────────────────────────────────── */
-export const HCA = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
+const HCALogoMark = ({ className }: { className?: string }) => (
+  <svg
+    width="34"
+    height="34"
+    viewBox="0 0 40 40"
+    fill="currentColor"
+    aria-hidden="true"
+    className={cn('shrink-0', className)}
+  >
+    {/* Cross of four squares — approximation of HCA mark */}
+    <rect x="15" y="2" width="10" height="10" rx="1" />
+    <rect x="2" y="15" width="10" height="10" rx="1" />
+    <rect x="28" y="15" width="10" height="10" rx="1" />
+    <rect x="15" y="28" width="10" height="10" rx="1" />
+  </svg>
+);
+
+export const HCA = ({ fields, params }: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
-  const isEditing = page?.mode?.isEditing;
   const [menuOpen, setMenuOpen] = useState(false);
 
   const datasource = fields?.data?.datasource;
@@ -307,8 +325,6 @@ export const HCA = ({ fields, params, page }: NavigationHeaderProps): JSX.Elemen
 
   const links = datasource.children?.results || [];
   const brandLogo = datasource.brandLogo?.jsonValue;
-  const ctaLabel = datasource.ctaLabel?.jsonValue;
-  const ctaLink = datasource.ctaLink?.jsonValue;
 
   return (
     <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
@@ -319,47 +335,56 @@ export const HCA = ({ fields, params, page }: NavigationHeaderProps): JSX.Elemen
           color: 'var(--brand-header-fg, #0C2141)',
         }}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6">
-          {/* Logo left */}
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-3 sm:px-6">
+          {/* Logo left — image if provided, otherwise HCA cross + wordmark */}
           <div className="shrink-0">
             <Link
               href="/"
-              className="flex items-center"
+              className="flex items-center gap-2"
               style={{ color: 'var(--brand-header-fg, #0C2141)' }}
             >
               {brandLogo?.value?.src ? (
                 <ContentSdkImage
                   field={brandLogo}
+                  width={200}
+                  height={48}
                   className="h-10 w-auto object-contain sm:h-12"
                 />
               ) : (
-                <span className="text-xl font-bold tracking-tight">HCA</span>
+                <>
+                  <HCALogoMark />
+                  <span className="flex flex-col leading-none">
+                    <span className="text-2xl font-bold tracking-tight">HCA</span>
+                    <span className="text-[11px] font-medium tracking-wide opacity-80">
+                      Healthcare UK
+                    </span>
+                  </span>
+                </>
               )}
             </Link>
           </div>
 
-          {/* Centered nav links */}
-          <nav className="hidden flex-1 items-center justify-center gap-7 lg:flex">
-            {links.map((item) => (
-              <ContentSdkLink
-                key={item.id}
-                field={item.linkUrl?.jsonValue}
-                className="text-[15px] font-medium transition-opacity hover:opacity-70"
-                style={{ color: 'var(--brand-header-fg, #0C2141)' }}
-              >
-                {item.linkText?.jsonValue?.value && (
-                  <Text field={item.linkText?.jsonValue} />
-                )}
-              </ContentSdkLink>
-            ))}
-          </nav>
+          {/* Right-aligned nav links + search icon */}
+          <div className="flex items-center gap-6">
+            <nav className="hidden items-center gap-7 lg:flex">
+              {links.map((item) => (
+                <ContentSdkLink
+                  key={item.id}
+                  field={item.linkUrl?.jsonValue}
+                  className="text-[15px] font-medium transition-opacity hover:opacity-70"
+                  style={{ color: 'var(--brand-header-fg, #0C2141)' }}
+                >
+                  {item.linkText?.jsonValue?.value && (
+                    <Text field={item.linkText?.jsonValue} />
+                  )}
+                </ContentSdkLink>
+              ))}
+            </nav>
 
-          {/* Right: search icon + optional pill CTA */}
-          <div className="flex shrink-0 items-center gap-3">
             <button
               type="button"
               aria-label="Search"
-              className="hidden h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-black/5 md:flex"
+              className="hidden h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-black/5 md:flex"
               style={{ color: 'var(--brand-header-fg, #0C2141)' }}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -367,18 +392,7 @@ export const HCA = ({ fields, params, page }: NavigationHeaderProps): JSX.Elemen
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
             </button>
-            {(ctaLink?.value?.href || isEditing) && (
-              <ContentSdkLink
-                field={ctaLink}
-                className="hidden md:inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90"
-                style={{
-                  backgroundColor: 'var(--brand-primary)',
-                  color: 'var(--brand-primary-foreground)',
-                }}
-              >
-                {ctaLabel?.value && <Text field={ctaLabel} />}
-              </ContentSdkLink>
-            )}
+
             <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
           </div>
         </div>

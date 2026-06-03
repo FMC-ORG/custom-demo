@@ -11,7 +11,7 @@ SharedFields:
     <image mediaid="{9F85C92F-8272-4FFC-AE28-C999600E6E65}" />
 - ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
   Hint: __Shared revision
-  Value: "f269e70a-ac22-4ac3-beb3-262da8ed8a48"
+  Value: "990e959b-1240-42db-9a18-1c5b19ec4b51"
 - ID: "f6d8a61c-2f84-4401-bd24-52d2068172bc"
   Hint: __Originator
   Value: "{F558BEC9-C602-4D7A-B9A1-D0411C946EA4}"
@@ -25,7 +25,34 @@ Languages:
       Value: <r />
     - ID: "04bf00db-f5fb-41f7-8ab7-22408372a981"
       Hint: __Final Renderings
-      Value: 
+      Value: |
+        <r xmlns:p="p" xmlns:s="s"
+          p:p="1">
+          <d
+            id="{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}">
+            <r
+              uid="{01803F0C-CDDF-45AC-9657-7A615B21F76E}"
+              p:before="*"
+              s:ds="9472e95d-27a2-46da-9e6b-705c39f3d07d"
+              s:id="{01FAB68F-ADAE-4AD1-BFC6-1AE6125E71E7}"
+              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=2"
+              s:ph="headless-main" />
+            <r
+              uid="{8F8DD0EB-0E97-4001-BF7B-5849FACE371D}"
+              p:after="r[@uid='{01803F0C-CDDF-45AC-9657-7A615B21F76E}']"
+              s:ds="0af8cfa6-8411-4e37-9d1c-6cda9795449c"
+              s:id="{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}"
+              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;columns&amp;pageSize&amp;FieldNames&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=3"
+              s:ph="headless-main" />
+            <r
+              uid="{56C4B5D4-6264-4FCF-879E-6226F8B266AA}"
+              p:after="*[1=2]"
+              s:ds="8df02a79-10ac-4650-a995-fcaae45743f4"
+              s:id="{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}"
+              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7B948210B2-B8AF-47C1-A04F-E220071C0A63%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=1"
+              s:ph="headless-main" />
+          </d>
+        </r>
     - ID: "1cd91ae6-dbe5-40ef-b819-b1959a8a6903"
       Hint: Title
       Value: Home
@@ -45,11 +72,11 @@ Languages:
         sitecore\federico.mujica@sitecore.com
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "cb7e8c1c-dfe0-40c2-be5b-e8f44b2ead94"
+      Value: "13fa32c9-084e-43f2-a5cb-25bee7eaf74b"
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
         sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260505T183651Z
+      Value: 20260521T075716Z

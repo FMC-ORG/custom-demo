@@ -137,10 +137,14 @@ export const Default = ({ fields, params, page }: ProductPricingCardsProps): JSX
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage
-                    field={card.cardImage?.jsonValue}
-                    className="h-48 w-full object-cover"
-                  />
+                  <div className="relative h-48 w-full overflow-hidden">
+                    <ContentSdkImage
+                      field={card.cardImage?.jsonValue}
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
                 )}
                 <div className="flex flex-1 flex-col p-6">
                   <Badge field={card.badgeText?.jsonValue} isEditing={isEditing} />
@@ -197,10 +201,12 @@ export const Horizontal = ({ fields, params, page }: ProductPricingCardsProps): 
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <div className="md:w-1/3">
+                  <div className="relative md:w-1/3 min-h-[200px]">
                     <ContentSdkImage
                       field={card.cardImage?.jsonValue}
-                      className="h-full w-full object-cover"
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover"
                     />
                   </div>
                 )}
@@ -333,10 +339,14 @@ export const Highlighted = ({ fields, params, page }: ProductPricingCardsProps):
                     </div>
                   )}
                   {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                    <ContentSdkImage
-                      field={card.cardImage?.jsonValue}
-                      className="h-48 w-full object-cover"
-                    />
+                    <div className="relative h-48 w-full overflow-hidden">
+                      <ContentSdkImage
+                        field={card.cardImage?.jsonValue}
+                        fill
+                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover"
+                      />
+                    </div>
                   )}
                   <div className="flex flex-1 flex-col p-6">
                     <Badge field={card.badgeText?.jsonValue} isEditing={isEditing} />

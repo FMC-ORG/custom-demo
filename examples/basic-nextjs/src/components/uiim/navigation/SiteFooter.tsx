@@ -62,6 +62,8 @@ const Logo = ({ brandLogo }: { brandLogo?: ImageField }) => {
       {hasImage ? (
         <ContentSdkImage
           field={brandLogo}
+          width={160}
+          height={40}
           className="h-8 w-auto object-contain brightness-0 invert sm:h-10"
         />
       ) : (

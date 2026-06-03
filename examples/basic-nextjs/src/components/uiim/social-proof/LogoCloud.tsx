@@ -106,6 +106,8 @@ export const Default = ({ fields, params, page }: LogoCloudProps): JSX.Element =
                 {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
                   <ContentSdkImage
                     field={item.logoImage?.jsonValue}
+                    width={140}
+                    height={40}
                     className="h-10 max-w-[140px] object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
                   />
                 )}
@@ -142,6 +144,8 @@ export const Grid = ({ fields, params, page }: LogoCloudProps): JSX.Element => {
                 {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
                   <ContentSdkImage
                     field={item.logoImage?.jsonValue}
+                    width={140}
+                    height={40}
                     className="h-10 max-w-[140px] object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
                   />
                 )}
@@ -179,6 +183,8 @@ export const WithLabels = ({ fields, params, page }: LogoCloudProps): JSX.Elemen
                   {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
                     <ContentSdkImage
                       field={item.logoImage?.jsonValue}
+                      width={140}
+                      height={40}
                       className="h-10 max-w-[140px] object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
                     />
                   )}

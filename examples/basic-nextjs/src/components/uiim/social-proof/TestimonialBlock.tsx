@@ -67,6 +67,8 @@ const AuthorAttribution = ({
     {(item.authorImage?.jsonValue?.value?.src || isEditing) && (
       <ContentSdkImage
         field={item.authorImage?.jsonValue}
+        width={56}
+        height={56}
         className={cn(
           'rounded-full object-cover',
           size === 'lg' ? 'h-14 w-14' : 'h-12 w-12'
@@ -140,6 +142,8 @@ export const Default = ({ fields, params, page }: TestimonialBlockProps): JSX.El
                 <div className="mt-4 flex justify-center">
                   <ContentSdkImage
                     field={item.companyLogo?.jsonValue}
+                    width={120}
+                    height={32}
                     className="h-8 max-w-[120px] object-contain opacity-60"
                   />
                 </div>
@@ -190,10 +194,12 @@ export const HCA = ({ fields, params, page }: TestimonialBlockProps): JSX.Elemen
                 }}
               >
                 {(item.authorImage?.jsonValue?.value?.src || isEditing) && (
-                  <div className="aspect-[4/5] overflow-hidden">
+                  <div className="relative aspect-[4/5] overflow-hidden">
                     <ContentSdkImage
                       field={item.authorImage?.jsonValue}
-                      className="h-full w-full object-cover"
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover"
                     />
                   </div>
                 )}
@@ -344,6 +350,8 @@ export const Grid = ({ fields, params, page }: TestimonialBlockProps): JSX.Eleme
                   <div className="mt-3">
                     <ContentSdkImage
                       field={item.companyLogo?.jsonValue}
+                      width={100}
+                      height={24}
                       className="h-6 max-w-[100px] object-contain opacity-50"
                     />
                   </div>
@@ -389,6 +397,8 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
                 <div className="shrink-0">
                   <ContentSdkImage
                     field={item.authorImage?.jsonValue}
+                    width={128}
+                    height={128}
                     className="h-32 w-32 rounded-full object-cover shadow-md"
                   />
                 </div>
@@ -409,6 +419,8 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
                   <div className="mt-4">
                     <ContentSdkImage
                       field={item.companyLogo?.jsonValue}
+                      width={120}
+                      height={32}
                       className="h-8 max-w-[120px] object-contain opacity-60"
                     />
                   </div>

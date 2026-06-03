@@ -11,6 +11,7 @@ import {
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 import { PersonReference } from 'src/Layout';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface ArticleHeroRouteFields {
   Title?: Field<string>;
@@ -143,8 +144,9 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
         <div className="relative min-h-[60vh] bg-gray-900">
           {(ArticleImage?.value?.src || isEditing) && (
             <div className="absolute inset-0 opacity-40">
-              <ContentSdkImage
+              <SmartMedia
                 field={ArticleImage}
+                isEditing={isEditing}
                 className="h-full w-full object-cover"
                 fill
                 sizes="100vw"
@@ -316,8 +318,9 @@ export const SplitImage = ({ params, page }: ComponentProps): JSX.Element => {
           {/* Right column — image */}
           {(ArticleImage?.value?.src || isEditing) && (
             <div className="aspect-[4/3] overflow-hidden rounded-lg" data-testid="split-image">
-              <ContentSdkImage
+              <SmartMedia
                 field={ArticleImage}
+                isEditing={isEditing}
                 className="h-full w-full object-cover"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"

@@ -3,13 +3,13 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface CTABannerFields {
   Title: Field<string>;
@@ -112,9 +112,12 @@ export const WithImage = ({ fields, params, page }: CTABannerProps): JSX.Element
       <section className="relative w-full overflow-hidden">
         {(fields.BackgroundImage?.value?.src || isEditing) && (
           <div className="absolute inset-0">
-            <ContentSdkImage
+            <SmartMedia
               field={fields.BackgroundImage}
-              className="h-full w-full object-cover"
+              isEditing={isEditing}
+              fill
+              sizes="100vw"
+              className="object-cover"
             />
           </div>
         )}

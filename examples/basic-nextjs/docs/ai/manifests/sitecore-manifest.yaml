@@ -2909,4 +2909,35 @@ lookups:
     lastReadAt: "2026-05-18T12:00:00Z"
 
 # Demo datasource items (AI-created content, not new component definitions)
-demoContent: []
+demoContent:
+  - name: "London Bridge Hospital page"
+    createdAt: "2026-06-04T14:00:00Z"
+    notes:
+      - "Phase 4 of London Bridge Hospital build. Page + datasources + presentation wired via MCP. Variants on each placed rendering need to be set manually in Page Builder (FieldNames rendering parameter — MCP cannot set this)."
+    pages:
+      - name: "Hospitals"
+        path: "/sitecore/content/main/main-website/Home/Locations/Hospitals"
+        itemId: "{670307A0-4644-44CF-ABB6-5AF042C44541}"
+      - name: "London Bridge Hospital"
+        path: "/sitecore/content/main/main-website/Home/Locations/Hospitals/London Bridge Hospital"
+        itemId: "{151A69F1-C757-46F2-9397-FB27CFE84DD4}"
+        templateId: "{CEBD0936-6B37-42B5-B169-369BB1C3C06A}"
+        route: "/Locations/Hospitals/London-Bridge-Hospital"
+    datasources:
+      - { component: "HeroBanner", name: "London Bridge Hero", itemId: "{60B4DD9B-2D2F-40F8-B390-F934752568BF}", variantTarget: "HospitalHero", variantId: "{9349A182-CC8C-43D3-82A9-99F46E97445A}" }
+      - { component: "FeatureCardsGrid", name: "LBH Departments", itemId: "{55820090-559B-42B3-B9A3-448ED3CEC859}", variantTarget: "HCA", variantId: "{A2CF9327-CB48-47F7-9AD9-F2568066C008}" }
+      - { component: "PatientAmenities", name: "LBH Amenities", itemId: "{29C2C033-2BAB-4690-A0EA-FA1CC1E0DADF}", variantTarget: "HCA", variantId: "{A4C75EC7-781E-4BE1-BAFD-BFD5DDED8C25}" }
+      - { component: "FeatureHighlight", name: "LBH Outstanding Care", itemId: "{F267D6E5-4C89-4A6A-8B89-C477DD67CCF3}", variantTarget: "HCAImageLeft", variantId: "{750066CB-F236-4341-B27F-99FDE1BBA7BC}" }
+      - { component: "FeatureHighlight", name: "LBH Doctors", itemId: "{F24CB1A3-456B-4164-8771-7B8EB53FE7AC}", variantTarget: "HCA", variantId: "{958CEE21-C255-4975-985B-EBC498D0F149}" }
+      - { component: "FeatureHighlight", name: "LBH Leadership", itemId: "{313FEE56-61A5-4C20-973F-2C0464970C34}", variantTarget: "HCAImageLeft", variantId: "{750066CB-F236-4341-B27F-99FDE1BBA7BC}" }
+      - { component: "TestimonialBlock", name: "LBH Reviews", itemId: "{4D6CE0BE-8B4A-412E-BA3C-F29AF1C69CB4}", variantTarget: "HCAReviews", variantId: "{50194669-4BCD-4F40-994D-C8E6F7AAC7C6}" }
+      - { component: "JourneyBar", name: "Hospital Journey Bar", itemId: "{323F5C18-9ABB-4698-A411-5704DFBC1896}", variantTarget: "Default", variantId: "{3532D957-04A6-4581-AD5A-7A928899FE24}" }
+    placedRenderings:
+      - { instanceId: "4376e37b-0361-4e52-8d91-8542b9a18018", rendering: "HeroBanner", placeholder: "headless-main", order: 1 }
+      - { instanceId: "675640cb-168c-4c6b-9d0a-0b7eb1e9fa3b", rendering: "FeatureCardsGrid", placeholder: "headless-main", order: 2 }
+      - { instanceId: "aebc643e-1856-4bf0-bc3f-c50f454c8b14", rendering: "PatientAmenities", placeholder: "headless-main", order: 3 }
+      - { instanceId: "e4d2de5a-4abd-4f05-ab65-997528d05dfc", rendering: "FeatureHighlight (Outstanding Care)", placeholder: "headless-main", order: 4 }
+      - { instanceId: "2e46141a-d285-4ad1-833e-7d7407d22f80", rendering: "FeatureHighlight (Doctors)", placeholder: "headless-main", order: 5 }
+      - { instanceId: "7ac62a2c-bdf0-469d-af67-d1da74f0b00f", rendering: "FeatureHighlight (Leadership)", placeholder: "headless-main", order: 6 }
+      - { instanceId: "25a3dcfa-b5c0-473e-91e2-80dc172e340b", rendering: "TestimonialBlock", placeholder: "headless-main", order: 7 }
+      - { instanceId: "d2836b8a-5b5a-4bff-a18e-d1823d990c5a", rendering: "JourneyBar", placeholder: "headless-main", order: 8 }

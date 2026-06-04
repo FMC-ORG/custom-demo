@@ -256,6 +256,8 @@ components:
         - "SplitImageText"
         - "BackgroundImage"
         - "VideoBackground"
+        - "HCA"
+        - "HospitalHero"
         - "Minimal"
 
     templates:
@@ -264,12 +266,19 @@ components:
         path: "/sitecore/templates/Project/fmc-custom-demo/Components/Banners/HeroBanner"
         itemId: "{EBB89BFF-86FF-496D-B4F7-57FE722342B6}"
         sectionName: "Data"
+        sectionId: "{36B64970-2718-404A-BDAA-12713A7DFAE4}"
         fields:
           - { name: "Title", type: "Single-Line Text" }
           - { name: "Subtitle", type: "Rich Text" }
           - { name: "HeroImage", type: "Image" }
           - { name: "PrimaryLink", type: "General Link" }
           - { name: "SecondaryLink", type: "General Link" }
+          - { name: "Address", type: "Single-Line Text", itemId: "{98B0B11B-28FF-4254-8DFB-180FCD1492CA}" }
+          - { name: "Hours", type: "Single-Line Text", itemId: "{82F03FCF-CF24-4122-AFE3-5E09F85898A3}" }
+          - { name: "Phone", type: "Single-Line Text", itemId: "{C1B55B94-DE87-4751-A20B-9FFC7E861717}" }
+          - { name: "ReviewsCount", type: "Single-Line Text", itemId: "{66B84598-5FA5-46DE-898F-908A5F863814}" }
+          - { name: "RatingValue", type: "Single-Line Text", itemId: "{BD482421-95A7-4D21-AFC7-95188CF36500}" }
+          - { name: "TertiaryLink", type: "General Link", itemId: "{D31CB278-5C5C-47A3-BD45-B2CD2BD3AFA6}" }
         baseTemplatesSet: true
         standardValues:
           itemId: "{07745080-E4BF-4D2A-B3BC-94EC512C8B2B}"
@@ -319,6 +328,8 @@ components:
         - { name: "SplitImageText", itemId: "{085ED09F-42C4-4C25-BB70-CC13D3F9AF8F}" }
         - { name: "BackgroundImage", itemId: "{948210B2-B8AF-47C1-A04F-E220071C0A63}" }
         - { name: "VideoBackground", itemId: "{96586509-EBD7-4642-A127-0C65AEE1BD99}" }
+        - { name: "HCA", itemId: "{34137576-C140-4431-93E5-5E03FA6A64CC}" }
+        - { name: "HospitalHero", itemId: "{9349A182-CC8C-43D3-82A9-99F46E97445A}" }
         - { name: "Minimal", itemId: "{FA46BF9A-3783-4615-B4E6-5F5B33A78B48}" }
 
     verification:

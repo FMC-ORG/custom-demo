@@ -339,11 +339,7 @@ export const HCA = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
               {(fields.PrimaryLink?.value?.href || isEditing) && (
                 <ContentSdkLink
                   field={fields.PrimaryLink}
-                  className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
-                  style={{
-                    backgroundColor: 'var(--brand-accent, #BE552E)',
-                    color: '#ffffff',
-                  }}
+                  className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-semibold bg-[#A6E5DE] text-[var(--brand-primary,#0C2141)] transition-colors duration-200 hover:bg-[var(--brand-primary,#0C2141)] hover:text-white"
                 />
               )}
               {(fields.SecondaryLink?.value?.href || isEditing) && (

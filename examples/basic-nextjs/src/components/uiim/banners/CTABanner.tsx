@@ -246,11 +246,7 @@ export const HCA = ({ fields, params, page }: CTABannerProps): JSX.Element => {
               <div className="mt-8">
                 <ContentSdkLink
                   field={fields.PrimaryLink}
-                  className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
-                  style={{
-                    backgroundColor: 'var(--brand-primary)',
-                    color: 'var(--brand-primary-foreground)',
-                  }}
+                  className="inline-flex items-center justify-center rounded-full border border-[var(--brand-primary,#0C2141)] bg-[var(--brand-primary,#0C2141)] px-7 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-white hover:text-[var(--brand-primary,#0C2141)]"
                 />
               </div>
             )}

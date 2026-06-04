@@ -24,6 +24,8 @@ interface FeatureCardItemFields {
 interface FeatureCardsGridDatasource {
   title: { jsonValue: Field<string> };
   description: { jsonValue: Field<string> };
+  footerCtaLabel?: { jsonValue: Field<string> };
+  footerCtaLink?: { jsonValue: LinkField };
   children: {
     results: FeatureCardItemFields[];
   };
@@ -231,6 +233,20 @@ export const HCA = ({ fields, params, page }: FeatureCardsGridProps): JSX.Elemen
               </article>
             ))}
           </div>
+
+          {/* Optional footer CTA below the cards (e.g. "View all HCA UK services") */}
+          {datasource.footerCtaLink && (datasource.footerCtaLink.jsonValue?.value?.href || isEditing) && (
+            <div className="mt-10 flex justify-start">
+              <ContentSdkLink
+                field={datasource.footerCtaLink.jsonValue}
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--brand-primary,#0C2141)] bg-transparent px-7 py-3 text-sm font-semibold text-[var(--brand-primary,#0C2141)] transition-colors duration-200 hover:bg-[var(--brand-primary,#0C2141)] hover:text-white"
+              >
+                {datasource.footerCtaLabel?.jsonValue?.value && (
+                  <Text field={datasource.footerCtaLabel.jsonValue} />
+                )}
+              </ContentSdkLink>
+            </div>
+          )}
         </div>
       </section>
     </div>

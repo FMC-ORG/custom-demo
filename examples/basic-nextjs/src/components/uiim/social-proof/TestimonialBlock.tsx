@@ -1,4 +1,6 @@
-import React, { JSX } from 'react';
+'use client';
+
+import React, { JSX, useState } from 'react';
 import {
   Field,
   ImageField,
@@ -21,6 +23,9 @@ interface TestimonialItemFields {
 
 interface TestimonialBlockDatasource {
   sectionTitle: { jsonValue: Field<string> };
+  ratingValue?: { jsonValue: Field<string> };
+  reviewsCount?: { jsonValue: Field<string> };
+  verifiedBy?: { jsonValue: Field<string> };
   children: {
     results: TestimonialItemFields[];
   };
@@ -427,6 +432,136 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
                 )}
               </div>
             </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   HCAReviews — large rating number, mint stars, quote with circle nav arrows.
+   Used by hospital pages for the aggregate reviews section
+   (e.g. "5 / ★★★★★ / 4,301 Reviews / Verified by Doctify").
+   ──────────────────────────────────────────── */
+const HCAStarIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+  </svg>
+);
+
+const HCAArrowIcon = ({ direction }: { direction: 'left' | 'right' }) => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {direction === 'left' ? (
+      <>
+        <line x1="19" y1="12" x2="5" y2="12" />
+        <polyline points="12 19 5 12 12 5" />
+      </>
+    ) : (
+      <>
+        <line x1="5" y1="12" x2="19" y2="12" />
+        <polyline points="12 5 19 12 12 19" />
+      </>
+    )}
+  </svg>
+);
+
+export const HCAReviews = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TestimonialBlockDefaultComponent />;
+
+  const items = datasource.children?.results || [];
+  const [activeIndex, setActiveIndex] = useState(0);
+  const safeIndex = items.length > 0 ? activeIndex % items.length : 0;
+  const activeItem = items[safeIndex];
+
+  const ratingNumber = Number(datasource.ratingValue?.jsonValue?.value ?? 0);
+  const fullStars = Math.max(0, Math.min(5, Math.round(ratingNumber)));
+
+  const goPrev = () => setActiveIndex((i) => (items.length ? (i - 1 + items.length) % items.length : 0));
+  const goNext = () => setActiveIndex((i) => (items.length ? (i + 1) % items.length : 0));
+
+  return (
+    <div className={cn('component testimonial-block', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-24"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+          {/* Big rating number */}
+          {(datasource.ratingValue?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.ratingValue?.jsonValue}
+              tag="div"
+              className="text-7xl font-bold leading-none tracking-tight md:text-8xl font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-primary, #0C2141)' }}
+            />
+          )}
+
+          {/* Stars row */}
+          <div className="mt-4 flex items-center gap-2" style={{ color: '#A6E5DE' }}>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <span key={i} style={{ opacity: i < fullStars ? 1 : 0.25 }}>
+                <HCAStarIcon />
+              </span>
+            ))}
+          </div>
+
+          {/* Reviews count */}
+          {(datasource.reviewsCount?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.reviewsCount?.jsonValue}
+              tag="p"
+              className="mt-3 text-base font-medium"
+              style={{ color: 'var(--brand-primary, #0C2141)' }}
+            />
+          )}
+
+          {/* Quote */}
+          {activeItem && (activeItem.quoteText?.jsonValue?.value || isEditing) && (
+            <div className="mt-10 max-w-2xl">
+              <ContentSdkRichText
+                field={activeItem.quoteText?.jsonValue}
+                className="text-lg leading-relaxed md:text-xl"
+                style={{ color: 'var(--brand-primary, #0C2141)' }}
+              />
+            </div>
+          )}
+
+          {/* Circle nav arrows */}
+          {items.length > 1 && !isEditing && (
+            <div className="mt-8 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={goPrev}
+                aria-label="Previous review"
+                className="flex h-11 w-11 items-center justify-center rounded-full text-white transition-opacity hover:opacity-80"
+                style={{ backgroundColor: 'var(--brand-primary, #0C2141)' }}
+              >
+                <HCAArrowIcon direction="left" />
+              </button>
+              <button
+                type="button"
+                onClick={goNext}
+                aria-label="Next review"
+                className="flex h-11 w-11 items-center justify-center rounded-full text-white transition-opacity hover:opacity-80"
+                style={{ backgroundColor: 'var(--brand-primary, #0C2141)' }}
+              >
+                <HCAArrowIcon direction="right" />
+              </button>
+            </div>
+          )}
+
+          {/* Verified by */}
+          {(datasource.verifiedBy?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.verifiedBy?.jsonValue}
+              tag="p"
+              className="mt-6 text-sm opacity-70"
+              style={{ color: 'var(--brand-primary, #0C2141)' }}
+            />
           )}
         </div>
       </section>

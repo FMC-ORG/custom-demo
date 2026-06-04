@@ -18,6 +18,7 @@ interface FeatureHighlightFields {
   Description: Field<string>;
   FeatureImage: ImageField;
   PrimaryLink: LinkField;
+  SecondaryLink?: LinkField;
 }
 
 type FeatureHighlightProps = ComponentProps & {
@@ -150,14 +151,20 @@ export const HCA = ({ fields, params, page }: FeatureHighlightProps): JSX.Elemen
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}
-            {(fields.PrimaryLink?.value?.href || isEditing) && (
-              <div className="pt-2">
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              {(fields.PrimaryLink?.value?.href || isEditing) && (
                 <ContentSdkLink
                   field={fields.PrimaryLink}
                   className="inline-flex items-center justify-center rounded-full border border-[var(--brand-primary,#0C2141)] bg-[var(--brand-primary,#0C2141)] px-7 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-white hover:text-[var(--brand-primary,#0C2141)]"
                 />
-              </div>
-            )}
+              )}
+              {fields.SecondaryLink && (fields.SecondaryLink.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.SecondaryLink}
+                  className="inline-flex items-center justify-center rounded-full border border-[var(--brand-primary,#0C2141)] bg-transparent px-7 py-3 text-sm font-semibold text-[var(--brand-primary,#0C2141)] transition-colors duration-200 hover:bg-[var(--brand-primary,#0C2141)] hover:text-white"
+                />
+              )}
+            </div>
           </div>
 
           {/* Image column - full bleed, no rounded corners */}
@@ -171,6 +178,81 @@ export const HCA = ({ fields, params, page }: FeatureHighlightProps): JSX.Elemen
                 className="object-cover"
               />
             )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   HCAImageLeft — same as HCA but image on the LEFT, content on the RIGHT.
+   Used for "About" / "Leadership team" rows on hospital pages.
+   ──────────────────────────────────────────── */
+export const HCAImageLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-24"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:gap-14 md:px-6">
+          {/* Image column LEFT */}
+          <div className="relative overflow-hidden aspect-[4/3]">
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <SmartMedia
+                field={fields.FeatureImage}
+                isEditing={isEditing}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+              />
+            )}
+          </div>
+
+          {/* Text column RIGHT */}
+          <div className="space-y-5">
+            {(fields.EyebrowText?.value || isEditing) && (
+              <Text
+                field={fields.EyebrowText}
+                tag="span"
+                className="inline-block text-xs font-semibold uppercase tracking-[0.18em]"
+                style={{ color: 'var(--brand-accent, #BE552E)' }}
+              />
+            )}
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-primary, #0C2141)' }}
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="text-base opacity-80 font-[var(--brand-body-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              />
+            )}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              {(fields.PrimaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="inline-flex items-center justify-center rounded-full border border-[var(--brand-primary,#0C2141)] bg-[var(--brand-primary,#0C2141)] px-7 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-white hover:text-[var(--brand-primary,#0C2141)]"
+                />
+              )}
+              {fields.SecondaryLink && (fields.SecondaryLink.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.SecondaryLink}
+                  className="inline-flex items-center justify-center rounded-full border border-[var(--brand-primary,#0C2141)] bg-transparent px-7 py-3 text-sm font-semibold text-[var(--brand-primary,#0C2141)] transition-colors duration-200 hover:bg-[var(--brand-primary,#0C2141)] hover:text-white"
+                />
+              )}
+            </div>
           </div>
         </div>
       </section>

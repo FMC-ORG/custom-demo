@@ -15,9 +15,9 @@ project:
 
 availableRenderings:
   itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
-  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{EB260027-CD46-4471-A25D-2DCDAD64951B}"
-  lastUpdatedAt: "2026-06-04T12:00:00Z"
-  renderingCount: 27
+  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{EB260027-CD46-4471-A25D-2DCDAD64951B}|{91A5B2B1-5DCE-41AF-9B94-6A99F4179EB5}"
+  lastUpdatedAt: "2026-06-04T13:00:00Z"
+  renderingCount: 28
   warning: "MCP cannot read this field — value may be stale if modified outside this session"
 
 components:
@@ -968,6 +968,8 @@ components:
         - "Carousel"
         - "Grid"
         - "WithPhoto"
+        - "HCA"
+        - "HCAReviews"
 
     templates:
       datasource:
@@ -975,8 +977,12 @@ components:
         path: "/sitecore/templates/Project/fmc-custom-demo/Components/Social Proof/TestimonialBlock"
         itemId: "{BBF97517-1FE5-405B-AAE7-5309BE26249A}"
         sectionName: "Data"
+        sectionId: "{F3731A4E-8B6C-48A5-9E18-50603F804196}"
         fields:
           - { name: "SectionTitle", type: "Single-Line Text" }
+          - { name: "RatingValue", type: "Single-Line Text", itemId: "{3BB1D97A-247A-4FC6-8122-68CA748F6860}" }
+          - { name: "ReviewsCount", type: "Single-Line Text", itemId: "{370B0B58-34F0-45D1-BA5D-3EA26D7065DB}" }
+          - { name: "VerifiedBy", type: "Single-Line Text", itemId: "{A2C46A23-08AC-4647-A6D1-4418DB00D5FB}" }
         baseTemplatesSet: true
         horizonDatasourceGrouping: true
         standardValues:
@@ -1187,6 +1193,7 @@ components:
         - "TwoColumn"
         - "WithImages"
         - "Carousel"
+        - "HCA"
 
     templates:
       datasource:
@@ -1194,9 +1201,12 @@ components:
         path: "/sitecore/templates/Project/fmc-custom-demo/Components/Cards/FeatureCardsGrid"
         itemId: "{E94D3C21-7DE5-4270-B691-8E29673A1E2C}"
         sectionName: "Data"
+        sectionId: "{604C3AA6-2E5D-49A5-BA1C-D60416206173}"
         fields:
           - { name: "Title", type: "Single-Line Text" }
           - { name: "Description", type: "Rich Text" }
+          - { name: "FooterCtaLabel", type: "Single-Line Text", itemId: "{2E572957-E6FD-4AC2-8D7D-19D87C742B82}" }
+          - { name: "FooterCtaLink", type: "General Link", itemId: "{38BB654C-777F-4F20-A8C2-C2D004A88875}" }
         baseTemplatesSet: true
         horizonDatasourceGrouping: true
         standardValues:
@@ -1918,6 +1928,8 @@ components:
         - "Centered"
         - "WithVideo"
         - "IconLeft"
+        - "HCA"
+        - "HCAImageLeft"
 
     templates:
       datasource:
@@ -1925,12 +1937,14 @@ components:
         path: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/FeatureHighlight"
         itemId: "{73A389EE-482A-4974-B4CF-76996B15A5F3}"
         sectionName: "Data"
+        sectionId: "{9F0C35A1-CEF8-4F7C-8C4F-51DF0678CC02}"
         fields:
           - { name: "EyebrowText", type: "Single-Line Text" }
           - { name: "Title", type: "Single-Line Text" }
           - { name: "Description", type: "Rich Text" }
           - { name: "FeatureImage", type: "Image" }
           - { name: "PrimaryLink", type: "General Link" }
+          - { name: "SecondaryLink", type: "General Link", itemId: "{5772F313-749C-40CF-9A6B-246971128AA2}" }
         baseTemplatesSet: true
         standardValues:
           itemId: "{57077D65-DBD5-49D8-98A1-6A3A5FFA5F69}"
@@ -2656,6 +2670,116 @@ pageTemplates:
 
     notes:
       - "2026-06-04: Phase 1 of London Bridge Hospital page. Sticky floating CTA bar — fixed bottom in view mode, inline in Experience Editor. Default variant = pill-shaped floating bar; FullWidth = edge-to-edge dock."
+
+  - name: "PatientAmenities"
+    kind: "list"
+    category: "Content"
+    status: "complete"
+    createdAt: "2026-06-04T13:00:00Z"
+    updatedAt: "2026-06-04T13:00:00Z"
+
+    react:
+      filePath: "src/components/uiim/content/PatientAmenities.tsx"
+      componentMapKey: "PatientAmenities"
+      variants:
+        - "Default"
+        - "HCA"
+
+    templates:
+      datasource:
+        name: "PatientAmenities"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/PatientAmenities"
+        itemId: "{02096A38-8D01-426C-8D1E-06CD0E1E0E59}"
+        sectionName: "Data"
+        sectionId: "{89659AD0-C238-4F8B-A01E-C0FA8F794703}"
+        fields:
+          - { name: "Title", type: "Single-Line Text", itemId: "{1103BF52-CB07-47A0-8C24-4B09FDBFCE52}" }
+          - { name: "Description", type: "Rich Text", itemId: "{E9A9052E-02D6-4055-AE42-4B51DCE8EFDB}" }
+          - { name: "Image", type: "Image", itemId: "{5A09F1AE-56E7-42FA-86AF-11E256D00A56}" }
+        baseTemplatesSet: true
+        horizonDatasourceGrouping: true
+        standardValues:
+          itemId: "{0CC9B0D2-916C-4C5E-82F4-461602F548D5}"
+          masters: ["PatientAmenityItem"]
+
+      child:
+        name: "PatientAmenityItem"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/PatientAmenityItem"
+        itemId: "{A7C953FC-C243-400A-B07B-33B79B9C6248}"
+        sectionName: "Data"
+        sectionId: "{6B5AEB64-52E1-4B7E-8DEA-D23A0A846A18}"
+        fields:
+          - { name: "Label", type: "Single-Line Text", itemId: "{C48186EF-6882-4FEC-8284-630A81A964B8}" }
+          - { name: "Icon", type: "Single-Line Text", itemId: "{9302B780-1C54-434E-92F9-3F19CDFCABC6}" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "{D6EF8CF9-911A-4471-8577-D4A0B0C6AE4A}"
+
+      folder:
+        name: "PatientAmenities Folder"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Folders/PatientAmenities Folder"
+        itemId: "{E01F06FD-4A65-4F24-BB81-53D1BE15A026}"
+        standardValues:
+          itemId: "{F8D6BFA8-7212-40D1-999E-34AC7DF9BFF4}"
+          masters: ["PatientAmenities"]
+
+      renderingParams:
+        name: "PatientAmenities"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Content/PatientAmenities"
+        itemId: "{8B075F63-0D71-49F3-B5E1-31668FC5C390}"
+        baseTemplatesSet: true
+
+    datasourceFolder:
+      name: "PatientAmenities"
+      path: "/sitecore/content/main/main-website/Data/PatientAmenities"
+      itemId: "{1E98F78D-B43B-438C-974C-94ACB68A15DF}"
+      templateUsed: "PatientAmenities Folder"
+
+    rendering:
+      name: "PatientAmenities"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Content/PatientAmenities"
+      itemId: "{91A5B2B1-5DCE-41AF-9B94-6A99F4179EB5}"
+      componentName: "PatientAmenities"
+      datasourceTemplatePath: "/sitecore/templates/Project/fmc-custom-demo/Components/Content/PatientAmenities"
+      datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='PatientAmenities Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='PatientAmenities Folder']"
+      parametersTemplateId: "{8B075F63-0D71-49F3-B5E1-31668FC5C390}"
+      componentQuery: "query PatientAmenities($datasource: String!, $language: String!) { datasource: item(path: $datasource, language: $language) { title: field(name: \"Title\") { jsonValue } description: field(name: \"Description\") { jsonValue } image: field(name: \"Image\") { jsonValue } children { results { id label: field(name: \"Label\") { jsonValue } icon: field(name: \"Icon\") { jsonValue } } } } }"
+      addFieldEditorButton: "1"
+      registeredInAvailableRenderings: true
+
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/PatientAmenities"
+      containerId: "{B406B338-5655-487A-9366-BEC9A7A4EF3F}"
+      variants:
+        - { name: "Default", itemId: "{837CD12E-C69D-4673-8E99-E44B90BF1C26}" }
+        - { name: "HCA", itemId: "{A4C75EC7-781E-4BE1-BAFD-BFD5DDED8C25}" }
+
+    notes:
+      - "2026-06-04: Phase 3 of London Bridge Hospital page. New list component for the dark-navy 'Patient amenities' section. Parent has Image+Title+Description; children are bullet items with Label+Icon (icon = token string mapped to inline SVG: wifi/ac/phone/check/gym/pharmacy/bath/accessible)."
+
+  - name: "FeatureHighlight Phase 3 fields/variants"
+    kind: "addendum"
+    category: "Content"
+    status: "complete"
+    updatedAt: "2026-06-04T13:00:00Z"
+    notes:
+      - "2026-06-04: Added SecondaryLink (General Link) field {5772F313-749C-40CF-9A6B-246971128AA2}. Added Variant Definitions HCAImageLeft {750066CB-F236-4341-B27F-99FDE1BBA7BC} and confirmed pre-existing HCA {958CEE21-C255-4975-985B-EBC498D0F149}. React variants HCA and HCAImageLeft updated to render PrimaryLink + SecondaryLink (outlined navy)."
+
+  - name: "TestimonialBlock Phase 3 fields/variants"
+    kind: "addendum"
+    category: "Social Proof"
+    status: "complete"
+    updatedAt: "2026-06-04T13:00:00Z"
+    notes:
+      - "2026-06-04: Added 3 parent fields RatingValue {3BB1D97A-247A-4FC6-8122-68CA748F6860}, ReviewsCount {370B0B58-34F0-45D1-BA5D-3EA26D7065DB}, VerifiedBy {A2C46A23-08AC-4647-A6D1-4418DB00D5FB}. Updated rendering ComponentQuery to fetch them. Added Variant Definition HCAReviews {50194669-4BCD-4F40-994D-C8E6F7AAC7C6} (pre-existing HCA {468D1EC2-B152-4D04-BF38-E444A73F57B3}). React variant HCAReviews renders big rating number, mint 5-star row, quote with circular nav arrows."
+
+  - name: "FeatureCardsGrid Phase 3 fields"
+    kind: "addendum"
+    category: "Cards"
+    status: "complete"
+    updatedAt: "2026-06-04T13:00:00Z"
+    notes:
+      - "2026-06-04: Added parent fields FooterCtaLabel {2E572957-E6FD-4AC2-8D7D-19D87C742B82} and FooterCtaLink {38BB654C-777F-4F20-A8C2-C2D004A88875}. Updated rendering ComponentQuery. HCA variant now renders the optional 'View all ...' outlined button below the cards."
 
 lookups:
   - path: "/sitecore/content/main/main-website/Data"

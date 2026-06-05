@@ -23,6 +23,10 @@ type PageProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
+// ISR: re-fetch from Sitecore every 30 seconds so CMS publishes propagate to
+// the deployed site without a full Vercel rebuild.
+export const revalidate = 30;
+
 export default async function Page({ params, searchParams }: PageProps) {
   const { site, locale, path } = await params;
   const draft = await draftMode();

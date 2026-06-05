@@ -2941,3 +2941,25 @@ demoContent:
       - { instanceId: "7ac62a2c-bdf0-469d-af67-d1da74f0b00f", rendering: "FeatureHighlight (Leadership)", placeholder: "headless-main", order: 6 }
       - { instanceId: "25a3dcfa-b5c0-473e-91e2-80dc172e340b", rendering: "TestimonialBlock", placeholder: "headless-main", order: 7 }
       - { instanceId: "d2836b8a-5b5a-4bff-a18e-d1823d990c5a", rendering: "JourneyBar", placeholder: "headless-main", order: 8 }
+
+  - name: "Homepage personalization variant datasources"
+    createdAt: "2026-06-05T12:00:00Z"
+    notes:
+      - "Datasources prepared for homepage personalization. Two variants (Manchester + Cardiology Checks, LBH + Cardiology Test) targeting geo-based audiences. Variant items themselves are NOT created here — author wires them in Page Builder / Sitecore Personalize."
+    contentHubAssets:
+      - { assetId: 91545, name: "wilmslow-hospital", publicUrl: "https://ffde.sitecoresandbox.cloud/api/public/content/91545-wilmslow-hospital?v=0a6b12ca", damId: "3IzgjueUTeW6gMow6ZIdVw", w: 2000, h: 1600 }
+    variants:
+      - audience: "Manchester (geo)"
+        rationale: "Visitor from Manchester area searching for cardiology"
+        components:
+          - { position: "A", component: "HeroBanner", variant: "HospitalHero", datasource: "Home Hero - Manchester Cardiology", itemId: "{2E14FF2F-2F78-456F-BCE7-DA9FBCEEA168}" }
+          - { position: "B", component: "FeatureCardsGrid", variant: "HCA", datasource: "Home Cards - Manchester Cardiology", itemId: "{A914E7E0-9F8D-4BB9-8DC5-E2F6821A185A}", childCount: 4 }
+          - { position: "C", component: "ConsultantFinder", variant: "HCA", datasource: "Manchester Cardiology (reused)", itemId: "{EF468EF0-0E16-4431-9FD8-B5CABB7C962A}" }
+          - { position: "D", component: "JourneyBar", variant: "Default", datasource: "Home Journey - Manchester Cardiology", itemId: "{08D48280-B09E-466B-A4C2-25C47A01FC03}" }
+      - audience: "London (geo)"
+        rationale: "Visitor from London area searching for cardiology"
+        components:
+          - { position: "A", component: "HeroBanner", variant: "HospitalHero", datasource: "Home Hero - LBH Cardiology", itemId: "{9B065BBE-07AA-41E3-BBD8-C041FD39FB79}" }
+          - { position: "B", component: "FeatureCardsGrid", variant: "HCA", datasource: "Home Cards - LBH Cardiology", itemId: "{F727015B-E02E-4FFC-A635-6901FD62968A}", childCount: 4 }
+          - { position: "C", component: "FeatureHighlight", variant: "HCAImageLeft", datasource: "Home Highlight - LBH Cardiology", itemId: "{AF8EECB7-F480-4727-9F1F-B462E10FF19A}" }
+          - { position: "D", component: "JourneyBar", variant: "Default", datasource: "Home Journey - LBH Cardiology", itemId: "{76D6D7AD-1443-438A-BC77-EDC3CFD83117}" }

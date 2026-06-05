@@ -21,7 +21,6 @@ interface ConsultantItemFields {
   treatments: { jsonValue: Field<string> };
   nextAppointment: { jsonValue: Field<string> };
   bookOnlineLink: { jsonValue: LinkField };
-  callToBookLabel: { jsonValue: Field<string> };
   profileLink: { jsonValue: LinkField };
 }
 
@@ -96,11 +95,11 @@ const Avatar = ({ photo, name }: { photo?: ImageField; name?: string }) => {
   const hasPhoto = !!photo?.value?.src;
   if (hasPhoto) {
     return (
-      <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full">
+      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-white">
         <ContentSdkImage
           field={photo}
-          width={56}
-          height={56}
+          width={48}
+          height={48}
           className="h-full w-full object-cover"
         />
       </div>
@@ -108,7 +107,7 @@ const Avatar = ({ photo, name }: { photo?: ImageField; name?: string }) => {
   }
   return (
     <div
-      className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-base font-bold"
+      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-sm font-bold"
       style={{ backgroundColor: '#A6E5DE', color: 'var(--brand-primary, #0C2141)' }}
     >
       {getInitials(name)}
@@ -130,8 +129,8 @@ const RatingRow = ({
   const showRating = ratingValue?.value || isEditing;
   if (!showRating && !reviewSource?.value) return null;
   return (
-    <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs" style={{ color: 'var(--brand-primary, #0C2141)' }}>
-      <span className="flex items-center gap-0.5" style={{ color: '#A6E5DE' }}>
+    <div className="mt-3 flex items-center gap-2 text-xs" style={{ color: 'var(--brand-primary, #0C2141)' }}>
+      <span className="flex items-center" style={{ color: '#A6E5DE' }}>
         {Array.from({ length: 5 }).map((_, i) => (
           <StarIcon key={i} filled={i < fullStars} />
         ))}
@@ -142,9 +141,12 @@ const RatingRow = ({
         </span>
       )}
       {(reviewSource?.value || isEditing) && (
-        <span className="ml-1 flex items-center gap-1 text-[11px] opacity-75">
+        <span className="flex items-center gap-1 text-[10px] opacity-75">
           Reviewed By
-          <span className="inline-flex items-center gap-1 rounded-full bg-[var(--brand-primary,#0C2141)] px-2 py-0.5 text-white">
+          <span
+            className="inline-flex items-center rounded-sm px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white"
+            style={{ backgroundColor: '#1FA9DB' }}
+          >
             <Text field={reviewSource} />
           </span>
         </span>
@@ -156,26 +158,26 @@ const RatingRow = ({
 const LabelValueRow = ({ label, value, isEditing }: { label: string; value?: Field<string>; isEditing?: boolean }) => {
   if (!value?.value && !isEditing) return null;
   return (
-    <div className="mt-3 grid grid-cols-[88px_1fr] gap-3 text-xs" style={{ color: 'var(--brand-fg, #111111)' }}>
-      <span className="font-semibold uppercase tracking-wider opacity-60">{label}</span>
-      <span className="opacity-90"><Text field={value} /></span>
+    <div className="mt-2.5 grid grid-cols-[80px_1fr] gap-3 text-[11px] leading-snug" style={{ color: 'var(--brand-primary, #0C2141)' }}>
+      <span className="font-bold">{label}</span>
+      <span className="opacity-80"><Text field={value} /></span>
     </div>
   );
 };
 
 const ConsultantCard = ({ item, isEditing, accent = 'navy' }: { item: ConsultantItemFields; isEditing?: boolean; accent?: 'navy' | 'plain' }) => (
   <article
-    className="flex flex-col rounded-2xl bg-white p-6"
-    style={{ border: '1px solid var(--brand-border, #E2E0D7)' }}
+    className="flex flex-col rounded-xl p-5"
+    style={{ backgroundColor: accent === 'navy' ? '#F5F1E8' : '#ffffff', border: accent === 'plain' ? '1px solid var(--brand-border, #E2E0D7)' : 'none' }}
   >
-    <header className="flex items-center gap-4">
+    <header className="flex items-center gap-3">
       <Avatar photo={item.photo?.jsonValue} name={item.consultantName?.jsonValue?.value} />
       <div className="min-w-0">
         {(item.consultantName?.jsonValue?.value || isEditing) && (
           <Text
             field={item.consultantName?.jsonValue}
             tag="h3"
-            className="truncate text-base font-bold leading-tight"
+            className="truncate text-[15px] font-bold leading-tight"
             style={{ color: 'var(--brand-primary, #0C2141)' }}
           />
         )}
@@ -183,7 +185,7 @@ const ConsultantCard = ({ item, isEditing, accent = 'navy' }: { item: Consultant
           <Text
             field={item.specialty?.jsonValue}
             tag="p"
-            className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] opacity-70"
+            className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] opacity-65"
             style={{ color: 'var(--brand-primary, #0C2141)' }}
           />
         )}
@@ -201,19 +203,19 @@ const ConsultantCard = ({ item, isEditing, accent = 'navy' }: { item: Consultant
 
     {(item.nextAppointment?.jsonValue?.value || isEditing) && (
       <div
-        className="mt-4 inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-medium"
-        style={{ backgroundColor: '#E5F6F2', color: 'var(--brand-primary, #0C2141)' }}
+        className="mt-3 flex w-full items-center gap-2 rounded-md px-3 py-2 text-[11px] font-medium"
+        style={{ backgroundColor: '#E5F4F0', color: 'var(--brand-primary, #0C2141)' }}
       >
         <ClockIcon />
         <Text field={item.nextAppointment?.jsonValue} />
       </div>
     )}
 
-    <p className="mt-3 text-[10px] uppercase tracking-wider opacity-50" style={{ color: 'var(--brand-fg, #111111)' }}>
+    <p className="mt-2 text-[10px] opacity-60" style={{ color: 'var(--brand-primary, #0C2141)' }}>
       Last checked: a few minutes ago
     </p>
 
-    <div className="mt-5 space-y-2">
+    <div className="mt-4 space-y-2">
       {(item.bookOnlineLink?.jsonValue?.value?.href || isEditing) && (
         <ContentSdkLink
           field={item.bookOnlineLink?.jsonValue}
@@ -225,22 +227,20 @@ const ConsultantCard = ({ item, isEditing, accent = 'navy' }: { item: Consultant
           )}
         />
       )}
-      {(item.callToBookLabel?.jsonValue?.value || isEditing) && (
-        <button
-          type="button"
-          className="flex w-full items-center justify-center gap-2 rounded-full border border-[var(--brand-primary,#0C2141)] bg-transparent px-4 py-2.5 text-sm font-semibold transition-colors duration-200 hover:bg-[var(--brand-primary,#0C2141)] hover:text-white"
-          style={{ color: 'var(--brand-primary, #0C2141)' }}
-        >
-          <PhoneIcon />
-          <Text field={item.callToBookLabel?.jsonValue} tag="span" />
-        </button>
-      )}
+      <button
+        type="button"
+        className="flex w-full items-center justify-center gap-2 rounded-full border border-[var(--brand-primary,#0C2141)] bg-transparent px-4 py-2.5 text-sm font-semibold transition-colors duration-200 hover:bg-[var(--brand-primary,#0C2141)] hover:text-white"
+        style={{ color: 'var(--brand-primary, #0C2141)' }}
+      >
+        <PhoneIcon />
+        <span>Call to book</span>
+      </button>
     </div>
 
     {(item.profileLink?.jsonValue?.value?.href || isEditing) && (
       <ContentSdkLink
         field={item.profileLink?.jsonValue}
-        className="mt-4 inline-flex items-center gap-1 text-sm font-medium underline-offset-2 hover:underline"
+        className="mt-3 inline-flex items-center gap-1 text-sm font-medium underline underline-offset-4"
         style={{ color: 'var(--brand-primary, #0C2141)' }}
       />
     )}
@@ -296,6 +296,7 @@ export const Default = ({ fields, params, page }: ConsultantFinderProps): JSX.El
    location pill on the right, 3-up grid of richly-detailed consultant cards.
    ──────────────────────────────────────────── */
 export const HCA = ({ fields, params, page }: ConsultantFinderProps): JSX.Element => {
+  console.log('HCA', fields, params, page);
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const datasource = fields?.data?.datasource;

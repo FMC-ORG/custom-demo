@@ -17,6 +17,7 @@ import * as NewsletterSignup from 'src/components/uiim/forms/NewsletterSignup';
 import * as ValuePropositionGrid from 'src/components/uiim/content/ValuePropositionGrid';
 import * as TrustStatsRow from 'src/components/uiim/content/TrustStatsRow';
 import * as PatientAmenities from 'src/components/uiim/content/PatientAmenities';
+import * as ConsultantFinder from 'src/components/uiim/content/ConsultantFinder';
 import * as RichTextBlock from 'src/components/uiim/content/RichTextBlock';
 import * as LegalComplianceBanner from 'src/components/uiim/content/LegalComplianceBanner';
 import * as FeatureHighlight from 'src/components/uiim/content/FeatureHighlight';
@@ -88,6 +89,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['ValuePropositionGrid', { ...ValuePropositionGrid }],
   ['TrustStatsRow', { ...TrustStatsRow }],
   ['PatientAmenities', { ...PatientAmenities }],
+  ['ConsultantFinder', { ...ConsultantFinder }],
   ['RichTextBlock', { ...RichTextBlock }],
   ['LegalComplianceBanner', { ...LegalComplianceBanner }],
   ['FeatureHighlight', { ...FeatureHighlight }],

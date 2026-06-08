@@ -7,7 +7,7 @@ import {
   Text,
   useSitecore,
 } from '@sitecore-content-sdk/nextjs';
-import { identity } from '@sitecore-content-sdk/events';
+import { identity, type IdentityData } from '@sitecore-content-sdk/events';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 
@@ -37,22 +37,19 @@ const IdentityCaptureFormDefaultComponent = (): JSX.Element => (
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-interface IdentityPayload {
-  identifiers: Array<{ id: string; provider: string }>;
-  email: string;
-  firstName: string;
-  lastName: string;
-  ext?: Record<string, unknown>;
-}
-
 function buildPayload(
   email: string,
   firstName: string,
   lastName: string,
-  fields: IdentityCaptureFormFields
-): IdentityPayload {
+  fields: IdentityCaptureFormFields,
+  ctx: { language: string; page?: string }
+): IdentityData {
   const provider = fields?.IdentityProvider?.value || 'email';
-  const payload: IdentityPayload = {
+  const payload: IdentityData = {
+    channel: 'WEB',
+    currency: 'USD',
+    language: ctx.language,
+    page: ctx.page,
     identifiers: [{ id: email.toLowerCase(), provider }],
     email: email.toLowerCase(),
     firstName,
@@ -61,7 +58,7 @@ function buildPayload(
   try {
     const ext = JSON.parse(fields?.ExtensionDataJson?.value || '{}');
     if (ext && typeof ext === 'object' && Object.keys(ext).length) {
-      payload.ext = ext;
+      payload.extensionData = ext;
     }
   } catch {
     // Invalid JSON in ExtensionDataJson is silently dropped.
@@ -69,7 +66,11 @@ function buildPayload(
   return payload;
 }
 
-function useIdentityForm(fields: IdentityCaptureFormFields, isEditing: boolean) {
+function useIdentityForm(
+  fields: IdentityCaptureFormFields,
+  isEditing: boolean,
+  ctx: { language: string; page?: string }
+) {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -90,7 +91,7 @@ function useIdentityForm(fields: IdentityCaptureFormFields, isEditing: boolean) 
       return;
     }
 
-    const payload = buildPayload(email.trim(), firstName.trim(), lastName.trim(), fields);
+    const payload = buildPayload(email.trim(), firstName.trim(), lastName.trim(), fields, ctx);
     const disabled = isEditing || process.env.NODE_ENV === 'development';
 
     if (disabled) {
@@ -139,7 +140,12 @@ export const Default = ({ fields, params, page }: IdentityCaptureFormProps): JSX
   const { styles, RenderingIdentifier } = params;
   const { page: sitecorePage } = useSitecore();
   const isEditing = !!(page?.mode?.isEditing ?? sitecorePage?.mode?.isEditing);
-  const form = useIdentityForm(fields, isEditing);
+  const route = sitecorePage?.layout?.sitecore?.route;
+  const ctx = {
+    language: (route?.itemLanguage || 'EN').toUpperCase(),
+    page: route?.name,
+  };
+  const form = useIdentityForm(fields, isEditing, ctx);
 
   if (!fields) return <IdentityCaptureFormDefaultComponent />;
 
@@ -238,7 +244,12 @@ export const HCA = ({ fields, params, page }: IdentityCaptureFormProps): JSX.Ele
   const { styles, RenderingIdentifier } = params;
   const { page: sitecorePage } = useSitecore();
   const isEditing = !!(page?.mode?.isEditing ?? sitecorePage?.mode?.isEditing);
-  const form = useIdentityForm(fields, isEditing);
+  const route = sitecorePage?.layout?.sitecore?.route;
+  const ctx = {
+    language: (route?.itemLanguage || 'EN').toUpperCase(),
+    page: route?.name,
+  };
+  const form = useIdentityForm(fields, isEditing, ctx);
 
   if (!fields) return <IdentityCaptureFormDefaultComponent />;
 

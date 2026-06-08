@@ -1697,6 +1697,102 @@ components:
 
     notes: []
 
+  - name: "IdentityCaptureForm"
+    kind: "simple"
+    category: "Forms"
+    status: "complete"
+    createdAt: "2026-06-08T12:00:00Z"
+    updatedAt: "2026-06-08T12:00:00Z"
+
+    react:
+      filePath: "src/components/uiim/forms/IdentityCaptureForm.tsx"
+      componentMapKey: "IdentityCaptureForm"
+      componentType: "client"
+      variants:
+        - "Default"
+        - "HCA"
+
+    templates:
+      datasource:
+        name: "IdentityCaptureForm"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Forms/IdentityCaptureForm"
+        itemId: "{37ACFA59-5BEA-4D89-9734-AEF3B12C0AC7}"
+        sectionName: "Data"
+        sectionId: "{1CE5DFB7-283D-4D9F-8DFC-071B3BFFCD61}"
+        fields:
+          - { name: "FormTitle", type: "Single-Line Text" }
+          - { name: "FormDescription", type: "Rich Text" }
+          - { name: "EmailLabel", type: "Single-Line Text" }
+          - { name: "FirstNameLabel", type: "Single-Line Text" }
+          - { name: "LastNameLabel", type: "Single-Line Text" }
+          - { name: "SubmitButtonLabel", type: "Single-Line Text" }
+          - { name: "SuccessMessage", type: "Single-Line Text" }
+          - { name: "ExtensionDataJson", type: "Single-Line Text" }
+          - { name: "IdentityProvider", type: "Single-Line Text" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "{77D670CB-809F-4929-BEF4-EB134274586D}"
+          linked: true
+
+      folder:
+        name: "IdentityCaptureForm Folder"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Folders/IdentityCaptureForm Folder"
+        itemId: "{64A3504C-6D76-41C6-A87C-2F1DF1872699}"
+        standardValues:
+          itemId: "{F61735EE-7FE6-491B-80E9-CCEF816623D8}"
+          linked: true
+          masters: ["IdentityCaptureForm"]
+
+      renderingParams:
+        name: "IdentityCaptureForm"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Forms/IdentityCaptureForm"
+        itemId: "{7E4319A1-002D-4F16-AE5A-A67F965EE8D3}"
+        baseTemplatesSet: true
+
+    datasourceFolder:
+      name: "IdentityCaptureForms"
+      path: "/sitecore/content/main/main-website/Data/IdentityCaptureForms"
+      itemId: "{427E92A8-C834-434C-B11E-78BBDAD47D20}"
+      insertOptionsSet: true
+      exampleItem: null
+
+    rendering:
+      name: "IdentityCaptureForm"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Forms/IdentityCaptureForm"
+      itemId: "{E127C704-6947-4A4D-BCCF-B492ED0A47F3}"
+      componentName: "IdentityCaptureForm"
+      parametersTemplateSet: true
+      datasourceTemplateSet: true
+      datasourceLocationSet: true
+      addFieldEditorButton: true
+      registeredInAvailableRenderings: true
+
+    headlessVariants:
+      containerName: "IdentityCaptureForm"
+      containerId: "{816D5EE8-6824-44DD-B0A8-C9A259F8033B}"
+      variants:
+        - { name: "Default", itemId: "{C6171D3D-F96D-45AE-A041-9A3D71B7F78C}" }
+        - { name: "HCA", itemId: "{0267387D-887F-4446-88DD-46AAAABED62D}" }
+
+    verification:
+      passed:
+        - "Datasource template + 9 fields with type set"
+        - "Folder template + __Masters wiring"
+        - "Rendering Parameters template with 4 base templates"
+        - "JSON Rendering with componentName, parametersTemplate (GUID), datasourceTemplate (path), datasourceLocation, AddFieldEditorButton=1"
+        - "Both Headless Variant Definitions (Default, HCA)"
+        - "Datasource folder with insert options"
+        - "Standard values pre-populated with sensible defaults (FormTitle, FormDescription, labels, SuccessMessage with {firstName} token, IdentityProvider=email)"
+        - "Available Renderings appended (30 total)"
+        - "React file with 2 variants + 'use client' + identity() event integration"
+        - "Component map updated (componentType: client)"
+      failed: []
+      pendingManual:
+        - "SE creates per-page datasource instances with persona-specific ExtensionDataJson"
+
+    notes:
+      - "Fires Content SDK identity() event on submit; skips fire in editing/dev mode (mirrors CdpPageView.tsx pattern). Reloads page after 1500ms so Personalize rules pick up the new session on the next render."
+
   - name: "FAQAccordion"
     kind: "list"
     category: "Content"

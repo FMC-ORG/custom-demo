@@ -15,9 +15,9 @@ project:
 
 availableRenderings:
   itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
-  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{EB260027-CD46-4471-A25D-2DCDAD64951B}|{91A5B2B1-5DCE-41AF-9B94-6A99F4179EB5}|{6051D1B5-099A-49B2-A3F3-F9DBECF05C2D}|{E127C704-6947-4A4D-BCCF-B492ED0A47F3}"
-  lastUpdatedAt: "2026-06-08T12:00:00Z"
-  renderingCount: 30
+  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{EB260027-CD46-4471-A25D-2DCDAD64951B}|{91A5B2B1-5DCE-41AF-9B94-6A99F4179EB5}|{6051D1B5-099A-49B2-A3F3-F9DBECF05C2D}|{E127C704-6947-4A4D-BCCF-B492ED0A47F3}|{18773A9C-FF30-482A-BFE5-4A363E361DF3}"
+  lastUpdatedAt: "2026-06-08T14:00:00Z"
+  renderingCount: 31
   warning: "MCP cannot read this field — value may be stale if modified outside this session"
 
 components:
@@ -1792,6 +1792,59 @@ components:
 
     notes:
       - "Fires Content SDK identity() event on submit; skips fire in editing/dev mode (mirrors CdpPageView.tsx pattern). Reloads page after 1500ms so Personalize rules pick up the new session on the next render."
+
+  - name: "IdentityEventDevForm"
+    kind: "context"
+    category: "Forms"
+    status: "complete"
+    createdAt: "2026-06-08T14:00:00Z"
+    updatedAt: "2026-06-08T14:00:00Z"
+
+    react:
+      filePath: "src/components/uiim/forms/IdentityEventDevForm.tsx"
+      componentMapKey: "IdentityEventDevForm"
+      componentType: "client"
+      variants:
+        - "Default"
+        - "HCA"
+
+    templates:
+      renderingParams:
+        name: "IdentityEventDevForm"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Forms/IdentityEventDevForm"
+        itemId: "{EB1D5275-98F3-41A0-ACA9-31CDE4C0334B}"
+        baseTemplatesSet: true
+
+    rendering:
+      name: "IdentityEventDevForm"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Forms/IdentityEventDevForm"
+      itemId: "{18773A9C-FF30-482A-BFE5-4A363E361DF3}"
+      componentName: "IdentityEventDevForm"
+      parametersTemplateSet: true
+      addFieldEditorButton: true
+      registeredInAvailableRenderings: true
+
+    headlessVariants:
+      containerName: "IdentityEventDevForm"
+      containerId: "{7EEA8B4D-6390-441A-B128-32510854CFDF}"
+      variants:
+        - { name: "Default", itemId: "{495CE259-3018-43A0-BF12-5DED7B2B066A}" }
+        - { name: "HCA", itemId: "{E18813F8-C1A3-4D06-9100-690839D84CC7}" }
+
+    verification:
+      passed:
+        - "Context-only — no datasource template/folder/datasource folder (intentional)"
+        - "Rendering Parameters template with 4 base templates"
+        - "JSON Rendering with componentName + parametersTemplate (GUID) + AddFieldEditorButton=1"
+        - "Both Headless Variant Definitions (Default, HCA)"
+        - "Available Renderings appended (31 total)"
+        - "React file with 2 variants + 'use client' + free-text JSON textarea wired to identity()"
+        - "Component map updated (componentType: client)"
+      failed: []
+      pendingManual: []
+
+    notes:
+      - "Dev/debug tool: free-text textarea for the full identity() payload. Auto-fills missing channel/currency/language/page. Fires unconditionally in normal mode (does NOT skip dev like IdentityCaptureForm); skips only in editing mode. Renders CDP response or parse error inline."
 
   - name: "FAQAccordion"
     kind: "list"

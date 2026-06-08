@@ -14,14 +14,15 @@ import * as AnnouncementBar from 'src/components/uiim/navigation/AnnouncementBar
 import * as SmartMedia from 'src/components/uiim/media/SmartMedia';
 import * as ImageGallery from 'src/components/uiim/media/ImageGallery';
 import * as NewsletterSignup from 'src/components/uiim/forms/NewsletterSignup';
+import * as IdentityCaptureForm from 'src/components/uiim/forms/IdentityCaptureForm';
 import * as ValuePropositionGrid from 'src/components/uiim/content/ValuePropositionGrid';
 import * as TrustStatsRow from 'src/components/uiim/content/TrustStatsRow';
-import * as PatientAmenities from 'src/components/uiim/content/PatientAmenities';
-import * as ConsultantFinder from 'src/components/uiim/content/ConsultantFinder';
 import * as RichTextBlock from 'src/components/uiim/content/RichTextBlock';
+import * as PatientAmenities from 'src/components/uiim/content/PatientAmenities';
 import * as LegalComplianceBanner from 'src/components/uiim/content/LegalComplianceBanner';
 import * as FeatureHighlight from 'src/components/uiim/content/FeatureHighlight';
 import * as FAQAccordion from 'src/components/uiim/content/FAQAccordion';
+import * as ConsultantFinder from 'src/components/uiim/content/ConsultantFinder';
 import * as ProductPricingCards from 'src/components/uiim/cards/ProductPricingCards';
 import * as FeatureCardsGrid from 'src/components/uiim/cards/FeatureCardsGrid';
 import * as JourneyBar from 'src/components/uiim/banners/JourneyBar';
@@ -76,7 +77,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCServerWrapper],
   ['FEaaSWrapper', FEaaSServerWrapper],
   ['Form', { ...Form, componentType: 'client' }],
-  ['TestimonialBlock', { ...TestimonialBlock }],
+  ['TestimonialBlock', { ...TestimonialBlock, componentType: 'client' }],
   ['LogoCloud', { ...LogoCloud }],
   ['SearchExperienceV2', { ...SearchExperienceV2, componentType: 'client' }],
   ['TabNavigationSection', { ...TabNavigationSection }],
@@ -86,14 +87,15 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['SmartMedia', { ...SmartMedia }],
   ['ImageGallery', { ...ImageGallery }],
   ['NewsletterSignup', { ...NewsletterSignup, componentType: 'client' }],
+  ['IdentityCaptureForm', { ...IdentityCaptureForm, componentType: 'client' }],
   ['ValuePropositionGrid', { ...ValuePropositionGrid }],
   ['TrustStatsRow', { ...TrustStatsRow }],
-  ['PatientAmenities', { ...PatientAmenities }],
-  ['ConsultantFinder', { ...ConsultantFinder }],
   ['RichTextBlock', { ...RichTextBlock }],
+  ['PatientAmenities', { ...PatientAmenities }],
   ['LegalComplianceBanner', { ...LegalComplianceBanner }],
   ['FeatureHighlight', { ...FeatureHighlight }],
   ['FAQAccordion', { ...FAQAccordion }],
+  ['ConsultantFinder', { ...ConsultantFinder }],
   ['ProductPricingCards', { ...ProductPricingCards }],
   ['FeatureCardsGrid', { ...FeatureCardsGrid, componentType: 'client' }],
   ['JourneyBar', { ...JourneyBar, componentType: 'client' }],

@@ -26,6 +26,12 @@ import * as HeroBanner from 'src/components/uiim/banners/HeroBanner';
 import * as CTABanner from 'src/components/uiim/banners/CTABanner';
 import * as ArticleHero from 'src/components/uiim/article/ArticleHero';
 import * as ArticleBody from 'src/components/uiim/article/ArticleBody';
+import * as LandingHero from 'src/components/uiim/landing/LandingHero';
+import * as LandingFeatures from 'src/components/uiim/landing/LandingFeatures';
+import * as LandingStats from 'src/components/uiim/landing/LandingStats';
+import * as LandingSocialProof from 'src/components/uiim/landing/LandingSocialProof';
+import * as LandingFAQ from 'src/components/uiim/landing/LandingFAQ';
+import * as LandingFinalCTA from 'src/components/uiim/landing/LandingFinalCTA';
 import * as input from 'src/components/ui/input';
 import * as card from 'src/components/ui/card';
 import * as button from 'src/components/ui/button';
@@ -94,6 +100,12 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['CTABanner', { ...CTABanner }],
   ['ArticleHero', { ...ArticleHero, componentType: 'client' }],
   ['ArticleBody', { ...ArticleBody }],
+  ['LandingHero', { ...LandingHero }],
+  ['LandingFeatures', { ...LandingFeatures }],
+  ['LandingStats', { ...LandingStats }],
+  ['LandingSocialProof', { ...LandingSocialProof }],
+  ['LandingFAQ', { ...LandingFAQ, componentType: 'client' }],
+  ['LandingFinalCTA', { ...LandingFinalCTA }],
   ['input', { ...input }],
   ['card', { ...card }],
   ['button', { ...button }],

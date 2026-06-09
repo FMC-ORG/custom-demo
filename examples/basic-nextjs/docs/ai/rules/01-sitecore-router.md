@@ -49,6 +49,13 @@ When the user asks to create, update, diagnose, or fix a Sitecore XM Cloud compo
 - the request involves editorial/blog/news content with a hero, body, author, and metadata
 - this is an orchestrator that calls `sitecore-create-page-template` + `sitecore-create-context-component` + `sitecore-add-variants`
 
+### Use `sitecore-create-landing-page` when
+- the user wants a complete **Landing Page type** with template, 6 context components (hero, features, stats, social proof, FAQ, final CTA), variants, and partial design
+- the user says "create landing page", "landing page template", "campaign page template", "ABM landing page", "conversion page template"
+- the request involves agent-fillable / Agentic Studio marketing pages with deterministic fixed-shape structure (locked counts: 3 features, 3 stats, 5 FAQs)
+- the request mentions ABM, account-based marketing, or marketer-driven page creation from a brief
+- this is an orchestrator that calls `sitecore-create-page-template` + `sitecore-create-context-component` (x6) + `sitecore-add-variants`
+
 ### Use `sitecore-create-demo-variants` when
 - the demo builder pipeline reaches Phase 5.5
 - the user says "create custom variants", "match the screenshot exactly", "replicate the visual style", "pixel-perfect"
@@ -82,6 +89,7 @@ Do not jump directly into code or Sitecore item changes until the request has be
 - add variants
 - create page template
 - create article page (orchestrator)
+- create landing page (orchestrator)
 - create demo variants (pixel-perfect matching)
 
 ## Repo-first rule

@@ -3,13 +3,13 @@ import {
   Field,
   ImageField,
   LinkField,
-  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface HeroBannerFields {
   Title: Field<string>;
@@ -147,11 +147,13 @@ export const SplitImageText = ({ fields, params, page }: HeroBannerProps): JSX.E
               <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
             </div>
           </div>
-          <div className="overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
+          <div className="relative h-full min-h-[400px] overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
             {(fields.HeroImage?.value?.src || isEditing) && (
-              <ContentSdkImage
+              <SmartMedia
                 field={fields.HeroImage}
-                className="h-full w-full object-cover"
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
               />
             )}
           </div>
@@ -176,9 +178,11 @@ export const BackgroundImage = ({ fields, params, page }: HeroBannerProps): JSX.
         {/* Background image */}
         {(fields.HeroImage?.value?.src || isEditing) && (
           <div className="absolute inset-0">
-            <ContentSdkImage
+            <SmartMedia
               field={fields.HeroImage}
-              className="h-full w-full object-cover"
+              fill
+              sizes="100vw"
+              className="object-cover"
             />
           </div>
         )}
@@ -226,9 +230,11 @@ export const VideoBackground = ({ fields, params, page }: HeroBannerProps): JSX.
         {/* Poster / background image */}
         {(fields.HeroImage?.value?.src || isEditing) && (
           <div className="absolute inset-0">
-            <ContentSdkImage
+            <SmartMedia
               field={fields.HeroImage}
-              className="h-full w-full object-cover"
+              fill
+              sizes="100vw"
+              className="object-cover"
             />
           </div>
         )}

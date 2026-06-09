@@ -51,10 +51,18 @@ When the user asks to create, update, diagnose, or fix a Sitecore XM Cloud compo
 
 ### Use `sitecore-create-landing-page` when
 - the user wants a complete **Landing Page type** with template, 6 context components (hero, features, stats, social proof, FAQ, final CTA), variants, and partial design
-- the user says "create landing page", "landing page template", "campaign page template", "ABM landing page", "conversion page template"
-- the request involves agent-fillable / Agentic Studio marketing pages with deterministic fixed-shape structure (locked counts: 3 features, 3 stats, 5 FAQs)
-- the request mentions ABM, account-based marketing, or marketer-driven page creation from a brief
+- the user says "create landing page **template**", "build the landing page type", "implement the landing page architecture", "set up the landing page page-type"
+- the request involves building the Sitecore artifacts (template, components, variants, partial design) for a fixed-shape landing page architecture (locked counts: 3 features, 3 stats, 5 FAQs)
 - this is an orchestrator that calls `sitecore-create-page-template` + `sitecore-create-context-component` (x6) + `sitecore-add-variants`
+- **This is template/architecture work, not content-fill for a specific account.** For content-fill of an existing template, use `sitecore-create-abm-landing-page` instead.
+
+### Use `sitecore-create-abm-landing-page` when
+- the user provides an organization name and wants a **personalized page instance** under `/Home/lp/` for that account
+- the user says "create a landing page for [organization]", "build an ABM page for [client]", "make a campaign page for [account]", "personalize a landing page for [company]"
+- the request is about a single page instance with research-driven content (not template/architecture work)
+- the request involves driving a target account to the Sitecore Silver Celebration event in Copenhagen
+- this skill consumes the existing Landing Page template (status: complete in manifest) and creates a Sitecore content item with 40 personalized fields
+- **Prerequisite:** the Landing Page template must already exist (created by `sitecore-create-landing-page`). If it doesn't, route there first.
 
 ### Use `sitecore-create-demo-variants` when
 - the demo builder pipeline reaches Phase 5.5
@@ -89,7 +97,8 @@ Do not jump directly into code or Sitecore item changes until the request has be
 - add variants
 - create page template
 - create article page (orchestrator)
-- create landing page (orchestrator)
+- create landing page template (orchestrator — architecture)
+- create ABM landing page (per-account content-fill page instance)
 - create demo variants (pixel-perfect matching)
 
 ## Repo-first rule

@@ -32,6 +32,10 @@
 
 - **Search Source** — An indexed content source in SitecoreAI that the SearchExperience component queries. Created and configured by the SE in the SitecoreAI UI as part of demo setup.
 
+## Media
+
+- **SmartMedia** — A drop-in wrapper around `ContentSdkImage` that auto-detects whether a Sitecore Image field carries an image asset or a video asset (via Content Hub `dam-content-type='video'` or file-extension fallback) and renders `<ContentSdkImage>` or `<video>` accordingly. Scoped to five video-capable surfaces only — HeroBanner, HeroBannerCarousel (main slide), CTABanner (WithImage), FeatureHighlight, ArticleHero (background). Other surfaces stay on `ContentSdkImage` to keep icons/avatars/logos from accidentally authoring autoplay videos. Reads `isEditing` internally via `useSitecore()`, respects `prefers-reduced-motion`, suppresses autoplay in Experience Editor. See `docs/adr/0005-smartmedia-for-video-capable-surfaces.md`.
+
 ## Catalogs
 
 - **Component Registry** (`component-registry.yaml`) — Machine-readable index of datasource-based homepage components used by the Site Analyzer in the demo builder pipeline.

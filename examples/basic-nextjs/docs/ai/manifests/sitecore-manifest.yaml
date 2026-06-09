@@ -1,5 +1,5 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-05-20T12:00:00Z"
+lastUpdatedAt: "2026-06-09T00:00:00Z"
 lastUpdatedBy: "claude-agent"
 
 project:
@@ -15,10 +15,10 @@ project:
 
 availableRenderings:
   itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
-  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}"
-  lastUpdatedAt: "2026-05-20T12:00:00Z"
-  renderingCount: 26
-  warning: "MCP cannot read this field — value may be stale if modified outside this session"
+  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{C9FFEF83-C928-4346-AA68-14B3EE0B0017}|{B92A0B89-790F-4D94-89C7-B361C8688765}|{9E525B59-B9BF-4EB7-B75D-10811EF6100D}|{66E80043-36E4-48AE-8CAF-EEF4A77690BE}|{5A8724FB-D6E6-4C9D-8A4A-EFD8750B0019}|{14FCB11C-364D-4BC2-9238-B29B4C6F8145}"
+  lastUpdatedAt: "2026-06-09T00:00:00Z"
+  renderingCount: 32
+  warning: "MCP cannot read this field — value may be stale if modified outside this session. Also: MCP write returned empty updatedFields — silent-write. Verify in Content Editor."
 
 components:
   - name: "AnnouncementBar"
@@ -2194,6 +2194,246 @@ components:
       - "2026-05-18: Created ArticleBody context component (Issue #12). Default variant."
       - "2026-05-18: Added WithSidebar + Wide variants (Issue #14). 3 Variant Definitions created."
 
+  - name: "LandingHero"
+    kind: "context-only"
+    category: "Landing"
+    status: "complete"
+    createdAt: "2026-06-09T00:00:00Z"
+    updatedAt: "2026-06-09T00:00:00Z"
+    react:
+      filePath: "src/components/uiim/landing/LandingHero.tsx"
+      componentMapKey: "LandingHero"
+      variants: ["Default", "SplitImage", "Minimal"]
+    templates:
+      renderingParams:
+        name: "LandingHero"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Landing/LandingHero"
+        itemId: "{38646376-EC1A-4367-A527-58108E8FFDA6}"
+        baseTemplatesSet: true
+    rendering:
+      name: "LandingHero"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Landing/LandingHero"
+      itemId: "{C9FFEF83-C928-4346-AA68-14B3EE0B0017}"
+      componentName: "LandingHero"
+      parametersTemplate: "{38646376-EC1A-4367-A527-58108E8FFDA6}"
+      datasourceRequired: false
+      registeredInAvailableRenderings: pendingManual
+    headlessVariants:
+      containerId: "{2571BE88-7763-4827-B661-1C6792B95847}"
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/LandingHero"
+      definitions:
+        - { name: "Default", itemId: "{D1B9E599-F9C5-416F-A204-16F8EBC1E10C}" }
+        - { name: "SplitImage", itemId: "{E000909A-01DA-498C-BAB3-54EAC6E2C89F}" }
+        - { name: "Minimal", itemId: "{52F4AECD-818D-4A1A-8CC5-DFDCE5F5C928}" }
+    verification:
+      renderingExists: passed
+      componentNamePascalCase: passed
+      parametersTemplateIsGuid: passed
+      datasourceTemplateEmpty: passed
+      datasourceLocationEmpty: passed
+      componentQueryEmpty: passed
+      registeredInAvailableRenderings: pendingManual
+      reactComponentExists: passed
+      componentMapUpdated: passed
+    notes:
+      - "2026-06-09: Created LandingHero (3 variants — Default, SplitImage, Minimal). Renders heroVideo if set else heroImage. ABM swap surface."
+
+  - name: "LandingFeatures"
+    kind: "context-only"
+    category: "Landing"
+    status: "complete"
+    createdAt: "2026-06-09T00:00:00Z"
+    updatedAt: "2026-06-09T00:00:00Z"
+    react:
+      filePath: "src/components/uiim/landing/LandingFeatures.tsx"
+      componentMapKey: "LandingFeatures"
+      variants: ["Default"]
+    templates:
+      renderingParams:
+        name: "LandingFeatures"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Landing/LandingFeatures"
+        itemId: "{6AA6E2B1-9DD8-4FB6-8608-E5D653826F5B}"
+        baseTemplatesSet: true
+    rendering:
+      name: "LandingFeatures"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Landing/LandingFeatures"
+      itemId: "{B92A0B89-790F-4D94-89C7-B361C8688765}"
+      componentName: "LandingFeatures"
+      parametersTemplate: "{6AA6E2B1-9DD8-4FB6-8608-E5D653826F5B}"
+      datasourceRequired: false
+      registeredInAvailableRenderings: pendingManual
+    headlessVariants:
+      containerId: "{5ADEF5CB-11B4-4743-AA96-4D7EFEE55C5D}"
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/LandingFeatures"
+      definitions:
+        - { name: "Default", itemId: "{31A214D5-7824-476C-8C63-4FB5F942DD28}" }
+    verification:
+      renderingExists: passed
+      componentNamePascalCase: passed
+      parametersTemplateIsGuid: passed
+      registeredInAvailableRenderings: pendingManual
+      reactComponentExists: passed
+      componentMapUpdated: passed
+    notes:
+      - "2026-06-09: Created. 3 fixed feature slots. Icons via lucide-react dynamic lookup (PascalCase icon name strings → React component)."
+
+  - name: "LandingStats"
+    kind: "context-only"
+    category: "Landing"
+    status: "complete"
+    createdAt: "2026-06-09T00:00:00Z"
+    updatedAt: "2026-06-09T00:00:00Z"
+    react:
+      filePath: "src/components/uiim/landing/LandingStats.tsx"
+      componentMapKey: "LandingStats"
+      variants: ["Default"]
+    templates:
+      renderingParams:
+        name: "LandingStats"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Landing/LandingStats"
+        itemId: "{112EFD22-E816-4654-BDCC-6A8AFCB312EB}"
+        baseTemplatesSet: true
+    rendering:
+      name: "LandingStats"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Landing/LandingStats"
+      itemId: "{9E525B59-B9BF-4EB7-B75D-10811EF6100D}"
+      componentName: "LandingStats"
+      parametersTemplate: "{112EFD22-E816-4654-BDCC-6A8AFCB312EB}"
+      datasourceRequired: false
+      registeredInAvailableRenderings: pendingManual
+    headlessVariants:
+      containerId: "{5619F2D9-B432-4A47-AA8A-911937AB991B}"
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/LandingStats"
+      definitions:
+        - { name: "Default", itemId: "{2623EBAE-BF3D-471A-8E7D-176BCF6E4BE6}" }
+    verification:
+      renderingExists: passed
+      componentNamePascalCase: passed
+      parametersTemplateIsGuid: passed
+      registeredInAvailableRenderings: pendingManual
+      reactComponentExists: passed
+      componentMapUpdated: passed
+    notes:
+      - "2026-06-09: Created. 3 fixed stat tiles. Validation regex enforces 8-char limit on numbers."
+
+  - name: "LandingSocialProof"
+    kind: "context-only"
+    category: "Landing"
+    status: "complete"
+    createdAt: "2026-06-09T00:00:00Z"
+    updatedAt: "2026-06-09T00:00:00Z"
+    react:
+      filePath: "src/components/uiim/landing/LandingSocialProof.tsx"
+      componentMapKey: "LandingSocialProof"
+      variants: ["Default"]
+    templates:
+      renderingParams:
+        name: "LandingSocialProof"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Landing/LandingSocialProof"
+        itemId: "{292054A5-FC43-40FE-8398-EA7744F50E5C}"
+        baseTemplatesSet: true
+    rendering:
+      name: "LandingSocialProof"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Landing/LandingSocialProof"
+      itemId: "{66E80043-36E4-48AE-8CAF-EEF4A77690BE}"
+      componentName: "LandingSocialProof"
+      parametersTemplate: "{292054A5-FC43-40FE-8398-EA7744F50E5C}"
+      datasourceRequired: false
+      registeredInAvailableRenderings: pendingManual
+    headlessVariants:
+      containerId: "{1077B0D2-420D-48E4-ADA2-853C6C0E880A}"
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/LandingSocialProof"
+      definitions:
+        - { name: "Default", itemId: "{8ED8A4F7-10C3-4867-AC0E-B3F79BECC356}" }
+    verification:
+      renderingExists: passed
+      componentNamePascalCase: passed
+      parametersTemplateIsGuid: passed
+      registeredInAvailableRenderings: pendingManual
+      reactComponentExists: passed
+      componentMapUpdated: passed
+    notes:
+      - "2026-06-09: Created. Single inline testimonial + composite logo strip image (no Treelist)."
+
+  - name: "LandingFAQ"
+    kind: "context-only"
+    category: "Landing"
+    status: "complete"
+    createdAt: "2026-06-09T00:00:00Z"
+    updatedAt: "2026-06-09T00:00:00Z"
+    react:
+      filePath: "src/components/uiim/landing/LandingFAQ.tsx"
+      componentMapKey: "LandingFAQ"
+      componentType: "client"
+      variants: ["Default"]
+    templates:
+      renderingParams:
+        name: "LandingFAQ"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Landing/LandingFAQ"
+        itemId: "{102619E2-6891-46B8-821D-755F85FF5D84}"
+        baseTemplatesSet: true
+    rendering:
+      name: "LandingFAQ"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Landing/LandingFAQ"
+      itemId: "{5A8724FB-D6E6-4C9D-8A4A-EFD8750B0019}"
+      componentName: "LandingFAQ"
+      parametersTemplate: "{102619E2-6891-46B8-821D-755F85FF5D84}"
+      datasourceRequired: false
+      registeredInAvailableRenderings: pendingManual
+    headlessVariants:
+      containerId: "{4FC4C30A-8A86-43CD-AFF9-4D6C53CB0594}"
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/LandingFAQ"
+      definitions:
+        - { name: "Default", itemId: "{DCA2DB12-8D54-4AD6-8D43-082683AFA518}" }
+    verification:
+      renderingExists: passed
+      componentNamePascalCase: passed
+      parametersTemplateIsGuid: passed
+      registeredInAvailableRenderings: pendingManual
+      reactComponentExists: passed
+      componentMapUpdated: passed
+    notes:
+      - "2026-06-09: Created. 5 fixed Q/A pairs. Custom accordion (useState) — shadcn does not ship an Accordion primitive in this repo. Marked componentType: client."
+
+  - name: "LandingFinalCTA"
+    kind: "context-only"
+    category: "Landing"
+    status: "complete"
+    createdAt: "2026-06-09T00:00:00Z"
+    updatedAt: "2026-06-09T00:00:00Z"
+    react:
+      filePath: "src/components/uiim/landing/LandingFinalCTA.tsx"
+      componentMapKey: "LandingFinalCTA"
+      variants: ["Default"]
+    templates:
+      renderingParams:
+        name: "LandingFinalCTA"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Landing/LandingFinalCTA"
+        itemId: "{17AD398D-2EC8-4FB5-8693-89FE5676458A}"
+        baseTemplatesSet: true
+    rendering:
+      name: "LandingFinalCTA"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Landing/LandingFinalCTA"
+      itemId: "{14FCB11C-364D-4BC2-9238-B29B4C6F8145}"
+      componentName: "LandingFinalCTA"
+      parametersTemplate: "{17AD398D-2EC8-4FB5-8693-89FE5676458A}"
+      datasourceRequired: false
+      registeredInAvailableRenderings: pendingManual
+    headlessVariants:
+      containerId: "{C27474AD-EC5C-421E-AAAE-1DE43C9FC0D4}"
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/LandingFinalCTA"
+      definitions:
+        - { name: "Default", itemId: "{2FFE0507-9D6D-4D93-BFFE-43504C63D10C}" }
+    verification:
+      renderingExists: passed
+      componentNamePascalCase: passed
+      parametersTemplateIsGuid: passed
+      registeredInAvailableRenderings: pendingManual
+      reactComponentExists: passed
+      componentMapUpdated: passed
+    notes:
+      - "2026-06-09: Created. Closing CTA band on dark background."
+
 sharedDataTemplates:
   - name: "Person"
     kind: "shared-data"
@@ -2326,6 +2566,139 @@ pageTemplates:
       - "2026-05-18: Created Article Page template (Issue #10). Inherits from Page template. Insert options on Articles parent set via __Masters (silent-write)."
       - "2026-05-18: Template moved from /sitecore/templates/Project/fmc-custom-demo/Page Types to /sitecore/templates/Project/main/Page Types per project conventions."
       - "2026-05-18: Created Article Layout partial design + Article page design (Issue #15). Components placed in headless-main. Page Design and Partial Design association via MCP (silent-write) — verify linkage in Content Editor."
+
+  - name: "Landing Page"
+    kind: "page-template"
+    category: "Page Types"
+    status: "complete"
+    createdAt: "2026-06-09T00:00:00Z"
+    updatedAt: "2026-06-09T00:00:00Z"
+    designIntent: "Agentic-Studio-fillable, ABM-ready, fixed-shape (3 features, 3 stats, 5 FAQs). All content on the page template — no datasources."
+
+    baseTemplate:
+      name: "Page"
+      itemId: "{CEBD0936-6B37-42B5-B169-369BB1C3C06A}"
+
+    templates:
+      pageTemplate:
+        name: "Landing Page"
+        path: "/sitecore/templates/Project/main/Page Types/Landing Page"
+        itemId: "{50AF6EC7-85FD-4B9B-ADF7-1FDE9D9136FE}"
+        sections:
+          - { name: "Hero Data", itemId: "{C4C0EAC9-964E-42D2-B4CD-BE26344026EB}" }
+          - { name: "Features Data", itemId: "{B17C9DF3-C754-4152-BC58-222362055AEC}" }
+          - { name: "Stats Data", itemId: "{AE9BCEFB-1175-4562-AA9F-A65B5688887E}" }
+          - { name: "Social Proof Data", itemId: "{296F0E42-A06B-4A84-B107-5518ADA4286B}" }
+          - { name: "FAQ Data", itemId: "{E8B0DB8B-8178-4583-B5B4-7D9BDD7E4859}" }
+          - { name: "Final CTA Data", itemId: "{3987AC22-27BA-4E8C-BF2A-6D9D00E8E0C2}" }
+        fields:
+          # Hero Data (7)
+          - { name: "heroEyebrow", type: "Single-Line Text", itemId: "{872E5129-743B-48BA-98E9-9DB9F994114E}", validation: "^.{1,40}$" }
+          - { name: "heroHeadline", type: "Single-Line Text", itemId: "{593FDD00-9595-47F9-8BBD-C148AF1086C9}", validation: "^.{1,80}$" }
+          - { name: "heroSubhead", type: "Single-Line Text", itemId: "{C5555B26-DD7B-4027-AFCD-999E670EB995}", validation: "^.{1,200}$" }
+          - { name: "heroPrimaryCta", type: "General Link", itemId: "{0DC2E1C8-D594-441B-AA18-2132A1546775}" }
+          - { name: "heroSecondaryCta", type: "General Link", itemId: "{E6055701-1EE7-4EA4-8E8E-BEA8BB869C22}" }
+          - { name: "heroImage", type: "Image", itemId: "{126DC528-FCC5-425A-800D-EFAEA500BCCC}" }
+          - { name: "heroVideo", type: "General Link", itemId: "{2380CF5F-86C1-42BB-A3E1-1DD111C97B73}" }
+          # Features Data (9)
+          - { name: "feature1IconName", type: "Single-Line Text", itemId: "{EA3B0E8E-2E61-43E3-BDA7-E9776FE89562}", validation: "^[A-Z][A-Za-z0-9]{1,30}$" }
+          - { name: "feature1Title", type: "Single-Line Text", itemId: "{C629BD84-BF4D-4AD3-929A-1953DB4CB530}", validation: "^.{1,40}$" }
+          - { name: "feature1Description", type: "Rich Text", itemId: "{26938ADF-AA20-4C38-A40A-52BA925031DC}" }
+          - { name: "feature2IconName", type: "Single-Line Text", itemId: "{2428D498-A53A-410B-B1A7-BE458E82A6DA}", validation: "^[A-Z][A-Za-z0-9]{1,30}$" }
+          - { name: "feature2Title", type: "Single-Line Text", itemId: "{4BE16324-F69F-438B-9DF4-5BDF5C2CC44C}", validation: "^.{1,40}$" }
+          - { name: "feature2Description", type: "Rich Text", itemId: "{BD90861E-5DB9-49F3-AB72-242CB1C2DC86}" }
+          - { name: "feature3IconName", type: "Single-Line Text", itemId: "{AEA8E7E8-1AE1-49C4-9238-8FE043058F4D}", validation: "^[A-Z][A-Za-z0-9]{1,30}$" }
+          - { name: "feature3Title", type: "Single-Line Text", itemId: "{ACC0EC77-5D02-47F4-93F1-DC0971623CD5}", validation: "^.{1,40}$" }
+          - { name: "feature3Description", type: "Rich Text", itemId: "{E82CA53F-5B52-40D6-83EA-9D414DD04978}" }
+          # Stats Data (6)
+          - { name: "stat1Number", type: "Single-Line Text", itemId: "{35C67A2F-620D-466D-A4A8-3B717CF2ED96}", validation: "^.{1,8}$" }
+          - { name: "stat1Label", type: "Single-Line Text", itemId: "{BC0DFED4-3B88-49CA-A34D-098141889CF2}", validation: "^.{1,30}$" }
+          - { name: "stat2Number", type: "Single-Line Text", itemId: "{1A7417C0-310D-4E7D-B5EC-92114E7BD533}", validation: "^.{1,8}$" }
+          - { name: "stat2Label", type: "Single-Line Text", itemId: "{FAF62BD1-B7FE-4D6E-959E-A9F8CC9ACA4D}", validation: "^.{1,30}$" }
+          - { name: "stat3Number", type: "Single-Line Text", itemId: "{E712E34F-E20A-49A8-A372-E8F2EC077537}", validation: "^.{1,8}$" }
+          - { name: "stat3Label", type: "Single-Line Text", itemId: "{21DFBD1B-5F08-49C3-9DEE-DA6B5F5BFD86}", validation: "^.{1,30}$" }
+          # Social Proof Data (5)
+          - { name: "testimonialQuote", type: "Rich Text", itemId: "{CC51C74E-B2E4-414B-AB35-5CC711B08E2F}" }
+          - { name: "testimonialAuthorName", type: "Single-Line Text", itemId: "{699BC92B-F349-48D0-8D1C-38AF76BC6D7E}", validation: "^.{1,60}$" }
+          - { name: "testimonialAuthorTitle", type: "Single-Line Text", itemId: "{80F81BB3-7127-48AF-A8CD-553858610C66}", validation: "^.{1,80}$" }
+          - { name: "testimonialAuthorImage", type: "Image", itemId: "{A5CCB94C-223D-4B12-AC4B-59DCBF5945BB}" }
+          - { name: "partnerLogosImage", type: "Image", itemId: "{EF14FB95-FBF5-46FC-87EC-3A6B1A1AA8FE}" }
+          # FAQ Data (10)
+          - { name: "faq1Question", type: "Single-Line Text", itemId: "{A210B32E-FF19-4909-AFEA-6AFDE0D1E41B}", validation: "^.{1,140}$" }
+          - { name: "faq1Answer", type: "Rich Text", itemId: "{6900EAA8-748F-4A12-864B-2115BE3C5E5E}" }
+          - { name: "faq2Question", type: "Single-Line Text", itemId: "{F5BC97A7-8CEB-419B-89D6-B6EC2A480A86}", validation: "^.{1,140}$" }
+          - { name: "faq2Answer", type: "Rich Text", itemId: "{2E6E2359-E8D4-440C-A7AE-07BFB4C952EC}" }
+          - { name: "faq3Question", type: "Single-Line Text", itemId: "{4A6E980B-FC61-454C-8954-F7DF8DE56283}", validation: "^.{1,140}$" }
+          - { name: "faq3Answer", type: "Rich Text", itemId: "{0DAE8540-D34C-49C1-89C8-0DF5BA0E4E8E}" }
+          - { name: "faq4Question", type: "Single-Line Text", itemId: "{246DCC86-704D-4438-942F-1B79C4ADF78E}", validation: "^.{1,140}$" }
+          - { name: "faq4Answer", type: "Rich Text", itemId: "{9A7B6EA1-BFB8-4572-9AAC-25D584E7E2DF}" }
+          - { name: "faq5Question", type: "Single-Line Text", itemId: "{7A0E27FF-561A-4D4F-864C-B1576AC1F6BA}", validation: "^.{1,140}$" }
+          - { name: "faq5Answer", type: "Rich Text", itemId: "{4440D454-0CBE-4716-AB07-1EE3A6686936}" }
+          # Final CTA Data (3)
+          - { name: "finalCtaHeadline", type: "Single-Line Text", itemId: "{69875F2F-766C-43D6-8DAD-12AB207C879C}", validation: "^.{1,80}$" }
+          - { name: "finalCtaSubhead", type: "Rich Text", itemId: "{21B8A23C-A8E3-4536-BBC1-64E0C34BE37F}" }
+          - { name: "finalCtaButton", type: "General Link", itemId: "{F32737A7-4950-4D3D-8C51-E8375EB3C856}" }
+        inheritsFrom: "Page"
+        standardValues:
+          itemId: "{0014CD13-F3F1-4049-A866-3F30F508202E}"
+          linked: true
+          defaultsPopulated: true
+
+    contentTree:
+      lpParent:
+        name: "lp"
+        path: "/sitecore/content/main/main-website/Home/lp"
+        itemId: "{AF65681C-5C75-40D2-89A3-3779D5A47A27}"
+        insertOptionsSet: pendingManual
+
+    codeChanges:
+      - "Layout.tsx: RouteFields extended with 40 optional landing-page fields"
+      - ".sitecore/component-map.ts: added 6 entries for Landing* components (LandingFAQ marked componentType: client)"
+      - "Created 6 React component files under src/components/uiim/landing/"
+
+    verification:
+      templateExists: passed
+      baseTemplateSet: passed
+      sectionsExist: passed
+      fieldsExist: passed
+      fieldTypesCorrect: passed
+      validationRegexesSet: passed
+      shortDescriptionPopulated: pendingManual
+      standardValuesLinked: passed
+      standardValuesDefaults: passed
+      lpParentExists: passed
+      insertOptions: pendingManual
+      layoutTsxUpdated: passed
+      componentMapUpdated: passed
+
+    partialDesign:
+      name: "Landing Page Layout"
+      path: "/sitecore/content/main/main-website/Presentation/Partial Designs/Landing Page Layout"
+      itemId: "{BEF9B1FC-E7F6-4296-B60B-780728B557C0}"
+      components: ["LandingHero", "LandingFeatures", "LandingStats", "LandingSocialProof", "LandingFAQ", "LandingFinalCTA"]
+      placeholder: "headless-main"
+      renderingsPlaced: pendingManual
+
+    pageDesign:
+      name: "Landing Page"
+      path: "/sitecore/content/main/main-website/Presentation/Page Designs/Landing Page"
+      itemId: "{E38ABC20-C7EA-43C8-AAAF-22CA71342814}"
+      partialDesignsLinked: pendingManual
+      linkedToStandardValues: pendingManual
+
+    pendingManual:
+      - "Insert options on /Home/lp (__Masters silent-write — set in Content Editor)"
+      - "Renderings on Available Renderings (silent-write — verify Renderings [shared] on Page Content includes the 6 new GUIDs)"
+      - "6 renderings placed on Landing Page Layout's headless-main placeholder (Pages Builder)"
+      - "Page Design 'Landing Page' references Partial Designs (Header + Landing Page Layout + Footer) (Content Editor)"
+      - "Landing Page __Standard Values references Page Design 'Landing Page' (Content Editor)"
+      - "Validation regex + __Short description silent-write on 40 fields — verify a sample in Content Editor"
+
+    notes:
+      - "2026-06-09: Created via grilling session. Agentic-Studio-fillable, ABM-ready. Fixed-shape (3 features, 3 stats, 5 FAQs). 40 route fields across 6 sections with validation regexes + agent help text. __Standard Values populated with v1 SaaS-flavored defaults (marked for review before first ABM campaign)."
+      - "2026-06-09: 6 context components created (LandingHero, LandingFeatures, LandingStats, LandingSocialProof, LandingFAQ, LandingFinalCTA). 8 Variant Definitions total — Hero gets 3 (Default, SplitImage, Minimal), others get Default only (lean v1 scope)."
+      - "2026-06-09: Partial Design and Page Design items created but rendering placement and standard-values linkage are silent-write — finalize via Pages Builder / Content Editor."
+      - "2026-06-09: Registry entry in docs/ai/catalog/page-template-registry.yaml under id=landing is the canonical schema source of truth. Orchestrator skill at docs/ai/skills/sitecore-create-landing-page.md. Router updated at docs/ai/rules/01-sitecore-router.md."
 
   - name: "SearchExperience"
     kind: "simple"
@@ -2673,6 +3046,32 @@ lookups:
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Article"
     itemId: "{222fab12-4e0e-49c6-85f8-363b1956528f}"
     lastReadAt: "2026-05-18T12:00:00Z"
+
+  # Landing Page lookups (added 2026-06-09)
+  - path: "/sitecore/templates/Project/main/Page Types/Landing Page"
+    itemId: "{50AF6EC7-85FD-4B9B-ADF7-1FDE9D9136FE}"
+    lastReadAt: "2026-06-09T00:00:00Z"
+  - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Landing"
+    itemId: "{3F3D0A73-3486-4AEA-9F4F-CDC12F6ADC4A}"
+    lastReadAt: "2026-06-09T00:00:00Z"
+  - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Landing"
+    itemId: "{142E3FB6-A1D0-4D7A-8AF3-F0E7DD155024}"
+    lastReadAt: "2026-06-09T00:00:00Z"
+  - path: "/sitecore/content/main/main-website/Home/lp"
+    itemId: "{AF65681C-5C75-40D2-89A3-3779D5A47A27}"
+    lastReadAt: "2026-06-09T00:00:00Z"
+  - path: "/sitecore/content/main/main-website/Presentation/Partial Designs"
+    itemId: "{B9355266-E4F8-4352-8F64-2700D071D46A}"
+    lastReadAt: "2026-06-09T00:00:00Z"
+  - path: "/sitecore/content/main/main-website/Presentation/Page Designs"
+    itemId: "{0E863278-EA75-48C0-82C0-762B566CC40E}"
+    lastReadAt: "2026-06-09T00:00:00Z"
+  - path: "/sitecore/content/main/main-website/Presentation/Partial Designs/Landing Page Layout"
+    itemId: "{BEF9B1FC-E7F6-4296-B60B-780728B557C0}"
+    lastReadAt: "2026-06-09T00:00:00Z"
+  - path: "/sitecore/content/main/main-website/Presentation/Page Designs/Landing Page"
+    itemId: "{E38ABC20-C7EA-43C8-AAAF-22CA71342814}"
+    lastReadAt: "2026-06-09T00:00:00Z"
 
 # Demo datasource items (AI-created content, not new component definitions)
 demoContent: []

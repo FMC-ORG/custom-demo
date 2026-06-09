@@ -62,6 +62,52 @@ export interface RouteFields {
   ArticlePublicationDate?: Field;
   ArticleKeyTakeaways?: RichTextField;
   ArticleReadTime?: Field;
+  // Landing Page — Hero Data
+  heroEyebrow?: Field<string>;
+  heroHeadline?: Field<string>;
+  heroSubhead?: Field<string>;
+  heroPrimaryCta?: LinkField;
+  heroSecondaryCta?: LinkField;
+  heroImage?: ImageField;
+  heroVideo?: LinkField;
+  // Landing Page — Features Data
+  feature1IconName?: Field<string>;
+  feature1Title?: Field<string>;
+  feature1Description?: RichTextField;
+  feature2IconName?: Field<string>;
+  feature2Title?: Field<string>;
+  feature2Description?: RichTextField;
+  feature3IconName?: Field<string>;
+  feature3Title?: Field<string>;
+  feature3Description?: RichTextField;
+  // Landing Page — Stats Data
+  stat1Number?: Field<string>;
+  stat1Label?: Field<string>;
+  stat2Number?: Field<string>;
+  stat2Label?: Field<string>;
+  stat3Number?: Field<string>;
+  stat3Label?: Field<string>;
+  // Landing Page — Social Proof Data
+  testimonialQuote?: RichTextField;
+  testimonialAuthorName?: Field<string>;
+  testimonialAuthorTitle?: Field<string>;
+  testimonialAuthorImage?: ImageField;
+  partnerLogosImage?: ImageField;
+  // Landing Page — FAQ Data
+  faq1Question?: Field<string>;
+  faq1Answer?: RichTextField;
+  faq2Question?: Field<string>;
+  faq2Answer?: RichTextField;
+  faq3Question?: Field<string>;
+  faq3Answer?: RichTextField;
+  faq4Question?: Field<string>;
+  faq4Answer?: RichTextField;
+  faq5Question?: Field<string>;
+  faq5Answer?: RichTextField;
+  // Landing Page — Final CTA Data
+  finalCtaHeadline?: Field<string>;
+  finalCtaSubhead?: RichTextField;
+  finalCtaButton?: LinkField;
 }
 
 const Layout = ({ page }: LayoutProps): JSX.Element => {

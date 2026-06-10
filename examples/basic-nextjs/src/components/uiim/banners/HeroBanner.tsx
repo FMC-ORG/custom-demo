@@ -3,6 +3,7 @@ import {
   Field,
   ImageField,
   LinkField,
+  NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
@@ -251,8 +252,17 @@ export const SilverCelebrationCenter = ({ fields, params, page }: HeroBannerProp
         </div>
 
         <div className="relative mx-auto max-w-5xl">
-          {/* Silver chrome Sitecore logo */}
-          <SilverSitecoreLogo />
+          {/* Sitecore logo — use HeroImage from datasource if populated, else fall back to inline SVG */}
+          {fields.HeroImage?.value?.src ? (
+            <div className="flex justify-center">
+              <ContentSdkImage
+                field={fields.HeroImage}
+                className="h-24 md:h-28 w-auto object-contain"
+              />
+            </div>
+          ) : (
+            <SilverSitecoreLogo />
+          )}
 
           {/* Thin divider under logo */}
           <div

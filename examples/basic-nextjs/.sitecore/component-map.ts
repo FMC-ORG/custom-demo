@@ -32,7 +32,6 @@ import * as FAQAccordion from 'src/components/uiim/content/FAQAccordion';
 import * as EventDateVenueBlock from 'src/components/uiim/content/EventDateVenueBlock';
 import * as EventAgendaTable from 'src/components/uiim/content/EventAgendaTable';
 import * as ConnectedSitePanel from 'src/components/uiim/content/ConnectedSitePanel';
-import * as SitecoreSilverAttendeeProfile from 'src/components/uiim/content/SitecoreSilverAttendeeProfile';
 import * as ProductPricingCards from 'src/components/uiim/cards/ProductPricingCards';
 import * as FeatureCardsGrid from 'src/components/uiim/cards/FeatureCardsGrid';
 import * as HeroBannerCarousel from 'src/components/uiim/banners/HeroBannerCarousel';
@@ -114,7 +113,6 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['EventDateVenueBlock', { ...EventDateVenueBlock }],
   ['EventAgendaTable', { ...EventAgendaTable }],
   ['ConnectedSitePanel', { ...ConnectedSitePanel }],
-  ['SitecoreSilverAttendeeProfile', { ...SitecoreSilverAttendeeProfile }],
   ['ProductPricingCards', { ...ProductPricingCards }],
   ['FeatureCardsGrid', { ...FeatureCardsGrid, componentType: 'client' }],
   ['HeroBannerCarousel', { ...HeroBannerCarousel, componentType: 'client' }],

@@ -6,7 +6,6 @@ import {
   NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   Text as ContentSdkText,
-  useSitecore,
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
@@ -47,8 +46,8 @@ const SUMITH_DEFAULTS = {
     'From unified platforms to orchestrated outcomes, our 25-year journey of innovation continues. Together, with SitecoreAI, we’ll shape the future of digital experiences.',
   linkedInUrl: 'https://www.linkedin.com/in/sitecore',
   photoCode: 'SILVERMPWGECJFXGR7',
-  originalPhoto: '/branding/attendee-original-placeholder.png',
-  enhancedPhoto: '/branding/attendee-enhanced-placeholder.png',
+  originalPhoto: 'https://storage.googleapis.com/copenhagesilver.firebasestorage.app/sitecore-silver%2Fsession_1781121766077_q3o3qylol%2Foriginal_1781121805587.jpg',
+  enhancedPhoto: 'https://storage.googleapis.com/copenhagesilver.firebasestorage.app/sitecore-silver%2Fsession_1781121766077_q3o3qylol%2Fcomposited_1781121805587.jpg',
 };
 
 const textValue = (f?: Field<string>): string | undefined => f?.value;
@@ -93,7 +92,7 @@ const AiBadge = () => (
 );
 
 export const Default = (props: SitecoreSilverAttendeeProfileProps): JSX.Element => {
-  const { page } = useSitecore();
+  const page = props.page;
   const isEditing = page?.mode?.isEditing;
   const id = props.params?.RenderingIdentifier;
   const styles = props.params?.styles || '';

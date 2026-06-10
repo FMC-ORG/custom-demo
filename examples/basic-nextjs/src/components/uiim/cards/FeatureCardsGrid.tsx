@@ -86,8 +86,8 @@ const SectionHeader = ({
       <Text
         field={datasource.eyebrow?.jsonValue}
         tag="p"
-        className="mb-3 text-xs font-semibold tracking-[0.4em] uppercase"
-        style={{ color: 'var(--brand-muted-foreground)' }}
+        className="mb-10 text-xs md:text-sm font-light tracking-[0.5em] uppercase"
+        style={{ color: '#d4d4d8' }}
       />
     )}
     {(datasource.title?.jsonValue?.value || isEditing) && (
@@ -112,13 +112,17 @@ const SectionHeader = ({
    Default — Copenhagen Silver ActionCardsTwoUp
    2-up large dark cards, red icon square top-left,
    title h3, subtitle. Full card is clickable.
+   Auto-routes to NumberedRedAccent when children carry CardNumber values.
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+export const Default = (props: FeatureCardsGridProps): JSX.Element => {
+  const cards = props.fields?.data?.datasource?.children?.results || [];
+  const hasNumbers = cards.some((c) => !!c.cardNumber?.jsonValue?.value);
+  if (hasNumbers) return <NumberedRedAccent {...props} />;
+  const { fields, params, page } = props;
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const datasource = fields?.data?.datasource;
   if (!datasource) return <FeatureCardsGridDefaultComponent />;
-  const cards = datasource.children?.results || [];
 
   return (
     <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
@@ -194,7 +198,10 @@ export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.El
 
 /* ────────────────────────────────────────────
    NumberedRedAccent — Event "What to Expect"
-   Numbered badge top, title, description.
+   2-col grid with shared hairline dividers,
+   outlined silver numbers (01/02/03/04),
+   "+" icon top-right, all-caps tracked title,
+   gray description. No per-card backgrounds.
    ──────────────────────────────────────────── */
 export const NumberedRedAccent = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
@@ -202,46 +209,76 @@ export const NumberedRedAccent = ({ fields, params, page }: FeatureCardsGridProp
   const datasource = fields?.data?.datasource;
   if (!datasource) return <FeatureCardsGridDefaultComponent />;
   const cards = datasource.children?.results || [];
+  const hairline = '1px solid rgba(255, 255, 255, 0.08)';
 
   return (
     <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
-      <section className="w-full px-4 py-16 md:py-24">
-        <div className="mx-auto max-w-6xl">
+      <section className="w-full px-4 py-16 md:py-20">
+        <div className="mx-auto max-w-5xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2"
+            style={{ border: hairline }}
+          >
             {cards.map((card, idx) => {
-              const num = card.cardNumber?.jsonValue?.value || String(idx + 1).padStart(2, '0');
+              const num =
+                card.cardNumber?.jsonValue?.value || String(idx + 1).padStart(2, '0');
+              const isLeftCol = idx % 2 === 0;
+              const isLastRow = idx >= cards.length - 2;
+              const cellBorder: React.CSSProperties = {
+                borderRight: isLeftCol ? hairline : 'none',
+                borderBottom: !isLastRow ? hairline : 'none',
+              };
               return (
                 <div
                   key={card.id}
-                  className="p-6"
-                  style={{
-                    backgroundColor: 'rgba(255,255,255,0.02)',
-                    border: '1px solid var(--brand-border)',
-                    borderRadius: 'var(--brand-card-radius)',
-                  }}
+                  className="relative p-8 md:p-10"
+                  style={cellBorder}
                 >
-                  <div className="flex items-baseline gap-4">
-                    <span
-                      className="text-3xl font-bold"
-                      style={{ color: 'var(--brand-primary)' }}
-                    >
-                      {num}
-                    </span>
-                    {(card.cardTitle?.jsonValue?.value || isEditing) && (
-                      <Text
-                        field={card.cardTitle?.jsonValue}
-                        tag="h3"
-                        className="text-xs font-bold tracking-[0.2em] uppercase"
-                        style={{ color: 'var(--brand-fg)' }}
-                      />
-                    )}
-                  </div>
+                  {/* "+" icon top right */}
+                  <span
+                    aria-hidden
+                    className="absolute top-6 right-6 inline-flex h-6 w-6 items-center justify-center rounded-full"
+                    style={{
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      color: 'rgba(255, 255, 255, 0.4)',
+                      fontSize: '12px',
+                      fontWeight: 300,
+                    }}
+                  >
+                    +
+                  </span>
+
+                  {/* Outlined silver number */}
+                  <span
+                    className="block text-5xl md:text-6xl font-light"
+                    style={{
+                      fontFamily: 'var(--brand-heading-font)',
+                      color: 'transparent',
+                      WebkitTextStroke: '1px rgba(229, 231, 235, 0.55)',
+                      letterSpacing: '-0.02em',
+                      lineHeight: 1,
+                    }}
+                  >
+                    {num}
+                  </span>
+
+                  {/* Title (all-caps tracked) */}
+                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="mt-6 text-xs md:text-sm font-light tracking-[0.3em] uppercase"
+                      style={{ color: '#d4d4d8' }}
+                    />
+                  )}
+
+                  {/* Description */}
                   {(card.cardDescription?.jsonValue?.value || isEditing) && (
                     <ContentSdkRichText
                       field={card.cardDescription?.jsonValue}
-                      className="mt-3 text-sm leading-relaxed [&_p]:m-0"
-                      style={{ color: 'var(--brand-muted-foreground)' }}
+                      className="mt-4 text-sm md:text-[15px] leading-relaxed font-light [&_p]:m-0"
+                      style={{ color: '#a3a3a3' }}
                     />
                   )}
                 </div>

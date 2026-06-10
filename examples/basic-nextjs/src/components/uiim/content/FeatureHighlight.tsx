@@ -59,49 +59,80 @@ const CtaButton = ({ field, isEditing }: { field: LinkField; isEditing?: boolean
 };
 
 /* ────────────────────────────────────────────
-   Default — image right, text left (alternates via CSS)
+   Default — Copenhagen Silver elegant centered
+   Tracked uppercase eyebrow, silver-gradient title
+   (italic when wrapped in quotes), light gray body.
    ──────────────────────────────────────────── */
+const isQuotedTitle = (value?: string): boolean => {
+  if (!value) return false;
+  const trimmed = value.trim();
+  return /^["“'‘]/.test(trimmed) || /["”'’]$/.test(trimmed);
+};
+
 export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <FeatureHighlightDefaultComponent />;
 
+  const titleVal = fields.Title?.value;
+  const quoted = isQuotedTitle(titleVal);
+
   return (
     <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
-      <section
-        className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
-      >
-        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:px-6 even:[&]:direction-rtl even:[&>*]:direction-ltr">
-          <div>
-            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
-            {(fields.Title?.value || isEditing) && (
-              <Text
-                field={fields.Title}
-                tag="h2"
-                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
-                style={{ color: 'var(--brand-fg, #111111)' }}
+      <section className="w-full px-4 py-16 md:py-24">
+        <div className="mx-auto max-w-3xl text-center">
+          {(fields.EyebrowText?.value || isEditing) && (
+            <Text
+              field={fields.EyebrowText}
+              tag="p"
+              className="text-xs md:text-sm font-light tracking-[0.5em] uppercase"
+              style={{ color: '#a3a3a3' }}
+            />
+          )}
+
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag={quoted ? 'p' : 'h2'}
+              className={cn(
+                'mt-8',
+                quoted
+                  ? 'text-3xl md:text-5xl italic font-light leading-snug'
+                  : 'text-3xl md:text-5xl font-light tracking-[0.05em] uppercase'
+              )}
+              style={{
+                fontFamily: 'var(--brand-heading-font)',
+                background:
+                  'linear-gradient(180deg, #f5f5f5 0%, #d4d4d8 40%, #a3a3a3 80%, #6b7280 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            />
+          )}
+
+          {(fields.Description?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Description}
+              className="mt-8 text-base md:text-[15px] leading-relaxed font-light [&_p]:m-0 [&_p+p]:mt-5"
+              style={{ color: '#a3a3a3' }}
+            />
+          )}
+
+          {(fields.PrimaryLink?.value?.href || isEditing) && (
+            <div className="mt-10">
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="inline-flex items-center justify-center px-10 py-3.5 text-xs font-light tracking-[0.4em] uppercase transition-all hover:bg-white/5"
+                style={{
+                  color: '#d4d4d8',
+                  border: '1px solid rgba(255, 255, 255, 0.25)',
+                  backgroundColor: 'transparent',
+                  borderRadius: '2px',
+                }}
               />
-            )}
-            {(fields.Description?.value || isEditing) && (
-              <ContentSdkRichText
-                field={fields.Description}
-                className="mt-4 text-base opacity-70 font-[var(--brand-body-font,inherit)]"
-                style={{ color: 'var(--brand-fg, #111111)' }}
-              />
-            )}
-            <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
-          </div>
-          <div className="relative h-full min-h-[400px] overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
-            {(fields.FeatureImage?.value?.src || isEditing) && (
-              <SmartMedia
-                field={fields.FeatureImage}
-                fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-cover"
-              />
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </section>
     </div>

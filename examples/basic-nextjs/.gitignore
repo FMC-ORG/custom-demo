@@ -30,7 +30,8 @@ docs/ai/themes/*/
 .vercel
 
 # sitecore temp files
-.sitecore/*
+.playwright-mcp/*
+.screenshots/*
 # except for component-map
 !.sitecore/component-map.ts
 !.sitecore/component-map.client.ts

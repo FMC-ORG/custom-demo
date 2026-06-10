@@ -5,6 +5,8 @@ import { Form } from '@sitecore-content-sdk/nextjs';
 
 import * as SearchExperienceV2 from 'src/components/uiim/search/SearchExperienceV2';
 import * as NavigationHeader from 'src/components/uiim/navigation/NavigationHeader';
+import * as SmartMedia from 'src/components/uiim/media/SmartMedia';
+import * as LandingFAQ from 'src/components/uiim/landing/LandingFAQ';
 import * as NewsletterSignup from 'src/components/uiim/forms/NewsletterSignup';
 import * as FeatureCardsGrid from 'src/components/uiim/cards/FeatureCardsGrid';
 import * as HeroBannerCarousel from 'src/components/uiim/banners/HeroBannerCarousel';
@@ -41,6 +43,8 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['Form', Form],
   ['SearchExperienceV2', { ...SearchExperienceV2 }],
   ['NavigationHeader', { ...NavigationHeader }],
+  ['SmartMedia', { ...SmartMedia }],
+  ['LandingFAQ', { ...LandingFAQ }],
   ['NewsletterSignup', { ...NewsletterSignup }],
   ['FeatureCardsGrid', { ...FeatureCardsGrid }],
   ['HeroBannerCarousel', { ...HeroBannerCarousel }],

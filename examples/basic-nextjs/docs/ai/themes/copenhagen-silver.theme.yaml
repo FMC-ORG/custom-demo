@@ -1,0 +1,158 @@
+# Copenhagen Silver Celebration — Brand Theme
+# Source: https://copenhagen-silver.vercel.app/
+# Extracted: 2026-06-10 (Playwright site-scraper + screenshot analysis)
+
+client:
+  slug: "copenhagen-silver"
+  displayName: "Sitecore Silver Celebration · Copenhagen"
+  sourceUrl: "https://copenhagen-silver.vercel.app/"
+
+# ─────────────────────────────────────────────────────────
+# COLOR PALETTE — verified from extracted-styles.json
+# Visual character: ultra-dark theatre stage with single
+# saturated red accent. Whites and grays only otherwise.
+# ─────────────────────────────────────────────────────────
+colors:
+  # Page surface
+  background: "#0a0a0a"           # rgb(10, 10, 10) — page bg
+  foreground: "#ffffff"           # body text white
+  muted: "#141414"                # rgba(20,20,20,0.8) section/card panel
+  mutedForeground: "#a3a3a3"      # rgb(163,163,163) secondary text / links / footer
+  border: "rgba(255, 255, 255, 0.08)"   # subtle hairline borders on cards
+
+  # Brand primary — the only saturated color in the system
+  primary: "#eb001a"              # rgb(235, 0, 26) — Sitecore red
+  primaryForeground: "#ffffff"
+
+  # Accent (used identically to primary on this site)
+  accent: "#eb001a"
+  accentForeground: "#ffffff"
+
+  # Dark tokens (header / footer / overlays)
+  dark: "#141414"
+  darkForeground: "#ffffff"
+
+  # Section-specific
+  headerBg: "rgba(20, 20, 20, 0.8)"   # translucent dark, blurs page bg
+  headerFg: "#ffffff"
+  footerBg: "rgba(20, 20, 20, 0.8)"
+  footerFg: "#a3a3a3"
+
+# ─────────────────────────────────────────────────────────
+# TYPOGRAPHY
+# Source font is "Sitecore Sans" — proprietary, not on Google.
+# Substitute with Inter (closest geometric grotesque match).
+# Inter handles the 88px / -3.52px letter-spacing hero well.
+# ─────────────────────────────────────────────────────────
+typography:
+  headingFontFamily: "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif"
+  bodyFontFamily: "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif"
+  googleFontsUrl: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+
+  notes: |
+    Original site uses 'Sitecore Sans' self-hosted woff2.
+    Inter chosen as substitute — same letterform character (geometric
+    grotesque, open apertures), supports 900 weight needed for the
+    "Celebration" hero, free, on Google Fonts CDN.
+
+  scale:
+    h1FontSize: "88px"
+    h1FontWeight: "700"
+    h1LetterSpacing: "-3.52px"      # -0.04em
+    h2FontSize: "44px"
+    h2FontWeight: "700"
+    h3FontSize: "18px"
+    h3FontWeight: "700"
+    bodyFontSize: "17px"
+    bodyFontWeight: "400"
+    bodyLineHeight: "1.65"
+    pFontSize: "28px"               # lead paragraphs / hero subhead
+    pLineHeight: "1.35"
+
+# ─────────────────────────────────────────────────────────
+# SHAPE
+# Two distinctive radii: pill buttons + 16px rounded cards.
+# ─────────────────────────────────────────────────────────
+shape:
+  buttonRadius: "9999px"            # fully pill — matches "Event details" CTA
+  cardRadius: "16px"
+  cardBoxShadow: "inset 0 0 0 1px rgba(255,255,255,0.04), 0 16px 40px rgba(0,0,0,0.45)"
+  cardBorder: "1px solid rgba(235, 0, 26, 0.35)"   # subtle red-tinted edge
+
+# ─────────────────────────────────────────────────────────
+# BACKGROUNDS — distinctive textured background
+# The page has a faint dotted/checker texture across the full
+# viewport (visible in screenshot). Recreated with CSS.
+# ─────────────────────────────────────────────────────────
+backgrounds:
+  body: |
+    background-color: #0a0a0a;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      radial-gradient(circle at 50% 50%, rgba(235,0,26,0.06), transparent 60%);
+    background-size: 4px 4px, 100% 100%;
+  notes: "Tiny dot grid + subtle red radial vignette behind hero. Visible in screenshot-desktop.png."
+
+# ─────────────────────────────────────────────────────────
+# CSS VARIABLE BLOCK — pasted verbatim into globals.css
+# above @layer base in Phase 4 (globals-inlined method).
+# ─────────────────────────────────────────────────────────
+cssVariables: |
+  :root {
+    /* Surfaces */
+    --brand-bg: #0a0a0a;
+    --brand-fg: #ffffff;
+    --brand-muted: #141414;
+    --brand-muted-foreground: #a3a3a3;
+    --brand-border: rgba(255, 255, 255, 0.08);
+
+    /* Brand primary — Sitecore red */
+    --brand-primary: #eb001a;
+    --brand-primary-foreground: #ffffff;
+    --brand-accent: #eb001a;
+    --brand-accent-foreground: #ffffff;
+
+    /* Dark tokens */
+    --brand-dark: #141414;
+    --brand-dark-foreground: #ffffff;
+
+    /* Header & footer */
+    --brand-header-bg: rgba(20, 20, 20, 0.8);
+    --brand-header-fg: #ffffff;
+    --brand-footer-bg: rgba(20, 20, 20, 0.8);
+    --brand-footer-fg: #a3a3a3;
+
+    /* Typography */
+    --brand-heading-font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --brand-body-font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    /* Shape */
+    --brand-button-radius: 9999px;
+    --brand-card-radius: 16px;
+  }
+
+# ─────────────────────────────────────────────────────────
+# ASSETS
+# ─────────────────────────────────────────────────────────
+assets:
+  logo:
+    sourceUrl: "https://copenhagen-silver.vercel.app/branding/sitecore-silver-logo-official.png"
+    scraperStatus: "blocked"
+    note: "Corporate SSL chain blocked direct download. SE should fetch this URL manually OR substitute with the Sitecore circular logo visible in all 3 screenshots."
+  favicon:
+    sourceUrl: "https://copenhagen-silver.vercel.app/favicon.svg"
+    scraperStatus: "blocked"
+
+# ─────────────────────────────────────────────────────────
+# Confidence + variant hints for Phase 2 analysis
+# ─────────────────────────────────────────────────────────
+confidence: "high"
+extractedAt: "2026-06-10"
+
+variantHints:
+  - "Dark/translucent hero → NavigationHeader 'Transparent' or 'Glass' variant"
+  - "Massive centered headline + small pill metadata chips → HeroBanner 'CenteredStacked' variant"
+  - "Action card pair w/ icon, title, subtitle, hover lift → FeatureCardsGrid 2-up variant"
+  - "Numbered 3-engine feature cards → ValuePropositionGrid 'Numbered' or FeatureCardsGrid 'Numbered'"
+  - "Pill CTA in dark surface → CTABanner 'DarkWithPill' variant"
+  - "All sections live on the same #0a0a0a body — no alternating bg"

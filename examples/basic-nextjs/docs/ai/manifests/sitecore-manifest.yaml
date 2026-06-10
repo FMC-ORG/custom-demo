@@ -1,6 +1,7 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-06-09T00:00:00Z"
+lastUpdatedAt: "2026-06-10T00:00:00Z"
 lastUpdatedBy: "claude-agent"
+lastUpdateNote: "Copenhagen Silver demo build — added 9 optional fields to 6 templates (HeroBanner +3, TabItem +1, FeatureCardsGrid +1, FeatureCardItem +2, ValuePropositionGrid +1, ValuePropositionItem +1). See docs/ai/demos/copenhagen-silver/."
 
 project:
   siteCollection: "main"
@@ -270,6 +271,10 @@ components:
           - { name: "HeroImage", type: "Image" }
           - { name: "PrimaryLink", type: "General Link" }
           - { name: "SecondaryLink", type: "General Link" }
+          # Copenhagen Silver — added 2026-06-10
+          - { name: "EyebrowText", type: "Single-Line Text", itemId: "{B4459B01-BE6E-4110-9F83-A38CD7C7E03E}" }
+          - { name: "Description", type: "Rich Text",        itemId: "{1ED7710B-AA5D-419A-83BA-E9467E2D9A19}" }
+          - { name: "WatermarkText", type: "Single-Line Text", itemId: "{778DB73F-C316-4854-AB8F-C567AC07D05B}" }
         baseTemplatesSet: true
         standardValues:
           itemId: "{07745080-E4BF-4D2A-B3BC-94EC512C8B2B}"
@@ -387,6 +392,8 @@ components:
         fields:
           - { name: "TabLabel", type: "Single-Line Text" }
           - { name: "TabLink", type: "General Link" }
+          # Copenhagen Silver — added 2026-06-10
+          - { name: "TabIcon", type: "Single-Line Text", itemId: "{469EC4B3-8C72-4A44-B516-EFDF645E4B0A}" }
         baseTemplatesSet: true
         standardValues:
           itemId: "{3DFA15FC-7F73-450F-A4D7-CB622AC16FC8}"
@@ -726,6 +733,8 @@ components:
         fields:
           - { name: "Title", type: "Single-Line Text" }
           - { name: "Description", type: "Rich Text" }
+          # Copenhagen Silver — added 2026-06-10
+          - { name: "Eyebrow", type: "Single-Line Text", itemId: "{2D5F6089-A7D5-449E-8CFA-C87686AD418B}" }
         baseTemplatesSet: true
         horizonDatasourceGrouping: true
         standardValues:
@@ -743,6 +752,8 @@ components:
           - { name: "ItemDescription", type: "Rich Text" }
           - { name: "ItemIcon", type: "Image" }
           - { name: "ItemLink", type: "General Link" }
+          # Copenhagen Silver — added 2026-06-10
+          - { name: "ItemTagline", type: "Single-Line Text", itemId: "{88BF30E9-7F1F-49FA-9200-C548C2EB344F}" }
         baseTemplatesSet: true
         standardValues:
           itemId: "{20D68899-606B-44F9-88C0-C13BAD9A38B3}"
@@ -1186,6 +1197,8 @@ components:
         fields:
           - { name: "Title", type: "Single-Line Text" }
           - { name: "Description", type: "Rich Text" }
+          # Copenhagen Silver — added 2026-06-10
+          - { name: "Eyebrow", type: "Single-Line Text", itemId: "{5B0829BD-57AE-4829-B47E-5C3C9E46C8BF}" }
         baseTemplatesSet: true
         horizonDatasourceGrouping: true
         standardValues:
@@ -1203,6 +1216,9 @@ components:
           - { name: "CardDescription", type: "Rich Text" }
           - { name: "CardImage", type: "Image" }
           - { name: "CardLink", type: "General Link" }
+          # Copenhagen Silver — added 2026-06-10
+          - { name: "CardIcon", type: "Single-Line Text", itemId: "{4F36EC41-88F6-43CF-AAD8-E5BE69950307}" }
+          - { name: "CardNumber", type: "Single-Line Text", itemId: "{39856211-9A1A-4A39-9C18-F6FC103132CF}" }
         baseTemplatesSet: true
         standardValues:
           itemId: "{42662D04-63C7-4F16-9D5F-8A10B158FA4D}"

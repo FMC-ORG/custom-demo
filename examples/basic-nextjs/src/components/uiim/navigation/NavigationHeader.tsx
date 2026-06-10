@@ -190,7 +190,118 @@ const MenuButton = ({ open, onClick }: { open: boolean; onClick: () => void }) =
   </button>
 );
 
-export const Default = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
+/* ────────────────────────────────────────────
+   Default — Copenhagen Silver TransparentCentered
+   Centered logo on translucent dark bar, no nav links.
+   ──────────────────────────────────────────── */
+export const Default = ({ fields, params }: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+  const brandLogo = datasource.brandLogo?.jsonValue;
+  const hasImage = !!brandLogo?.value?.src;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className="w-full sticky top-0 z-40 backdrop-blur"
+        style={{
+          backgroundColor: 'var(--brand-header-bg)',
+          borderBottom: '1px solid var(--brand-border)',
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-4 sm:px-6">
+          <Link href="/" className="flex items-center" aria-label="Home">
+            {hasImage ? (
+              <ContentSdkImage
+                field={brandLogo}
+                className="h-10 w-auto object-contain"
+              />
+            ) : (
+              <div
+                className="flex items-center gap-2 text-base font-bold"
+                style={{ color: 'var(--brand-header-fg)' }}
+              >
+                <span
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full"
+                  style={{ border: '2px solid var(--brand-header-fg)' }}
+                >
+                  S
+                </span>
+                <span className="text-xs tracking-[0.3em] uppercase">Sitecore</span>
+              </div>
+            )}
+          </Link>
+        </div>
+      </header>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   TransparentBackHome — used on Gallery page
+   Logo left, "← Home" pill button right.
+   ──────────────────────────────────────────── */
+export const TransparentBackHome = ({ fields, params }: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+  const brandLogo = datasource.brandLogo?.jsonValue;
+  const hasImage = !!brandLogo?.value?.src;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className="w-full sticky top-0 z-40 backdrop-blur"
+        style={{
+          backgroundColor: 'var(--brand-header-bg)',
+          borderBottom: '1px solid var(--brand-border)',
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
+          <Link href="/" className="flex items-center" aria-label="Home">
+            {hasImage ? (
+              <ContentSdkImage
+                field={brandLogo}
+                className="h-10 w-auto object-contain"
+              />
+            ) : (
+              <div
+                className="flex items-center gap-2 text-base font-bold"
+                style={{ color: 'var(--brand-header-fg)' }}
+              >
+                <span
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full"
+                  style={{ border: '2px solid var(--brand-header-fg)' }}
+                >
+                  S
+                </span>
+                <span className="text-xs tracking-[0.3em] uppercase">Sitecore</span>
+              </div>
+            )}
+          </Link>
+          <Link
+            href="/"
+            className="inline-flex items-center px-5 py-2 text-sm font-medium transition-opacity hover:opacity-80"
+            style={{
+              color: 'var(--brand-header-fg)',
+              border: '1px solid var(--brand-border)',
+              borderRadius: 'var(--brand-button-radius)',
+            }}
+          >
+            ← Home
+          </Link>
+        </div>
+      </header>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   Solid — legacy default (logo + nav links + CTA, solid bar)
+   Kept for backward compatibility with other demos.
+   ──────────────────────────────────────────── */
+export const Solid = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const [menuOpen, setMenuOpen] = useState(false);

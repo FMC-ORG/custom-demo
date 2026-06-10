@@ -19,11 +19,38 @@ interface FeatureCardItemFields {
   cardDescription: { jsonValue: Field<string> };
   cardImage: { jsonValue: ImageField };
   cardLink: { jsonValue: LinkField };
+  // Optional Copenhagen Silver fields
+  cardIcon?: { jsonValue: Field<string> };
+  cardNumber?: { jsonValue: Field<string> };
 }
+
+const renderActionIcon = (name?: string) => {
+  const common = { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  switch (name) {
+    case 'camera':
+      return (
+        <svg {...common}>
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+          <circle cx="12" cy="13" r="4" />
+        </svg>
+      );
+    case 'image':
+      return (
+        <svg {...common}>
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <polyline points="21,15 16,10 5,21" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
 
 interface FeatureCardsGridDatasource {
   title: { jsonValue: Field<string> };
   description: { jsonValue: Field<string> };
+  eyebrow?: { jsonValue: Field<string> };
   children: {
     results: FeatureCardItemFields[];
   };
@@ -55,6 +82,14 @@ const SectionHeader = ({
   isEditing?: boolean;
 }) => (
   <div className="mx-auto mb-12 max-w-3xl text-center">
+    {datasource.eyebrow?.jsonValue?.value && (
+      <Text
+        field={datasource.eyebrow?.jsonValue}
+        tag="p"
+        className="mb-3 text-xs font-semibold tracking-[0.4em] uppercase"
+        style={{ color: 'var(--brand-muted-foreground)' }}
+      />
+    )}
     {(datasource.title?.jsonValue?.value || isEditing) && (
       <Text
         field={datasource.title?.jsonValue}
@@ -74,7 +109,9 @@ const SectionHeader = ({
 );
 
 /* ────────────────────────────────────────────
-   Default — 3-column grid, icon top
+   Default — Copenhagen Silver ActionCardsTwoUp
+   2-up large dark cards, red icon square top-left,
+   title h3, subtitle. Full card is clickable.
    ──────────────────────────────────────────── */
 export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
@@ -85,54 +122,131 @@ export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.El
 
   return (
     <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
-      <section
-        className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
-      >
-        <div className="mx-auto max-w-7xl">
+      <section className="w-full px-4 py-8">
+        <div className="mx-auto max-w-3xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {cards.map((card) => (
-              <div
-                key={card.id}
-                className="flex flex-col p-6 rounded-[var(--brand-card-radius,0.75rem)]"
-                style={{
-                  backgroundColor: 'var(--brand-bg, #ffffff)',
-                  border: '1px solid var(--brand-border, #e5e7eb)',
-                }}
-              >
-                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <div className="mb-4 h-12 w-12 overflow-hidden">
-                    <ContentSdkImage
-                      field={card.cardImage?.jsonValue}
-                      className="h-full w-full object-contain"
-                    />
+          <div className="grid gap-5 sm:grid-cols-2">
+            {cards.map((card) => {
+              const iconName = card.cardIcon?.jsonValue?.value;
+              const href = card.cardLink?.jsonValue?.value?.href;
+              const CardWrapper = ({ children }: { children: React.ReactNode }) =>
+                href ? (
+                  <a
+                    href={href}
+                    target={card.cardLink?.jsonValue?.value?.target || undefined}
+                    className="block transition-all hover:translate-y-[-2px] hover:opacity-95"
+                  >
+                    {children}
+                  </a>
+                ) : (
+                  <div>{children}</div>
+                );
+              return (
+                <CardWrapper key={card.id}>
+                  <div
+                    className="flex flex-col p-6 h-full"
+                    style={{
+                      backgroundColor: 'var(--brand-muted)',
+                      border: '1px solid var(--brand-border)',
+                      borderRadius: 'var(--brand-card-radius)',
+                      boxShadow: 'var(--brand-card-shadow)',
+                    }}
+                  >
+                    <div
+                      className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl"
+                      style={{
+                        backgroundColor: 'var(--brand-primary)',
+                        color: 'var(--brand-primary-foreground)',
+                      }}
+                    >
+                      {(card.cardImage?.jsonValue?.value?.src && (
+                        <ContentSdkImage
+                          field={card.cardImage?.jsonValue}
+                          className="h-6 w-6 object-contain"
+                        />
+                      )) || renderActionIcon(iconName)}
+                    </div>
+                    {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                      <Text
+                        field={card.cardTitle?.jsonValue}
+                        tag="h3"
+                        className="text-xl font-bold"
+                        style={{ color: 'var(--brand-fg)' }}
+                      />
+                    )}
+                    {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                      <ContentSdkRichText
+                        field={card.cardDescription?.jsonValue}
+                        className="mt-1 text-sm [&_p]:m-0"
+                        style={{ color: 'var(--brand-muted-foreground)' }}
+                      />
+                    )}
                   </div>
-                )}
-                {(card.cardTitle?.jsonValue?.value || isEditing) && (
-                  <Text
-                    field={card.cardTitle?.jsonValue}
-                    tag="h3"
-                    className="text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
-                  />
-                )}
-                {(card.cardDescription?.jsonValue?.value || isEditing) && (
-                  <ContentSdkRichText
-                    field={card.cardDescription?.jsonValue}
-                    className="mt-2 flex-1 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
-                  />
-                )}
-                {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
-                  <ContentSdkLink
-                    field={card.cardLink?.jsonValue}
-                    className="mt-4 inline-flex text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
-                    style={{ color: 'var(--brand-primary)' }}
-                  />
-                )}
-              </div>
-            ))}
+                </CardWrapper>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   NumberedRedAccent — Event "What to Expect"
+   Numbered badge top, title, description.
+   ──────────────────────────────────────────── */
+export const NumberedRedAccent = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-16 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {cards.map((card, idx) => {
+              const num = card.cardNumber?.jsonValue?.value || String(idx + 1).padStart(2, '0');
+              return (
+                <div
+                  key={card.id}
+                  className="p-6"
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,0.02)',
+                    border: '1px solid var(--brand-border)',
+                    borderRadius: 'var(--brand-card-radius)',
+                  }}
+                >
+                  <div className="flex items-baseline gap-4">
+                    <span
+                      className="text-3xl font-bold"
+                      style={{ color: 'var(--brand-primary)' }}
+                    >
+                      {num}
+                    </span>
+                    {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                      <Text
+                        field={card.cardTitle?.jsonValue}
+                        tag="h3"
+                        className="text-xs font-bold tracking-[0.2em] uppercase"
+                        style={{ color: 'var(--brand-fg)' }}
+                      />
+                    )}
+                  </div>
+                  {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className="mt-3 text-sm leading-relaxed [&_p]:m-0"
+                      style={{ color: 'var(--brand-muted-foreground)' }}
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

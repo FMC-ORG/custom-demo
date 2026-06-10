@@ -13,6 +13,7 @@ import * as NavigationHeader from 'src/components/uiim/navigation/NavigationHead
 import * as AnnouncementBar from 'src/components/uiim/navigation/AnnouncementBar';
 import * as SmartMedia from 'src/components/uiim/media/SmartMedia';
 import * as ImageGallery from 'src/components/uiim/media/ImageGallery';
+import * as CommunityGalleryGrid from 'src/components/uiim/media/CommunityGalleryGrid';
 import * as LandingStats from 'src/components/uiim/landing/LandingStats';
 import * as LandingSocialProof from 'src/components/uiim/landing/LandingSocialProof';
 import * as LandingHero from 'src/components/uiim/landing/LandingHero';
@@ -20,12 +21,16 @@ import * as LandingFinalCTA from 'src/components/uiim/landing/LandingFinalCTA';
 import * as LandingFeatures from 'src/components/uiim/landing/LandingFeatures';
 import * as LandingFAQ from 'src/components/uiim/landing/LandingFAQ';
 import * as NewsletterSignup from 'src/components/uiim/forms/NewsletterSignup';
+import * as EventRegistrationForm from 'src/components/uiim/forms/EventRegistrationForm';
 import * as ValuePropositionGrid from 'src/components/uiim/content/ValuePropositionGrid';
 import * as TrustStatsRow from 'src/components/uiim/content/TrustStatsRow';
 import * as RichTextBlock from 'src/components/uiim/content/RichTextBlock';
 import * as LegalComplianceBanner from 'src/components/uiim/content/LegalComplianceBanner';
 import * as FeatureHighlight from 'src/components/uiim/content/FeatureHighlight';
 import * as FAQAccordion from 'src/components/uiim/content/FAQAccordion';
+import * as EventDateVenueBlock from 'src/components/uiim/content/EventDateVenueBlock';
+import * as EventAgendaTable from 'src/components/uiim/content/EventAgendaTable';
+import * as ConnectedSitePanel from 'src/components/uiim/content/ConnectedSitePanel';
 import * as ProductPricingCards from 'src/components/uiim/cards/ProductPricingCards';
 import * as FeatureCardsGrid from 'src/components/uiim/cards/FeatureCardsGrid';
 import * as HeroBannerCarousel from 'src/components/uiim/banners/HeroBannerCarousel';
@@ -88,6 +93,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['AnnouncementBar', { ...AnnouncementBar }],
   ['SmartMedia', { ...SmartMedia, componentType: 'client' }],
   ['ImageGallery', { ...ImageGallery }],
+  ['CommunityGalleryGrid', { ...CommunityGalleryGrid, componentType: 'client' }],
   ['LandingStats', { ...LandingStats }],
   ['LandingSocialProof', { ...LandingSocialProof }],
   ['LandingHero', { ...LandingHero }],
@@ -95,12 +101,16 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['LandingFeatures', { ...LandingFeatures }],
   ['LandingFAQ', { ...LandingFAQ, componentType: 'client' }],
   ['NewsletterSignup', { ...NewsletterSignup, componentType: 'client' }],
+  ['EventRegistrationForm', { ...EventRegistrationForm, componentType: 'client' }],
   ['ValuePropositionGrid', { ...ValuePropositionGrid }],
   ['TrustStatsRow', { ...TrustStatsRow }],
   ['RichTextBlock', { ...RichTextBlock }],
   ['LegalComplianceBanner', { ...LegalComplianceBanner }],
   ['FeatureHighlight', { ...FeatureHighlight }],
   ['FAQAccordion', { ...FAQAccordion }],
+  ['EventDateVenueBlock', { ...EventDateVenueBlock }],
+  ['EventAgendaTable', { ...EventAgendaTable }],
+  ['ConnectedSitePanel', { ...ConnectedSitePanel }],
   ['ProductPricingCards', { ...ProductPricingCards }],
   ['FeatureCardsGrid', { ...FeatureCardsGrid, componentType: 'client' }],
   ['HeroBannerCarousel', { ...HeroBannerCarousel, componentType: 'client' }],

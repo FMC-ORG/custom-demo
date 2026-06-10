@@ -17,6 +17,10 @@ interface HeroBannerFields {
   HeroImage: ImageField;
   PrimaryLink: LinkField;
   SecondaryLink: LinkField;
+  // Optional Copenhagen Silver fields (gracefully ignored when not present)
+  EyebrowText?: Field<string>;
+  Description?: Field<string>;
+  WatermarkText?: Field<string>;
 }
 
 type HeroBannerProps = ComponentProps & {
@@ -51,6 +55,28 @@ const PrimaryButton = ({
   );
 };
 
+// Copenhagen Silver pill-button — used by Default and SilverCelebrationCenter only.
+const PillPrimaryButton = ({
+  field,
+  isEditing,
+}: {
+  field: LinkField;
+  isEditing?: boolean;
+}) => {
+  if (!field?.value?.href && !isEditing) return null;
+  return (
+    <ContentSdkLink
+      field={field}
+      className="inline-flex items-center justify-center px-8 py-3 text-sm font-bold uppercase tracking-wider transition-opacity hover:opacity-90"
+      style={{
+        backgroundColor: 'var(--brand-primary)',
+        color: 'var(--brand-primary-foreground)',
+        borderRadius: 'var(--brand-button-radius)',
+      }}
+    />
+  );
+};
+
 const SecondaryButton = ({
   field,
   isEditing,
@@ -70,6 +96,10 @@ const SecondaryButton = ({
 /* ────────────────────────────────────────────
    Default — centered text on colored background
    ──────────────────────────────────────────── */
+/* ────────────────────────────────────────────
+   Default — Copenhagen Silver CenteredHuge
+   88px centered headline, eyebrow line, lead paragraph.
+   ──────────────────────────────────────────── */
 export const Default = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
@@ -78,31 +108,129 @@ export const Default = ({ fields, params, page }: HeroBannerProps): JSX.Element 
 
   return (
     <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
-      <section
-        className="flex min-h-[80vh] w-full items-center justify-center px-4 py-20 text-center"
-        style={{
-          backgroundColor: 'var(--brand-header-bg, #1a1a2e)',
-          color: 'var(--brand-header-fg, #ffffff)',
-        }}
-      >
-        <div className="mx-auto max-w-4xl space-y-6">
+      <section className="relative w-full px-4 pt-16 md:pt-24 pb-12 md:pb-16 text-center overflow-hidden">
+        <div className="mx-auto max-w-5xl">
+          {(fields.EyebrowText?.value || isEditing) && fields.EyebrowText && (
+            <Text
+              field={fields.EyebrowText}
+              tag="p"
+              className="text-sm md:text-base opacity-70"
+              style={{ color: 'var(--brand-muted-foreground)' }}
+            />
+          )}
           {(fields.Title?.value || isEditing) && (
             <Text
               field={fields.Title}
               tag="h1"
-              className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
+              className="mt-6 text-6xl md:text-8xl font-bold"
+              style={{
+                color: 'var(--brand-fg)',
+                fontFamily: 'var(--brand-heading-font)',
+                letterSpacing: '-0.04em',
+                lineHeight: '1.05',
+              }}
             />
           )}
           {(fields.Subtitle?.value || isEditing) && (
             <ContentSdkRichText
               field={fields.Subtitle}
-              className="mx-auto max-w-2xl text-lg opacity-90"
+              className="mt-4 text-2xl md:text-3xl font-medium [&_p]:m-0"
+              style={{ color: 'var(--brand-fg)' }}
             />
           )}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <PrimaryButton field={fields.PrimaryLink} isEditing={isEditing} />
-            <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+          {(fields.Description?.value || isEditing) && fields.Description && (
+            <ContentSdkRichText
+              field={fields.Description}
+              className="mx-auto mt-6 max-w-2xl text-base md:text-lg [&_p]:m-0"
+              style={{ color: 'var(--brand-muted-foreground)' }}
+            />
+          )}
+          {(fields.PrimaryLink?.value?.href || fields.SecondaryLink?.value?.href || isEditing) && (
+            <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
+              <PillPrimaryButton field={fields.PrimaryLink} isEditing={isEditing} />
+              <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   SilverCelebrationCenter — Event page hero
+   Decorative giant "25" watermark behind letter-spaced
+   "SILVER CELEBRATION" wordmark + meta + Register pill.
+   ──────────────────────────────────────────── */
+export const SilverCelebrationCenter = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <HeroBannerDefaultComponent />;
+  const watermark = fields.WatermarkText?.value || '25';
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative w-full px-4 py-24 md:py-32 text-center overflow-hidden">
+        {/* Giant decorative watermark */}
+        <div
+          aria-hidden
+          className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
+          style={{
+            fontSize: 'clamp(20rem, 50vw, 40rem)',
+            fontWeight: 900,
+            color: 'rgba(255,255,255,0.025)',
+            fontFamily: 'var(--brand-heading-font)',
+            lineHeight: 1,
+          }}
+        >
+          {watermark}
+        </div>
+
+        <div className="relative mx-auto max-w-5xl">
+          <div
+            className="mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full"
+            style={{ border: '2px solid var(--brand-fg)' }}
+          >
+            <span className="text-2xl font-bold" style={{ color: 'var(--brand-fg)' }}>
+              S
+            </span>
           </div>
+
+          {(fields.EyebrowText?.value || isEditing) && fields.EyebrowText && (
+            <Text
+              field={fields.EyebrowText}
+              tag="p"
+              className="text-xs font-semibold tracking-[0.4em] uppercase"
+              style={{ color: 'var(--brand-muted-foreground)' }}
+            />
+          )}
+
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h1"
+              className="mt-6 text-5xl md:text-7xl font-bold"
+              style={{
+                color: 'var(--brand-fg)',
+                fontFamily: 'var(--brand-heading-font)',
+                letterSpacing: '0.1em',
+              }}
+            />
+          )}
+
+          {(fields.Subtitle?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Subtitle}
+              className="mt-6 text-xs font-semibold tracking-[0.3em] uppercase [&_p]:m-0"
+              style={{ color: 'var(--brand-muted-foreground)' }}
+            />
+          )}
+
+          {(fields.PrimaryLink?.value?.href || isEditing) && (
+            <div className="mt-10">
+              <PillPrimaryButton field={fields.PrimaryLink} isEditing={isEditing} />
+            </div>
+          )}
         </div>
       </section>
     </div>

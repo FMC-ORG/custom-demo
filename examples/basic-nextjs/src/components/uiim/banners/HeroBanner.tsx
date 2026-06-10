@@ -99,8 +99,14 @@ const SecondaryButton = ({
 /* ────────────────────────────────────────────
    Default — Copenhagen Silver CenteredHuge
    88px centered headline, eyebrow line, lead paragraph.
+   Auto-routes to SilverCelebrationCenter when WatermarkText is set.
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+export const Default = (props: HeroBannerProps): JSX.Element => {
+  // Auto-route: if datasource has WatermarkText, render the silver-chrome variant
+  if (props.fields?.WatermarkText?.value) {
+    return <SilverCelebrationCenter {...props} />;
+  }
+  const { fields, params, page } = props;
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
 
@@ -158,9 +164,61 @@ export const Default = ({ fields, params, page }: HeroBannerProps): JSX.Element 
 };
 
 /* ────────────────────────────────────────────
+   Silver chrome Sitecore logo — SVG with metallic
+   radial gradient + the signature "C" notch ring.
+   ──────────────────────────────────────────── */
+const SilverSitecoreLogo = () => (
+  <div className="flex flex-col items-center">
+    <svg width="96" height="96" viewBox="0 0 100 100" aria-hidden>
+      <defs>
+        <radialGradient id="silverChrome" cx="50%" cy="35%" r="65%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="35%" stopColor="#e5e7eb" />
+          <stop offset="60%" stopColor="#9ca3af" />
+          <stop offset="80%" stopColor="#6b7280" />
+          <stop offset="100%" stopColor="#374151" />
+        </radialGradient>
+        <radialGradient id="silverInner" cx="50%" cy="45%" r="50%">
+          <stop offset="0%" stopColor="#1a1a1a" />
+          <stop offset="100%" stopColor="#0a0a0a" />
+        </radialGradient>
+        <linearGradient id="silverHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.85)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+        </linearGradient>
+      </defs>
+      {/* outer ring */}
+      <circle cx="50" cy="50" r="46" fill="url(#silverChrome)" />
+      {/* inner dark */}
+      <circle cx="50" cy="50" r="38" fill="url(#silverInner)" />
+      {/* the C ring with notch on right side */}
+      <path
+        d="M 50 22 A 28 28 0 1 1 65 71 L 65 60 A 17 17 0 1 0 50 33 Z"
+        fill="url(#silverChrome)"
+      />
+      {/* top highlight gloss */}
+      <ellipse cx="50" cy="30" rx="28" ry="8" fill="url(#silverHighlight)" opacity="0.4" />
+    </svg>
+    <div className="mt-3 flex items-baseline gap-0.5">
+      <span
+        className="text-base font-bold tracking-[0.15em]"
+        style={{
+          color: '#d4d4d8',
+          textShadow: '0 1px 0 rgba(0,0,0,0.4)',
+        }}
+      >
+        SITECORE
+      </span>
+      <span style={{ color: '#a3a3a3', fontSize: '0.6em' }}>®</span>
+    </div>
+  </div>
+);
+
+/* ────────────────────────────────────────────
    SilverCelebrationCenter — Event page hero
-   Decorative giant "25" watermark behind letter-spaced
-   "SILVER CELEBRATION" wordmark + meta + Register pill.
+   Stroke-only "25" watermark, silver chrome logo,
+   silver-gradient SILVER CELEBRATION title,
+   outlined REGISTER NOW button (not red pill).
    ──────────────────────────────────────────── */
 export const SilverCelebrationCenter = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
@@ -171,37 +229,49 @@ export const SilverCelebrationCenter = ({ fields, params, page }: HeroBannerProp
   return (
     <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
       <section className="relative w-full px-4 py-24 md:py-32 text-center overflow-hidden">
-        {/* Giant decorative watermark */}
+        {/* Giant stroke-only "25" watermark behind everything */}
         <div
           aria-hidden
           className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
-          style={{
-            fontSize: 'clamp(20rem, 50vw, 40rem)',
-            fontWeight: 900,
-            color: 'rgba(255,255,255,0.025)',
-            fontFamily: 'var(--brand-heading-font)',
-            lineHeight: 1,
-          }}
+          style={{ lineHeight: 1 }}
         >
-          {watermark}
+          <span
+            style={{
+              fontSize: 'clamp(28rem, 60vw, 52rem)',
+              fontWeight: 100,
+              letterSpacing: '-0.05em',
+              fontFamily: 'var(--brand-heading-font)',
+              color: 'transparent',
+              WebkitTextStroke: '1px rgba(255,255,255,0.05)',
+              lineHeight: 1,
+            }}
+          >
+            {watermark}
+          </span>
         </div>
 
         <div className="relative mx-auto max-w-5xl">
+          {/* Silver chrome Sitecore logo */}
+          <SilverSitecoreLogo />
+
+          {/* Thin divider under logo */}
           <div
-            className="mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full"
-            style={{ border: '2px solid var(--brand-fg)' }}
-          >
-            <span className="text-2xl font-bold" style={{ color: 'var(--brand-fg)' }}>
-              S
-            </span>
-          </div>
+            className="mx-auto mt-6 mb-8"
+            style={{
+              width: '80px',
+              height: '1px',
+              background:
+                'linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)',
+            }}
+            aria-hidden
+          />
 
           {(fields.EyebrowText?.value || isEditing) && fields.EyebrowText && (
             <Text
               field={fields.EyebrowText}
               tag="p"
-              className="text-xs font-semibold tracking-[0.4em] uppercase"
-              style={{ color: 'var(--brand-muted-foreground)' }}
+              className="text-xs md:text-sm font-light tracking-[0.5em] uppercase"
+              style={{ color: '#a3a3a3' }}
             />
           )}
 
@@ -209,11 +279,15 @@ export const SilverCelebrationCenter = ({ fields, params, page }: HeroBannerProp
             <Text
               field={fields.Title}
               tag="h1"
-              className="mt-6 text-5xl md:text-7xl font-bold"
+              className="mt-6 text-4xl md:text-6xl font-light"
               style={{
-                color: 'var(--brand-fg)',
                 fontFamily: 'var(--brand-heading-font)',
-                letterSpacing: '0.1em',
+                letterSpacing: '0.18em',
+                background:
+                  'linear-gradient(180deg, #f5f5f5 0%, #d4d4d8 40%, #a3a3a3 80%, #6b7280 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
               }}
             />
           )}
@@ -221,14 +295,23 @@ export const SilverCelebrationCenter = ({ fields, params, page }: HeroBannerProp
           {(fields.Subtitle?.value || isEditing) && (
             <ContentSdkRichText
               field={fields.Subtitle}
-              className="mt-6 text-xs font-semibold tracking-[0.3em] uppercase [&_p]:m-0"
-              style={{ color: 'var(--brand-muted-foreground)' }}
+              className="mt-6 text-xs md:text-sm font-light tracking-[0.35em] uppercase [&_p]:m-0"
+              style={{ color: '#a3a3a3' }}
             />
           )}
 
           {(fields.PrimaryLink?.value?.href || isEditing) && (
-            <div className="mt-10">
-              <PillPrimaryButton field={fields.PrimaryLink} isEditing={isEditing} />
+            <div className="mt-12">
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="inline-flex items-center justify-center px-10 py-3.5 text-xs font-light tracking-[0.4em] uppercase transition-all hover:bg-white/5"
+                style={{
+                  color: '#d4d4d8',
+                  border: '1px solid rgba(255,255,255,0.25)',
+                  backgroundColor: 'transparent',
+                  borderRadius: '2px',
+                }}
+              />
             </div>
           )}
         </div>

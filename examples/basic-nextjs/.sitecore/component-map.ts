@@ -24,6 +24,7 @@ import * as NewsletterSignup from 'src/components/uiim/forms/NewsletterSignup';
 import * as EventRegistrationForm from 'src/components/uiim/forms/EventRegistrationForm';
 import * as ValuePropositionGrid from 'src/components/uiim/content/ValuePropositionGrid';
 import * as TrustStatsRow from 'src/components/uiim/content/TrustStatsRow';
+import * as SitecoreSilverAttendeeProfile from 'src/components/uiim/content/SitecoreSilverAttendeeProfile';
 import * as RichTextBlock from 'src/components/uiim/content/RichTextBlock';
 import * as LegalComplianceBanner from 'src/components/uiim/content/LegalComplianceBanner';
 import * as FeatureHighlight from 'src/components/uiim/content/FeatureHighlight';
@@ -31,6 +32,7 @@ import * as FAQAccordion from 'src/components/uiim/content/FAQAccordion';
 import * as EventDateVenueBlock from 'src/components/uiim/content/EventDateVenueBlock';
 import * as EventAgendaTable from 'src/components/uiim/content/EventAgendaTable';
 import * as ConnectedSitePanel from 'src/components/uiim/content/ConnectedSitePanel';
+import * as SitecoreSilverAttendeeProfile from 'src/components/uiim/content/SitecoreSilverAttendeeProfile';
 import * as ProductPricingCards from 'src/components/uiim/cards/ProductPricingCards';
 import * as FeatureCardsGrid from 'src/components/uiim/cards/FeatureCardsGrid';
 import * as HeroBannerCarousel from 'src/components/uiim/banners/HeroBannerCarousel';
@@ -104,6 +106,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['EventRegistrationForm', { ...EventRegistrationForm, componentType: 'client' }],
   ['ValuePropositionGrid', { ...ValuePropositionGrid }],
   ['TrustStatsRow', { ...TrustStatsRow }],
+  ['SitecoreSilverAttendeeProfile', { ...SitecoreSilverAttendeeProfile }],
   ['RichTextBlock', { ...RichTextBlock }],
   ['LegalComplianceBanner', { ...LegalComplianceBanner }],
   ['FeatureHighlight', { ...FeatureHighlight }],
@@ -111,6 +114,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['EventDateVenueBlock', { ...EventDateVenueBlock }],
   ['EventAgendaTable', { ...EventAgendaTable }],
   ['ConnectedSitePanel', { ...ConnectedSitePanel }],
+  ['SitecoreSilverAttendeeProfile', { ...SitecoreSilverAttendeeProfile }],
   ['ProductPricingCards', { ...ProductPricingCards }],
   ['FeatureCardsGrid', { ...FeatureCardsGrid, componentType: 'client' }],
   ['HeroBannerCarousel', { ...HeroBannerCarousel, componentType: 'client' }],

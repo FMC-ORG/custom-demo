@@ -83,14 +83,15 @@ function CtaPair({
   const showSecondary = secondary?.value?.href || isEditing;
   if (!showPrimary && !showSecondary) return null;
 
+  // Default variant uses Silver Celebration outlined/light treatment
   const primaryClasses =
     variant === 'default'
-      ? 'inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-base font-semibold text-gray-900 transition hover:bg-gray-100'
+      ? 'inline-flex items-center justify-center px-10 py-3.5 text-xs font-light tracking-[0.4em] uppercase transition-all hover:bg-white/5 border border-white/25 text-[#d4d4d8] rounded-[2px]'
       : 'inline-flex items-center justify-center rounded-md bg-gray-900 px-6 py-3 text-base font-semibold text-white transition hover:bg-gray-800';
 
   const secondaryClasses =
     variant === 'default'
-      ? 'inline-flex items-center justify-center rounded-md border border-white/40 px-6 py-3 text-base font-semibold text-white transition hover:bg-white/10'
+      ? 'inline-flex items-center justify-center px-8 py-3.5 text-xs font-light tracking-[0.3em] uppercase transition-all hover:text-white text-[#a3a3a3]'
       : 'inline-flex items-center justify-center rounded-md border border-gray-300 px-6 py-3 text-base font-semibold text-gray-900 transition hover:bg-gray-50';
 
   return (
@@ -110,7 +111,10 @@ function CtaPair({
 }
 
 /* ────────────────────────────────────────────
-   Default — centered eyebrow + headline + subhead + dual CTAs above hero media
+   Default — Silver Celebration aesthetic
+   Tracked eyebrow, silver-gradient headline (light 300),
+   light gray subhead, outlined transparent CTAs.
+   Background media fades in faintly behind text.
    ──────────────────────────────────────────── */
 export const Default = ({ params, page }: ComponentProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
@@ -128,22 +132,39 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
     heroVideo,
   } = routeFields;
 
-  const hasMedia = heroVideo?.value?.href || heroImage?.value?.src || isEditing;
+  const hasMedia = heroVideo?.value?.href || heroImage?.value?.src;
 
   return (
     <div className={cn('component landing-hero', styles)} id={RenderingIdentifier}>
-      <section className="relative overflow-hidden bg-gray-900" data-testid="landing-hero">
+      <section
+        className="relative overflow-hidden"
+        data-testid="landing-hero"
+      >
         {hasMedia && (
-          <div className="absolute inset-0 opacity-30">
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ opacity: 0.15 }}
+            aria-hidden
+          >
             <HeroMedia image={heroImage} video={heroVideo} isEditing={isEditing} />
           </div>
         )}
-        <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-4 py-24 text-center text-white md:py-32">
+        {/* Faint radial glow centered behind hero */}
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.04), transparent 60%)',
+          }}
+        />
+        <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-4 py-24 text-center md:py-32">
           {(heroEyebrow?.value || isEditing) && (
             <Text
               field={heroEyebrow}
               tag="p"
-              className="mb-4 text-sm font-semibold uppercase tracking-wider text-white/80"
+              className="text-xs md:text-sm font-light uppercase"
+              style={{ color: '#a3a3a3', letterSpacing: '0.5em' }}
               data-testid="hero-eyebrow"
             />
           )}
@@ -151,7 +172,16 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
             <Text
               field={heroHeadline}
               tag="h1"
-              className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+              className="mt-8 text-4xl md:text-6xl font-light leading-tight"
+              style={{
+                fontFamily: 'var(--brand-heading-font)',
+                letterSpacing: '-0.01em',
+                background:
+                  'linear-gradient(180deg, #f5f5f5 0%, #d4d4d8 40%, #a3a3a3 80%, #6b7280 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
               data-testid="hero-headline"
             />
           )}
@@ -159,7 +189,8 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
             <Text
               field={heroSubhead}
               tag="p"
-              className="mt-6 max-w-2xl text-lg text-white/80 md:text-xl"
+              className="mt-8 max-w-2xl text-base md:text-lg font-light leading-relaxed"
+              style={{ color: '#a3a3a3' }}
               data-testid="hero-subhead"
             />
           )}
@@ -168,6 +199,17 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
             secondary={heroSecondaryCta}
             isEditing={isEditing}
             variant="default"
+          />
+          {/* Thin divider line below the hero block */}
+          <div
+            className="mx-auto mt-12"
+            style={{
+              width: '80px',
+              height: '1px',
+              background:
+                'linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)',
+            }}
+            aria-hidden
           />
         </div>
       </section>

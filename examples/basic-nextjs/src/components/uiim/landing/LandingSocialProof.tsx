@@ -54,21 +54,43 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
 
   return (
     <div className={cn('component landing-social-proof', styles)} id={RenderingIdentifier}>
-      <section className="bg-gray-50 py-16 md:py-24" data-testid="landing-social-proof">
-        <div className="mx-auto max-w-4xl px-4">
+      <section className="py-16 md:py-24" data-testid="landing-social-proof">
+        <div className="mx-auto max-w-3xl px-4">
           {hasTestimonial && (
             <figure className="text-center" data-testid="testimonial">
               {(testimonialQuote?.value || isEditing) && (
                 <blockquote
-                  className="text-2xl font-medium leading-relaxed text-gray-900 md:text-3xl"
+                  className="text-2xl md:text-3xl italic font-light leading-snug [&_p]:m-0"
+                  style={{
+                    fontFamily: 'var(--brand-heading-font)',
+                    background:
+                      'linear-gradient(180deg, #f5f5f5 0%, #d4d4d8 40%, #a3a3a3 80%, #6b7280 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
                   data-testid="testimonial-quote"
                 >
                   <ContentSdkRichText field={testimonialQuote} />
                 </blockquote>
               )}
-              <figcaption className="mt-8 flex items-center justify-center gap-4">
+              {/* Thin divider above attribution */}
+              <div
+                className="mx-auto mt-10 mb-6"
+                style={{
+                  width: '60px',
+                  height: '1px',
+                  background:
+                    'linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)',
+                }}
+                aria-hidden
+              />
+              <figcaption className="flex items-center justify-center gap-4">
                 {(testimonialAuthorImage?.value?.src || isEditing) && (
-                  <div className="h-12 w-12 overflow-hidden rounded-full bg-gray-200">
+                  <div
+                    className="h-12 w-12 overflow-hidden rounded-full"
+                    style={{ border: '1px solid rgba(255,255,255,0.15)' }}
+                  >
                     <ContentSdkImage
                       field={testimonialAuthorImage}
                       className="h-full w-full object-cover"
@@ -82,7 +104,8 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
                     <Text
                       field={testimonialAuthorName}
                       tag="p"
-                      className="font-semibold text-gray-900"
+                      className="text-sm font-light"
+                      style={{ color: '#d4d4d8', letterSpacing: '0.1em' }}
                       data-testid="testimonial-author-name"
                     />
                   )}
@@ -90,7 +113,8 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
                     <Text
                       field={testimonialAuthorTitle}
                       tag="p"
-                      className="text-sm text-gray-600"
+                      className="text-xs font-light uppercase mt-1"
+                      style={{ color: '#a3a3a3', letterSpacing: '0.2em' }}
                       data-testid="testimonial-author-title"
                     />
                   )}
@@ -103,7 +127,8 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
             <div className="mt-16 flex justify-center" data-testid="partner-logos">
               <ContentSdkImage
                 field={partnerLogosImage}
-                className="h-auto max-w-full opacity-70"
+                className="h-auto max-w-full"
+                style={{ opacity: 0.4, filter: 'grayscale(1) brightness(2)' }}
               />
             </div>
           )}

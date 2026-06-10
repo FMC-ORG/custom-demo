@@ -36,11 +36,13 @@ function getRouteFields(page: ComponentProps['page']): LandingFeaturesRouteField
 }
 
 function FeatureCard({
+  index,
   iconName,
   title,
   description,
   isEditing,
 }: {
+  index: number;
   iconName?: Field<string>;
   title?: Field<string>;
   description?: RichTextField;
@@ -59,22 +61,43 @@ function FeatureCard({
 
   return (
     <div
-      className="flex flex-col items-start rounded-lg border border-gray-200 bg-white p-8 shadow-sm transition hover:shadow-md"
+      className="flex flex-col items-start p-8 md:p-10"
+      style={{
+        borderRight: index < 3 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+      }}
       data-testid="feature-card"
     >
-      <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-md bg-gray-900 text-white">
-        <Icon className="h-6 w-6" />
+      <div
+        className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full"
+        style={{
+          border: '1px solid rgba(255,255,255,0.2)',
+          color: '#d4d4d8',
+        }}
+      >
+        <Icon className="h-5 w-5" />
       </div>
       {(title?.value || isEditing) && (
         <Text
           field={title}
           tag="h3"
-          className="text-lg font-semibold text-gray-900"
+          className="text-xl md:text-2xl font-light leading-tight"
+          style={{
+            fontFamily: 'var(--brand-heading-font)',
+            background:
+              'linear-gradient(180deg, #f5f5f5 0%, #d4d4d8 40%, #a3a3a3 80%, #6b7280 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
           data-testid="feature-title"
         />
       )}
       {(description?.value || isEditing) && (
-        <div className="mt-2 text-sm text-gray-600" data-testid="feature-description">
+        <div
+          className="mt-4 text-sm md:text-[15px] leading-relaxed font-light [&_p]:m-0"
+          style={{ color: '#a3a3a3' }}
+          data-testid="feature-description"
+        >
           <ContentSdkRichText field={description} />
         </div>
       )}
@@ -90,22 +113,30 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
 
   return (
     <div className={cn('component landing-features', styles)} id={RenderingIdentifier}>
-      <section className="bg-gray-50 py-16 md:py-24" data-testid="landing-features">
-        <div className="mx-auto max-w-7xl px-4">
-          <div className="grid gap-6 md:grid-cols-3">
+      <section className="py-16 md:py-20" data-testid="landing-features">
+        <div className="mx-auto max-w-6xl px-4">
+          <div
+            className="grid grid-cols-1 md:grid-cols-3"
+            style={{
+              border: '1px solid rgba(255,255,255,0.08)',
+            }}
+          >
             <FeatureCard
+              index={1}
               iconName={routeFields.feature1IconName}
               title={routeFields.feature1Title}
               description={routeFields.feature1Description}
               isEditing={isEditing}
             />
             <FeatureCard
+              index={2}
               iconName={routeFields.feature2IconName}
               title={routeFields.feature2Title}
               description={routeFields.feature2Description}
               isEditing={isEditing}
             />
             <FeatureCard
+              index={3}
               iconName={routeFields.feature3IconName}
               title={routeFields.feature3Title}
               description={routeFields.feature3Description}

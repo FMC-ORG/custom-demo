@@ -54,31 +54,37 @@ function FAQItem({
 }) {
   if (!question?.value && !answer?.value && !isEditing) return null;
   return (
-    <div className="border-b border-gray-200" data-testid={`faq-item-${index}`}>
+    <div
+      style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
+      data-testid={`faq-item-${index}`}
+    >
       <button
         type="button"
         onClick={onToggle}
-        className="flex w-full items-center justify-between gap-4 py-5 text-left"
+        className="flex w-full items-center justify-between gap-4 py-6 text-left group"
         aria-expanded={isOpen}
       >
         {(question?.value || isEditing) && (
           <Text
             field={question}
             tag="span"
-            className="text-base font-semibold text-gray-900 md:text-lg"
+            className="text-base md:text-lg font-light transition-colors"
+            style={{ color: isOpen ? '#ffffff' : '#d4d4d8' }}
             data-testid="faq-question"
           />
         )}
         <ChevronDown
           className={cn(
-            'h-5 w-5 flex-shrink-0 text-gray-500 transition-transform',
+            'h-5 w-5 flex-shrink-0 transition-transform',
             isOpen && 'rotate-180'
           )}
+          style={{ color: isOpen ? '#ffffff' : '#a3a3a3' }}
         />
       </button>
       {isOpen && (answer?.value || isEditing) && (
         <div
-          className="pb-5 pr-10 text-sm text-gray-600 md:text-base"
+          className="pb-6 pr-10 text-sm md:text-base font-light leading-relaxed [&_p]:m-0 [&_p+p]:mt-3"
+          style={{ color: '#a3a3a3' }}
           data-testid="faq-answer"
         >
           <ContentSdkRichText field={answer} />
@@ -106,12 +112,28 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
 
   return (
     <div className={cn('component landing-faq', styles)} id={RenderingIdentifier}>
-      <section className="bg-white py-16 md:py-24" data-testid="landing-faq">
+      <section className="py-16 md:py-24" data-testid="landing-faq">
         <div className="mx-auto max-w-3xl px-4">
-          <h2 className="mb-10 text-center text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
+          <p
+            className="text-center text-xs md:text-sm font-light uppercase mb-3"
+            style={{ color: '#a3a3a3', letterSpacing: '0.5em' }}
+          >
+            Questions
+          </p>
+          <h2
+            className="mb-12 text-center text-3xl md:text-4xl font-light"
+            style={{
+              fontFamily: 'var(--brand-heading-font)',
+              background:
+                'linear-gradient(180deg, #f5f5f5 0%, #d4d4d8 40%, #a3a3a3 80%, #6b7280 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
             Frequently asked questions
           </h2>
-          <div className="border-t border-gray-200">
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
             {items.map((item, i) => (
               <FAQItem
                 key={i}

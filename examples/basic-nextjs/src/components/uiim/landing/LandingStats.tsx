@@ -41,7 +41,17 @@ function StatTile({
         <Text
           field={number}
           tag="p"
-          className="text-5xl font-bold tracking-tight text-gray-900 md:text-6xl"
+          className="text-6xl md:text-7xl font-light tabular-nums"
+          style={{
+            fontFamily: 'var(--brand-heading-font)',
+            letterSpacing: '-0.03em',
+            lineHeight: 1,
+            background:
+              'linear-gradient(180deg, #f5f5f5 0%, #d4d4d8 40%, #a3a3a3 80%, #6b7280 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
           data-testid="stat-number"
         />
       )}
@@ -49,7 +59,8 @@ function StatTile({
         <Text
           field={label}
           tag="p"
-          className="mt-2 text-sm font-medium uppercase tracking-wider text-gray-600"
+          className="mt-4 text-xs md:text-sm font-light uppercase"
+          style={{ color: '#a3a3a3', letterSpacing: '0.3em' }}
           data-testid="stat-label"
         />
       )}
@@ -65,9 +76,17 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
 
   return (
     <div className={cn('component landing-stats', styles)} id={RenderingIdentifier}>
-      <section className="bg-white py-16 md:py-20" data-testid="landing-stats">
+      <section className="py-16 md:py-20" data-testid="landing-stats">
         <div className="mx-auto max-w-5xl px-4">
-          <div className="grid gap-12 md:grid-cols-3">
+          <div
+            className="grid grid-cols-1 md:grid-cols-3 gap-10"
+            style={{
+              borderTop: '1px solid rgba(255,255,255,0.08)',
+              borderBottom: '1px solid rgba(255,255,255,0.08)',
+              paddingTop: '3rem',
+              paddingBottom: '3rem',
+            }}
+          >
             <StatTile
               number={routeFields.stat1Number}
               label={routeFields.stat1Label}

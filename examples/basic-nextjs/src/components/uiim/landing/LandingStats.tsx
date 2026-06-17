@@ -25,7 +25,7 @@ function getRouteFields(page: ComponentProps['page']): LandingStatsRouteFields |
   return fields ? (fields as unknown as LandingStatsRouteFields) : null;
 }
 
-function StatTile({
+function SageStatTile({
   number,
   label,
   isEditing,
@@ -41,7 +41,12 @@ function StatTile({
         <Text
           field={number}
           tag="p"
-          className="text-5xl font-bold tracking-tight text-gray-900 md:text-6xl"
+          className="text-4xl font-black tracking-tight md:text-5xl"
+          style={{
+            color: 'var(--brand-fg)',
+            fontFamily: 'var(--brand-heading-font)',
+            fontWeight: 900,
+          }}
           data-testid="stat-number"
         />
       )}
@@ -49,7 +54,11 @@ function StatTile({
         <Text
           field={label}
           tag="p"
-          className="mt-2 text-sm font-medium uppercase tracking-wider text-gray-600"
+          className="mt-2 text-sm font-medium uppercase tracking-wider"
+          style={{
+            color: 'var(--brand-muted-foreground)',
+            fontFamily: 'var(--brand-body-font)',
+          }}
           data-testid="stat-label"
         />
       )}
@@ -57,7 +66,7 @@ function StatTile({
   );
 }
 
-export const Default = ({ params, page }: ComponentProps): JSX.Element => {
+export const Sage = ({ params, page }: ComponentProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const routeFields = getRouteFields(page);
@@ -65,20 +74,24 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
 
   return (
     <div className={cn('component landing-stats', styles)} id={RenderingIdentifier}>
-      <section className="bg-white py-16 md:py-20" data-testid="landing-stats">
+      <section
+        className="py-20"
+        style={{ backgroundColor: 'var(--brand-muted)', color: 'var(--brand-fg)' }}
+        data-testid="landing-stats"
+      >
         <div className="mx-auto max-w-5xl px-4">
-          <div className="grid gap-12 md:grid-cols-3">
-            <StatTile
+          <div className="grid grid-cols-2 gap-12 md:grid-cols-3">
+            <SageStatTile
               number={routeFields.stat1Number}
               label={routeFields.stat1Label}
               isEditing={isEditing}
             />
-            <StatTile
+            <SageStatTile
               number={routeFields.stat2Number}
               label={routeFields.stat2Label}
               isEditing={isEditing}
             />
-            <StatTile
+            <SageStatTile
               number={routeFields.stat3Number}
               label={routeFields.stat3Label}
               isEditing={isEditing}
@@ -89,3 +102,5 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
     </div>
   );
 };
+
+export const Default = (props: ComponentProps): JSX.Element => <Sage {...props} />;

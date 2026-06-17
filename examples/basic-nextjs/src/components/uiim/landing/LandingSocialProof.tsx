@@ -31,7 +31,7 @@ function getRouteFields(page: ComponentProps['page']): LandingSocialProofRouteFi
   return fields ? (fields as unknown as LandingSocialProofRouteFields) : null;
 }
 
-export const Default = ({ params, page }: ComponentProps): JSX.Element => {
+export const Sage = ({ params, page }: ComponentProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const routeFields = getRouteFields(page);
@@ -54,13 +54,29 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
 
   return (
     <div className={cn('component landing-social-proof', styles)} id={RenderingIdentifier}>
-      <section className="bg-gray-50 py-16 md:py-24" data-testid="landing-social-proof">
+      <section
+        className="py-16"
+        style={{
+          backgroundColor: 'var(--brand-bg)',
+          color: 'var(--brand-fg)',
+          fontFamily: 'var(--brand-body-font)',
+        }}
+        data-testid="landing-social-proof"
+      >
         <div className="mx-auto max-w-4xl px-4">
           {hasTestimonial && (
             <figure className="text-center" data-testid="testimonial">
+              <div
+                aria-hidden="true"
+                className="text-7xl leading-none font-serif"
+                style={{ color: 'var(--brand-primary)', fontFamily: 'var(--brand-heading-font)' }}
+              >
+                &ldquo;
+              </div>
               {(testimonialQuote?.value || isEditing) && (
                 <blockquote
-                  className="text-2xl font-medium leading-relaxed text-gray-900 md:text-3xl"
+                  className="text-2xl font-medium leading-relaxed md:text-3xl"
+                  style={{ color: 'var(--brand-fg)', fontFamily: 'var(--brand-heading-font)' }}
                   data-testid="testimonial-quote"
                 >
                   <ContentSdkRichText field={testimonialQuote} />
@@ -68,7 +84,10 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
               )}
               <figcaption className="mt-8 flex items-center justify-center gap-4">
                 {(testimonialAuthorImage?.value?.src || isEditing) && (
-                  <div className="h-12 w-12 overflow-hidden rounded-full bg-gray-200">
+                  <div
+                    className="h-12 w-12 overflow-hidden rounded-full"
+                    style={{ backgroundColor: 'var(--brand-muted)' }}
+                  >
                     <ContentSdkImage
                       field={testimonialAuthorImage}
                       className="h-full w-full object-cover"
@@ -82,7 +101,8 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
                     <Text
                       field={testimonialAuthorName}
                       tag="p"
-                      className="font-semibold text-gray-900"
+                      className="font-semibold"
+                      style={{ color: 'var(--brand-fg)' }}
                       data-testid="testimonial-author-name"
                     />
                   )}
@@ -90,7 +110,8 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
                     <Text
                       field={testimonialAuthorTitle}
                       tag="p"
-                      className="text-sm text-gray-600"
+                      className="text-sm"
+                      style={{ color: 'var(--brand-muted-foreground)' }}
                       data-testid="testimonial-author-title"
                     />
                   )}
@@ -103,7 +124,7 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
             <div className="mt-16 flex justify-center" data-testid="partner-logos">
               <ContentSdkImage
                 field={partnerLogosImage}
-                className="h-auto max-w-full opacity-70"
+                className="h-12 w-auto max-w-full opacity-80 brightness-0 invert"
               />
             </div>
           )}
@@ -112,3 +133,5 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
     </div>
   );
 };
+
+export const Default = (props: ComponentProps): JSX.Element => <Sage {...props} />;

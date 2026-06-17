@@ -110,9 +110,9 @@ function CtaPair({
 }
 
 /* ────────────────────────────────────────────
-   Default — centered eyebrow + headline + subhead + dual CTAs above hero media
+   Sage — dark, near-black hero with green-glow accent and pill CTAs
    ──────────────────────────────────────────── */
-export const Default = ({ params, page }: ComponentProps): JSX.Element => {
+export const Sage = ({ params, page }: ComponentProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const routeFields = getRouteFields(page);
@@ -129,21 +129,30 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
   } = routeFields;
 
   const hasMedia = heroVideo?.value?.href || heroImage?.value?.src || isEditing;
+  const showPrimary = heroPrimaryCta?.value?.href || isEditing;
+  const showSecondary = heroSecondaryCta?.value?.href || isEditing;
 
   return (
     <div className={cn('component landing-hero', styles)} id={RenderingIdentifier}>
-      <section className="relative overflow-hidden bg-gray-900" data-testid="landing-hero">
-        {hasMedia && (
-          <div className="absolute inset-0 opacity-30">
-            <HeroMedia image={heroImage} video={heroVideo} isEditing={isEditing} />
-          </div>
-        )}
-        <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-4 py-24 text-center text-white md:py-32">
+      <section
+        className="relative overflow-hidden px-4 py-20 md:py-28"
+        style={{
+          backgroundColor: 'var(--brand-header-bg)',
+          color: 'var(--brand-fg)',
+          fontFamily: 'var(--brand-body-font, inherit)',
+        }}
+        data-testid="landing-hero"
+      >
+        <div
+          className="pointer-events-none absolute -top-40 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full opacity-30 blur-3xl [background:radial-gradient(circle,var(--brand-primary),transparent_70%)]"
+          aria-hidden="true"
+        />
+        <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center text-center">
           {(heroEyebrow?.value || isEditing) && (
             <Text
               field={heroEyebrow}
-              tag="p"
-              className="mb-4 text-sm font-semibold uppercase tracking-wider text-white/80"
+              tag="span"
+              className="mb-6 inline-block rounded-full border border-white/20 px-3 py-1 text-xs font-medium uppercase tracking-wider"
               data-testid="hero-eyebrow"
             />
           )}
@@ -151,7 +160,7 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
             <Text
               field={heroHeadline}
               tag="h1"
-              className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+              className="text-4xl font-[900] leading-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
               data-testid="hero-headline"
             />
           )}
@@ -159,21 +168,51 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
             <Text
               field={heroSubhead}
               tag="p"
-              className="mt-6 max-w-2xl text-lg text-white/80 md:text-xl"
+              className="mt-6 max-w-2xl text-lg opacity-80 md:text-xl"
               data-testid="hero-subhead"
             />
           )}
-          <CtaPair
-            primary={heroPrimaryCta}
-            secondary={heroSecondaryCta}
-            isEditing={isEditing}
-            variant="default"
-          />
+          {(showPrimary || showSecondary) && (
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4" data-testid="hero-ctas">
+              {showPrimary && heroPrimaryCta && (
+                <ContentSdkLink
+                  field={heroPrimaryCta}
+                  className="inline-flex items-center justify-center rounded-[var(--brand-button-radius,9999px)] px-6 py-3 text-base font-semibold transition hover:opacity-90"
+                  style={{
+                    backgroundColor: 'var(--brand-primary)',
+                    color: 'var(--brand-primary-foreground)',
+                  }}
+                  data-testid="hero-primary-cta"
+                />
+              )}
+              {showSecondary && heroSecondaryCta && (
+                <ContentSdkLink
+                  field={heroSecondaryCta}
+                  className="inline-flex items-center justify-center rounded-full border border-current bg-transparent px-6 py-3 text-base font-semibold transition hover:opacity-80"
+                  data-testid="hero-secondary-cta"
+                />
+              )}
+            </div>
+          )}
+          {hasMedia && (
+            <div
+              className="relative mt-12 aspect-[16/9] w-full max-w-3xl overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]"
+              style={{ backgroundColor: 'var(--brand-muted)' }}
+              data-testid="hero-media"
+            >
+              <HeroMedia image={heroImage} video={heroVideo} isEditing={isEditing} />
+            </div>
+          )}
         </div>
       </section>
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Default — delegates to the Sage look-and-feel
+   ──────────────────────────────────────────── */
+export const Default = (props: ComponentProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    SplitImage — two-column: text left, hero media right

@@ -3097,3 +3097,15 @@ demoVariants_sage:
     - { component: "TrustStatsRow",         container: "{7AE37D15-B227-4274-809B-27023796BACD}", sageVariantId: "{B8401A44-2B07-444F-B8A2-202D4D4DD4E0}" }
     - { component: "FeatureCardsGrid",      container: "{72669095-6581-4595-9C9E-2F650BCA4404}", sageVariantId: "{71B0C28F-712E-4ED2-AC61-5AD8A83270AD}" }
     - { component: "SiteFooter",            container: "{613FAEEA-7FDC-453E-96DC-9B52337AC257}", sageVariantId: "{18972189-B076-4F91-A48E-0238FC5D67D9}" }
+
+# Sage landing-page variants (Sage look&feel; Default delegates to Sage in each TSX)
+demoVariants_sage_landing:
+  variantDefinitionTemplate: "{4D50CDAE-C2D9-4DE8-B080-8F992BFB1B55}"
+  approach: "export const Sage per component + Default delegates to Sage; context-only (route fields)"
+  variants:
+    - { component: "LandingHero",        container: "{2571BE88-7763-4827-B661-1C6792B95847}", sageVariantId: "{89E475DE-A961-4AEE-9AA3-407EA58A1D66}" }
+    - { component: "LandingFeatures",     container: "{5ADEF5CB-11B4-4743-AA96-4D7EFEE55C5D}", sageVariantId: "{C029494C-B576-43DF-8FDD-1857A085BF7D}" }
+    - { component: "LandingStats",        container: "{5619F2D9-B432-4A47-AA8A-911937AB991B}", sageVariantId: "{6A1D737F-B16F-4559-ADFC-5864FBB8E3A5}" }
+    - { component: "LandingSocialProof",  container: "{1077B0D2-420D-48E4-ADA2-853C6C0E880A}", sageVariantId: "{DEC45F99-2729-43F9-95A8-5220CD276DB5}" }
+    - { component: "LandingFAQ",          container: "{4FC4C30A-8A86-43CD-AFF9-4D6C53CB0594}", sageVariantId: "{5F27795E-F2F0-47E2-8845-3368A884CACB}" }
+    - { component: "LandingFinalCTA",     container: "{C27474AD-EC5C-421E-AAAE-1DE43C9FC0D4}", sageVariantId: "{477C6EFC-6399-4479-8196-8B29527832EF}" }

@@ -29,7 +29,7 @@ function getRouteFields(page: ComponentProps['page']): LandingFinalCTARouteField
   return fields ? (fields as unknown as LandingFinalCTARouteFields) : null;
 }
 
-export const Default = ({ params, page }: ComponentProps): JSX.Element => {
+export const Sage = ({ params, page }: ComponentProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const routeFields = getRouteFields(page);
@@ -39,19 +39,29 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
 
   return (
     <div className={cn('component landing-final-cta', styles)} id={RenderingIdentifier}>
-      <section className="bg-gray-900 py-16 md:py-24" data-testid="landing-final-cta">
+      <section
+        className="py-16 md:py-20"
+        style={{
+          background:
+            'linear-gradient(90deg, var(--brand-primary), #2563EB 60%, #7C3AED)',
+          color: 'var(--brand-primary-foreground, #000)',
+        }}
+        data-testid="landing-final-cta"
+      >
         <div className="mx-auto max-w-3xl px-4 text-center">
           {(finalCtaHeadline?.value || isEditing) && (
             <Text
               field={finalCtaHeadline}
               tag="h2"
-              className="text-3xl font-bold tracking-tight text-white md:text-4xl lg:text-5xl"
+              className="text-3xl font-black tracking-tight md:text-4xl lg:text-5xl"
+              style={{ fontFamily: 'var(--brand-heading-font)', fontWeight: 900 }}
               data-testid="final-cta-headline"
             />
           )}
           {(finalCtaSubhead?.value || isEditing) && (
             <div
-              className="mx-auto mt-6 max-w-xl text-lg text-white/80"
+              className="mx-auto mt-6 max-w-xl text-lg opacity-90"
+              style={{ fontFamily: 'var(--brand-body-font)' }}
               data-testid="final-cta-subhead"
             >
               <ContentSdkRichText field={finalCtaSubhead} />
@@ -61,7 +71,8 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
             <div className="mt-8">
               <ContentSdkLink
                 field={finalCtaButton}
-                className="inline-flex items-center justify-center rounded-md bg-white px-8 py-4 text-base font-semibold text-gray-900 transition hover:bg-gray-100"
+                className="inline-flex items-center justify-center rounded-[var(--brand-button-radius,9999px)] bg-[#0A0A0A] px-8 py-4 text-base font-semibold text-white transition hover:opacity-90"
+                style={{ fontFamily: 'var(--brand-body-font)' }}
                 data-testid="final-cta-button"
               />
             </div>
@@ -71,3 +82,5 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
     </div>
   );
 };
+
+export const Default = (props: ComponentProps): JSX.Element => <Sage {...props} />;

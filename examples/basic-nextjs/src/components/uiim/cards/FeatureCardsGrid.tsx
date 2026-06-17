@@ -207,6 +207,68 @@ export const TwoColumn = ({ fields, params, page }: FeatureCardsGridProps): JSX.
   );
 };
 
+/* Sage variant */
+/* ────────────────────────────────────────────
+   Sage — two dark cards on a muted gray section
+   ──────────────────────────────────────────── */
+export const Sage = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-6 py-16" style={{ backgroundColor: 'var(--brand-muted)' }}>
+        <div className="mx-auto max-w-5xl">
+          <SectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid gap-6 md:grid-cols-2">
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                className="flex flex-col rounded-2xl border border-white/10 p-8"
+                style={{
+                  backgroundColor: 'var(--brand-dark)',
+                  color: 'var(--brand-dark-foreground)',
+                }}
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <div className="mb-6 h-16 overflow-hidden">
+                    <ContentSdkImage
+                      field={card.cardImage?.jsonValue}
+                      className="h-full w-auto object-contain"
+                    />
+                  </div>
+                )}
+                {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={card.cardTitle?.jsonValue}
+                    tag="h3"
+                    className="text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
+                  />
+                )}
+                {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={card.cardDescription?.jsonValue}
+                    className="mt-3 flex-1 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
+                  />
+                )}
+                {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                  <ContentSdkLink
+                    field={card.cardLink?.jsonValue}
+                    className="mt-6 inline-flex items-center justify-center self-start rounded-full border border-current bg-transparent px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-80"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 /* ────────────────────────────────────────────
    WithImages — larger images at top of each card
    ──────────────────────────────────────────── */

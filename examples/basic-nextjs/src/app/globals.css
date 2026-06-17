@@ -86,29 +86,28 @@
    An unlayered :root block above @layer base ALWAYS wins the cascade.
    =================================================================== */
 
-/* CLIENT THEME — uncomment or replace with client values from Phase 4:
+/* CLIENT THEME — Sage (sitecore-build-demo Phase 4, dark mode + Sage green) */
 :root {
-  --brand-primary: #00827f;
-  --brand-primary-foreground: #ffffff;
-  --brand-accent: #00dc00;
-  --brand-accent-foreground: #1a1a1a;
-  --brand-dark: #1a1a2e;
-  --brand-dark-foreground: #ffffff;
-  --brand-bg: #ffffff;
-  --brand-fg: #1a1a2e;
-  --brand-muted: #f5f5f5;
-  --brand-muted-foreground: #6b7280;
-  --brand-border: #e5e7eb;
-  --brand-header-bg: #1a1a2e;
-  --brand-header-fg: #ffffff;
-  --brand-footer-bg: #1a1a2e;
-  --brand-footer-fg: #9ca3af;
+  --brand-primary: #00D639;
+  --brand-primary-foreground: #000000;
+  --brand-accent: #00D639;
+  --brand-accent-foreground: #000000;
+  --brand-dark: #000000;
+  --brand-dark-foreground: #FFFFFF;
+  --brand-bg: #0A0A0A;
+  --brand-fg: #FFFFFF;
+  --brand-muted: #1A1A1A;
+  --brand-muted-foreground: #A1A1AA;
+  --brand-border: #27272A;
+  --brand-header-bg: #000000;
+  --brand-header-fg: #FFFFFF;
+  --brand-footer-bg: #000000;
+  --brand-footer-fg: #9CA3AF;
   --brand-heading-font: 'Poppins', sans-serif;
-  --brand-body-font: 'Open Sans', sans-serif;
-  --brand-button-radius: 0.375rem;
+  --brand-body-font: 'Inter', sans-serif;
+  --brand-button-radius: 9999px;
   --brand-card-radius: 0.75rem;
 }
-*/
 
 @layer base {
   :root {

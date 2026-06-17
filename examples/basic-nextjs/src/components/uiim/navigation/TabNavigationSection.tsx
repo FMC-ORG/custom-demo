@@ -153,6 +153,51 @@ export const Underline = ({ fields, params, page }: TabNavigationSectionProps): 
   );
 };
 
+/* Sage variant — centered row of pill tabs on dark bg; first pill active green */
+export const Sage = ({ fields, params, page }: TabNavigationSectionProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TabNavigationSectionDefaultComponent />;
+
+  const tabs = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component tab-navigation-section', styles)} id={RenderingIdentifier}>
+      <section className="px-6 py-6" style={{ background: 'var(--brand-header-bg)' }}>
+        {(datasource.title?.jsonValue?.value || isEditing) && (
+          <Text field={datasource.title?.jsonValue} tag="h2" className="sr-only" />
+        )}
+        <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-3">
+          {tabs.map((tab, index) => (
+            <ContentSdkLink
+              key={tab.id}
+              field={tab.tabLink?.jsonValue}
+              className={cn(
+                'inline-flex items-center rounded-full px-5 py-2 transition-all',
+                index === 0
+                  ? 'text-sm font-semibold'
+                  : 'border border-white/20 text-sm font-medium text-white/80 hover:text-white'
+              )}
+              style={
+                index === 0
+                  ? {
+                      background: 'var(--brand-primary)',
+                      color: 'var(--brand-primary-foreground)',
+                    }
+                  : undefined
+              }
+            >
+              <Text field={tab.tabLabel?.jsonValue} />
+            </ContentSdkLink>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+};
+
 /* ────────────────────────────────────────────
    Boxed — rectangular tabs with border
    ──────────────────────────────────────────── */

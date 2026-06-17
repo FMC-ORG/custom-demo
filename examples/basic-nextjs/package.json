@@ -95,7 +95,7 @@
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "npm-run-all2": "^8.0.4",
-    "playwright": "^1.58.2",
+    "playwright": "^1.61.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.10",

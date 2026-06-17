@@ -294,6 +294,63 @@ export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JS
   );
 };
 
+/* Sage variant */
+export const Sage = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+
+  const links = datasource.children?.results || [];
+  const brandLogo = datasource.brandLogo?.jsonValue;
+  const ctaLabel = datasource.ctaLabel?.jsonValue;
+  const ctaLink = datasource.ctaLink?.jsonValue;
+
+  const showCta = ctaLink?.value?.href || isEditing;
+  const pillClassName =
+    'hidden md:inline-flex items-center rounded-full border border-current bg-transparent px-5 py-1.5 text-sm font-semibold transition-opacity hover:opacity-80';
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className="absolute inset-x-0 top-0 z-30 w-full bg-transparent"
+        style={{ color: 'var(--brand-header-fg, #ffffff)' }}
+      >
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+          <Logo brandLogo={brandLogo} />
+          <NavLinks
+            items={links}
+            className="hidden items-center gap-7 text-sm font-medium md:flex"
+          />
+          <div className="flex items-center gap-3">
+            {showCta &&
+              (ctaLink ? (
+                <ContentSdkLink
+                  field={ctaLink}
+                  className={pillClassName}
+                  style={{ color: 'var(--brand-header-fg, #ffffff)' }}
+                >
+                  {ctaLabel?.value && <Text field={ctaLabel} />}
+                </ContentSdkLink>
+              ) : (
+                <span
+                  className={pillClassName}
+                  style={{ color: 'var(--brand-header-fg, #ffffff)' }}
+                >
+                  {ctaLabel?.value && <Text field={ctaLabel} />}
+                </span>
+              ))}
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+        </div>
+        <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
+      </header>
+    </div>
+  );
+};
+
 export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
 

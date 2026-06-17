@@ -113,3 +113,36 @@ export const Highlight = ({ fields, params, page }: AnnouncementBarProps): JSX.E
     </div>
   );
 };
+
+/* Sage variant */
+export const Sage = ({ fields, params, page }: AnnouncementBarProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <AnnouncementBarDefaultComponent />;
+
+  return (
+    <div className={cn('component announcement-bar', styles)} id={RenderingIdentifier}>
+      <div
+        className="w-full py-2 px-4 text-center text-xs sm:text-sm font-medium"
+        style={{
+          background:
+            'linear-gradient(90deg, var(--brand-primary), #7C3AED 60%, #2563EB)',
+          color: 'var(--brand-primary-foreground)',
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-center">
+          {(fields.Message?.value || isEditing) && (
+            <Text field={fields.Message} tag="span" />
+          )}
+          {(fields.BarLink?.value?.href || isEditing) && (
+            <ContentSdkLink
+              field={fields.BarLink}
+              className="font-bold underline underline-offset-2 ml-1 hover:opacity-80 transition-opacity"
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};

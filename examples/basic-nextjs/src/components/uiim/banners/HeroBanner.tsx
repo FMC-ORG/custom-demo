@@ -109,6 +109,70 @@ export const Default = ({ fields, params, page }: HeroBannerProps): JSX.Element 
   );
 };
 
+/* Sage variant — LEFT-aligned 2-column dark hero with radial green glow.
+   Left: eyebrow chrome pill + huge Poppins headline + subtitle + ghost SecondaryLink.
+   Right: PrimaryLink rendered as the large "Sage Copilot" pill badge with a green ring. */
+export const Sage = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section
+        className="relative overflow-hidden px-6 py-24 md:py-28"
+        style={{
+          backgroundColor: 'var(--brand-header-bg)',
+          color: 'var(--brand-header-fg)',
+        }}
+      >
+        {/* radial green glow */}
+        <div className="pointer-events-none absolute -top-32 right-0 h-[480px] w-[480px] rounded-full opacity-30 blur-3xl [background:radial-gradient(circle,var(--brand-primary),transparent_70%)]" />
+
+        <div className="relative mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2">
+          {/* Left column */}
+          <div className="space-y-6">
+            {/* eyebrow — non-authorable chrome */}
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-xs font-medium opacity-90">
+              New: Sage AI now available
+            </span>
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h1"
+                className="text-4xl font-[900] leading-[1.05] tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Subtitle?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Subtitle}
+                className="max-w-lg text-lg opacity-80"
+              />
+            )}
+            {(fields.SecondaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.SecondaryLink}
+                className="inline-flex items-center gap-1 text-sm font-semibold opacity-90 transition-opacity hover:opacity-70"
+              />
+            )}
+          </div>
+
+          {/* Right column — Sage Copilot pill badge */}
+          <div className="flex items-center justify-center md:justify-end">
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-semibold ring-2 transition-opacity hover:opacity-90 [--tw-ring-color:var(--brand-primary)]"
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 /* ────────────────────────────────────────────
    SplitImageText — 50/50 grid
    ──────────────────────────────────────────── */

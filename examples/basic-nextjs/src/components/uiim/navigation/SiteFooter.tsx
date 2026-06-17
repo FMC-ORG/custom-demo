@@ -214,6 +214,128 @@ export const Minimal = (props: SiteFooterProps): JSX.Element => {
   );
 };
 
+/* Sage variant */
+/* ────────────────────────────────────────────
+   Sage — black footer, green logo, audience + link columns, legal row
+   ──────────────────────────────────────────── */
+export const Sage = (props: SiteFooterProps): JSX.Element => {
+  const { params, page } = props;
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const brandLogo = getBrandLogo(props);
+  const hasImage = brandLogo?.value?.src;
+
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  const audienceLinks = [
+    'For Small Businesses',
+    'For Accountants',
+    'For Medium Businesses',
+    'For Enterprises',
+  ];
+
+  const sageColumns = [
+    {
+      title: 'Company',
+      links: ['About Sage', 'Careers', 'Investors', 'Newsroom', 'Sustainability'],
+    },
+    {
+      title: 'Products',
+      links: ['Accounting', 'Payroll & HR', 'Sage Copilot', 'Enterprise Management'],
+    },
+    {
+      title: 'Support & Training',
+      links: ['Help Center', 'Sage University', 'Community', 'Contact Us'],
+    },
+  ];
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full px-6 py-16"
+        style={{
+          backgroundColor: 'var(--brand-footer-bg, #000000)',
+          color: 'var(--brand-footer-fg, #a1a1aa)',
+        }}
+      >
+        <div className="mx-auto max-w-7xl">
+          {/* Top row: green Sage logo + social icons */}
+          <div className="flex flex-col items-start justify-between gap-6 border-b border-white/10 pb-10 sm:flex-row sm:items-center">
+            <Link href="/" className="flex items-center" aria-label="Sage home">
+              {hasImage || isEditing ? (
+                <ContentSdkImage field={brandLogo} className="h-7 w-auto object-contain" />
+              ) : (
+                <span
+                  className="text-2xl font-bold tracking-tight"
+                  style={{ color: 'var(--brand-primary)' }}
+                >
+                  Sage
+                </span>
+              )}
+            </Link>
+            <SocialIcons />
+          </div>
+
+          {/* Link grid: larger audience column + smaller link columns */}
+          <div className="grid gap-10 py-12 md:grid-cols-4">
+            <div>
+              <ul className="space-y-3">
+                {audienceLinks.map((link) => (
+                  <li key={link}>
+                    <a
+                      href="#"
+                      className="block text-lg font-medium transition-colors hover:text-white font-[var(--brand-heading-font,inherit)]"
+                    >
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {sageColumns.map((col) => (
+              <div key={col.title}>
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/60 font-[var(--brand-heading-font,inherit)]">
+                  {col.title}
+                </h3>
+                <ul>
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <a
+                        href="#"
+                        className="block py-1 text-sm transition-colors hover:text-white font-[var(--brand-body-font,inherit)]"
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Legal row */}
+          <div
+            className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm sm:flex-row"
+            style={{ color: 'var(--brand-footer-fg, #a1a1aa)' }}
+          >
+            <p className="opacity-80 font-[var(--brand-body-font,inherit)]">
+              &copy; {new Date().getFullYear()} The Sage Group plc. All rights reserved.
+            </p>
+            <div className="flex flex-wrap gap-6">
+              {['Privacy Policy', 'Terms of Use', 'Cookie Settings', 'Legal'].map((link) => (
+                <a key={link} href="#" className="transition-colors hover:text-white">
+                  {link}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
 /* ────────────────────────────────────────────
    MegaFooter — expanded with newsletter
    ──────────────────────────────────────────── */

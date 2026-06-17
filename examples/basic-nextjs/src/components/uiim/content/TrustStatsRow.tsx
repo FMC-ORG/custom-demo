@@ -128,6 +128,68 @@ export const Default = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
   );
 };
 
+/* Sage variant */
+/* ────────────────────────────────────────────
+   Sage — muted dark-gray band, centered heading,
+   big white stat numbers in a 2/4-col grid
+   ──────────────────────────────────────────── */
+export const Sage = ({ fields, params, page }: TrustStatsRowProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TrustStatsRowDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component trust-stats-row', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 py-20"
+        style={{ backgroundColor: 'var(--brand-muted)', color: 'var(--brand-fg)' }}
+      >
+        <div className="mx-auto max-w-6xl">
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.title?.jsonValue}
+              tag="h2"
+              className="mb-12 text-center text-3xl font-[900] tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-fg)' }}
+            />
+          )}
+          <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 text-center md:grid-cols-4">
+            {items.map((item) => (
+              <div key={item.id} className="text-center">
+                {(item.statValue?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={item.statValue?.jsonValue}
+                    tag="p"
+                    className="text-4xl font-[900] sm:text-5xl font-[var(--brand-heading-font,inherit)]"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                {(item.statLabel?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={item.statLabel?.jsonValue}
+                    tag="p"
+                    className="mt-2 text-sm font-medium font-[var(--brand-body-font,inherit)]"
+                    style={{ color: 'var(--brand-muted-foreground)' }}
+                  />
+                )}
+                {(item.statDescription?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.statDescription?.jsonValue}
+                    className="mt-1 text-xs font-[var(--brand-body-font,inherit)]"
+                    style={{ color: 'var(--brand-muted-foreground)' }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 /* ────────────────────────────────────────────
    WithIcons — icon above each stat number
    ──────────────────────────────────────────── */

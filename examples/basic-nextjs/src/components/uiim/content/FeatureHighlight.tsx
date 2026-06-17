@@ -276,3 +276,103 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
     </div>
   );
 };
+
+/* Sage variant */
+/* ────────────────────────────────────────────
+   Sage — near-black "AI agents" section: centered green-pill eyebrow,
+   big heading + subtitle, then split (left text/CTA, right app
+   screenshot with soft green glow). Approximates the live interactive
+   vertical agent tabs (full version requires a list template).
+   ──────────────────────────────────────────── */
+export const Sage = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section
+        className="relative overflow-hidden px-6 py-20"
+        style={{
+          backgroundColor: 'var(--brand-header-bg)',
+          color: 'var(--brand-header-fg)',
+        }}
+      >
+        {/* Centered top block */}
+        <div className="relative mx-auto max-w-3xl text-center">
+          {(fields.EyebrowText?.value || isEditing) && (
+            <Text
+              field={fields.EyebrowText}
+              tag="span"
+              className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium"
+              style={{
+                border: '1px solid var(--brand-primary)',
+                color: 'var(--brand-primary)',
+              }}
+            />
+          )}
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="mt-4 text-3xl font-[900] tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-header-fg)' }}
+            />
+          )}
+          {(fields.Description?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Description}
+              className="mt-4 text-base opacity-80 font-[var(--brand-body-font,inherit)]"
+              style={{ color: 'var(--brand-header-fg)' }}
+            />
+          )}
+        </div>
+
+        {/* Split: left condensed text + CTA, right app screenshot */}
+        <div className="relative mx-auto mt-12 grid max-w-7xl items-center gap-10 md:grid-cols-2">
+          <div>
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="text-base opacity-80 font-[var(--brand-body-font,inherit)]"
+                style={{ color: 'var(--brand-header-fg)' }}
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="mt-6 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
+                style={{
+                  backgroundColor: 'var(--brand-primary)',
+                  color: 'var(--brand-primary-foreground)',
+                }}
+              />
+            )}
+          </div>
+          <div className="relative">
+            {/* soft green radial glow behind the screenshot */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute right-10 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full opacity-30 blur-3xl"
+              style={{
+                background:
+                  'radial-gradient(circle, var(--brand-primary), transparent 70%)',
+              }}
+            />
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <div className="relative w-full overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
+                <SmartMedia
+                  field={fields.FeatureImage}
+                  width={1200}
+                  height={800}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="h-auto w-full object-cover"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

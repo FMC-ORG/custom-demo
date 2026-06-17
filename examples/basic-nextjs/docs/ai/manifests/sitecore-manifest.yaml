@@ -3075,3 +3075,25 @@ lookups:
 
 # Demo datasource items (AI-created content, not new component definitions)
 demoContent: []
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DEMO RECORD: Sage (sitecore-build-demo, 2026-06-17)
+# Pixel-perfect "Sage" variant added to 11 components (export const Sage in each TSX
+# + Variant Definition item under each Headless Variants container). Default variants untouched.
+# Page assembled on Home {E2124310-F817-4644-8671-BFF8E72B66D7}, 9 components in headless-main.
+# Per-account datasource items + full content: docs/ai/demos/sage/content-map.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+demoVariants_sage:
+  variantDefinitionTemplate: "{4D50CDAE-C2D9-4DE8-B080-8F992BFB1B55}"
+  variants:
+    - { component: "AnnouncementBar",      container: "{6F2C4B0A-5592-4E3C-A1D1-DDA54BD90CC0}", sageVariantId: "{8B77B719-6810-41D5-A1FE-0653345ED8CD}" }
+    - { component: "NavigationHeader",      container: "{C215D8ED-461E-4AE4-8D57-94CC5CDEC8DF}", sageVariantId: "{05737AED-E560-4E71-9A2D-B2ACE947382C}" }
+    - { component: "HeroBanner",            container: "{D28D8B6E-3030-4D49-9558-44B7EED789B8}", sageVariantId: "{65C73723-0527-4188-95BF-09261E20A3A0}" }
+    - { component: "TabNavigationSection",  container: "{5DF30ECF-56D0-4599-BB2A-C6737C30C333}", sageVariantId: "{3A5F6F5E-9F96-4A80-9009-04A107E71A9A}" }
+    - { component: "ProductPricingCards",   container: "{2D0654D5-0BFB-4ABB-9B42-83278B8AEC42}", sageVariantId: "{9D6300BA-F8C8-4F57-9C36-4FC86FB252E6}" }
+    - { component: "LogoCloud",             container: "{0D58C38F-2601-444C-8981-6FB3DCA202EC}", sageVariantId: "{4371180A-D0A2-46ED-AF3B-3E7EC5115C63}" }
+    - { component: "FeatureHighlight",      container: "{D3E5415A-9247-4572-B146-73E4AEF78195}", sageVariantId: "{A25FE515-D86D-427D-B9C6-BE7515148501}" }
+    - { component: "TestimonialBlock",      container: "{77FA9798-E911-41DC-804F-5A3649087CB4}", sageVariantId: "{E4C8BA3C-AA91-4EF6-B6C6-29990F971B55}" }
+    - { component: "TrustStatsRow",         container: "{7AE37D15-B227-4274-809B-27023796BACD}", sageVariantId: "{B8401A44-2B07-444F-B8A2-202D4D4DD4E0}" }
+    - { component: "FeatureCardsGrid",      container: "{72669095-6581-4595-9C9E-2F650BCA4404}", sageVariantId: "{71B0C28F-712E-4ED2-AC61-5AD8A83270AD}" }
+    - { component: "SiteFooter",            container: "{613FAEEA-7FDC-453E-96DC-9B52337AC257}", sageVariantId: "{18972189-B076-4F91-A48E-0238FC5D67D9}" }

@@ -199,3 +199,48 @@ export const WithLabels = ({ fields, params, page }: LogoCloudProps): JSX.Elemen
     </div>
   );
 };
+
+/* Sage variant — dark bg, single centered row of up to 6 white/desaturated
+   logos; small muted headline; company names sr-only (logos only on live site) */
+export const Sage = ({ fields, params, page }: LogoCloudProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <LogoCloudDefaultComponent />;
+  const items = (datasource.children?.results || []).slice(0, 6);
+
+  return (
+    <div className={cn('component logo-cloud', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 py-12"
+        style={{ backgroundColor: 'var(--brand-bg, #0a0a0a)' }}
+      >
+        <div className="mx-auto max-w-6xl">
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.title?.jsonValue}
+              tag="h2"
+              className="mb-8 text-center text-sm font-medium font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-muted-foreground, #a1a1aa)' }}
+            />
+          )}
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-12 gap-y-6">
+            {items.map((item) => (
+              <LogoWrapper key={item.id} item={item} isEditing={isEditing}>
+                {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
+                  <ContentSdkImage
+                    field={item.logoImage?.jsonValue}
+                    className="h-8 w-auto opacity-80 brightness-0 invert"
+                  />
+                )}
+                {(item.companyName?.jsonValue?.value || isEditing) && (
+                  <Text field={item.companyName?.jsonValue} tag="span" className="sr-only" />
+                )}
+              </LogoWrapper>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

@@ -1,4 +1,6 @@
-import React, { JSX } from 'react';
+'use client';
+
+import React, { JSX, useState } from 'react';
 import {
   Field,
   ImageField,
@@ -202,6 +204,101 @@ export const Carousel = ({ fields, params, page }: TestimonialBlockProps): JSX.E
             ))}
           </div>
         </div>
+      </section>
+    </div>
+  );
+};
+
+/* Sage variant */
+/* ────────────────────────────────────────────
+   Sage — single lifted panel + carousel dots (active in green)
+   ──────────────────────────────────────────── */
+export const Sage = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  const items = datasource?.children?.results || [];
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  if (!datasource) return <TestimonialBlockDefaultComponent />;
+
+  const safeIndex = Math.min(activeIndex, Math.max(items.length - 1, 0));
+  const item = items[safeIndex];
+
+  return (
+    <div className={cn('component testimonial-block', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 py-16"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)', color: 'var(--brand-fg, #111111)' }}
+      >
+        {(datasource.sectionTitle?.jsonValue?.value || isEditing) && (
+          <Text
+            field={datasource.sectionTitle?.jsonValue}
+            tag="h2"
+            className="mb-10 text-center text-3xl font-[900] tracking-tight font-[var(--brand-heading-font,inherit)]"
+            style={{ color: 'var(--brand-fg, #111111)' }}
+          />
+        )}
+        {item && (
+          <div
+            className="mx-auto max-w-3xl rounded-2xl p-10"
+            style={{ backgroundColor: 'var(--brand-muted, #1a1a1a)' }}
+          >
+            <span
+              className="block text-6xl leading-none font-[900] select-none"
+              style={{ color: 'var(--brand-primary)' }}
+              aria-hidden="true"
+            >
+              &ldquo;
+            </span>
+            {(item.quoteText?.jsonValue?.value || isEditing) && (
+              <ContentSdkRichText
+                field={item.quoteText?.jsonValue}
+                className="mt-2 text-xl font-medium font-[var(--brand-body-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #111111)' }}
+              />
+            )}
+            <div className="mt-6">
+              {(item.authorName?.jsonValue?.value || isEditing) && (
+                <Text
+                  field={item.authorName?.jsonValue}
+                  tag="p"
+                  className="font-bold font-[var(--brand-heading-font,inherit)]"
+                  style={{ color: 'var(--brand-fg, #111111)' }}
+                />
+              )}
+              <div className="flex flex-wrap items-center gap-1 text-sm" style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}>
+                {(item.authorRole?.jsonValue?.value || isEditing) && (
+                  <Text field={item.authorRole?.jsonValue} tag="span" />
+                )}
+                {item.authorRole?.jsonValue?.value && item.companyName?.jsonValue?.value && (
+                  <span aria-hidden="true">&middot;</span>
+                )}
+                {(item.companyName?.jsonValue?.value || isEditing) && (
+                  <Text field={item.companyName?.jsonValue} tag="span" />
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+        {items.length > 1 && (
+          <div className="mt-8 flex items-center justify-center gap-2">
+            {items.map((dot, i) => (
+              <button
+                key={dot.id}
+                type="button"
+                aria-label={`Show testimonial ${i + 1}`}
+                aria-current={i === safeIndex}
+                onClick={() => setActiveIndex(i)}
+                className="h-2 w-2 rounded-full"
+                style={{
+                  backgroundColor:
+                    i === safeIndex ? 'var(--brand-primary)' : 'rgba(255,255,255,0.3)',
+                }}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

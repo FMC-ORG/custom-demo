@@ -367,3 +367,76 @@ export const Highlighted = ({ fields, params, page }: ProductPricingCardsProps):
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Sage variant — 3 equal white cards on dark section,
+   left-aligned, "with AI" green badge, solid black pill CTA
+   ──────────────────────────────────────────── */
+export const Sage = ({ fields, params, page }: ProductPricingCardsProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ProductPricingCardsDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component product-pricing-cards', styles)} id={RenderingIdentifier}>
+      <section className="px-6 py-16" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <SectionHeader datasource={datasource} isEditing={isEditing} />
+        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-3">
+          {cards.map((card) => (
+            <div
+              key={card.id}
+              className="flex flex-col rounded-[var(--brand-card-radius,0.75rem)] border border-black/10 bg-white p-7 text-left"
+            >
+              {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                <ContentSdkImage
+                  field={card.cardImage?.jsonValue}
+                  className="mb-4 h-12 w-auto object-contain"
+                />
+              )}
+              {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                <Text
+                  field={card.cardTitle?.jsonValue}
+                  tag="h3"
+                  className="text-2xl font-[700] font-[var(--brand-heading-font,inherit)]"
+                  style={{ color: '#0A0A0A' }}
+                />
+              )}
+              {(card.badgeText?.jsonValue?.value || isEditing) && (
+                <Text
+                  field={card.badgeText?.jsonValue}
+                  tag="span"
+                  className="mt-1 inline-block text-xl font-[700]"
+                  style={{ color: 'var(--brand-primary)' }}
+                />
+              )}
+              {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                <ContentSdkRichText
+                  field={card.cardDescription?.jsonValue}
+                  className="mt-3 text-sm font-[var(--brand-body-font,inherit)]"
+                  style={{ color: '#52525B' }}
+                />
+              )}
+              {(card.priceText?.jsonValue?.value || isEditing) && (
+                <Text
+                  field={card.priceText?.jsonValue}
+                  tag="p"
+                  className="mt-4 text-sm font-semibold font-[var(--brand-body-font,inherit)]"
+                  style={{ color: '#0A0A0A' }}
+                />
+              )}
+              {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={card.cardLink?.jsonValue}
+                  className="mt-auto inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                  style={{ backgroundColor: '#0A0A0A' }}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+};

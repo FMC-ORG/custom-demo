@@ -10,7 +10,7 @@ import {
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React from 'react';
 import * as React_7214d18997ee864dd178de7b3a8430f6783e8b89 from 'react';
-import { NextImage, RichText, Text, Link, AppPlaceholder } from '@sitecore-content-sdk/nextjs';
+import { NextImage, Link, Text, RichText, AppPlaceholder } from '@sitecore-content-sdk/nextjs';
 import { cn } from '@/lib/utils';
 import Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 from 'next/link';
 import { Sparkles } from 'lucide-react';
@@ -41,9 +41,9 @@ const importMap = [
     module: '@sitecore-content-sdk/nextjs',
     exports: [
       { name: 'NextImage', value: NextImage },
-      { name: 'RichText', value: RichText },
-      { name: 'Text', value: Text },
       { name: 'Link', value: Link },
+      { name: 'Text', value: Text },
+      { name: 'RichText', value: RichText },
       { name: 'AppPlaceholder', value: AppPlaceholder },
     ]
   },

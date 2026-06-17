@@ -3,6 +3,7 @@
 import { BYOCClientWrapper, NextjsContentSdkComponent, FEaaSClientWrapper } from '@sitecore-content-sdk/nextjs';
 import { Form } from '@sitecore-content-sdk/nextjs';
 
+import * as TestimonialBlock from 'src/components/uiim/social-proof/TestimonialBlock';
 import * as SearchExperienceV2 from 'src/components/uiim/search/SearchExperienceV2';
 import * as NavigationHeader from 'src/components/uiim/navigation/NavigationHeader';
 import * as SmartMedia from 'src/components/uiim/media/SmartMedia';
@@ -41,6 +42,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCClientWrapper],
   ['FEaaSWrapper', FEaaSClientWrapper],
   ['Form', Form],
+  ['TestimonialBlock', { ...TestimonialBlock }],
   ['SearchExperienceV2', { ...SearchExperienceV2 }],
   ['NavigationHeader', { ...NavigationHeader }],
   ['SmartMedia', { ...SmartMedia }],

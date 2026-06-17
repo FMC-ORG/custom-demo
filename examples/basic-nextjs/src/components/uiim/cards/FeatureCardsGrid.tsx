@@ -221,48 +221,47 @@ export const Sage = ({ fields, params, page }: FeatureCardsGridProps): JSX.Eleme
   return (
     <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
       <section className="w-full px-6 py-16" style={{ backgroundColor: 'var(--brand-muted)' }}>
-        <div className="mx-auto max-w-5xl">
-          <SectionHeader datasource={datasource} isEditing={isEditing} />
-          <div className="grid gap-6 md:grid-cols-2">
-            {cards.map((card) => (
-              <div
-                key={card.id}
-                className="flex flex-col rounded-2xl border border-white/10 p-8"
-                style={{
-                  backgroundColor: 'var(--brand-dark)',
-                  color: 'var(--brand-dark-foreground)',
-                }}
-              >
-                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <div className="mb-6 h-16 overflow-hidden">
-                    <ContentSdkImage
-                      field={card.cardImage?.jsonValue}
-                      className="h-full w-auto object-contain"
-                    />
-                  </div>
-                )}
-                {(card.cardTitle?.jsonValue?.value || isEditing) && (
-                  <Text
-                    field={card.cardTitle?.jsonValue}
-                    tag="h3"
-                    className="text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
+        <div className="mx-auto grid max-w-7xl items-stretch gap-6 md:grid-cols-3">
+          {cards.map((card) => (
+            <div
+              key={card.id}
+              className="flex flex-col rounded-3xl border border-white/10 p-8 md:p-10"
+              style={{
+                backgroundColor: 'var(--brand-dark)',
+                color: 'var(--brand-dark-foreground)',
+              }}
+            >
+              {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                <div className="mb-8 flex h-44 items-center md:h-52">
+                  <ContentSdkImage
+                    field={card.cardImage?.jsonValue}
+                    className="h-full w-auto object-contain"
                   />
-                )}
-                {(card.cardDescription?.jsonValue?.value || isEditing) && (
-                  <ContentSdkRichText
-                    field={card.cardDescription?.jsonValue}
-                    className="mt-3 flex-1 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
-                  />
-                )}
-                {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                </div>
+              )}
+              {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                <Text
+                  field={card.cardTitle?.jsonValue}
+                  tag="h3"
+                  className="text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
+                />
+              )}
+              {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                <ContentSdkRichText
+                  field={card.cardDescription?.jsonValue}
+                  className="mt-3 text-[15px] leading-relaxed opacity-70 font-[var(--brand-body-font,inherit)]"
+                />
+              )}
+              {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                <div className="mt-auto pt-8">
                   <ContentSdkLink
                     field={card.cardLink?.jsonValue}
-                    className="mt-6 inline-flex items-center justify-center self-start rounded-full border border-current bg-transparent px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-80"
+                    className="inline-flex items-center justify-center rounded-full border border-current bg-transparent px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-80"
                   />
-                )}
-              </div>
-            ))}
-          </div>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </section>
     </div>

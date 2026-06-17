@@ -9,12 +9,13 @@ import {
 // end of built-in imports
 
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
-import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import React from 'react';
+import { NextImage, RichText, Text, Link, useSitecore, DateField, CdpHelper, withDatasourceCheck } from '@sitecore-content-sdk/nextjs';
+import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import { useSearchParams, useRouter as useRouter_38d453563358e259e30871f8ef5a0334c186c57e, usePathname } from 'next/navigation';
 import { useSearch, useInfiniteSearch } from '@sitecore-content-sdk/nextjs/search';
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { SearchEmptyResults } from '@/lib/search/search-components/SearchEmptyResults';
 import { SearchError } from '@/lib/search/search-components/SearchError';
@@ -25,7 +26,6 @@ import { SearchInput } from '@/lib/search/search-components/SearchInput';
 import { useEvent } from '@/lib/search/search-components/useEvent';
 import { useRouter } from '@/lib/search/search-components/useRouter';
 import { DICTIONARY_KEYS, DEFAULT_PAGE_SIZE, gridColsClass } from '@/lib/search/search-components/constants';
-import { NextImage, Link, Text, useSitecore, RichText, DateField, CdpHelper, withDatasourceCheck } from '@sitecore-content-sdk/nextjs';
 import Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 from 'next/link';
 import { ChevronDown, Menu, X, User } from 'lucide-react';
 import { SmartMedia } from '@/components/uiim/media/SmartMedia';
@@ -66,12 +66,31 @@ const importMap = [
   {
     module: 'react',
     exports: [
+      { name: 'useState', value: useState },
       { name: 'useCallback', value: useCallback },
       { name: 'useEffect', value: useEffect },
-      { name: 'useState', value: useState },
       { name: 'useRef', value: useRef },
       { name: 'useMemo', value: useMemo },
       { name: 'default', value: React },
+    ]
+  },
+  {
+    module: '@sitecore-content-sdk/nextjs',
+    exports: [
+      { name: 'NextImage', value: NextImage },
+      { name: 'RichText', value: RichText },
+      { name: 'Text', value: Text },
+      { name: 'Link', value: Link },
+      { name: 'useSitecore', value: useSitecore },
+      { name: 'DateField', value: DateField },
+      { name: 'CdpHelper', value: CdpHelper },
+      { name: 'withDatasourceCheck', value: withDatasourceCheck },
+    ]
+  },
+  {
+    module: '@/lib/utils',
+    exports: [
+      { name: 'cn', value: cn },
     ]
   },
   {
@@ -93,12 +112,6 @@ const importMap = [
     exports: [
       { name: 'useSearch', value: useSearch },
       { name: 'useInfiniteSearch', value: useInfiniteSearch },
-    ]
-  },
-  {
-    module: '@/lib/utils',
-    exports: [
-      { name: 'cn', value: cn },
     ]
   },
   {
@@ -161,19 +174,6 @@ const importMap = [
       { name: 'DICTIONARY_KEYS', value: DICTIONARY_KEYS },
       { name: 'DEFAULT_PAGE_SIZE', value: DEFAULT_PAGE_SIZE },
       { name: 'gridColsClass', value: gridColsClass },
-    ]
-  },
-  {
-    module: '@sitecore-content-sdk/nextjs',
-    exports: [
-      { name: 'NextImage', value: NextImage },
-      { name: 'Link', value: Link },
-      { name: 'Text', value: Text },
-      { name: 'useSitecore', value: useSitecore },
-      { name: 'RichText', value: RichText },
-      { name: 'DateField', value: DateField },
-      { name: 'CdpHelper', value: CdpHelper },
-      { name: 'withDatasourceCheck', value: withDatasourceCheck },
     ]
   },
   {

@@ -215,22 +215,22 @@ export const Sage = ({ fields, params, page }: LogoCloudProps): JSX.Element => {
         className="w-full px-6 py-12"
         style={{ backgroundColor: 'var(--brand-bg, #0a0a0a)' }}
       >
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-7xl">
           {(datasource.title?.jsonValue?.value || isEditing) && (
             <Text
               field={datasource.title?.jsonValue}
               tag="h2"
-              className="mb-8 text-center text-sm font-medium font-[var(--brand-heading-font,inherit)]"
+              className="mb-12 text-center text-sm font-medium font-[var(--brand-heading-font,inherit)]"
               style={{ color: 'var(--brand-muted-foreground, #a1a1aa)' }}
             />
           )}
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-12 gap-y-6">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-10 gap-y-10">
             {items.map((item) => (
               <LogoWrapper key={item.id} item={item} isEditing={isEditing}>
                 {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
                   <ContentSdkImage
                     field={item.logoImage?.jsonValue}
-                    className="h-8 w-auto opacity-80 brightness-0 invert"
+                    className="h-16 w-44 object-contain brightness-0 invert md:w-[200px]"
                   />
                 )}
                 {(item.companyName?.jsonValue?.value || isEditing) && (

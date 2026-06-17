@@ -79,7 +79,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['BYOCWrapper', BYOCServerWrapper],
   ['FEaaSWrapper', FEaaSServerWrapper],
   ['Form', { ...Form, componentType: 'client' }],
-  ['TestimonialBlock', { ...TestimonialBlock }],
+  ['TestimonialBlock', { ...TestimonialBlock, componentType: 'client' }],
   ['LogoCloud', { ...LogoCloud }],
   ['SearchExperienceV2', { ...SearchExperienceV2, componentType: 'client' }],
   ['TabNavigationSection', { ...TabNavigationSection }],

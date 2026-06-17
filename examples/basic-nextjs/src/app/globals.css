@@ -109,6 +109,21 @@
   --brand-card-radius: 0.75rem;
 }
 
+/* Sage "with Ai" gradient text — green→blue, clipped to glyphs.
+   Defined as a real class so Tailwind's purge can't drop it.
+   width:fit-content + align-self:start stop the flex parent from stretching
+   the span to full width (which would only show the green start of the gradient). */
+.sage-gradient-text {
+  display: inline-block;
+  width: fit-content;
+  align-self: flex-start;
+  background-image: linear-gradient(90deg, var(--brand-primary, #00D639) 0%, #2563EB 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

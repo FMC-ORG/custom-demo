@@ -3117,3 +3117,18 @@ demoVariants_sage_article:
   variants:
     - { component: "ArticleHero", container: "{9894746A-F336-4856-BD1F-C1663374703C}", sageVariantId: "{15E55EF5-90A7-4CDF-9F37-7C461B1A92A4}" }
     - { component: "ArticleBody", container: "{2E05330B-E438-4006-9096-165A2C36E425}", sageVariantId: "{902DA306-FC57-4E16-810E-A4E7F8FC5AAC}" }
+
+# Sage subpages recreated from sage.com (reuse existing components; Default=Sage baked)
+demoPages_sage:
+  parentHome: "{E2124310-F817-4644-8671-BFF8E72B66D7}"
+  template: "{CEBD0936-6B37-42B5-B169-369BB1C3C06A}"  # Page
+  pages:
+    - { name: "Sage Accounting", slug: "/sage-accounting", pageId: "{FFC01230-90A9-47C2-803E-280BBC590129}", components: 9 }
+    - { name: "Accountants",     slug: "/accountants",     pageId: "{1E3A8CC5-6B63-4172-A9F1-907E83ED3AD4}", components: 13 }
+    - { name: "Pricing",         slug: "/pricing",         pageId: "{2A69D96D-496E-4BFA-B573-B4C2E718005C}", components: 8 }
+    - { name: "Making Tax Digital", slug: "/making-tax-digital", pageId: "{1B374497-14A4-4D92-8D42-2D6344795919}", components: 9 }
+  notes:
+    - "Each page: real extracted content (text/link/rich) + assembled + wired via MCP. AnnouncementBar/Nav/Footer come from partials (global). Comparison matrix omitted (no component)."
+    - "Default->Sage baked across all used components, so pages render the Sage look automatically (no variant selection)."
+    - "IMAGES DEFERRED for all 4 pages — images downloaded to docs/ai/demos/<slug>/images, not yet uploaded/wired."
+    - "Nav re-pointed: MTD + Accountants nav links + homepage Sage Accounting card -> internal pages."

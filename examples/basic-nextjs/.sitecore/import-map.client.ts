@@ -9,7 +9,7 @@ import {
 // end of built-in imports
 
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
-import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
+import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import React from 'react';
 import { NextImage, RichText, Text, Link, useSitecore, DateField, CdpHelper, withDatasourceCheck } from '@sitecore-content-sdk/nextjs';
 import { cn } from '@/lib/utils';
@@ -66,9 +66,9 @@ const importMap = [
   {
     module: 'react',
     exports: [
+      { name: 'useEffect', value: useEffect },
       { name: 'useState', value: useState },
       { name: 'useCallback', value: useCallback },
-      { name: 'useEffect', value: useEffect },
       { name: 'useRef', value: useRef },
       { name: 'useMemo', value: useMemo },
       { name: 'default', value: React },

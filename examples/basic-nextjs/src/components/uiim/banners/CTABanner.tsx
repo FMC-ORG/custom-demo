@@ -55,9 +55,9 @@ const SecondaryButton = ({ field, isEditing }: { field: LinkField; isEditing?: b
 };
 
 /* ────────────────────────────────────────────
-   Default — centered, --brand-primary background
+   Sage — centered CTA band on a vivid brand gradient
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+export const Sage = ({ fields, params, page }: CTABannerProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <CTABannerDefaultComponent />;
@@ -65,10 +65,11 @@ export const Default = ({ fields, params, page }: CTABannerProps): JSX.Element =
   return (
     <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
       <section
-        className="w-full px-4 py-16 md:py-24"
+        className="w-full px-4 py-16 md:py-20"
         style={{
-          backgroundColor: 'var(--brand-primary)',
-          color: 'var(--brand-primary-foreground)',
+          background:
+            'linear-gradient(90deg, var(--brand-primary), #2563EB 60%, #7C3AED)',
+          color: 'var(--brand-primary-foreground, #000)',
         }}
       >
         <div className="mx-auto max-w-3xl text-center">
@@ -76,28 +77,41 @@ export const Default = ({ fields, params, page }: CTABannerProps): JSX.Element =
             <Text
               field={fields.Title}
               tag="h2"
-              className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+              className="text-4xl font-black tracking-tight sm:text-5xl font-[var(--brand-heading-font,Poppins,inherit)]"
             />
           )}
           {(fields.Description?.value || isEditing) && (
             <ContentSdkRichText
               field={fields.Description}
-              className="mt-4 text-lg opacity-90 font-[var(--brand-body-font,inherit)]"
+              className="mt-4 text-lg font-medium opacity-95 font-[var(--brand-body-font,Inter,inherit)]"
             />
           )}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <PrimaryButton
-              field={fields.PrimaryLink}
-              isEditing={isEditing}
-              className="bg-[var(--brand-primary-foreground)] text-[var(--brand-primary)]"
-            />
-            <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="inline-flex items-center justify-center px-7 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 rounded-[var(--brand-button-radius,9999px)]"
+                style={{ backgroundColor: '#0A0A0A' }}
+              />
+            )}
+            {(fields.SecondaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.SecondaryLink}
+                className="inline-flex items-center justify-center px-7 py-3 text-sm font-semibold border-2 border-current bg-transparent transition-opacity hover:opacity-70 rounded-[var(--brand-button-radius,9999px)]"
+                style={{ color: 'var(--brand-primary-foreground, #000)' }}
+              />
+            )}
           </div>
         </div>
       </section>
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Default — baked to Sage look-and-feel
+   ──────────────────────────────────────────── */
+export const Default = (props: CTABannerProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    WithImage — full-bleed background with overlay

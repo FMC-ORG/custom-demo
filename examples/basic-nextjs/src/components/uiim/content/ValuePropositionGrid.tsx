@@ -72,9 +72,9 @@ const SectionHeader = ({
 );
 
 /* ────────────────────────────────────────────
-   Default — 3-column grid, icons above text, centered
+   Sage — dark Sage look-and-feel, responsive grid (3/4/6 items)
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: ValuePropositionGridProps): JSX.Element => {
+export const Sage = ({ fields, params, page }: ValuePropositionGridProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const datasource = fields?.data?.datasource;
@@ -84,41 +84,82 @@ export const Default = ({ fields, params, page }: ValuePropositionGridProps): JS
   return (
     <div className={cn('component value-proposition-grid', styles)} id={RenderingIdentifier}>
       <section
-        className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+        className="w-full px-4 py-16"
+        style={{ backgroundColor: 'var(--brand-bg)', color: 'var(--brand-fg)' }}
       >
         <div className="mx-auto max-w-7xl">
-          <SectionHeader datasource={datasource} isEditing={isEditing} />
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="mx-auto mb-12 max-w-3xl text-center">
+            {(datasource.title?.jsonValue?.value || isEditing) && (
+              <Text
+                field={datasource.title?.jsonValue}
+                tag="h2"
+                className="text-3xl font-black tracking-tight sm:text-4xl"
+                style={{
+                  color: 'var(--brand-fg)',
+                  fontFamily: 'var(--brand-heading-font)',
+                  fontWeight: 900,
+                }}
+              />
+            )}
+            {(datasource.description?.jsonValue?.value || isEditing) && (
+              <ContentSdkRichText
+                field={datasource.description?.jsonValue}
+                className="mt-4 text-lg"
+                style={{
+                  color: 'var(--brand-muted-foreground)',
+                  fontFamily: 'var(--brand-body-font)',
+                }}
+              />
+            )}
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {items.map((item) => (
-              <div key={item.id} className="flex flex-col items-center text-center">
-                {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
-                  <div className="mb-4 h-16 w-16 overflow-hidden">
+              <div
+                key={item.id}
+                className="flex flex-col p-6"
+                style={{
+                  backgroundColor: 'var(--brand-muted)',
+                  borderRadius: 'var(--brand-card-radius)',
+                }}
+              >
+                {item.itemIcon?.jsonValue?.value?.src || isEditing ? (
+                  <div className="mb-4 h-12 w-12 overflow-hidden">
                     <ContentSdkImage
                       field={item.itemIcon?.jsonValue}
                       className="h-full w-full object-contain"
                     />
                   </div>
+                ) : (
+                  <div
+                    className="mb-4 h-1 w-10 rounded-full"
+                    style={{ backgroundColor: 'var(--brand-primary)' }}
+                  />
                 )}
                 {(item.itemTitle?.jsonValue?.value || isEditing) && (
                   <Text
                     field={item.itemTitle?.jsonValue}
                     tag="h3"
-                    className="text-xl font-semibold font-[var(--brand-heading-font,inherit)]"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
+                    className="text-lg font-bold"
+                    style={{
+                      color: 'var(--brand-fg)',
+                      fontFamily: 'var(--brand-heading-font)',
+                    }}
                   />
                 )}
                 {(item.itemDescription?.jsonValue?.value || isEditing) && (
                   <ContentSdkRichText
                     field={item.itemDescription?.jsonValue}
-                    className="mt-2 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
+                    className="mt-2 text-sm"
+                    style={{
+                      color: 'var(--brand-muted-foreground)',
+                      fontFamily: 'var(--brand-body-font)',
+                    }}
                   />
                 )}
                 {(item.itemLink?.jsonValue?.value?.href || isEditing) && (
                   <ContentSdkLink
                     field={item.itemLink?.jsonValue}
-                    className="mt-3 text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
+                    className="mt-3 inline-block text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
                     style={{ color: 'var(--brand-primary)' }}
                   />
                 )}
@@ -130,6 +171,11 @@ export const Default = ({ fields, params, page }: ValuePropositionGridProps): JS
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Default — baked to Sage look-and-feel
+   ──────────────────────────────────────────── */
+export const Default = (props: ValuePropositionGridProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    TwoColumn — 2 items side by side, larger

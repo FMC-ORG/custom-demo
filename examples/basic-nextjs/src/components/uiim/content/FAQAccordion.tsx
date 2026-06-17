@@ -1,4 +1,6 @@
-import React, { JSX } from 'react';
+'use client';
+
+import React, { JSX, useState } from 'react';
 import {
   Field,
   RichText as ContentSdkRichText,
@@ -109,36 +111,104 @@ const AccordionItem = ({
 );
 
 /* ────────────────────────────────────────────
-   Default — standard accordion, one item open at a time
+   Sage — dark look-and-feel, one item open at a time (controlled state)
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: FAQAccordionProps): JSX.Element => {
+export const Sage = ({ fields, params, page }: FAQAccordionProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const datasource = fields?.data?.datasource;
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
   if (!datasource) return <FAQAccordionDefaultComponent />;
   const items = datasource.children?.results || [];
 
   return (
     <div className={cn('component faq-accordion', styles)} id={RenderingIdentifier}>
       <section
-        className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+        className="w-full px-4 py-16"
+        style={{
+          backgroundColor: 'var(--brand-bg, #0a0a0a)',
+          color: 'var(--brand-fg, #ffffff)',
+        }}
       >
         <div className="mx-auto max-w-3xl">
-          <SectionHeader datasource={datasource} isEditing={isEditing} />
-          <div
-            className="border-t"
-            style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}
-          >
-            {items.map((item) => (
-              <AccordionItem key={item.id} item={item} isEditing={isEditing} />
-            ))}
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            {(datasource.title?.jsonValue?.value || isEditing) && (
+              <Text
+                field={datasource.title?.jsonValue}
+                tag="h2"
+                className="text-3xl font-black tracking-tight sm:text-4xl font-[var(--brand-heading-font,Poppins,inherit)]"
+                style={{ color: 'var(--brand-fg, #ffffff)' }}
+              />
+            )}
+            {(datasource.description?.jsonValue?.value || isEditing) && (
+              <ContentSdkRichText
+                field={datasource.description?.jsonValue}
+                className="mt-4 text-lg font-[var(--brand-body-font,Inter,inherit)]"
+                style={{ color: 'var(--brand-muted-foreground, #a1a1aa)' }}
+              />
+            )}
+          </div>
+          <div>
+            {items.map((item, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <div
+                  key={item.id}
+                  className="border-b"
+                  style={{ borderColor: 'var(--brand-border, #27272a)' }}
+                >
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    onClick={() => setOpenIndex(isOpen ? null : index)}
+                    className="flex w-full cursor-pointer items-center justify-between py-4 text-left font-medium transition-colors hover:opacity-80 font-[var(--brand-heading-font,Poppins,inherit)]"
+                    style={{ color: 'var(--brand-fg, #ffffff)' }}
+                  >
+                    {(item.question?.jsonValue?.value || isEditing) && (
+                      <Text
+                        field={item.question?.jsonValue}
+                        tag="span"
+                        className="flex-1 pr-4"
+                      />
+                    )}
+                    <svg
+                      className={cn(
+                        'h-5 w-5 shrink-0 transition-transform duration-200',
+                        isOpen && 'rotate-180'
+                      )}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="var(--brand-primary, #00D639)"
+                      strokeWidth="2"
+                    >
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </button>
+                  {(isOpen || isEditing) && (
+                    <div className="pb-4">
+                      {(item.answer?.jsonValue?.value || isEditing) && (
+                        <ContentSdkRichText
+                          field={item.answer?.jsonValue}
+                          className="text-sm font-[var(--brand-body-font,Inter,inherit)]"
+                          style={{ color: 'var(--brand-muted-foreground, #a1a1aa)' }}
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Default — baked to Sage look-and-feel
+   ──────────────────────────────────────────── */
+export const Default = (props: FAQAccordionProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    AllOpen — all items expanded by default

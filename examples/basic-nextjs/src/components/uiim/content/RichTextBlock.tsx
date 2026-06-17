@@ -25,9 +25,9 @@ const RichTextBlockDefaultComponent = (): JSX.Element => (
 );
 
 /* ────────────────────────────────────────────
-   Default — left-aligned, full container width
+   Sage — dark, constrained long-form column with green links
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: RichTextBlockProps): JSX.Element => {
+export const Sage = ({ fields, params, page }: RichTextBlockProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <RichTextBlockDefaultComponent />;
@@ -36,22 +36,22 @@ export const Default = ({ fields, params, page }: RichTextBlockProps): JSX.Eleme
     <div className={cn('component rich-text-block', styles)} id={RenderingIdentifier}>
       <section
         className="w-full px-4 py-12 md:py-16"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+        style={{ backgroundColor: 'var(--brand-bg, #0a0a0a)' }}
       >
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-3xl">
           {(fields.Title?.value || isEditing) && (
             <Text
               field={fields.Title}
               tag="h2"
-              className="mb-6 text-2xl font-bold md:text-3xl font-[var(--brand-heading-font,inherit)]"
-              style={{ color: 'var(--brand-fg, #111111)' }}
+              className="mb-6 text-3xl font-black md:text-4xl font-[family-name:var(--brand-heading-font,Poppins)]"
+              style={{ color: 'var(--brand-fg, #ffffff)' }}
             />
           )}
           {(fields.Body?.value || isEditing) && (
             <ContentSdkRichText
               field={fields.Body}
-              className="prose prose-neutral max-w-none font-[var(--brand-body-font,inherit)]"
-              style={{ color: 'var(--brand-fg, #111111)' }}
+              className="prose prose-invert max-w-none font-[family-name:var(--brand-body-font,Inter)] prose-a:[color:var(--brand-primary)] prose-headings:[font-family:var(--brand-heading-font)]"
+              style={{ color: 'var(--brand-fg, #ffffff)' }}
             />
           )}
         </div>
@@ -59,6 +59,11 @@ export const Default = ({ fields, params, page }: RichTextBlockProps): JSX.Eleme
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Default — baked to Sage look-and-feel
+   ──────────────────────────────────────────── */
+export const Default = (props: RichTextBlockProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    Centered — centered text

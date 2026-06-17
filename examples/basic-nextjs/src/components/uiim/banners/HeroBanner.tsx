@@ -68,46 +68,9 @@ const SecondaryButton = ({
 };
 
 /* ────────────────────────────────────────────
-   Default — centered text on colored background
+   Default — delegates to the Sage variant
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
-  const { styles, RenderingIdentifier } = params;
-  const isEditing = page?.mode?.isEditing;
-
-  if (!fields) return <HeroBannerDefaultComponent />;
-
-  return (
-    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
-      <section
-        className="flex min-h-[80vh] w-full items-center justify-center px-4 py-20 text-center"
-        style={{
-          backgroundColor: 'var(--brand-header-bg, #1a1a2e)',
-          color: 'var(--brand-header-fg, #ffffff)',
-        }}
-      >
-        <div className="mx-auto max-w-4xl space-y-6">
-          {(fields.Title?.value || isEditing) && (
-            <Text
-              field={fields.Title}
-              tag="h1"
-              className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
-            />
-          )}
-          {(fields.Subtitle?.value || isEditing) && (
-            <ContentSdkRichText
-              field={fields.Subtitle}
-              className="mx-auto max-w-2xl text-lg opacity-90"
-            />
-          )}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <PrimaryButton field={fields.PrimaryLink} isEditing={isEditing} />
-            <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-};
+export const Default = (props: HeroBannerProps): JSX.Element => <Sage {...props} />;
 
 /* Sage variant — LEFT-aligned 2-column dark hero with radial green glow.
    Left: eyebrow chrome pill + huge Poppins headline + subtitle + ghost SecondaryLink.

@@ -112,64 +112,9 @@ const CardButton = ({ field, isEditing }: { field: LinkField; isEditing?: boolea
 };
 
 /* ────────────────────────────────────────────
-   Default — vertical card grid
+   Default — delegates to the Sage variant
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: ProductPricingCardsProps): JSX.Element => {
-  const { styles, RenderingIdentifier } = params;
-  const isEditing = page?.mode?.isEditing;
-  const datasource = fields?.data?.datasource;
-  if (!datasource) return <ProductPricingCardsDefaultComponent />;
-  const cards = datasource.children?.results || [];
-
-  return (
-    <div className={cn('component product-pricing-cards', styles)} id={RenderingIdentifier}>
-      <section className="w-full px-4 py-16" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
-        <div className="mx-auto max-w-7xl">
-          <SectionHeader datasource={datasource} isEditing={isEditing} />
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {cards.map((card) => (
-              <div
-                key={card.id}
-                className="flex flex-col overflow-hidden shadow-sm rounded-[var(--brand-card-radius,0.75rem)]"
-                style={{
-                  backgroundColor: 'var(--brand-bg, #ffffff)',
-                  border: '1px solid var(--brand-border, #e5e7eb)',
-                }}
-              >
-                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage
-                    field={card.cardImage?.jsonValue}
-                    className="h-48 w-full object-cover"
-                  />
-                )}
-                <div className="flex flex-1 flex-col p-6">
-                  <Badge field={card.badgeText?.jsonValue} isEditing={isEditing} />
-                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
-                    <Text
-                      field={card.cardTitle?.jsonValue}
-                      tag="h3"
-                      className="text-xl font-bold font-[var(--brand-heading-font,inherit)]"
-                      style={{ color: 'var(--brand-fg, #111111)' }}
-                    />
-                  )}
-                  <Price field={card.priceText?.jsonValue} isEditing={isEditing} />
-                  {(card.cardDescription?.jsonValue?.value || isEditing) && (
-                    <ContentSdkRichText
-                      field={card.cardDescription?.jsonValue}
-                      className="mt-3 flex-1 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
-                      style={{ color: 'var(--brand-fg, #111111)' }}
-                    />
-                  )}
-                  <CardButton field={card.cardLink?.jsonValue} isEditing={isEditing} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-};
+export const Default = (props: ProductPricingCardsProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    Horizontal — wide cards stacked vertically

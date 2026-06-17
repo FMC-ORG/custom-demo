@@ -76,57 +76,9 @@ const SectionHeader = ({
 };
 
 /* ────────────────────────────────────────────
-   Default — big centered numbers, 4-column grid
+   Default — delegates to the Sage variant
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: TrustStatsRowProps): JSX.Element => {
-  const { styles, RenderingIdentifier } = params;
-  const isEditing = page?.mode?.isEditing;
-  const datasource = fields?.data?.datasource;
-  if (!datasource) return <TrustStatsRowDefaultComponent />;
-  const items = datasource.children?.results || [];
-
-  return (
-    <div className={cn('component trust-stats-row', styles)} id={RenderingIdentifier}>
-      <section
-        className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
-      >
-        <div className="mx-auto max-w-7xl">
-          <SectionHeader datasource={datasource} isEditing={isEditing} />
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {items.map((item) => (
-              <div key={item.id} className="text-center">
-                {(item.statValue?.jsonValue?.value || isEditing) && (
-                  <Text
-                    field={item.statValue?.jsonValue}
-                    tag="p"
-                    className="text-4xl font-bold md:text-5xl font-[var(--brand-heading-font,inherit)]"
-                    style={{ color: 'var(--brand-primary)' }}
-                  />
-                )}
-                {(item.statLabel?.jsonValue?.value || isEditing) && (
-                  <Text
-                    field={item.statLabel?.jsonValue}
-                    tag="p"
-                    className="mt-2 text-sm font-medium font-[var(--brand-body-font,inherit)]"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
-                  />
-                )}
-                {(item.statDescription?.jsonValue?.value || isEditing) && (
-                  <ContentSdkRichText
-                    field={item.statDescription?.jsonValue}
-                    className="mt-1 text-xs opacity-60 font-[var(--brand-body-font,inherit)]"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-};
+export const Default = (props: TrustStatsRowProps): JSX.Element => <Sage {...props} />;
 
 /* Sage variant */
 /* ────────────────────────────────────────────

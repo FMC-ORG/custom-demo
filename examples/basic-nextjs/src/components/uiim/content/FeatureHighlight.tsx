@@ -59,54 +59,9 @@ const CtaButton = ({ field, isEditing }: { field: LinkField; isEditing?: boolean
 };
 
 /* ────────────────────────────────────────────
-   Default — image right, text left (alternates via CSS)
+   Default — delegates to the Sage variant
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
-  const { styles, RenderingIdentifier } = params;
-  const isEditing = page?.mode?.isEditing;
-  if (!fields) return <FeatureHighlightDefaultComponent />;
-
-  return (
-    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
-      <section
-        className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
-      >
-        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:px-6 even:[&]:direction-rtl even:[&>*]:direction-ltr">
-          <div>
-            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
-            {(fields.Title?.value || isEditing) && (
-              <Text
-                field={fields.Title}
-                tag="h2"
-                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
-                style={{ color: 'var(--brand-fg, #111111)' }}
-              />
-            )}
-            {(fields.Description?.value || isEditing) && (
-              <ContentSdkRichText
-                field={fields.Description}
-                className="mt-4 text-base opacity-70 font-[var(--brand-body-font,inherit)]"
-                style={{ color: 'var(--brand-fg, #111111)' }}
-              />
-            )}
-            <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
-          </div>
-          <div className="relative h-full min-h-[400px] overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
-            {(fields.FeatureImage?.value?.src || isEditing) && (
-              <SmartMedia
-                field={fields.FeatureImage}
-                fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-cover"
-              />
-            )}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-};
+export const Default = (props: FeatureHighlightProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    Centered — centered text above, image below

@@ -74,71 +74,9 @@ const SectionHeader = ({
 );
 
 /* ────────────────────────────────────────────
-   Default — 3-column grid, icon top
+   Default — delegates to the Sage variant
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
-  const { styles, RenderingIdentifier } = params;
-  const isEditing = page?.mode?.isEditing;
-  const datasource = fields?.data?.datasource;
-  if (!datasource) return <FeatureCardsGridDefaultComponent />;
-  const cards = datasource.children?.results || [];
-
-  return (
-    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
-      <section
-        className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
-      >
-        <div className="mx-auto max-w-7xl">
-          <SectionHeader datasource={datasource} isEditing={isEditing} />
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {cards.map((card) => (
-              <div
-                key={card.id}
-                className="flex flex-col p-6 rounded-[var(--brand-card-radius,0.75rem)]"
-                style={{
-                  backgroundColor: 'var(--brand-bg, #ffffff)',
-                  border: '1px solid var(--brand-border, #e5e7eb)',
-                }}
-              >
-                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
-                  <div className="mb-4 h-12 w-12 overflow-hidden">
-                    <ContentSdkImage
-                      field={card.cardImage?.jsonValue}
-                      className="h-full w-full object-contain"
-                    />
-                  </div>
-                )}
-                {(card.cardTitle?.jsonValue?.value || isEditing) && (
-                  <Text
-                    field={card.cardTitle?.jsonValue}
-                    tag="h3"
-                    className="text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
-                  />
-                )}
-                {(card.cardDescription?.jsonValue?.value || isEditing) && (
-                  <ContentSdkRichText
-                    field={card.cardDescription?.jsonValue}
-                    className="mt-2 flex-1 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
-                  />
-                )}
-                {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
-                  <ContentSdkLink
-                    field={card.cardLink?.jsonValue}
-                    className="mt-4 inline-flex text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
-                    style={{ color: 'var(--brand-primary)' }}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-};
+export const Default = (props: FeatureCardsGridProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    TwoColumn — 2 wider cards

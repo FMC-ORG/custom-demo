@@ -101,59 +101,9 @@ const AuthorAttribution = ({
 );
 
 /* ────────────────────────────────────────────
-   Default — single large centered quote (first child)
+   Default — delegates to the Sage variant
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {
-  const { styles, RenderingIdentifier } = params;
-  const isEditing = page?.mode?.isEditing;
-  const datasource = fields?.data?.datasource;
-  if (!datasource) return <TestimonialBlockDefaultComponent />;
-  const items = datasource.children?.results || [];
-  const item = items[0];
-
-  return (
-    <div className={cn('component testimonial-block', styles)} id={RenderingIdentifier}>
-      <section
-        className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
-      >
-        <div className="mx-auto max-w-3xl text-center">
-          {(datasource.sectionTitle?.jsonValue?.value || isEditing) && (
-            <Text
-              field={datasource.sectionTitle?.jsonValue}
-              tag="h2"
-              className="mb-8 text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
-              style={{ color: 'var(--brand-fg, #111111)' }}
-            />
-          )}
-          {item && (
-            <>
-              <QuoteMark />
-              {(item.quoteText?.jsonValue?.value || isEditing) && (
-                <ContentSdkRichText
-                  field={item.quoteText?.jsonValue}
-                  className="mt-2 text-lg italic md:text-xl font-[var(--brand-body-font,inherit)]"
-                  style={{ color: 'var(--brand-fg, #111111)' }}
-                />
-              )}
-              <div className="mt-6 flex justify-center">
-                <AuthorAttribution item={item} isEditing={isEditing} />
-              </div>
-              {(item.companyLogo?.jsonValue?.value?.src || isEditing) && (
-                <div className="mt-4 flex justify-center">
-                  <ContentSdkImage
-                    field={item.companyLogo?.jsonValue}
-                    className="h-8 max-w-[120px] object-contain opacity-60"
-                  />
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      </section>
-    </div>
-  );
-};
+export const Default = (props: TestimonialBlockProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    Carousel — horizontal scrollable container

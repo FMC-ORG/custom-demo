@@ -83,40 +83,9 @@ const LogoWrapper = ({
 };
 
 /* ────────────────────────────────────────────
-   Default — horizontal row, grayscale with hover color
+   Default — delegates to the Sage variant
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: LogoCloudProps): JSX.Element => {
-  const { styles, RenderingIdentifier } = params;
-  const isEditing = page?.mode?.isEditing;
-  const datasource = fields?.data?.datasource;
-  if (!datasource) return <LogoCloudDefaultComponent />;
-  const items = datasource.children?.results || [];
-
-  return (
-    <div className={cn('component logo-cloud', styles)} id={RenderingIdentifier}>
-      <section
-        className="w-full px-4 py-12 md:py-16"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
-      >
-        <div className="mx-auto max-w-7xl">
-          <SectionTitle datasource={datasource} isEditing={isEditing} />
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-            {items.map((item) => (
-              <LogoWrapper key={item.id} item={item} isEditing={isEditing}>
-                {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
-                  <ContentSdkImage
-                    field={item.logoImage?.jsonValue}
-                    className="h-10 max-w-[140px] object-contain opacity-60 grayscale transition-all hover:opacity-100 hover:grayscale-0"
-                  />
-                )}
-              </LogoWrapper>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-};
+export const Default = (props: LogoCloudProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    Grid — multi-row grid for many logos

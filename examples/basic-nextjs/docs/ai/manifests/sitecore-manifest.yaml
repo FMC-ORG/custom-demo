@@ -3109,3 +3109,11 @@ demoVariants_sage_landing:
     - { component: "LandingSocialProof",  container: "{1077B0D2-420D-48E4-ADA2-853C6C0E880A}", sageVariantId: "{DEC45F99-2729-43F9-95A8-5220CD276DB5}" }
     - { component: "LandingFAQ",          container: "{4FC4C30A-8A86-43CD-AFF9-4D6C53CB0594}", sageVariantId: "{5F27795E-F2F0-47E2-8845-3368A884CACB}" }
     - { component: "LandingFinalCTA",     container: "{C27474AD-EC5C-421E-AAAE-1DE43C9FC0D4}", sageVariantId: "{477C6EFC-6399-4479-8196-8B29527832EF}" }
+
+# Sage article-page variants (Sage look&feel; Default delegates to Sage in each TSX; context-only)
+demoVariants_sage_article:
+  variantDefinitionTemplate: "{4D50CDAE-C2D9-4DE8-B080-8F992BFB1B55}"
+  approach: "export const Sage per component + Default delegates to Sage; other variants (Minimal/SplitImage, WithSidebar/Wide) untouched"
+  variants:
+    - { component: "ArticleHero", container: "{9894746A-F336-4856-BD1F-C1663374703C}", sageVariantId: "{15E55EF5-90A7-4CDF-9F37-7C461B1A92A4}" }
+    - { component: "ArticleBody", container: "{2E05330B-E438-4006-9096-165A2C36E425}", sageVariantId: "{902DA306-FC57-4E16-810E-A4E7F8FC5AAC}" }

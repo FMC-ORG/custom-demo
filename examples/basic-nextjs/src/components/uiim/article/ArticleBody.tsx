@@ -116,9 +116,109 @@ function AuthorBio({
 }
 
 /* ────────────────────────────────────────────
-   Default — narrow centered column, takeaways above, bio below
+   Sage — dark long-form reading, constrained column, brand-themed prose
    ──────────────────────────────────────────── */
-export const Default = ({ params, page }: ComponentProps): JSX.Element => {
+function SageKeyTakeaways({
+  field,
+  isEditing,
+}: {
+  field?: RichTextField;
+  isEditing?: boolean;
+}) {
+  if (!field?.value && !isEditing) return null;
+
+  return (
+    <aside
+      className="mb-10 rounded-lg border-l-4 p-6"
+      style={{
+        borderColor: 'var(--brand-primary)',
+        backgroundColor: 'var(--brand-muted)',
+      }}
+      data-testid="key-takeaways"
+    >
+      <h2
+        className="mb-3 text-lg font-semibold"
+        style={{ color: 'var(--brand-fg)', fontFamily: 'var(--brand-heading-font)' }}
+      >
+        Key Takeaways
+      </h2>
+      <ContentSdkRichText
+        field={field}
+        className="prose prose-invert prose-sm max-w-none [color:var(--brand-muted-foreground)] prose-a:[color:var(--brand-primary)]"
+        style={{ fontFamily: 'var(--brand-body-font)' }}
+      />
+    </aside>
+  );
+}
+
+function SageAuthorBio({
+  author,
+  isEditing,
+}: {
+  author?: PersonReference;
+  isEditing?: boolean;
+}) {
+  if (!author?.fields && !isEditing) return null;
+  const fields = author?.fields;
+
+  return (
+    <div
+      className="mt-12 border-t pt-8"
+      style={{ borderColor: 'var(--brand-border)' }}
+      data-testid="author-bio"
+    >
+      <div className="flex items-start gap-5">
+        {(fields?.personProfileImage?.value?.src || isEditing) && (
+          <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-full">
+            <ContentSdkImage
+              field={fields?.personProfileImage as ImageField}
+              className="h-full w-full object-cover"
+              width={64}
+              height={64}
+            />
+          </div>
+        )}
+        <div className="flex-1">
+          {(fields?.personFirstName?.value || fields?.personLastName?.value || isEditing) && (
+            <p
+              className="text-lg font-semibold"
+              style={{ color: 'var(--brand-fg)', fontFamily: 'var(--brand-heading-font)' }}
+              data-testid="author-bio-name"
+            >
+              {fields?.personFirstName?.value} {fields?.personLastName?.value}
+            </p>
+          )}
+          {(fields?.personJobTitle?.value || isEditing) && (
+            <Text
+              field={fields?.personJobTitle as Field<string>}
+              tag="p"
+              className="text-sm"
+              style={{ color: 'var(--brand-muted-foreground)', fontFamily: 'var(--brand-body-font)' }}
+              data-testid="author-bio-title"
+            />
+          )}
+          {(fields?.personBio?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields?.personBio as RichTextField}
+              className="prose prose-invert prose-sm mt-2 max-w-none [color:var(--brand-muted-foreground)] prose-a:[color:var(--brand-primary)]"
+              style={{ fontFamily: 'var(--brand-body-font)' }}
+              data-testid="author-bio-text"
+            />
+          )}
+          {(fields?.personLinkedIn?.value?.href || isEditing) && (
+            <ContentSdkLink
+              field={fields?.personLinkedIn as LinkField}
+              className="mt-2 inline-block text-sm font-medium [color:var(--brand-primary)]"
+              data-testid="author-bio-linkedin"
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export const Sage = ({ params, page }: ComponentProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const routeFields = getRouteFields(page);
@@ -128,23 +228,46 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
   const { ArticleContent, ArticleKeyTakeaways, ArticleAuthor } = routeFields;
 
   return (
-    <div className={cn('component article-body', styles)} id={RenderingIdentifier}>
-      <article className="mx-auto max-w-3xl px-4 py-12 md:py-16">
-        <KeyTakeaways field={ArticleKeyTakeaways} isEditing={isEditing} />
+    <div
+      className={cn('component article-body', styles)}
+      id={RenderingIdentifier}
+      style={{ backgroundColor: 'var(--brand-bg)', color: 'var(--brand-fg)' }}
+    >
+      <article
+        className="mx-auto max-w-3xl px-4 py-16 md:py-20"
+        style={{ fontFamily: 'var(--brand-body-font)' }}
+      >
+        <SageKeyTakeaways field={ArticleKeyTakeaways} isEditing={isEditing} />
 
         {(ArticleContent?.value || isEditing) && (
           <ContentSdkRichText
             field={ArticleContent}
-            className="prose prose-lg max-w-none"
+            className={cn(
+              'prose prose-invert prose-lg max-w-none',
+              '[color:var(--brand-fg)]',
+              'prose-headings:[color:var(--brand-fg)] prose-headings:[font-family:var(--brand-heading-font)]',
+              'prose-p:[color:var(--brand-fg)]',
+              'prose-a:[color:var(--brand-primary)] prose-a:no-underline hover:prose-a:underline',
+              'prose-strong:[color:var(--brand-fg)]',
+              'prose-blockquote:[border-color:var(--brand-primary)] prose-blockquote:[color:var(--brand-muted-foreground)]',
+              'prose-hr:[border-color:var(--brand-border)]',
+              'prose-figcaption:[color:var(--brand-muted-foreground)]',
+              'prose-code:[color:var(--brand-primary)]'
+            )}
             data-testid="article-content"
           />
         )}
 
-        <AuthorBio author={ArticleAuthor} isEditing={isEditing} />
+        <SageAuthorBio author={ArticleAuthor} isEditing={isEditing} />
       </article>
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Default — delegates to Sage
+   ──────────────────────────────────────────── */
+export const Default = (props: ComponentProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    WithSidebar — body left (~65%), sticky sidebar right

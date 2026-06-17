@@ -125,9 +125,10 @@ function AuthorMeta({
 }
 
 /* ────────────────────────────────────────────
-   Default — full-bleed image with dark overlay, centered title
+   Sage — dark editorial hero, green accent eyebrow, Poppins-900 title,
+   rounded hero image frame. Themed via CSS vars only.
    ──────────────────────────────────────────── */
-export const Default = ({ params, page }: ComponentProps): JSX.Element => {
+export const Sage = ({ params, page }: ComponentProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const routeFields = getRouteFields(page);
@@ -139,69 +140,87 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
 
   return (
     <div className={cn('component article-hero', styles)} id={RenderingIdentifier}>
-      <header className="relative overflow-hidden" data-testid="article-hero-header">
-        {/* Background image with overlay */}
-        <div className="relative min-h-[60vh] bg-gray-900">
+      <header
+        className="relative overflow-hidden"
+        style={{
+          backgroundColor: 'var(--brand-bg, #0a0a0a)',
+          color: 'var(--brand-fg, #fff)',
+        }}
+        data-testid="article-hero-header"
+      >
+        <div className="mx-auto max-w-5xl px-4 py-20 md:py-28">
+          {/* Eyebrow / category accent */}
+          <span
+            className="inline-block rounded-[var(--brand-button-radius,9999px)] px-3 py-1 text-xs font-semibold uppercase tracking-widest"
+            style={{
+              backgroundColor: 'var(--brand-primary, #00D639)',
+              color: 'var(--brand-primary-foreground, #000)',
+            }}
+            data-testid="article-eyebrow"
+          >
+            Article
+          </span>
+
+          {/* Title */}
+          {(title?.value || isEditing) && (
+            <Text
+              field={title}
+              tag="h1"
+              className="mt-6 text-4xl font-[900] leading-tight tracking-tight sm:text-5xl font-[var(--brand-heading-font,inherit)]"
+              data-testid="article-title"
+            />
+          )}
+
+          {/* Metadata row */}
+          <div
+            className="mt-6 flex flex-wrap items-center gap-4 text-sm"
+            style={{ color: 'var(--brand-muted-foreground, #a1a1aa)' }}
+          >
+            <AuthorMeta author={ArticleAuthor} isEditing={isEditing} />
+            {(ArticlePublicationDate?.value || isEditing) && ArticlePublicationDate && (
+              <time data-testid="article-date">
+                <DateField
+                  field={ArticlePublicationDate}
+                  tag="span"
+                  render={(date) =>
+                    new Date(String(date)).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })
+                  }
+                />
+              </time>
+            )}
+            {(ArticleReadTime?.value || isEditing) && ArticleReadTime && (
+              <Text field={ArticleReadTime} tag="span" data-testid="article-read-time" />
+            )}
+          </div>
+
+          {/* Hero image — rounded frame */}
           {(ArticleImage?.value?.src || isEditing) && (
-            <div className="absolute inset-0 opacity-40">
-              <SmartMedia
-                field={ArticleImage}
-                fill
-                sizes="100vw"
-                className="object-cover"
-              />
+            <div
+              className="relative mt-10 aspect-[16/9] overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]"
+              data-testid="article-hero-image"
+            >
+              <ContentSdkImage field={ArticleImage} fill sizes="100vw" className="object-cover" />
             </div>
           )}
 
-          {/* Content overlay */}
-          <div className="relative z-10 flex min-h-[60vh] flex-col items-center justify-center px-4 py-20 text-center text-white">
-            {/* Title */}
-            {(title?.value || isEditing) && (
-              <Text
-                field={title}
-                tag="h1"
-                className="mx-auto max-w-4xl text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
-                data-testid="article-title"
-              />
-            )}
-
-            {/* Metadata row */}
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-sm opacity-90">
-              <AuthorMeta author={ArticleAuthor} isEditing={isEditing} />
-              {(ArticlePublicationDate?.value || isEditing) && ArticlePublicationDate && (
-                <time data-testid="article-date">
-                  <DateField
-                    field={ArticlePublicationDate}
-                    tag="span"
-                    render={(date) =>
-                      new Date(String(date)).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })
-                    }
-                  />
-                </time>
-              )}
-              {(ArticleReadTime?.value || isEditing) && ArticleReadTime && (
-                <Text
-                  field={ArticleReadTime}
-                  tag="span"
-                  data-testid="article-read-time"
-                />
-              )}
-            </div>
-
-            {/* Share buttons */}
-            <div className="mt-8">
-              <ShareButtons />
-            </div>
+          {/* Share buttons */}
+          <div className="mt-8">
+            <ShareButtons />
           </div>
         </div>
       </header>
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Default — delegates to the Sage variant
+   ──────────────────────────────────────────── */
+export const Default = (props: ComponentProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    Minimal — no image, clean background, large title

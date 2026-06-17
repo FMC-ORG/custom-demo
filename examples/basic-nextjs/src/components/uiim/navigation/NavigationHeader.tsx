@@ -190,43 +190,7 @@ const MenuButton = ({ open, onClick }: { open: boolean; onClick: () => void }) =
   </button>
 );
 
-export const Default = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
-  const { styles, RenderingIdentifier } = params;
-  const isEditing = page?.mode?.isEditing;
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const datasource = fields?.data?.datasource;
-  if (!datasource) return <NavigationHeaderDefaultComponent />;
-
-  const links = datasource.children?.results || [];
-  const brandLogo = datasource.brandLogo?.jsonValue;
-
-  return (
-    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
-      <header
-        className="w-full border-b"
-        style={{
-          backgroundColor: 'var(--brand-header-bg, #ffffff)',
-          borderColor: 'var(--brand-border, #e5e7eb)',
-        }}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-          <Logo brandLogo={brandLogo} />
-          <NavLinks items={links} />
-          <div className="flex items-center gap-2">
-            <CtaButton
-              label={datasource.ctaLabel?.jsonValue}
-              link={datasource.ctaLink?.jsonValue}
-              isEditing={isEditing}
-            />
-            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
-          </div>
-        </div>
-        <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
-      </header>
-    </div>
-  );
-};
+export const Default = (props: NavigationHeaderProps): JSX.Element => <Sage {...props} />;
 
 export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
@@ -315,8 +279,11 @@ export const Sage = ({ fields, params, page }: NavigationHeaderProps): JSX.Eleme
   return (
     <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
       <header
-        className="absolute inset-x-0 top-0 z-30 w-full bg-transparent"
-        style={{ color: 'var(--brand-header-fg, #ffffff)' }}
+        className="relative z-30 w-full"
+        style={{
+          backgroundColor: 'var(--brand-header-bg, #000000)',
+          color: 'var(--brand-header-fg, #ffffff)',
+        }}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <Logo brandLogo={brandLogo} />

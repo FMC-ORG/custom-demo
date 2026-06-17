@@ -42,41 +42,7 @@ function getBarStyles(token?: string): { bg: string; text: string } {
   }
 }
 
-export const Default = ({ fields, params, page }: AnnouncementBarProps): JSX.Element => {
-  const { styles, RenderingIdentifier } = params;
-  const isEditing = page?.mode?.isEditing;
-
-  if (!fields) return <AnnouncementBarDefaultComponent />;
-
-  const barStyles = getBarStyles(fields.BackgroundColor?.value);
-
-  return (
-    <div
-      className={cn('component announcement-bar', styles)}
-      id={RenderingIdentifier}
-    >
-      <div
-        className={cn(
-          'w-full py-2 px-4 text-center text-sm',
-          barStyles.bg,
-          barStyles.text
-        )}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-center gap-3">
-          {(fields.Message?.value || isEditing) && (
-            <Text field={fields.Message} tag="span" />
-          )}
-          {(fields.BarLink?.value?.href || isEditing) && (
-            <ContentSdkLink
-              field={fields.BarLink}
-              className="underline font-medium hover:opacity-80 transition-opacity"
-            />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
+export const Default = (props: AnnouncementBarProps): JSX.Element => <Sage {...props} />;
 
 export const Highlight = ({ fields, params, page }: AnnouncementBarProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
@@ -123,8 +89,9 @@ export const Sage = ({ fields, params, page }: AnnouncementBarProps): JSX.Elemen
 
   return (
     <div className={cn('component announcement-bar', styles)} id={RenderingIdentifier}>
+      {/* Fixed bar stays pinned to the top across the whole page scroll */}
       <div
-        className="w-full py-2 px-4 text-center text-xs sm:text-sm font-medium"
+        className="fixed inset-x-0 top-0 z-[60] w-full py-2 px-4 text-center text-xs sm:text-sm font-medium"
         style={{
           background:
             'linear-gradient(90deg, var(--brand-primary), #7C3AED 60%, #2563EB)',
@@ -143,6 +110,8 @@ export const Sage = ({ fields, params, page }: AnnouncementBarProps): JSX.Elemen
           )}
         </div>
       </div>
+      {/* Spacer reserves the fixed bar's height so the nav/content below isn't hidden */}
+      <div aria-hidden="true" className="h-9" />
     </div>
   );
 };

@@ -103,77 +103,9 @@ const Copyright = () => (
 );
 
 /* ────────────────────────────────────────────
-   Default — multi-column layout
+   Default — renders the Sage look
    ──────────────────────────────────────────── */
-export const Default = (props: SiteFooterProps): JSX.Element => {
-  const { params } = props;
-  const { styles, RenderingIdentifier } = params;
-  const brandLogo = getBrandLogo(props);
-
-  if (!params) return <SiteFooterDefaultComponent />;
-
-  return (
-    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
-      <footer
-        className="w-full"
-        style={{
-          backgroundColor: 'var(--brand-footer-bg, #111111)',
-          color: 'var(--brand-footer-fg, #ffffff)',
-        }}
-      >
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
-          <div className="grid gap-8 md:grid-cols-5">
-            {/* Logo + description */}
-            <div className="md:col-span-2 space-y-4">
-              <Logo brandLogo={brandLogo} />
-              <p
-                className="max-w-xs text-sm opacity-60 font-[var(--brand-body-font,inherit)]"
-              >
-                Building the future of digital experiences. Trusted by teams worldwide.
-              </p>
-              <SocialIcons />
-            </div>
-
-            {/* Link columns */}
-            {LINK_COLUMNS.map((col) => (
-              <div key={col.title}>
-                <h3
-                  className="mb-3 text-sm font-semibold uppercase tracking-wider opacity-70 font-[var(--brand-heading-font,inherit)]"
-                >
-                  {col.title}
-                </h3>
-                <ul className="space-y-2">
-                  {col.links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        className="text-sm opacity-60 transition-opacity hover:opacity-100 font-[var(--brand-body-font,inherit)]"
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* Bottom bar */}
-          <div
-            className="mt-10 flex flex-col items-center justify-between gap-4 border-t pt-8 sm:flex-row"
-            style={{ borderColor: 'rgba(255,255,255,0.1)' }}
-          >
-            <Copyright />
-            <div className="flex gap-6 text-sm opacity-50">
-              <a href="#" className="hover:opacity-100 transition-opacity">Privacy Policy</a>
-              <a href="#" className="hover:opacity-100 transition-opacity">Terms of Service</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-};
+export const Default = (props: SiteFooterProps): JSX.Element => <Sage {...props} />;
 
 /* ────────────────────────────────────────────
    Minimal — single row

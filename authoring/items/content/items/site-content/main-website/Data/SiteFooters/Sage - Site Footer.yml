@@ -1,0 +1,27 @@
+﻿---
+ID: "68b1516a-6931-4cc5-814d-27f37ee5890d"
+Parent: "79f4a73c-71d2-4959-8fde-c7d9c8748990"
+Template: "98b34bff-0d74-4798-b2d8-cb52c19f7c92"
+Path: "/sitecore/content/main/main-website/Data/SiteFooters/Sage - Site Footer"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T101848Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "da40aec9-4cb8-4c45-9f8f-0089912dc85f"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T105121Z
+    - ID: "e65848de-74a2-4211-b246-a022b7da6f6e"
+      Hint: BrandLogo
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/95431-section3-img2?v=889bb5f6" dam-id="2_ZmXgvGQwu-kHT6zYUaqA" width="57" height="32" alt="sage logo" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/95431/thumbnail" />

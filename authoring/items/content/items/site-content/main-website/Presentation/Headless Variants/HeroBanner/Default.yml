@@ -3,6 +3,13 @@ ID: "51e32cc6-c761-4e8d-a9eb-03a11d358dc4"
 Parent: "d28d8b6e-3030-4d49-9558-44b7eed789b8"
 Template: "4d50cdae-c2d9-4de8-b080-8f992bfb1b55"
 Path: "/sitecore/content/main/main-website/Presentation/Headless Variants/HeroBanner/Default"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 0
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "e8107268-10c5-4f5a-b962-4f407ca58d6a"
 Languages:
 - Language: en
   Versions:
@@ -21,11 +28,11 @@ Languages:
         sitecore\federico.mujica@sitecore.com
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "97c4b058-3ae3-47d3-8acd-fbcb6c95e96b"
+      Value: "53a2cbdb-922e-4e9d-91da-0181ce3dfff9"
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
         sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260325T121521Z
+      Value: 20260617T110452Z

@@ -1,0 +1,29 @@
+﻿---
+ID: "ba35c3eb-fe85-4964-8a90-4cd1713350a8"
+Parent: "db110483-54c6-478c-b2a9-1bef2dff73fd"
+Template: "18975833-7fd9-4ca6-a4dc-d01cd3454d4b"
+Path: "/sitecore/content/main/main-website/Data/ValuePropositionGrids/MTD - ValuePropositionGrid/End of Year Return"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170756Z
+    - ID: "26ad50f0-0c17-4313-b9ca-58fb93ce4b30"
+      Hint: ItemTitle
+      Value: End of year return
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "107a1469-2757-4c69-a1f8-f74265093487"
+    - ID: "bab8dbd7-750d-473a-bf6a-e719cf812dd5"
+      Hint: ItemDescription
+      Value: "<p>You still finalise and submit the year-end return and pay tax by 31st January, but up-to-date estimates mean fewer surprises.</p>"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170756Z

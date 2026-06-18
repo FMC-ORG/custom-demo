@@ -1,0 +1,26 @@
+﻿---
+ID: "df6998c9-7b13-42cd-9139-bbce5e71a78e"
+Parent: "6dca6c95-232d-4413-abd7-b752e0e7505b"
+Template: "980cb544-bd26-4866-83bb-6dbeb9156558"
+Path: "/sitecore/content/main/main-website/Home/Pricing/Data/PricingCTABanner1"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T171113Z
+    - ID: "5df404ee-3194-414a-844d-689d3b47355c"
+      Hint: Title
+      Value: PricingCTABanner1
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "78cdd6eb-6f28-47ee-bb63-9d71924417b0"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T171113Z

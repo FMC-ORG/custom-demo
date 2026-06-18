@@ -1,0 +1,29 @@
+﻿---
+ID: "bc520fc0-e8cb-49ac-ac5d-c6aa8db7bd3e"
+Parent: "b5c8aa4c-5b7d-4008-8945-68f7d909134f"
+Template: "31c6bc75-a564-4e78-a887-7c664c3f284b"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Pricing - Plan Cards"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170808Z
+    - ID: "6d5da2e7-7c5b-4ced-82a4-22e2700d2d9c"
+      Hint: Description
+      Value: "<p>Upgrade or cancel at any time. No long-term contracts, commitments or hidden fees.</p>"
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "22835067-8ed4-4eee-ace7-4251bfcab49d"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170808Z
+    - ID: "e5346dc2-75c7-4050-8894-e2a6613ec298"
+      Hint: Title
+      Value: Only Sage includes an AI productivity assistant in every plan

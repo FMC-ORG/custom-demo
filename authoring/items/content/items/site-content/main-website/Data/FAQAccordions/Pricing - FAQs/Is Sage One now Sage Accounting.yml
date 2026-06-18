@@ -1,0 +1,26 @@
+﻿---
+ID: "93920ed5-784a-4968-92e9-d1fe50417c3f"
+Parent: "718fad3d-235f-45c0-9529-7aa298c419ab"
+Template: "73df51e6-e92d-4742-9e0a-74d2ca36ef7f"
+Path: "/sitecore/content/main/main-website/Data/FAQAccordions/Pricing - FAQs/Is Sage One now Sage Accounting"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "216901f9-a9fa-439a-a5b1-3f5651c67540"
+      Hint: Question
+      Value: "Is Sage One now Sage Accounting?"
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170845Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "a8e80470-bdca-4458-9cae-541a31a76bb6"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170845Z

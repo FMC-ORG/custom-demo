@@ -1,0 +1,42 @@
+﻿---
+ID: "74c88a86-9430-4e69-b519-888df2f078df"
+Parent: "12addcd8-e549-4cec-b7f4-df41db9f8b75"
+Template: "29792b9c-9b29-4d8f-bf71-02084ee8102a"
+Path: "/sitecore/content/main/main-website/Data/TestimonialBlocks/Sage - Testimonial Block/Sage - Testimonial Gaynor Bailey"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "14fe8ffd-a7db-46ef-a31f-14309c0d970e"
+      Hint: AuthorName
+      Value: Gaynor Bailey
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T102106Z
+    - ID: "4ee60288-ad54-4ee4-8ca6-c916eb588150"
+      Hint: AuthorImage
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/95681-section4-img28?v=f00ff5e1" dam-id="9vnj2J60QW6mKWFZHqdptw" width="690" height="640" alt="Gaynor Bailey, Channel 4" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/95681/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "ae62442f-ceec-41e6-b68d-c728ae02e36e"
+    - ID: "b715a759-a2b0-471e-8188-26caa0f276ca"
+      Hint: VideoUrl
+      Value: "https://www.youtube.com/watch?v=ZK-rNEhJIDs"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "bc655a9b-c6dc-4241-9e83-374c9a3cfa01"
+      Hint: AuthorRole
+      Value: HR Programme and Operations Manager
+    - ID: "d7e57a36-0c14-4b8a-9d98-68addf7143b5"
+      Hint: QuoteText
+      Value: <p>With Sage People, our heads of department and senior managers can see the information whenever they need to.</p>
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T142130Z
+    - ID: "fd39f4e5-808d-4c62-a792-ced735c576fb"
+      Hint: CompanyName
+      Value: Channel 4

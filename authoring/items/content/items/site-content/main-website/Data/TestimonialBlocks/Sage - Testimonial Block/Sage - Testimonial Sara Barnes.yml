@@ -1,0 +1,42 @@
+﻿---
+ID: "78142ae4-bb69-41bf-a834-413c1b55f40d"
+Parent: "12addcd8-e549-4cec-b7f4-df41db9f8b75"
+Template: "29792b9c-9b29-4d8f-bf71-02084ee8102a"
+Path: "/sitecore/content/main/main-website/Data/TestimonialBlocks/Sage - Testimonial Block/Sage - Testimonial Sara Barnes"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "14fe8ffd-a7db-46ef-a31f-14309c0d970e"
+      Hint: AuthorName
+      Value: Sara Barnes
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T102058Z
+    - ID: "4ee60288-ad54-4ee4-8ca6-c916eb588150"
+      Hint: AuthorImage
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/95663-section4-img26?v=46b0890e" dam-id="Y_ZmP-NXSmm-L7-ohagRQQ" width="690" height="690" alt="Sara Barnes, Who Lets Your Dog Out" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/95663/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "d484bf7d-20a0-4d87-b982-cba9fea4139f"
+    - ID: "b715a759-a2b0-471e-8188-26caa0f276ca"
+      Hint: VideoUrl
+      Value: "https://www.youtube.com/watch?v=ZK-rNEhJIDs"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "bc655a9b-c6dc-4241-9e83-374c9a3cfa01"
+      Hint: AuthorRole
+      Value: Owner
+    - ID: "d7e57a36-0c14-4b8a-9d98-68addf7143b5"
+      Hint: QuoteText
+      Value: <p>Since starting with Sage Payroll I have been able to take on three staff and my income has increased 50%, which means if this continues I'll have to register for VAT this year which is something I never thought I'd need to do.</p>
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T142123Z
+    - ID: "fd39f4e5-808d-4c62-a792-ced735c576fb"
+      Hint: CompanyName
+      Value: Who Lets Your Dog Out

@@ -1,0 +1,29 @@
+﻿---
+ID: "6a681050-4a72-4b0c-bc2c-e8da7f5aa937"
+Parent: "718fad3d-235f-45c0-9529-7aa298c419ab"
+Template: "73df51e6-e92d-4742-9e0a-74d2ca36ef7f"
+Path: "/sitecore/content/main/main-website/Data/FAQAccordions/Pricing - FAQs/What devices"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "216901f9-a9fa-439a-a5b1-3f5651c67540"
+      Hint: Question
+      Value: "What devices can I use to access Sage Accounting?"
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170858Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "5e143c36-0249-4f5f-84f5-6cdc6e197c63"
+    - ID: "acb70819-a9d8-4255-bc4b-36c2ad36ec92"
+      Hint: Answer
+      Value: <p>Sage Accounting works on any device. It also has an app for iOS and Android. Since Sage Accounting is a cloud solution, there's no need to install anything. You can access it directly through your web browser. The mobile version offers a simplified feature set but includes all core functions. Any work done on one device is automatically updated across all devices, so you can switch between them seamlessly or use just one.</p>
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170858Z

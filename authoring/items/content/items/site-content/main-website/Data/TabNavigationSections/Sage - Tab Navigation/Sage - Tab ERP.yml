@@ -1,0 +1,30 @@
+﻿---
+ID: "83aeb6fd-0d81-4136-9794-9d769b9de63a"
+Parent: "2085fb41-7ced-4164-b98b-9de48de37d96"
+Template: "7f966a80-ea45-48bb-af11-a9416836739a"
+Path: "/sitecore/content/main/main-website/Data/TabNavigationSections/Sage - Tab Navigation/Sage - Tab ERP"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T101956Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "b822fc0a-29ce-475d-80c7-c2fe4414398a"
+    - ID: "b7a9024b-7662-4523-be50-8a7c715a0d04"
+      Hint: TabLink
+      Value: |
+        <link text="ERP" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sage.com/en-gb/erp/" />
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d4f0b69c-f14e-465d-b1ea-f0bb4fc6377f"
+      Hint: TabLabel
+      Value: ERP
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T101956Z

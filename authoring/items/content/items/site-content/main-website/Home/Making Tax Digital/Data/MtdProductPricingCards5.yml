@@ -1,0 +1,26 @@
+﻿---
+ID: "608a4662-7eb9-4ef5-a1aa-a2ddb5577e29"
+Parent: "3634b5b4-f048-4c9c-9107-54c3ff51d957"
+Template: "31c6bc75-a564-4e78-a887-7c664c3f284b"
+Path: "/sitecore/content/main/main-website/Home/Making Tax Digital/Data/MtdProductPricingCards5"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170953Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "77a73a3f-953f-45c7-bb9c-913bc549429d"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170953Z
+    - ID: "e5346dc2-75c7-4050-8894-e2a6613ec298"
+      Hint: Title
+      Value: MtdProductPricingCards5

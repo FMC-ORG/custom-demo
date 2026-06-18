@@ -8,6 +8,9 @@ Languages:
   Versions:
   - Version: 1
     Fields:
+    - ID: "001dd393-96c5-490b-924a-b0f25cd9efd8"
+      Hint: __Lock
+      Value: <r />
     - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
       Hint: __Created
       Value: 20260518T200311Z
@@ -27,14 +30,18 @@ Languages:
       Value: Senior Content Strategist
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "a0ec9811-ef39-4a9a-ab3e-f54df445af08"
+      Value: "7afa39fa-c462-448e-a362-f7525ef1d1fe"
     - ID: "93cd7933-7e2d-4423-a9ae-3d745868bcc5"
       Hint: personLastName
       Value: Smith
+    - ID: "b1b2a570-7edf-4bd7-8598-842d735c2e24"
+      Hint: personProfileImage
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/a13e5ec9636c4deb9915e44bbf4711b7?v=83376e3b" dam-id="VRu9CGwYQwe7SVPUaP0Jmw" width="2725" height="3000" alt="Adrienne Gonzalez.jpg" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/62180/thumbnail" />
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
         sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260518T200311Z
+      Value: 20260617T154616Z

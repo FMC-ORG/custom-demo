@@ -1,0 +1,29 @@
+﻿---
+ID: "ebb9db13-29e9-44fa-b388-f8a606228310"
+Parent: "ba887c8c-ad81-4bdf-9f16-a864ce7ac623"
+Template: "73df51e6-e92d-4742-9e0a-74d2ca36ef7f"
+Path: "/sitecore/content/main/main-website/Data/FAQAccordions/MTD - FAQAccordion/How can Sage help me"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "216901f9-a9fa-439a-a5b1-3f5651c67540"
+      Hint: Question
+      Value: "How can Sage help me?"
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170837Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "fc1fdccb-569c-4edc-8c98-9d8be7d4b551"
+    - ID: "acb70819-a9d8-4255-bc4b-36c2ad36ec92"
+      Hint: Answer
+      Value: <p>We're working closely with HMRC and the UK Government to represent UK businesses, with over 40 years' compliance expertise to help accountants, bookkeepers, sole traders, and small business owners meet MTD requirements.</p>
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170837Z

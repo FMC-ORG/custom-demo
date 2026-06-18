@@ -1,0 +1,35 @@
+﻿---
+ID: "cfb0c5f9-3f21-45c1-af7f-09fba4cec392"
+Parent: "e41eed0c-986e-4cda-b5a8-9fc159466dbb"
+Template: "29792b9c-9b29-4d8f-bf71-02084ee8102a"
+Path: "/sitecore/content/main/main-website/Data/TestimonialBlocks/Sage Accounting - TestimonialBlock/David Abrahamovitch"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "14fe8ffd-a7db-46ef-a31f-14309c0d970e"
+      Hint: AuthorName
+      Value: David Abrahamovitch
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170838Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "0226e295-5cb5-4f53-a803-771e90533171"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "bc655a9b-c6dc-4241-9e83-374c9a3cfa01"
+      Hint: AuthorRole
+      Value: Founder
+    - ID: "d7e57a36-0c14-4b8a-9d98-68addf7143b5"
+      Hint: QuoteText
+      Value: <p>“Instead of juggling spreadsheets at midnight, Sage Copilot allows you to easily review your cash flow and invoices.”</p>
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170842Z
+    - ID: "fd39f4e5-808d-4c62-a792-ced735c576fb"
+      Hint: CompanyName
+      Value: Grind Coffee

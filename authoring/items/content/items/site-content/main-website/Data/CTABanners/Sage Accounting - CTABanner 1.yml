@@ -1,0 +1,33 @@
+﻿---
+ID: "064692f1-58f1-4af4-a971-a7b222c2ffb5"
+Parent: "f86be13d-2f5e-4d7e-b2e5-ef4c9637fc4c"
+Template: "980cb544-bd26-4866-83bb-6dbeb9156558"
+Path: "/sitecore/content/main/main-website/Data/CTABanners/Sage Accounting - CTABanner 1"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170931Z
+    - ID: "492f28cd-0465-42ee-b7fe-df452729e9bd"
+      Hint: PrimaryLink
+      Value: |
+        <link text="Explore Sage Payroll" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sage.com/en-gb/sage-business-cloud/payroll/" />
+    - ID: "5a17dd1d-78a3-4c4e-b3f4-74cd24cd1793"
+      Hint: Description
+      Value: <p>If you only need payroll, explore our standalone payroll solution.</p>
+    - ID: "5df404ee-3194-414a-844d-689d3b47355c"
+      Hint: Title
+      Value: "Just need payroll only?"
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "0309ca29-191e-4097-b1c7-85c8b534becd"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170938Z

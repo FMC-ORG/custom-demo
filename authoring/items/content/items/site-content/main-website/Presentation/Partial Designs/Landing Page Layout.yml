@@ -10,7 +10,7 @@ SharedFields:
 - ID: "c7c26117-dbb1-42b2-ab5e-f7223845cca3"
   Hint: __Thumbnail
   Value: |
-    <image mediaid="{3534B14A-CEEB-4834-BEB7-AE765D44DFFB}" />
+    <image mediaid="{1837328B-8936-4CEC-B9CD-0813921BD2AC}" />
 - ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
   Hint: __Shared revision
   Value: "00b02fa2-3ffa-4cf3-9e58-c05fc853352f"
@@ -33,13 +33,13 @@ Languages:
               uid="{5A393DE6-1459-4AE9-AA9F-CAED369E19FA}"
               p:before="*"
               s:id="{C9FFEF83-C928-4346-AA68-14B3EE0B0017}"
-              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7BD1B9E599-F9C5-416F-A204-16F8EBC1E10C%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=1"
+              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7B89E475DE-A961-4AEE-9AA3-407EA58A1D66%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=1"
               s:ph="headless-main" />
             <r
               uid="{F5F36080-E813-417C-9CD0-692BC09572AD}"
               p:after="r[@uid='{5A393DE6-1459-4AE9-AA9F-CAED369E19FA}']"
               s:id="{B92A0B89-790F-4D94-89C7-B361C8688765}"
-              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7B31A214D5-7824-476C-8C63-4FB5F942DD28%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=2"
+              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7BC029494C-B576-43DF-8FDD-1857A085BF7D%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=2"
               s:ph="headless-main" />
             <r
               uid="{3E8B1AB6-7B61-4E18-A352-596E0433AED2}"
@@ -51,19 +51,19 @@ Languages:
               uid="{38BFD646-976F-4E61-AA12-D46FD21C99FA}"
               p:after="r[@uid='{3E8B1AB6-7B61-4E18-A352-596E0433AED2}']"
               s:id="{66E80043-36E4-48AE-8CAF-EEF4A77690BE}"
-              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7B8ED8A4F7-10C3-4867-AC0E-B3F79BECC356%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=4"
+              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7BDEC45F99-2729-43F9-95A8-5220CD276DB5%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=4"
               s:ph="headless-main" />
             <r
               uid="{2E1FD630-45C5-4DA3-AEBA-81E7D947163B}"
               p:after="r[@uid='{38BFD646-976F-4E61-AA12-D46FD21C99FA}']"
               s:id="{5A8724FB-D6E6-4C9D-8A4A-EFD8750B0019}"
-              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7BDCA2DB12-8D54-4AD6-8D43-082683AFA518%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=5"
+              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7B5F27795E-F2F0-47E2-8845-3368A884CACB%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=5"
               s:ph="headless-main" />
             <r
               uid="{8EBE1B06-4CEA-4E12-A786-FAA577CCC476}"
               p:after="*[1=2]"
               s:id="{14FCB11C-364D-4BC2-9238-B29B4C6F8145}"
-              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7B2FFE0507-9D6D-4D93-BFFE-43504C63D10C%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=6"
+              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7B477C6EFC-6399-4479-8196-8B29527832EF%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=6"
               s:ph="headless-main" />
           </d>
         </r>
@@ -80,11 +80,11 @@ Languages:
         sitecore\federico.mujica@sitecore.com
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "77b5bccb-41a7-42d0-a939-f346ee4ec278"
+      Value: "f8abc407-02b0-4da3-9ba5-58aaddab37d4"
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
         sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260609T215628Z
+      Value: 20260617T150304Z

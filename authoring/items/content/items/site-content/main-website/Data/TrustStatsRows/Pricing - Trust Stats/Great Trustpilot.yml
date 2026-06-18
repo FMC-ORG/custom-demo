@@ -1,0 +1,29 @@
+﻿---
+ID: "8ae49e46-d8a5-4e5e-a8f1-34fa7c33c0d4"
+Parent: "8068cdd2-b70a-4534-bf98-ff6c64ba83e2"
+Template: "d7a407de-322f-432e-8d2c-4f46d11835b1"
+Path: "/sitecore/content/main/main-website/Data/TrustStatsRows/Pricing - Trust Stats/Great Trustpilot"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170757Z
+    - ID: "7695364f-149f-49c0-b08a-4a8ee6c1b9d1"
+      Hint: StatLabel
+      Value: Great — Trustpilot
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "7bd35ac9-3759-435f-9764-b95586d99fdc"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c477d979-2d2d-4aff-bccc-aa8b1783a8d7"
+      Hint: StatValue
+      Value: 
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170757Z

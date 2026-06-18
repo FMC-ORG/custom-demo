@@ -1,0 +1,29 @@
+﻿---
+ID: "3625cd2a-ae12-4d7d-b66a-398c92a56997"
+Parent: "2e84f528-0974-41d4-b96f-0e0259d70129"
+Template: "73df51e6-e92d-4742-9e0a-74d2ca36ef7f"
+Path: "/sitecore/content/main/main-website/Data/FAQAccordions/Accountants - FAQ Accordion/How does the pricing work"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "216901f9-a9fa-439a-a5b1-3f5651c67540"
+      Hint: Question
+      Value: "How does the pricing work?"
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170926Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "ac533413-f1ce-43ee-9a17-c1f8a1f4cc78"
+    - ID: "acb70819-a9d8-4255-bc4b-36c2ad36ec92"
+      Hint: Answer
+      Value: <p>Sage Accounting is a monthly subscription service. You can set up a direct debit or pay with your credit or debit card. The VAT per month is 20% of the product's monthly price. There are no hidden costs and never will be. Once you've signed up to your customisable Sage for Accountants plans you can add Sage Accounting for each client for an additional cost.</p>
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170926Z

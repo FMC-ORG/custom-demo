@@ -1,0 +1,39 @@
+﻿---
+ID: "6725fe3c-d99b-4a6f-be9c-34e03d020eb2"
+Parent: "f11ff40c-5929-41f2-b29e-6a15ce813ec0"
+Template: "ed669b5f-4392-498e-8f5b-a550f75b8c87"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Sage - Product Pricing Cards/Sage - Card Sage Accounting"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T102020Z
+    - ID: "29cae95a-cb7a-4086-a020-407c0dcd560a"
+      Hint: CardTitle
+      Value: Sage Accounting
+    - ID: "8be5da79-b60c-4cf9-88be-8713ec09c57d"
+      Hint: PriceText
+      Value: Get 3 months free, prices start at £0 then £18 per month (excluding VAT).
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "0213f211-1371-48f7-8cd0-1dfd62c05fb3"
+    - ID: "92d83381-537b-4a02-89d2-bfa8af94a27c"
+      Hint: CardDescription
+      Value: <p>Get paid 7 days faster and save 5 hours weekly with Sage Copilot.</p>
+    - ID: "af7a594c-933f-4a2e-a375-dd76eb9a8256"
+      Hint: BadgeText
+      Value: with Ai
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T171711Z
+    - ID: "f5a6d991-2e10-4b18-88b5-338eafceb854"
+      Hint: CardLink
+      Value: |
+        <link text="Discover Sage Accounting" anchor="" linktype="internal" class="" title="" target="" querystring="" id="{FFC01230-90A9-47C2-803E-280BBC590129}" />

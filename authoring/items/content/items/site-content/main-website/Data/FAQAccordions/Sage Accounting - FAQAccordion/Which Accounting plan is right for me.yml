@@ -1,0 +1,29 @@
+﻿---
+ID: "87ce214d-902f-4224-96f6-f32f8078c87f"
+Parent: "42f1d6b3-616d-4d91-93ef-56d8d4b1111c"
+Template: "73df51e6-e92d-4742-9e0a-74d2ca36ef7f"
+Path: "/sitecore/content/main/main-website/Data/FAQAccordions/Sage Accounting - FAQAccordion/Which Accounting plan is right for me"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "216901f9-a9fa-439a-a5b1-3f5651c67540"
+      Hint: Question
+      Value: "Which Accounting plan is right for me?"
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T171025Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "fcf9f2cb-d839-4f4b-b7e5-75b8c241f97f"
+    - ID: "acb70819-a9d8-4255-bc4b-36c2ad36ec92"
+      Hint: Answer
+      Value: <p>All three plans (Start, Standard, and Plus) give you the fundamental features you need to manage your accounting. You can upgrade, change, or cancel plans at any time. All pricing excludes VAT.</p>
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T171030Z

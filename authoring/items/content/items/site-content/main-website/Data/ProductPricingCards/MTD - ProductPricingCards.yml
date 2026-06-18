@@ -1,0 +1,29 @@
+﻿---
+ID: "18388b01-ca0a-4458-a3ec-67163806dec1"
+Parent: "b5c8aa4c-5b7d-4008-8945-68f7d909134f"
+Template: "31c6bc75-a564-4e78-a887-7c664c3f284b"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/MTD - ProductPricingCards"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170728Z
+    - ID: "6d5da2e7-7c5b-4ced-82a4-22e2700d2d9c"
+      Hint: Description
+      Value: "<p>Get on top of tax now, before the rush, and find the right software for you. No long-term contracts, commitments, or hidden fees. Upgrade or cancel anytime.</p>"
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "28719cd2-6b17-4c34-a5ce-71ceaa183091"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170728Z
+    - ID: "e5346dc2-75c7-4050-8894-e2a6613ec298"
+      Hint: Title
+      Value: Making Tax Digital compatible software

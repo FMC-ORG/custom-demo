@@ -1,0 +1,37 @@
+﻿---
+ID: "d38d3170-fe08-4fe7-82fb-782d85c54a3b"
+Parent: "7ba449e8-5bd6-4a4a-b217-f784d1fb2db0"
+Template: "626c308f-5897-48f3-bf83-aefb503cb1e4"
+Path: "/sitecore/content/main/main-website/Data/NavigationHeaders/Sage - Main Navigation/Sage - Nav Support"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 400
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "09b9d4ad-c8d4-411c-94d0-b8af843b35fe"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T101946Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "1e409e1d-0af5-4e01-9af1-7601ac052ff5"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "cc6b4b36-fd8b-482b-a733-6c22b926890a"
+      Hint: LinkUrl
+      Value: |
+        <link text="Partners" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sage.com/en-gb/partners/" />
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T134018Z
+    - ID: "e9a144f9-e4d5-44c2-b90b-eae536749d5d"
+      Hint: LinkText
+      Value: Partners

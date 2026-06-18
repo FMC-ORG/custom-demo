@@ -1,0 +1,37 @@
+﻿---
+ID: "a88953f8-5cca-4197-a09f-98d20abef5f1"
+Parent: "f86be13d-2f5e-4d7e-b2e5-ef4c9637fc4c"
+Template: "980cb544-bd26-4866-83bb-6dbeb9156558"
+Path: "/sitecore/content/main/main-website/Data/CTABanners/Pricing - CTA"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170746Z
+    - ID: "492f28cd-0465-42ee-b7fe-df452729e9bd"
+      Hint: PrimaryLink
+      Value: |
+        <link text="Get 3 months free" anchor="" linktype="external" class="" title="" target="" querystring="" url="#" />
+    - ID: "5a17dd1d-78a3-4c4e-b3f4-74cd24cd1793"
+      Hint: Description
+      Value: "<p>Get started today. Get full access to your product and all the features, or skip the offer and get 30 days free access. Upgrade or cancel at any time. No long-term contracts, commitments, or hidden fees.</p>"
+    - ID: "5df404ee-3194-414a-844d-689d3b47355c"
+      Hint: Title
+      Value: Take your business to the next level with Sage Accounting
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "17892c77-09d6-41b8-988e-a197cfd9089b"
+    - ID: "8deb4b1a-46de-44af-8bbf-487ca0cba907"
+      Hint: SecondaryLink
+      Value: |
+        <link text="Try 1 month free" anchor="" linktype="external" class="" title="" target="" querystring="" url="#" />
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170746Z

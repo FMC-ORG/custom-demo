@@ -1,0 +1,26 @@
+﻿---
+ID: "b28396a6-e3fd-44a8-8f4f-b7a46ac9ed50"
+Parent: "e543bfce-0e1e-446f-918b-0d7c1f73c40c"
+Template: "c48880b3-b0b9-49ea-bf19-931c68a8a37c"
+Path: "/sitecore/content/main/main-website/Data/LogoClouds/MTD - LogoCloud/MTD Compatible"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "17cc8e99-43cd-4f35-8ed4-6c7a13334449"
+      Hint: CompanyName
+      Value: Making Tax Digital Compatible
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170741Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "d2685f65-ed06-47c1-8c41-c2fa67367ebb"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170741Z

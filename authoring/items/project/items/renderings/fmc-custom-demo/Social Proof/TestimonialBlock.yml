@@ -10,7 +10,7 @@ SharedFields:
 - ID: "17bb046a-a32a-41b3-8315-81217947611b"
   Hint: ComponentQuery
   Value: |
-    query TestimonialBlock($datasource: String!, $language: String!) { datasource: item(path: $datasource, language: $language) { sectionTitle: field(name: "SectionTitle") { jsonValue } children { results { id quoteText: field(name: "QuoteText") { jsonValue } authorName: field(name: "AuthorName") { jsonValue } authorRole: field(name: "AuthorRole") { jsonValue } authorImage: field(name: "AuthorImage") { jsonValue } companyName: field(name: "CompanyName") { jsonValue } companyLogo: field(name: "CompanyLogo") { jsonValue } } } } }
+    query TestimonialBlock($datasource: String!, $language: String!) { datasource: item(path: $datasource, language: $language) { sectionTitle: field(name: "SectionTitle") { jsonValue } children { results { id quoteText: field(name: "QuoteText") { jsonValue } authorName: field(name: "AuthorName") { jsonValue } authorRole: field(name: "AuthorRole") { jsonValue } authorImage: field(name: "AuthorImage") { jsonValue } companyName: field(name: "CompanyName") { jsonValue } companyLogo: field(name: "CompanyLogo") { jsonValue } videoUrl: field(name: "VideoUrl") { jsonValue } } } } }
 - ID: "1a7c85e5-dc0b-490d-9187-bb1dbcb4c72f"
   Hint: Datasource Template
   Value: "/sitecore/templates/Project/fmc-custom-demo/Components/Social Proof/TestimonialBlock"
@@ -22,7 +22,7 @@ SharedFields:
   Value: "query:$site/*[@@name='Data']/*[@@templatename='TestimonialBlock Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='TestimonialBlock Folder']"
 - ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
   Hint: __Shared revision
-  Value: "a9c43947-764d-4606-b987-21fe7fd60363"
+  Value: "25ac0c03-3546-4197-a328-7444139133b1"
 Languages:
 - Language: en
   Fields:
@@ -45,11 +45,11 @@ Languages:
         sitecore\federico.mujica@sitecore.com
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "36f9f4d4-8c48-4d1d-b602-a51c1ea6a424"
+      Value: "b2eed54a-12fb-434e-8b93-c2980a5d19c6"
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
         sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260325T133047Z
+      Value: 20260617T142044Z

@@ -1,0 +1,33 @@
+﻿---
+ID: "cb178592-6c5b-4ff0-84af-4e2b7f658242"
+Parent: "93b0a4dc-4e8a-42db-85a4-d54e7a64d737"
+Template: "0903acad-5503-4cf9-9059-27bf4d93d80e"
+Path: "/sitecore/content/main/main-website/Data/AnnouncementBars/Sage - Announcement Bar"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T101844Z
+    - ID: "4b73d90c-9eea-4684-9981-67ed5151f9a5"
+      Hint: BackgroundColor
+      Value: accent
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "0f4b1433-6449-4c24-a217-38af096ad37b"
+    - ID: "a41b269e-2809-44d3-98d7-10c5a1155fbe"
+      Hint: BarLink
+      Value: |
+        <link text="Learn more" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sage.com/en-gb/sage-business-cloud/sage-accounting/#pricing" />
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T101917Z
+    - ID: "ecfad5f8-6af3-441a-a7a9-d4eba5c5712b"
+      Hint: Message
+      Value: Get paid up to 7 days faster and save 5+ hours a week. Get 3 months free.

@@ -1,0 +1,32 @@
+﻿---
+ID: "537e4a0e-9949-42b2-9422-c76265e73aab"
+Parent: "f2db2bc1-62b5-456e-b65b-017abf95b581"
+Template: "d7a407de-322f-432e-8d2c-4f46d11835b1"
+Path: "/sitecore/content/main/main-website/Data/TrustStatsRows/Sage - Trust Stats Row/Sage - Stat 40 Years"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T102036Z
+    - ID: "6ad625f0-b625-4601-8e26-1f5ef2fc67a5"
+      Hint: StatDescription
+      Value: helping businesses grow
+    - ID: "7695364f-149f-49c0-b08a-4a8ee6c1b9d1"
+      Hint: StatLabel
+      Value: years experience
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "973c9ed4-c6d6-4812-b690-d16f0965e691"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c477d979-2d2d-4aff-bccc-aa8b1783a8d7"
+      Hint: StatValue
+      Value: 40+
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T102036Z

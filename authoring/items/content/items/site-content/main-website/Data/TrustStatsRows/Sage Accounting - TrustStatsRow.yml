@@ -1,0 +1,29 @@
+﻿---
+ID: "f35defa4-f461-4783-a39a-f058ddb83c24"
+Parent: "6a826e8e-4ab2-4f62-8605-40430028c64c"
+Template: "88376eb8-a0b7-4ffb-aea1-ad143726cfd3"
+Path: "/sitecore/content/main/main-website/Data/TrustStatsRows/Sage Accounting - TrustStatsRow"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170727Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "78e5522d-3b20-45e1-9a10-bd07df4e86e0"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c9f6caf5-6abd-461b-b16c-ac873d4f66b1"
+      Hint: Title
+      Value: Trusted by businesses across the UK
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170731Z
+    - ID: "f3123758-0a9a-4965-a70a-6b48c790d7a8"
+      Hint: EyebrowText
+      Value: Recognised and rated

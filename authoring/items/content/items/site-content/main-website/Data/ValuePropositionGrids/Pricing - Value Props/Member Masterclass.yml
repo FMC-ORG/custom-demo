@@ -1,0 +1,29 @@
+﻿---
+ID: "837b41d8-c825-43bf-8143-fce743798e6b"
+Parent: "32d29e73-0a93-45b8-be6a-22240385891e"
+Template: "18975833-7fd9-4ca6-a4dc-d01cd3454d4b"
+Path: "/sitecore/content/main/main-website/Data/ValuePropositionGrids/Pricing - Value Props/Member Masterclass"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170917Z
+    - ID: "26ad50f0-0c17-4313-b9ca-58fb93ce4b30"
+      Hint: ItemTitle
+      Value: Member Masterclass
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "5dd9154c-5213-483a-8076-86b7c04459c9"
+    - ID: "bab8dbd7-750d-473a-bf6a-e719cf812dd5"
+      Hint: ItemDescription
+      Value: <p>Dip into talks and articles from the world's leading experts to help with business challenges, like using innovation to create impact.</p>
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170918Z

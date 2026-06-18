@@ -1,0 +1,29 @@
+﻿---
+ID: "65ac9934-6db5-4a52-ae02-6ab75b3fe065"
+Parent: "718fad3d-235f-45c0-9529-7aa298c419ab"
+Template: "73df51e6-e92d-4742-9e0a-74d2ca36ef7f"
+Path: "/sitecore/content/main/main-website/Data/FAQAccordions/Pricing - FAQs/How do I import and switch"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "216901f9-a9fa-439a-a5b1-3f5651c67540"
+      Hint: Question
+      Value: "How do I import my data and switch to Sage?"
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170852Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "eff708c3-ef42-4725-b15e-120a7c9bdd1c"
+    - ID: "acb70819-a9d8-4255-bc4b-36c2ad36ec92"
+      Hint: Answer
+      Value: "<p>It's quick and easy to switch to Sage Accounting. You can import your chart of accounts, contacts, services, bank statements, and more with simple CSV templates and expert support. Got historical data? Move from your current accounting software to Sage Accounting with 2 years of transactional data, all of your chart of accounts, your customers and suppliers list, and more. Sage picks up the bill.</p>"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170853Z

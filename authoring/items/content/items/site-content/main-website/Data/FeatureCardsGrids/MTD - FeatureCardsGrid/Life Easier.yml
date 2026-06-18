@@ -1,0 +1,33 @@
+﻿---
+ID: "af5c2193-32d8-4b40-b77a-07a8e1e9ab78"
+Parent: "0ed5504d-8def-48a3-9a20-b4fbecdf75de"
+Template: "e2014bdc-3af2-4add-a731-86e873ebf24c"
+Path: "/sitecore/content/main/main-website/Data/FeatureCardsGrids/MTD - FeatureCardsGrid/Life Easier"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170817Z
+    - ID: "3d6a0f6b-523e-491a-8b4d-2b84f10855c2"
+      Hint: CardLink
+      Value: |
+        <link text="Read more" anchor="" linktype="external" class="" title="" target="_blank" querystring="" url="https://www.sage.com/en-gb/blog/mtd-income-tax-life-easier-business/" />
+    - ID: "3f85410a-d1a3-426d-9908-777c3a0b7de0"
+      Hint: CardDescription
+      Value: <p>Find out how MTD can help streamline your business admin, freeing up time for everything else.</p>
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "7eb285e9-c5bc-416a-8f7f-9224bb28514b"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c0500111-9439-41c0-89e5-d44cf419ef50"
+      Hint: CardTitle
+      Value: Why Making Tax Digital for Income Tax will make life easier for your business
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170817Z

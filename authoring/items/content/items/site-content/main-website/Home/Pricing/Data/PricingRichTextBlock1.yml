@@ -1,0 +1,26 @@
+﻿---
+ID: "8f3d68f9-835b-4b22-894c-dccf4c838f5a"
+Parent: "6dca6c95-232d-4413-abd7-b752e0e7505b"
+Template: "d74f19b9-2239-4f05-8b2f-727393777ed8"
+Path: "/sitecore/content/main/main-website/Home/Pricing/Data/PricingRichTextBlock1"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T171007Z
+    - ID: "8a1bde30-c1a6-4eb1-b30a-c9202cd3980a"
+      Hint: Title
+      Value: PricingRichTextBlock1
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "e57e0d0d-538d-45e6-a484-a5407436c0dc"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T171007Z

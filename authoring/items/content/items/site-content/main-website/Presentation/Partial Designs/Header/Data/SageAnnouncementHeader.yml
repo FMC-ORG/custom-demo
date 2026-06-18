@@ -1,0 +1,26 @@
+﻿---
+ID: "e0a6c9e1-aefd-4b46-86bb-be4b1644f6fb"
+Parent: "543957f6-80b2-4bab-a0d6-dab86283d00f"
+Template: "0903acad-5503-4cf9-9059-27bf4d93d80e"
+Path: "/sitecore/content/main/main-website/Presentation/Partial Designs/Header/Data/SageAnnouncementHeader"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T133246Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "03eda1fc-99e7-48e0-aea4-e7fbfc153d4a"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T133246Z
+    - ID: "ecfad5f8-6af3-441a-a7a9-d4eba5c5712b"
+      Hint: Message
+      Value: SageAnnouncementHeader

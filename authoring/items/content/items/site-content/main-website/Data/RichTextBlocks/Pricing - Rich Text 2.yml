@@ -1,0 +1,29 @@
+﻿---
+ID: "e0daded2-9810-48e6-8bee-1ff52711a7e7"
+Parent: "e94da9f2-19a0-4eeb-9f1c-c5b53df8d8ed"
+Template: "d74f19b9-2239-4f05-8b2f-727393777ed8"
+Path: "/sitecore/content/main/main-website/Data/RichTextBlocks/Pricing - Rich Text 2"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "1e23eeda-e14c-429f-8ca5-4f1d3de10949"
+      Hint: Body
+      Value: "<p>Upgrade or cancel at any time. No long-term contracts, commitments or hidden fees.</p>"
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170734Z
+    - ID: "8a1bde30-c1a6-4eb1-b30a-c9202cd3980a"
+      Hint: Title
+      Value: Only Sage includes an AI productivity assistant in every plan.
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "f66368f8-49e7-478d-a960-9be2c7a4396c"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170734Z

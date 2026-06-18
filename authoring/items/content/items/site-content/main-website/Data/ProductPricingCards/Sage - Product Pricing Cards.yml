@@ -1,0 +1,29 @@
+﻿---
+ID: "f11ff40c-5929-41f2-b29e-6a15ce813ec0"
+Parent: "b5c8aa4c-5b7d-4008-8945-68f7d909134f"
+Template: "31c6bc75-a564-4e78-a887-7c664c3f284b"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Sage - Product Pricing Cards"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T101855Z
+    - ID: "6d5da2e7-7c5b-4ced-82a4-22e2700d2d9c"
+      Hint: Description
+      Value: "<p>Powerful, AI-assisted software for every stage of business.</p>"
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "0c433d3a-dd2b-45b7-93e3-d4d49fc1c897"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T101925Z
+    - ID: "e5346dc2-75c7-4050-8894-e2a6613ec298"
+      Hint: Title
+      Value: Find the right Sage product for your business

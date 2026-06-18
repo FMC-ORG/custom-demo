@@ -1,0 +1,39 @@
+﻿---
+ID: "999d0855-fd23-4015-b98d-9b7642b79fd5"
+Parent: "12addcd8-e549-4cec-b7f4-df41db9f8b75"
+Template: "29792b9c-9b29-4d8f-bf71-02084ee8102a"
+Path: "/sitecore/content/main/main-website/Data/TestimonialBlocks/Sage - Testimonial Block/Sage - Testimonial James Proctor"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "14fe8ffd-a7db-46ef-a31f-14309c0d970e"
+      Hint: AuthorName
+      Value: James Proctor
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T102103Z
+    - ID: "4ee60288-ad54-4ee4-8ca6-c916eb588150"
+      Hint: AuthorImage
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/95648-section4-img24?v=de9fbd5d" dam-id="9UE8BkYpS3iQGHhJUkHokA" width="780" height="430" alt="James Proctor, Phase 3 Consulting" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/95648/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "00a0eb43-97e2-42bd-8f36-379ba7aa6f60"
+    - ID: "b715a759-a2b0-471e-8188-26caa0f276ca"
+      Hint: VideoUrl
+      Value: "https://www.youtube.com/watch?v=ZK-rNEhJIDs"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d7e57a36-0c14-4b8a-9d98-68addf7143b5"
+      Hint: QuoteText
+      Value: <p>We did a full system selection project internally and Sage Intacct was the only one that offered everything we needed, including resource planning, timesheets, dashboards and bank integration.</p>
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T142128Z
+    - ID: "fd39f4e5-808d-4c62-a792-ced735c576fb"
+      Hint: CompanyName
+      Value: Phase 3 Consulting Ltd

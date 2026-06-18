@@ -1,0 +1,26 @@
+﻿---
+ID: "36b7ec1d-e86c-4953-b42c-c0179b145c7c"
+Parent: "6a7b0f49-57b8-4b40-a499-e33130dc8bf7"
+Template: "2409d9aa-e711-431d-bec8-7ff278dc4d6b"
+Path: "/sitecore/content/main/main-website/Home/Accountants/Data/AcctLogoCloud1"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T171008Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "b826dc82-1bc7-43c7-94d3-a2f3f2394fc8"
+    - ID: "9311ca72-528d-4599-9c5f-0c325c1ec183"
+      Hint: Title
+      Value: AcctLogoCloud1
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T171008Z

@@ -20,7 +20,7 @@ Languages:
       Value: 20260505T201820Z
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "1ac4cb92-76e2-449d-a494-245e1e7715f7"
+      Value: "9bbdd4a1-1dbe-4641-b0ca-fcf32ec7af47"
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
@@ -28,7 +28,7 @@ Languages:
     - ID: "be108bcc-b20f-49b5-8dd2-ee56f2a26023"
       Hint: BrandLogo
       Value: |
-        <image mediaid="7d81fc77-a388-4561-b577-ff94a7c27ef2" />
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/f119818f13e84e3699ffef377f45eb73?v=4a46e11e" dam-id="D7ZxxjCcS1O4X64OKsFBlg" width="128" height="99" alt="Screenshot 2026-06-17 130806.png" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/95944/thumbnail" />
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260505T203810Z
+      Value: 20260617T132222Z

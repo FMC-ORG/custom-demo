@@ -1,0 +1,30 @@
+﻿---
+ID: "b77192ea-9f36-4f13-8bf2-89d0ea3928c4"
+Parent: "a4f28828-d450-4e79-9a35-e010f08057e6"
+Template: "e2014bdc-3af2-4add-a731-86e873ebf24c"
+Path: "/sitecore/content/main/main-website/Data/FeatureCardsGrids/Accountants - Feature Cards Grid 2/HMRC digital transformation article"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170854Z
+    - ID: "3d6a0f6b-523e-491a-8b4d-2b84f10855c2"
+      Hint: CardLink
+      Value: |
+        <link text="Read article" anchor="" linktype="external" class="" title="" target="_blank" querystring="" url="https://www.sage.com/en-gb/blog/the-hidden-hours-of-accountancy-sage-research/" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "31ecd321-c51b-4e1e-b3dc-ab52f6bf519c"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c0500111-9439-41c0-89e5-d44cf419ef50"
+      Hint: CardTitle
+      Value: What HMRC's digital transformation is doing to the hidden hours of accountancy
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170855Z

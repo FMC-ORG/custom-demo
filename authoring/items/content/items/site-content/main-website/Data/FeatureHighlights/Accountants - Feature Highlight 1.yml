@@ -1,0 +1,32 @@
+﻿---
+ID: "f389cd3b-96f2-4aab-a4b5-3f6d303d3d0d"
+Parent: "0a212e28-4ede-45de-8a8f-e1004e8aad25"
+Template: "73a389ee-482a-4974-b4cf-76996b15a5f3"
+Path: "/sitecore/content/main/main-website/Data/FeatureHighlights/Accountants - Feature Highlight 1"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170745Z
+    - ID: "5f369cde-7169-4823-bb4a-8c68f68e0c82"
+      Hint: EyebrowText
+      Value: Meet Sage's Making Tax Digital for Income Tax Agent
+    - ID: "801e9d29-fa73-4b5a-8cde-04cde87dae6a"
+      Hint: Title
+      Value: "What is the Sage MTD Agent?"
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "4fa9ebf3-6723-41a1-81dc-9fedff6ec9b9"
+    - ID: "a6546f1c-d76a-4e24-990d-46e3d464c491"
+      Hint: Description
+      Value: "<p>The Sage MTD Agent is free for Sage Accountants. It automates compliance tasks and reduces admin work by 50%, so you can spend more time on your clients and advisory work. Use the Sage MTD Agent to prepare your clients, build task lists, send reminders, and chase documents. Spot filing issues before they become problems, so you can step ahead and deliver a seamless client experience. Remain firmly in control with HMRC-recognised tools that support your workflow and keep you compliant.</p>"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170746Z

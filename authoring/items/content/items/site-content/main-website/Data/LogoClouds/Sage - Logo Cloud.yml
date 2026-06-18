@@ -1,0 +1,26 @@
+﻿---
+ID: "cfba1539-b170-4e72-836e-ceb6aba35985"
+Parent: "a0f83f36-4bfb-4c6a-9079-a01ec54a5276"
+Template: "2409d9aa-e711-431d-bec8-7ff278dc4d6b"
+Path: "/sitecore/content/main/main-website/Data/LogoClouds/Sage - Logo Cloud"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T101857Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "bd6a713c-6247-4b6f-959e-4b585922f578"
+    - ID: "9311ca72-528d-4599-9c5f-0c325c1ec183"
+      Hint: Title
+      Value: Over 2 million businesses trust Sage
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T101926Z

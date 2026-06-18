@@ -1,0 +1,29 @@
+﻿---
+ID: "1075d381-e8d6-4709-9de1-7d68061d654c"
+Parent: "718fad3d-235f-45c0-9529-7aa298c419ab"
+Template: "73df51e6-e92d-4742-9e0a-74d2ca36ef7f"
+Path: "/sitecore/content/main/main-website/Data/FAQAccordions/Pricing - FAQs/Which plan is right"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "216901f9-a9fa-439a-a5b1-3f5651c67540"
+      Hint: Question
+      Value: "Which Accounting plan is right for me?"
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170850Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "1c54d6f8-d485-4de9-aa33-2b9e811568ea"
+    - ID: "acb70819-a9d8-4255-bc4b-36c2ad36ec92"
+      Hint: Answer
+      Value: <p>All three plans (Start, Standard, and Plus) give you the fundamental features you need to manage your accounting. You can upgrade, change, or cancel plans at any time. All pricing excludes VAT.</p>
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170850Z

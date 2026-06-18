@@ -1,0 +1,37 @@
+﻿---
+ID: "c5f2288f-839c-431b-836c-726a22b96833"
+Parent: "4c13c132-6c32-45a3-a6c0-6ca969d04ba1"
+Template: "e2014bdc-3af2-4add-a731-86e873ebf24c"
+Path: "/sitecore/content/main/main-website/Data/FeatureCardsGrids/Sage - Feature Cards Grid/Sage - Feature Card Supporting 24-7"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T125828Z
+    - ID: "3d6a0f6b-523e-491a-8b4d-2b84f10855c2"
+      Hint: CardLink
+      Value: |
+        <link text="Explore support" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sage.com/en-gb/support/" />
+    - ID: "3f85410a-d1a3-426d-9908-777c3a0b7de0"
+      Hint: CardDescription
+      Value: <p>Our UK based experts can help you with product support online or on the phone.</p>
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "23f4707c-0ca8-4177-82c6-766438e50604"
+    - ID: "ad732d62-2a3e-452a-b7d6-8f943b616f6d"
+      Hint: CardImage
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/95628-section4-img22?v=ccb8e8ad" dam-id="BzHppZ1ZRPi12pL-05jj5A" width="384" height="267" alt="Supporting you 24/7" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/95628/thumbnail" />
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c0500111-9439-41c0-89e5-d44cf419ef50"
+      Hint: CardTitle
+      Value: Supporting you 24/7
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T125845Z

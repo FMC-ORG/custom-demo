@@ -1,0 +1,29 @@
+﻿---
+ID: "86595935-03e6-45fe-9271-825087886e70"
+Parent: "718fad3d-235f-45c0-9529-7aa298c419ab"
+Template: "73df51e6-e92d-4742-9e0a-74d2ca36ef7f"
+Path: "/sitecore/content/main/main-website/Data/FAQAccordions/Pricing - FAQs/Do I need to download"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "216901f9-a9fa-439a-a5b1-3f5651c67540"
+      Hint: Question
+      Value: "Do I need to download Sage Accounting?"
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170848Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "d8d7f9c7-4bfb-4da0-828f-a1b7e8af450e"
+    - ID: "acb70819-a9d8-4255-bc4b-36c2ad36ec92"
+      Hint: Answer
+      Value: <p>Sage Accounting is hosted online, so there's no need to download any software onto your phone or computer. Simply visit Sage.com, and use the 'Login' button at the top of your screen to access your secure cloud solution. You can also use the handy Sage Accounting mobile app.</p>
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170848Z

@@ -1,0 +1,26 @@
+﻿---
+ID: "cb3ab9ab-7ef2-4d7a-9632-ac3a13566232"
+Parent: "ebe80b88-b47c-4efa-bbaa-068ee721a952"
+Template: "c0e69319-ce82-4a4a-b23c-f291a306f7be"
+Path: "/sitecore/content/main/main-website/Home/Sage Accounting/Data/SageAccValuePropositionGrid1"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T171501Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "abeb819e-50e5-4e9e-bdf2-a6702b40392f"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d358f6d4-7ec5-48c5-8399-86fce2027f79"
+      Hint: Title
+      Value: SageAccValuePropositionGrid1
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T171501Z

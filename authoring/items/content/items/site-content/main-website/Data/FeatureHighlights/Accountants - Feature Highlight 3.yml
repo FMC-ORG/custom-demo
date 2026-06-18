@@ -1,0 +1,36 @@
+﻿---
+ID: "9e4f0209-b9af-4f24-8b52-671382265cbd"
+Parent: "0a212e28-4ede-45de-8a8f-e1004e8aad25"
+Template: "73a389ee-482a-4974-b4cf-76996b15a5f3"
+Path: "/sitecore/content/main/main-website/Data/FeatureHighlights/Accountants - Feature Highlight 3"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170752Z
+    - ID: "3e0cc0d3-5d90-4b6a-b1b5-d9c61a5bb994"
+      Hint: PrimaryLink
+      Value: |
+        <link text="Get pricing" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sage.com/en-gb/accountants/pricing/" />
+    - ID: "5f369cde-7169-4823-bb4a-8c68f68e0c82"
+      Hint: EyebrowText
+      Value: Sage Points
+    - ID: "801e9d29-fa73-4b5a-8cde-04cde87dae6a"
+      Hint: Title
+      Value: Earn up to 40% on your subscription
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "afdd23cd-3a1b-4e90-a521-9764d5d261ab"
+    - ID: "a6546f1c-d76a-4e24-990d-46e3d464c491"
+      Hint: Description
+      Value: "<p>Automatically collect points each time you add a client subscription to your plan. The more points you accumulate, the bigger your discount grows for every subscription. Tiers: Accountant Price (0-49 points); 5% off all subscriptions (50-99 points); 10% off (100-199); 15% off (200-499); 20% off (500-999); 25% off (1,000-4,999); 30% off (5,000-9,999); 40% off (10,000+ points).</p>"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170752Z

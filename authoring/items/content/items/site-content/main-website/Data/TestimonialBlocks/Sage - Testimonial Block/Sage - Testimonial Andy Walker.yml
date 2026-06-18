@@ -1,0 +1,49 @@
+﻿---
+ID: "921a52ae-1215-4195-9b0f-1ffdb5b99f2c"
+Parent: "12addcd8-e549-4cec-b7f4-df41db9f8b75"
+Template: "29792b9c-9b29-4d8f-bf71-02084ee8102a"
+Path: "/sitecore/content/main/main-website/Data/TestimonialBlocks/Sage - Testimonial Block/Sage - Testimonial Andy Walker"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "001dd393-96c5-490b-924a-b0f25cd9efd8"
+      Hint: __Lock
+      Value: <r />
+    - ID: "14fe8ffd-a7db-46ef-a31f-14309c0d970e"
+      Hint: AuthorName
+      Value: Andy Walker
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T102101Z
+    - ID: "4ee60288-ad54-4ee4-8ca6-c916eb588150"
+      Hint: AuthorImage
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/95674-section4-img27?v=bc44d0f7" dam-id="JXO4wNuHRuGvw7wYTK1oLg" width="970" height="641" alt="Andy Walker, Tree Tops Caravan Park" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/95674/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "031d62ee-53fc-402d-a7d2-5c189ed3cc87"
+    - ID: "b715a759-a2b0-471e-8188-26caa0f276ca"
+      Hint: VideoUrl
+      Value: "https://www.youtube.com/watch?v=ZK-rNEhJIDs"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "bc655a9b-c6dc-4241-9e83-374c9a3cfa01"
+      Hint: AuthorRole
+      Value: Director
+    - ID: "d7e57a36-0c14-4b8a-9d98-68addf7143b5"
+      Hint: QuoteText
+      Value: <p>Sage Accounting is a great, robust system backed up with amazing technical support. I can ask any question and they never make me feel stupid, and always have an answer.</p>
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T142126Z
+    - ID: "fa591afb-1f56-4080-9719-f953d845504b"
+      Hint: CompanyLogo
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/95463-section4-img6?v=79dc825d" dam-id="pNyEf3zqTFCHw-cUD-yiuQ" width="220" height="120" alt="section4-img6.svg" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/95463/thumbnail" />
+    - ID: "fd39f4e5-808d-4c62-a792-ced735c576fb"
+      Hint: CompanyName
+      Value: Tree Tops Caravan Park

@@ -1,0 +1,37 @@
+﻿---
+ID: "5045cc08-3f15-4d6f-9a43-65c961a45121"
+Parent: "4c13c132-6c32-45a3-a6c0-6ca969d04ba1"
+Template: "e2014bdc-3af2-4add-a731-86e873ebf24c"
+Path: "/sitecore/content/main/main-website/Data/FeatureCardsGrids/Sage - Feature Cards Grid/Sage - Feature Card Trusted and secure"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T102045Z
+    - ID: "3d6a0f6b-523e-491a-8b4d-2b84f10855c2"
+      Hint: CardLink
+      Value: |
+        <link text="Explore security" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sage.com/en-gb/trust-security/" />
+    - ID: "3f85410a-d1a3-426d-9908-777c3a0b7de0"
+      Hint: CardDescription
+      Value: "<p>Your data is protected with enterprise-grade security, so you can focus on running your business while we keep your information safe.</p>"
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "a2967f0d-b22c-46a6-9588-7c83fd21376c"
+    - ID: "ad732d62-2a3e-452a-b7d6-8f943b616f6d"
+      Hint: CardImage
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/95612-section4-img20?v=cec20c51" dam-id="sYsDET89Qv63VPk2lJQA9w" width="384" height="267" alt="section4-img20.png" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/95612/thumbnail" />
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c0500111-9439-41c0-89e5-d44cf419ef50"
+      Hint: CardTitle
+      Value: Trusted and secure
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T105144Z

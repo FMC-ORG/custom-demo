@@ -7,12 +7,15 @@ SharedFields:
 - ID: "c7c26117-dbb1-42b2-ab5e-f7223845cca3"
   Hint: __Thumbnail
   Value: |
-    <image mediaid="{93B5FF47-EA5E-40B7-9D14-4D2D185B402F}" />
+    <image mediaid="{44D59C8B-062A-4AA3-BDC3-0053048F637C}" />
 Languages:
 - Language: en
   Versions:
   - Version: 1
     Fields:
+    - ID: "001dd393-96c5-490b-924a-b0f25cd9efd8"
+      Hint: __Lock
+      Value: <r />
     - ID: "068d4fa8-7b15-4b86-b38a-9e40a58c548b"
       Hint: ArticleAuthor
       Value: "{18A183C6-6E69-40F3-A0D9-0973D05C8D3B}"
@@ -37,15 +40,19 @@ Languages:
       Value: 7 min read
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "58d5ae92-fa39-4b80-afe8-e32884e0137e"
+      Value: "403d7888-f785-485c-8de1-d21c459d2728"
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
         sitecore\federico.mujica@sitecore.com
+    - ID: "bb96e156-f355-4cc6-894b-5e70a45d8f30"
+      Hint: ArticleImage
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/94536-facebookCoverPhoto-820x312?v=4ac90d0d" dam-id="Ynr6iEIURHaafSgAeJdIJw" width="820" height="312" alt="AI Auto-Tagging Interface" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/94536/thumbnail" />
     - ID: "bfa05db5-8ccf-4ba2-b312-21194a8a5d75"
       Hint: ArticleKeyTakeaways
       Value: |
         <div class="ck-content"><ul><li>Content modeling should precede development</li><li>Treat CMS APIs as first-class products</li><li>Visual preview and editing tools keep authors productive</li><li>Multi-layer caching is critical for performance</li></ul></div>
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260519T184705Z
+      Value: 20260617T154643Z

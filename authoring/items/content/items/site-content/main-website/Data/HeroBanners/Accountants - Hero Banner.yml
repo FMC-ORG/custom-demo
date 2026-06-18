@@ -1,0 +1,37 @@
+﻿---
+ID: "a683c7de-aecf-40c1-8a4f-89c4802e7b04"
+Parent: "79a9dfe3-d529-4ed3-8105-dca4c0a3b25c"
+Template: "ebb89bff-86ff-496d-b4f7-57fe722342b6"
+Path: "/sitecore/content/main/main-website/Data/HeroBanners/Accountants - Hero Banner"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170715Z
+    - ID: "2c186372-9b86-4940-b496-6ae5b5bdac3a"
+      Hint: Subtitle
+      Value: "<p>AI-powered accounting software for accountants and bookkeepers. Amplify your work with our intelligent AI accounting platform that works for all client types. Reduces admin by 5 hours. It doesn't just process data. It predicts problems, alerts you to compliance risks, and guides clients to submit more accurate data.</p>"
+    - ID: "61c5bc1a-453d-4416-8e01-b150cdcfa7b1"
+      Hint: PrimaryLink
+      Value: |
+        <link text="Log in to my account" anchor="" linktype="external" class="" title="" target="_blank" querystring="" url="http://app.sbc.sage.com/?utm_source=sagedotcom&utm_content=sfa" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "31206166-80ea-42ec-b223-01936e83f109"
+    - ID: "9b4e3888-8311-4996-be31-9bbd656de3d0"
+      Hint: SecondaryLink
+      Value: |
+        <link text="Get started" anchor="" linktype="external" class="" title="" target="" querystring="" url="#getstarted" />
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c61c7b75-21bd-4b9c-995e-671c9605de14"
+      Hint: Title
+      Value: Your expertise, amplified
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170721Z

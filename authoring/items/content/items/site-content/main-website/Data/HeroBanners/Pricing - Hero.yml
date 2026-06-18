@@ -1,0 +1,33 @@
+﻿---
+ID: "d6e1c432-bbf6-4e72-8db5-a175d5d2ff56"
+Parent: "79a9dfe3-d529-4ed3-8105-dca4c0a3b25c"
+Template: "ebb89bff-86ff-496d-b4f7-57fe722342b6"
+Path: "/sitecore/content/main/main-website/Data/HeroBanners/Pricing - Hero"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170726Z
+    - ID: "2c186372-9b86-4940-b496-6ae5b5bdac3a"
+      Hint: Subtitle
+      Value: "<p>Sage combines AI-powered accounting and payroll so you can automate your finances, pay your team with confidence, and focus on what's next. Get 3 months free until 30 June. Prices start at £9 then £x per month (includes VAT).</p>"
+    - ID: "61c5bc1a-453d-4416-8e01-b150cdcfa7b1"
+      Hint: PrimaryLink
+      Value: |
+        <link text="Get 3 months free" anchor="" linktype="external" class="" title="" target="" querystring="" url="#" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "8e75fecb-5ac0-4ac2-ad22-017a7452aa8d"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c61c7b75-21bd-4b9c-995e-671c9605de14"
+      Hint: Title
+      Value: Real control.
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170726Z

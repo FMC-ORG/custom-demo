@@ -1,0 +1,29 @@
+﻿---
+ID: "aa2a5b89-a570-4e47-8b92-61ef380da4c0"
+Parent: "ba887c8c-ad81-4bdf-9f16-a864ce7ac623"
+Template: "73df51e6-e92d-4742-9e0a-74d2ca36ef7f"
+Path: "/sitecore/content/main/main-website/Data/FAQAccordions/MTD - FAQAccordion/Deadlines for MTD"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "216901f9-a9fa-439a-a5b1-3f5651c67540"
+      Hint: Question
+      Value: "What are the deadlines for MTD?"
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170835Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "07c7633e-025a-4875-b03b-09365a694ce1"
+    - ID: "acb70819-a9d8-4255-bc4b-36c2ad36ec92"
+      Hint: Answer
+      Value: "<p>MTD for Income Tax applies in phases to self-employed individuals and landlords with qualifying income above the thresholds: 6 April 2026 for incomes over £50,000, 6 April 2027 for incomes over £30,000, and 6 April 2028 for incomes over £20,000.</p>"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170835Z

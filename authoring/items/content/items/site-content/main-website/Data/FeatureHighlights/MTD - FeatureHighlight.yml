@@ -1,0 +1,36 @@
+﻿---
+ID: "22cc7dc5-015f-42e0-81aa-dd46265a2b7e"
+Parent: "0a212e28-4ede-45de-8a8f-e1004e8aad25"
+Template: "73a389ee-482a-4974-b4cf-76996b15a5f3"
+Path: "/sitecore/content/main/main-website/Data/FeatureHighlights/MTD - FeatureHighlight"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170716Z
+    - ID: "3e0cc0d3-5d90-4b6a-b1b5-d9c61a5bb994"
+      Hint: PrimaryLink
+      Value: |
+        <link text="Learn more" anchor="" linktype="external" class="" title="" target="" querystring="" url="#" />
+    - ID: "5f369cde-7169-4823-bb4a-8c68f68e0c82"
+      Hint: EyebrowText
+      Value: "How will MTD for Income Tax help me?"
+    - ID: "801e9d29-fa73-4b5a-8cde-04cde87dae6a"
+      Hint: Title
+      Value: Stay on top of your tax, all year round
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "74bff335-5009-42af-af35-36adad3003c2"
+    - ID: "a6546f1c-d76a-4e24-990d-46e3d464c491"
+      Hint: Description
+      Value: <p>MTD keeps your records up to date and your submissions on time, reducing stress at year end. Submitting your business updates on a more regular basis makes you aware of how much you'll owe and makes budgeting easier.</p>
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170716Z

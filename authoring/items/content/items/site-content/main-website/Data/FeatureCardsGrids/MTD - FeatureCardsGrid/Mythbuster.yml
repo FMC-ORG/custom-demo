@@ -1,0 +1,33 @@
+﻿---
+ID: "5f0c510c-fc32-4766-aa7d-f9a67a43c067"
+Parent: "0ed5504d-8def-48a3-9a20-b4fbecdf75de"
+Template: "e2014bdc-3af2-4add-a731-86e873ebf24c"
+Path: "/sitecore/content/main/main-website/Data/FeatureCardsGrids/MTD - FeatureCardsGrid/Mythbuster"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170819Z
+    - ID: "3d6a0f6b-523e-491a-8b4d-2b84f10855c2"
+      Hint: CardLink
+      Value: |
+        <link text="Read more" anchor="" linktype="external" class="" title="" target="_blank" querystring="" url="https://www.sage.com/en-gb/blog/making-tax-digital-myths-dispelled/" />
+    - ID: "3f85410a-d1a3-426d-9908-777c3a0b7de0"
+      Hint: CardDescription
+      Value: "<p>Worried about what MTD means for you? Our experts debunk the biggest myths about going digital.</p>"
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "8b25133c-c08a-4658-a661-d5087c4b0314"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c0500111-9439-41c0-89e5-d44cf419ef50"
+      Hint: CardTitle
+      Value: "MTD Mythbuster: 8 myths about Making Tax Digital dispelled"
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170819Z

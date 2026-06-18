@@ -1,0 +1,39 @@
+﻿---
+ID: "3308697a-6579-4ebd-ba7d-f6b81220b1e4"
+Parent: "6e3d2619-9b95-4bfa-b7cc-9c7ddc53b304"
+Template: "ed669b5f-4392-498e-8f5b-a550f75b8c87"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Accountants - Product Pricing Cards/Sage for Accountants"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170835Z
+    - ID: "29cae95a-cb7a-4086-a020-407c0dcd560a"
+      Hint: CardTitle
+      Value: Sage for Accountants
+    - ID: "8be5da79-b60c-4cf9-88be-8713ec09c57d"
+      Hint: PriceText
+      Value: Free
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "2d415554-0e81-4c7d-841b-4f8492913846"
+    - ID: "92d83381-537b-4a02-89d2-bfa8af94a27c"
+      Hint: CardDescription
+      Value: "<p>A customisable accounting solution for your practice and clients. Only pay for what you need, add more features in-product. Available to verified accountants and accounting service providers. Tools for your practice: Sage Copilot, Sage Accounting, Sage Payroll, Centralised client management, Payroll Bureau Dashboard, Final accounts and tax submissions, Cashflow forecasting, Member benefits and clients. Plus add-on features.</p>"
+    - ID: "af7a594c-933f-4a2e-a375-dd76eb9a8256"
+      Hint: BadgeText
+      Value: "AI-powered"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170835Z
+    - ID: "f5a6d991-2e10-4b18-88b5-338eafceb854"
+      Hint: CardLink
+      Value: |
+        <link text="Get Sage for Accountants" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://sage.com/en-gb/cart/client-management/account?sku=S1GBSFA01" />

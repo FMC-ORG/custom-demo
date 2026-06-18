@@ -1,0 +1,26 @@
+﻿---
+ID: "e41eed0c-986e-4cda-b5a8-9fc159466dbb"
+Parent: "e5004e14-ea49-43b7-a093-006648a14a60"
+Template: "bbf97517-1fe5-405b-aae7-5309be26249a"
+Path: "/sitecore/content/main/main-website/Data/TestimonialBlocks/Sage Accounting - TestimonialBlock"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170802Z
+    - ID: "70398829-0ffa-4e5c-8b7c-0103cf5651c9"
+      Hint: SectionTitle
+      Value: What our customers say
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "7f35c2a8-9dae-4fde-b9ac-c0871a49dd42"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170805Z

@@ -1,0 +1,40 @@
+﻿---
+ID: "9b45d666-754b-47b3-b2a3-f860b29ff1c2"
+Parent: "0a212e28-4ede-45de-8a8f-e1004e8aad25"
+Template: "73a389ee-482a-4974-b4cf-76996b15a5f3"
+Path: "/sitecore/content/main/main-website/Data/FeatureHighlights/Sage - Feature Highlight"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T101847Z
+    - ID: "3e0cc0d3-5d90-4b6a-b1b5-d9c61a5bb994"
+      Hint: PrimaryLink
+      Value: |
+        <link text="Explore Sage AI" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sage.com/en-gb/sage-ai/" />
+    - ID: "5f369cde-7169-4823-bb4a-8c68f68e0c82"
+      Hint: EyebrowText
+      Value: Sage AI
+    - ID: "801e9d29-fa73-4b5a-8cde-04cde87dae6a"
+      Hint: Title
+      Value: Get work done faster with Sage AI agents
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "b8fd00ee-3872-4df0-9bd7-0493fe84a503"
+    - ID: "a6546f1c-d76a-4e24-990d-46e3d464c491"
+      Hint: Description
+      Value: <p>Intelligent automation across every stage of business to save you and your team hours every week. Choose an agent to see how it works.</p>
+    - ID: "aefd22cc-1d3e-4f53-a7f3-d30ccf7030af"
+      Hint: FeatureImage
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/95518-section4-img12?v=476d70f8" dam-id="L0SIlpgcSNeuYcPc_lFeyQ" width="1180" height="1300" alt="section4-img12.png" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/95518/thumbnail" />
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T105141Z

@@ -1,0 +1,29 @@
+﻿---
+ID: "7806099f-1fab-42b0-9174-8a270a5f5b55"
+Parent: "be69f95d-9d08-4c4b-adf3-59007b2e0bb4"
+Template: "c0e69319-ce82-4a4a-b23c-f291a306f7be"
+Path: "/sitecore/content/main/main-website/Data/ValuePropositionGrids/Accountants - Value Proposition Grid 1"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170801Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "ba9c8206-7156-497b-a477-e6429316fb7a"
+    - ID: "98e43e53-fff0-4ef4-8241-fad86ed9e152"
+      Hint: Description
+      Value: <p>Automate 1000s of routine client tasks today. Find out why 14,000 accountants trust our solutions. Our AI is easy to use and saves you and your clients time.</p>
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d358f6d4-7ec5-48c5-8399-86fce2027f79"
+      Hint: Title
+      Value: "Why choose Sage Accounting?"
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170802Z

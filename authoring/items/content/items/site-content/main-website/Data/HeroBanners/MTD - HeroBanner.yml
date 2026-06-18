@@ -1,0 +1,37 @@
+﻿---
+ID: "cec55b2f-35e8-4563-8e08-50684781c2c0"
+Parent: "79a9dfe3-d529-4ed3-8105-dca4c0a3b25c"
+Template: "ebb89bff-86ff-496d-b4f7-57fe722342b6"
+Path: "/sitecore/content/main/main-website/Data/HeroBanners/MTD - HeroBanner"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170707Z
+    - ID: "2c186372-9b86-4940-b496-6ae5b5bdac3a"
+      Hint: Subtitle
+      Value: <p>Understand how Making Tax Digital for Income Tax changes things for sole traders, landlords, accountants, and bookkeepers.</p>
+    - ID: "61c5bc1a-453d-4416-8e01-b150cdcfa7b1"
+      Hint: PrimaryLink
+      Value: |
+        <link text="Get more MTD info here" anchor="" linktype="external" class="" title="" target="" querystring="" url="#" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "8df6822c-0388-4e92-b3a5-5abee2ce8856"
+    - ID: "9b4e3888-8311-4996-be31-9bbd656de3d0"
+      Hint: SecondaryLink
+      Value: |
+        <link text="Get started now" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sage.com/en-gb/cart/free/account?sku=A0009_GB" />
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c61c7b75-21bd-4b9c-995e-671c9605de14"
+      Hint: Title
+      Value: Making Tax Digital
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170707Z

@@ -1,0 +1,26 @@
+﻿---
+ID: "8fd347c7-3679-4ca6-b34c-0a18d9a8f0a4"
+Parent: "6dca6c95-232d-4413-abd7-b752e0e7505b"
+Template: "88376eb8-a0b7-4ffb-aea1-ad143726cfd3"
+Path: "/sitecore/content/main/main-website/Home/Pricing/Data/PricingTrustStatsRow1"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170954Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "e98db983-4b16-4e7d-83ee-876cd1549d31"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c9f6caf5-6abd-461b-b16c-ac873d4f66b1"
+      Hint: Title
+      Value: PricingTrustStatsRow1
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170954Z

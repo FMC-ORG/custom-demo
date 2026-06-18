@@ -1,0 +1,29 @@
+﻿---
+ID: "6e3d2619-9b95-4bfa-b7cc-9c7ddc53b304"
+Parent: "b5c8aa4c-5b7d-4008-8945-68f7d909134f"
+Template: "31c6bc75-a564-4e78-a887-7c664c3f284b"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Accountants - Product Pricing Cards"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170828Z
+    - ID: "6d5da2e7-7c5b-4ced-82a4-22e2700d2d9c"
+      Hint: Description
+      Value: <p>Find the right bookkeeping plans for your practice and clients with Sage Accounting. To select your accounting plan, sign up to Sage for Accountants. It's easy to customise and add features.</p>
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "5328cad6-5d6f-440c-b4fc-c866046fe190"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170829Z
+    - ID: "e5346dc2-75c7-4050-8894-e2a6613ec298"
+      Hint: Title
+      Value: Sage Accounting plans for every client

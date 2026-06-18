@@ -1,0 +1,29 @@
+﻿---
+ID: "990ce01a-ff69-4dc2-8ad7-b4a79b0ea7ee"
+Parent: "fd905312-e599-48f3-9720-52b6ff0badc2"
+Template: "18975833-7fd9-4ca6-a4dc-d01cd3454d4b"
+Path: "/sitecore/content/main/main-website/Data/ValuePropositionGrids/Sage Accounting - ValuePropositionGrid/Learning"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T171205Z
+    - ID: "26ad50f0-0c17-4313-b9ca-58fb93ce4b30"
+      Hint: ItemTitle
+      Value: Learning
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "06189638-fb50-48d5-b4e5-3afd5f0af1bd"
+    - ID: "bab8dbd7-750d-473a-bf6a-e719cf812dd5"
+      Hint: ItemDescription
+      Value: <p>Master the full power of your software with comprehensive learning resources.</p>
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T171209Z

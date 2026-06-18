@@ -1,0 +1,34 @@
+﻿---
+ID: "7ba449e8-5bd6-4a4a-b217-f784d1fb2db0"
+Parent: "a1055559-2113-4baf-b3c3-05c38404ded2"
+Template: "9b720c4e-e7e7-4c12-bca1-e92270b476cc"
+Path: "/sitecore/content/main/main-website/Data/NavigationHeaders/Sage - Main Navigation"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "02645f3b-a7da-4f88-a980-6c3f8fdee9a9"
+      Hint: CtaLabel
+      Value: Login
+    - ID: "0c40aa29-7c5e-405d-a252-371ca36bd422"
+      Hint: CtaLink
+      Value: |
+        <link text="Login" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sage.com/en-gb/products/login/" />
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T101850Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "05fee372-ccbf-420f-832b-63f9421152b9"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "be108bcc-b20f-49b5-8dd2-ee56f2a26023"
+      Hint: BrandLogo
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/95431-section3-img2?v=889bb5f6" dam-id="2_ZmXgvGQwu-kHT6zYUaqA" width="57" height="32" alt="sage logo" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/95431/thumbnail" />
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T105120Z

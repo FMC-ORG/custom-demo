@@ -1,0 +1,26 @@
+﻿---
+ID: "601202f8-91e6-4e8f-a7cb-f32295d8660a"
+Parent: "ebe80b88-b47c-4efa-bbaa-068ee721a952"
+Template: "88376eb8-a0b7-4ffb-aea1-ad143726cfd3"
+Path: "/sitecore/content/main/main-website/Home/Sage Accounting/Data/SageAccTrustStatsRow1"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T171301Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "76c0dca5-48c0-41b7-b052-e05fb4f15191"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c9f6caf5-6abd-461b-b16c-ac873d4f66b1"
+      Hint: Title
+      Value: SageAccTrustStatsRow1
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T171301Z

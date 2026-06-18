@@ -1,0 +1,36 @@
+﻿---
+ID: "c03dc79a-7ea2-46c5-a7a5-f72d04638ced"
+Parent: "bc520fc0-e8cb-49ac-ac5d-c6aa8db7bd3e"
+Template: "ed669b5f-4392-498e-8f5b-a550f75b8c87"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Pricing - Plan Cards/Start"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170815Z
+    - ID: "29cae95a-cb7a-4086-a020-407c0dcd560a"
+      Hint: CardTitle
+      Value: Start
+    - ID: "8be5da79-b60c-4cf9-88be-8713ec09c57d"
+      Hint: PriceText
+      Value: £0 per month / excl. 20% VAT* — 3 months FREE, then £18 per month.
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "5e50d050-f45a-4a56-af50-c6c9336f25f9"
+    - ID: "92d83381-537b-4a02-89d2-bfa8af94a27c"
+      Hint: CardDescription
+      Value: "<p>For VAT-registered sole traders or small businesses just getting started. Now including payroll and Sage Copilot. 1 user. Productivity assistant included.</p>"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170815Z
+    - ID: "f5a6d991-2e10-4b18-88b5-338eafceb854"
+      Hint: CardLink
+      Value: |
+        <link text="Get 3 months free" anchor="" linktype="external" class="" title="" target="" querystring="" url="#" />

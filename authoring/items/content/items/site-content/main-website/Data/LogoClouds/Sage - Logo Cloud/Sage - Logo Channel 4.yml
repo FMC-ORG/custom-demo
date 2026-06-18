@@ -1,0 +1,37 @@
+﻿---
+ID: "97ed3453-c6aa-442c-93d5-2d219ae16ba6"
+Parent: "cfba1539-b170-4e72-836e-ceb6aba35985"
+Template: "c48880b3-b0b9-49ea-bf19-931c68a8a37c"
+Path: "/sitecore/content/main/main-website/Data/LogoClouds/Sage - Logo Cloud/Sage - Logo Channel 4"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "001dd393-96c5-490b-924a-b0f25cd9efd8"
+      Hint: __Lock
+      Value: <r />
+    - ID: "17cc8e99-43cd-4f35-8ed4-6c7a13334449"
+      Hint: CompanyName
+      Value: Channel 4
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T102027Z
+    - ID: "6d1ac8e5-0897-4beb-af96-3b2bb80b0668"
+      Hint: LogoImage
+      Value: |
+        <Image src="https://almu-sage.sitecoresandbox.cloud/api/public/content/95463-section4-img6?v=79dc825d" dam-id="pNyEf3zqTFCHw-cUD-yiuQ" width="220" height="120" alt="section4-img6.svg" dam-content-type="Image" thumbnailsrc="https://almu-sage.sitecoresandbox.cloud/api/gateway/95463/thumbnail" />
+    - ID: "736a53fe-18e4-4fc8-a2c3-164fa8dc9391"
+      Hint: LogoLink
+      Value: |
+        <link linktype="internal" id="e2124310-f817-4644-8671-bff8e72b66d7" anchor="" querystring="" target="" class="" text="" title=""/>
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "05de7934-e248-494d-920a-0b47950c481b"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T125202Z

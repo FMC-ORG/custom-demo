@@ -1,0 +1,29 @@
+﻿---
+ID: "9998fbf6-fe46-4f82-909c-8b6766fe8711"
+Parent: "42f1d6b3-616d-4d91-93ef-56d8d4b1111c"
+Template: "73df51e6-e92d-4742-9e0a-74d2ca36ef7f"
+Path: "/sitecore/content/main/main-website/Data/FAQAccordions/Sage Accounting - FAQAccordion/How does Sage Copilot work with Sage Accounting"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "216901f9-a9fa-439a-a5b1-3f5651c67540"
+      Hint: Question
+      Value: "How does Sage Copilot work with Sage Accounting?"
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T171059Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "54d2c29a-9235-4d71-8cc7-996286a19b7e"
+    - ID: "acb70819-a9d8-4255-bc4b-36c2ad36ec92"
+      Hint: Answer
+      Value: "<p>Sage Copilot is included with Sage Accounting to give your business a boost using generative AI. This supports the existing tools and features to streamline tasks, automate admin, and provide valuable - and more accurate - insights to help with business decision making. This technology helps you to deliver that same unparalleled value to your business in much less time.</p>"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T171104Z

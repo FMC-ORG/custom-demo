@@ -1,0 +1,29 @@
+﻿---
+ID: "a4f28828-d450-4e79-9a35-e010f08057e6"
+Parent: "bab76c01-9a6e-49d5-9f44-22d7edbe13fe"
+Template: "e94d3c21-7de5-4270-b691-8e29673a1e2c"
+Path: "/sitecore/content/main/main-website/Data/FeatureCardsGrids/Accountants - Feature Cards Grid 2"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260617T170842Z
+    - ID: "3775c623-2a5c-4d86-a41f-9717038d7d73"
+      Hint: Title
+      Value: Sage Advice for accountants and bookkeepers
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "88c1e30e-ae2c-42b5-a102-d929a72e0428"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260617T170842Z
+    - ID: "f9d6a2e8-15ee-4088-b4eb-60e1c66626d8"
+      Hint: Description
+      Value: <p>Explore our blogs and articles for expert advice on accounting and bookkeeping.</p>

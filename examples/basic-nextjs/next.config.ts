@@ -30,6 +30,12 @@ const nextConfig: NextConfig = {
     ],
     // Disable image optimization in development to avoid upstream timeouts
     unoptimized: process.env.NODE_ENV === 'development',
+    // Allow SVG assets from the Sitecore DAM to be optimized. SVGs are blocked
+    // by default because they can embed scripts; the CSP + attachment
+    // disposition below neutralize any embedded scripting.
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   
   // use this configuration to serve the sitemap.xml and robots.txt files from the API route handlers

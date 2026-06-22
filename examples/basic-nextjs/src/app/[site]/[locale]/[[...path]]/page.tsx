@@ -23,7 +23,7 @@ type PageProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export default async function Page({ params, searchParams }: PageProps) {
+export default async function Page({ params }: PageProps) {
   const { site, locale, path } = await params;
   const draft = await draftMode();
 
@@ -33,7 +33,11 @@ export default async function Page({ params, searchParams }: PageProps) {
   // Fetch the page data from Sitecore
   let page;
   if (draft.isEnabled) {
-    const editingParams = await searchParams;
+    // Read editing/preview params from the SDK-managed header
+    // (`x-sitecore-editing-params`), which the editing render route handler
+    // populates reliably (including `variantIds`). Reading from `searchParams`
+    // can omit `variantIds`, causing `getPreview` to crash on `.split()`.
+    const editingParams = client.getPreviewData(await headers());
     if (isDesignLibraryPreviewData(editingParams)) {
       page = await client.getDesignLibraryData(editingParams);
     } else {

@@ -55,6 +55,9 @@ export interface RouteFields {
   ogDescription?: Field;
   ogImage?: ImageField;
   thumbnailImage?: ImageField;
+  // SEO indexability (project "SEO Metadata" base template — Checkbox fields)
+  SeoNoindex?: Field;
+  SeoNofollow?: Field;
   // Article Page fields
   ArticleContent?: RichTextField;
   ArticleImage?: ImageField;

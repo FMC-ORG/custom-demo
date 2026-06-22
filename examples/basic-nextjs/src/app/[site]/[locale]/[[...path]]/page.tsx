@@ -11,7 +11,16 @@ import components from ".sitecore/component-map";
 import Providers from "src/Providers";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
-import { getBaseUrl } from "lib/utils";
+import type { Metadata } from "next";
+import {
+  BRAND,
+  buildCanonical,
+  resolveOgImage,
+  resolveRobots,
+  isArticle,
+  articleJsonLd,
+  JsonLd,
+} from "src/lib/seo";
 
 type PageProps = {
   params: Promise<{
@@ -59,8 +68,15 @@ export default async function Page({ params }: PageProps) {
     components,
   );
 
+  // Article pages emit BlogPosting JSON-LD (Organization + WebSite are site-wide in the root layout).
+  const routeFields = (page.layout.sitecore.route?.fields ?? {}) as RouteFields;
+  const canonicalUrl = buildCanonical(path?.length ? `/${path.join("/")}` : "");
+
   return (
     <NextIntlClientProvider>
+      {isArticle(routeFields) && (
+        <JsonLd data={articleJsonLd(routeFields, canonicalUrl)} />
+      )}
       <Providers page={page} componentProps={componentProps}>
         <Layout page={page} />
       </Providers>
@@ -89,45 +105,64 @@ export const generateStaticParams = async () => {
 };
 
 // Metadata fields for the page.
-export const generateMetadata = async ({ params }: PageProps) => {
-  const baseUrl = getBaseUrl();
-
+export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
   const { path, site, locale } = await params;
 
-  // Canonical URL: base URL + content path only (no site/locale segments)
+  // Content path only (no site/locale segments). Canonical/og:url always resolve
+  // against the fixed production origin via buildCanonical — never the request host.
   const pathSegment = path?.length ? `/${path.join("/")}` : "";
-  const canonicalUrl = baseUrl ? `${baseUrl}${pathSegment}` : undefined;
+  const canonicalUrl = buildCanonical(pathSegment);
 
-  // The same call as for rendering the page. Should be cached by default react behavior
+  // Same call as for rendering the page — cached by React for the request.
   const page = await client.getPage(path ?? [], { site, locale });
-  const fields = page?.layout.sitecore.route?.fields as RouteFields;
+  const route = page?.layout.sitecore.route;
+  const fields = (route?.fields ?? {}) as RouteFields;
 
-  // Parse keywords from comma-separated string to array
-  const keywordsString = fields?.metadataKeywords?.value?.toString() || "";
+  // Title: author SEO title → page Title → route name. Brand suffix is applied
+  // by the root layout's title.template ("%s | Sage").
+  const title =
+    fields.metadataTitle?.value?.toString() ||
+    fields.Title?.value?.toString() ||
+    route?.displayName ||
+    route?.name ||
+    BRAND.name;
+
+  const description =
+    fields.metadataDescription?.value?.toString() ||
+    fields.ogDescription?.value?.toString() ||
+    fields.pageSummary?.value?.toString() ||
+    "Sitecore Next.js Basic Example";
+
+  const keywordsString = fields.metadataKeywords?.value?.toString() || "";
   const keywords = keywordsString
-    ? keywordsString.split(",").map((k: string) => k.trim())
+    ? keywordsString.split(",").map((k: string) => k.trim()).filter(Boolean)
     : [];
 
+  const ogTitle = fields.ogTitle?.value?.toString() || title;
+  const ogImage = resolveOgImage(fields);
+  const ogType: "article" | "website" = isArticle(fields) ? "article" : "website";
+
   return {
-    title: fields?.Title?.value?.toString() || "Page",
-    description:
-      fields?.ogDescription?.value?.toString() ||
-      fields?.metadataDescription?.value?.toString() ||
-      "Sitecore Next.js Basic Example",
+    title,
+    description,
     keywords,
-    ...(canonicalUrl && {
-      alternates: {
-        canonical: canonicalUrl,
-      },
-    }),
+    alternates: { canonical: canonicalUrl },
+    robots: resolveRobots(fields, { contentPath: pathSegment }),
     openGraph: {
-      title: fields?.ogTitle?.value?.toString() || "Page",
-      description:
-        fields?.ogDescription?.value?.toString() ||
-        fields?.metadataDescription?.value?.toString() ||
-        "Sitecore Next.js Basic Example",
+      title: ogTitle,
+      description,
       url: canonicalUrl,
-      images: fields?.ogImage?.value?.src || fields?.thumbnailImage?.value?.src,
+      siteName: BRAND.name,
+      locale: BRAND.locale,
+      type: ogType,
+      images: [{ url: ogImage }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: BRAND.twitterHandle,
+      title: ogTitle,
+      description,
+      images: [ogImage],
     },
   };
 };

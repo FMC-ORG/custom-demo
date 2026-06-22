@@ -1,4 +1,19 @@
 import './globals.css';
+import type { Metadata } from 'next';
+import {
+  SITE_ORIGIN,
+  BRAND,
+  JsonLd,
+  organizationJsonLd,
+  webSiteJsonLd,
+} from 'src/lib/seo';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_ORIGIN),
+  title: { default: BRAND.name, template: `%s | ${BRAND.name}` },
+  openGraph: { siteName: BRAND.name, locale: BRAND.locale, type: 'website' },
+  twitter: { card: 'summary_large_image', site: BRAND.twitterHandle },
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -14,7 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body>{children}</body>
+      <body>
+        {/* Site-wide structured data */}
+        <JsonLd data={[organizationJsonLd(), webSiteJsonLd()]} />
+        {children}
+      </body>
     </html>
   );
 }

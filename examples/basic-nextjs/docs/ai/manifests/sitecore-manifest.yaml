@@ -1,5 +1,5 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-06-09T00:00:00Z"
+lastUpdatedAt: "2026-06-22T00:00:00Z"
 lastUpdatedBy: "claude-agent"
 
 project:
@@ -3132,3 +3132,61 @@ demoPages_sage:
     - "Default->Sage baked across all used components, so pages render the Sage look automatically (no variant selection)."
     - "IMAGES DEFERRED for all 4 pages — images downloaded to docs/ai/demos/<slug>/images, not yet uploaded/wired."
     - "Nav re-pointed: MTD + Accountants nav links + homepage Sage Accounting card -> internal pages."
+
+# SEO metadata fix — Phase 1 (code/env, committed by user) + Phase 2 (Sitecore template via MCP)
+seoMetadata:
+  status: "partial"   # complete except Landing noindex default (pendingManual) + production promotion
+  createdAt: "2026-06-22T00:00:00Z"
+  updatedAt: "2026-06-22T00:00:00Z"
+  approach: "New project 'SEO Metadata' base template attached to the Page template so all page types (Article, Landing, Home) inherit SeoNoindex/SeoNofollow. Renderer (generateMetadata) + root layout emit canonical/og/twitter/JSON-LD/robots."
+  baseTemplate:
+    name: "SEO Metadata"
+    path: "/sitecore/templates/Project/main/SEO Metadata"
+    itemId: "{78EFB219-8155-4C54-BA16-67A2401EDB8F}"
+    baseTemplate: "{1930BBEB-7805-471A-A3BE-4858AC7CF696}"  # Standard Template
+    section:
+      name: "SEO Data"
+      itemId: "{226C339A-9DF5-43B6-BB00-3FD4123D9EBC}"
+    fields:
+      # Indexability (Phase 2)
+      - { name: "SeoNoindex", type: "Checkbox", itemId: "{59CB16D8-7D5B-4517-9B29-8E098ABEFC39}" }
+      - { name: "SeoNofollow", type: "Checkbox", itemId: "{8B674BA6-7F03-4435-9C72-90968257642D}" }
+      # On-page + social authorable fields (added on request)
+      - { name: "MetaTitle", type: "Single-Line Text", validation: "^.{0,60}$", itemId: "{3B304511-D7A9-4A99-9DFD-58C4E5631EB2}" }
+      - { name: "MetaDescription", type: "Multi-Line Text", validation: "^.{0,160}$", itemId: "{09F3649F-322E-43D3-87AA-EA1C2888C669}" }
+      - { name: "OgTitle", type: "Single-Line Text", itemId: "{A7F1531A-AD66-4091-AE8F-EB755F9F3CE1}" }
+      - { name: "OgDescription", type: "Multi-Line Text", itemId: "{5926F0E5-ABA2-47AF-A174-416E9D8BD13A}" }
+      - { name: "OgImage", type: "Image", itemId: "{947282FF-48A1-482F-A652-58945FF4DF9C}" }
+      - { name: "TwitterTitle", type: "Single-Line Text", itemId: "{6AA0E737-7380-4C0C-9EBC-E061C9210C56}" }
+      - { name: "TwitterDescription", type: "Multi-Line Text", itemId: "{EA5834F6-B62E-4FDA-95C8-9D25B4FEEBDE}" }
+      - { name: "TwitterImage", type: "Image", itemId: "{1A577F54-1B9F-4D16-AAF8-BE9695B14701}" }
+      - { name: "CustomJsonLd", type: "Multi-Line Text", itemId: "{87E73A85-7A54-408E-A645-F059AB31FF9E}", note: "Optional raw JSON-LD escape hatch; rendered only if valid JSON." }
+    standardValues:
+      itemId: "{B8CE9972-7E57-4BFC-858C-7C12608D3932}"
+      linked: true
+      defaults: { SeoNoindex: "", SeoNofollow: "" }
+  attachedTo:
+    - template: "Page"
+      itemId: "{CEBD0936-6B37-42B5-B169-369BB1C3C06A}"
+      baseTemplateAppended: "{78EFB219-8155-4C54-BA16-67A2401EDB8F}"
+      note: "Appended to the existing 5 base templates (none removed). Article, Landing, and Home inherit transitively."
+  verification:
+    templateExists: passed
+    baseTemplateSet: passed          # Standard Template
+    sectionExists: passed
+    fieldsExist: passed
+    fieldTypesCorrect: passed         # both Checkbox
+    standardValuesLinked: passed
+    pageBaseAppended: passed          # 5 originals preserved + SEO Metadata
+  pendingManual:
+    - "Landing Page __Standard Values {0014CD13-F3F1-4049-A866-3F30F508202E}: tick SeoNoindex (Content Editor). MCP update_fields_on_item cannot write INHERITED-field values on a __Standard Values item (own-template fields only). Until then, the code-level /lp safety net noindexes ABM pages under /Home/lp regardless."
+  codeChanges:
+    - "src/lib/seo.tsx (new): BRAND constants, canonical/og:image/robots helpers, JSON-LD builders (Organization/WebSite/Article), <JsonLd>."
+    - "src/app/layout.tsx: metadataBase, title.template '%s | Sage', default OG/Twitter, site-wide Organization+WebSite JSON-LD."
+    - "src/app/[site]/[locale]/[[...path]]/page.tsx: generateMetadata rewrite (canonical from NEXT_PUBLIC_SITE_URL; title metadataTitle->Title->route; og:image chain; robots from SeoNoindex/SeoNofollow + /lp fallback; og/twitter completeness); Article BlogPosting JSON-LD."
+    - "src/Layout.tsx: RouteFields += SeoNoindex, SeoNofollow."
+    - "public/og-default.png + public/sage-logo.png (placeholders — replace with real Sage assets before go-live)."
+  env:
+    - "NEXT_PUBLIC_SITE_URL=https://sage-workshop.vercel.app set in Vercel (Production + Preview)."
+  notes:
+    - "2026-06-22: Phase 1 (code+env) committed by user and verified on preview deploy. Phase 2 (template) created + verified via MCP. Landing noindex default pendingManual. Production promotion pending."

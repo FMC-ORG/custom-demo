@@ -55,7 +55,13 @@ export interface RouteFields {
   ogDescription?: Field;
   ogImage?: ImageField;
   thumbnailImage?: ImageField;
-  // SEO indexability (project "SEO Metadata" base template — Checkbox fields)
+  // SEO Metadata base template (project "SEO Metadata" — inherited by all page types).
+  // MetaTitle, TwitterTitle, TwitterDescription, TwitterImage are declared above.
+  MetaDescription?: Field;
+  OgTitle?: Field;
+  OgDescription?: Field;
+  OgImage?: ImageField;
+  CustomJsonLd?: Field;
   SeoNoindex?: Field;
   SeoNofollow?: Field;
   // Article Page fields

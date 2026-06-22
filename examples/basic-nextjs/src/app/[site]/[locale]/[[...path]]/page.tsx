@@ -16,9 +16,11 @@ import {
   BRAND,
   buildCanonical,
   resolveOgImage,
+  resolveTwitterImage,
   resolveRobots,
   isArticle,
   articleJsonLd,
+  parseCustomJsonLd,
   JsonLd,
 } from "src/lib/seo";
 
@@ -71,12 +73,15 @@ export default async function Page({ params }: PageProps) {
   // Article pages emit BlogPosting JSON-LD (Organization + WebSite are site-wide in the root layout).
   const routeFields = (page.layout.sitecore.route?.fields ?? {}) as RouteFields;
   const canonicalUrl = buildCanonical(path?.length ? `/${path.join("/")}` : "");
+  // Optional author-supplied extra schema (e.g. FAQPage). Rendered only if valid JSON.
+  const customJsonLd = parseCustomJsonLd(routeFields.CustomJsonLd?.value as string | undefined);
 
   return (
     <NextIntlClientProvider>
       {isArticle(routeFields) && (
         <JsonLd data={articleJsonLd(routeFields, canonicalUrl)} />
       )}
+      {customJsonLd && <JsonLd data={customJsonLd} />}
       <Providers page={page} componentProps={componentProps}>
         <Layout page={page} />
       </Providers>
@@ -118,39 +123,38 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
   const route = page?.layout.sitecore.route;
   const fields = (route?.fields ?? {}) as RouteFields;
 
-  // Title: author SEO title → page Title → route name. Brand suffix is applied
-  // by the root layout's title.template ("%s | Sage").
+  // Title: author SEO title (MetaTitle) → page Title → route name. Brand suffix
+  // is applied by the root layout's title.template ("%s | Sage").
   const title =
-    fields.metadataTitle?.value?.toString() ||
+    fields.MetaTitle?.value?.toString() ||
     fields.Title?.value?.toString() ||
     route?.displayName ||
     route?.name ||
     BRAND.name;
 
   const description =
-    fields.metadataDescription?.value?.toString() ||
-    fields.ogDescription?.value?.toString() ||
-    fields.pageSummary?.value?.toString() ||
+    fields.MetaDescription?.value?.toString() ||
     "Sitecore Next.js Basic Example";
 
-  const keywordsString = fields.metadataKeywords?.value?.toString() || "";
-  const keywords = keywordsString
-    ? keywordsString.split(",").map((k: string) => k.trim()).filter(Boolean)
-    : [];
-
-  const ogTitle = fields.ogTitle?.value?.toString() || title;
+  // Open Graph falls back to the meta fields; Twitter falls back to Open Graph.
+  const ogTitle =
+    fields.OgTitle?.value?.toString() || fields.MetaTitle?.value?.toString() || title;
+  const ogDescription = fields.OgDescription?.value?.toString() || description;
   const ogImage = resolveOgImage(fields);
   const ogType: "article" | "website" = isArticle(fields) ? "article" : "website";
+
+  const twitterTitle = fields.TwitterTitle?.value?.toString() || ogTitle;
+  const twitterDescription = fields.TwitterDescription?.value?.toString() || ogDescription;
+  const twitterImage = resolveTwitterImage(fields);
 
   return {
     title,
     description,
-    keywords,
     alternates: { canonical: canonicalUrl },
     robots: resolveRobots(fields, { contentPath: pathSegment }),
     openGraph: {
       title: ogTitle,
-      description,
+      description: ogDescription,
       url: canonicalUrl,
       siteName: BRAND.name,
       locale: BRAND.locale,
@@ -160,9 +164,9 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
     twitter: {
       card: "summary_large_image",
       site: BRAND.twitterHandle,
-      title: ogTitle,
-      description,
-      images: [ogImage],
+      title: twitterTitle,
+      description: twitterDescription,
+      images: [twitterImage],
     },
   };
 };

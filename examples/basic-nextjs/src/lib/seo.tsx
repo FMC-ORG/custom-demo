@@ -53,17 +53,37 @@ function isChecked(field?: { value?: unknown }): boolean {
 
 /**
  * og:image resolution chain:
- * ogImage → thumbnailImage → type-specific (ArticleImage / heroImage) → brand default.
+ * OgImage → type-specific (ArticleImage / heroImage) → brand default.
  */
 export function resolveOgImage(fields: RouteFields): string {
   const candidates = [
-    fields.ogImage?.value?.src,
-    fields.thumbnailImage?.value?.src,
+    fields.OgImage?.value?.src,
     fields.ArticleImage?.value?.src,
     fields.heroImage?.value?.src,
   ];
   const found = candidates.find((src) => typeof src === 'string' && src.length > 0);
   return absoluteUrl(found || BRAND.defaultOgImagePath);
+}
+
+/** twitter:image — explicit TwitterImage, else fall back to the og:image chain. */
+export function resolveTwitterImage(fields: RouteFields): string {
+  const src = fields.TwitterImage?.value?.src;
+  return src ? absoluteUrl(src) : resolveOgImage(fields);
+}
+
+/**
+ * Parse the optional author-supplied CustomJsonLd field. Returns the parsed
+ * object/array, or null when the field is empty or not valid JSON (so invalid
+ * input can never break the page render).
+ */
+export function parseCustomJsonLd(raw?: string | null): object | object[] | null {
+  if (!raw || !raw.trim()) return null;
+  try {
+    const parsed = JSON.parse(raw);
+    return typeof parsed === 'object' && parsed !== null ? parsed : null;
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -128,9 +148,9 @@ export function articleJsonLd(fields: RouteFields, canonicalUrl: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: fields.metadataTitle?.value || fields.Title?.value || undefined,
+    headline: fields.MetaTitle?.value || fields.Title?.value || undefined,
     description:
-      fields.metadataDescription?.value || fields.ogDescription?.value || fields.pageSummary?.value || undefined,
+      fields.MetaDescription?.value || fields.OgDescription?.value || undefined,
     image: resolveOgImage(fields),
     datePublished: fields.ArticlePublicationDate?.value || undefined,
     mainEntityOfPage: canonicalUrl,

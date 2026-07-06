@@ -41,7 +41,7 @@ function StatTile({
         <Text
           field={number}
           tag="p"
-          className="text-5xl font-bold tracking-tight text-gray-900 md:text-6xl"
+          className="font-[var(--brand-heading-font,inherit)] text-[40px] font-semibold leading-tight tracking-tight text-white"
           data-testid="stat-number"
         />
       )}
@@ -49,7 +49,7 @@ function StatTile({
         <Text
           field={label}
           tag="p"
-          className="mt-2 text-sm font-medium uppercase tracking-wider text-gray-600"
+          className="mt-2 text-xs font-medium uppercase tracking-wider text-white/70"
           data-testid="stat-label"
         />
       )}
@@ -65,9 +65,12 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
 
   return (
     <div className={cn('component landing-stats', styles)} id={RenderingIdentifier}>
-      <section className="bg-white py-16 md:py-20" data-testid="landing-stats">
+      <section
+        className="bg-[var(--brand-primary)] py-14 md:py-16"
+        data-testid="landing-stats"
+      >
         <div className="mx-auto max-w-5xl px-4">
-          <div className="grid gap-12 md:grid-cols-3">
+          <div className="grid gap-10 md:grid-cols-3">
             <StatTile
               number={routeFields.stat1Number}
               label={routeFields.stat1Label}

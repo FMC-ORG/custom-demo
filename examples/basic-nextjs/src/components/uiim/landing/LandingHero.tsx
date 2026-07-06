@@ -110,7 +110,8 @@ function CtaPair({
 }
 
 /* ────────────────────────────────────────────
-   Default — centered eyebrow + headline + subhead + dual CTAs above hero media
+   Default — full-bleed media with white card overlapping the lower-left
+   (Trelleborg-style "Agricultura y Silvicultura" panel)
    ──────────────────────────────────────────── */
 export const Default = ({ params, page }: ComponentProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
@@ -128,49 +129,93 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
     heroVideo,
   } = routeFields;
 
-  const hasMedia = heroVideo?.value?.href || heroImage?.value?.src || isEditing;
+  const hasMedia = Boolean(heroVideo?.value?.href || heroImage?.value?.src || isEditing);
+  const onNavy = !hasMedia;
+
+  const primaryCtaClasses = onNavy
+    ? 'inline-flex items-center justify-center rounded-[var(--brand-button-radius,0px)] border border-white bg-transparent px-8 py-3 text-sm font-semibold text-white transition hover:bg-white/10'
+    : 'inline-flex items-center justify-center rounded-[var(--brand-button-radius,0px)] bg-[var(--brand-primary)] px-8 py-3 text-sm font-semibold text-white transition hover:opacity-90';
+
+  const secondaryCtaClasses =
+    'inline-flex items-center text-sm font-semibold text-[var(--brand-accent)] transition hover:underline';
+
+  const cardContent = (
+    <>
+      {(heroEyebrow?.value || isEditing) && (
+        <Text
+          field={heroEyebrow}
+          tag="p"
+          className={cn(
+            'mb-3 text-xs font-semibold uppercase tracking-wide',
+            onNavy ? 'text-white/80' : 'text-[var(--brand-primary)]'
+          )}
+          data-testid="hero-eyebrow"
+        />
+      )}
+      {(heroHeadline?.value || isEditing) && (
+        <Text
+          field={heroHeadline}
+          tag="h1"
+          className={cn(
+            'font-[var(--brand-heading-font,inherit)] text-[32px] font-semibold leading-tight tracking-tight md:text-4xl',
+            onNavy ? 'text-white' : 'text-[var(--brand-primary)]'
+          )}
+          data-testid="hero-headline"
+        />
+      )}
+      {(heroSubhead?.value || isEditing) && (
+        <Text
+          field={heroSubhead}
+          tag="p"
+          className={cn(
+            'mt-4 text-[15px] leading-relaxed',
+            onNavy ? 'text-white/80' : 'text-[var(--brand-fg,#333333)]'
+          )}
+          data-testid="hero-subhead"
+        />
+      )}
+      {(heroPrimaryCta?.value?.href || heroSecondaryCta?.value?.href || isEditing) && (
+        <div className="mt-6 flex flex-wrap items-center gap-6" data-testid="hero-ctas">
+          {(heroPrimaryCta?.value?.href || isEditing) && heroPrimaryCta && (
+            <ContentSdkLink
+              field={heroPrimaryCta}
+              className={primaryCtaClasses}
+              data-testid="hero-primary-cta"
+            />
+          )}
+          {(heroSecondaryCta?.value?.href || isEditing) && heroSecondaryCta && (
+            <ContentSdkLink
+              field={heroSecondaryCta}
+              className={secondaryCtaClasses}
+              data-testid="hero-secondary-cta"
+            />
+          )}
+        </div>
+      )}
+    </>
+  );
 
   return (
     <div className={cn('component landing-hero', styles)} id={RenderingIdentifier}>
-      <section className="relative overflow-hidden bg-gray-900" data-testid="landing-hero">
-        {hasMedia && (
-          <div className="absolute inset-0 opacity-30">
+      {hasMedia ? (
+        <section data-testid="landing-hero">
+          <div className="relative h-[480px] w-full overflow-hidden md:h-[560px]">
             <HeroMedia image={heroImage} video={heroVideo} isEditing={isEditing} />
           </div>
-        )}
-        <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-4 py-24 text-center text-white md:py-32">
-          {(heroEyebrow?.value || isEditing) && (
-            <Text
-              field={heroEyebrow}
-              tag="p"
-              className="mb-4 text-sm font-semibold uppercase tracking-wider text-white/80"
-              data-testid="hero-eyebrow"
-            />
-          )}
-          {(heroHeadline?.value || isEditing) && (
-            <Text
-              field={heroHeadline}
-              tag="h1"
-              className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
-              data-testid="hero-headline"
-            />
-          )}
-          {(heroSubhead?.value || isEditing) && (
-            <Text
-              field={heroSubhead}
-              tag="p"
-              className="mt-6 max-w-2xl text-lg text-white/80 md:text-xl"
-              data-testid="hero-subhead"
-            />
-          )}
-          <CtaPair
-            primary={heroPrimaryCta}
-            secondary={heroSecondaryCta}
-            isEditing={isEditing}
-            variant="default"
-          />
-        </div>
-      </section>
+          <div className="relative z-10 w-full bg-white p-8 md:-mt-44 md:ml-[5%] md:max-w-xl md:p-10">
+            {cardContent}
+          </div>
+        </section>
+      ) : (
+        <section
+          className="bg-[var(--brand-primary)]"
+          data-testid="landing-hero"
+        >
+          <div className="mx-auto max-w-7xl px-4 py-20 md:py-28">
+            <div className="max-w-xl">{cardContent}</div>
+          </div>
+        </section>
+      )}
     </div>
   );
 };

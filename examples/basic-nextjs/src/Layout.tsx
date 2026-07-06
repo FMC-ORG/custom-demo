@@ -74,12 +74,18 @@ export interface RouteFields {
   feature1IconName?: Field<string>;
   feature1Title?: Field<string>;
   feature1Description?: RichTextField;
+  feature1Image?: ImageField;
+  feature1Link?: LinkField;
   feature2IconName?: Field<string>;
   feature2Title?: Field<string>;
   feature2Description?: RichTextField;
+  feature2Image?: ImageField;
+  feature2Link?: LinkField;
   feature3IconName?: Field<string>;
   feature3Title?: Field<string>;
   feature3Description?: RichTextField;
+  feature3Image?: ImageField;
+  feature3Link?: LinkField;
   // Landing Page — Stats Data
   stat1Number?: Field<string>;
   stat1Label?: Field<string>;
@@ -93,6 +99,7 @@ export interface RouteFields {
   testimonialAuthorTitle?: Field<string>;
   testimonialAuthorImage?: ImageField;
   partnerLogosImage?: ImageField;
+  socialProofVideoUrl?: LinkField;
   // Landing Page — FAQ Data
   faq1Question?: Field<string>;
   faq1Answer?: RichTextField;

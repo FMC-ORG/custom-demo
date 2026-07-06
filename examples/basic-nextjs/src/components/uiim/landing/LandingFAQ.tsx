@@ -54,7 +54,10 @@ function FAQItem({
 }) {
   if (!question?.value && !answer?.value && !isEditing) return null;
   return (
-    <div className="border-b border-gray-200" data-testid={`faq-item-${index}`}>
+    <div
+      className="border-b border-[var(--brand-border,#e0e0e0)]"
+      data-testid={`faq-item-${index}`}
+    >
       <button
         type="button"
         onClick={onToggle}
@@ -65,20 +68,20 @@ function FAQItem({
           <Text
             field={question}
             tag="span"
-            className="text-base font-semibold text-gray-900 md:text-lg"
+            className="font-[var(--brand-heading-font,inherit)] text-base font-semibold text-[var(--brand-primary)]"
             data-testid="faq-question"
           />
         )}
         <ChevronDown
           className={cn(
-            'h-5 w-5 flex-shrink-0 text-gray-500 transition-transform',
+            'h-5 w-5 flex-shrink-0 text-[var(--brand-accent)] transition-transform',
             isOpen && 'rotate-180'
           )}
         />
       </button>
       {isOpen && (answer?.value || isEditing) && (
         <div
-          className="pb-5 pr-10 text-sm text-gray-600 md:text-base"
+          className="pb-5 pr-10 text-sm leading-relaxed text-[var(--brand-fg,#333333)] md:text-base"
           data-testid="faq-answer"
         >
           <ContentSdkRichText field={answer} />
@@ -108,10 +111,10 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
     <div className={cn('component landing-faq', styles)} id={RenderingIdentifier}>
       <section className="bg-white py-16 md:py-24" data-testid="landing-faq">
         <div className="mx-auto max-w-3xl px-4">
-          <h2 className="mb-10 text-center text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
+          <h2 className="mb-10 text-center font-[var(--brand-heading-font,inherit)] text-3xl font-semibold tracking-tight text-[var(--brand-primary)] md:text-4xl">
             Frequently asked questions
           </h2>
-          <div className="border-t border-gray-200">
+          <div className="border-t border-[var(--brand-border,#e0e0e0)]">
             {items.map((item, i) => (
               <FAQItem
                 key={i}

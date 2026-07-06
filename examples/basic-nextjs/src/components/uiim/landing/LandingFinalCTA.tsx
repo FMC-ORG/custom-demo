@@ -39,19 +39,22 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
 
   return (
     <div className={cn('component landing-final-cta', styles)} id={RenderingIdentifier}>
-      <section className="bg-gray-900 py-16 md:py-24" data-testid="landing-final-cta">
+      <section
+        className="bg-[var(--brand-muted,#f5f5f5)] py-16 md:py-20"
+        data-testid="landing-final-cta"
+      >
         <div className="mx-auto max-w-3xl px-4 text-center">
           {(finalCtaHeadline?.value || isEditing) && (
             <Text
               field={finalCtaHeadline}
               tag="h2"
-              className="text-3xl font-bold tracking-tight text-white md:text-4xl lg:text-5xl"
+              className="font-[var(--brand-heading-font,inherit)] text-[32px] font-semibold leading-tight tracking-tight text-[var(--brand-primary)]"
               data-testid="final-cta-headline"
             />
           )}
           {(finalCtaSubhead?.value || isEditing) && (
             <div
-              className="mx-auto mt-6 max-w-xl text-lg text-white/80"
+              className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-[var(--brand-fg,#333333)]"
               data-testid="final-cta-subhead"
             >
               <ContentSdkRichText field={finalCtaSubhead} />
@@ -61,7 +64,7 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
             <div className="mt-8">
               <ContentSdkLink
                 field={finalCtaButton}
-                className="inline-flex items-center justify-center rounded-md bg-white px-8 py-4 text-base font-semibold text-gray-900 transition hover:bg-gray-100"
+                className="inline-flex items-center justify-center rounded-[var(--brand-button-radius,0px)] bg-[var(--brand-primary)] px-8 py-3 text-sm font-semibold text-white transition hover:opacity-90"
                 data-testid="final-cta-button"
               />
             </div>

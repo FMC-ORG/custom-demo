@@ -2261,6 +2261,7 @@ components:
       componentMapUpdated: passed
     notes:
       - "2026-06-09: Created LandingHero (3 variants — Default, SplitImage, Minimal). Renders heroVideo if set else heroImage. ABM swap surface."
+      - "2026-07-06: Default restyled in place (Trelleborg): full-bleed media + overlapping white card, navy/gold brand vars; navy-band fallback when no media. SplitImage/Minimal untouched."
 
   - name: "LandingFeatures"
     kind: "context-only"
@@ -2300,6 +2301,7 @@ components:
       componentMapUpdated: passed
     notes:
       - "2026-06-09: Created. 3 fixed feature slots. Icons via lucide-react dynamic lookup (PascalCase icon name strings → React component)."
+      - "2026-07-06: Default restyled in place (Trelleborg): flat muted photo cards (featureNImage optional, icon-tile fallback) + gold featureNLink read-more."
 
   - name: "LandingStats"
     kind: "context-only"
@@ -2634,6 +2636,12 @@ pageTemplates:
           - { name: "feature3IconName", type: "Single-Line Text", itemId: "{AEA8E7E8-1AE1-49C4-9238-8FE043058F4D}", validation: "^[A-Z][A-Za-z0-9]{1,30}$" }
           - { name: "feature3Title", type: "Single-Line Text", itemId: "{ACC0EC77-5D02-47F4-93F1-DC0971623CD5}", validation: "^.{1,40}$" }
           - { name: "feature3Description", type: "Rich Text", itemId: "{E82CA53F-5B52-40D6-83EA-9D414DD04978}" }
+          - { name: "feature1Image", type: "Image", itemId: "{2836C304-2487-4F36-84AC-39CBA148CC3F}", optional: true }
+          - { name: "feature1Link", type: "General Link", itemId: "{5712CB35-3906-48B6-B0BE-2B67A438DD7E}", optional: true }
+          - { name: "feature2Image", type: "Image", itemId: "{83BA69F5-A667-4F62-B5BF-46F253D29CA9}", optional: true }
+          - { name: "feature2Link", type: "General Link", itemId: "{CEE10657-37F1-4CCB-B3A6-9E7875E13C03}", optional: true }
+          - { name: "feature3Image", type: "Image", itemId: "{F2341946-A362-406B-A1FF-0E4F1EC50614}", optional: true }
+          - { name: "feature3Link", type: "General Link", itemId: "{70EBA9F3-9495-4516-AD41-3B2F7BDE4A43}", optional: true }
           # Stats Data (6)
           - { name: "stat1Number", type: "Single-Line Text", itemId: "{35C67A2F-620D-466D-A4A8-3B717CF2ED96}", validation: "^.{1,8}$" }
           - { name: "stat1Label", type: "Single-Line Text", itemId: "{BC0DFED4-3B88-49CA-A34D-098141889CF2}", validation: "^.{1,30}$" }
@@ -2647,6 +2655,7 @@ pageTemplates:
           - { name: "testimonialAuthorTitle", type: "Single-Line Text", itemId: "{80F81BB3-7127-48AF-A8CD-553858610C66}", validation: "^.{1,80}$" }
           - { name: "testimonialAuthorImage", type: "Image", itemId: "{A5CCB94C-223D-4B12-AC4B-59DCBF5945BB}" }
           - { name: "partnerLogosImage", type: "Image", itemId: "{EF14FB95-FBF5-46FC-87EC-3A6B1A1AA8FE}" }
+          - { name: "socialProofVideoUrl", type: "General Link", itemId: "{A4886756-724A-456B-99B9-D0D6A753D480}", optional: true }
           # FAQ Data (10)
           - { name: "faq1Question", type: "Single-Line Text", itemId: "{A210B32E-FF19-4909-AFEA-6AFDE0D1E41B}", validation: "^.{1,140}$" }
           - { name: "faq1Answer", type: "Rich Text", itemId: "{6900EAA8-748F-4A12-864B-2115BE3C5E5E}" }
@@ -2723,6 +2732,7 @@ pageTemplates:
       - "2026-06-09: 6 context components created (LandingHero, LandingFeatures, LandingStats, LandingSocialProof, LandingFAQ, LandingFinalCTA). 8 Variant Definitions total — Hero gets 3 (Default, SplitImage, Minimal), others get Default only (lean v1 scope)."
       - "2026-06-09: Partial Design and Page Design items created but rendering placement and standard-values linkage are silent-write — finalize via Pages Builder / Content Editor."
       - "2026-06-09: Registry entry in docs/ai/catalog/page-template-registry.yaml under id=landing is the canonical schema source of truth. Orchestrator skill at docs/ai/skills/sitecore-create-landing-page.md. Router updated at docs/ai/rules/01-sitecore-router.md."
+      - "2026-07-06: Trelleborg restyle — added 7 optional fields via MCP (feature1-3Image, feature1-3Link, socialProofVideoUrl; Types verified). All 6 Landing* Default exports restyled in place to Trelleborg look (navy/gold brand vars). Registry + ABM skill contract updated."
 
   - name: "SearchExperience"
     kind: "simple"

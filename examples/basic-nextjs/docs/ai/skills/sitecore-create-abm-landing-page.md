@@ -162,6 +162,8 @@ The Landing Page template has **40 content fields** in 6 sections, plus 2 inheri
 | `feature{1,2,3}IconName` | SLT | `^[A-Z][A-Za-z0-9]{1,30}$` | PascalCase lucide-react icon name. Safe choices: `Zap`, `ShieldCheck`, `Rocket`, `BarChart3`, `Users`, `Clock`, `Sparkles`, `Layers`, `Globe`, `Lightbulb`, `Star`, `Trophy`, `Brain`, `Bot`, `Wand2`, `Target`. |
 | `feature{1,2,3}Title` | SLT | `^.{1,40}$` | 2-4 words, ≤40 chars, action-led. Examples: "Launch in days", "Personalize at scale", "Measure what matters" |
 | `feature{1,2,3}Description` | Rich Text | — | 1-2 sentences (100-180 chars body inside `<p>...</p>`). Names the organization in **at least 2 of the 3** features. Describes the outcome, not the mechanism. |
+| `feature{1,2,3}Image` | Image | — | **Optional** (added 2026-07-06). Leave empty (`""`) unless a Sitecore/DAM image XML is on hand — when set, the feature card renders the photo instead of the icon tile. |
+| `feature{1,2,3}Link` | General Link | — | **Optional** (added 2026-07-06). Leave empty (`""`) unless a relevant destination exists — when set, the card shows a "read more" style link. |
 
 ### Section 3: Stats Data (6 fields = 3 stats × 2 fields)
 
@@ -191,6 +193,7 @@ The Landing Page template has **40 content fields** in 6 sections, plus 2 inheri
 | `testimonialAuthorTitle` | SLT | `^.{1,80}$` | ≤80 chars. Frame as industry peer, e.g., "VP Marketing, peer retail brand". |
 | `testimonialAuthorImage` | Image | — | Leave empty (`""`). |
 | `partnerLogosImage` | Image | — | Leave empty (`""`). |
+| `socialProofVideoUrl` | General Link | — | **Optional** (added 2026-07-06). Leave empty (`""`) — when set (YouTube or mp4 URL), the section renders a centered video embed with the testimonial as caption instead of the quote layout. |
 
 ### Section 5: FAQ Data (10 fields = 5 FAQs × 2 fields)
 

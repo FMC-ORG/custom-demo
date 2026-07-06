@@ -216,6 +216,66 @@ export const BackgroundImage = ({ fields, params, page }: HeroBannerProps): JSX.
 };
 
 /* ────────────────────────────────────────────
+   TrelleborgTires — full-bleed image, left-aligned
+   white text, small white-outline CTA
+   ──────────────────────────────────────────── */
+export const TrelleborgTires = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  const outlineCta =
+    'inline-flex items-center justify-center rounded-none border border-white bg-transparent px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white hover:text-[var(--brand-primary)]';
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative flex min-h-[600px] w-full items-center overflow-hidden md:min-h-[660px]">
+        {/* Background image */}
+        {(fields.HeroImage?.value?.src || isEditing) && (
+          <div className="absolute inset-0">
+            <SmartMedia
+              field={fields.HeroImage}
+              fill
+              sizes="100vw"
+              className="object-cover"
+            />
+          </div>
+        )}
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/50" />
+        {/* Content — left-aligned in container */}
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6">
+          <div className="max-w-2xl space-y-4 text-left text-white">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h1"
+                className="text-3xl font-semibold leading-tight tracking-tight md:text-[44px] md:leading-[1.15] font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Subtitle?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Subtitle}
+                className="max-w-xl text-base text-white/90 font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+            <div className="flex flex-wrap items-center gap-4 pt-3">
+              {(fields.PrimaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink field={fields.PrimaryLink} className={outlineCta} />
+              )}
+              {(fields.SecondaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink field={fields.SecondaryLink} className={outlineCta} />
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    VideoBackground — poster image with video overlay indicator
    ──────────────────────────────────────────── */
 export const VideoBackground = ({ fields, params, page }: HeroBannerProps): JSX.Element => {

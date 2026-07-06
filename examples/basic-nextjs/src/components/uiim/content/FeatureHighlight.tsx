@@ -109,6 +109,67 @@ export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.El
 };
 
 /* ────────────────────────────────────────────
+   TrelleborgTires — flat light-gray split card:
+   image left (~55%), vertically centered text right,
+   gold text link, sharp corners
+   ──────────────────────────────────────────── */
+export const TrelleborgTires = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-10 md:py-14"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div
+          className="mx-auto grid max-w-7xl overflow-hidden rounded-none md:grid-cols-[55%_45%]"
+          style={{ backgroundColor: 'var(--brand-muted, #f5f5f5)' }}
+        >
+          <div className="relative min-h-[240px] md:min-h-[320px]">
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <SmartMedia
+                field={fields.FeatureImage}
+                fill
+                sizes="(min-width: 768px) 55vw, 100vw"
+                className="object-cover"
+              />
+            )}
+          </div>
+          <div className="flex flex-col justify-center p-8 md:p-10">
+            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h3"
+                className="text-xl font-semibold font-[var(--brand-heading-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #393939)' }}
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-2 text-sm font-[var(--brand-body-font,inherit)]"
+                style={{ color: 'var(--brand-fg, #393939)' }}
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="mt-4 inline-flex text-sm font-medium no-underline transition-all hover:underline"
+                style={{ color: 'var(--brand-accent)' }}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Centered — centered text above, image below
    ──────────────────────────────────────────── */
 export const Centered = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {

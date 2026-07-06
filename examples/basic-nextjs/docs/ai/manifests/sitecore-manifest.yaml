@@ -1,5 +1,5 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-06-09T00:00:00Z"
+lastUpdatedAt: "2026-07-06T00:00:00Z"
 lastUpdatedBy: "claude-agent"
 
 project:
@@ -34,6 +34,7 @@ components:
       variants:
         - "Default"
         - "Highlight"
+        - "TrelleborgTires"
 
     templates:
       datasource:
@@ -92,6 +93,7 @@ components:
       variants:
         - { name: "Default", itemId: "{C443BF0E-5B40-4F84-98A2-F0825E83E345}" }
         - { name: "Highlight", itemId: "{6A6E7095-E948-46F1-A37B-260ADA3604FF}" }
+        - { name: "TrelleborgTires", itemId: "{9333019E-DB8E-44E6-B286-47917C000121}" }
 
     verification:
       checkedAt: "2026-03-25T12:00:00Z"
@@ -140,6 +142,7 @@ components:
         - "Default"
         - "Transparent"
         - "Minimal"
+        - "TrelleborgTires"
 
     templates:
       parent:
@@ -218,6 +221,7 @@ components:
         - { name: "Default", itemId: "{150B9AFE-2B9F-48AD-8F01-036666057814}" }
         - { name: "Transparent", itemId: "{A46EFC9D-7CF0-4C92-9577-1D94FD1D9782}" }
         - { name: "Minimal", itemId: "{608E0EC7-E2C6-4093-A1A1-3962FF17885A}" }
+        - { name: "TrelleborgTires", itemId: "{5206C42A-6738-47DF-AA66-2D1E1A85A7F7}" }
 
     verification:
       checkedAt: "2026-05-05T16:00:00Z"
@@ -257,6 +261,7 @@ components:
         - "BackgroundImage"
         - "VideoBackground"
         - "Minimal"
+        - "TrelleborgTires"
 
     templates:
       datasource:
@@ -320,6 +325,7 @@ components:
         - { name: "BackgroundImage", itemId: "{948210B2-B8AF-47C1-A04F-E220071C0A63}" }
         - { name: "VideoBackground", itemId: "{96586509-EBD7-4642-A127-0C65AEE1BD99}" }
         - { name: "Minimal", itemId: "{FA46BF9A-3783-4615-B4E6-5F5B33A78B48}" }
+        - { name: "TrelleborgTires", itemId: "{946E332C-EBF7-4440-9C7A-493952D6F10B}" }
 
     verification:
       checkedAt: "2026-03-25T13:30:00Z"
@@ -363,6 +369,7 @@ components:
         - "Default"
         - "Underline"
         - "Boxed"
+        - "TrelleborgTires"
 
     templates:
       datasource:
@@ -439,6 +446,7 @@ components:
         - { name: "Default", itemId: "{37CD0AB0-A6F4-4F5B-9032-666FA10925D4}" }
         - { name: "Underline", itemId: "{F6AB5E2B-D266-4BAC-8536-48404A6EF04A}" }
         - { name: "Boxed", itemId: "{3A61A7A8-3D68-498D-A79D-9D0191AE4F90}" }
+        - { name: "TrelleborgTires", itemId: "{8A8F0B48-1C8B-4075-A743-0F88AEABCD54}" }
 
     verification:
       checkedAt: "2026-03-25T14:30:00Z"
@@ -1076,6 +1084,7 @@ components:
         - "WithImage"
         - "Split"
         - "Minimal"
+        - "TrelleborgTires"
 
     templates:
       datasource:
@@ -1138,6 +1147,7 @@ components:
         - { name: "WithImage", itemId: "{2DC4E1E9-79A0-48C7-A6D9-AC7DD8AFAAA0}" }
         - { name: "Split", itemId: "{9DBA839A-E0F8-47D2-AA8E-29EDA7CC68E6}" }
         - { name: "Minimal", itemId: "{E63EE25F-C889-4FE1-81B7-4611CF5969BE}" }
+        - { name: "TrelleborgTires", itemId: "{0C4EED76-FB13-4EE2-8C5F-5D85E7CC2ED9}" }
 
     verification:
       checkedAt: "2026-03-25T18:00:00Z"
@@ -1176,6 +1186,10 @@ components:
         - "TwoColumn"
         - "WithImages"
         - "Carousel"
+        - "TrelleborgTiresSelectors"
+        - "TrelleborgTiresCarousel"
+        - "TrelleborgTiresVideos"
+        - "TrelleborgTiresPress"
 
     templates:
       datasource:
@@ -1257,6 +1271,10 @@ components:
         - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
         - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
         - { name: "Carousel", itemId: "" }  # TODO: create in Sitecore
+        - { name: "TrelleborgTiresSelectors", itemId: "{5E556FB4-AD1B-4CE0-A1B8-C06488978DF0}" }
+        - { name: "TrelleborgTiresCarousel", itemId: "{DEAC2039-1285-4AA4-B1BA-55CC7FC155E9}" }
+        - { name: "TrelleborgTiresVideos", itemId: "{05F720E7-78DC-463D-8762-1654EE6649E0}" }
+        - { name: "TrelleborgTiresPress", itemId: "{B248FB35-50CE-464F-8FF9-90C0B5625C80}" }
 
     verification:
       checkedAt: "2026-03-25T18:30:00Z"
@@ -1505,6 +1523,7 @@ components:
         - "Default"
         - "Minimal"
         - "MegaFooter"
+        - "TrelleborgTires"
 
     templates:
       datasource:
@@ -1562,6 +1581,7 @@ components:
         - { name: "Default", itemId: "{143CFE84-1E77-4961-975C-38564DC43DB9}" }
         - { name: "Minimal", itemId: "{AF87D61B-F6A8-4036-9BF8-FDB586268D24}" }
         - { name: "MegaFooter", itemId: "{DA131066-F9A2-47F0-A099-F614E61817AA}" }
+        - { name: "TrelleborgTires", itemId: "{977EDC86-3739-43F6-B3C7-BDCD57C38320}" }
 
     verification:
       checkedAt: "2026-03-25T20:00:00Z"
@@ -1806,6 +1826,7 @@ components:
         - "Default"
         - "Centered"
         - "Narrow"
+        - "TrelleborgTires"
 
     templates:
       datasource:
@@ -1864,6 +1885,7 @@ components:
         - { name: "Default", itemId: "{68885D4E-9808-421D-AB93-30E9FF27D8F1}" }
         - { name: "Centered", itemId: "{61BF7CB2-B65C-4C85-902D-CFA95D0F429D}" }
         - { name: "Narrow", itemId: "{CCF0292C-9EE3-4BF8-A4F1-3FFA774CA133}" }
+        - { name: "TrelleborgTires", itemId: "{7C112964-7161-49B4-A774-F2B5C241067A}" }
 
     verification:
       checkedAt: "2026-03-25T21:30:00Z"
@@ -1901,6 +1923,7 @@ components:
         - "Centered"
         - "WithVideo"
         - "IconLeft"
+        - "TrelleborgTires"
 
     templates:
       datasource:
@@ -1963,6 +1986,7 @@ components:
         - { name: "Centered", itemId: "{3C33C16D-F0D3-4FBF-8D78-CE70CEA0868B}" }
         - { name: "WithVideo", itemId: "{E58A4CB1-BFB4-4FDF-B48D-6254708B05CA}" }
         - { name: "IconLeft", itemId: "{E39E52FE-885D-433B-A2D3-B20F66E8F767}" }
+        - { name: "TrelleborgTires", itemId: "{426B2570-DD24-4475-9778-7D22AB174D6F}" }
 
     verification:
       checkedAt: "2026-03-25T22:00:00Z"
@@ -2923,155 +2947,155 @@ pageTemplates:
 lookups:
   - path: "/sitecore/content/main/main-website/Data"
     itemId: "{E6C852B5-B70D-412C-B5C6-E6502842F74E}"
-    lastReadAt: "2026-03-25T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Components/Search"
     itemId: "{44092340-AF76-44F3-A6C3-AA7347CE9D8B}"
-    lastReadAt: "2026-05-20T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Search"
     itemId: "{F741895B-29B4-4DC4-BDB7-053860880C4C}"
-    lastReadAt: "2026-05-20T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Search"
     itemId: "{E1647CE1-4C12-4F5D-86A6-60848D035B4B}"
-    lastReadAt: "2026-05-20T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo"
     itemId: "{9CAD33DE-63B0-46A0-9EF0-B5B0F1C81630}"
-    lastReadAt: "2026-03-25T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Components"
     itemId: "{EB0D4C3C-A85E-4F74-A989-9D3BABBDB3CA}"
-    lastReadAt: "2026-03-25T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Folders"
     itemId: "{55F36BEC-24C5-428E-BB45-B2385B03D492}"
-    lastReadAt: "2026-03-25T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters"
     itemId: "{BEC41516-9F60-48E0-8E80-D515482B6BCC}"
-    lastReadAt: "2026-03-25T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/content/main/main-website/Presentation/Headless Variants"
     itemId: "{7BC665DC-D7DA-418E-AEC6-124D6291E93F}"
-    lastReadAt: "2026-03-25T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/content/main/main-website/Presentation/Available Renderings/Page Content"
     itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
-    lastReadAt: "2026-03-25T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
     note: "Available Renderings — NEVER replace, always concatenate"
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo"
     itemId: "{4A1F0B51-F3F3-43D2-B184-C7A9F549154D}"
-    lastReadAt: "2026-03-25T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Components/Navigation"
     itemId: "{137B3477-F05E-417E-8720-80C78F734A16}"
-    lastReadAt: "2026-03-25T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Navigation"
     itemId: "{E585C82C-539D-4CE3-9549-5516B8E446E1}"
-    lastReadAt: "2026-03-25T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Navigation"
     itemId: "{084FE23E-1222-4990-95E5-CB9699EF8BF0}"
-    lastReadAt: "2026-03-25T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Components/Banners"
     itemId: "{BDA5E409-2215-4D36-8935-0D088468BF30}"
-    lastReadAt: "2026-03-25T13:30:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Banners"
     itemId: "{64C89015-C579-4F00-BA9D-479C8F88517B}"
-    lastReadAt: "2026-03-25T13:30:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Banners"
     itemId: "{2616307D-811D-4C01-9F2A-7E1613B7B582}"
-    lastReadAt: "2026-03-25T13:30:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Components/Cards"
     itemId: "{2737F062-D331-43A0-9680-4B4FF0297BF5}"
-    lastReadAt: "2026-03-25T15:30:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Cards"
     itemId: "{920FEF90-2A9E-47FD-9BB0-DE3FF919976C}"
-    lastReadAt: "2026-03-25T15:30:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Cards"
     itemId: "{A7D72959-F0B0-4557-AAD0-2A93D55D936D}"
-    lastReadAt: "2026-03-25T15:30:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Components/Content"
     itemId: "{5B2102A8-73B8-42A8-A150-67516452B20F}"
-    lastReadAt: "2026-03-25T16:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Content"
     itemId: "{4FAF69C8-C273-47E0-A5FE-8DAD6E00F1B5}"
-    lastReadAt: "2026-03-25T16:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Content"
     itemId: "{2A701448-0CEB-4B4F-9162-2B9D46434E3D}"
-    lastReadAt: "2026-03-25T16:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Components/Social Proof"
     itemId: "{BBE9CB99-05F3-41F7-874B-9C5F7F741E0F}"
-    lastReadAt: "2026-03-25T17:30:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Social Proof"
     itemId: "{89311674-1D2F-4561-A279-4695A061DD18}"
-    lastReadAt: "2026-03-25T17:30:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Social Proof"
     itemId: "{9F6CB1FD-6EC5-4633-A6EF-A447DA39E9E3}"
-    lastReadAt: "2026-03-25T17:30:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Components/Media"
     itemId: "{40BBF51C-CF04-4568-A62C-FE146C454E76}"
-    lastReadAt: "2026-03-25T19:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Media"
     itemId: "{7D1061A3-70D2-4C07-BF3E-BE3D1683B489}"
-    lastReadAt: "2026-03-25T19:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Media"
     itemId: "{64E2BB4F-B6A7-4AA4-82A9-937CA81BBB19}"
-    lastReadAt: "2026-03-25T19:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Components/Forms"
     itemId: "{294DE541-F302-4ACC-A490-FE3D203A1E23}"
-    lastReadAt: "2026-03-25T20:30:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Forms"
     itemId: "{7E8CEA1D-2EE5-4CCA-A51F-7DC33EE7A01A}"
-    lastReadAt: "2026-03-25T20:30:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Forms"
     itemId: "{0A7AA74E-9652-4890-B218-EAC82F157663}"
-    lastReadAt: "2026-03-25T20:30:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
 
   - path: "/sitecore/templates/Project/fmc-custom-demo/Data"
     itemId: "{6a4bb397-d787-422d-896a-1f3f9941f0ec}"
-    lastReadAt: "2026-05-18T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Data/Person"
     itemId: "{513c2b76-7415-48b7-84a5-e663d3bb9129}"
-    lastReadAt: "2026-05-18T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/content/main/main-website/Data/People"
     itemId: "{b4a7e448-2620-458e-9108-e6123c433660}"
-    lastReadAt: "2026-05-18T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/main/Page Types"
     itemId: "{e7769708-59a5-4636-a9ea-c02245185e61}"
-    lastReadAt: "2026-05-18T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/main/Page Types/Article Page"
     itemId: "{74360ad2-d3df-4fce-834c-2f5420488677}"
-    lastReadAt: "2026-05-18T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/content/main/main-website/Home/Articles"
     itemId: "{d8b01498-2838-4388-a68f-86665d9c1c80}"
-    lastReadAt: "2026-05-18T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/content/main/main-website/Home"
     itemId: "{e2124310-f817-4644-8671-bff8e72b66d7}"
-    lastReadAt: "2026-05-18T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Article"
     itemId: "{e29ea544-4c99-4a0e-af12-f2c7309db279}"
-    lastReadAt: "2026-05-18T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Article"
     itemId: "{222fab12-4e0e-49c6-85f8-363b1956528f}"
-    lastReadAt: "2026-05-18T12:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
 
   # Landing Page lookups (added 2026-06-09)
   - path: "/sitecore/templates/Project/main/Page Types/Landing Page"
     itemId: "{50AF6EC7-85FD-4B9B-ADF7-1FDE9D9136FE}"
-    lastReadAt: "2026-06-09T00:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Landing"
     itemId: "{3F3D0A73-3486-4AEA-9F4F-CDC12F6ADC4A}"
-    lastReadAt: "2026-06-09T00:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Landing"
     itemId: "{142E3FB6-A1D0-4D7A-8AF3-F0E7DD155024}"
-    lastReadAt: "2026-06-09T00:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/content/main/main-website/Home/lp"
     itemId: "{AF65681C-5C75-40D2-89A3-3779D5A47A27}"
-    lastReadAt: "2026-06-09T00:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/content/main/main-website/Presentation/Partial Designs"
     itemId: "{B9355266-E4F8-4352-8F64-2700D071D46A}"
-    lastReadAt: "2026-06-09T00:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/content/main/main-website/Presentation/Page Designs"
     itemId: "{0E863278-EA75-48C0-82C0-762B566CC40E}"
-    lastReadAt: "2026-06-09T00:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/content/main/main-website/Presentation/Partial Designs/Landing Page Layout"
     itemId: "{BEF9B1FC-E7F6-4296-B60B-780728B557C0}"
-    lastReadAt: "2026-06-09T00:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
   - path: "/sitecore/content/main/main-website/Presentation/Page Designs/Landing Page"
     itemId: "{E38ABC20-C7EA-43C8-AAAF-22CA71342814}"
-    lastReadAt: "2026-06-09T00:00:00Z"
+    lastReadAt: "2026-07-06T00:00:00Z"
 
 # Demo datasource items (AI-created content, not new component definitions)
 demoContent: []

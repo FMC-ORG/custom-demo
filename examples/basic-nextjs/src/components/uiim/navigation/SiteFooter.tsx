@@ -215,6 +215,153 @@ export const Minimal = (props: SiteFooterProps): JSX.Element => {
 };
 
 /* ────────────────────────────────────────────
+   TrelleborgTires — white footer: copyright left,
+   "Follow Us" + gold social icon squares right,
+   centered gold legal-links row below
+   (labels are non-authorable chrome, consistent
+   with the hardcoded chrome in the base variants)
+   ──────────────────────────────────────────── */
+const TRELLEBORG_SOCIALS: { label: string; icon: JSX.Element }[] = [
+  {
+    label: 'Facebook',
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M13 22v-8h2.7l.4-3H13V9c0-.9.3-1.5 1.6-1.5H16V4.8c-.3 0-1.1-.1-2-.1-2 0-3.4 1.2-3.4 3.5V11H8v3h2.6v8h2.4z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Flickr',
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <circle cx="7.5" cy="12" r="3.5" />
+        <circle cx="16.5" cy="12" r="3.5" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Instagram',
+    icon: (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        aria-hidden="true"
+      >
+        <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    label: 'YouTube',
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M21.6 7.2a2.5 2.5 0 0 0-1.76-1.77C18.25 5 12 5 12 5s-6.25 0-7.84.43A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.76 1.77C5.75 19 12 19 12 19s6.25 0 7.84-.43a2.5 2.5 0 0 0 1.76-1.77A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8z"
+        />
+        <path fill="var(--brand-accent)" d="M10 15V9l5 3z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'TikTok',
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M16.6 5.82A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-1.85-2.5V9.7a5.8 5.8 0 1 0 4.1 5.55V9.9a7.3 7.3 0 0 0 4.25 1.36V8.16a4.3 4.3 0 0 1-2.3-2.34z" />
+      </svg>
+    ),
+  },
+];
+
+const TRELLEBORG_LEGAL_LINKS = [
+  'Cookie Policy',
+  'Privacy Notice',
+  'IMS',
+  'Certificates',
+  'Data Privacy – GDPR',
+];
+
+export const TrelleborgTires = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const brandLogo = getBrandLogo(props);
+
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  const { styles, RenderingIdentifier } = params;
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full border-t border-[var(--brand-border,#e0e0e0)] bg-[var(--brand-bg,#ffffff)]"
+      >
+        {/* Copyright + social row */}
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="flex items-center gap-4">
+            {brandLogo?.value?.src && (
+              <ContentSdkImage field={brandLogo} className="h-8 w-auto object-contain" />
+            )}
+            <p
+              className="text-sm font-[var(--brand-body-font,inherit)]"
+              style={{ color: 'var(--brand-fg, #393939)' }}
+            >
+              &copy; Yokohama TWS
+            </p>
+          </div>
+          <div className="flex flex-col items-start gap-2 sm:items-end">
+            <p
+              className="text-sm font-semibold font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-fg, #393939)' }}
+            >
+              Follow Us
+            </p>
+            <div className="flex items-center gap-2">
+              {TRELLEBORG_SOCIALS.map((social) => (
+                <a
+                  key={social.label}
+                  href="#"
+                  aria-label={social.label}
+                  className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-[var(--brand-accent)] text-white transition-opacity hover:opacity-80"
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Legal links row */}
+        <div className="border-t border-[var(--brand-border,#e0e0e0)]">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4 py-4 text-sm">
+            {TRELLEBORG_LEGAL_LINKS.map((label, index) => (
+              <React.Fragment key={label}>
+                {index > 0 && (
+                  <span aria-hidden="true" style={{ color: 'var(--brand-accent)' }}>
+                    &bull;
+                  </span>
+                )}
+                <a
+                  href="#"
+                  className="no-underline transition-all hover:underline font-[var(--brand-body-font,inherit)]"
+                  style={{ color: 'var(--brand-accent)' }}
+                >
+                  {label}
+                </a>
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    MegaFooter — expanded with newsletter
    ──────────────────────────────────────────── */
 export const MegaFooter = (props: SiteFooterProps): JSX.Element => {

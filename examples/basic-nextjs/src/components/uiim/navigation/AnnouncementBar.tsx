@@ -78,6 +78,37 @@ export const Default = ({ fields, params, page }: AnnouncementBarProps): JSX.Ele
   );
 };
 
+/* TrelleborgTires variant — thin navy utility strip, small right-aligned text/link, ~36px tall */
+export const TrelleborgTires = ({ fields, params, page }: AnnouncementBarProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <AnnouncementBarDefaultComponent />;
+
+  return (
+    <div
+      className={cn('component announcement-bar', styles)}
+      id={RenderingIdentifier}
+    >
+      <div
+        className="flex min-h-[36px] w-full items-center bg-[var(--brand-primary)] px-4 py-1.5 text-[var(--brand-primary-foreground)]"
+      >
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-end gap-4 text-xs font-medium">
+          {(fields.Message?.value || isEditing) && (
+            <Text field={fields.Message} tag="span" />
+          )}
+          {(fields.BarLink?.value?.href || isEditing) && (
+            <ContentSdkLink
+              field={fields.BarLink}
+              className="font-semibold uppercase tracking-wide transition-opacity hover:opacity-80"
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const Highlight = ({ fields, params, page }: AnnouncementBarProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;

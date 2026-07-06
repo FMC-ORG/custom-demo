@@ -1,6 +1,6 @@
 'use client';
 
-import React, { JSX, useState, useCallback, useEffect } from 'react';
+import React, { JSX, useState, useCallback, useEffect, useRef } from 'react';
 import {
   Field,
   ImageField,
@@ -438,6 +438,320 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
               ))}
             </div>
           )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   Trelleborg Tires shared section header —
+   centered navy heading + centered body copy
+   ──────────────────────────────────────────── */
+const TrelleborgSectionHeader = ({
+  datasource,
+  isEditing,
+}: {
+  datasource: FeatureCardsGridDatasource;
+  isEditing?: boolean;
+}) => (
+  <div className="mx-auto mb-10 max-w-3xl text-center">
+    {(datasource.title?.jsonValue?.value || isEditing) && (
+      <Text
+        field={datasource.title?.jsonValue}
+        tag="h2"
+        className="text-2xl font-semibold tracking-tight md:text-[32px] md:leading-snug font-[var(--brand-heading-font,inherit)]"
+        style={{ color: 'var(--brand-primary)' }}
+      />
+    )}
+    {(datasource.description?.jsonValue?.value || isEditing) && (
+      <ContentSdkRichText
+        field={datasource.description?.jsonValue}
+        className="mt-3 text-base font-[var(--brand-body-font,inherit)]"
+        style={{ color: 'var(--brand-fg, #393939)' }}
+      />
+    )}
+  </div>
+);
+
+/* ────────────────────────────────────────────
+   TrelleborgTiresSelectors — two large image tiles,
+   solid navy button (label = cardTitle) overlapping
+   the bottom edge of each tile
+   ──────────────────────────────────────────── */
+export const TrelleborgTiresSelectors = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-20"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-7xl">
+          <TrelleborgSectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid gap-6 md:grid-cols-2">
+            {cards.map((card) => (
+              <div key={card.id} className="flex flex-col items-center">
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <div className="w-full overflow-hidden">
+                    <ContentSdkImage
+                      field={card.cardImage?.jsonValue}
+                      className="aspect-[3/2] w-full object-cover"
+                    />
+                  </div>
+                )}
+                {(card.cardLink?.jsonValue?.value?.href ||
+                  card.cardTitle?.jsonValue?.value ||
+                  isEditing) && (
+                  <ContentSdkLink
+                    field={card.cardLink?.jsonValue}
+                    className="relative z-10 -mt-5 inline-flex items-center justify-center rounded-none bg-[var(--brand-primary)] px-6 py-2.5 text-sm font-semibold text-[var(--brand-primary-foreground)] transition-opacity hover:opacity-90"
+                  >
+                    <Text field={card.cardTitle?.jsonValue} />
+                  </ContentSdkLink>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   TrelleborgTiresCarousel — scroll-snap row of
+   image-top cards, navy titles below-left, round
+   prev/next arrows bottom-right
+   ──────────────────────────────────────────── */
+export const TrelleborgTiresCarousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const scrollByCard = useCallback((direction: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const card = track.querySelector<HTMLElement>('[data-carousel-card]');
+    const gap = 24; // matches gap-6
+    const amount = card ? card.offsetWidth + gap : track.clientWidth / 3;
+    track.scrollBy({ left: direction * amount, behavior: 'smooth' });
+  }, []);
+
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  const arrowClass =
+    'flex h-9 w-9 items-center justify-center rounded-full border border-[var(--brand-border,#e0e0e0)] text-[var(--brand-primary)] transition-colors hover:bg-[var(--brand-muted,#f5f5f5)]';
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-20"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-7xl">
+          <TrelleborgSectionHeader datasource={datasource} isEditing={isEditing} />
+          <div
+            ref={trackRef}
+            className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                data-carousel-card
+                className="w-[85%] flex-shrink-0 snap-start sm:w-[45%] lg:w-[31.5%]"
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <div className="overflow-hidden">
+                    <ContentSdkImage
+                      field={card.cardImage?.jsonValue}
+                      className="aspect-video w-full object-cover"
+                    />
+                  </div>
+                )}
+                {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={card.cardTitle?.jsonValue}
+                    tag="h3"
+                    className="mt-3 text-left text-base font-semibold font-[var(--brand-heading-font,inherit)]"
+                    style={{ color: 'var(--brand-primary)' }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 flex justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => scrollByCard(-1)}
+              className={arrowClass}
+              aria-label="Previous cards"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="15 6 9 12 15 18" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollByCard(1)}
+              className={arrowClass}
+              aria-label="Next cards"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="9 6 15 12 9 18" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   TrelleborgTiresVideos — 3-col video thumbnail
+   cards with YouTube-style play overlay, navy
+   title below each thumbnail
+   ──────────────────────────────────────────── */
+const YouTubePlayBadge = () => (
+  <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
+    {/* YouTube logo mark — third-party brand color, not themeable */}
+    <svg width="56" height="40" viewBox="0 0 68 48" aria-hidden="true">
+      <path
+        d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+        fill="#FF0000"
+      />
+      <path d="M45 24 27 14v20z" fill="#FFFFFF" />
+    </svg>
+  </span>
+);
+
+export const TrelleborgTiresVideos = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-20"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-7xl">
+          <TrelleborgSectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {cards.map((card) => {
+              const thumbnail = (
+                <>
+                  {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                    <ContentSdkImage
+                      field={card.cardImage?.jsonValue}
+                      className="aspect-video w-full object-cover"
+                    />
+                  )}
+                  <YouTubePlayBadge />
+                </>
+              );
+
+              return (
+                <div key={card.id} className="flex flex-col">
+                  {card.cardLink?.jsonValue?.value?.href || isEditing ? (
+                    <ContentSdkLink
+                      field={card.cardLink?.jsonValue}
+                      className="relative block overflow-hidden"
+                    >
+                      {thumbnail}
+                    </ContentSdkLink>
+                  ) : (
+                    <div className="relative overflow-hidden">{thumbnail}</div>
+                  )}
+                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="mt-3 text-[15px] font-semibold leading-snug font-[var(--brand-heading-font,inherit)]"
+                      style={{ color: 'var(--brand-primary)' }}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   TrelleborgTiresPress — 3-col flat article cards:
+   image top, navy title, clamped excerpt, gold
+   "Read More" text link
+   ──────────────────────────────────────────── */
+export const TrelleborgTiresPress = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-20"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-7xl">
+          <TrelleborgSectionHeader datasource={datasource} isEditing={isEditing} />
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                className="flex flex-col rounded-none"
+                style={{ backgroundColor: 'var(--brand-muted, #f5f5f5)' }}
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <ContentSdkImage
+                    field={card.cardImage?.jsonValue}
+                    className="aspect-video w-full object-cover"
+                  />
+                )}
+                <div className="flex flex-1 flex-col p-6">
+                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="text-lg font-semibold leading-snug font-[var(--brand-heading-font,inherit)]"
+                      style={{ color: 'var(--brand-primary)' }}
+                    />
+                  )}
+                  {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className="mt-3 flex-1 text-sm leading-relaxed opacity-80 line-clamp-5 font-[var(--brand-body-font,inherit)]"
+                      style={{ color: 'var(--brand-fg, #393939)' }}
+                    />
+                  )}
+                  {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                    <ContentSdkLink
+                      field={card.cardLink?.jsonValue}
+                      className="mt-4 inline-flex text-sm font-medium no-underline transition-all hover:underline"
+                      style={{ color: 'var(--brand-accent)' }}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>

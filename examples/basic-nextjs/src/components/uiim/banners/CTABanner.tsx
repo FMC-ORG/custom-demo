@@ -100,6 +100,55 @@ export const Default = ({ fields, params, page }: CTABannerProps): JSX.Element =
 };
 
 /* ────────────────────────────────────────────
+   TrelleborgTires — white section, centered navy
+   heading, row of equal solid navy buttons,
+   supporting text BELOW the buttons
+   ──────────────────────────────────────────── */
+export const TrelleborgTires = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  const navyButton =
+    'inline-flex items-center justify-center rounded-none bg-[var(--brand-primary)] px-8 py-3 text-sm font-semibold text-[var(--brand-primary-foreground)] transition-opacity hover:opacity-90';
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 md:py-20"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div className="mx-auto max-w-4xl text-center">
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="text-2xl font-semibold tracking-tight md:text-[32px] md:leading-snug font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-primary)' }}
+            />
+          )}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink field={fields.PrimaryLink} className={navyButton} />
+            )}
+            {(fields.SecondaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink field={fields.SecondaryLink} className={navyButton} />
+            )}
+          </div>
+          {(fields.Description?.value || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Description}
+              className="mt-8 text-sm font-[var(--brand-body-font,inherit)]"
+              style={{ color: 'var(--brand-fg, #393939)' }}
+            />
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    WithImage — full-bleed background with overlay
    ──────────────────────────────────────────── */
 export const WithImage = ({ fields, params, page }: CTABannerProps): JSX.Element => {

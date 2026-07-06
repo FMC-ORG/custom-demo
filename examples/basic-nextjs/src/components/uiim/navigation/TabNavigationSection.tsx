@@ -154,6 +154,56 @@ export const Underline = ({ fields, params, page }: TabNavigationSectionProps): 
 };
 
 /* ────────────────────────────────────────────
+   TrelleborgTires — "On this page" anchor index:
+   small label + wrapped gold text links, hairline
+   borders top and bottom
+   ──────────────────────────────────────────── */
+export const TrelleborgTires = ({ fields, params, page }: TabNavigationSectionProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TabNavigationSectionDefaultComponent />;
+
+  const tabs = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component tab-navigation-section', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
+        <div
+          className="mx-auto max-w-7xl border-y py-3"
+          style={{ borderColor: 'var(--brand-border, #e0e0e0)' }}
+        >
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.title?.jsonValue}
+              tag="p"
+              className="mb-1.5 text-[13px] font-[var(--brand-body-font,inherit)]"
+              style={{ color: 'var(--brand-fg, #393939)' }}
+            />
+          )}
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
+            {tabs.map((tab) => (
+              <ContentSdkLink
+                key={tab.id}
+                field={tab.tabLink?.jsonValue}
+                className="text-[13px] font-medium no-underline transition-all hover:underline"
+                style={{ color: 'var(--brand-accent)' }}
+              >
+                <Text field={tab.tabLabel?.jsonValue} />
+              </ContentSdkLink>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
    Boxed — rectangular tabs with border
    ──────────────────────────────────────────── */
 export const Boxed = ({ fields, params, page }: TabNavigationSectionProps): JSX.Element => {

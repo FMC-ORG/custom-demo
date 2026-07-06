@@ -228,6 +228,58 @@ export const Default = ({ fields, params, page }: NavigationHeaderProps): JSX.El
   );
 };
 
+/* TrelleborgTires variant — white bar, navy uppercase links, outlined navy Dealer Locator CTA */
+export const TrelleborgTires = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+
+  const links = datasource.children?.results || [];
+  const brandLogo = datasource.brandLogo?.jsonValue;
+  const ctaLabel = datasource.ctaLabel?.jsonValue;
+  const ctaLink = datasource.ctaLink?.jsonValue;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className="w-full border-b border-[var(--brand-border,#e5e7eb)] bg-[var(--brand-header-bg,#ffffff)]"
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6">
+          <Logo brandLogo={brandLogo} />
+          <nav className="hidden flex-1 flex-wrap items-center gap-x-6 gap-y-1 pl-8 md:flex">
+            {links.map((item) => (
+              <ContentSdkLink
+                key={item.id}
+                field={item.linkUrl?.jsonValue}
+                className="text-[13px] font-semibold uppercase tracking-wide text-[var(--brand-primary)] transition-opacity hover:opacity-70"
+              >
+                {item.linkText?.jsonValue?.value && (
+                  <Text field={item.linkText?.jsonValue} />
+                )}
+              </ContentSdkLink>
+            ))}
+          </nav>
+          <div className="flex items-center gap-2">
+            {(ctaLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={ctaLink}
+                className="hidden items-center justify-center rounded-none border border-[var(--brand-primary)] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--brand-primary)] transition-colors hover:bg-[var(--brand-primary)] hover:text-[var(--brand-primary-foreground)] md:inline-flex"
+              >
+                {ctaLabel?.value && <Text field={ctaLabel} />}
+              </ContentSdkLink>
+            )}
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+        </div>
+        <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
+      </header>
+    </div>
+  );
+};
+
 export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;

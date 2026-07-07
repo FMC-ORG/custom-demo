@@ -39,11 +39,15 @@ Verify the scraper runs (must be run from inside `examples/basic-nextjs`):
 node docs/ai/scripts/site-scraper.mjs --help
 ```
 
-## Step 3 — Deploy the app and connect a DAM environment
+## Step 3 — Deploy the app
 
 - Deploy the front end to your XM Cloud rendering host.
-- Make sure your Content Hub (DAM) instance is provisioned and you have a login — client images
-  are uploaded there automatically.
+- The deployment automatically provisions a **`main` tenant** and, under it, a **`main-website`**
+  site. You do **not** need to create a new website or modify the one created during deployment —
+  the agent uses that default `main-website` as-is.
+- _(Optional)_ Connect a Content Hub (DAM) environment. If you provision a Content Hub instance and
+  have a login, client images are uploaded there automatically. This step is optional — without it,
+  images fall back to manual upload.
 
 ## Step 4 — Connect the marketer MCP
 
@@ -56,7 +60,9 @@ XM Cloud environment:
 
 If a Sitecore call later says "token expired", run `/mcp` again and retry.
 
-## Step 5 — Add Content Hub credentials
+## Step 5 — Add Content Hub credentials _(optional)_
+
+Skip this step if you are not using Content Hub — images will fall back to manual upload.
 
 ```bash
 cp docs/ai/config/credentials.example.yaml docs/ai/config/credentials.local.yaml

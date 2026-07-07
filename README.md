@@ -19,6 +19,7 @@ This repository contains multiple Next.js Starter Kits, and the SPA Starters mon
 - [SEO & AI Crawler Access](#seo--ai-crawler-access)
 - [GEO Optimization & Compliance](#geo-optimization--compliance)
 - [AI-Assisted Development](#ai-assisted-development)
+- [Building Custom Demos](#building-custom-demos)
 - [FAQ](#faq)
 
 ## Repository Overview
@@ -209,6 +210,32 @@ This repository includes comprehensive AI guidance files to help maintain consis
 - **LLM Guidance** (`LLMs.txt`) - Concise guidance for various AI assistants covering architecture principles and safety rules
 
 These files ensure consistent development patterns whether you're using Claude Code, Cursor AI, Windsurf IDE, GitHub Copilot, or other AI coding assistants. See the [Contributing Guide](CONTRIBUTING.md#ai-assisted-development) for details on using AI assistance with this project.
+
+## Building Custom Demos
+
+The `basic-nextjs` starter ships with an AI **custom-demo builder**: an agent skill that turns a
+client's homepage (screenshot + URL) into a themed, content-filled Sitecore XM Cloud demo on your
+own environment. It extracts the brand theme, decomposes the page into components, uploads images
+to Content Hub, populates datasources, applies the theme, and assembles the page — pausing for your
+approval before writing anything to Sitecore.
+
+**Once your environment is set up, you build a demo by typing one sentence** and attaching a
+full-page screenshot:
+
+```
+create a custom demo for https://www.yokohama-tws.com/de-de
+```
+
+Documentation (under `examples/basic-nextjs/docs/ai/skills/`):
+
+- **[Getting Started Guide](examples/basic-nextjs/docs/ai/skills/sitecore-build-demo-getting-started.md)** — first-time setup (clone → branch → deploy + DAM → connect the marketer MCP → add Content Hub credentials) and how to run your first demo. **Start here.**
+- **[Skill reference](examples/basic-nextjs/docs/ai/skills/sitecore-build-demo.md)** — the full phase-by-phase pipeline.
+- **[Pipeline diagram](examples/basic-nextjs/docs/ai/skills/sitecore-build-demo-diagram.md)** — one-page visual of the flow.
+
+**Prerequisites:** an XM Cloud environment you can write to, a Content Hub (DAM) instance for image
+uploads, Node.js LTS, and a coding agent with MCP support (e.g. Claude Code) connected to the
+`sitecore-marketer` MCP. Non-English source sites are supported — all demo content is translated to
+English automatically.
 
 ## FAQ
 

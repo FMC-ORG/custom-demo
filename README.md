@@ -1,9 +1,17 @@
 # Build a Custom Demo
 
+> # ⚠️ Use `examples/basic-nextjs`
+> **This demo builder runs on the `basic-nextjs` rendering host under `examples/`. The other
+> starters in `examples/` are NOT used — ignore them.**
+
 Turn a client's homepage (screenshot + URL) into a themed, content-filled Sitecore XM Cloud demo
 on your own environment. Once setup is done, you build a demo by typing one sentence and attaching
 a screenshot — the agent does the rest, pausing once for your approval before it writes anything to
 Sitecore.
+
+> **Recommended models:** for your first run, use an advanced/frontier model — **Opus**, **Fable**,
+> or **Codex** — for the most reliable end-to-end result. It also works okay with Cursor's basic
+> model, but you may need to make some adjustments along the way.
 
 ---
 

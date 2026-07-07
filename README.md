@@ -15,10 +15,14 @@ Sitecore.
 
 ---
 
-## Step 1 — Clone the repo and branch off `main`
+## Step 1 — Fork (or template) the repo and branch off `main`
+
+> **⚠️ Important:** Do **not** clone this repository directly. **Fork it** or use it as a
+> **template** ("Use this template" on GitHub). You only need the **`main` branch**.
 
 ```bash
-git clone <repo-url>
+# After forking / creating from template, clone YOUR copy:
+git clone <your-fork-url>
 cd <repo>/examples/basic-nextjs
 git checkout main && git pull
 git checkout -b <client>-demo

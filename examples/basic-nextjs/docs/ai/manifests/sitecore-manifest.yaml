@@ -15,7 +15,7 @@ project:
 
 availableRenderings:
   itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
-  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{C9FFEF83-C928-4346-AA68-14B3EE0B0017}|{B92A0B89-790F-4D94-89C7-B361C8688765}|{9E525B59-B9BF-4EB7-B75D-10811EF6100D}|{66E80043-36E4-48AE-8CAF-EEF4A77690BE}|{5A8724FB-D6E6-4C9D-8A4A-EFD8750B0019}|{14FCB11C-364D-4BC2-9238-B29B4C6F8145}"
+  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{C9FFEF83-C928-4346-AA68-14B3EE0B0017}|{B92A0B89-790F-4D94-89C7-B361C8688765}|{9E525B59-B9BF-4EB7-B75D-10811EF6100D}|{66E80043-36E4-48AE-8CAF-EEF4A77690BE}|{5A8724FB-D6E6-4C9D-8A4A-EFD8750B0019}|{14FCB11C-364D-4BC2-9238-B29B4C6F8145}|{FAA6D190-2A7C-4A18-A09D-7E5D33A5BDAF}|{06D05BB6-2DD6-457A-BC64-22A07F7D4359}"
   lastUpdatedAt: "2026-06-09T00:00:00Z"
   renderingCount: 32
   warning: "MCP cannot read this field — value may be stale if modified outside this session. Also: MCP write returned empty updatedFields — silent-write. Verify in Content Editor."
@@ -1675,6 +1675,158 @@ components:
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
     notes: []
+
+  - name: "IdentityCaptureForm"
+    kind: "simple"
+    category: "Forms"
+    status: "complete"
+    createdAt: "2026-07-13T00:00:00Z"
+    updatedAt: "2026-07-13T00:00:00Z"
+
+    react:
+      filePath: "src/components/uiim/forms/IdentityCaptureForm.tsx"
+      componentMapKey: "IdentityCaptureForm"
+      variants:
+        - "Default"
+        - "HCA"   # export exists in code; no Headless Variant item provisioned on Main (Default only, by choice)
+
+    templates:
+      datasource:
+        name: "IdentityCaptureForm"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Forms/IdentityCaptureForm"
+        itemId: "{9DB25583-B9C2-466B-8DB5-B5726A356AC1}"
+        sectionName: "Content"
+        fields:
+          - { name: "FormTitle", type: "Single-Line Text" }
+          - { name: "FormDescription", type: "Rich Text" }
+          - { name: "EmailLabel", type: "Single-Line Text" }
+          - { name: "FirstNameLabel", type: "Single-Line Text" }
+          - { name: "LastNameLabel", type: "Single-Line Text" }
+          - { name: "SubmitButtonLabel", type: "Single-Line Text" }
+          - { name: "SuccessMessage", type: "Single-Line Text" }
+          - { name: "ExtensionDataJson", type: "Multi-Line Text" }
+          - { name: "IdentityProvider", type: "Single-Line Text" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "{A32100FB-C6D4-4F67-8BFF-E8AF63C48F68}"
+          linked: true   # silent-write — verify in Content Editor
+
+      folder:
+        name: "IdentityCaptureForm Folder"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Folders/IdentityCaptureForm Folder"
+        itemId: "{DA3E6AB6-1E72-4582-9ECB-E55E9501C35E}"
+        standardValues:
+          itemId: "{F2DDFF41-1F2A-4B99-8D7A-69D915865942}"
+          linked: true   # silent-write — verify in Content Editor
+          masters: ["IdentityCaptureForm"]
+
+      renderingParams:
+        name: "IdentityCaptureForm"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Forms/IdentityCaptureForm"
+        itemId: "{2FE9AC9B-3E46-4AC2-8AB0-36668595F199}"
+        baseTemplatesSet: true
+
+    datasourceFolder:
+      name: "IdentityCaptureForms"
+      path: "/sitecore/content/main/main-website/Data/IdentityCaptureForms"
+      itemId: "{826BD609-C026-458D-901A-C3503DAEF853}"
+      insertOptionsSet: true   # silent-write — verify in Content Editor
+      exampleItem:
+        name: "Identity Capture Form"
+        itemId: "{05E480DE-DDD3-4A07-871A-87D46802A3A8}"
+
+    rendering:
+      name: "IdentityCaptureForm"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Forms/IdentityCaptureForm"
+      itemId: "{FAA6D190-2A7C-4A18-A09D-7E5D33A5BDAF}"
+      componentName: "IdentityCaptureForm"
+      datasourceTemplatePath: "/sitecore/templates/Project/fmc-custom-demo/Components/Forms/IdentityCaptureForm"
+      datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='IdentityCaptureForm Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='IdentityCaptureForm Folder']"
+      parametersTemplateId: "{2FE9AC9B-3E46-4AC2-8AB0-36668595F199}"
+      componentQuery: ""
+      addFieldEditorButton: "1"
+      registeredInAvailableRenderings: true
+
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/IdentityCaptureForm"
+      containerId: "{24632B0B-55E2-4F2C-8D98-875972209B99}"
+      variants:
+        - { name: "Default", itemId: "{27234935-C791-404E-84D9-8E83ADD0A60D}" }
+
+    verification:
+      checkedAt: "2026-07-13T00:00:00Z"
+      passed:
+        - "Datasource template with base templates {1930BBEB...}|{44A022DB...}"
+        - "All 9 fields created with correct Types"
+        - "Datasource + folder __Standard Values created"
+        - "Rendering Parameters with 4 base templates"
+        - "Datasource folder + example item created"
+        - "Rendering: componentName, Parameters Template GUID, AddFieldEditorButton=1, empty ComponentQuery (re-read by parent)"
+        - "Headless Variant Definition Default"
+        - "Rendering appended to Available Renderings Page Content (silent-write)"
+        - "React file + component map brought from yokohama"
+      failed: []
+      pendingManual:
+        - "Silent-write fields not surfaced by MCP read — verify in Content Editor: datasource template __Standard values link, folder template SV __Masters, folder instance __Masters, rendering Datasource Template + Datasource Location"
+        - "Renderings field on Available Renderings (silent-write, appended to manifest lastKnownValue)"
+
+    notes:
+      - "2026-07-13: Brought from origin/yokohama (commit 3a05ada). Simple datasource form; fires SDK identity() on submit (email + first/last name + ExtensionDataJson extensionData). Sitecore items created fresh on Main tenant (stale HCA IDs discarded). HCA export kept in code but no HCA variant item provisioned."
+
+  - name: "IdentityEventDevForm"
+    kind: "context"
+    category: "Forms"
+    status: "complete"
+    createdAt: "2026-07-13T00:00:00Z"
+    updatedAt: "2026-07-13T00:00:00Z"
+
+    react:
+      filePath: "src/components/uiim/forms/IdentityEventDevForm.tsx"
+      componentMapKey: "IdentityEventDevForm"
+      variants:
+        - "Default"
+        - "HCA"   # export exists in code; no Headless Variant item provisioned on Main (Default only, by choice)
+
+    templates:
+      renderingParams:
+        name: "IdentityEventDevForm"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Forms/IdentityEventDevForm"
+        itemId: "{A515B444-A9EE-45C1-8254-B60956A18A32}"
+        baseTemplatesSet: true
+
+    rendering:
+      name: "IdentityEventDevForm"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Forms/IdentityEventDevForm"
+      itemId: "{06D05BB6-2DD6-457A-BC64-22A07F7D4359}"
+      componentName: "IdentityEventDevForm"
+      datasourceTemplatePath: ""
+      datasourceLocationQuery: ""
+      parametersTemplateId: "{A515B444-A9EE-45C1-8254-B60956A18A32}"
+      componentQuery: ""
+      addFieldEditorButton: "1"
+      registeredInAvailableRenderings: true
+
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/IdentityEventDevForm"
+      containerId: "{DF35E4E7-28AF-49F7-AB9B-037DABBB5F5F}"
+      variants:
+        - { name: "Default", itemId: "{216D0EE6-3A08-429E-A34B-C1AA1CD7E493}" }
+
+    verification:
+      checkedAt: "2026-07-13T00:00:00Z"
+      passed:
+        - "Context-only: no datasource template/folder/ComponentQuery created (correct)"
+        - "Rendering Parameters with 4 base templates"
+        - "Rendering: componentName, Parameters Template GUID, AddFieldEditorButton=1, empty Data source + ComponentQuery (re-read by parent)"
+        - "Headless Variant Definition Default"
+        - "Rendering appended to Available Renderings Page Content (silent-write)"
+        - "React file + component map brought from yokohama"
+      failed: []
+      pendingManual:
+        - "Renderings field on Available Renderings (silent-write, appended to manifest lastKnownValue)"
+
+    notes:
+      - "2026-07-13: Brought from origin/yokohama (commit 3a05ada). Context-only developer/debug panel; fires SDK identity() from a raw JSON payload (auto-skipped in editing/dev mode). Exposed in author component picker on Main by explicit request. HCA export kept in code but no HCA variant item provisioned."
 
   - name: "FAQAccordion"
     kind: "list"

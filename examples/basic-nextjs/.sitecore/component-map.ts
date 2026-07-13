@@ -20,6 +20,8 @@ import * as LandingFinalCTA from 'src/components/uiim/landing/LandingFinalCTA';
 import * as LandingFeatures from 'src/components/uiim/landing/LandingFeatures';
 import * as LandingFAQ from 'src/components/uiim/landing/LandingFAQ';
 import * as NewsletterSignup from 'src/components/uiim/forms/NewsletterSignup';
+import * as IdentityCaptureForm from 'src/components/uiim/forms/IdentityCaptureForm';
+import * as IdentityEventDevForm from 'src/components/uiim/forms/IdentityEventDevForm';
 import * as ValuePropositionGrid from 'src/components/uiim/content/ValuePropositionGrid';
 import * as TrustStatsRow from 'src/components/uiim/content/TrustStatsRow';
 import * as RichTextBlock from 'src/components/uiim/content/RichTextBlock';
@@ -95,6 +97,8 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['LandingFeatures', { ...LandingFeatures }],
   ['LandingFAQ', { ...LandingFAQ, componentType: 'client' }],
   ['NewsletterSignup', { ...NewsletterSignup, componentType: 'client' }],
+  ['IdentityCaptureForm', { ...IdentityCaptureForm, componentType: 'client' }],
+  ['IdentityEventDevForm', { ...IdentityEventDevForm, componentType: 'client' }],
   ['ValuePropositionGrid', { ...ValuePropositionGrid }],
   ['TrustStatsRow', { ...TrustStatsRow }],
   ['RichTextBlock', { ...RichTextBlock }],

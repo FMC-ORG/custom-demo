@@ -40,9 +40,11 @@ SharedFields:
     {66E80043-36E4-48AE-8CAF-EEF4A77690BE}
     {5A8724FB-D6E6-4C9D-8A4A-EFD8750B0019}
     {14FCB11C-364D-4BC2-9238-B29B4C6F8145}
+    {FAA6D190-2A7C-4A18-A09D-7E5D33A5BDAF}
+    {06D05BB6-2DD6-457A-BC64-22A07F7D4359}
 - ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
   Hint: __Shared revision
-  Value: "40655f89-5868-4ff0-a4f9-12b46e11547a"
+  Value: "6db52420-091d-435d-8089-a8b401f85d2f"
 - ID: "f6d8a61c-2f84-4401-bd24-52d2068172bc"
   Hint: __Originator
   Value: "{EDD5B21F-2BD2-4290-81A2-68428363D312}"
@@ -64,11 +66,11 @@ Languages:
         sitecore\federico.mujica@sitecore.com
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "3834277c-3692-4216-966d-2c6147e5e3c1"
+      Value: "4fab2650-2840-4511-8dff-32f4cf3ba843"
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
         sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260609T204807Z
+      Value: 20260713T154655Z

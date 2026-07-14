@@ -25,19 +25,7 @@ Languages:
       Value: <r />
     - ID: "04bf00db-f5fb-41f7-8ab7-22408372a981"
       Hint: __Final Renderings
-      Value: |
-        <r xmlns:p="p" xmlns:s="s"
-          p:p="1">
-          <d
-            id="{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}">
-            <r
-              uid="{56C4B5D4-6264-4FCF-879E-6226F8B266AA}"
-              s:ds="8df02a79-10ac-4650-a995-fcaae45743f4"
-              s:id="{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}"
-              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7B948210B2-B8AF-47C1-A04F-E220071C0A63%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=1"
-              s:ph="headless-main" />
-          </d>
-        </r>
+      Value: 
     - ID: "1cd91ae6-dbe5-40ef-b819-b1959a8a6903"
       Hint: Title
       Value: Home
@@ -57,11 +45,11 @@ Languages:
         sitecore\federico.mujica@sitecore.com
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "34a1cd76-67ad-41ed-8354-0419ae25fa8a"
+      Value: "3a728cc9-28b4-44af-81f9-6ecba99c5f88"
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
         sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260609T175709Z
+      Value: 20260714T080535Z

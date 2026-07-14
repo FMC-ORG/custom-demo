@@ -13,7 +13,7 @@
         "name": "site-content",
         "path": "/sitecore/content/main/main-website",
         "scope": "ItemAndDescendants",
-        "allowedPushOperations": "CreateAndUpdate"
+        "allowedPushOperations": "CreateUpdateAndDelete"
       }
     ]
   }

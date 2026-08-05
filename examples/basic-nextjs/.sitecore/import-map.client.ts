@@ -28,6 +28,7 @@ import { DICTIONARY_KEYS, DEFAULT_PAGE_SIZE, gridColsClass } from '@/lib/search/
 import { NextImage, Link, Text, useSitecore, RichText, DateField, CdpHelper, withDatasourceCheck } from '@sitecore-content-sdk/nextjs';
 import Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 from 'next/link';
 import { ChevronDown, Menu, X, User } from 'lucide-react';
+import { identity, event, pageView } from '@sitecore-content-sdk/events';
 import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 import { cn as cn_b4c06b3218abd6b3fb46a1f6d67407cec902c758 } from 'lib/utils';
 import { SearchEmptyResults as SearchEmptyResults_a7fd5bb71665da1ba09c52ff7c1d1a533293f443 } from 'src/components/search-experience/search-components/SearchEmptyResults';
@@ -42,7 +43,6 @@ import { useParams } from 'src/components/search-experience/search-components/us
 import { DICTIONARY_KEYS as DICTIONARY_KEYS_f395c67553fa1a94298ee04894f3f430873be139, gridColsClass as gridColsClass_f395c67553fa1a94298ee04894f3f430873be139, DEFAULT_PAGE_SIZE as DEFAULT_PAGE_SIZE_f395c67553fa1a94298ee04894f3f430873be139, DEBOUNCE_TIME } from 'src/components/search-experience/search-components/constants';
 import { useRouter as useRouter_718da64eaca4c1615fa5f1603d6d6260be2e7c90 } from 'src/components/search-experience/search-components/useRouter';
 import { useDebouncedCallback } from 'src/components/search-experience/search-components/useDebounce';
-import { event, pageView } from '@sitecore-content-sdk/events';
 import { ItemCardFrame, ItemListFrame } from 'src/components/search-experience/search-components/SearchItemCommon';
 import Image from 'next/image';
 import { SearchItemTitle } from 'src/components/search-experience/search-components/SearchItem/SearchItemTitle';
@@ -192,6 +192,14 @@ const importMap = [
     ]
   },
   {
+    module: '@sitecore-content-sdk/events',
+    exports: [
+      { name: 'identity', value: identity },
+      { name: 'event', value: event },
+      { name: 'pageView', value: pageView },
+    ]
+  },
+  {
     module: '@/components/uiim/media/SmartMedia',
     exports: [
       { name: 'SmartMedia', value: SmartMedia },
@@ -276,13 +284,6 @@ const importMap = [
     module: 'src/components/search-experience/search-components/useDebounce',
     exports: [
       { name: 'useDebouncedCallback', value: useDebouncedCallback },
-    ]
-  },
-  {
-    module: '@sitecore-content-sdk/events',
-    exports: [
-      { name: 'event', value: event },
-      { name: 'pageView', value: pageView },
     ]
   },
   {

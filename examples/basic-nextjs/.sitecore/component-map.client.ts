@@ -8,6 +8,8 @@ import * as NavigationHeader from 'src/components/uiim/navigation/NavigationHead
 import * as SmartMedia from 'src/components/uiim/media/SmartMedia';
 import * as LandingFAQ from 'src/components/uiim/landing/LandingFAQ';
 import * as NewsletterSignup from 'src/components/uiim/forms/NewsletterSignup';
+import * as IdentityEventDevForm from 'src/components/uiim/forms/IdentityEventDevForm';
+import * as IdentityCaptureForm from 'src/components/uiim/forms/IdentityCaptureForm';
 import * as FeatureCardsGrid from 'src/components/uiim/cards/FeatureCardsGrid';
 import * as HeroBannerCarousel from 'src/components/uiim/banners/HeroBannerCarousel';
 import * as ArticleHero from 'src/components/uiim/article/ArticleHero';
@@ -46,6 +48,8 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['SmartMedia', { ...SmartMedia }],
   ['LandingFAQ', { ...LandingFAQ }],
   ['NewsletterSignup', { ...NewsletterSignup }],
+  ['IdentityEventDevForm', { ...IdentityEventDevForm }],
+  ['IdentityCaptureForm', { ...IdentityCaptureForm }],
   ['FeatureCardsGrid', { ...FeatureCardsGrid }],
   ['HeroBannerCarousel', { ...HeroBannerCarousel }],
   ['ArticleHero', { ...ArticleHero }],

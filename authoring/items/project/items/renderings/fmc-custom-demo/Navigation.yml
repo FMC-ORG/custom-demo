@@ -2,7 +2,15 @@
 ID: "084fe23e-1222-4990-95e5-cb9699ef8bf0"
 Parent: "4a1f0b51-f3f3-43d2-b184-c7a9f549154d"
 Template: "0437fee2-44c9-46a6-abe9-28858d9fee8c"
+<<<<<<<< HEAD:authoring/items/project/items/renderings/fmc-custom-demo/Navigation.yml
 Path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Navigation"
+========
+Path: "/sitecore/templates/Project/click-click-launch/Components/CTA Sections"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 0
+>>>>>>>> upstream/main:authoring/items/items/templates/items/ccl.templates/click-click-launch/Components/CTA Sections.yml
 Languages:
 - Language: en
   Versions:

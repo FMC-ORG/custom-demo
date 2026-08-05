@@ -1,8 +1,15 @@
 ﻿---
+<<<<<<<< HEAD:authoring/items/content/items/site-content/main-website/Presentation/Styles/BasicSite.yml
 ID: "e7b273ef-14c4-412b-978e-2325cad1cc17"
 Parent: "47bbb75b-1b1e-4536-9158-c96c25bc9566"
 Template: "c6dc7393-15bb-4cd7-b798-ab63e77ebac4"
 Path: "/sitecore/content/main/main-website/Presentation/Styles/BasicSite"
+========
+ID: "4de6da0c-90e0-407d-8076-c2265e18a1b5"
+Parent: "5518d63d-3684-452b-9b40-7ad2079d7133"
+Template: "ab86861a-6030-46c5-b394-e8f99e8b87db"
+Path: "/sitecore/templates/Project/click-click-launch/Components/CTA Sections/CallToAction"
+>>>>>>>> upstream/main:authoring/items/items/templates/items/ccl.templates/click-click-launch/Components/CTA Sections/CallToAction.yml
 SharedFields:
 - ID: "62ca1c9e-71a4-465f-835e-55bda7bb270b"
   Hint: Type

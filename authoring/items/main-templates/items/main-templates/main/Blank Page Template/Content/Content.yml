@@ -2,7 +2,11 @@
 ID: "9e25e36c-679c-430f-b18f-906f0509c3ca"
 Parent: "7e9f84fc-33f3-4b31-969b-f9f737607cdc"
 Template: "455a3e98-a627-4b40-8035-e683a0331ac7"
+<<<<<<<< HEAD:authoring/items/main-templates/items/main-templates/main/Blank Page Template/Content/Content.yml
 Path: /sitecore/templates/Project/main/Blank Page Template/Content/Content
+========
+Path: "/sitecore/templates/Project/click-click-launch/Components/CTA Sections/CallToAction/Call To Action/CTALink2"
+>>>>>>>> upstream/main:authoring/items/items/templates/items/ccl.templates/click-click-launch/Components/CTA Sections/CallToAction/Call To Action/CTALink2.yml
 SharedFields:
 - ID: "1eb8ae32-e190-44a6-968d-ed904c794ebf"
   Hint: Source

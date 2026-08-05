@@ -1,8 +1,15 @@
 ﻿---
+<<<<<<<< HEAD:authoring/items/main-templates/items/main-templates/main/Blank Page Template/Content/Title.yml
 ID: "1cd91ae6-dbe5-40ef-b819-b1959a8a6903"
 Parent: "7e9f84fc-33f3-4b31-969b-f9f737607cdc"
 Template: "455a3e98-a627-4b40-8035-e683a0331ac7"
 Path: /sitecore/templates/Project/main/Blank Page Template/Content/Title
+========
+ID: "3c2b7d00-8de2-4636-a65f-d667a75ec4a7"
+Parent: "baddac4b-e97f-4174-9b7f-105773732974"
+Template: "455a3e98-a627-4b40-8035-e683a0331ac7"
+Path: "/sitecore/templates/Project/click-click-launch/Components/Page Content/_Summary Base/Page Content/description"
+>>>>>>>> upstream/main:authoring/items/items/templates/items/ccl.templates/click-click-launch/Components/Page Content/_Summary Base/Page Content/description.yml
 SharedFields:
 - ID: "ab162cc0-dc80-4abf-8871-998ee5d7ba32"
   Hint: Type

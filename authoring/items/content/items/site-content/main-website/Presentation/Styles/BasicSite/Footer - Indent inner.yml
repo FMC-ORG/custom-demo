@@ -1,8 +1,15 @@
 ﻿---
+<<<<<<<< HEAD:authoring/items/content/items/site-content/main-website/Presentation/Styles/BasicSite/Footer - Indent inner.yml
 ID: "0e72f4a0-9014-449b-89ca-f2cc74070b69"
 Parent: "e7b273ef-14c4-412b-978e-2325cad1cc17"
 Template: "6b8aabef-d650-46e0-97d0-c0b04f7f016b"
 Path: "/sitecore/content/main/main-website/Presentation/Styles/BasicSite/Footer - Indent inner"
+========
+ID: "db177faa-b2b1-4764-8c1b-25b24ec5ecfc"
+Parent: "52cbcc6c-c505-4f20-a391-9070376878f4"
+Template: "455a3e98-a627-4b40-8035-e683a0331ac7"
+Path: "/sitecore/templates/Project/click-click-launch/Components/CTA Sections/CallToAction/Call To Action/CTABody"
+>>>>>>>> upstream/main:authoring/items/items/templates/items/ccl.templates/click-click-launch/Components/CTA Sections/CallToAction/Call To Action/CTABody.yml
 SharedFields:
 - ID: "09147fb2-ebfb-4949-8c8e-26a424409d5e"
   Hint: Value

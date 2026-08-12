@@ -9,7 +9,7 @@ import {
 // end of built-in imports
 
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
-import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
+import { Suspense, useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams, useRouter as useRouter_38d453563358e259e30871f8ef5a0334c186c57e, usePathname } from 'next/navigation';
@@ -66,6 +66,7 @@ const importMap = [
   {
     module: 'react',
     exports: [
+      { name: 'Suspense', value: Suspense },
       { name: 'useCallback', value: useCallback },
       { name: 'useEffect', value: useEffect },
       { name: 'useState', value: useState },

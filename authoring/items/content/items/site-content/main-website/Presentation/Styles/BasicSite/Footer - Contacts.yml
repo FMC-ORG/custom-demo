@@ -1,15 +1,8 @@
 ﻿---
-<<<<<<<< HEAD:authoring/items/content/items/site-content/main-website/Presentation/Styles/BasicSite/Footer - Contacts.yml
 ID: "893357a8-db34-4195-8767-dfd592d33410"
 Parent: "e7b273ef-14c4-412b-978e-2325cad1cc17"
 Template: "6b8aabef-d650-46e0-97d0-c0b04f7f016b"
 Path: "/sitecore/content/main/main-website/Presentation/Styles/BasicSite/Footer - Contacts"
-========
-ID: "ddca84c9-b397-46b2-b711-c3532370ddc7"
-Parent: "5518d63d-3684-452b-9b40-7ad2079d7133"
-Template: "ab86861a-6030-46c5-b394-e8f99e8b87db"
-Path: "/sitecore/templates/Project/click-click-launch/Components/CTA Sections/CallToAction Folder"
->>>>>>>> upstream/main:authoring/items/items/templates/items/ccl.templates/click-click-launch/Components/CTA Sections/CallToAction Folder.yml
 SharedFields:
 - ID: "09147fb2-ebfb-4949-8c8e-26a424409d5e"
   Hint: Value

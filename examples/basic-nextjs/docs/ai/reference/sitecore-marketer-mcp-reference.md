@@ -142,7 +142,7 @@ The `create_component_ds` tool accepts a `children` array, but children may not 
 
 **Severity:** Medium — items reported deleted still exist
 
-Observed 2026-08-05: `delete_content` returned `success: true` twice for a page item ("Example Article", Article Page Template), but the item still resolved via `get_content_item_by_id` and still appeared in the parent's children afterwards. The deletion never took effect.
+Observed 2026-08-05: `delete_content` returned `success: true` twice for a page item ("Example Article", Article Page Template), but the item still resolved via `get_content_item_by_id` and still appeared in the parent's children afterwards. The deletion never took effect. Re-confirmed 2026-08-17 on the same item: third `success: true`, item still resolves with all fields.
 
 **Workaround:** Always verify with `get_content_item_by_id` after `delete_content`. If the item still resolves, mark the deletion `pendingManual` and delete in Content Editor.
 

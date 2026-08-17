@@ -9,13 +9,23 @@ import {
 // end of built-in imports
 
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
-import { Suspense, useCallback, useEffect, useState, useRef, useMemo } from 'react';
+import { useEffect, useState, Suspense, useCallback, useRef, useMemo } from 'react';
 import React from 'react';
-import { useTranslations } from 'next-intl';
-import { useSearchParams, useRouter as useRouter_38d453563358e259e30871f8ef5a0334c186c57e, usePathname } from 'next/navigation';
+import Image from 'next/image';
+import { ImageOff, Search, X, ChevronDown, Menu, User } from 'lucide-react';
 import { useSearch, useInfiniteSearch } from '@sitecore-content-sdk/nextjs/search';
 import { cn } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { DEFAULT_PAGE_SIZE } from '@/lib/search-ui/constants';
+import { stripHtml, formatDate } from '@/lib/search-ui/text';
+import { useDebouncedValue } from '@/lib/search-ui/useDebouncedValue';
+import { readUrlParam, useUrlMirror } from '@/lib/search-ui/useUrlMirror';
+import { useSearchLabels } from '@/lib/search-ui/useSearchLabels';
+import { useSearchEvents } from '@/lib/search-ui/useSearchEvents';
+import { useTranslations } from 'next-intl';
+import { useSearchParams, useRouter as useRouter_38d453563358e259e30871f8ef5a0334c186c57e, usePathname } from 'next/navigation';
 import { SearchEmptyResults } from '@/lib/search/search-components/SearchEmptyResults';
 import { SearchError } from '@/lib/search/search-components/SearchError';
 import { SearchItem } from '@/lib/search/search-components/SearchItem';
@@ -24,10 +34,9 @@ import { SearchPagination } from '@/lib/search/search-components/SearchPaginatio
 import { SearchInput } from '@/lib/search/search-components/SearchInput';
 import { useEvent } from '@/lib/search/search-components/useEvent';
 import { useRouter } from '@/lib/search/search-components/useRouter';
-import { DICTIONARY_KEYS, DEFAULT_PAGE_SIZE, gridColsClass } from '@/lib/search/search-components/constants';
+import { DICTIONARY_KEYS, DEFAULT_PAGE_SIZE as DEFAULT_PAGE_SIZE_d8a3a96ed6893912a4b0e4dff64815d90f82a321, gridColsClass } from '@/lib/search/search-components/constants';
 import { NextImage, Link, Text, useSitecore, RichText, DateField, CdpHelper, withDatasourceCheck } from '@sitecore-content-sdk/nextjs';
 import Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 from 'next/link';
-import { ChevronDown, Menu, X, User } from 'lucide-react';
 import { identity, event, pageView } from '@sitecore-content-sdk/events';
 import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 import { cn as cn_b4c06b3218abd6b3fb46a1f6d67407cec902c758 } from 'lib/utils';
@@ -44,7 +53,6 @@ import { DICTIONARY_KEYS as DICTIONARY_KEYS_f395c67553fa1a94298ee04894f3f430873b
 import { useRouter as useRouter_718da64eaca4c1615fa5f1603d6d6260be2e7c90 } from 'src/components/search-experience/search-components/useRouter';
 import { useDebouncedCallback } from 'src/components/search-experience/search-components/useDebounce';
 import { ItemCardFrame, ItemListFrame } from 'src/components/search-experience/search-components/SearchItemCommon';
-import Image from 'next/image';
 import { SearchItemTitle } from 'src/components/search-experience/search-components/SearchItem/SearchItemTitle';
 import { SearchItemSummary } from 'src/components/search-experience/search-components/SearchItem/SearchItemSummary';
 import { SearchItemLink } from 'src/components/search-experience/search-components/SearchItem/SearchItemLink';
@@ -66,27 +74,30 @@ const importMap = [
   {
     module: 'react',
     exports: [
-      { name: 'Suspense', value: Suspense },
-      { name: 'useCallback', value: useCallback },
       { name: 'useEffect', value: useEffect },
       { name: 'useState', value: useState },
+      { name: 'Suspense', value: Suspense },
+      { name: 'useCallback', value: useCallback },
       { name: 'useRef', value: useRef },
       { name: 'useMemo', value: useMemo },
       { name: 'default', value: React },
     ]
   },
   {
-    module: 'next-intl',
+    module: 'next/image',
     exports: [
-      { name: 'useTranslations', value: useTranslations },
+      { name: 'default', value: Image },
     ]
   },
   {
-    module: 'next/navigation',
+    module: 'lucide-react',
     exports: [
-      { name: 'useSearchParams', value: useSearchParams },
-      { name: 'useRouter', value: useRouter_38d453563358e259e30871f8ef5a0334c186c57e },
-      { name: 'usePathname', value: usePathname },
+      { name: 'ImageOff', value: ImageOff },
+      { name: 'Search', value: Search },
+      { name: 'X', value: X },
+      { name: 'ChevronDown', value: ChevronDown },
+      { name: 'Menu', value: Menu },
+      { name: 'User', value: User },
     ]
   },
   {
@@ -103,9 +114,74 @@ const importMap = [
     ]
   },
   {
+    module: '@/components/ui/input',
+    exports: [
+      { name: 'Input', value: Input },
+    ]
+  },
+  {
     module: '@/components/ui/button',
     exports: [
       { name: 'Button', value: Button },
+    ]
+  },
+  {
+    module: '@/components/ui/card',
+    exports: [
+      { name: 'Card', value: Card },
+      { name: 'CardContent', value: CardContent },
+    ]
+  },
+  {
+    module: '@/lib/search-ui/constants',
+    exports: [
+      { name: 'DEFAULT_PAGE_SIZE', value: DEFAULT_PAGE_SIZE },
+    ]
+  },
+  {
+    module: '@/lib/search-ui/text',
+    exports: [
+      { name: 'stripHtml', value: stripHtml },
+      { name: 'formatDate', value: formatDate },
+    ]
+  },
+  {
+    module: '@/lib/search-ui/useDebouncedValue',
+    exports: [
+      { name: 'useDebouncedValue', value: useDebouncedValue },
+    ]
+  },
+  {
+    module: '@/lib/search-ui/useUrlMirror',
+    exports: [
+      { name: 'readUrlParam', value: readUrlParam },
+      { name: 'useUrlMirror', value: useUrlMirror },
+    ]
+  },
+  {
+    module: '@/lib/search-ui/useSearchLabels',
+    exports: [
+      { name: 'useSearchLabels', value: useSearchLabels },
+    ]
+  },
+  {
+    module: '@/lib/search-ui/useSearchEvents',
+    exports: [
+      { name: 'useSearchEvents', value: useSearchEvents },
+    ]
+  },
+  {
+    module: 'next-intl',
+    exports: [
+      { name: 'useTranslations', value: useTranslations },
+    ]
+  },
+  {
+    module: 'next/navigation',
+    exports: [
+      { name: 'useSearchParams', value: useSearchParams },
+      { name: 'useRouter', value: useRouter_38d453563358e259e30871f8ef5a0334c186c57e },
+      { name: 'usePathname', value: usePathname },
     ]
   },
   {
@@ -160,7 +236,7 @@ const importMap = [
     module: '@/lib/search/search-components/constants',
     exports: [
       { name: 'DICTIONARY_KEYS', value: DICTIONARY_KEYS },
-      { name: 'DEFAULT_PAGE_SIZE', value: DEFAULT_PAGE_SIZE },
+      { name: 'DEFAULT_PAGE_SIZE', value: DEFAULT_PAGE_SIZE_d8a3a96ed6893912a4b0e4dff64815d90f82a321 },
       { name: 'gridColsClass', value: gridColsClass },
     ]
   },
@@ -181,15 +257,6 @@ const importMap = [
     module: 'next/link',
     exports: [
       { name: 'default', value: Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 },
-    ]
-  },
-  {
-    module: 'lucide-react',
-    exports: [
-      { name: 'ChevronDown', value: ChevronDown },
-      { name: 'Menu', value: Menu },
-      { name: 'X', value: X },
-      { name: 'User', value: User },
     ]
   },
   {
@@ -292,12 +359,6 @@ const importMap = [
     exports: [
       { name: 'ItemCardFrame', value: ItemCardFrame },
       { name: 'ItemListFrame', value: ItemListFrame },
-    ]
-  },
-  {
-    module: 'next/image',
-    exports: [
-      { name: 'default', value: Image },
     ]
   },
   {

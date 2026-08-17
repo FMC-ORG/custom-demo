@@ -16,8 +16,9 @@ project:
 availableRenderings:
   itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
   lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{C9FFEF83-C928-4346-AA68-14B3EE0B0017}|{B92A0B89-790F-4D94-89C7-B361C8688765}|{9E525B59-B9BF-4EB7-B75D-10811EF6100D}|{66E80043-36E4-48AE-8CAF-EEF4A77690BE}|{5A8724FB-D6E6-4C9D-8A4A-EFD8750B0019}|{14FCB11C-364D-4BC2-9238-B29B4C6F8145}|{FAA6D190-2A7C-4A18-A09D-7E5D33A5BDAF}|{06D05BB6-2DD6-457A-BC64-22A07F7D4359}"
-  lastUpdatedAt: "2026-06-09T00:00:00Z"
-  renderingCount: 32
+  lastUpdatedAt: "2026-08-07T00:00:00Z"
+  renderingCount: 35
+  note: "2026-08-07: appended {D33F0079-E54F-48C3-A33A-6A3A83146DA8} (SearchResults). Pre-write staleness check passed: all 34 recorded GUIDs still present in live get_allowed_comps_by_ph, nothing new since June. Post-write verified via get_allowed_comps_by_ph — SearchResults now allowed. lastKnownValue below is the pre-write value; current = that + SearchResults GUID."
   warning: "MCP cannot read this field — value may be stale if modified outside this session. Also: MCP write returned empty updatedFields — silent-write. Verify in Content Editor."
 
 components:
@@ -3225,5 +3226,195 @@ lookups:
     itemId: "{E38ABC20-C7EA-43C8-AAAF-22CA71342814}"
     lastReadAt: "2026-06-09T00:00:00Z"
 
+components-searchv3:
+  # Ticket #46 (FMC-ORG/custom-demo). Spec #45. Built 2026-08-07.
+  - name: "SearchResults"
+    kind: "simple"
+    category: "Search"
+    status: "partial"
+    createdAt: "2026-08-07"
+    note: >
+      From-scratch search results component (spec #45, ticket #46). NAMING COLLISION on
+      arrival: template/rendering/folder items named SearchResults already existed with a
+      foreign field set (SearchHeading, NoResultsMessage, SearchPlaceholderText) — not in
+      manifest, matching no repo code, creator unknown (possibly another agent). Took over
+      non-destructively: spec fields ADDED alongside; foreign fields left in place, unused
+      by the component. Cleanup of foreign fields = user decision.
+
+    react:
+      filePath: "src/components/uiim/search/SearchResults.tsx"
+      componentMapKey: "SearchResults"
+      variants: ["Default"]
+      helpers: "src/lib/search-ui/ (constants, text, useDebouncedValue, useUrlMirror, useSearchLabels, useSearchEvents) — shared foundation for #47/#48"
+      tests: "src/__tests__/components/search-results/SearchResults.test.tsx (10 passing, SDK-mock seam)"
+
+    templates:
+      datasource:
+        name: "SearchResults"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Search/SearchResults"
+        itemId: "{5CF70CBE-F1C9-4E58-A424-A6614EBD7071}"
+        preExisting: true
+        baseTemplatesSet: true
+        sectionName: "Data"
+        sectionItemId: "{9633E5A4-5C14-48F4-8959-A52D41CFF92E}"
+        fields:
+          - { name: "SearchIndex", itemId: "{3FEA9031-123A-4169-ABC2-6A3101BAE70F}" }
+          - { name: "TitleMapping", itemId: "{55E17195-3DA9-460B-8621-B6934EEA8889}" }
+          - { name: "DescriptionMapping", itemId: "{4ADFE0C6-836D-47D8-84DB-9894BB1626A0}" }
+          - { name: "ImageMapping", itemId: "{4B6A41DE-F71F-4066-B334-9157B381E54A}" }
+          - { name: "LinkMapping", itemId: "{04466D2F-2FF0-47B9-B98F-1C7EE38E6D27}" }
+          - { name: "DateMapping", itemId: "{B8F3C5C3-DBB4-4AAA-8E03-9FD717E96E29}" }
+        foreignFields: ["SearchHeading", "NoResultsMessage", "SearchPlaceholderText"]
+        standardValues:
+          itemId: "{146E3CEA-EF5D-4D7E-AF74-F94FA52E7BC8}"
+          preExisting: true
+
+      renderingParams:
+        name: "SearchResults"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Search/SearchResults"
+        itemId: "{5406C548-15C9-4377-89B4-E58BC1D62DDF}"
+        preExisting: true
+        note: "Field inventory not audited — verify columns/pageSize params exist before relying on them."
+
+      folder:
+        name: "SearchResults Folder"
+        itemId: "{DB87528F-801E-4170-A642-A48200AF38D0}"
+        preExisting: true
+
+    datasourceFolder:
+      name: "SearchResults"
+      path: "/sitecore/content/main/main-website/Data/SearchResults"
+      itemId: "{A03B9129-4D08-435E-B038-29802CE6A603}"
+      preExisting: true
+      items:
+        - name: "Articles Search Results"
+          itemId: "{583E737F-187B-4939-9579-74CCA7676DED}"
+          fields: { SearchIndex: "5db6d2f0-4157-45fc-9017-fd928f94f87c", TitleMapping: "Title", DescriptionMapping: "ArticleContent", ImageMapping: "ArticleImage", DateMapping: "ArticlePublicationDate", LinkMapping: "" }
+          verified: true
+        - name: "Default Search Results"
+          itemId: "{06889E39-3FE2-4072-9C87-5E6C8D0051A0}"
+          preExisting: true
+          note: "Foreign item (heading/placeholder fields only, no index config). Not used."
+
+    rendering:
+      name: "SearchResults"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Search/SearchResults"
+      itemId: "{D33F0079-E54F-48C3-A33A-6A3A83146DA8}"
+      preExisting: true
+      componentName: "SearchResults"
+      parametersTemplate: "{5406C548-15C9-4377-89B4-E58BC1D62DDF}"
+      registeredInAvailableRenderings: true
+
+    placement:
+      pageId: "{D8B01498-2838-4388-A68F-86665D9C1C80}"
+      placeholder: "headless-main"
+      componentInstanceId: "{F092DA8E-D975-4948-AC09-0AD19CE8B3C5}"
+      datasourceAssigned: "{583E737F-187B-4939-9579-74CCA7676DED}"
+      orphanedLocalDatasource: "{D3E33C53-D060-4503-8F0F-24E40F398CE8}"
+
+    verification:
+      jestTests: passed
+      tscClean: passed
+      componentMapRegistered: passed
+      availableRenderings: passed
+      datasourceItemFields: passed
+      ssrMarkupOnArticlesPage: passed
+      renderingDatasourceTemplateAndLocation: pendingManual  # silent-write, echo omits these fields
+      liveFourPointProtocol: pending  # blocked on V2 removal for clean run
+      v2RemovedFromPage: pendingManual  # no MCP tool to remove a component instance — remove SearchExperienceV2 in Page Builder
+
 # Demo datasource items (AI-created content, not new component definitions)
-demoContent: []
+demoContent:
+
+  # Articles corpus for SitecoreAI Search capability proof (articles vertical)
+  # Created 2026-08-05. Each article carries a unique probe keyword for search
+  # verification: a query for it must return exactly that article.
+  - name: "Canary Releases Explained"
+    kind: "page"
+    template: "Article Page Template"
+    path: "/sitecore/content/main/main-website/Home/Articles/Canary Releases Explained"
+    itemId: "{2652AE38-3F8E-484A-B45C-DBBA192DEC9F}"
+    probeKeyword: "canary"
+    author: "Marcus Webb"
+    createdAt: "2026-08-05"
+    notes:
+      - "Title field update accepted by MCP but not echoed in item read-back (API omits base-template fields) — verify visually during search verification."
+      - "ArticleImage empty — no Content Hub credentials configured. Polish item, does not block search proof."
+      - "NOT PUBLISHED yet — publish is a manual step before index ingestion."
+
+  - name: "Zero Downtime Database Migrations"
+    kind: "page"
+    template: "Article Page Template"
+    path: "/sitecore/content/main/main-website/Home/Articles/Zero Downtime Database Migrations"
+    itemId: "{4377E7CA-9CC2-47BE-8996-1A40F717D613}"
+    probeKeyword: "migrations"
+    author: "Jane Smith"
+    createdAt: "2026-08-05"
+    notes:
+      - "Same Title/image/publish caveats as Canary Releases Explained."
+
+  - name: "Observability Beyond Dashboards"
+    kind: "page"
+    template: "Article Page Template"
+    path: "/sitecore/content/main/main-website/Home/Articles/Observability Beyond Dashboards"
+    itemId: "{35035763-61D1-4ADA-A25E-A8FBDB1E659B}"
+    probeKeyword: "observability"
+    author: "Marcus Webb"
+    createdAt: "2026-08-05"
+    notes:
+      - "Same Title/image/publish caveats as Canary Releases Explained."
+
+  - name: "SearchExperience dictionary entries"
+    kind: "dictionary"
+    template: "Dictionary entry ({6D1CD897-1936-4A3A-A511-289A94C2A7B1})"
+    path: "/sitecore/content/main/main-website/Dictionary/"
+    createdAt: "2026-08-06"
+    notes:
+      - "11 entries for all DICTIONARY_KEYS in src/lib/search/search-components/constants.ts. Fixes MISSING_MESSAGE next-intl errors on pages hosting SearchExperienceV2 — the component's t() || fallback pattern is dead code with next-intl (missing key throws, does not return falsy). Component-side fix on improvement backlog."
+      - "Dictionary root (Dictionary Domain): {A4988639-B81E-4045-9177-9D5F66C34EF3} — was empty before this."
+    entries:
+      - { key: "SearchExperience_ResultsFound", itemId: "{9DD19E5C-1B72-448F-85A6-511F8005755C}" }
+      - { key: "SearchExperience_NoResultsFound", itemId: "{F04BB443-5246-4B6C-A7AB-DBAFEB833D15}" }
+      - { key: "SearchExperience_TryAdjustingYourSearch", itemId: "{14958EE8-8EEE-4322-B9C0-AF3951947420}" }
+      - { key: "SearchExperience_ClearSearch", itemId: "{EECE0ADF-4E48-4A3A-B808-664175C4B91E}" }
+      - { key: "SearchExperience_SomethingWentWrong", itemId: "{BCD9352A-F012-4561-A099-3D87AE3B9299}" }
+      - { key: "SearchExperience_TryAgain", itemId: "{A3D78223-ECD9-4336-9C7E-BAB166AC345F}" }
+      - { key: "SearchExperience_LoadMore", itemId: "{D7C8D301-0EA3-491C-9F51-4332C347A8C8}" }
+      - { key: "SearchExperience_SearchInputPlaceholder", itemId: "{382CFFC4-BF33-443F-B523-436222C46A92}" }
+      - { key: "SearchExperience_PreviousPage", itemId: "{2217C094-D9EA-4E99-B734-03B70FC2B1A7}" }
+      - { key: "SearchExperience_NextPage", itemId: "{230CD9EE-1AA4-4784-BCB4-E908A6DC4050}" }
+      - { key: "SearchExperience_ReadMore", itemId: "{51A25256-2A6B-40D0-8E2E-138E393CEE27}" }
+
+  - name: "Articles Search (SearchExperienceV2 datasource)"
+    kind: "dataItem"
+    template: "Search Experience V2"
+    path: "/sitecore/content/main/main-website/Data/Search Experiences V2/Articles Search"
+    itemId: "{638071B9-9241-4096-911B-F5208C30791E}"
+    createdAt: "2026-08-06"
+    fields:
+      SearchIndex: "5db6d2f0-4157-45fc-9017-fd928f94f87c"
+      TitleMapping: "Title"
+      ImageMapping: "ArticleImage"
+    notes:
+      - "Articles-scoped index proved via docs/ai/scripts/search-probe.mjs (canary/migrations/observability = 1 hit each, gibberish = 0)."
+      - "DescriptionMapping left empty: ArticleContent/ArticleKeyTakeaways are HTML, card renders raw text. LinkMapping empty: index has no URL attribute (env-side follow-up in Search Configuration Manager)."
+      - "Placed on Articles page {D8B01498-2838-4388-A68F-86665D9C1C80}, placeholder headless-main, component instance {0676931B-13CC-4B77-947C-C613CB0050DB}. Auto-created local datasource {EFDE9655-A6A9-4868-AE5C-DF8900D37CB9} orphaned after repointing to this shared item — safe to clean up."
+      - "Rendering params NOT set (no MCP tool for params): pageSize default 6 — set pageSize=2 + columns=3 manually in Page Builder to demo pagination with 3-article corpus."
+
+  - name: "Marcus Webb"
+    kind: "dataItem"
+    template: "Person"
+    path: "/sitecore/content/main/main-website/Data/People/Marcus Webb"
+    itemId: "{EB2E25A6-F68D-4E9F-845F-C7A9B1625A55}"
+    createdAt: "2026-08-05"
+    notes:
+      - "Second author for articles corpus. personProfileImage empty (no Content Hub credentials)."
+      - "Jane Smith ({18A183C6-6E69-40F3-A0D9-0973D05C8D3B}) personBio filled in the same session."
+
+  # Pre-existing stub found during corpus creation — not AI-created this session:
+  # "Example Article" {439BC140-419F-4FBF-ABCC-723D389D0FDD} under /Home/Articles
+  # has ALL fields empty. Would pollute search results once indexed.
+  # 2026-08-05: MCP delete_content called twice, returned success:true both times,
+  # but item still resolves via get_content_item_by_id afterwards — delete did NOT
+  # take effect. Status: pendingManual — DELETE MANUALLY in Content Editor before
+  # publishing /Home/Articles.

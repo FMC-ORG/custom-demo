@@ -3319,9 +3319,9 @@ components-searchv3:
       availableRenderings: passed
       datasourceItemFields: passed
       ssrMarkupOnArticlesPage: passed
-      renderingDatasourceTemplateAndLocation: pendingManual  # silent-write, echo omits these fields
-      liveFourPointProtocol: pending  # blocked on V2 removal for clean run
-      v2RemovedFromPage: pendingManual  # no MCP tool to remove a component instance — remove SearchExperienceV2 in Page Builder
+      renderingDatasourceTemplateAndLocation: pendingManual  # silent-write, echo omits these fields. Re-confirmed 2026-08-17: MCP read-back omits both; componentName, Parameters Template (GUID), AddFieldEditorButton=1, ComponentQuery empty all verified correct.
+      liveFourPointProtocol: passed  # 2026-08-17, warm dev server post upstream-sync: 6/7. All component-scoped checks pass (browse=4 cards incl. undeleted Example Article, canary probe=1 hit, url-mirror, gibberish empty-state, deep-link hydration, links-absent). Sole failure: no-console-errors — IntlError MISSING_MESSAGE from V2's SearchLayout/SearchInput (SearchExperience_* keys), not from SearchResults; clears once V2 is removed. Cold-server first run flakes browse/probe (2.5s wait < route compile) — always warm the route first.
+      v2RemovedFromPage: pendingManual  # no MCP tool to remove a component instance — remove SearchExperienceV2 in Page Builder. Re-confirmed still on page 2026-08-17 via get_components_on_page (instance 0676931b-13cc-4b77-947c-c613cb0050db).
 
 # Demo datasource items (AI-created content, not new component definitions)
 demoContent:

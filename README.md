@@ -164,6 +164,10 @@ field-configuration screen:
 - Mark the date field **Sortable** (powers the sort control and the "latest" strip).
 - Do **not** mark the URL field Searchable (URL text would pollute matching).
 
+The source's Fields tab should end up looking like this (articles example):
+
+![Search source field configuration — Include, Searchable, and Sortable flags per field](docs/images/search-source-fields.png)
+
 > ⚠️ A source's field set is **fixed at creation** — fields added to the template later never
 > appear in an existing index. If you need another field, create a new source and repoint the
 > datasource items to its GUID.

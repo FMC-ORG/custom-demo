@@ -140,6 +140,13 @@ suggest box**, and a **search pill in the site header**. The React components sh
 (`SearchResults`, `SearchCollection`, `SearchTypeahead` + the NavigationHeader search slot) — 
 enabling search is configuration, not coding.
 
+> # ⚠️ Search does NOT work in the Pages editor or Preview
+> **By design, the search components never call the live search API in editing or preview mode —
+> they render skeleton placeholders there. Seeing skeletons in Page Builder is normal, not
+> broken.** To see search actually working you need the app running as a real rendering host:
+> the **deployed site** (Vercel / XM Cloud rendering host) or **local `npm run dev`** opened
+> directly at `http://localhost:3000` — not through the editor iframe.
+
 Full recipe and field reference: [`docs/ai/catalog/capabilities-registry.yaml`](examples/basic-nextjs/docs/ai/catalog/capabilities-registry.yaml)
 (the `search` capability). Endpoint behavior and gotchas:
 [`docs/ai/reference/agent-api-limitations.md`](examples/basic-nextjs/docs/ai/reference/agent-api-limitations.md) § 6.

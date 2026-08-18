@@ -3290,7 +3290,7 @@ components-searchv3:
       items:
         - name: "Articles Search Results"
           itemId: "{583E737F-187B-4939-9579-74CCA7676DED}"
-          fields: { SearchIndex: "5db6d2f0-4157-45fc-9017-fd928f94f87c", TitleMapping: "Title", DescriptionMapping: "ArticleContent", ImageMapping: "ArticleImage", DateMapping: "ArticlePublicationDate", LinkMapping: "ArticleUrl" }
+          fields: { SearchIndex: "79b6b3db-8ac7-4ab4-9e1b-f8dd9d6fe7fc", TitleMapping: "Title", DescriptionMapping: "ArticleContent", ImageMapping: "ArticleImage", DateMapping: "ArticlePublicationDate", LinkMapping: "ArticleUrl" }
           verified: true
           note: "LinkMapping pre-wired 2026-08-18 for #49 — inert until ArticleUrl ingests into the index (publish + recrawl)."
         - name: "Default Search Results"
@@ -3322,7 +3322,7 @@ components-searchv3:
       datasourceItemFields: passed
       ssrMarkupOnArticlesPage: passed
       renderingDatasourceTemplateAndLocation: pendingManual  # silent-write, echo omits these fields. Re-confirmed 2026-08-17: MCP read-back omits both; componentName, Parameters Template (GUID), AddFieldEditorButton=1, ComponentQuery empty all verified correct.
-      liveFourPointProtocol: passed  # CLEAN 7/7 2026-08-18 after V2 removal — browse, canary probe, url-mirror, gibberish, deep-link, links-absent, no-console-errors all pass. Cold-server first run flakes browse/probe (2.5s wait < route compile) — always warm the route first.
+      liveFourPointProtocol: passed  # CLEAN 7/7 2026-08-18 after V2 removal — browse, canary probe, url-mirror, gibberish, deep-link, no-console-errors. Re-run same day on new index 79b6b3db with LINKS LIVE (result-links-work: /Articles/Canary-Releases-Explained) — still 7/7. Cold-server first run flakes browse/probe (2.5s wait < route compile) — always warm the route first.
       v2RemovedFromPage: passed  # user removed SearchExperienceV2 in Page Builder; verified gone 2026-08-18 via get_components_on_page. Articles page now: SearchTypeahead -> SearchResults.
 
   # Ticket #47 (FMC-ORG/custom-demo). Spec #45. Built 2026-08-18.
@@ -3389,7 +3389,7 @@ components-searchv3:
       items:
         - name: "Latest Articles"
           itemId: "{7C8794D2-9319-4CE0-993C-D983E135DDC9}"
-          fields: { SearchIndex: "5db6d2f0-4157-45fc-9017-fd928f94f87c", TitleMapping: "Title", DescriptionMapping: "ArticleContent", ImageMapping: "ArticleImage", LinkMapping: "ArticleUrl", DateMapping: "ArticlePublicationDate", SortBy: "ArticlePublicationDate", SortOrder: "desc", MaxItems: "3", Heading: "Latest Articles" }
+          fields: { SearchIndex: "79b6b3db-8ac7-4ab4-9e1b-f8dd9d6fe7fc", TitleMapping: "Title", DescriptionMapping: "ArticleContent", ImageMapping: "ArticleImage", LinkMapping: "ArticleUrl", DateMapping: "ArticlePublicationDate", SortBy: "ArticlePublicationDate", SortOrder: "desc", MaxItems: "3", Heading: "Latest Articles" }
           verified: true
           note: "LinkMapping pre-wired 2026-08-18 for #49 — inert until ArticleUrl ingests into the index (publish + recrawl)."
 
@@ -3415,7 +3415,7 @@ components-searchv3:
       availableRenderings: passed  # live get_allowed_comps_by_ph includes SearchCollection
       datasourceItemFields: passed
       folderInsertOptions: passed  # list_avail_insertopts
-      browserRun: passed  # CLEAN 7/7 2026-08-18 after V2 removal — heading, 3 cards, date-desc order (Jul 28 > Jul 15 > Jul 2, sort contract proven live), dates, links-absent, no-console-errors.
+      browserRun: passed  # CLEAN 7/7 2026-08-18 after V2 removal — heading, 3 cards, date-desc order (Jul 28 > Jul 15 > Jul 2, sort contract proven live), dates, no-console-errors. Re-run same day on new index 79b6b3db with LINKS LIVE (3 Read-more links, first -> /Articles/Observability-Beyond-Dashboards) — still 7/7, sort contract holds on the new index.
       renderingDatasourceTemplateAndLocation: pendingManual  # silent-write, echo omits these fields
       templateSvLinks: pendingManual  # __Standard values field silent-write on both templates
       fieldHelpText: pendingManual  # __Short description silent-write, not echoed
@@ -3482,7 +3482,7 @@ components-searchv3:
       items:
         - name: "Articles Typeahead"
           itemId: "{EA6E552D-5AAB-4554-89E2-D1E85C2107D3}"
-          fields: { SearchIndex: "5db6d2f0-4157-45fc-9017-fd928f94f87c", TitleMapping: "Title", LinkMapping: "ArticleUrl", ResultsPage: "internal link -> Articles page {D8B01498-2838-4388-A68F-86665D9C1C80}", MaxSuggestions: "5" }
+          fields: { SearchIndex: "79b6b3db-8ac7-4ab4-9e1b-f8dd9d6fe7fc", TitleMapping: "Title", LinkMapping: "ArticleUrl", ResultsPage: "internal link -> Articles page {D8B01498-2838-4388-A68F-86665D9C1C80}", MaxSuggestions: "5" }
           verified: true  # incl. link XML echoed back intact
           note: "LinkMapping pre-wired 2026-08-18 for #49 — inert until ArticleUrl ingests into the index (publish + recrawl)."
 
@@ -3512,7 +3512,7 @@ components-searchv3:
       availableRenderings: passed  # live get_allowed_comps_by_ph includes SearchTypeahead
       datasourceItemFields: passed
       folderInsertOptions: passed
-      browserRun: passed  # CLEAN 7/7 2026-08-18 typeahead-verify.mjs — suggestions appear, see-all ?q=, keyboard Enter chooses (degrades to results page with title as query), handoff hydrates SearchResults with chosen article ranked first, gibberish quiet, no console errors. Note: keyphrase matching is loose — a full-title query matches other docs too; the contract is chosen-article-ranks-first, not exact-count-1. First-browser-load runs flake on chunk compile — warm with one browser visit first.
+      browserRun: passed  # CLEAN 7/7 2026-08-18 typeahead-verify.mjs, re-run same day on new index 79b6b3db with LINKS LIVE: choosing a suggestion now navigates DIRECTLY to the article (/Articles/Canary-Releases-Explained); Enter-without-selection hands ?q= to SearchResults (probe article ranks first). Gibberish quiet, no console errors. Note: keyphrase matching is loose — the contract is chosen-article-ranks-first, not exact-count-1. First-browser-load runs flake on chunk compile — warm with one browser visit first.
       renderingDatasourceTemplateAndLocation: pendingManual  # silent-write, echo omits these fields
       templateSvLinks: pendingManual  # __Standard values field silent-write on both templates
       fieldHelpText: pendingManual  # __Short description silent-write, not echoed
@@ -3538,9 +3538,16 @@ demoContent:
       - { article: "Canary Releases Explained", value: "/Articles/Canary-Releases-Explained" }
       - { article: "Zero Downtime Database Migrations", value: "/Articles/Zero-Downtime-Database-Migrations" }
       - { article: "Observability Beyond Dashboards", value: "/Articles/Observability-Beyond-Dashboards" }
-    pending:
-      - "Publish + index recrawl (manual), then verify via search-probe.mjs that ArticleUrl appears as an attribute"
-      - "Flip result-links-absent assertions in the three verify scripts to expect working links, re-run, close #49 + #45"
+    resolved: >
+      2026-08-18: user created a NEW search source/index 79b6b3db-8ac7-4ab4-9e1b-f8dd9d6fe7fc
+      with ArticleUrl included in the field configuration (the old source's attribute schema
+      was fixed at creation — new template fields do NOT auto-ingest; fields must be Included
+      in the source's content-type field configuration). Probe confirms ArticleUrl as an
+      attribute with correct per-article values. All three datasource items repointed to the
+      new index (SearchIndex updated via MCP, verified by echo). Old index
+      5db6d2f0-4157-45fc-9017-fd928f94f87c is superseded — still referenced only by the
+      retired V2 datasource items. Example Article still published in the corpus (bogus
+      /article/example-article URL) — delete + republish to clean it.
 
   # Articles corpus for SitecoreAI Search capability proof (articles vertical)
   # Created 2026-08-05. Each article carries a unique probe keyword for search

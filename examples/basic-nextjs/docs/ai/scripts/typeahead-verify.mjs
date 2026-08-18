@@ -51,26 +51,29 @@ record('see-all-href', seeAllHref === '/Articles?q=can', `href: "${seeAllHref}"`
 
 await component.screenshot({ path: `${outDir}/typeahead-open.png` });
 
-// 3. Keyboard: ArrowDown selects the first option, Enter chooses it. With no
-// link mapping this degrades to the results page with the title as query.
+// 3. Keyboard: ArrowDown selects the first option, Enter chooses it. With
+// LinkMapping live (since #49) this navigates DIRECTLY to the article page.
 await input.press('ArrowDown');
 await input.press('Enter');
-await page.waitForURL(/\?q=/, { timeout: 10000 });
-const landedUrl = new URL(page.url());
-const q = landedUrl.searchParams.get('q') ?? '';
+await page.waitForURL(/Canary-Releases-Explained/, { timeout: 10000 });
 record(
-  'keyboard-enter-navigates',
-  landedUrl.pathname === '/Articles' && q.includes('Canary'),
-  `landed: ${landedUrl.pathname}?q=${q}`
+  'keyboard-enter-opens-article',
+  new URL(page.url()).pathname === '/Articles/Canary-Releases-Explained',
+  `landed: ${new URL(page.url()).pathname}`
 );
 
-// 4. The handoff: SearchResults on the target page hydrates from ?q= and the
-// chosen article ranks first. (Keyphrase matching is loose — a full-title
-// query can match other documents too, so exact-count-1 is not the contract.)
+// 4. The handoff: Enter WITHOUT a selection goes to the results page with ?q=,
+// where SearchResults hydrates and the probe article ranks first.
+await page.goto(`${baseUrl}/Articles`, { waitUntil: 'load' });
+await page.waitForTimeout(2000);
+await input.fill('canary');
+await page.waitForTimeout(2500);
+await input.press('Enter');
+await page.waitForURL(/\?q=canary/, { timeout: 10000 });
 await page.waitForTimeout(3500);
 const resultsInput = page.locator('section.search-results input');
 const firstCard = page.locator('section.search-results h3').first();
-const hydrated = (await resultsInput.inputValue()).includes('Canary');
+const hydrated = (await resultsInput.inputValue()) === 'canary';
 const firstTitle = (await firstCard.textContent().catch(() => ''))?.trim() ?? '';
 record(
   'handoff-filters-results',

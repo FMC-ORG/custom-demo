@@ -283,8 +283,9 @@ Keyphrase matching is loose (OR-like across words): a multi-word query matches d
 ### Index attribute caveats
 
 - The set of queryable/sortable attributes is whatever the index ingested (e.g. `Title`, `ArticleContent`, `ArticlePublicationDate`, `sc_item_id`). Rich-text attributes come back as raw HTML — strip before display.
-- Indexes have **no URL attribute by default**; add one in the Search Configuration Manager or components render without links (they degrade gracefully — see ticket #49).
-- Index content reflects *published* items; deleted-but-unpublished items keep polluting results until a publish + recrawl.
+- **A source's attribute schema is fixed at creation** — template fields added later do NOT auto-ingest, even after publish + re-run. To surface a new field, it must be "Included" in the source's content-type field configuration, which in practice means creating a new source (observed 2026-08-18 with `ArticleUrl`).
+- Indexes have **no URL attribute by default**; this project delivers links through content instead — an `ArticleUrl` template field holding each article's site-relative path, ingested as a normal attribute and consumed via `LinkMapping` (ticket #49). Caveat: the field duplicates the item path — keep it in sync on rename/move.
+- Index content reflects *published* items; deleted-but-unpublished items keep polluting results until a publish + recrawl. Re-running the index without publishing first re-reads the old published state.
 
 ### Re-verification tool
 

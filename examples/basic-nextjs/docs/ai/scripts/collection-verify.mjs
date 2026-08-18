@@ -58,7 +58,13 @@ if (componentPresent) {
   record('dates-rendered', dates.length === 3, `dates: [${dates.join(' | ')}]`);
 
   const links = await component.locator('a').count();
-  record('result-links-absent', links === 0, `links in component: ${links} (0 expected until #49)`);
+  const firstLink =
+    (await component.locator('a').first().getAttribute('href').catch(() => null)) ?? '(none)';
+  record(
+    'result-links-work',
+    links === 3 && firstLink === '/Articles/Observability-Beyond-Dashboards',
+    `links: ${links}, first: ${firstLink} (live since #49)`
+  );
 }
 
 if (componentPresent) {

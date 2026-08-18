@@ -99,12 +99,14 @@ record(
   `input: "${inputValue}", "${deepLink.total}"`
 );
 
-// --- Point 4: result links (expected ABSENT until index has a URL attribute, #49) ---
-const linkCount = await component.locator('a').count();
+// --- Point 4: result links (live since #49 — ArticleUrl attribute + LinkMapping) ---
+// At this point the deep-link state (?q=canary) shows exactly the canary card.
+const linkHref =
+  (await component.locator('a').first().getAttribute('href').catch(() => null)) ?? '(none)';
 record(
-  'result-links-absent',
-  linkCount === 0,
-  `links in component: ${linkCount} (0 expected until #49)`
+  'result-links-work',
+  linkHref === '/Articles/Canary-Releases-Explained',
+  `first card link: ${linkHref}`
 );
 
 // --- Console errors across the whole run ---

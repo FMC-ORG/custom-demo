@@ -3290,8 +3290,9 @@ components-searchv3:
       items:
         - name: "Articles Search Results"
           itemId: "{583E737F-187B-4939-9579-74CCA7676DED}"
-          fields: { SearchIndex: "5db6d2f0-4157-45fc-9017-fd928f94f87c", TitleMapping: "Title", DescriptionMapping: "ArticleContent", ImageMapping: "ArticleImage", DateMapping: "ArticlePublicationDate", LinkMapping: "" }
+          fields: { SearchIndex: "5db6d2f0-4157-45fc-9017-fd928f94f87c", TitleMapping: "Title", DescriptionMapping: "ArticleContent", ImageMapping: "ArticleImage", DateMapping: "ArticlePublicationDate", LinkMapping: "ArticleUrl" }
           verified: true
+          note: "LinkMapping pre-wired 2026-08-18 for #49 — inert until ArticleUrl ingests into the index (publish + recrawl)."
         - name: "Default Search Results"
           itemId: "{06889E39-3FE2-4072-9C87-5E6C8D0051A0}"
           preExisting: true
@@ -3388,8 +3389,9 @@ components-searchv3:
       items:
         - name: "Latest Articles"
           itemId: "{7C8794D2-9319-4CE0-993C-D983E135DDC9}"
-          fields: { SearchIndex: "5db6d2f0-4157-45fc-9017-fd928f94f87c", TitleMapping: "Title", DescriptionMapping: "ArticleContent", ImageMapping: "ArticleImage", LinkMapping: "", DateMapping: "ArticlePublicationDate", SortBy: "ArticlePublicationDate", SortOrder: "desc", MaxItems: "3", Heading: "Latest Articles" }
+          fields: { SearchIndex: "5db6d2f0-4157-45fc-9017-fd928f94f87c", TitleMapping: "Title", DescriptionMapping: "ArticleContent", ImageMapping: "ArticleImage", LinkMapping: "ArticleUrl", DateMapping: "ArticlePublicationDate", SortBy: "ArticlePublicationDate", SortOrder: "desc", MaxItems: "3", Heading: "Latest Articles" }
           verified: true
+          note: "LinkMapping pre-wired 2026-08-18 for #49 — inert until ArticleUrl ingests into the index (publish + recrawl)."
 
     rendering:
       name: "SearchCollection"
@@ -3480,8 +3482,9 @@ components-searchv3:
       items:
         - name: "Articles Typeahead"
           itemId: "{EA6E552D-5AAB-4554-89E2-D1E85C2107D3}"
-          fields: { SearchIndex: "5db6d2f0-4157-45fc-9017-fd928f94f87c", TitleMapping: "Title", LinkMapping: "", ResultsPage: "internal link -> Articles page {D8B01498-2838-4388-A68F-86665D9C1C80}", MaxSuggestions: "5" }
+          fields: { SearchIndex: "5db6d2f0-4157-45fc-9017-fd928f94f87c", TitleMapping: "Title", LinkMapping: "ArticleUrl", ResultsPage: "internal link -> Articles page {D8B01498-2838-4388-A68F-86665D9C1C80}", MaxSuggestions: "5" }
           verified: true  # incl. link XML echoed back intact
+          note: "LinkMapping pre-wired 2026-08-18 for #49 — inert until ArticleUrl ingests into the index (publish + recrawl)."
 
     rendering:
       name: "SearchTypeahead"
@@ -3517,6 +3520,27 @@ components-searchv3:
 
 # Demo datasource items (AI-created content, not new component definitions)
 demoContent:
+
+  # Ticket #49 approach change (2026-08-18): instead of waiting for an index-side
+  # URL attribute, an ArticleUrl field was added to the Article Page Template and
+  # filled with the site-relative path per article. The index ingests template
+  # fields, so after publish + recrawl the attribute should appear and the
+  # pre-wired LinkMapping: ArticleUrl on all three search datasource items
+  # activates links with zero further changes. Caveat: URL duplicates the item
+  # path — update the field if a page is renamed/moved.
+  - name: "ArticleUrl field on Article Page Template"
+    kind: "templateField"
+    path: "/sitecore/templates/Project/main/Page Types/Article Page Template/Article Data/ArticleUrl"
+    itemId: "{7168B48A-BBBD-4F00-A3DB-2BAB0441128F}"
+    type: "Single-Line Text"
+    createdAt: "2026-08-18"
+    values:  # all verified via update echo
+      - { article: "Canary Releases Explained", value: "/Articles/Canary-Releases-Explained" }
+      - { article: "Zero Downtime Database Migrations", value: "/Articles/Zero-Downtime-Database-Migrations" }
+      - { article: "Observability Beyond Dashboards", value: "/Articles/Observability-Beyond-Dashboards" }
+    pending:
+      - "Publish + index recrawl (manual), then verify via search-probe.mjs that ArticleUrl appears as an attribute"
+      - "Flip result-links-absent assertions in the three verify scripts to expect working links, re-run, close #49 + #45"
 
   # Articles corpus for SitecoreAI Search capability proof (articles vertical)
   # Created 2026-08-05. Each article carries a unique probe keyword for search

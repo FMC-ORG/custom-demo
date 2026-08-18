@@ -6,6 +6,7 @@ import { Form } from '@sitecore-content-sdk/nextjs';
 // end of built-in components
 import * as TestimonialBlock from 'src/components/uiim/social-proof/TestimonialBlock';
 import * as LogoCloud from 'src/components/uiim/social-proof/LogoCloud';
+import * as SearchTypeahead from 'src/components/uiim/search/SearchTypeahead';
 import * as SearchResults from 'src/components/uiim/search/SearchResults';
 import * as SearchExperienceV2 from 'src/components/uiim/search/SearchExperienceV2';
 import * as SearchCollection from 'src/components/uiim/search/SearchCollection';
@@ -85,6 +86,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['Form', { ...Form, componentType: 'client' }],
   ['TestimonialBlock', { ...TestimonialBlock }],
   ['LogoCloud', { ...LogoCloud }],
+  ['SearchTypeahead', { ...SearchTypeahead, componentType: 'client' }],
   ['SearchResults', { ...SearchResults, componentType: 'client' }],
   ['SearchExperienceV2', { ...SearchExperienceV2, componentType: 'client' }],
   ['SearchCollection', { ...SearchCollection, componentType: 'client' }],

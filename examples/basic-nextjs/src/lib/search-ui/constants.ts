@@ -33,6 +33,8 @@ export const SEARCH_LABELS = {
   PREVIOUS_PAGE: { key: 'SearchExperience_PreviousPage', fallback: 'Previous page' },
   NEXT_PAGE: { key: 'SearchExperience_NextPage', fallback: 'Next page' },
   READ_MORE: { key: 'SearchExperience_ReadMore', fallback: 'Read more' },
+  SEE_ALL_RESULTS: { key: 'SearchExperience_SeeAllResults', fallback: 'See all results' },
+  SUGGESTIONS: { key: 'SearchExperience_Suggestions', fallback: 'Search suggestions' },
 } as const;
 
 export type SearchLabelName = keyof typeof SEARCH_LABELS;

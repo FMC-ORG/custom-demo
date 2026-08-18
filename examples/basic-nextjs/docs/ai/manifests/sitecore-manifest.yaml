@@ -17,8 +17,8 @@ availableRenderings:
   itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
   lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{C9FFEF83-C928-4346-AA68-14B3EE0B0017}|{B92A0B89-790F-4D94-89C7-B361C8688765}|{9E525B59-B9BF-4EB7-B75D-10811EF6100D}|{66E80043-36E4-48AE-8CAF-EEF4A77690BE}|{5A8724FB-D6E6-4C9D-8A4A-EFD8750B0019}|{14FCB11C-364D-4BC2-9238-B29B4C6F8145}|{FAA6D190-2A7C-4A18-A09D-7E5D33A5BDAF}|{06D05BB6-2DD6-457A-BC64-22A07F7D4359}"
   lastUpdatedAt: "2026-08-18T00:00:00Z"
-  renderingCount: 36
-  note: "2026-08-18: appended {158772E0-46FD-4626-9144-527C24854F97} (SearchCollection). Pre-write staleness check passed: all 35 recorded GUIDs (incl. SearchResults) present in live get_allowed_comps_by_ph, nothing new. Post-write verified — SearchCollection now allowed. lastKnownValue below is the 2026-08-07 pre-SearchResults value; current = that + {D33F0079-E54F-48C3-A33A-6A3A83146DA8} + {158772E0-46FD-4626-9144-527C24854F97}."
+  renderingCount: 37
+  note: "2026-08-18: appended {158772E0-46FD-4626-9144-527C24854F97} (SearchCollection), then {59FFD4F9-1D2B-4C56-94D8-C15235AC3E0F} (SearchTypeahead), each with a pre-write staleness check against live get_allowed_comps_by_ph and post-write verification. lastKnownValue below is the 2026-08-07 pre-SearchResults value; current = that + {D33F0079-E54F-48C3-A33A-6A3A83146DA8} + {158772E0-46FD-4626-9144-527C24854F97} + {59FFD4F9-1D2B-4C56-94D8-C15235AC3E0F}."
   warning: "MCP cannot read this field — value may be stale if modified outside this session. Also: MCP write returned empty updatedFields — silent-write. Verify in Content Editor."
 
 components:
@@ -3320,8 +3320,8 @@ components-searchv3:
       datasourceItemFields: passed
       ssrMarkupOnArticlesPage: passed
       renderingDatasourceTemplateAndLocation: pendingManual  # silent-write, echo omits these fields. Re-confirmed 2026-08-17: MCP read-back omits both; componentName, Parameters Template (GUID), AddFieldEditorButton=1, ComponentQuery empty all verified correct.
-      liveFourPointProtocol: passed  # 2026-08-17, warm dev server post upstream-sync: 6/7. All component-scoped checks pass (browse=4 cards incl. undeleted Example Article, canary probe=1 hit, url-mirror, gibberish empty-state, deep-link hydration, links-absent). Sole failure: no-console-errors — IntlError MISSING_MESSAGE from V2's SearchLayout/SearchInput (SearchExperience_* keys), not from SearchResults; clears once V2 is removed. Cold-server first run flakes browse/probe (2.5s wait < route compile) — always warm the route first.
-      v2RemovedFromPage: pendingManual  # no MCP tool to remove a component instance — remove SearchExperienceV2 in Page Builder. Re-confirmed still on page 2026-08-17 via get_components_on_page (instance 0676931b-13cc-4b77-947c-c613cb0050db).
+      liveFourPointProtocol: passed  # CLEAN 7/7 2026-08-18 after V2 removal — browse, canary probe, url-mirror, gibberish, deep-link, links-absent, no-console-errors all pass. Cold-server first run flakes browse/probe (2.5s wait < route compile) — always warm the route first.
+      v2RemovedFromPage: passed  # user removed SearchExperienceV2 in Page Builder; verified gone 2026-08-18 via get_components_on_page. Articles page now: SearchTypeahead -> SearchResults.
 
   # Ticket #47 (FMC-ORG/custom-demo). Spec #45. Built 2026-08-18.
   - name: "SearchCollection"
@@ -3412,11 +3412,107 @@ components-searchv3:
       availableRenderings: passed  # live get_allowed_comps_by_ph includes SearchCollection
       datasourceItemFields: passed
       folderInsertOptions: passed  # list_avail_insertopts
-      browserRun: passed  # 2026-08-18 collection-verify.mjs 6/7 — heading, 3 cards, date-desc order (Jul 28 > Jul 15 > Jul 2, sort contract proven live), dates, links-absent. Sole failure no-console-errors: 40 V2 dictionary errors + 1 V2 search-request 404 (Home hosts a failing SearchExperienceV2 instance {9B4FE3EF-88ED-4910-8A33-4B0388E74CA7}) — none from SearchCollection.
+      browserRun: passed  # CLEAN 7/7 2026-08-18 after V2 removal — heading, 3 cards, date-desc order (Jul 28 > Jul 15 > Jul 2, sort contract proven live), dates, links-absent, no-console-errors.
       renderingDatasourceTemplateAndLocation: pendingManual  # silent-write, echo omits these fields
       templateSvLinks: pendingManual  # __Standard values field silent-write on both templates
       fieldHelpText: pendingManual  # __Short description silent-write, not echoed
-      v2RemovedFromHomePage: pendingManual  # V2 instance on Home errors visibly (404 + missing dictionary keys) — remove in Page Builder alongside the Articles-page one
+      v2RemovedFromHomePage: passed  # user removed in Page Builder; verified gone 2026-08-18 via get_components_on_page. Home now: Image -> SearchCollection.
+
+  # Ticket #48 (FMC-ORG/custom-demo). Spec #45. Built 2026-08-18.
+  - name: "SearchTypeahead"
+    kind: "simple"
+    category: "Search"
+    status: "complete"
+    createdAt: "2026-08-18"
+    note: >
+      Compact suggest box, page-scoped on Articles (ticket #48). Debounced title
+      suggestions, keyboard navigable (arrows/Enter/Escape), Enter or "See all results"
+      hands the query to the SearchResults page via ?q=. No link mapping (index has no
+      URL attribute until #49) — choosing a suggestion degrades to the results page with
+      the title as query. Promotion into the global header = deliberate manual Page
+      Builder step per spec. Testability note: navigation goes through
+      src/lib/search-ui/navigate.ts (navigateTo) because jsdom forbids redefining
+      window.location — mock that module, not location.
+
+    react:
+      filePath: "src/components/uiim/search/SearchTypeahead.tsx"
+      componentMapKey: "SearchTypeahead"
+      variants: ["Default"]
+      helpers: "added src/lib/search-ui/navigate.ts; SEE_ALL_RESULTS + SUGGESTIONS labels in constants"
+      tests: "src/__tests__/components/search-typeahead/SearchTypeahead.test.tsx (9 passing, SDK-mock seam)"
+
+    templates:
+      datasource:
+        name: "SearchTypeahead"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Search/SearchTypeahead"
+        itemId: "{4FC72579-05B8-4334-8A6E-3307C335A7F7}"
+        baseTemplatesSet: true  # verified via read-back
+        sectionName: "Data"
+        sectionItemId: "{8A68642F-B852-4DA3-8D95-3E40311FF317}"
+        fields:  # all with __Short description help text (silent-write)
+          - { name: "SearchIndex", type: "Single-Line Text", itemId: "{2D059CBC-A2CF-4214-868B-CD6760F41F44}" }
+          - { name: "TitleMapping", type: "Single-Line Text", itemId: "{49EAB0DF-AE58-47DA-93F7-11B65C59C748}" }
+          - { name: "LinkMapping", type: "Single-Line Text", itemId: "{B80F1BED-A19B-464E-9DCC-75503A58549D}" }
+          - { name: "ResultsPage", type: "General Link", itemId: "{49C9B0AF-F4EF-4921-926B-0FBA6387C5D3}" }  # Type verified
+          - { name: "MaxSuggestions", type: "Single-Line Text", itemId: "{F921A4FA-130E-4951-BC08-7E7931374A2A}" }
+        standardValues:
+          itemId: "{A0333D9E-E7BE-4896-B1D3-2095D238ADAF}"
+          defaults: { MaxSuggestions: "5" }
+      folder:
+        name: "SearchTypeahead Folder"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Folders/SearchTypeahead Folder"
+        itemId: "{347CD435-A09A-4636-B17E-F00FB5D7907F}"
+        standardValues:
+          itemId: "{CBE433B7-4499-4491-B938-7FEAB5D588F8}"
+          masters: ["SearchTypeahead"]
+      renderingParams:
+        name: "SearchTypeahead"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Search/SearchTypeahead"
+        itemId: "{28ADEFCC-7F97-4488-AC5C-762FC3EF177D}"
+        baseTemplatesSet: true  # set at creation, 4 GUIDs
+
+    datasourceFolder:
+      name: "SearchTypeaheads"
+      path: "/sitecore/content/main/main-website/Data/SearchTypeaheads"
+      itemId: "{C9A981B0-4852-4036-BEFA-656E95D6ED7D}"
+      insertOptionsVerified: true  # list_avail_insertopts returns SearchTypeahead
+      items:
+        - name: "Articles Typeahead"
+          itemId: "{EA6E552D-5AAB-4554-89E2-D1E85C2107D3}"
+          fields: { SearchIndex: "5db6d2f0-4157-45fc-9017-fd928f94f87c", TitleMapping: "Title", LinkMapping: "", ResultsPage: "internal link -> Articles page {D8B01498-2838-4388-A68F-86665D9C1C80}", MaxSuggestions: "5" }
+          verified: true  # incl. link XML echoed back intact
+
+    rendering:
+      name: "SearchTypeahead"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Search/SearchTypeahead"
+      itemId: "{59FFD4F9-1D2B-4C56-94D8-C15235AC3E0F}"
+      componentName: "SearchTypeahead"
+      parametersTemplate: "{28ADEFCC-7F97-4488-AC5C-762FC3EF177D}"
+      registeredInAvailableRenderings: true  # verified via get_allowed_comps_by_ph
+
+    placement:
+      pageId: "{D8B01498-2838-4388-A68F-86665D9C1C80}"  # Articles, inserted before SearchResults
+      placeholder: "headless-main"
+      componentInstanceId: "{941CA2B7-65FD-4030-B389-C23907FA5048}"
+      datasourceAssigned: "{EA6E552D-5AAB-4554-89E2-D1E85C2107D3}"
+      orphanedLocalDatasource: "{DBF37362-6B81-4EC9-9481-F746858BCCB8}"
+
+    dictionary:
+      - { key: "SearchExperience_SeeAllResults", itemId: "{F8F0D353-7D9C-4278-BE98-10CB348B3A13}" }
+      - { key: "SearchExperience_Suggestions", itemId: "{238FD904-D42F-4EC6-A0D3-45F5F446BD21}" }
+
+    verification:
+      jestTests: passed
+      tscClean: passed
+      componentMapRegistered: passed
+      availableRenderings: passed  # live get_allowed_comps_by_ph includes SearchTypeahead
+      datasourceItemFields: passed
+      folderInsertOptions: passed
+      browserRun: passed  # CLEAN 7/7 2026-08-18 typeahead-verify.mjs — suggestions appear, see-all ?q=, keyboard Enter chooses (degrades to results page with title as query), handoff hydrates SearchResults with chosen article ranked first, gibberish quiet, no console errors. Note: keyphrase matching is loose — a full-title query matches other docs too; the contract is chosen-article-ranks-first, not exact-count-1. First-browser-load runs flake on chunk compile — warm with one browser visit first.
+      renderingDatasourceTemplateAndLocation: pendingManual  # silent-write, echo omits these fields
+      templateSvLinks: pendingManual  # __Standard values field silent-write on both templates
+      fieldHelpText: pendingManual  # __Short description silent-write, not echoed
+      headerPromotion: byDesignManual  # drag into global header partial design in Page Builder when desired (spec #45)
 
 # Demo datasource items (AI-created content, not new component definitions)
 demoContent:

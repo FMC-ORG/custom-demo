@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { ImageOff, Search, X } from 'lucide-react';
 import { Field } from '@sitecore-content-sdk/nextjs';
@@ -23,7 +23,13 @@ interface SearchResultsFields {
   ImageMapping?: Field<string>;
   LinkMapping?: Field<string>;
   DateMapping?: Field<string>;
+  SortBy?: Field<string>;
 }
+
+type SortChoice = 'relevance' | 'newest' | 'oldest';
+
+const isSortChoice = (value: string): value is SortChoice =>
+  value === 'relevance' || value === 'newest' || value === 'oldest';
 
 interface SearchResultsProps extends ComponentProps {
   fields: SearchResultsFields;
@@ -102,6 +108,7 @@ export const Default = (props: SearchResultsProps) => {
   // hydration happens in a post-mount effect instead.
   const [inputValue, setInputValue] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
+  const [sortChoice, setSortChoice] = useState<SortChoice>('relevance');
   const [urlSynced, setUrlSynced] = useState(false);
   const hydratedQueryRef = useRef<string | null>(null);
   const query = useDebouncedValue(inputValue);
@@ -109,11 +116,13 @@ export const Default = (props: SearchResultsProps) => {
   useEffect(() => {
     const q = readUrlParam('q');
     const fromUrl = Number(readUrlParam('page'));
+    const sort = readUrlParam('sort');
     if (q) {
       hydratedQueryRef.current = q;
       setInputValue(q);
     }
     if (fromUrl > 1) setPageNumber(fromUrl);
+    if (isSortChoice(sort)) setSortChoice(sort);
     setUrlSynced(true);
   }, []);
 
@@ -133,7 +142,25 @@ export const Default = (props: SearchResultsProps) => {
   // Mirror only after the URL has been read — otherwise the first effect pass
   // would strip ?q=/?page= before hydration applies them.
   useUrlMirror(
-    live && urlSynced ? { q: query, page: pageNumber > 1 ? String(pageNumber) : '' } : null
+    live && urlSynced
+      ? {
+          q: query,
+          page: pageNumber > 1 ? String(pageNumber) : '',
+          sort: sortChoice !== 'relevance' ? sortChoice : '',
+        }
+      : null
+  );
+
+  // Visitor-facing sort over the authorable SortBy attribute. Stable identity
+  // is load-bearing: useSearch re-runs when `sort` changes and an inline
+  // object literal changes every render (= infinite fetch loop).
+  const sortBy = fields?.SortBy?.value || '';
+  const sort = useMemo(
+    () =>
+      sortBy && sortChoice !== 'relevance'
+        ? ({ name: sortBy, order: sortChoice === 'newest' ? 'desc' : 'asc' } as const)
+        : undefined,
+    [sortBy, sortChoice]
   );
 
   const { total, totalPages, results, isLoading, isSuccess, isError, error } =
@@ -141,6 +168,7 @@ export const Default = (props: SearchResultsProps) => {
       searchIndexId,
       page: pageNumber,
       pageSize,
+      sort,
       enabled: live && !!searchIndexId,
       query,
     });
@@ -186,9 +214,29 @@ export const Default = (props: SearchResultsProps) => {
           )}
         </div>
 
-        <p className="text-muted-foreground mb-6" aria-live="polite">
-          {total} {label('RESULTS_FOUND')}
-        </p>
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <p className="text-muted-foreground" aria-live="polite">
+            {total} {label('RESULTS_FOUND')}
+          </p>
+          {sortBy && (
+            <label className="text-muted-foreground flex items-center gap-2 text-sm">
+              {label('SORT_BY')}
+              <select
+                value={sortChoice}
+                onChange={(e) => {
+                  if (!isSortChoice(e.target.value)) return;
+                  setSortChoice(e.target.value);
+                  setPageNumber(1);
+                }}
+                className="border-input bg-background text-foreground focus-visible:ring-ring h-9 rounded-md border px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1"
+              >
+                <option value="relevance">{label('SORT_RELEVANCE')}</option>
+                <option value="newest">{label('SORT_NEWEST')}</option>
+                <option value="oldest">{label('SORT_OLDEST')}</option>
+              </select>
+            </label>
+          )}
+        </div>
 
         {isError && (
           <div className="py-12 text-center" role="alert">

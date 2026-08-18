@@ -35,6 +35,10 @@ export const SEARCH_LABELS = {
   READ_MORE: { key: 'SearchExperience_ReadMore', fallback: 'Read more' },
   SEE_ALL_RESULTS: { key: 'SearchExperience_SeeAllResults', fallback: 'See all results' },
   SUGGESTIONS: { key: 'SearchExperience_Suggestions', fallback: 'Search suggestions' },
+  SORT_BY: { key: 'SearchExperience_SortBy', fallback: 'Sort by' },
+  SORT_RELEVANCE: { key: 'SearchExperience_SortRelevance', fallback: 'Relevance' },
+  SORT_NEWEST: { key: 'SearchExperience_SortNewest', fallback: 'Newest first' },
+  SORT_OLDEST: { key: 'SearchExperience_SortOldest', fallback: 'Oldest first' },
 } as const;
 
 export type SearchLabelName = keyof typeof SEARCH_LABELS;

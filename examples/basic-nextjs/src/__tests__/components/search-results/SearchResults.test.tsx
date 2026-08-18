@@ -42,6 +42,7 @@ const baseFields = {
   ImageMapping: field('ArticleImage'),
   LinkMapping: field(''),
   DateMapping: field('ArticlePublicationDate'),
+  SortBy: field('ArticlePublicationDate'),
 };
 
 const livePage = {
@@ -206,6 +207,43 @@ describe('states', () => {
 
     render(<Default {...noFields} page={editingPage} />);
     expect(screen.getByText('SearchResults')).toBeInTheDocument();
+  });
+});
+
+describe('sort', () => {
+  it('defaults to relevance (no sort argument) and hides the control without SortBy', () => {
+    render(<Default {...baseProps} />);
+    expect(mockUseSearch).toHaveBeenLastCalledWith(
+      expect.objectContaining({ sort: undefined })
+    );
+    expect(screen.getByRole('combobox')).toBeInTheDocument();
+
+    render(<Default {...baseProps} fields={{ ...baseFields, SortBy: field('') }} />);
+    expect(screen.getAllByRole('textbox').length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('combobox')).toHaveLength(1); // only the first render's
+  });
+
+  it('passes the chosen sort to useSearch, resets the page, and mirrors ?sort=', () => {
+    mockUseSearch.mockReturnValue(
+      searchState({ total: 3, totalPages: 2, results: [doc('A'), doc('B')] })
+    );
+    render(<Default {...baseProps} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Next page' })); // move to page 2
+
+    fireEvent.change(screen.getByRole('combobox'), { target: { value: 'oldest' } });
+
+    expect(mockUseSearch).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        sort: { name: 'ArticlePublicationDate', order: 'asc' },
+        page: 1, // sort change resets pagination
+      })
+    );
+    expect(window.location.search).toContain('sort=oldest');
+
+    fireEvent.change(screen.getByRole('combobox'), { target: { value: 'newest' } });
+    expect(mockUseSearch).toHaveBeenLastCalledWith(
+      expect.objectContaining({ sort: { name: 'ArticlePublicationDate', order: 'desc' } })
+    );
   });
 });
 

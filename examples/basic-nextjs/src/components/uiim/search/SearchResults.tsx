@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { ImageOff, Search, X } from 'lucide-react';
 import { Field } from '@sitecore-content-sdk/nextjs';
@@ -97,22 +97,44 @@ export const Default = (props: SearchResultsProps) => {
 
   // Local state is the source of truth; the URL is hydrated from once (mount)
   // and mirrored to write-only (useUrlMirror). No router round-trips.
-  const [inputValue, setInputValue] = useState(() => readUrlParam('q'));
-  const [pageNumber, setPageNumber] = useState(() => {
-    const fromUrl = Number(readUrlParam('page'));
-    return fromUrl > 0 ? fromUrl : 1;
-  });
+  // State must start identical on server and client — reading the URL during
+  // the first render is a hydration mismatch (the server cannot see ?q=), so
+  // hydration happens in a post-mount effect instead.
+  const [inputValue, setInputValue] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
+  const [urlSynced, setUrlSynced] = useState(false);
+  const hydratedQueryRef = useRef<string | null>(null);
   const query = useDebouncedValue(inputValue);
 
-  // Reset to page 1 when the (debounced) query changes — render-phase adjust,
-  // initialized to the hydrated query so mount does not clobber ?page=.
-  const [prevQuery, setPrevQuery] = useState(query);
+  useEffect(() => {
+    const q = readUrlParam('q');
+    const fromUrl = Number(readUrlParam('page'));
+    if (q) {
+      hydratedQueryRef.current = q;
+      setInputValue(q);
+    }
+    if (fromUrl > 1) setPageNumber(fromUrl);
+    setUrlSynced(true);
+  }, []);
+
+  // Reset to page 1 when the (debounced) query changes — render-phase adjust.
+  // The one hydration-induced change is consumed without resetting so a deep
+  // link with ?page= is preserved.
+  const [prevQuery, setPrevQuery] = useState('');
   if (query !== prevQuery) {
     setPrevQuery(query);
-    setPageNumber(1);
+    if (hydratedQueryRef.current !== null && query === hydratedQueryRef.current) {
+      hydratedQueryRef.current = null;
+    } else {
+      setPageNumber(1);
+    }
   }
 
-  useUrlMirror(live ? { q: query, page: pageNumber > 1 ? String(pageNumber) : '' } : null);
+  // Mirror only after the URL has been read — otherwise the first effect pass
+  // would strip ?q=/?page= before hydration applies them.
+  useUrlMirror(
+    live && urlSynced ? { q: query, page: pageNumber > 1 ? String(pageNumber) : '' } : null
+  );
 
   const { total, totalPages, results, isLoading, isSuccess, isError, error } =
     useSearch<SearchDoc>({

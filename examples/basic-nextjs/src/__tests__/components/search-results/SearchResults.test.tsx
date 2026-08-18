@@ -152,14 +152,20 @@ describe('search flow', () => {
     jest.useRealTimers();
   });
 
-  it('hydrates the query and page from the URL on mount', () => {
+  it('hydrates the query and page from the URL after mount without clobbering ?page=', () => {
+    jest.useFakeTimers();
     window.history.replaceState(null, '', '/Articles?q=canary&page=2');
     render(<Default {...baseProps} />);
 
+    // Post-mount hydration (SSR-safe: first render matches the server).
     expect(screen.getByRole('textbox')).toHaveValue('canary');
+
+    act(() => jest.advanceTimersByTime(400));
+    // The hydration-induced query change must not reset the page to 1.
     expect(mockUseSearch).toHaveBeenLastCalledWith(
       expect.objectContaining({ query: 'canary', page: 2 })
     );
+    jest.useRealTimers();
   });
 });
 

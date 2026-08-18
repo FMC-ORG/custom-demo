@@ -11,7 +11,7 @@ import {
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { cn } from '@/lib/utils';
 import { TypeaheadSearchBox } from '@/lib/search-ui/TypeaheadSearchBox';
-import { useEffect, useState, Suspense, useCallback, useMemo, useRef } from 'react';
+import { useEffect, useRef, useState, Suspense, useCallback, useMemo } from 'react';
 import React from 'react';
 import Image from 'next/image';
 import { ImageOff, Search, X, ChevronDown, Menu, User } from 'lucide-react';
@@ -88,11 +88,11 @@ const importMap = [
     module: 'react',
     exports: [
       { name: 'useEffect', value: useEffect },
+      { name: 'useRef', value: useRef },
       { name: 'useState', value: useState },
       { name: 'Suspense', value: Suspense },
       { name: 'useCallback', value: useCallback },
       { name: 'useMemo', value: useMemo },
-      { name: 'useRef', value: useRef },
       { name: 'default', value: React },
     ]
   },

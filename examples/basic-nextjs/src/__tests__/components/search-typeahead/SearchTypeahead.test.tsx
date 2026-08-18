@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import { Default } from '@/components/uiim/search/SearchTypeahead';
+import { Default, Header } from '@/components/uiim/search/SearchTypeahead';
 
 // --- Mocks (single CI seam: the SDK search module; see spec #45) ---
 
@@ -215,5 +215,31 @@ describe('states', () => {
 
     render(<Default {...noFields} page={editingPage} />);
     expect(screen.getByText('SearchTypeahead')).toBeInTheDocument();
+  });
+});
+
+describe('Header variant', () => {
+  it('shares the full combobox behavior: suggestions and direct link navigation', () => {
+    mockUseSearch.mockReturnValue(
+      searchState({
+        total: 1,
+        results: [doc('Canary Releases Explained', { url: '/articles/canary' })],
+      })
+    );
+    render(
+      <Header {...baseProps} fields={{ ...baseFields, LinkMapping: field('url') }} />
+    );
+    typeAndSettle('can');
+
+    expect(mockUseSearch).toHaveBeenLastCalledWith(
+      expect.objectContaining({ query: 'can', pageSize: 5, enabled: true })
+    );
+    fireEvent.click(screen.getByText('Canary Releases Explained'));
+    expect(mockAssign).toHaveBeenCalledWith('/articles/canary');
+  });
+
+  it('renders nothing live without a datasource', () => {
+    const { container } = render(<Header {...baseProps} fields={undefined as never} />);
+    expect(container).toBeEmptyDOMElement();
   });
 });

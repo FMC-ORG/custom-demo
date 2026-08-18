@@ -40,8 +40,18 @@ const EmptyStateFallback = () => (
   </div>
 );
 
-export const Default = (props: SearchTypeaheadProps) => {
-  const { fields, params, page, rendering } = props;
+// The whole combobox — state, search, keyboard handling, dropdown. Variants
+// differ only in the chrome around this and the size treatment of the input.
+const TypeaheadSearchBox = ({
+  fields,
+  page,
+  rendering,
+  className,
+  compact = false,
+}: Pick<SearchTypeaheadProps, 'fields' | 'page' | 'rendering'> & {
+  className?: string;
+  compact?: boolean;
+}) => {
   const label = useSearchLabels();
 
   const isEditing = page?.mode?.isEditing ?? false;
@@ -91,9 +101,7 @@ export const Default = (props: SearchTypeaheadProps) => {
     return () => document.removeEventListener('pointerdown', onPointerDown);
   }, []);
 
-  if (!fields || !searchIndexId) {
-    return isEditing ? <EmptyStateFallback /> : null;
-  }
+  const listboxId = `typeahead-listbox-${rendering?.uid ?? 'default'}`;
 
   const seeAllHref = resultsHref
     ? `${resultsHref}?q=${encodeURIComponent(inputValue.trim())}`
@@ -142,75 +150,143 @@ export const Default = (props: SearchTypeaheadProps) => {
   };
 
   return (
+    <div
+      ref={containerRef}
+      role="combobox"
+      aria-expanded={showDropdown}
+      aria-haspopup="listbox"
+      className={cn('relative', className)}
+    >
+      <Input
+        type="text"
+        value={inputValue}
+        disabled={!live}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+          setIsOpen(true);
+        }}
+        onFocus={() => setIsOpen(true)}
+        onKeyDown={onKeyDown}
+        placeholder={label('SEARCH_INPUT_PLACEHOLDER')}
+        aria-label={label('SEARCH_INPUT_PLACEHOLDER')}
+        aria-autocomplete="list"
+        aria-controls={listboxId}
+        className={cn(
+          'w-full',
+          compact
+            ? 'h-9 rounded-full border-0 bg-white pl-9 pr-4 text-sm text-gray-900 shadow-sm ring-1 ring-black/10 placeholder:text-gray-500 focus-visible:ring-2'
+            : 'py-2 pl-10'
+        )}
+      />
+      <Search
+        className={cn(
+          'text-muted-foreground absolute top-1/2 -translate-y-1/2',
+          compact ? 'left-3 size-4 text-gray-400' : 'left-3 size-4'
+        )}
+      />
+
+      {showDropdown && (
+        <ul
+          id={listboxId}
+          role="listbox"
+          aria-label={label('SUGGESTIONS')}
+          className={cn(
+            'bg-background absolute z-50 mt-1 w-full overflow-hidden border shadow-md',
+            compact ? 'min-w-72 rounded-lg shadow-lg' : 'rounded-md'
+          )}
+        >
+          {suggestions.map((doc, i) => {
+            const title = docValue(doc, titleAttribute);
+            if (!title) return null;
+            return (
+              <li
+                key={docValue(doc, 'sc_item_id') || title}
+                role="option"
+                aria-selected={i === activeIndex}
+                className={cn(
+                  'cursor-pointer px-4 py-2 text-sm',
+                  i === activeIndex ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'
+                )}
+                onMouseEnter={() => setActiveIndex(i)}
+                onClick={() => chooseSuggestion(doc)}
+              >
+                {title}
+              </li>
+            );
+          })}
+          {seeAllHref && (
+            <li role="option" aria-selected={false} className="border-t">
+              <a
+                href={seeAllHref}
+                className="text-primary block px-4 py-2 text-sm font-medium"
+                onClick={() => sendEvent('clicked')}
+              >
+                {label('SEE_ALL_RESULTS')}
+              </a>
+            </li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+export const Default = (props: SearchTypeaheadProps) => {
+  const { fields, params, page, rendering } = props;
+  const isEditing = page?.mode?.isEditing ?? false;
+
+  if (!fields || !fields?.SearchIndex?.value) {
+    return isEditing ? <EmptyStateFallback /> : null;
+  }
+
+  return (
     <section
       className={cn('component search-typeahead', params?.styles)}
       id={params?.RenderingIdentifier || undefined}
     >
       <div className="mx-auto max-w-7xl px-6 pt-6">
-        <div
-          ref={containerRef}
-          role="combobox"
-          aria-expanded={showDropdown}
-          aria-haspopup="listbox"
-          className="relative max-w-md"
-        >
-          <Input
-            type="text"
-            value={inputValue}
-            disabled={!live}
-            onChange={(e) => {
-              setInputValue(e.target.value);
-              setIsOpen(true);
-            }}
-            onFocus={() => setIsOpen(true)}
-            onKeyDown={onKeyDown}
-            placeholder={label('SEARCH_INPUT_PLACEHOLDER')}
-            aria-label={label('SEARCH_INPUT_PLACEHOLDER')}
-            aria-autocomplete="list"
-            aria-controls="typeahead-listbox"
-            className="w-full py-2 pl-10"
-          />
-          <Search className="text-muted-foreground absolute left-3 top-1/2 size-4 -translate-y-1/2" />
+        <TypeaheadSearchBox
+          fields={fields}
+          page={page}
+          rendering={rendering}
+          className="max-w-md"
+        />
+      </div>
+    </section>
+  );
+};
 
-          {showDropdown && (
-            <ul
-              id="typeahead-listbox"
-              role="listbox"
-              aria-label={label('SUGGESTIONS')}
-              className="bg-background absolute z-50 mt-1 w-full overflow-hidden rounded-md border shadow-md"
-            >
-              {suggestions.map((doc, i) => {
-                const title = docValue(doc, titleAttribute);
-                if (!title) return null;
-                return (
-                  <li
-                    key={docValue(doc, 'sc_item_id') || title}
-                    role="option"
-                    aria-selected={i === activeIndex}
-                    className={cn(
-                      'cursor-pointer px-4 py-2 text-sm',
-                      i === activeIndex ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'
-                    )}
-                    onMouseEnter={() => setActiveIndex(i)}
-                    onClick={() => chooseSuggestion(doc)}
-                  >
-                    {title}
-                  </li>
-                );
-              })}
-              {seeAllHref && (
-                <li role="option" aria-selected={false} className="border-t">
-                  <a
-                    href={seeAllHref}
-                    className="text-primary block px-4 py-2 text-sm font-medium"
-                    onClick={() => sendEvent('clicked')}
-                  >
-                    {label('SEE_ALL_RESULTS')}
-                  </a>
-                </li>
-              )}
-            </ul>
-          )}
+// Slim strip that extends the site header: brand header background, hairline
+// bottom border, right-aligned compact pill search box. Designed to sit in the
+// headless-header placeholder directly below NavigationHeader.
+export const Header = (props: SearchTypeaheadProps) => {
+  const { fields, params, page, rendering } = props;
+  const isEditing = page?.mode?.isEditing ?? false;
+
+  if (!fields || !fields?.SearchIndex?.value) {
+    return isEditing ? <EmptyStateFallback /> : null;
+  }
+
+  return (
+    <section
+      className={cn('component search-typeahead', params?.styles)}
+      id={params?.RenderingIdentifier || undefined}
+    >
+      <div
+        className="w-full border-b"
+        style={{
+          backgroundColor: 'var(--brand-header-bg, #ffffff)',
+          borderColor: 'var(--brand-border, #e5e7eb)',
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl justify-end px-4 py-2 sm:px-6">
+          <TypeaheadSearchBox
+            fields={fields}
+            page={page}
+            rendering={rendering}
+            compact
+            className="w-full max-w-xs"
+          />
         </div>
       </div>
     </section>

@@ -3440,9 +3440,26 @@ components-searchv3:
     react:
       filePath: "src/components/uiim/search/SearchTypeahead.tsx"
       componentMapKey: "SearchTypeahead"
-      variants: ["Default"]
+      variants: ["Default", "Header"]  # Header added 2026-08-18: slim brand-header strip, right-aligned white pill input; shared TypeaheadSearchBox core, variants differ only in chrome
       helpers: "added src/lib/search-ui/navigate.ts; SEE_ALL_RESULTS + SUGGESTIONS labels in constants"
-      tests: "src/__tests__/components/search-typeahead/SearchTypeahead.test.tsx (9 passing, SDK-mock seam)"
+      tests: "src/__tests__/components/search-typeahead/SearchTypeahead.test.tsx (11 passing, SDK-mock seam)"
+
+    headlessVariants:
+      container: { path: "/sitecore/content/main/main-website/Presentation/Headless Variants/SearchTypeahead", itemId: "{5F220220-DC16-49D1-8D9E-6C5BAEB51F78}" }
+      definitions:
+        - { name: "Default", itemId: "{9E3E0253-FFF5-42B4-8425-9F8DF87689E4}" }
+        - { name: "Header", itemId: "{7A5E68E3-BEDE-4E83-B453-4A2298BBA3BD}" }
+
+    headerPlacement:  # promotion into global chrome, 2026-08-18
+      pageId: "{42D352B9-D9E4-4F5A-BF6D-67E924741AEA}"  # Header partial design
+      placeholder: "headless-header"
+      componentInstanceId: "{1FAF8BEB-7B20-4A6D-821D-AFC3D6204A0B}"
+      datasourceAssigned: "{EA6E552D-5AAB-4554-89E2-D1E85C2107D3}"
+      orphanedLocalDatasource: "{FC4789CB-849B-4E44-B47A-3D4DB6C83224}"
+      fieldNames: "{9E3E0253-FFF5-42B4-8425-9F8DF87689E4}"  # add_component auto-assigned the Default variant ID; MCP cannot UPDATE FieldNames (params limitation) — flip to Header variant manually in Page Builder
+      pendingManual:
+        - "Page Builder: select the SearchTypeahead in the Header partial design and switch its variant to Header"
+        - "Page Builder: optionally remove the page-scoped SearchTypeahead instance {941CA2B7-65FD-4030-B389-C23907FA5048} from the Articles page to avoid two search boxes there"
 
     templates:
       datasource:

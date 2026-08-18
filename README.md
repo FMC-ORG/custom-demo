@@ -147,6 +147,14 @@ enabling search is configuration, not coding.
 > the **deployed site** (Vercel / XM Cloud rendering host) or **local `npm run dev`** opened
 > directly at `http://localhost:3000` — not through the editor iframe.
 
+> # ⚠️ Publishing is NOT enough — re-run the index after every content change
+> **The search index is a snapshot, not a live view. Any content change — a new article, an
+> updated title, a swapped image — stays invisible to search even after you publish, until you
+> manually re-run the index** in Sitecore AI → Search → Configuration Manager (open the source →
+> run/re-index). The order matters and both steps are required: **1) publish, 2) re-index.**
+> Re-indexing before publishing re-reads the old published content and changes nothing.
+> Same for deletions: a deleted article keeps appearing in results until a publish + re-index.
+
 Full recipe and field reference: [`docs/ai/catalog/capabilities-registry.yaml`](examples/basic-nextjs/docs/ai/catalog/capabilities-registry.yaml)
 (the `search` capability). Endpoint behavior and gotchas:
 [`docs/ai/reference/agent-api-limitations.md`](examples/basic-nextjs/docs/ai/reference/agent-api-limitations.md) § 6.

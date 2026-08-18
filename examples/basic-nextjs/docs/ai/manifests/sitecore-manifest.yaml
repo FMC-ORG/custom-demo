@@ -3456,10 +3456,24 @@ components-searchv3:
       componentInstanceId: "{1FAF8BEB-7B20-4A6D-821D-AFC3D6204A0B}"
       datasourceAssigned: "{EA6E552D-5AAB-4554-89E2-D1E85C2107D3}"
       orphanedLocalDatasource: "{FC4789CB-849B-4E44-B47A-3D4DB6C83224}"
-      fieldNames: "{9E3E0253-FFF5-42B4-8425-9F8DF87689E4}"  # add_component auto-assigned the Default variant ID; MCP cannot UPDATE FieldNames (params limitation) — flip to Header variant manually in Page Builder
+      fieldNames: "{9E3E0253-FFF5-42B4-8425-9F8DF87689E4}"  # add_component auto-assigned the Default variant ID; MCP cannot UPDATE FieldNames (params limitation)
+      supersededBy: >
+        2026-08-18 second iteration: user wanted the search box IN the nav row (left of the
+        CTA), which placeholder stacking cannot do. NavigationHeader gained an optional
+        built-in search slot instead: NavigationHeaderData template + "Search" section with
+        SearchIndex {186EF736-8C0E-4261-8C48-28663BA57841}, TitleMapping {2080C25B-DF42-43F6-8C46-5F3AAA4D2FD4},
+        LinkMapping {B6960FE3-5D93-4E16-B1AB-088EB83DEC01}, ResultsPage (General Link)
+        {B57F191F-3721-479E-8AF9-A797BD70E1B4}, MaxSuggestions {2042EB2B-D061-49E4-BDFA-7146799F88BF};
+        NavigationHeader ComponentQuery extended (verified by echo); Main Navigation datasource
+        {8254EB2C-9F05-4082-8CB7-48A968EA6EF1} filled with the articles search config. The shared
+        combobox moved to src/lib/search-ui/TypeaheadSearchBox.tsx (compact/onDark glass style);
+        NavigationHeader Default renders it before the CTA when SearchIndex is set, hidden on
+        mobile. Verified in browser: glass pill in nav row, focus -> solid white, suggestions +
+        see-all dropdown, 2026-08-18 screenshots nav-search-rest/open.png. Empty SearchIndex on
+        any other site's nav datasource = no search box (fully backward compatible).
       pendingManual:
-        - "Page Builder: select the SearchTypeahead in the Header partial design and switch its variant to Header"
-        - "Page Builder: optionally remove the page-scoped SearchTypeahead instance {941CA2B7-65FD-4030-B389-C23907FA5048} from the Articles page to avoid two search boxes there"
+        - "Page Builder: REMOVE the now-redundant strip SearchTypeahead instance {1FAF8BEB-7B20-4A6D-821D-AFC3D6204A0B} from the Header partial design (variant flip no longer needed — the nav-row search replaced it)"
+        - "Page Builder: optionally remove the page-scoped SearchTypeahead instance {941CA2B7-65FD-4030-B389-C23907FA5048} from the Articles page (header search now covers it)"
 
     templates:
       datasource:

@@ -9,22 +9,22 @@ import {
 // end of built-in imports
 
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
-import { useEffect, useRef, useState, Suspense, useCallback, useMemo } from 'react';
-import React from 'react';
-import { Search, ImageOff, X, ChevronDown, Menu, User } from 'lucide-react';
-import { useSearch, useInfiniteSearch } from '@sitecore-content-sdk/nextjs/search';
 import { cn } from '@/lib/utils';
-import { Input } from '@/components/ui/input';
-import { DEFAULT_MAX_SUGGESTIONS, DEFAULT_PAGE_SIZE, DEFAULT_MAX_ITEMS } from '@/lib/search-ui/constants';
-import { navigateTo } from '@/lib/search-ui/navigate';
-import { useDebouncedValue } from '@/lib/search-ui/useDebouncedValue';
-import { useSearchLabels } from '@/lib/search-ui/useSearchLabels';
-import { useSearchEvents } from '@/lib/search-ui/useSearchEvents';
+import { TypeaheadSearchBox } from '@/lib/search-ui/TypeaheadSearchBox';
+import { useEffect, useState, Suspense, useCallback, useMemo, useRef } from 'react';
+import React from 'react';
 import Image from 'next/image';
+import { ImageOff, Search, X, ChevronDown, Menu, User } from 'lucide-react';
+import { useSearch, useInfiniteSearch } from '@sitecore-content-sdk/nextjs/search';
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { DEFAULT_PAGE_SIZE, DEFAULT_MAX_ITEMS } from '@/lib/search-ui/constants';
 import { stripHtml, formatDate } from '@/lib/search-ui/text';
+import { useDebouncedValue } from '@/lib/search-ui/useDebouncedValue';
 import { readUrlParam, useUrlMirror } from '@/lib/search-ui/useUrlMirror';
+import { useSearchLabels } from '@/lib/search-ui/useSearchLabels';
+import { useSearchEvents } from '@/lib/search-ui/useSearchEvents';
 import { useTranslations } from 'next-intl';
 import { useSearchParams, useRouter as useRouter_38d453563358e259e30871f8ef5a0334c186c57e, usePathname } from 'next/navigation';
 import { SearchEmptyResults } from '@/lib/search/search-components/SearchEmptyResults';
@@ -73,22 +73,40 @@ const importMap = [
     ]
   },
   {
+    module: '@/lib/utils',
+    exports: [
+      { name: 'cn', value: cn },
+    ]
+  },
+  {
+    module: '@/lib/search-ui/TypeaheadSearchBox',
+    exports: [
+      { name: 'TypeaheadSearchBox', value: TypeaheadSearchBox },
+    ]
+  },
+  {
     module: 'react',
     exports: [
       { name: 'useEffect', value: useEffect },
-      { name: 'useRef', value: useRef },
       { name: 'useState', value: useState },
       { name: 'Suspense', value: Suspense },
       { name: 'useCallback', value: useCallback },
       { name: 'useMemo', value: useMemo },
+      { name: 'useRef', value: useRef },
       { name: 'default', value: React },
+    ]
+  },
+  {
+    module: 'next/image',
+    exports: [
+      { name: 'default', value: Image },
     ]
   },
   {
     module: 'lucide-react',
     exports: [
-      { name: 'Search', value: Search },
       { name: 'ImageOff', value: ImageOff },
+      { name: 'Search', value: Search },
       { name: 'X', value: X },
       { name: 'ChevronDown', value: ChevronDown },
       { name: 'Menu', value: Menu },
@@ -103,53 +121,9 @@ const importMap = [
     ]
   },
   {
-    module: '@/lib/utils',
-    exports: [
-      { name: 'cn', value: cn },
-    ]
-  },
-  {
     module: '@/components/ui/input',
     exports: [
       { name: 'Input', value: Input },
-    ]
-  },
-  {
-    module: '@/lib/search-ui/constants',
-    exports: [
-      { name: 'DEFAULT_MAX_SUGGESTIONS', value: DEFAULT_MAX_SUGGESTIONS },
-      { name: 'DEFAULT_PAGE_SIZE', value: DEFAULT_PAGE_SIZE },
-      { name: 'DEFAULT_MAX_ITEMS', value: DEFAULT_MAX_ITEMS },
-    ]
-  },
-  {
-    module: '@/lib/search-ui/navigate',
-    exports: [
-      { name: 'navigateTo', value: navigateTo },
-    ]
-  },
-  {
-    module: '@/lib/search-ui/useDebouncedValue',
-    exports: [
-      { name: 'useDebouncedValue', value: useDebouncedValue },
-    ]
-  },
-  {
-    module: '@/lib/search-ui/useSearchLabels',
-    exports: [
-      { name: 'useSearchLabels', value: useSearchLabels },
-    ]
-  },
-  {
-    module: '@/lib/search-ui/useSearchEvents',
-    exports: [
-      { name: 'useSearchEvents', value: useSearchEvents },
-    ]
-  },
-  {
-    module: 'next/image',
-    exports: [
-      { name: 'default', value: Image },
     ]
   },
   {
@@ -166,6 +140,13 @@ const importMap = [
     ]
   },
   {
+    module: '@/lib/search-ui/constants',
+    exports: [
+      { name: 'DEFAULT_PAGE_SIZE', value: DEFAULT_PAGE_SIZE },
+      { name: 'DEFAULT_MAX_ITEMS', value: DEFAULT_MAX_ITEMS },
+    ]
+  },
+  {
     module: '@/lib/search-ui/text',
     exports: [
       { name: 'stripHtml', value: stripHtml },
@@ -173,10 +154,28 @@ const importMap = [
     ]
   },
   {
+    module: '@/lib/search-ui/useDebouncedValue',
+    exports: [
+      { name: 'useDebouncedValue', value: useDebouncedValue },
+    ]
+  },
+  {
     module: '@/lib/search-ui/useUrlMirror',
     exports: [
       { name: 'readUrlParam', value: readUrlParam },
       { name: 'useUrlMirror', value: useUrlMirror },
+    ]
+  },
+  {
+    module: '@/lib/search-ui/useSearchLabels',
+    exports: [
+      { name: 'useSearchLabels', value: useSearchLabels },
+    ]
+  },
+  {
+    module: '@/lib/search-ui/useSearchEvents',
+    exports: [
+      { name: 'useSearchEvents', value: useSearchEvents },
     ]
   },
   {

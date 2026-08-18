@@ -3552,6 +3552,33 @@ components-searchv3:
 # Demo datasource items (AI-created content, not new component definitions)
 demoContent:
 
+  # Articles corpus expansion, created 2026-08-18. Ten articles, DELIBERATELY
+  # UNPUBLISHED (user decision) — they enter the search index only after a
+  # publish + index re-run. All carry ArticleUrl (site-relative path matching
+  # the hyphenated item name), publication dates spread across 2026 for the
+  # sort demo, alternating authors, empty ArticleImage (no media yet).
+  # Titles set at creation (accepted, not echoed — known base-template behavior).
+  # #1 is engineering-themed (created before topic pivot); #2-#10 are themed
+  # after sitecore.com/resources/insights topics per user request.
+  - name: "Articles corpus 2026-08-18 (10 items, unpublished)"
+    kind: "pages"
+    template: "Article Page Template"
+    parentPath: "/sitecore/content/main/main-website/Home/Articles/"
+    items:
+      - { name: "Feature Flags Beyond On And Off", itemId: "{6C2F724D-85B8-4FC0-8F75-F1853C5AF539}", date: "2026-01-13", author: "Marcus Webb" }
+      - { name: "Planning And Designing For Personalization", itemId: "{8BD20E7D-ED8D-4EC6-BD7E-0CBAE3F7F844}", date: "2026-02-05", author: "Jane Smith" }
+      - { name: "Machine Learning For Personalization", itemId: "{7A0F0A79-6779-4503-AE0A-38D127923C14}", date: "2026-02-24", author: "Marcus Webb" }
+      - { name: "One To One Personalization At Scale", itemId: "{9A0D5430-275E-4663-BD5C-852659AE802B}", date: "2026-03-12", author: "Jane Smith" }
+      - { name: "Real Time Customer Data Marketers Can Act On", itemId: "{3DB727F8-FC7D-4BA2-A7C3-73DA328C0DEA}", date: "2026-04-02", author: "Marcus Webb" }
+      - { name: "Generative AI And The Content Supply Chain", itemId: "{D32DD3BD-002F-4BD6-9345-94FB87ACE1DB}", date: "2026-04-21", author: "Jane Smith" }
+      - { name: "Composable DXP Explained Simply", itemId: "{2C3A4C35-FFCC-4820-B098-B382D31617B7}", date: "2026-05-14", author: "Marcus Webb" }
+      - { name: "Search Is The New Homepage", itemId: "{154492B2-934F-4F53-9FF2-9D3A7B0BF91E}", date: "2026-06-03", author: "Jane Smith" }
+      - { name: "Measuring Digital Experience Beyond Page Views", itemId: "{4A5E9AAF-DDEE-48B4-8FD4-C4C032118FC9}", date: "2026-06-19", author: "Marcus Webb" }
+      - { name: "AI Meets Human Connection", itemId: "{00685EEB-EF71-4815-BFC3-9DFFA6F9E415}", date: "2026-08-06", author: "Jane Smith" }
+    verified: true  # spot-check read-back: all template-own fields incl. ArticleUrl intact
+    notes:
+      - "After publish + index re-run: 13 articles searchable; pagination demo becomes meaningful (pageSize 6 -> 3 pages); sort demo spans Jan-Aug 2026."
+
   # Ticket #49 approach change (2026-08-18): instead of waiting for an index-side
   # URL attribute, an ArticleUrl field was added to the Article Page Template and
   # filled with the site-relative path per article. The index ingests template

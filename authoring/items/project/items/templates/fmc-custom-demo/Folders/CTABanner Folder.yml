@@ -4,9 +4,6 @@ Parent: "55f36bec-24c5-428e-bb45-b2385b03d492"
 Template: "ab86861a-6030-46c5-b394-e8f99e8b87db"
 Path: "/sitecore/templates/Project/fmc-custom-demo/Folders/CTABanner Folder"
 SharedFields:
-- ID: "12c33f3f-86c5-43a5-aeb4-5598cec45116"
-  Hint: __Base template
-  Value: "{2CF67CDE-EA27-425D-95D1-1DA80A507ABD}"
 - ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
   Hint: __Shared revision
   Value: "a124c658-ee96-4d33-a362-a3a3387e85b0"

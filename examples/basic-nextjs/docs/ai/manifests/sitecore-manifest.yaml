@@ -3321,7 +3321,7 @@ components-searchv3:
       availableRenderings: passed
       datasourceItemFields: passed
       ssrMarkupOnArticlesPage: passed
-      renderingDatasourceTemplateAndLocation: pendingManual  # silent-write, echo omits these fields. Re-confirmed 2026-08-17: MCP read-back omits both; componentName, Parameters Template (GUID), AddFieldEditorButton=1, ComponentQuery empty all verified correct.
+      renderingDatasourceTemplateAndLocation: passed  # verified 2026-08-18 via serialization pull from mainv2 — DS Template path present; DS Location was changed in the environment to a static path (/Data/SearchResults) replacing the query pattern, drift accepted (env is source of truth).
       liveFourPointProtocol: passed  # CLEAN 7/7 2026-08-18 after V2 removal — browse, canary probe, url-mirror, gibberish, deep-link, no-console-errors. Re-run same day on new index 79b6b3db with LINKS LIVE (result-links-work: /Articles/Canary-Releases-Explained) — still 7/7. Cold-server first run flakes browse/probe (2.5s wait < route compile) — always warm the route first.
       v2RemovedFromPage: passed  # user removed SearchExperienceV2 in Page Builder; verified gone 2026-08-18 via get_components_on_page. Articles page now: SearchTypeahead -> SearchResults.
 
@@ -3416,9 +3416,9 @@ components-searchv3:
       datasourceItemFields: passed
       folderInsertOptions: passed  # list_avail_insertopts
       browserRun: passed  # CLEAN 7/7 2026-08-18 after V2 removal — heading, 3 cards, date-desc order (Jul 28 > Jul 15 > Jul 2, sort contract proven live), dates, no-console-errors. Re-run same day on new index 79b6b3db with LINKS LIVE (3 Read-more links, first -> /Articles/Observability-Beyond-Dashboards) — still 7/7, sort contract holds on the new index.
-      renderingDatasourceTemplateAndLocation: pendingManual  # silent-write, echo omits these fields
-      templateSvLinks: pendingManual  # __Standard values field silent-write on both templates
-      fieldHelpText: pendingManual  # __Short description silent-write, not echoed
+      renderingDatasourceTemplateAndLocation: passed  # verified 2026-08-18 via serialization pull from mainv2 — full-path DS Template + query-pattern DS Location present in pulled YAML
+      templateSvLinks: passed  # verified via pull — __Standard values carries the correct SV item ID
+      fieldHelpText: passed  # verified via pull — __Short description intact on field items
       v2RemovedFromHomePage: passed  # user removed in Page Builder; verified gone 2026-08-18 via get_components_on_page. Home now: Image -> SearchCollection.
 
   # Ticket #48 (FMC-ORG/custom-demo). Spec #45. Built 2026-08-18.
@@ -3544,9 +3544,9 @@ components-searchv3:
       datasourceItemFields: passed
       folderInsertOptions: passed
       browserRun: passed  # CLEAN 7/7 2026-08-18 typeahead-verify.mjs, re-run same day on new index 79b6b3db with LINKS LIVE: choosing a suggestion now navigates DIRECTLY to the article (/Articles/Canary-Releases-Explained); Enter-without-selection hands ?q= to SearchResults (probe article ranks first). Gibberish quiet, no console errors. Note: keyphrase matching is loose — the contract is chosen-article-ranks-first, not exact-count-1. First-browser-load runs flake on chunk compile — warm with one browser visit first.
-      renderingDatasourceTemplateAndLocation: pendingManual  # silent-write, echo omits these fields
-      templateSvLinks: pendingManual  # __Standard values field silent-write on both templates
-      fieldHelpText: pendingManual  # __Short description silent-write, not echoed
+      renderingDatasourceTemplateAndLocation: passed  # verified 2026-08-18 via serialization pull from mainv2 — full-path DS Template + query-pattern DS Location present in pulled YAML
+      templateSvLinks: passed  # verified via pull — __Standard values carries the correct SV item ID
+      fieldHelpText: passed  # verified via pull — __Short description intact on field items
       headerPromotion: byDesignManual  # drag into global header partial design in Page Builder when desired (spec #45)
 
 # Demo datasource items (AI-created content, not new component definitions)

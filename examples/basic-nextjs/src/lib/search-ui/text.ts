@@ -20,6 +20,29 @@ export const stripHtml = (html: string): string =>
     .trim();
 
 /**
+ * Extract a usable image URL from whatever shape an image-typed index
+ * attribute returns: a plain URL string, a Sitecore image-field XML fragment
+ * (<Image src="..."/> / <image .../>), or an object carrying src/url.
+ * Returns an empty string when no URL can be found.
+ */
+export const extractImageUrl = (value: unknown): string => {
+  if (!value) return '';
+  if (typeof value === 'object') {
+    const v = value as Record<string, unknown>;
+    if (typeof v.src === 'string') return v.src;
+    if (typeof v.url === 'string') return v.url;
+    return '';
+  }
+  if (typeof value !== 'string') return '';
+  const s = value.trim();
+  if (s.startsWith('<')) {
+    const m = s.match(/src="([^"]+)"/i);
+    return m ? m[1].replace(/&amp;/g, '&') : '';
+  }
+  return s;
+};
+
+/**
  * Format an ISO date string from a search document for card display.
  * Returns an empty string for missing or unparseable values.
  */

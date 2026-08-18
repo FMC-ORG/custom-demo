@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { DEFAULT_PAGE_SIZE, DEFAULT_MAX_ITEMS } from '@/lib/search-ui/constants';
-import { stripHtml, formatDate } from '@/lib/search-ui/text';
+import { stripHtml, formatDate, extractImageUrl } from '@/lib/search-ui/text';
 import { useDebouncedValue } from '@/lib/search-ui/useDebouncedValue';
 import { readUrlParam, useUrlMirror } from '@/lib/search-ui/useUrlMirror';
 import { useSearchLabels } from '@/lib/search-ui/useSearchLabels';
@@ -151,6 +151,7 @@ const importMap = [
     exports: [
       { name: 'stripHtml', value: stripHtml },
       { name: 'formatDate', value: formatDate },
+      { name: 'extractImageUrl', value: extractImageUrl },
     ]
   },
   {

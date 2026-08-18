@@ -8,7 +8,7 @@ import { ComponentProps } from '@/lib/component-props';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import { DEFAULT_MAX_ITEMS } from '@/lib/search-ui/constants';
-import { stripHtml, formatDate } from '@/lib/search-ui/text';
+import { stripHtml, formatDate, extractImageUrl } from '@/lib/search-ui/text';
 import { useSearchLabels } from '@/lib/search-ui/useSearchLabels';
 import { useSearchEvents } from '@/lib/search-ui/useSearchEvents';
 
@@ -151,7 +151,7 @@ export const Default = (props: SearchCollectionProps) => {
             results.map((doc) => {
               const title = docValue(doc, mapping.title);
               const description = docValue(doc, mapping.description);
-              const image = docValue(doc, mapping.image);
+              const image = extractImageUrl(mapping.image ? doc[mapping.image] : '');
               const link = docValue(doc, mapping.link);
               const date = formatDate(docValue(doc, mapping.date) || undefined);
 

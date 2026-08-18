@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { DEFAULT_PAGE_SIZE } from '@/lib/search-ui/constants';
-import { stripHtml, formatDate } from '@/lib/search-ui/text';
+import { stripHtml, formatDate, extractImageUrl } from '@/lib/search-ui/text';
 import { useDebouncedValue } from '@/lib/search-ui/useDebouncedValue';
 import { readUrlParam, useUrlMirror } from '@/lib/search-ui/useUrlMirror';
 import { useSearchLabels } from '@/lib/search-ui/useSearchLabels';
@@ -272,7 +272,7 @@ export const Default = (props: SearchResultsProps) => {
             results.map((doc) => {
               const title = docValue(doc, mapping.title);
               const description = docValue(doc, mapping.description);
-              const image = docValue(doc, mapping.image);
+              const image = extractImageUrl(mapping.image ? doc[mapping.image] : '');
               const link = docValue(doc, mapping.link);
               const date = formatDate(docValue(doc, mapping.date) || undefined);
 

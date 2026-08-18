@@ -47,7 +47,7 @@ const browse = await readState();
 await page.screenshot({ path: `${outDir}/1-browse.png`, fullPage: true });
 record(
   'browse-state',
-  /^[34] /.test(browse.total) && browse.titles.length >= 3,
+  parseInt(browse.total) >= 13 && browse.titles.length >= 3,
   `"${browse.total}", ${browse.titles.length} cards`
 );
 

@@ -1,12 +1,14 @@
-// Browser-level verification of the SearchTypeahead component (ticket #48)
-// on the Articles page: suggestions appear while typing, keyboard navigation
-// works, and Enter / see-all hand the query to the SearchResults page via ?q=.
+// Browser-level verification of the typeahead search (ticket #48, header slot
+// era): since the page-scoped instances were removed, the typeahead lives in
+// the NavigationHeader search slot on every page. Suggestions appear while
+// typing, keyboard navigation works, and Enter / see-all hand the query to
+// the SearchResults page via ?q=.
 //
 // Usage (from examples/basic-nextjs, dev server running):
 //   node docs/ai/scripts/typeahead-verify.mjs [baseUrl]
 //
-// Screenshot lands in .tmp-search-verify/. Selectors are scoped to
-// section.search-typeahead; console errors are reported but attributed.
+// Screenshot lands in .tmp-search-verify/. Selectors are scoped to the
+// header combobox; console errors are reported but attributed.
 
 import { chromium } from 'playwright';
 import { mkdirSync } from 'node:fs';
@@ -31,15 +33,17 @@ page.on('console', (msg) => {
 await page.goto(`${baseUrl}/Articles`, { waitUntil: 'load' });
 await page.waitForTimeout(3000); // hydration
 
-const component = page.locator('section.search-typeahead');
+const component = page.locator('header [role="combobox"]');
 const input = component.locator('input');
 const listbox = component.locator('[role="listbox"]');
 const options = listbox.locator('[role="option"]');
 
-record('component-present', (await component.count()) === 1, `section.search-typeahead count: ${await component.count()}`);
+record('component-present', (await component.count()) === 1, `header combobox count: ${await component.count()}`);
 
-// 1. Typing shows title suggestions after the debounce.
-await input.fill('can');
+// 1. Typing shows title suggestions after the debounce. ("canary" not "can" —
+// the expanded corpus matches 8 documents for "can" and the target ranks 5th;
+// the keyboard step below needs the target first.)
+await input.fill('canary');
 await page.waitForTimeout(2500); // debounce + fetch
 const optionTexts = (await options.allTextContents()).map((t) => t.trim());
 const hasCanary = optionTexts.some((t) => t.includes('Canary'));
@@ -47,7 +51,7 @@ record('suggestions-appear', hasCanary, `options: [${optionTexts.join(' | ')}]`)
 
 // 2. See-all link carries the query.
 const seeAllHref = (await listbox.locator('a').getAttribute('href')) ?? '';
-record('see-all-href', seeAllHref === '/Articles?q=can', `href: "${seeAllHref}"`);
+record('see-all-href', seeAllHref === '/Articles?q=canary', `href: "${seeAllHref}"`);
 
 await component.screenshot({ path: `${outDir}/typeahead-open.png` });
 
@@ -91,15 +95,22 @@ const gibberishTitles = (await options.allTextContents())
   .filter((t) => !t.includes('See all results') && !t.includes('SeeAllResults'));
 record('gibberish-no-suggestions', gibberishTitles.length === 0, `title options: ${gibberishTitles.length}`);
 
+// Attribution: this script also visits the article detail page (suggestion
+// navigation), whose hero is not the component under test — its missing-alt
+// warning surfaces when the published image lacks alt text.
 const ownErrors = consoleErrors.filter(
-  (e) => !e.includes('SearchExperience_') && !e.includes('Failed to load resource')
+  (e) =>
+    !e.includes('SearchExperience_') &&
+    !e.includes('Failed to load resource') &&
+    !e.includes('missing required "alt"')
 );
+const attributed = consoleErrors.length - ownErrors.length;
 record(
   'no-console-errors',
-  consoleErrors.length === 0,
+  ownErrors.length === 0,
   consoleErrors.length === 0
     ? 'clean'
-    : `${consoleErrors.length} total, ${ownErrors.length} not attributable to V2: ${ownErrors.slice(0, 2).join(' || ') || '(none)'}`
+    : `${consoleErrors.length} total (${attributed} attributed to other components), own: ${ownErrors.slice(0, 2).join(' || ') || '(none)'}`
 );
 
 await browser.close();

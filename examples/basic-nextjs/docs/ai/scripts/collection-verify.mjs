@@ -47,9 +47,10 @@ if (componentPresent) {
   const titles = (await cards.allTextContents()).map((t) => t.trim());
   record('card-count', titles.length === 3, `cards: ${titles.length} (MaxItems 3)`);
 
-  // Live corpus publication dates: Observability Jul 28 > Migrations Jul 15 >
-  // Canary Jul 2. Date-desc sort must yield exactly this order.
-  const expectedOrder = ['Observability', 'Migrations', 'Canary'];
+  // Live corpus newest three (2026-08-18 expansion): AI Meets Human Connection
+  // Aug 6 > Observability Jul 28 > Migrations Jul 15. Date-desc sort must
+  // yield exactly this order.
+  const expectedOrder = ['AI Meets Human Connection', 'Observability', 'Migrations'];
   const orderCorrect =
     titles.length === 3 && expectedOrder.every((word, i) => titles[i]?.includes(word));
   record('date-desc-order', orderCorrect, `titles: [${titles.join(' | ')}]`);
@@ -62,7 +63,7 @@ if (componentPresent) {
     (await component.locator('a').first().getAttribute('href').catch(() => null)) ?? '(none)';
   record(
     'result-links-work',
-    links === 3 && firstLink === '/Articles/Observability-Beyond-Dashboards',
+    links === 3 && firstLink === '/Articles/AI-Meets-Human-Connection',
     `links: ${links}, first: ${firstLink} (live since #49)`
   );
 }

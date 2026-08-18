@@ -3576,8 +3576,19 @@ demoContent:
       - { name: "Measuring Digital Experience Beyond Page Views", itemId: "{4A5E9AAF-DDEE-48B4-8FD4-C4C032118FC9}", date: "2026-06-19", author: "Marcus Webb" }
       - { name: "AI Meets Human Connection", itemId: "{00685EEB-EF71-4815-BFC3-9DFFA6F9E415}", date: "2026-08-06", author: "Jane Smith" }
     verified: true  # spot-check read-back: all template-own fields incl. ArticleUrl intact
+    images: >
+      2026-08-18: 13 photos (seeded Lorem Picsum, 1200x675) uploaded to Content Hub
+      (ffde.sitecoresandbox.cloud, assets 93823-93924, approved, public links) via
+      upload-to-content-hub.mjs; ArticleImage set on ALL 13 articles (the 3 originals + these 10)
+      with DAM image XML, every update echoed intact. Source files + manifest with
+      imageFieldXml: docs/ai/demos/articles-images/. The index's image-typed attribute returns a
+      PLAIN URL string after crawl (proven on canary); extractImageUrl in search-ui/text.ts
+      also tolerates XML/object shapes. Card image verified rendering live. Canary's PUBLISHED
+      version carries a manual test image (asset 80340, no alt text -> next/image alt warning
+      on the article page); the other 12 published versions predate their images — next
+      publish + index re-run flows the proper images everywhere.
     notes:
-      - "After publish + index re-run: 13 articles searchable; pagination demo becomes meaningful (pageSize 6 -> 3 pages); sort demo spans Jan-Aug 2026."
+      - "Corpus live since 2026-08-18 re-crawl: 14 indexed (13 articles + undeleted Example Article). Full verification suite 21/21 on the expanded corpus (browse=14, canary probe, sort, strip newest-3, header typeahead incl. direct article navigation)."
 
   # Ticket #49 approach change (2026-08-18): instead of waiting for an index-side
   # URL attribute, an ArticleUrl field was added to the Article Page Template and

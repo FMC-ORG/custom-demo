@@ -5,6 +5,7 @@ import { Form } from '@sitecore-content-sdk/nextjs';
 
 import * as SearchResults from 'src/components/uiim/search/SearchResults';
 import * as SearchExperienceV2 from 'src/components/uiim/search/SearchExperienceV2';
+import * as SearchCollection from 'src/components/uiim/search/SearchCollection';
 import * as NavigationHeader from 'src/components/uiim/navigation/NavigationHeader';
 import * as SmartMedia from 'src/components/uiim/media/SmartMedia';
 import * as LandingFAQ from 'src/components/uiim/landing/LandingFAQ';
@@ -46,6 +47,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['Form', Form],
   ['SearchResults', { ...SearchResults }],
   ['SearchExperienceV2', { ...SearchExperienceV2 }],
+  ['SearchCollection', { ...SearchCollection }],
   ['NavigationHeader', { ...NavigationHeader }],
   ['SmartMedia', { ...SmartMedia }],
   ['LandingFAQ', { ...LandingFAQ }],

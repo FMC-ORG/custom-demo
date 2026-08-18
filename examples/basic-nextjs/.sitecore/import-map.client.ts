@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { DEFAULT_PAGE_SIZE } from '@/lib/search-ui/constants';
+import { DEFAULT_PAGE_SIZE, DEFAULT_MAX_ITEMS } from '@/lib/search-ui/constants';
 import { stripHtml, formatDate } from '@/lib/search-ui/text';
 import { useDebouncedValue } from '@/lib/search-ui/useDebouncedValue';
 import { readUrlParam, useUrlMirror } from '@/lib/search-ui/useUrlMirror';
@@ -35,7 +35,7 @@ import { SearchInput } from '@/lib/search/search-components/SearchInput';
 import { useEvent } from '@/lib/search/search-components/useEvent';
 import { useRouter } from '@/lib/search/search-components/useRouter';
 import { DICTIONARY_KEYS, DEFAULT_PAGE_SIZE as DEFAULT_PAGE_SIZE_d8a3a96ed6893912a4b0e4dff64815d90f82a321, gridColsClass } from '@/lib/search/search-components/constants';
-import { NextImage, Link, Text, useSitecore, RichText, DateField, CdpHelper, withDatasourceCheck } from '@sitecore-content-sdk/nextjs';
+import { Text, NextImage, Link, useSitecore, RichText, DateField, CdpHelper, withDatasourceCheck } from '@sitecore-content-sdk/nextjs';
 import Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 from 'next/link';
 import { identity, event, pageView } from '@sitecore-content-sdk/events';
 import { SmartMedia } from '@/components/uiim/media/SmartMedia';
@@ -136,6 +136,7 @@ const importMap = [
     module: '@/lib/search-ui/constants',
     exports: [
       { name: 'DEFAULT_PAGE_SIZE', value: DEFAULT_PAGE_SIZE },
+      { name: 'DEFAULT_MAX_ITEMS', value: DEFAULT_MAX_ITEMS },
     ]
   },
   {
@@ -243,9 +244,9 @@ const importMap = [
   {
     module: '@sitecore-content-sdk/nextjs',
     exports: [
+      { name: 'Text', value: Text },
       { name: 'NextImage', value: NextImage },
       { name: 'Link', value: Link },
-      { name: 'Text', value: Text },
       { name: 'useSitecore', value: useSitecore },
       { name: 'RichText', value: RichText },
       { name: 'DateField', value: DateField },

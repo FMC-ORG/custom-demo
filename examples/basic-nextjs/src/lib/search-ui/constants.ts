@@ -4,6 +4,8 @@ export const DEFAULT_PAGE_SIZE = 6;
 
 export const DEFAULT_MAX_SUGGESTIONS = 5;
 
+export const DEFAULT_MAX_ITEMS = 3;
+
 /**
  * Dictionary keys shared by all search components, with English fallbacks.
  * The keys reuse the existing SearchExperience_* Dictionary entries so no new

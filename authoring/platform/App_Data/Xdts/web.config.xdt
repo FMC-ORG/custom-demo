@@ -8,18 +8,6 @@
       value="yes" />
   </appSettings>
 
-  <connectionStrings>
-    <add
-      xdt:Transform="InsertIfMissing"
-      xdt:Locator="Match(name)"
-      name="DAM.ExternalRedirectKey"
-      connectionString="Sitecore" />
-    <add
-      xdt:Transform="InsertIfMissing"
-      xdt:Locator="Match(name)"
-      name="DAM.SearchPage"
-      connectionString="https://ffde.sitecoresandbox.cloud/en-us/sitecore-dam-connect/approved-assets" />
-  </connectionStrings>
 
   <!-- Root location - base Sitecore CSP may be set here -->
   <location path=".">

@@ -3,7 +3,10 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
-const { AGENTS_MD, readSkills, isHidden } = require('./skills');
+const yaml = require('js-yaml');
+const { AGENTS_MD, readSkills, isHidden, isCommandOnly } = require('./skills');
+
+const EVAL_FILE = 'tools/agents/evals/routing.yaml';
 
 const NAME_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const MAX_NAME = 64;
@@ -134,6 +137,25 @@ function checkRouter(agentsText, skills, report) {
       report('router-missing-skill', line, `skill "${skill.frontmatter.name}" is not listed in the router`);
 }
 
+/** Routing eval expectations must name real, auto-invocable skills (or `none`). */
+function checkEvals(text, skills, report) {
+  let cases;
+  try {
+    cases = yaml.load(text)?.cases ?? [];
+  } catch (err) {
+    return report('eval-invalid', 1, `routing evals are not valid YAML: ${err.message}`);
+  }
+  const byName = new Map(skills.map((s) => [s.frontmatter?.name, s]));
+  for (const c of cases) {
+    const line = lineOf(text, Math.max(0, text.indexOf(`id: ${c.id}`)));
+    if (!c.id || !c.prompt || !c.expect) report('eval-invalid', line, 'each case needs id, prompt, and expect');
+    else if (c.expect === 'none') continue;
+    else if (!byName.has(c.expect)) report('eval-unknown-skill', line, `case "${c.id}" expects "${c.expect}", which is not a skill`);
+    else if (isCommandOnly(byName.get(c.expect)))
+      report('eval-command-only', line, `case "${c.id}" expects command-only skill "${c.expect}"; the model never auto-loads it — expect none`);
+  }
+}
+
 /**
  * Lint canonical skills and AGENTS.md.
  * @param {string} cwd App root
@@ -165,6 +187,9 @@ function lint(cwd) {
     checkText({ text, bodyOffset: 0, skillDir: null, cwd, scripts, report, missingPaths });
     checkRouter(text, skills, report);
   }
+
+  const evalPath = path.join(cwd, EVAL_FILE);
+  if (fs.existsSync(evalPath)) checkEvals(fs.readFileSync(evalPath, 'utf8'), skills, reporter(EVAL_FILE));
 
   const ignored = gitIgnored(cwd, [...new Set(missingPaths.map((m) => m.target))]);
   for (const { target, value, line, report } of missingPaths)

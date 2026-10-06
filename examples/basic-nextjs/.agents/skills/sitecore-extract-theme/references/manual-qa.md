@@ -1,7 +1,8 @@
-# Theme Extraction — Test Prompts
+# Theme extraction — manual QA
 
-Use these prompts in Cursor to test the `sitecore-extract-theme` skill.
+End-to-end prompts for testing `sitecore-extract-theme` in any agent (Claude Code, Cursor, Pi).
 Each prompt should trigger the skill, run the Playwright scraper, and produce a valid theme YAML.
+Whether these prompts *route* to the skill is covered automatically by `npm run agents:eval`.
 
 ---
 

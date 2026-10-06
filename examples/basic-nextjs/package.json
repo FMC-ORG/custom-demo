@@ -137,6 +137,7 @@
     "agents:check": "node tools/agents/cli.js check",
     "agents:setup": "node tools/agents/cli.js setup",
     "agents:validate": "node tools/agents/validate-components.mjs",
-    "agents:browsers": "playwright install chromium"
+    "agents:browsers": "playwright install chromium",
+    "agents:eval": "node tools/agents/cli.js eval"
   }
 }

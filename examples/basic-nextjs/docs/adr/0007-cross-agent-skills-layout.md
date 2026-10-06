@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed (2026-10-06). Implementation plan: [plan-agent-skills-restructure.md](plan-agent-skills-restructure.md).
+Accepted (2026-10-06). Implemented in five phases on `feature/agents-restructure`; see [plan-agent-skills-restructure.md](plan-agent-skills-restructure.md).
 
 ## Context
 

@@ -31,12 +31,13 @@ Agent skills, rules, and MCP servers have one canonical source under `.agents/`;
 | `npm run agents:check` | Verify generated files are current and lint skills (the hook runs this) |
 | `npm run agents:validate` | Check that every component-map entry resolves to a file with a `Default` export |
 | `npm run agents:browsers` | Install Playwright Chromium for the scraper/verify scripts (once per machine) |
+| `npm run agents:eval` | Ask headless Pi / Claude Code which skill they would load for each prompt in `tools/agents/evals/routing.yaml` (costs tokens; run after changing skill descriptions or the router). Filters: `-- --agent pi`, `-- --case <id>` |
 
-Skills live in `.agents/skills/<name>/SKILL.md`. Long pipelines are command-only: start them with `/skill:<name>` in Pi or `/<name>` in Claude Code and Cursor (e.g. `sitecore-build-demo`, `sitecore-abm-page`).
+Skills live in `.agents/skills/<name>/SKILL.md`; `AGENTS.md` is the single always-on instruction file (`CLAUDE.md` imports it). To add or change a skill: edit it under `.agents/skills/`, add it to the router in `AGENTS.md` (unless it is a hidden subskill), add a routing case to `tools/agents/evals/routing.yaml`, then `npm run agents:sync` and `npm run agents:check`. Long pipelines are command-only: start them with `/skill:<name>` in Pi or `/<name>` in Claude Code and Cursor (e.g. `sitecore-build-demo`, `sitecore-abm-page`).
 
 First run per tool: Claude Code and Cursor pick up the skills and MCP servers (`sitecore_marketer`, `sitecore_docs`) automatically. **Pi** loads project skills (`.agents/skills`) and `.pi/mcp.json` only after you start `pi` in this folder and trust the project. Re-authenticate each MCP server once if prompted.
 
 ## Documentation
 
-- [Skills: capability map for this starter](Skills.md) — High-level capability groupings; see also the repo [docs/Skills.md](../../docs/Skills.md).
+- [Agent skills for this app](.agents/skills/) — one folder per skill; routing in [AGENTS.md](AGENTS.md). Repo-wide capability map: [docs/Skills.md](../../docs/Skills.md).
 - [Sitecore Content SDK for XM Cloud](https://doc.sitecore.com/xmc/en/developers/content-sdk/sitecore-content-sdk-for-xm-cloud.html)

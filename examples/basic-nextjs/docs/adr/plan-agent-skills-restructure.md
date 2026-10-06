@@ -121,9 +121,11 @@ Stays in `docs/ai/`: `config/`, `manifests/`, `catalog/`, `designs/`, `reference
 
 ## Phase 5 — Cleanup & evals
 
-- [ ] Delete dead scripts and app-level `copilot-instructions.md`, `Skills.md`, `.clinerules/`, `.cline/`, `docs/ai/skills/README.md` stub, emptied `docs/ai/{agents,scripts,templates,examples}`.
-- [ ] `tools/agents/evals/routing.yaml` + `eval.mjs` (runs `pi -p` / `claude -p`, asserts loaded skill).
-- [ ] Update `README.md` with an "AI agents" section: tools supported, commands, `agents:*` scripts.
+- [x] Deleted dead scripts (`apply-variants`, `download-images`, `search-debug`, `validate-types`) and app-level `copilot-instructions.md`, `Skills.md`, `LLMs.txt` (not read by the `/llms.txt` route), `.clinerules/`, `.cline/`, the `docs/ai/skills/README.md` stub. `docs/ai/{skills,scripts,agents,rules,templates,examples}` are gone.
+- [x] `TEST-PROMPTS.md`: routing prompts became eval cases; the end-to-end QA checklist moved to `sitecore-extract-theme/references/manual-qa.md`.
+- [x] `tools/agents/evals/routing.yaml` (15 cases incl. command-only and unrelated → `none`) + `eval` command (`npm run agents:eval`, `--agent`, `--case`); injectable agent runner for tests; lint rejects eval cases that expect unknown or command-only skills.
+- [x] `README.md` "AI agents" section: commands, skills workflow, Pi trust note. ADR 0007 marked Accepted.
+- Verified: `agents:eval --agent pi` 15/15. Claude Code eval not run here (local Claude CLI token expired) — run `npm run agents:eval -- --agent claude` after `claude` login.
 - **Done when:** `agents:eval` passes for Pi and Claude Code; no file references removed paths (`agents:lint`).
 
 ## Open verification items

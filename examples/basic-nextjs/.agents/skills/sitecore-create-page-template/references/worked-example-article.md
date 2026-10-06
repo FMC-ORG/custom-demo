@@ -1,10 +1,6 @@
----
-name: sitecore-create-article-page
-description: "Orchestrate creation of the complete Article page type: page template, Person data template, ArticleHero and ArticleBody context components, variants, and partial design. Use when the user asks to create an article, blog, or news page type."
-disable-model-invocation: true
----
-
 # Sitecore create article page
+
+> **Worked example — retired orchestrator.** The Article page type was built with this procedure and already exists (see `docs/ai/manifests/sitecore-manifest.yaml`, `pageTemplates` → "Article Page", and `docs/ai/catalog/page-template-registry.yaml`). Do not run it again. Use it as a reference when building a **new** page type with `sitecore-create-page-template` plus `sitecore-create-context` and `sitecore-add-variants`.
 
 Orchestrator skill that creates a complete Article page type: page template, shared data templates, context components, variants, partial design, and content tree setup.
 
@@ -25,7 +21,7 @@ Use this skill when:
 - `docs/ai/config/project.yaml`
 - `docs/ai/catalog/page-template-registry.yaml` (Article entry)
 - `docs/ai/manifests/sitecore-manifest.yaml`
-- `.agents/skills/sitecore-maintain-manifest/SKILL.md`
+- `.agents/skills/sitecore-manifest/SKILL.md`
 - `docs/ai/reference/sitecore-rules.md`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
 - `.agents/skills/sitecore-standards/references/react-uiim-guidelines.md`

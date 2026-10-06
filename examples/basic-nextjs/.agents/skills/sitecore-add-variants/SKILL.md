@@ -33,7 +33,7 @@ Every component must have at least a `Default` variant. `Default` is always requ
 ## Load first
 - `.agents/skills/sitecore-standards/references/react-uiim-guidelines.md`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
-- `.agents/skills/sitecore-maintain-manifest/SKILL.md`
+- `.agents/skills/sitecore-manifest/SKILL.md`
 
 ---
 

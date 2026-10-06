@@ -12,7 +12,7 @@ Use this skill when:
 - the user wants a new page type (Article, Event, Case Study, Product, etc.)
 - the request involves creating a route template with custom fields
 - the user says "create a page template", "new page type", "article template", "event page"
-- a page-type orchestrator skill (e.g., `sitecore-create-article-page`) delegates template creation here
+- the user is building a full page type (template + context components + variants + partial design) — follow one of the worked examples below
 
 ## Do not use this skill when
 - the request is about a datasource component template (use `sitecore-create-simple` or `sitecore-create-list`)
@@ -26,8 +26,13 @@ Use this skill when:
 - `docs/ai/reference/sitecore-rules.md`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
 - `docs/ai/manifests/sitecore-manifest.yaml`
-- `.agents/skills/sitecore-maintain-manifest/SKILL.md`
+- `.agents/skills/sitecore-manifest/SKILL.md`
 - `docs/ai/catalog/page-template-registry.yaml`
+
+## Worked examples (full page types)
+Both page types below already exist; use them as end-to-end references for a new page type — template, context components, variants, partial design, content tree:
+- `references/worked-example-article.md` — Article: route fields + shared Person data template, 2 context components
+- `references/worked-example-landing.md` — Landing Page: fixed-shape 40-field template, 6 context components, agent-fillable
 
 ---
 

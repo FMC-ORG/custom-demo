@@ -1,5 +1,5 @@
 # Component Template Library — Registry
-# Machine-readable index used by the Site Analyzer (Step 4) to match
+# Machine-readable index used by the `sitecore-analyze-site` skill (demo builder Phase 2) to match
 # page sections to template components.
 #
 # For each component: visual keywords the analyzer looks for, the kind,

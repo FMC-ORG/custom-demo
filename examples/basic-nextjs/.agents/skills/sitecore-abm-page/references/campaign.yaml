@@ -1,0 +1,42 @@
+# Active ABM campaign for the sitecore-abm-page skill.
+# To run a new campaign, edit ONLY this file — the skill reads every campaign-specific
+# value (event, pitch, CTA wording, slug suffix, mandatory FAQ) from here.
+
+id: "sitecore-silver-celebration-2026"
+
+event:
+  name: "Sitecore Silver Celebration"
+  occasion: "Sitecore 25th anniversary"
+  location: "Copenhagen, Denmark"
+  city: "Copenhagen"
+  date: "May 2026"
+  # Cite verbatim: never paraphrase, shorten, or add a query string.
+  url: "https://www.sitecore.com/resources/events-webinars/2026/05/sitecore-silver-celebration-copenhagen"
+  audience: "CMOs, CDOs, VP Marketing, Heads of Digital, Sitecore customers and prospects"
+  hook: "A milestone industry moment — 25 years of Sitecore, the launch of Sitecore AI, the future of personalized content"
+
+pitch:
+  whyAttend: "Sitecore is 25. The event is where the platform's next chapter (Sitecore AI, personalization at scale, agent-driven content) is unveiled. Peer learning from CMOs and CDOs in the same shoes."
+  whatTheyGet: "Hands-on with Sitecore AI, customer keynotes, networking with industry peers, working sessions on agentic content workflows."
+  whyNow: "Personalization at scale and AI-driven content production are 2026 problems, not 2027 problems. This event is where leaders see what's already working."
+
+cta:
+  # finalCtaButton text; the URL is always event.url.
+  finalButtonText: "Reserve your seat in Copenhagen"
+  finalHeadlineExample: "Acme, see Sitecore AI in Copenhagen"
+  # heroPrimaryCta target: existing customer -> their Sitecore account team page; prospect -> event.url
+  heroPrimaryForProspects: "event"
+
+faq:
+  # FAQ 5 is mandatory and must name the event.
+  mandatoryQuestionTemplate: "What will <Org> get from attending Sitecore Silver Celebration?"
+
+slug:
+  # Default slug is <kebab-org-name>-<defaultSuffix>; altSuffix is allowed when it reads better.
+  defaultSuffix: "welcome"
+  altSuffix: "copenhagen"
+
+stats:
+  # Optional campaign-specific safe stat, added to the skill's safe-stats table.
+  extra:
+    - { number: "25 yr", label: "Of innovation", useFor: "25th anniversary tie-in" }

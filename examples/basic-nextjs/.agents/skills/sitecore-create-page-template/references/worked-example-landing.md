@@ -1,10 +1,6 @@
----
-name: sitecore-create-landing-page
-description: "Orchestrate creation of the fixed-shape Landing Page type: 40-field page template, six context components, variants, partial design, and /Home/lp content tree. Use when the user asks to build the landing page template or architecture (not a page for a specific account)."
-disable-model-invocation: true
----
-
 # Sitecore create landing page
+
+> **Worked example — retired orchestrator.** The Landing Page page type was built with this procedure and already exists (see `docs/ai/manifests/sitecore-manifest.yaml`, `pageTemplates` → "Landing Page", and `docs/ai/catalog/page-template-registry.yaml`). Do not run it again. Use it as a reference when building a **new** page type with `sitecore-create-page-template` plus `sitecore-create-context` and `sitecore-add-variants`.
 
 Orchestrator skill that creates a complete Landing Page type: page template (with 40 route fields across 6 sections, fixed-shape no datasources), 6 context components, variants, partial design, and `/Home/lp/` content tree setup.
 
@@ -20,7 +16,7 @@ Use this skill when:
 - the user wants a single landing-page-related datasource component (use `sitecore-create-simple` or `sitecore-create-list`)
 - the user wants to add variants to an existing landing page component (use `sitecore-add-variants`)
 - the user wants a generic or custom page template (use `sitecore-create-page-template`)
-- the user wants an article/blog/news page (use `sitecore-create-article-page`)
+- the user wants an article/blog/news page (the Article page type already exists — see `worked-example-article.md`)
 
 ---
 
@@ -28,7 +24,7 @@ Use this skill when:
 - `docs/ai/config/project.yaml`
 - `docs/ai/catalog/page-template-registry.yaml` (Landing entry — the source of truth for schema, variants, components)
 - `docs/ai/manifests/sitecore-manifest.yaml`
-- `.agents/skills/sitecore-maintain-manifest/SKILL.md`
+- `.agents/skills/sitecore-manifest/SKILL.md`
 - `docs/ai/reference/sitecore-rules.md`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
 - `.agents/skills/sitecore-standards/references/react-uiim-guidelines.md`

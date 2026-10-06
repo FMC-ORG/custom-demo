@@ -11,6 +11,7 @@ The always-on non-negotiables are in `AGENTS.md`. This skill holds the full deta
 
 | Reference | Use for |
 |---|---|
+| `references/component-build.md` | The shared create procedure (§1–§12) used by the three create skills |
 | `references/implementation-standards.md` | Sitecore item rules: renderings, templates, datasource folders, Available Renderings, required output order |
 | `references/mcp-tools-and-docs.md` | Marketer MCP usage, `__Standard Values` creation, verification, honesty rules |
 | `references/react-shadcn.md` | React/UIIM structure, Tailwind + shadcn/ui, editable field rules, data shapes per component kind |

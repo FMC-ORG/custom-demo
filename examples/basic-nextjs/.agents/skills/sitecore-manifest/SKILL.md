@@ -1,11 +1,18 @@
 ---
-name: sitecore-maintain-manifest
-description: "Maintain the Sitecore AI manifest that tracks all AI-created items, IDs, and verification status. Use when any Sitecore component, template, or rendering is created, updated, or fixed: read the manifest before the task and update it after."
+name: sitecore-manifest
+description: "Maintain and validate the manifest of AI-created Sitecore items (IDs, paths, status, verification, cached lookups). Use when any Sitecore component, template, or rendering is created, updated, or fixed (read before, update after), or to validate the manifest against live Sitecore after an environment switch, a long break, item-not-found errors, or when the user says \"validate manifest\" or \"check manifest\"."
 ---
 
-# Sitecore manifest management
+# Sitecore manifest
 
-Maintain a living YAML manifest of all AI-created Sitecore items at:
+Two modes:
+
+| Mode | When | How |
+|---|---|---|
+| **Maintain** (default) | Every Sitecore create, update, fix, or variant task | This file |
+| **Validate** | Session start after a break, environment switch, item-not-found errors, `sitecore-build-demo` Phase 0.5, or the user asks to validate/sync/check the manifest | Read and follow `references/validate.md` (Quick by default; Full on request) |
+
+The manifest is a living YAML record of all AI-created Sitecore items at:
 
 ```
 docs/ai/manifests/sitecore-manifest.yaml
@@ -35,8 +42,9 @@ Use the manifest to:
 
 If the manifest file does not exist, create it from the template at:
 ```
-docs/ai/manifests/sitecore-manifest.yaml
+docs/ai/manifests/sitecore-manifest.example-empty.yaml
 ```
+(`docs/ai/manifests/sitecore-manifest.example.yaml` shows a populated example.)
 Populate the `project` block from `docs/ai/config/project.yaml` and set `generatedAt` to the current timestamp.
 
 ---

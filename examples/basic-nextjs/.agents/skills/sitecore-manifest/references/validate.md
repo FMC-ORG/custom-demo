@@ -1,9 +1,6 @@
----
-name: sitecore-validate-manifest
-description: "Validate the Sitecore manifest against live Sitecore state and auto-repair what can be fixed. Use when starting a new session, after an environment switch, when a demo build fails with item-not-found errors, or when the user says \"validate manifest\", \"sync manifest\", or \"check manifest\"."
----
+# Validate and repair the manifest
 
-# Sitecore validate and repair manifest
+Validate mode of the `sitecore-manifest` skill.
 
 Validate the Sitecore manifest against live Sitecore state via MCP, auto-fix what can be fixed, and surface what needs human intervention.
 

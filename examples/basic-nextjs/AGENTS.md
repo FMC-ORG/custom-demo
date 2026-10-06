@@ -7,7 +7,7 @@ Applies to Claude Code, Cursor, and Pi. This is the only always-on instruction f
 ## Before any Sitecore task
 
 1. Read `docs/ai/config/project.yaml` (siteCollection, siteName, renderingsRoot, projectTemplatesRoot). Derive `dataRoot = /sitecore/content/<siteCollection>/<siteName>/Data`, `projectFoldersRoot = projectTemplatesRoot/Folders`, `renderingParamsRoot = projectTemplatesRoot/Rendering Parameters`. Never take these from memory, examples, or other components. If the file is missing, ask the user and create it.
-2. Read `docs/ai/manifests/sitecore-manifest.yaml`. Existing entry `complete` → confirm before re-creating; `partial`/`failed` → resume from recorded IDs; check `lookups` before resolving paths. Update it during and after every Sitecore task (`sitecore-maintain-manifest`).
+2. Read `docs/ai/manifests/sitecore-manifest.yaml`. Existing entry `complete` → confirm before re-creating; `partial`/`failed` → resume from recorded IDs; check `lookups` before resolving paths. Update it during and after every Sitecore task (`sitecore-manifest`).
 3. Demo builds only: Content Hub credentials are in `docs/ai/config/credentials.local.yaml` (gitignored, optional).
 
 ## Route the request to a skill
@@ -21,18 +21,16 @@ Classify the request before writing code or touching Sitecore, then load the mat
 | Component with one datasource item; no child items, no ComponentQuery | `sitecore-create-simple` |
 | Parent datasource with authorable child items; needs ComponentQuery | `sitecore-create-list` |
 | Variant, variation, alternate layout or style for an existing component | `sitecore-add-variants` |
-| Data not loading, children missing, query/React shape mismatch | `sitecore-fix-componentquery` |
-| Datasource picker empty, authors cannot create items, wrong insert options | `sitecore-fix-datasource-picker` |
-| New page type (route template inheriting the base page) | `sitecore-create-page-template` |
-| Record or read AI-created item IDs and status | `sitecore-maintain-manifest` |
-| Manifest stale, environment switched, item-not-found errors | `sitecore-validate-manifest` |
+| Data not loading, children missing, query/React shape mismatch, datasource picker empty, authors cannot create items | `sitecore-diagnose-rendering` |
+| New page type (route template, context components, partial design) — Article and Landing Page already exist as worked examples | `sitecore-create-page-template` |
+| Record AI-created item IDs and status; validate the manifest after an environment switch or item-not-found errors | `sitecore-manifest` |
 | Set up, configure, or debug site search | `sitecore-search` |
 | Extract a client's brand theme from a screenshot or URL | `sitecore-extract-theme` |
 | Pixel-perfect custom variants matching a client screenshot | `sitecore-demo-variants` |
 | Shared implementation, React, MCP, and verification standards | `sitecore-standards` |
 
 **Command-only** — never start these on your own; the user runs them explicitly (`/skill:<name>` in Pi, `/<name>` in Claude Code and Cursor):
-`sitecore-build-demo` (full demo from a client homepage) · `sitecore-abm-page` (ABM landing page for one organization) · `sitecore-create-article-page` · `sitecore-create-landing-page` (page-type orchestrators).
+`sitecore-build-demo` (full demo from a client homepage) · `sitecore-abm-page` (ABM landing page for one organization).
 <!-- agents:router:end -->
 
 Before implementing, show: chosen skill, assumptions, the spec (normalised with `.agents/skills/sitecore-standards/assets/sitecore-component-spec.template.yaml`), manifest status (new / resuming / updating), and the plan. Ask concise questions when critical information is missing. If screenshots are attached, inspect them first. If a repo convention conflicts with a skill default, follow the repo and say so.

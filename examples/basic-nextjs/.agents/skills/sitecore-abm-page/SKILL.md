@@ -6,9 +6,9 @@ disable-model-invocation: true
 
 # Sitecore create ABM landing page (self-contained, account-targeted page instance)
 
-Create a personalized Sitecore landing page *instance* for a specific target organization, using a pre-existing fixed-shape Landing Page template. The page is research-driven: the executing LLM investigates the organization, reasons about why **Sitecore AI** matters to them, and positions Sitecore's **Silver Celebration** event in Copenhagen as the call-to-action.
+Create a personalized Sitecore landing page *instance* for a specific target organization, using a pre-existing fixed-shape Landing Page template. The page is research-driven: the executing LLM investigates the organization, reasons about why **Sitecore AI** matters to them, and positions the active campaign's event (`references/campaign.yaml`) as the call-to-action.
 
-This skill is **fully self-contained**. The executing LLM does **not** need to read any project files, manifests, or registries. Everything required — Sitecore identity, template/parent item IDs, the full 40-field schema, validation regexes, content contracts, voice guidelines, event details, and honesty rules — is inlined below.
+This skill is **self-contained apart from one file**: read `references/campaign.yaml` first — it holds every campaign-specific value (event, pitch, CTA wording, slug suffix, mandatory FAQ). Everything else — Sitecore identity, template/parent item IDs, the full 40-field schema, validation regexes, content contracts, voice guidelines, and honesty rules — is inlined below. In this file, `campaign.<key>` means a value from that YAML.
 
 ---
 
@@ -20,10 +20,11 @@ This skill is **fully self-contained**. The executing LLM does **not** need to r
 - **`create_content_item`** — create the page
 - **`update_fields_on_item`** — retry silent-write fields (fallback)
 - **WebSearch** — research the target organization
-- **WebFetch** — read the organization's website and the Sitecore event page
+- **WebFetch** — read the organization's website and the campaign event page (`campaign.event.url`)
+- **Read** — `references/campaign.yaml` (the only project file needed)
 
-### No filesystem access required
-This skill embeds every reference the LLM needs. No `Read`, no `Grep`, no project file dependency.
+### File access
+Only `references/campaign.yaml` (relative to this skill). No other project files, manifests, or registries.
 
 ---
 
@@ -51,21 +52,11 @@ If either returns an item ID that **differs** from the inlined value above, use 
 
 ---
 
-## Canonical Sitecore event (CTA anchor)
+## Campaign event (CTA anchor)
 
-Every page created by this skill must drive to this event:
+Every page created by this skill must drive to the event in `references/campaign.yaml` (`campaign.event`: name, occasion, location, date, url, audience, hook). Read it before Phase 1.
 
-| Attribute | Value |
-|---|---|
-| **Event name** | Sitecore Silver Celebration |
-| **Occasion** | Sitecore 25th anniversary |
-| **Location** | Copenhagen, Denmark |
-| **Date** | May 2026 |
-| **URL** | `https://www.sitecore.com/resources/events-webinars/2026/05/sitecore-silver-celebration-copenhagen` |
-| **Audience** | CMOs, CDOs, VP Marketing, Heads of Digital, Sitecore customers and prospects |
-| **Hook** | A milestone industry moment — 25 years of Sitecore, the launch of Sitecore AI, the future of personalized content |
-
-The **`finalCtaButton`** General Link **must** point to the URL above, verbatim. The **`finalCtaHeadline`** and **`finalCtaSubhead`** must reference the event by name. The **`heroPrimaryCta`** may either point to the event or to the organization's Sitecore account team — choose based on research (existing customer → account team; net-new prospect → event).
+The **`finalCtaButton`** General Link **must** point to `campaign.event.url`, verbatim. The **`finalCtaHeadline`** and **`finalCtaSubhead`** must reference the event by `campaign.event.name`. The **`heroPrimaryCta`** may either point to the event or to the organization's Sitecore account team — choose based on research (existing customer → account team; net-new prospect → event).
 
 ---
 
@@ -74,7 +65,7 @@ The **`finalCtaButton`** General Link **must** point to the URL above, verbatim.
 | Input | Required | Default if not provided |
 |---|---|---|
 | `organizationName` | YES | (must be provided — this is the whole point) |
-| `pageSlugOverride` | NO | derive from organization name → `<kebab-case>-welcome` |
+| `pageSlugOverride` | NO | derive from organization name → `<kebab-case>-<campaign.slug.defaultSuffix>` |
 | `targetPersona` | NO | infer from research (CMO if B2C consumer, CDO if digital-first, Head of Digital if mid-market) |
 | `relationshipStatus` | NO | infer from research ("prospect" if no public Sitecore mention, "existing customer" if found) |
 | `industryHint` | NO | infer from research |
@@ -113,14 +104,14 @@ Sitecore AI is the platform's content intelligence and personalization layer. Pi
 
 The chosen angle shapes the **features section** and **FAQ answers** — each feature should address one concrete pain → Sitecore AI capability.
 
-### Phase 3 — Position the Copenhagen event
-The Silver Celebration is the CTA anchor. The pitch:
+### Phase 3 — Position the campaign event
+The campaign event is the CTA anchor. Build the pitch from `campaign.pitch`:
 
-- **Why attend** — Sitecore is 25. The event is where the platform's next chapter (Sitecore AI, personalization at scale, agent-driven content) is unveiled. Peer learning from CMOs and CDOs in the same shoes.
-- **What they get** — Hands-on with Sitecore AI, customer keynotes, networking with industry peers, working sessions on agentic content workflows.
-- **Why now** — Personalization at scale and AI-driven content production are 2026 problems, not 2027 problems. This event is where leaders see what's already working.
+- **Why attend** — `campaign.pitch.whyAttend`
+- **What they get** — `campaign.pitch.whatTheyGet`
+- **Why now** — `campaign.pitch.whyNow`
 
-Reference the event explicitly in the **final CTA section** and in at least one FAQ answer.
+Tailor each point to the organization's research dossier. Reference the event explicitly in the **final CTA section** and in at least one FAQ answer.
 
 ### Phase 4 — Generate all 40 fields
 Follow the inline field schema, content contracts, and validation regexes below. Self-validate before submitting.
@@ -156,7 +147,7 @@ The Landing Page template has **40 content fields** in 6 sections, plus 2 inheri
 | `heroEyebrow` | SLT | `^.{1,40}$` | ≤40 chars. Short tag positioning the organization. Example: "Built for Acme" |
 | `heroHeadline` | SLT | `^.{1,80}$` | ≤80 chars, single line, no trailing period. **Must include the organization name.** Benefit-led. |
 | `heroSubhead` | SLT | `^.{1,200}$` | 1-2 sentences, ≤200 chars. Reinforces the headline. References the org's growth context. |
-| `heroPrimaryCta` | General Link | — | text 4-6 words, action verb. URL: org's sitecore.com account page if customer, else event URL. target=`_blank`. |
+| `heroPrimaryCta` | General Link | — | text 4-6 words, action verb. URL: org's sitecore.com account page if customer, else `campaign.event.url`. target=`_blank`. |
 | `heroSecondaryCta` | General Link | — | Lower-commitment alternative CTA. URL: sitecore.com or relevant Sitecore product page. target=`_blank`. |
 | `heroImage` | Image | — | Leave empty (`""`) unless a Sitecore media ID is known. |
 | `heroVideo` | General Link | — | Leave empty (`""`) unless a Sitecore-hosted video URL is on hand. |
@@ -184,9 +175,10 @@ The Landing Page template has **40 content fields** in 6 sections, plus 2 inheri
 | `85%` | Lift in conversion | Personalization outcome |
 | `<2wk` | Time to value | Speed of implementation |
 | `1,500+` | Customers | Scale / credibility |
-| `25 yr` | Of innovation | 25th anniversary tie-in |
 | `99.9%` | Uptime SLA | Enterprise reliability |
 | `100+` | Integrations | Ecosystem |
+
+Also allowed: any entries in `campaign.stats.extra`.
 
 ### Section 4: Social Proof Data (5 fields)
 
@@ -210,15 +202,15 @@ The Landing Page template has **40 content fields** in 6 sections, plus 2 inheri
 - FAQ 2: Integration with existing martech stack
 - FAQ 3: Security, compliance, data residency
 - FAQ 4: Support model post-launch ("Who supports <Org> after launch?")
-- FAQ 5: The Copenhagen event ("What will <Org> get from attending Sitecore Silver Celebration?") — **this FAQ is mandatory** and must reference the event by name.
+- FAQ 5: The campaign event (`campaign.faq.mandatoryQuestionTemplate`) — **this FAQ is mandatory** and must reference the event by `campaign.event.name`.
 
 ### Section 6: Final CTA Data (3 fields)
 
 | Field name | Type | Validation regex | Content contract |
 |---|---|---|---|
-| `finalCtaHeadline` | SLT | `^.{1,80}$` | ≤80 chars. Names the org, asks for attendance. Example: "Acme, see Sitecore AI in Copenhagen" |
-| `finalCtaSubhead` | Rich Text | — | 1 sentence in `<p>...</p>`. **Must reference Sitecore Silver Celebration by name and date.** |
-| `finalCtaButton` | General Link | — | text: action-oriented invitation (e.g., "Reserve your seat in Copenhagen"). url: `https://www.sitecore.com/resources/events-webinars/2026/05/sitecore-silver-celebration-copenhagen` (verbatim). target=`_blank`. |
+| `finalCtaHeadline` | SLT | `^.{1,80}$` | ≤80 chars. Names the org, asks for attendance. Example: `campaign.cta.finalHeadlineExample` |
+| `finalCtaSubhead` | Rich Text | — | 1 sentence in `<p>...</p>`. **Must reference the event by `campaign.event.name` and `campaign.event.date`.** |
+| `finalCtaButton` | General Link | — | text: action-oriented invitation (default `campaign.cta.finalButtonText`). url: `campaign.event.url` (verbatim). target=`_blank`. |
 
 ### Inherited base-page fields (set these too)
 
@@ -245,10 +237,10 @@ The executing LLM **must** self-check every item before calling `create_content_
 - [ ] Organization name appears in: `heroHeadline`, `heroSubhead`, ≥2 of the 3 `feature{N}Description`, ≥3 of the 5 `faq{N}Question`, `finalCtaHeadline`
 - [ ] Total organization-name mentions across the 40 fields is 5-10 (fewer = bland, more = sycophantic)
 
-### Copenhagen event references
-- [ ] At least one `faq{N}Answer` references the event by name
-- [ ] `finalCtaSubhead` references "Sitecore Silver Celebration" by name
-- [ ] `finalCtaButton.url` is exactly `https://www.sitecore.com/resources/events-webinars/2026/05/sitecore-silver-celebration-copenhagen`
+### Campaign event references
+- [ ] At least one `faq{N}Answer` references `campaign.event.name`
+- [ ] `finalCtaSubhead` references `campaign.event.name` and `campaign.event.date`
+- [ ] `finalCtaButton.url` is exactly `campaign.event.url`
 
 ### Honesty
 - [ ] Testimonial author name is plausibly fictional, not a real executive at the target organization
@@ -316,12 +308,12 @@ If any check fails, regenerate the failing field(s) and re-run the full checklis
 
     "finalCtaHeadline": "...",
     "finalCtaSubhead": "<p>...</p>",
-    "finalCtaButton": "<link text=\"Reserve your seat in Copenhagen\" linktype=\"external\" url=\"https://www.sitecore.com/resources/events-webinars/2026/05/sitecore-silver-celebration-copenhagen\" anchor=\"\" target=\"_blank\" />"
+    "finalCtaButton": "<link text=\"<campaign.cta.finalButtonText>\" linktype=\"external\" url=\"<campaign.event.url>\" anchor=\"\" target=\"_blank\" />"
   }
 }
 ```
 
-**Slug pattern:** `<kebab-org-name>-welcome` or `<kebab-org-name>-copenhagen`. Examples: `acme-welcome`, `maersk-copenhagen`, `lego-welcome`. Lowercase, hyphens only, no spaces or special characters.
+**Slug pattern:** `<kebab-org-name>-<campaign.slug.defaultSuffix>` or `<kebab-org-name>-<campaign.slug.altSuffix>` (e.g. `acme-welcome`, `maersk-copenhagen`). Lowercase, hyphens only, no spaces or special characters.
 
 ---
 
@@ -338,7 +330,7 @@ If any check fails, regenerate the failing field(s) and re-run the full checklis
 ## Honesty and accuracy rules (non-negotiable)
 
 - **Never fabricate customer logos or quote real executives.** Use plausible fictional names and explicitly label testimonials as from a peer-industry brand.
-- **Never invent Sitecore product capabilities or stats.** Use the safe-stats table and the canonical event details exactly as given.
+- **Never invent Sitecore product capabilities or stats.** Use the safe-stats table and the `campaign.yaml` event details exactly as given.
 - **Cite the event URL verbatim.** Do not paraphrase, shorten, or query-string it.
 - **Disclose uncertainty.** If research surfaces conflicting signals (e.g., the organization appears to be both a Sitecore customer and a prospect), flag this in the final report and ask the user before proceeding.
 - **If WebSearch / WebFetch produce no usable signal**, report that the research phase failed and ask the user for context. Do not proceed with a fabricated dossier.
@@ -350,7 +342,7 @@ If any check fails, regenerate the failing field(s) and re-run the full checklis
 - [ ] Phase 0 — Sitecore template + parent verified via MCP
 - [ ] Phase 1 — Research dossier produced (≥150 words documented in chat)
 - [ ] Phase 2 — Sitecore AI angle chosen and noted
-- [ ] Phase 3 — Copenhagen event integration planned
+- [ ] Phase 3 — Campaign event integration planned
 - [ ] Phase 4 — All 40 fields generated
 - [ ] Phase 5 — Validation checklist passed (regex, XML, personalization density, event references, honesty)
 - [ ] Phase 6 — `create_content_item` call succeeded and returned an item ID
@@ -380,9 +372,10 @@ Sitecore AI positioning
   <1-2 sentences capturing the angle taken>
 
 Event CTA
-  Anchor:    Sitecore Silver Celebration, Copenhagen, May 2026
+  Campaign:  <campaign.id>
+  Anchor:    <campaign.event.name>, <campaign.event.city>, <campaign.event.date>
   Final CTA: "<finalCtaButton.text>"
-  Final URL: https://www.sitecore.com/resources/events-webinars/2026/05/sitecore-silver-celebration-copenhagen
+  Final URL: <campaign.event.url>
 
 Verification
   Fields persisted: 38/38 content fields, 2 image fields empty (intentional)
@@ -397,4 +390,4 @@ Verification
 - Setting up Sitecore Personalize rules (separate workflow)
 - Uploading images to the Sitecore DAM (image fields left empty for v1)
 - Translating the page to other languages (default `en`)
-- Editing Sitecore manifests, registries, or any project files (this skill only creates a Sitecore content item via MCP)
+- Editing Sitecore manifests, registries, or any project files (this skill only creates a Sitecore content item via MCP; to change the campaign, a human edits `references/campaign.yaml`)

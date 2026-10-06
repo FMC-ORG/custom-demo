@@ -107,14 +107,16 @@ Stays in `docs/ai/`: `config/`, `manifests/`, `catalog/`, `designs/`, `reference
 
 ## Phase 4 — Consolidation
 
-- [ ] Merge into `sitecore-diagnose-rendering` and `sitecore-manifest`.
-- [ ] Deduplicate create skills: shared steps → `sitecore-standards/references/`; create skills keep only type-specific steps.
-- [ ] Retire article/landing orchestrators → worked examples.
-- [ ] `sitecore-abm-page`: extract `references/campaign.yaml`.
-- [ ] Create `sitecore-search` skill (recipe from `capabilities-registry.yaml` + verify scripts).
-- [ ] Set `disable-model-invocation` on the four command-only skills; sync translates per tool.
-- [ ] `sitecore-build-demo`: "delegate to subagent if available, else load skill inline".
-- [ ] Update `component-registry`, `capabilities-registry`, `CONTEXT.md` references.
+- [x] `sitecore-diagnose-rendering` (fix-componentquery + fix-datasource-picker): one workflow organised by symptom table and expected configuration per kind. `sitecore-manifest` (maintain + validate): maintain rules in `SKILL.md`, validate mode in `references/validate.md`; duplicate `manifest-rule.md` (old rule 05) dropped; fixed the "create from template" path to `sitecore-manifest.example-empty.yaml`.
+- [x] Create skills deduplicated: shared procedure in `sitecore-standards/references/component-build.md` (§1–§12); create-simple/list/context went from 1,073 to 187 lines (+95 shared) and keep only kind-specific order, batch plan, data shape, and checklist. Fixed drift found on the way (duplicate step numbers in list; `projectFoldersRoot` only in simple).
+- [x] Article/landing orchestrators retired → `sitecore-create-page-template/references/worked-example-{article,landing}.md` with a "do not re-run" banner.
+- [x] `sitecore-abm-page`: every campaign value (event, pitch, CTA text, slug suffixes, mandatory FAQ, extra stat) moved to `references/campaign.yaml`; the skill now reads only that file.
+- [x] `sitecore-search` created in phase 2.
+- [x] Command-only flags set in phase 2; with the orchestrators retired the command-only set is build-demo, abm-page, analyze-site, map-content.
+- [x] `sitecore-build-demo`: "Subskill handoff" section — delegate to the Claude subagent when available, else follow the subskill inline; continue only when output files exist on disk.
+- [x] Router in `AGENTS.md`, registries, `CONTEXT.md` (new "Agent tooling" terms) updated. Final inventory: 15 skills (11 auto + 2 command-only + 2 hidden subskills).
+- Verified (Pi): symptom requests route to `sitecore-diagnose-rendering`, environment switch to `sitecore-manifest`, "build a demo" is declined as command-only; exactly 11 auto skills visible.
+- [ ] Manual (in your final test): one component create + one rendering diagnosis against the real Sitecore environment; Quick manifest validation.
 - **Done when:** a component create and a rendering diagnosis are exercised against the real Sitecore environment in at least one tool; manifest validate (Quick) passes.
 
 ## Phase 5 — Cleanup & evals

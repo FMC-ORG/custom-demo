@@ -3,7 +3,7 @@
 # Separate from component-registry.yaml (visual homepage sections) and
 # page-template-registry.yaml (page types).
 #
-# These are not detected by the Site Analyzer from screenshots — they are
+# These are not detected by `sitecore-analyze-site` from screenshots; enable them with the matching skill (search: `sitecore-search`) — they are
 # platform capabilities that an SE decides to enable for a demo.
 
 capabilities:

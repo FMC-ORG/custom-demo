@@ -52,7 +52,7 @@ Check the manifest `lookups` section before calling `get_content_item_by_path`. 
 - Available Renderings Page Content item
 - Category subfolders (after first creation)
 
-See `.agents/skills/sitecore-maintain-manifest/SKILL.md` → "Lookup cache rules".
+See `.agents/skills/sitecore-manifest/SKILL.md` → "Lookup cache rules".
 
 ### Upload images to Content Hub DAM
 

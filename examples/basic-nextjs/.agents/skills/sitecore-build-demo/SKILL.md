@@ -40,6 +40,19 @@ If the user says "resume demo", "continue demo", "pick up where we left off", or
 
 ---
 
+## Subskill handoff
+
+Phases 2 and 2.5 use two subskills with a strict **file-in → file-out** contract, so they behave the same in every tool:
+
+| Subskill | Reads | Writes |
+|---|---|---|
+| `sitecore-analyze-site` | screenshot(s), theme YAML, component registry | `build-plan.yaml`, `build-plan-summary.md` |
+| `sitecore-map-content` | `build-plan.yaml`, `extracted-content.json` | `content-map.yaml` |
+
+- **If your tool has subagents** (Claude Code: `sitecore-analyze-site`, `sitecore-map-content` in `.claude/agents/`), delegate to the subagent, passing the client folder and input file paths. This keeps screenshots and the extracted JSON out of the main context.
+- **Otherwise** (Pi, Cursor), read and follow `.agents/skills/<subskill>/SKILL.md` inline.
+- Either way, continue only once the output files exist on disk, and read them from disk — never rely on the subagent's chat summary.
+
 ## Full workflow
 
 ### Phase 0 — Gather inputs (screenshot required)
@@ -101,7 +114,7 @@ If it prints `[auth] OK`, credentials are valid. If it prints `ERROR`, they need
 
 Before any demo work, validate that the manifest is usable and pointing at the right environment.
 
-**Run the `sitecore-validate-manifest` skill in Quick mode.**
+**Run the `sitecore-manifest` skill in **validate** mode, Quick level (`.agents/skills/sitecore-manifest/references/validate.md`).**
 
 This performs:
 1. Config consistency check (`project.yaml` vs manifest `project` block)
@@ -142,7 +155,7 @@ Use the `sitecore-extract-theme` skill:
 
 ### Phase 2 — Analyze the homepage
 
-Use the `sitecore-analyze-site` skill (runs as a subagent where the tool supports it) (`.agents/skills/sitecore-analyze-site/SKILL.md`):
+Run the `sitecore-analyze-site` subskill — see **Subskill handoff** above. Inputs: the screenshot(s), `docs/ai/themes/<client-kebab>.theme.yaml`. Outputs: `build-plan.yaml` and `build-plan-summary.md` in `docs/ai/demos/<client-kebab>/`. It:
 
 1. Read the component registry and theme mapping
 2. Inspect the desktop screenshot top-to-bottom
@@ -209,7 +222,7 @@ The `extracted-content.json` contains:
 - Source language detection
 - Background color hints per section
 
-**Step 2 — Run the `sitecore-map-content` skill (runs as a subagent where the tool supports it)** (`.agents/skills/sitecore-map-content/SKILL.md`):
+**Step 2 — Run the `sitecore-map-content` subskill** (see **Subskill handoff** above). Inputs: `build-plan.yaml`, `extracted-content.json`, client name. Output: `docs/ai/demos/<client-kebab>/content-map.yaml`.
 
 The agent reads the build plan + extracted content and:
 1. Matches extracted DOM sections to build plan sections (using headings as anchors)

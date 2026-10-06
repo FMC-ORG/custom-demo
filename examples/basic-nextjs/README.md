@@ -20,6 +20,18 @@ npm run dev
 
 Open **http://localhost:3000**.
 
+## AI agents (Claude Code, Cursor, Pi)
+
+Agent skills, rules, and MCP servers have one canonical source under `.agents/`; the per-tool files (`.claude/`, `.cursor/`, `.mcp.json`, `.pi/mcp.json`) are **generated** — never edit them by hand. See [ADR 0007](docs/adr/0007-cross-agent-skills-layout.md).
+
+| Command | What it does |
+|---|---|
+| `npm run agents:setup` | Install the git pre-commit hook (run once per clone) |
+| `npm run agents:sync` | Regenerate per-tool files after editing anything in `.agents/` |
+| `npm run agents:check` | Verify generated files are current and lint skills (the hook runs this) |
+
+First run per tool: Claude Code and Cursor pick up the MCP servers (`sitecore_marketer`, `sitecore_docs`) automatically; **Pi** reads `.pi/mcp.json` only after you start `pi` in this folder and trust the project. Re-authenticate each server once if prompted.
+
 ## Documentation
 
 - [Skills: capability map for this starter](Skills.md) — High-level capability groupings; see also the repo [docs/Skills.md](../../docs/Skills.md).

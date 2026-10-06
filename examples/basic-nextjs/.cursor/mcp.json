@@ -1,11 +1,9 @@
 {
   "mcpServers": {
     "sitecore_marketer": {
-      "type": "http",
       "url": "https://edge-platform.sitecorecloud.io/mcp/marketer-mcp-prod"
     },
     "sitecore_docs": {
-      "type": "http",
       "url": "https://sitecore.mcp.kapa.ai"
     }
   }

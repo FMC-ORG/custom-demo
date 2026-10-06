@@ -1,0 +1,8 @@
+{
+  "note": "Files written by `npm run agents:sync`. Do not edit.",
+  "files": [
+    ".cursor/mcp.json",
+    ".mcp.json",
+    ".pi/mcp.json"
+  ]
+}

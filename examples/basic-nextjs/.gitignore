@@ -15,6 +15,11 @@
 .env.*.local
 .env
 
+# Pi agent folder holds auth and sessions — commit only the generated project config
+.pi/*
+!.pi/settings.json
+!.pi/mcp.json
+
 # AI demo builder — never commit
 docs/ai/config/credentials.local.yaml
 docs/ai/demos/*/

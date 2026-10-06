@@ -96,12 +96,13 @@ Stays in `docs/ai/`: `config/`, `manifests/`, `catalog/`, `designs/`, `reference
 
 ## Phase 3 — Rules
 
-- [ ] Write `AGENTS.md` (~80 lines): project config + manifest bootstrap, router table (skill ↔ trigger), non-negotiables, `docs/ai/` map, command-only skill list.
-- [ ] `CLAUDE.md` → `@AGENTS.md`.
-- [ ] Create `sitecore-standards` from rules 02–05 + `skills/shared/*`; remove `docs/ai/rules/`.
-- [ ] `agents:sync` generates `.cursor/rules/agents.mdc` (alwaysApply pointer) and `uiim-components.mdc` (glob `src/components/uiim/**` → load `sitecore-standards`).
-- [ ] Trim repo-root `CLAUDE.md` / `Agents.md` / `.cursor/rules` to repo-generic guidance; remove conventions that contradict the app (props sidecars, universal `fields.data.datasource`).
-- [ ] Enable router-consistency lint.
+- [x] Write `AGENTS.md` (~70 lines): project config + manifest bootstrap (rule 00), router table inside lint markers (rule 01), non-negotiables, `docs/ai/` map, command-only skill list, generated-files warning.
+- [x] `CLAUDE.md` → `@AGENTS.md`. (Pi picks `AGENTS.md` before `CLAUDE.md` in the same folder, so it never sees the bare import.)
+- [x] Rules 02–04 → `sitecore-standards/references/` (`implementation-standards`, `react-shadcn`, `mcp-tools-and-docs`); rule 05 → `sitecore-maintain-manifest/references/manifest-rule.md`; rules 00–01 folded into `AGENTS.md`; `docs/ai/rules/` removed and added to lint legacy paths.
+- [x] Hand-written app `.cursor/rules/*.mdc` removed; `agents:sync` generates `agents.mdc` (alwaysApply pointer) and `sitecore-standards.mdc` (glob `src/components/uiim/**`, from the skill's `metadata.cursorGlobs`).
+- [x] Repo root: upstream `CLAUDE.md` (1,282 lines, auto-loaded by Pi and Claude in every session), `Agents.md`, and `.cursor/rules/*` moved to `docs/ai-guidance/` (kept for the other starters, no longer auto-loaded). New slim root `AGENTS.md` (repo-generic), `CLAUDE.md` = `@AGENTS.md`, `.cursor/rules/repo.mdc` pointer. `CONTRIBUTING.md` and `docs/Skills.md` links repointed. Root `.windsurfrules`, `copilot-instructions.md`, `LLMs.txt` untouched (not target tools).
+- [x] Router-consistency lint active. Docs MCP references renamed to `sitecore_docs`.
+- Verified: fresh Pi loads only root + app `AGENTS.md`, and routes "create a hero component with a title and image from one datasource item" to `sitecore-create-simple` + `sitecore-standards`.
 - **Done when:** in each tool, "create a hero component with title and image" routes to `sitecore-create-simple` and the agent reads `project.yaml` + manifest first.
 
 ## Phase 4 — Consolidation

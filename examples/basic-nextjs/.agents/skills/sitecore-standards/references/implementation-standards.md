@@ -10,7 +10,7 @@ Apply these rules to all Sitecore XM Cloud component work.
 
 ## Sitecore item change rules
 - Use the **Sitecore marketer MCP** whenever Sitecore items must be created or updated.
-- Use the **sitecore-documentation-docs MCP** when official Sitecore behavior is unclear.
+- Use the **`sitecore_docs` MCP** when official Sitecore behavior is unclear.
 - Prefer explicit MCP-backed actions over vague instructions.
 
 ## Rendering rules

@@ -32,4 +32,4 @@ Route fields:
 - update the component map  
 - if the route fields do not already exist, ask before changing the page template  
 - use the Sitecore marketer MCP for rendering item creation  
-- use the sitecore-documentation-docs MCP if official Sitecore behavior needs verification  
+- use the `sitecore_docs` MCP if official Sitecore behavior needs verification  

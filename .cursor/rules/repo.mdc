@@ -1,0 +1,6 @@
+---
+description: Repository agent instructions
+alwaysApply: true
+---
+
+Read and follow `AGENTS.md` at the repository root. For anything under `examples/basic-nextjs/`, that folder's own `AGENTS.md` takes precedence.

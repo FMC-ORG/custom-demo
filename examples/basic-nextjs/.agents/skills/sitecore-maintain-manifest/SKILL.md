@@ -149,7 +149,7 @@ The following paths must be in `lookups` after the first component task. If they
 | `<headlessVariantsRoot>` | Parent for all variant containers |
 | Available Renderings Page Content | Read-modify-write target for every rendering registration |
 
-Derive these paths from `docs/ai/config/project.yaml` using the bootstrap rules in rule `00`.
+Derive these paths from `docs/ai/config/project.yaml` using the bootstrap steps in `AGENTS.md` ("Before any Sitecore task").
 
 ### When to write lookups
 

@@ -2,7 +2,7 @@
 
 ## Read before every task
 
-After reading `docs/ai/config/project.yaml` (rule `00`), read:
+After reading `docs/ai/config/project.yaml` (see `AGENTS.md`, "Before any Sitecore task"), read:
 
 ```
 docs/ai/manifests/sitecore-manifest.yaml

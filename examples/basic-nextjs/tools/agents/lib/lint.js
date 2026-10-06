@@ -15,10 +15,11 @@ const SKILL_RELATIVE = ['scripts/', 'references/', 'assets/'];
 /** Path prefixes resolved against the app root. */
 const APP_RELATIVE = ['docs/', 'src/', 'tools/', '.agents/', '.sitecore/'];
 /** Locations removed by the restructure; canonical text must not point at them. */
-const LEGACY_PATHS = ['docs/ai/skills/', 'docs/ai/scripts/', 'docs/ai/agents/'];
+const LEGACY_PATHS = ['docs/ai/skills/', 'docs/ai/scripts/', 'docs/ai/agents/', 'docs/ai/rules/'];
 
 const MCP_TOOL_ID_RE = /\bmcp__[A-Za-z0-9_-]+__/g;
-const NPM_RUN_RE = /\bnpm run ([A-Za-z0-9:._-]+)/g;
+/** `npm run <script>`; wildcard or placeholder names (`agents:*`, `<script>`) are not checked. */
+const NPM_RUN_RE = /\bnpm run ([A-Za-z0-9:._-]+)(?![A-Za-z0-9:._*<{-])/g;
 const ROUTER_RE = /<!--\s*agents:router:start\s*-->([\s\S]*?)<!--\s*agents:router:end\s*-->/;
 const PLACEHOLDER_RE = /[<>*{}$…|]/;
 

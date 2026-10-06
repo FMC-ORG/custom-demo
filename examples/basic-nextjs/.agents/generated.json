@@ -23,6 +23,7 @@
     ".claude/skills/sitecore-standards/SKILL.md",
     ".claude/skills/sitecore-validate-manifest/SKILL.md",
     ".cursor/mcp.json",
+    ".cursor/rules/agents.mdc",
     ".cursor/rules/sitecore-standards.mdc",
     ".cursor/skills/sitecore-abm-page/SKILL.md",
     ".cursor/skills/sitecore-add-variants/SKILL.md",

@@ -75,7 +75,7 @@ describe('agents lint — content', () => {
   });
 
   it('flags npm scripts that are not defined', () => {
-    const files = oneSkill({ body: 'Run `npm run agents:sync` then `npm run agents:nope`.\n' }, {
+    const files = oneSkill({ body: 'Run `npm run agents:sync` then `npm run agents:nope`; see `npm run agents:*`.\n' }, {
       'package.json': { scripts: { 'agents:sync': 'x' } },
     });
     expect(lintRules(files)).toEqual(['npm-script-missing']);

@@ -52,7 +52,7 @@ If during diagnosis you discover the root cause is a datasource picker problem r
 4. Compare the expected data shape with the actual query and TSX shape.
 5. Identify the root cause.
 6. If the root cause is a datasource picker issue, stop and switch to `sitecore-fix-datasource-picker.md`.
-7. If official behavior is unclear, use the `sitecore-documentation-docs` MCP.
+7. If official behavior is unclear, use the `sitecore_docs` MCP.
 8. Normalize the fix into the shared spec.
 9. Before making changes, show:
    - chosen classification

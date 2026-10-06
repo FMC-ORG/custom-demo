@@ -21,6 +21,15 @@ export default defineCliConfig({
   },
   componentMap: {
     paths: ['src/components'],
-    exclude: ['src/components/content-sdk/*'],
+    // Only Sitecore renderings belong in the component map. Exclude helpers that
+    // are imported directly by other components or by the layout.
+    exclude: [
+      'src/components/content-sdk/*', // SitecoreStyles, CdpPageView (used by Layout/Scripts)
+      'src/components/ui/**', // shadcn/ui primitives
+      'src/components/search-experience/search-components/**', // hooks and parts of SearchExperience
+      'src/components/uiim/media/SmartMedia.tsx', // wrapper used inside five components (ADR 0005)
+      'src/components/**/*.props.ts', // props sidecar files
+      'src/components/**/*.props.tsx',
+    ],
   },
 });

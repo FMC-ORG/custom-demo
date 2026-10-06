@@ -81,12 +81,17 @@ Stays in `docs/ai/`: `config/`, `manifests/`, `catalog/`, `designs/`, `reference
 
 ## Phase 2 — Pure move
 
-- [ ] `git mv` each skill to `.agents/skills/<new-name>/SKILL.md`; add/normalise frontmatter. Content untouched except path fixes.
-- [ ] Move single-owner scripts/templates/examples per mapping; shared tools to `tools/agents/`.
-- [ ] Convert agents to `sitecore-analyze-site` / `sitecore-map-content` with `metadata.subagent: true`.
-- [ ] Replace prefixed MCP tool IDs in skill text with plain names.
-- [ ] Remove hand-written `.claude/skills`, `.cursor/skills`, `.claude/agents`; run `agents:sync`.
-- [ ] Keep `docs/ai/skills/README.md` stub pointing to the new location (removed in phase 5).
+- [x] `git mv` each skill to `.agents/skills/<new-name>/SKILL.md`; add/normalise frontmatter. Content untouched except path and skill-name fixes. Skills due to merge or retire in phase 4 moved 1:1 under their current names.
+- [x] Move single-owner scripts/templates/examples per mapping; `validate-components.mjs` to `tools/agents/` (`agents:validate`). `build-plan-summary.template.md` went to `sitecore-analyze-site/assets/` (its producer). `sitecore-content-resolvers.md` stays in `docs/ai/reference/` (referenced by shared rules).
+- [x] `setup.sh|ps1|cmd` replaced by cross-platform `npm run agents:browsers` (Playwright is already a devDependency).
+- [x] `sitecore-standards` created early as the home of the shared references (`react-uiim-guidelines`, `verification-checklist`, component spec template) — content from rules lands in phase 3. `sitecore-search` created with recipe + scripts.
+- [x] Convert agents to `sitecore-analyze-site` / `sitecore-map-content` with `metadata.subagent` + `hidden`.
+- [x] Command-only flags set now (cheap, safer): build-demo, abm-page, analyze-site, map-content, article/landing orchestrators.
+- [x] Replace prefixed MCP tool IDs in skill text with plain names.
+- [x] Remove hand-written `.claude/skills`, `.cursor/skills`, `.claude/agents`; run `agents:sync`.
+- [x] Keep `docs/ai/skills/README.md` stub pointing to the new location (removed in phase 5).
+- [x] Tooling: CRLF-tolerant `--check`; lint accepts gitignored runtime paths (demo outputs, local credentials).
+- Verified: Pi (with project trust) lists the 13 auto-invocable `sitecore-*` skills; the 6 command-only skills are hidden from the model.
 - **Done when:** `agents:lint` passes; `/skill:sitecore-create-simple` loads in Pi, `/sitecore-create-simple` in Claude Code and Cursor; a script run from a skill (`site-scraper.mjs --help`) works.
 
 ## Phase 3 — Rules

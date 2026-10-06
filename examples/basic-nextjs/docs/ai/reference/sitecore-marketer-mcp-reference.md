@@ -52,7 +52,7 @@ Check the manifest `lookups` section before calling `get_content_item_by_path`. 
 - Available Renderings Page Content item
 - Category subfolders (after first creation)
 
-See `docs/ai/skills/sitecore-maintain-manifest.md` → "Lookup cache rules".
+See `.agents/skills/sitecore-maintain-manifest/SKILL.md` → "Lookup cache rules".
 
 ### Upload images to Content Hub DAM
 
@@ -61,7 +61,7 @@ Credentials are stored in `docs/ai/config/credentials.local.yaml` (gitignored).
 
 **Automated workflow** — use the upload script:
 ```bash
-node docs/ai/scripts/upload-to-content-hub.mjs --images-dir docs/ai/demos/<client>/images
+node .agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs --images-dir docs/ai/demos/<client>/images
 ```
 
 The script performs 5 steps per image:

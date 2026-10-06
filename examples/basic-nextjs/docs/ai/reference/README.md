@@ -17,10 +17,10 @@ This folder contains internal/project-specific AI references.
   
 ## Priority  
 1. Repo rules (`docs/ai/rules/`, referenced by `.cursor/rules/` and `CLAUDE.md`)  
-2. Shared skill docs under `docs/ai/skills`  
+2. Skills under `.agents/skills/` (shared standards in `sitecore-standards`)  
 3. Internal project references in this folder  
 4. Official docs via `sitecore-documentation-docs` MCP  
-5. Examples under `docs/ai/examples`  
+5. Worked examples in each create skill's `references/examples/`  
   
 Project-specific conventions override generic examples.  
 Official Sitecore mechanics should be checked with the docs MCP when uncertain.  

@@ -286,7 +286,7 @@ From `docs/ai/config/project.yaml`:
 ## Source of Truth Priority
 
 1. Repo rules: `docs/ai/rules/*.md`
-2. Shared skills: `docs/ai/skills/*.md`, `docs/ai/skills/shared/*.md`
+2. Skills: `.agents/skills/*/SKILL.md` and shared standards in `.agents/skills/sitecore-standards/references/`
 3. This reference: `docs/ai/reference/sitecore-rules.md`
 4. MCP tool reference: `docs/ai/reference/sitecore-marketer-mcp-reference.md`
 5. Official Sitecore docs: via `sitecore-documentation-docs` MCP

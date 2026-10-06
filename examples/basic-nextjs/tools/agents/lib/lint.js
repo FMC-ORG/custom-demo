@@ -2,6 +2,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 const { AGENTS_MD, readSkills, isHidden } = require('./skills');
 
 const NAME_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -22,6 +23,27 @@ const ROUTER_RE = /<!--\s*agents:router:start\s*-->([\s\S]*?)<!--\s*agents:route
 const PLACEHOLDER_RE = /[<>*{}$…|]/;
 
 const lineOf = (text, index) => text.slice(0, index).split('\n').length;
+
+/**
+ * Paths that git ignores are runtime outputs or local secrets (demo folders,
+ * credentials.local.yaml): legitimately absent from a clean clone.
+ * @returns {Set<string>} the subset of `paths` that git ignores (empty outside git)
+ */
+function gitIgnored(cwd, paths) {
+  if (!paths.length) return new Set();
+  // Also ask with a trailing slash: missing paths are not known to be directories,
+  // so directory-only patterns (e.g. `docs/ai/demos/*/`) would not match otherwise.
+  const input = paths.flatMap((p) => [p, `${p}/`]).join('\n');
+  const opts = { cwd, input, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] };
+  let out;
+  try {
+    out = execFileSync('git', ['check-ignore', '--no-index', '--stdin'], opts);
+  } catch (err) {
+    // exit 1 = none ignored; other failures (no git) = treat as none ignored
+    out = err.stdout ?? '';
+  }
+  return new Set(out.split('\n').filter(Boolean).map((p) => p.replace(/\/$/, '')));
+}
 
 /** Candidate path tokens from inline code, fenced code, and link targets. */
 function pathCandidates(text) {
@@ -72,7 +94,7 @@ function checkFrontmatter(skill, report) {
   }
 }
 
-function checkText({ text, bodyOffset, skillDir, cwd, scripts, report }) {
+function checkText({ text, bodyOffset, skillDir, cwd, scripts, report, missingPaths }) {
   const at = (index) => lineOf(text, index) + bodyOffset;
 
   for (const m of text.matchAll(MCP_TOOL_ID_RE))
@@ -94,7 +116,7 @@ function checkText({ text, bodyOffset, skillDir, cwd, scripts, report }) {
     if (skillDir && SKILL_RELATIVE.some((p) => value.startsWith(p))) target = path.join(skillDir, value);
     else if (APP_RELATIVE.some((p) => value.startsWith(p))) target = value;
     if (target && !LEGACY_PATHS.some((p) => value.startsWith(p)) && !fs.existsSync(path.join(cwd, target)))
-      report('path-missing', line + bodyOffset, `referenced path "${value}" does not exist`);
+      missingPaths.push({ target, value, line: line + bodyOffset, report });
   }
 }
 
@@ -123,13 +145,14 @@ function lint(cwd) {
   const pkgPath = path.join(cwd, 'package.json');
   const scripts = new Set(Object.keys(fs.existsSync(pkgPath) ? JSON.parse(fs.readFileSync(pkgPath, 'utf8')).scripts ?? {} : {}));
   const skills = readSkills(cwd);
+  const missingPaths = [];
 
   for (const skill of skills) {
     const report = reporter(skill.file);
     checkFrontmatter(skill, report);
     const full = fs.readFileSync(path.join(cwd, skill.file), 'utf8');
     const bodyOffset = full.split('\n').length - skill.body.split('\n').length;
-    checkText({ text: skill.body, bodyOffset, skillDir: skill.dir, cwd, scripts, report });
+    checkText({ text: skill.body, bodyOffset, skillDir: skill.dir, cwd, scripts, report, missingPaths });
   }
 
   const agentsPath = path.join(cwd, AGENTS_MD);
@@ -138,9 +161,13 @@ function lint(cwd) {
     const report = reporter(AGENTS_MD);
     for (const m of text.matchAll(/^@\S+/gm))
       report('agents-md-import', lineOf(text, m.index), '`@` imports are not expanded by every agent; inline the content or link to it');
-    checkText({ text, bodyOffset: 0, skillDir: null, cwd, scripts, report });
+    checkText({ text, bodyOffset: 0, skillDir: null, cwd, scripts, report, missingPaths });
     checkRouter(text, skills, report);
   }
+
+  const ignored = gitIgnored(cwd, [...new Set(missingPaths.map((m) => m.target))]);
+  for (const { target, value, line, report } of missingPaths)
+    if (!ignored.has(target)) report('path-missing', line, `referenced path "${value}" does not exist`);
 
   return { exitCode: messages.length ? 1 : 0, messages };
 }

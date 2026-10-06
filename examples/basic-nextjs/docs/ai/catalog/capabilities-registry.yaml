@@ -22,7 +22,7 @@ capabilities:
       - "3. Drop the component(s) on pages in Page Builder and assign the datasource items"
     prerequisites:
       - "Search index exists in the SitecoreAI environment with content published and ingested"
-      - "Index attribute names known (probe with docs/ai/scripts/search-probe.mjs if unsure)"
+      - "Index attribute names known (probe with .agents/skills/sitecore-search/scripts/search-probe.mjs if unsure)"
       - "Optional: URL attribute on the index for result links (without it, components degrade gracefully — no links)"
     endpointContract: "keyphrase + sort + limit/offset ONLY; filters/facets/unknown fields silently ignored — see docs/ai/reference/agent-api-limitations.md, section 6"
     components:
@@ -46,7 +46,7 @@ capabilities:
           - { name: "pageSize", type: "Single-Line Text", purpose: "results per page (default 6)" }
         placement: "the search results page (e.g. /Articles), placeholder headless-main"
         hooks: ["useSearch"]
-        verification: "docs/ai/scripts/search-verify.mjs (browser four-point protocol)"
+        verification: ".agents/skills/sitecore-search/scripts/search-verify.mjs (browser four-point protocol)"
 
       - id: search-collection
         name: "SearchCollection"
@@ -69,7 +69,7 @@ capabilities:
         renderingParams: []
         placement: "any content page (e.g. Home), placeholder headless-main"
         hooks: ["useSearch (browse mode: query '', sort, pageSize = MaxItems)"]
-        verification: "docs/ai/scripts/collection-verify.mjs"
+        verification: ".agents/skills/sitecore-search/scripts/collection-verify.mjs"
 
       - id: search-typeahead
         name: "SearchTypeahead"
@@ -87,7 +87,7 @@ capabilities:
         renderingParams: []
         placement: "born page-scoped (e.g. top of the results page); promotion into the global header is a deliberate manual Page Builder step"
         hooks: ["useSearch (pageSize = MaxSuggestions, enabled only while typing)"]
-        verification: "docs/ai/scripts/typeahead-verify.mjs"
+        verification: ".agents/skills/sitecore-search/scripts/typeahead-verify.mjs"
 
     gracefulDegradation:
       - "Skeleton placeholders in editing/preview mode; no live API calls in authoring surfaces"

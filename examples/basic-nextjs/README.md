@@ -29,8 +29,12 @@ Agent skills, rules, and MCP servers have one canonical source under `.agents/`;
 | `npm run agents:setup` | Install the git pre-commit hook (run once per clone) |
 | `npm run agents:sync` | Regenerate per-tool files after editing anything in `.agents/` |
 | `npm run agents:check` | Verify generated files are current and lint skills (the hook runs this) |
+| `npm run agents:validate` | Check that every component-map entry resolves to a file with a `Default` export |
+| `npm run agents:browsers` | Install Playwright Chromium for the scraper/verify scripts (once per machine) |
 
-First run per tool: Claude Code and Cursor pick up the MCP servers (`sitecore_marketer`, `sitecore_docs`) automatically; **Pi** reads `.pi/mcp.json` only after you start `pi` in this folder and trust the project. Re-authenticate each server once if prompted.
+Skills live in `.agents/skills/<name>/SKILL.md`. Long pipelines are command-only: start them with `/skill:<name>` in Pi or `/<name>` in Claude Code and Cursor (e.g. `sitecore-build-demo`, `sitecore-abm-page`).
+
+First run per tool: Claude Code and Cursor pick up the skills and MCP servers (`sitecore_marketer`, `sitecore_docs`) automatically. **Pi** loads project skills (`.agents/skills`) and `.pi/mcp.json` only after you start `pi` in this folder and trust the project. Re-authenticate each MCP server once if prompted.
 
 ## Documentation
 

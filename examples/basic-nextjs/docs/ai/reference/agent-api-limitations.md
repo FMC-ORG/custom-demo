@@ -221,7 +221,7 @@ Early versions stated "No `upload_asset` MCP tool exists." While the XM Cloud Ma
 
 ### Solution: Content Hub Upload API v2
 
-Script: `docs/ai/scripts/upload-to-content-hub.mjs`
+Script: `.agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs`
 
 **5 steps per image (all automated):**
 1. `POST /api/v2.0/upload` — request upload URL
@@ -289,7 +289,7 @@ Keyphrase matching is loose (OR-like across words): a multi-word query matches d
 
 ### Re-verification tool
 
-`docs/ai/scripts/search-probe.mjs` probes the endpoint directly at the HTTP boundary (bypassing React) — use it to confirm index content, attribute names, and the contract above whenever behavior looks off. Browser-level protocols: `search-verify.mjs`, `collection-verify.mjs`, `typeahead-verify.mjs`.
+`.agents/skills/sitecore-search/scripts/search-probe.mjs` probes the endpoint directly at the HTTP boundary (bypassing React) — use it to confirm index content, attribute names, and the contract above whenever behavior looks off. Browser-level protocols: `search-verify.mjs`, `collection-verify.mjs`, `typeahead-verify.mjs`.
 
 ---
 

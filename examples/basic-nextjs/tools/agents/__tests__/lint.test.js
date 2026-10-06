@@ -1,7 +1,9 @@
 'use strict';
 
+const { execFileSync } = require('node:child_process');
 const { run } = require('../index');
 const { makeApp, skillMd, rules } = require('./fixture');
+
 
 const lintRules = (files) => rules(run(['lint'], { cwd: makeApp(files) }));
 const oneSkill = (opts, extraFiles = {}) => ({
@@ -57,6 +59,15 @@ describe('agents lint — content', () => {
       'docs/ai/config/project.yaml': '',
     });
     expect(lintRules(files)).toEqual([]);
+  });
+
+  it('accepts missing paths that git ignores (runtime outputs, local secrets)', () => {
+    const cwd = makeApp({
+      ...oneSkill({ body: 'Read `docs/ai/config/credentials.local.yaml`, `docs/ai/demos/acme`, not `docs/ai/config/missing.yaml`.\n' }),
+      '.gitignore': 'docs/ai/config/credentials.local.yaml\ndocs/ai/demos/*/\n',
+    });
+    execFileSync('git', ['init', '-q'], { cwd });
+    expect(rules(run(['lint'], { cwd }))).toEqual(['path-missing']);
   });
 
   it('checks paths inside fenced code blocks', () => {

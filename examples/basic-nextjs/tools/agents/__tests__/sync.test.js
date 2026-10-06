@@ -169,6 +169,14 @@ describe('agents sync --check', () => {
     expect(result.messages).toContainEqual(expect.objectContaining({ rule: 'generated-stale', file: '.claude/skills/sitecore-demo/SKILL.md' }));
   });
 
+  it('treats CRLF checkouts of generated files as up to date', () => {
+    const cwd = synced();
+    const file = path.join(cwd, '.claude/skills/sitecore-demo/SKILL.md');
+    fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace(/\n/g, '\r\n'));
+
+    expect(run(['sync', '--check'], { cwd }).exitCode).toBe(0);
+  });
+
   it('writes nothing', () => {
     const cwd = makeApp({ '.agents/skills/sitecore-demo/SKILL.md': skillMd({ name: 'sitecore-demo' }) });
     const result = run(['sync', '--check'], { cwd });

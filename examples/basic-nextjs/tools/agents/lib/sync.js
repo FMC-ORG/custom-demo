@@ -13,7 +13,8 @@ function readLedger(cwd) {
   }
 }
 
-const readOrNull = (file) => (fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null);
+/** Line endings are normalised so a CRLF checkout never reports false drift. */
+const readOrNull = (file) => (fs.existsSync(file) ? fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n') : null);
 
 /** Remove now-empty parent folders up to (not including) the app root. */
 function pruneEmptyDirs(cwd, relFile) {

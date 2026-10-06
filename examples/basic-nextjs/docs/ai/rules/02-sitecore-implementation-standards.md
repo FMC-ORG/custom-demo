@@ -4,8 +4,8 @@ Apply these rules to all Sitecore XM Cloud component work.
 
 ## Shared docs to respect
 - `docs/ai/reference/sitecore-rules.md`
-- `docs/ai/skills/shared/react-uiim-guidelines.md`
-- `docs/ai/templates/sitecore-component-spec.template.yaml`
+- `.agents/skills/sitecore-standards/references/react-uiim-guidelines.md`
+- `.agents/skills/sitecore-standards/assets/sitecore-component-spec.template.yaml`
 - `docs/ai/reference/sitecore-marketer-mcp-reference.md`
 
 ## Sitecore item change rules

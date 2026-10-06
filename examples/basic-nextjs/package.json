@@ -135,6 +135,8 @@
     "agents:sync:check": "node tools/agents/cli.js sync --check",
     "agents:lint": "node tools/agents/cli.js lint",
     "agents:check": "node tools/agents/cli.js check",
-    "agents:setup": "node tools/agents/cli.js setup"
+    "agents:setup": "node tools/agents/cli.js setup",
+    "agents:validate": "node tools/agents/validate-components.mjs",
+    "agents:browsers": "playwright install chromium"
   }
 }

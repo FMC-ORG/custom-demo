@@ -4,18 +4,18 @@ When the user asks to create, update, diagnose, or fix a Sitecore XM Cloud compo
 
 ## Classification rules
 
-### Use `sitecore-create-context-component` when
+### Use `sitecore-create-context` when
 - the component should **not** have its own datasource item
 - content should come from **route/page fields**
 - optional rendering params may be used
 - the component is page-scoped rather than reusable datasource content
 
-### Use `sitecore-create-simple-component` when
+### Use `sitecore-create-simple` when
 - the component uses **one datasource item**
 - there are **no authorable child datasource items**
 - the rendering should **not** use `ComponentQuery`
 
-### Use `sitecore-create-list-component` when
+### Use `sitecore-create-list` when
 - the component has a **parent datasource item**
 - there are **authorable child items**
 - the rendering **must** use `ComponentQuery`
@@ -47,16 +47,16 @@ When the user asks to create, update, diagnose, or fix a Sitecore XM Cloud compo
 - the user wants a complete **Article page type** with template, context components, variants, and partial design
 - the user says "create article page", "article template", "blog page type", "news page template"
 - the request involves editorial/blog/news content with a hero, body, author, and metadata
-- this is an orchestrator that calls `sitecore-create-page-template` + `sitecore-create-context-component` + `sitecore-add-variants`
+- this is an orchestrator that calls `sitecore-create-page-template` + `sitecore-create-context` + `sitecore-add-variants`
 
 ### Use `sitecore-create-landing-page` when
 - the user wants a complete **Landing Page type** with template, 6 context components (hero, features, stats, social proof, FAQ, final CTA), variants, and partial design
 - the user says "create landing page **template**", "build the landing page type", "implement the landing page architecture", "set up the landing page page-type"
 - the request involves building the Sitecore artifacts (template, components, variants, partial design) for a fixed-shape landing page architecture (locked counts: 3 features, 3 stats, 5 FAQs)
-- this is an orchestrator that calls `sitecore-create-page-template` + `sitecore-create-context-component` (x6) + `sitecore-add-variants`
-- **This is template/architecture work, not content-fill for a specific account.** For content-fill of an existing template, use `sitecore-create-abm-landing-page` instead.
+- this is an orchestrator that calls `sitecore-create-page-template` + `sitecore-create-context` (x6) + `sitecore-add-variants`
+- **This is template/architecture work, not content-fill for a specific account.** For content-fill of an existing template, use `sitecore-abm-page` instead.
 
-### Use `sitecore-create-abm-landing-page` when
+### Use `sitecore-abm-page` when
 - the user provides an organization name and wants a **personalized page instance** under `/Home/lp/` for that account
 - the user says "create a landing page for [organization]", "build an ABM page for [client]", "make a campaign page for [account]", "personalize a landing page for [company]"
 - the request is about a single page instance with research-driven content (not template/architecture work)
@@ -64,7 +64,7 @@ When the user asks to create, update, diagnose, or fix a Sitecore XM Cloud compo
 - this skill consumes the existing Landing Page template (status: complete in manifest) and creates a Sitecore content item with 40 personalized fields
 - **Prerequisite:** the Landing Page template must already exist (created by `sitecore-create-landing-page`). If it doesn't, route there first.
 
-### Use `sitecore-create-demo-variants` when
+### Use `sitecore-demo-variants` when
 - the demo builder pipeline reaches Phase 5.5
 - the user says "create custom variants", "match the screenshot exactly", "replicate the visual style", "pixel-perfect"
 - existing template variants are close but don't match the client's exact layout, spacing, or visual details
@@ -74,7 +74,7 @@ When the user asks to create, update, diagnose, or fix a Sitecore XM Cloud compo
 1. Classify the request before implementing.
 2. Load the matching skill and its referenced docs.
 3. If screenshots are attached, inspect them first.
-4. Normalize the work into `docs/ai/templates/sitecore-component-spec.template.yaml`.
+4. Normalize the work into `.agents/skills/sitecore-standards/assets/sitecore-component-spec.template.yaml`.
 5. Check `docs/ai/manifests/sitecore-manifest.yaml` for an existing entry for this component.
    - If `status: complete`, confirm with the user before re-creating.
    - If `status: partial` or `failed`, plan to resume using recorded item IDs.

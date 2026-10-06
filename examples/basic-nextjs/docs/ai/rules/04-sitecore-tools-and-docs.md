@@ -145,7 +145,7 @@ After every Sitecore task, update `docs/ai/manifests/sitecore-manifest.yaml` wit
 - verification results (passed, failed, pendingManual)
 - component status (planned -> partial -> complete/failed)
 
-See `docs/ai/skills/sitecore-maintain-manifest.md` for full rules.
+See `.agents/skills/sitecore-maintain-manifest/SKILL.md` for full rules.
 
 ---
 

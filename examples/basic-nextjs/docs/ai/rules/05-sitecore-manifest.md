@@ -45,7 +45,7 @@ Always write the manifest to disk at least once during implementation and once a
 For detailed rules on entry shape, lifecycle, verification recording, and search/lookup caching, see:
 
 ```
-docs/ai/skills/sitecore-maintain-manifest.md
+.agents/skills/sitecore-maintain-manifest/SKILL.md
 ```
 
 ## Do not skip this step

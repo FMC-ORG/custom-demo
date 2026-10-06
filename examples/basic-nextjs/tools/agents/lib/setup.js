@@ -14,6 +14,10 @@ function hookScript(appRel) {
   return `#!/bin/sh
 ${HOOK_MARKER} (installed by \`npm run agents:setup\`; safe to re-run)
 APP="${appRel || '.'}"
+# Skip on branches that predate the agents tooling (no agents:check script).
+if ! grep -q '"agents:check"' "$APP/package.json" 2>/dev/null; then
+  exit 0
+fi
 if git diff --cached --name-only | grep -q "^${prefix}"; then
   npm --prefix "$APP" run --silent agents:check || {
     echo "agents:check failed. Run 'npm run agents:sync' in $APP, fix lint errors, and re-stage." >&2

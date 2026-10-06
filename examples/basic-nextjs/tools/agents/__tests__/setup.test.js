@@ -28,6 +28,16 @@ describe('agents setup', () => {
     expect(fs.statSync(hook).mode & 0o111).not.toBe(0);
   });
 
+  it('lets commits through on branches whose app has no agents:check script', () => {
+    const { top, app, hook } = repoWithApp();
+    run(['setup'], { cwd: app });
+    writeFiles(app, { 'src/x.ts': 'x\n' });
+    execFileSync('git', ['add', '.'], { cwd: top });
+
+    // package.json in repoWithApp() has no scripts, like a branch without the tooling
+    expect(() => execFileSync('sh', [hook], { cwd: top, stdio: 'pipe' })).not.toThrow();
+  });
+
   it('can be re-run safely', () => {
     const { app } = repoWithApp();
     run(['setup'], { cwd: app });

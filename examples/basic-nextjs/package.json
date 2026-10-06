@@ -130,6 +130,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:coverage:unit": "jest --coverage",
     "start": "cross-env-shell NODE_ENV=production npm-run-all --serial build next:start",
     "agents:sync": "node tools/agents/cli.js sync",
     "agents:sync:check": "node tools/agents/cli.js sync --check",

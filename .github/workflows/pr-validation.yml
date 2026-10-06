@@ -100,11 +100,15 @@ jobs:
             CHANGED_STARTERS="$CHANGED_STARTERS kit-nextjs-product-listing"
           fi
 
+          if echo "$CHANGED_FILES" | grep -q "^examples/basic-nextjs/"; then
+            CHANGED_STARTERS="$CHANGED_STARTERS basic-nextjs"
+          fi
+
           # If no specific starter changes detected, check for global changes
           if [ -z "$CHANGED_STARTERS" ]; then
             if echo "$CHANGED_FILES" | grep -q "^xmcloud.build.json\|^\.github/\|^README.md\|^CONTRIBUTING.md"; then
               echo "Global changes detected, validating all starters"
-              CHANGED_STARTERS="kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing"
+              CHANGED_STARTERS="kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing basic-nextjs"
             fi
           fi
 
@@ -116,7 +120,7 @@ jobs:
           echo "Installing dependencies for all starters..."
 
           # Install dependencies for all enabled starters
-          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing; do
+          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing basic-nextjs; do
             if [ -d "examples/$starter" ]; then
               echo "Installing dependencies for $starter..."
               cd "examples/$starter"
@@ -130,7 +134,7 @@ jobs:
           echo "Generating Sitecore configuration files..."
 
           # Generate files for all enabled starters
-          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing; do
+          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing basic-nextjs; do
             if [ -d "examples/$starter" ]; then
               echo "Generating files for $starter..."
               cd "examples/$starter"
@@ -186,7 +190,7 @@ jobs:
         run: |
           echo "Running linting and formatting checks for all starters..."
           
-          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing; do
+          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing basic-nextjs; do
             if [ -d "examples/$starter" ]; then
               echo "=================================="
               echo "Checking examples/$starter"
@@ -228,7 +232,7 @@ jobs:
           echo "Running TypeScript type checking for all starters..."
 
           # WARNING ONLY - does not fail the workflow
-          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing; do
+          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing basic-nextjs; do
             if [ -d "examples/$starter" ]; then
               echo "Type checking $starter..."
               cd "examples/$starter"
@@ -290,7 +294,7 @@ jobs:
           echo "  NEXT_PUBLIC_DEFAULT_SITE_NAME: ${NEXT_PUBLIC_DEFAULT_SITE_NAME}"
           echo "  SITECORE_EDITING_SECRET: ${SITECORE_EDITING_SECRET:+[SET]}"
 
-          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing; do
+          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing basic-nextjs; do
             if [ -d "examples/$starter" ]; then
               echo "=================================="
               echo "Building $starter"
@@ -323,7 +327,7 @@ jobs:
           echo "Running TypeScript compilation to validate code correctness..."
           echo ""
 
-          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing; do
+          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing basic-nextjs; do
             if [ -d "examples/$starter" ]; then
               echo "=================================="
               echo "TypeScript compile check: $starter"
@@ -365,7 +369,7 @@ jobs:
           echo "Running tests with coverage for all starters..."
 
           # Test all enabled starters
-          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing; do
+          for starter in kit-nextjs-skate-park kit-nextjs-article-starter kit-nextjs-location-finder kit-nextjs-product-listing basic-nextjs; do
             if [ -d "examples/$starter" ]; then
               echo "=================================="
               echo "Testing $starter"
@@ -390,6 +394,21 @@ jobs:
               cd ../..
             fi
           done
+
+      - name: Agents tooling check (basic-nextjs)
+        # Generated agent files (.claude/, .cursor/, MCP configs) must match .agents/, and skills must lint clean.
+        # See examples/basic-nextjs/docs/adr/0007-cross-agent-skills-layout.md
+        run: |
+          set -e
+          if [ -d "examples/basic-nextjs" ]; then
+            cd examples/basic-nextjs
+            if npm run agents:check; then
+              echo "✅ Agents tooling check passed"
+            else
+              echo "::error::Agent files are out of date or skills fail lint. Run 'npm run agents:sync' and 'npm run agents:check' in examples/basic-nextjs."
+              exit 1
+            fi
+          fi
 
       - name: Comment PR with results
         if: always()

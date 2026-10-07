@@ -443,3 +443,85 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   WorleyStages — pixel-perfect demo variant (worley.com delivery stages)
+   Left-aligned intro, 4 white elevated cards with auto-numbered navy
+   circles (01–04). A <ul> inside CardDescription renders as teal tag chips.
+   ──────────────────────────────────────────── */
+export const WorleyStages = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 py-14 md:px-10 md:py-16"
+        style={{ backgroundColor: 'var(--brand-bg)', fontFamily: 'var(--brand-body-font)' }}
+      >
+        <div className="mx-auto max-w-[1360px]">
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.title?.jsonValue}
+              tag="h2"
+              className="max-w-[720px] text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl"
+              style={{ color: 'var(--brand-secondary)', fontFamily: 'var(--brand-heading-font)' }}
+            />
+          )}
+          {(datasource.description?.jsonValue?.value || isEditing) && (
+            <ContentSdkRichText
+              field={datasource.description?.jsonValue}
+              className="mt-8 max-w-[900px] text-base leading-relaxed [&_p+p]:mt-4"
+              style={{ color: 'var(--brand-fg)' }}
+            />
+          )}
+
+          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {cards.map((card, index) => (
+              <div
+                key={card.id}
+                className="flex flex-col rounded-[10px] bg-white p-4 pb-6 shadow-[0_6px_20px_rgb(0_0_0/0.12)]"
+              >
+                <span
+                  className="flex h-[70px] w-[70px] items-center justify-center rounded-full text-xl font-bold text-white"
+                  style={{ backgroundColor: 'var(--brand-secondary)' }}
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={card.cardTitle?.jsonValue}
+                    tag="h3"
+                    className="mt-6 text-2xl font-bold leading-tight"
+                    style={{ color: 'var(--brand-secondary)', fontFamily: 'var(--brand-heading-font)' }}
+                  />
+                )}
+                {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={card.cardDescription?.jsonValue}
+                    className={cn(
+                      'mt-4 flex-1 text-[15px] leading-relaxed',
+                      '[&_ul]:mt-4 [&_ul]:flex [&_ul]:list-none [&_ul]:flex-wrap [&_ul]:gap-2 [&_ul]:p-0',
+                      '[&_li]:rounded-[4px] [&_li]:bg-[var(--brand-highlight-light)] [&_li]:px-2 [&_li]:py-1 [&_li]:text-[11px] [&_li]:font-medium [&_li]:uppercase [&_li]:tracking-wide [&_li]:text-[var(--brand-fg)]'
+                    )}
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                  <ContentSdkLink
+                    field={card.cardLink?.jsonValue}
+                    className="mt-6 self-center text-[15px] font-bold transition-opacity after:ml-1 after:content-['→'] hover:opacity-80"
+                    style={{ color: 'var(--brand-link)' }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

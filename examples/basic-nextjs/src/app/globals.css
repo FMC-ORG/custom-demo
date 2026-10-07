@@ -61,6 +61,13 @@
   /* Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-marquee: marquee 60s linear infinite;
+}
+
+/* Horizontal ticker: content is rendered twice, translate by half */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 @keyframes accordion-down {
@@ -86,7 +93,44 @@
    An unlayered :root block above @layer base ALWAYS wins the cascade.
    =================================================================== */
 
-/* CLIENT THEME — uncomment or replace with client values from Phase 4:
+/* CLIENT THEME — Worley (docs/ai/themes/worley.theme.yaml), applied by sitecore-build-demo Phase 4 */
+:root {
+  /* shadcn page tokens — cream page background, near-black body text */
+  --background: 49 53% 96%;
+  --foreground: 0 0% 10%;
+
+  --brand-primary: #81d10b;
+  --brand-primary-foreground: #003645;
+  --brand-secondary: #003645;
+  --brand-secondary-foreground: #ffffff;
+  --brand-accent: #f43a4f;
+  --brand-accent-foreground: #ffffff;
+  --brand-dark: #003645;
+  --brand-dark-foreground: #ffffff;
+  --brand-bg: #faf8ef;
+  --brand-fg: #1a1a1a;
+  --brand-muted: #ffffff;
+  --brand-muted-fg: #4a5a60;
+  --brand-muted-foreground: #4a5a60;
+  --brand-border: #e3e1d8;
+  --brand-ring: #81d10b;
+  --brand-header-bg: #003645;
+  --brand-header-fg: #ffffff;
+  --brand-footer-bg: #00202a;
+  --brand-footer-fg: #d6dee0;
+  --brand-heading-font: 'Red Hat Display', Helvetica, Arial, sans-serif;
+  --brand-body-font: 'Red Hat Text', Helvetica, Arial, sans-serif;
+  --brand-radius: 0.625rem;
+  --brand-button-radius: 40px;
+  --brand-card-radius: 1.5rem;
+
+  /* Worley extras — consumed by the Worley demo variants */
+  --brand-highlight: #29c8c1;
+  --brand-highlight-light: #7fdeda;
+  --brand-link: #8cd521;
+}
+
+/* Template placeholder (kept for reference):
 :root {
   --brand-primary: #00827f;
   --brand-primary-foreground: #ffffff;

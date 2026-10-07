@@ -234,3 +234,69 @@ export const LogoRow = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Worley — pixel-perfect demo variant (worley.com teal "Owning the outcome" band, left half)
+   Teal band, navy title, EyebrowText as the subline BELOW the title, big coral stat.
+   Bottom padding is reduced so TestimonialBlock "Worley" placed directly after
+   continues the same teal band.
+   ──────────────────────────────────────────── */
+export const Worley = ({ fields, params, page }: TrustStatsRowProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TrustStatsRowDefaultComponent />;
+  const stats = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component trust-stats-row', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 pb-4 pt-12 md:px-10 md:pt-16"
+        style={{ backgroundColor: 'var(--brand-highlight)', fontFamily: 'var(--brand-body-font)' }}
+      >
+        <div className="mx-auto max-w-[1360px]">
+          <div className="max-w-[620px]">
+            {(datasource.title?.jsonValue?.value || isEditing) && (
+              <Text
+                field={datasource.title?.jsonValue}
+                tag="h2"
+                className="max-w-[520px] text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl"
+                style={{ color: 'var(--brand-secondary)', fontFamily: 'var(--brand-heading-font)' }}
+              />
+            )}
+            {(datasource.eyebrowText?.jsonValue?.value || isEditing) && (
+              <Text
+                field={datasource.eyebrowText?.jsonValue}
+                tag="p"
+                className="mt-6 text-base leading-relaxed"
+                style={{ color: 'var(--brand-fg)' }}
+              />
+            )}
+            {stats.map((stat) => (
+              <div key={stat.id} className="mt-12">
+                {(stat.statValue?.jsonValue?.value || isEditing) && (
+                  <Text
+                    field={stat.statValue?.jsonValue}
+                    tag="p"
+                    className="text-7xl font-bold leading-none md:text-[96px]"
+                    style={{ color: 'var(--brand-accent)', fontFamily: 'var(--brand-heading-font)' }}
+                  />
+                )}
+                {(stat.statDescription?.jsonValue?.value || isEditing) && (
+                  <ContentSdkRichText
+                    field={stat.statDescription?.jsonValue}
+                    className="mt-6 max-w-[520px] text-base leading-relaxed"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                {isEditing && (
+                  <Text field={stat.statLabel?.jsonValue} tag="p" className="mt-2 text-xs opacity-60" />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

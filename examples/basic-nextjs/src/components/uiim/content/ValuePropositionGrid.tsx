@@ -305,3 +305,87 @@ export const Horizontal = ({ fields, params, page }: ValuePropositionGridProps):
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Worley — pixel-perfect demo variant (worley.com "The industries we operate in")
+   One white rounded strip, 4 equal linked cells with dividers,
+   auto-number top-left and arrow top-right. Icons unused.
+   ──────────────────────────────────────────── */
+export const Worley = ({ fields, params, page }: ValuePropositionGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ValuePropositionGridDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  const cellBody = (item: ValuePropositionItemFields, index: number) => (
+    <>
+      <span className="flex items-center justify-between text-[13px] font-bold" style={{ color: 'var(--brand-secondary)' }}>
+        {String(index + 1).padStart(2, '0')}
+        <span aria-hidden="true" className="text-lg transition-transform group-hover:translate-x-1">
+          →
+        </span>
+      </span>
+      {(item.itemTitle?.jsonValue?.value || isEditing) && (
+        <Text
+          field={item.itemTitle?.jsonValue}
+          tag="h3"
+          className="mt-8 text-xl font-bold"
+          style={{ color: 'var(--brand-secondary)', fontFamily: 'var(--brand-heading-font)' }}
+        />
+      )}
+      {(item.itemDescription?.jsonValue?.value || isEditing) && (
+        <ContentSdkRichText
+          field={item.itemDescription?.jsonValue}
+          className="mt-3 text-[15px] leading-relaxed"
+          style={{ color: 'var(--brand-muted-foreground)' }}
+        />
+      )}
+    </>
+  );
+
+  return (
+    <div className={cn('component value-proposition-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 py-12 md:px-10"
+        style={{ backgroundColor: 'var(--brand-bg)', fontFamily: 'var(--brand-body-font)' }}
+      >
+        <div className="mx-auto max-w-[1360px]">
+          {(datasource.title?.jsonValue?.value || isEditing) && (
+            <Text
+              field={datasource.title?.jsonValue}
+              tag="h2"
+              className="text-4xl font-bold tracking-tight md:text-5xl"
+              style={{ color: 'var(--brand-secondary)', fontFamily: 'var(--brand-heading-font)' }}
+            />
+          )}
+          {(datasource.description?.jsonValue?.value || isEditing) && (
+            <ContentSdkRichText field={datasource.description?.jsonValue} className="mt-4 text-base" />
+          )}
+          <div
+            className="mt-8 grid overflow-hidden rounded-[10px] border bg-white sm:grid-cols-2 lg:grid-cols-4"
+            style={{ borderColor: 'var(--brand-border)' }}
+          >
+            {items.map((item, index) => {
+              const cellClass =
+                'group flex min-h-[240px] flex-col border-b p-6 transition-colors hover:bg-[var(--brand-bg)] sm:border-r lg:border-b-0 lg:last:border-r-0';
+              const cellStyle = { borderColor: 'var(--brand-border)' };
+              return item.itemLink?.jsonValue?.value?.href && !isEditing ? (
+                <ContentSdkLink key={item.id} field={item.itemLink?.jsonValue} className={cellClass} style={cellStyle}>
+                  {cellBody(item, index)}
+                </ContentSdkLink>
+              ) : (
+                <div key={item.id} className={cellClass} style={cellStyle}>
+                  {cellBody(item, index)}
+                  {isEditing && (
+                    <ContentSdkLink field={item.itemLink?.jsonValue} className="mt-4 text-xs underline" />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

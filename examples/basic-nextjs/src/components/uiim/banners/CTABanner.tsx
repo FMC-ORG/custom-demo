@@ -248,3 +248,61 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Worley — pixel-perfect demo variant (worley.com "Talk to a delivery expert")
+   Short full-bleed photo band, navy tint, centred white title + lime pill.
+   ──────────────────────────────────────────── */
+export const Worley = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section
+        className="relative flex min-h-[256px] w-full items-center justify-center overflow-hidden px-6 py-12"
+        style={{ backgroundColor: 'var(--brand-secondary)', fontFamily: 'var(--brand-body-font)' }}
+      >
+        {(fields.BackgroundImage?.value?.src || isEditing) && (
+          <div className="absolute inset-0">
+            <SmartMedia field={fields.BackgroundImage} fill sizes="100vw" className="object-cover" />
+          </div>
+        )}
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: 'color-mix(in srgb, var(--brand-secondary) 45%, transparent)' }}
+        />
+        <div className="relative z-10 flex flex-col items-center gap-6 text-center text-white">
+          {(fields.Title?.value || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="text-4xl font-bold tracking-tight md:text-5xl"
+              style={{ fontFamily: 'var(--brand-heading-font)' }}
+            />
+          )}
+          {(fields.Description?.value || isEditing) && (
+            <ContentSdkRichText field={fields.Description} className="max-w-2xl text-base opacity-90" />
+          )}
+          <div className="flex flex-wrap justify-center gap-4">
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="inline-flex items-center justify-center rounded-[var(--brand-button-radius)] px-14 py-3 text-base font-semibold transition-opacity hover:opacity-90"
+                style={{ backgroundColor: 'var(--brand-primary)', color: 'var(--brand-primary-foreground)' }}
+              />
+            )}
+            {(fields.SecondaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.SecondaryLink}
+                className="inline-flex items-center justify-center rounded-[var(--brand-button-radius)] border-2 border-white px-14 py-3 text-base font-semibold text-white transition-opacity hover:opacity-80"
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

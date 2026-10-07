@@ -16,6 +16,7 @@ import Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 from 'next/link';
 import { Sparkles } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 import { SmartMedia } from '@/components/uiim/media/SmartMedia';
+import { ScrollRail } from '@/components/uiim/media/ScrollRail';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import componentMap from '.sitecore/component-map';
@@ -70,6 +71,12 @@ const importMap = [
     module: '@/components/uiim/media/SmartMedia',
     exports: [
       { name: 'SmartMedia', value: SmartMedia },
+    ]
+  },
+  {
+    module: '@/components/uiim/media/ScrollRail',
+    exports: [
+      { name: 'ScrollRail', value: ScrollRail },
     ]
   },
   {

@@ -199,3 +199,73 @@ export const WithLabels = ({ fields, params, page }: LogoCloudProps): JSX.Elemen
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Worley — pixel-perfect demo variant (worley.com project ticker)
+   Navy strip with an infinite text marquee of CompanyName entries,
+   lime dot separators, each entry linked via LogoLink. Logos unused.
+   Edit mode renders a static wrapping list so every item is editable.
+   ──────────────────────────────────────────── */
+const WorleyTickerItem = ({ item, isEditing }: { item: LogoItemFields; isEditing?: boolean }) => (
+  <span className="inline-flex shrink-0 items-center gap-3 px-6">
+    <span
+      aria-hidden="true"
+      className="h-2 w-2 shrink-0 rounded-full"
+      style={{ backgroundColor: 'var(--brand-primary)' }}
+    />
+    {item.logoLink?.jsonValue?.value?.href || isEditing ? (
+      <ContentSdkLink
+        field={item.logoLink?.jsonValue}
+        className="whitespace-nowrap text-base text-white transition-opacity hover:opacity-80"
+      >
+        <Text field={item.companyName?.jsonValue} tag="span" />
+      </ContentSdkLink>
+    ) : (
+      <Text field={item.companyName?.jsonValue} tag="span" className="whitespace-nowrap text-base text-white" />
+    )}
+  </span>
+);
+
+export const Worley = ({ fields, params, page }: LogoCloudProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <LogoCloudDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component logo-cloud', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full overflow-hidden"
+        style={{ backgroundColor: 'var(--brand-secondary)', fontFamily: 'var(--brand-body-font)' }}
+      >
+        {(datasource.title?.jsonValue?.value || isEditing) && (
+          <Text
+            field={datasource.title?.jsonValue}
+            tag="h2"
+            className={isEditing ? 'px-10 pt-3 text-xs uppercase tracking-widest text-white/60' : 'sr-only'}
+          />
+        )}
+        {isEditing ? (
+          <div className="flex flex-wrap items-center py-5">
+            {items.map((item) => (
+              <WorleyTickerItem key={item.id} item={item} isEditing />
+            ))}
+          </div>
+        ) : (
+          <div className="group flex h-[68px] items-center">
+            <div className="flex w-max animate-marquee items-center group-hover:[animation-play-state:paused] motion-reduce:animate-none">
+              {[0, 1].map((copy) => (
+                <div key={copy} className="flex items-center" aria-hidden={copy === 1 ? 'true' : undefined}>
+                  {items.map((item) => (
+                    <WorleyTickerItem key={`${copy}-${item.id}`} item={item} />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+};

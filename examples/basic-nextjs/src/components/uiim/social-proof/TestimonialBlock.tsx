@@ -334,3 +334,64 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Worley — pixel-perfect demo variant (worley.com teal band, quote half)
+   Continues the teal band of TrustStatsRow "Worley"; quote sits in the right
+   half with coral block quote glyphs. A trailing <em> in QuoteText is the source line.
+   ──────────────────────────────────────────── */
+const WorleyQuoteGlyph = ({ className }: { className?: string }) => (
+  <svg width="50" height="32" viewBox="0 0 50 32" aria-hidden="true" className={className} style={{ fill: 'var(--brand-accent)' }}>
+    <path d="M0 0h22v24H10l-10 8V0Zm27 0h23v24H37l-10 8V0Z" />
+  </svg>
+);
+
+export const Worley = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TestimonialBlockDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component testimonial-block', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 pb-14 pt-6 md:px-10 md:pb-16"
+        style={{ backgroundColor: 'var(--brand-highlight)', fontFamily: 'var(--brand-body-font)' }}
+      >
+        <div className="mx-auto max-w-[1360px]">
+          {isEditing && (
+            <Text field={datasource.sectionTitle?.jsonValue} tag="p" className="mb-4 text-xs uppercase opacity-60" />
+          )}
+          {items.map((item) => (
+            <figure key={item.id} className="md:ml-[calc(50%+1rem)] md:max-w-[640px]">
+              <WorleyQuoteGlyph />
+              {(item.quoteText?.jsonValue?.value || isEditing) && (
+                <ContentSdkRichText
+                  field={item.quoteText?.jsonValue}
+                  className={cn(
+                    'mt-5 text-2xl leading-snug md:text-[30px]',
+                    '[&_p:has(em)]:mt-10 [&_p:has(em)]:text-[13px] [&_p:has(em)]:leading-normal'
+                  )}
+                  style={{ color: 'var(--brand-secondary)' }}
+                />
+              )}
+              <WorleyQuoteGlyph className="ml-auto mt-2 rotate-180" />
+              <figcaption className="mt-6 text-lg font-bold leading-snug" style={{ color: 'var(--brand-secondary)' }}>
+                {(item.authorName?.jsonValue?.value || isEditing) && (
+                  <Text field={item.authorName?.jsonValue} tag="span" className="block" />
+                )}
+                {(item.authorRole?.jsonValue?.value || isEditing) && (
+                  <Text field={item.authorRole?.jsonValue} tag="span" className="block" />
+                )}
+                {(item.companyName?.jsonValue?.value || isEditing) && (
+                  <Text field={item.companyName?.jsonValue} tag="span" className="block" />
+                )}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+};

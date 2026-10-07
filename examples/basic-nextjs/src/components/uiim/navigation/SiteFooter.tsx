@@ -345,3 +345,89 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Worley — pixel-perfect demo variant (worley.com footer)
+   Only BrandLogo is authorable on SiteFooter; link lists are constants,
+   following the existing SiteFooter convention.
+   ──────────────────────────────────────────── */
+const WORLEY_FOOTER_LINKS = [
+  { label: 'Contact us', href: 'https://www.worley.com/en/contact-us' },
+  { label: 'News', href: 'https://www.worley.com/en/insights/our-news' },
+  { label: 'Subscribe to news', href: 'https://www.worley.com/en/investor-relations/alerts' },
+  { label: 'Where we operate', href: 'https://www.worley.com/en/about-us/where-we-operate' },
+  { label: 'Suppliers', href: 'https://www.worley.com/en/suppliers-and-contractors' },
+];
+
+const WORLEY_LEGAL_LINKS = [
+  { label: 'Privacy', href: 'https://www.worley.com/en/site-services/privacy' },
+  { label: 'Cookie notice', href: 'https://www.worley.com/en/site-services/cookie-notice' },
+  { label: 'Accessibility', href: 'https://www.worley.com/en/site-services/accessibility' },
+  { label: 'Sitemap', href: 'https://www.worley.com/en/sitemap' },
+  { label: 'Modern Slavery Statement', href: 'https://www.worley.com/en/site-services/modern-slavery-statement' },
+];
+
+export const Worley = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const brandLogo = getBrandLogo(props);
+
+  if (!params) return <SiteFooterDefaultComponent />;
+  const { styles, RenderingIdentifier } = params;
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full text-[13px]"
+        style={{
+          backgroundColor: 'var(--brand-footer-bg)',
+          color: 'var(--brand-footer-fg)',
+          fontFamily: 'var(--brand-body-font)',
+        }}
+      >
+        <div className="mx-auto max-w-[1440px] px-6 md:px-10">
+          <div className="flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between">
+            <nav className="flex flex-wrap gap-x-10 gap-y-3">
+              {WORLEY_FOOTER_LINKS.map((link) => (
+                <a key={link.label} href={link.href} className="transition-opacity hover:opacity-70">
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+            <div className="flex items-center gap-6">
+              <a href="https://www.linkedin.com/company/worley" aria-label="LinkedIn" className="transition-opacity hover:opacity-70">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z" />
+                </svg>
+              </a>
+              <a href="https://x.com/worleylimited" aria-label="X" className="transition-opacity hover:opacity-70">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.67l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23Zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64Z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div className="h-px w-full opacity-25" style={{ backgroundColor: 'var(--brand-footer-fg)' }} />
+          <div className="flex flex-col gap-8 py-8 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-wrap items-center gap-x-28 gap-y-6">
+              {brandLogo?.value?.src ? (
+                <ContentSdkImage field={brandLogo} className="h-10 w-auto object-contain" />
+              ) : (
+                <Logo brandLogo={brandLogo} />
+              )}
+              <p className="max-w-[200px] leading-tight text-white">
+                Member of Dow Jones Best in Class Powered by the S&amp;P Global CSA
+              </p>
+            </div>
+            <nav className="flex flex-wrap gap-x-8 gap-y-3">
+              {WORLEY_LEGAL_LINKS.map((link) => (
+                <a key={link.label} href={link.href} className="transition-opacity hover:opacity-70">
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};

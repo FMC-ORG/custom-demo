@@ -276,3 +276,67 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Worley — pixel-perfect demo variant (worley.com careers block)
+   Portrait image left on a coral panel, text right, secondary pill
+   (navy fill, white text, lime border).
+   ──────────────────────────────────────────── */
+export const Worley = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 py-12 md:px-10"
+        style={{ backgroundColor: 'var(--brand-bg)', fontFamily: 'var(--brand-body-font)' }}
+      >
+        <div className="mx-auto grid max-w-[1200px] items-center gap-8 md:grid-cols-[400px_1fr]">
+          {(fields.FeatureImage?.value?.src || isEditing) && (
+            <div
+              className="relative aspect-[4/5] overflow-hidden rounded-[16px]"
+              style={{ backgroundColor: 'var(--brand-accent)' }}
+            >
+              <SmartMedia field={fields.FeatureImage} fill sizes="(min-width: 768px) 400px, 100vw" className="object-cover" />
+            </div>
+          )}
+          <div>
+            {(fields.EyebrowText?.value || isEditing) && (
+              <Text
+                field={fields.EyebrowText}
+                tag="p"
+                className="mb-3 text-[13px] font-bold uppercase tracking-[0.12em]"
+                style={{ color: 'var(--brand-highlight)' }}
+              />
+            )}
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="max-w-[640px] text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl"
+                style={{ color: 'var(--brand-secondary)', fontFamily: 'var(--brand-heading-font)' }}
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-8 max-w-[640px] text-[15px] leading-relaxed [&_p+p]:mt-4"
+                style={{ color: 'var(--brand-fg)' }}
+              />
+            )}
+            {(fields.PrimaryLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.PrimaryLink}
+                className="mt-8 inline-flex items-center justify-center rounded-[var(--brand-button-radius)] border-2 px-14 py-2.5 text-base font-semibold text-white transition-opacity hover:opacity-90"
+                style={{ backgroundColor: 'var(--brand-secondary)', borderColor: 'var(--brand-primary)' }}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

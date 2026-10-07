@@ -28,6 +28,7 @@ export default defineCliConfig({
       'src/components/ui/**', // shadcn/ui primitives
       'src/components/search-experience/search-components/**', // hooks and parts of SearchExperience
       'src/components/uiim/media/SmartMedia.tsx', // wrapper used inside five components (ADR 0005)
+      'src/components/uiim/media/ScrollRail.tsx', // client scroll rail used by demo variants (ProductPricingCards WorleyNews)
       'src/components/**/*.props.ts', // props sidecar files
       'src/components/**/*.props.tsx',
     ],

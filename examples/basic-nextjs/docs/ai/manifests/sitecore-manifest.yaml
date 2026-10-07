@@ -1,5 +1,5 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-08-18T00:00:00Z"
+lastUpdatedAt: "2026-10-07T12:00:00Z"
 lastUpdatedBy: "claude-agent"
 
 project:
@@ -131,7 +131,7 @@ components:
     category: "Navigation"
     status: "complete"
     createdAt: "2026-03-25T12:30:00Z"
-    updatedAt: "2026-05-05T16:00:00Z"
+    updatedAt: "2026-10-07T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/navigation/NavigationHeader.tsx"
@@ -141,6 +141,7 @@ components:
         - "Default"
         - "Transparent"
         - "Minimal"
+        - "Worley"
 
     templates:
       parent:
@@ -219,6 +220,7 @@ components:
         - { name: "Default", itemId: "{150B9AFE-2B9F-48AD-8F01-036666057814}" }
         - { name: "Transparent", itemId: "{A46EFC9D-7CF0-4C92-9577-1D94FD1D9782}" }
         - { name: "Minimal", itemId: "{608E0EC7-E2C6-4093-A1A1-3962FF17885A}" }
+        - { name: "Worley", itemId: "{AEF4E213-4B51-4F3E-9A3B-0C8305ACE3A4}" }
 
     verification:
       checkedAt: "2026-05-05T16:00:00Z"
@@ -240,6 +242,7 @@ components:
         - "Assign Main Navigation datasource to NavigationHeader in Header partial design"
 
     notes:
+      - "2026-10-07T12:00:00Z — Worley demo: added variant(s) Worley (TSX export + Variant Definition, verified via MCP)."
       - "2026-05-05: Converted from context-only (Navigation Contents Resolver) to list datasource component. Nav links now authored as child items instead of auto-generated from site tree."
 
   - name: "HeroBanner"
@@ -247,7 +250,7 @@ components:
     category: "Banners"
     status: "complete"
     createdAt: "2026-03-25T13:30:00Z"
-    updatedAt: "2026-03-25T13:30:00Z"
+    updatedAt: "2026-10-07T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/banners/HeroBanner.tsx"
@@ -258,6 +261,7 @@ components:
         - "BackgroundImage"
         - "VideoBackground"
         - "Minimal"
+        - "Worley"
 
     templates:
       datasource:
@@ -321,6 +325,7 @@ components:
         - { name: "BackgroundImage", itemId: "{948210B2-B8AF-47C1-A04F-E220071C0A63}" }
         - { name: "VideoBackground", itemId: "{96586509-EBD7-4642-A127-0C65AEE1BD99}" }
         - { name: "Minimal", itemId: "{FA46BF9A-3783-4615-B4E6-5F5B33A78B48}" }
+        - { name: "Worley", itemId: "{3C548626-6938-4264-B0DE-82851B72925B}" }
 
     verification:
       checkedAt: "2026-03-25T13:30:00Z"
@@ -348,7 +353,8 @@ components:
         - "Renderings on Available Renderings (silent-write)"
         - "__Standard values link on templates (silent-write)"
 
-    notes: []
+    notes:
+      - "2026-10-07T12:00:00Z — Worley demo: added variant(s) Worley (TSX export + Variant Definition, verified via MCP)."
 
   - name: "TabNavigationSection"
     kind: "list"
@@ -478,7 +484,7 @@ components:
     category: "Cards"
     status: "complete"
     createdAt: "2026-03-25T15:30:00Z"
-    updatedAt: "2026-03-25T15:30:00Z"
+    updatedAt: "2026-10-07T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/cards/ProductPricingCards.tsx"
@@ -488,6 +494,8 @@ components:
         - "Horizontal"
         - "Compact"
         - "Highlighted"
+        - "WorleyProjects"
+        - "WorleyNews"
 
     templates:
       datasource:
@@ -571,6 +579,8 @@ components:
         - { name: "Horizontal", itemId: "{C9B441F5-71A8-46E6-AE86-478930CA907F}" }
         - { name: "Compact", itemId: "{CBAF513B-7C47-498C-83C6-43B3EE92F68C}" }
         - { name: "Highlighted", itemId: "{4DE413CD-B593-48C7-AB27-C60D88549C5B}" }
+        - { name: "WorleyProjects", itemId: "{2A8A03E6-71E4-47E1-894F-1F93687289C8}" }
+        - { name: "WorleyNews", itemId: "{A05F0DFB-09A2-4BF9-8E5D-3629AB119636}" }
 
     verification:
       checkedAt: "2026-03-25T15:30:00Z"
@@ -600,7 +610,8 @@ components:
         - "__Masters on datasource folder instance (silent-write)"
         - "__Standard values link on all templates (silent-write)"
 
-    notes: []
+    notes:
+      - "2026-10-07T12:00:00Z — Worley demo: added variant(s) WorleyProjects, WorleyNews (TSX export + Variant Definition, verified via MCP)."
 
   - name: "LegalComplianceBanner"
     kind: "simple"
@@ -707,7 +718,7 @@ components:
     category: "Content"
     status: "complete"
     createdAt: "2026-03-25T16:30:00Z"
-    updatedAt: "2026-03-25T16:30:00Z"
+    updatedAt: "2026-10-07T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/content/ValuePropositionGrid.tsx"
@@ -717,6 +728,7 @@ components:
         - "TwoColumn"
         - "FourColumn"
         - "Horizontal"
+        - "Worley"
 
     templates:
       datasource:
@@ -798,6 +810,7 @@ components:
         - { name: "TwoColumn", itemId: "{3935D1DD-DC84-4A01-B271-BEF9475C5AE1}" }
         - { name: "FourColumn", itemId: "{5F5B90A2-F88D-4415-B8B1-D9DCDE1A6B5C}" }
         - { name: "Horizontal", itemId: "{EF716EAC-BEBF-484A-8826-D2051F549F2F}" }
+        - { name: "Worley", itemId: "{38537C3D-A2EC-4EF5-B82E-179D2A9FE349}" }
 
     verification:
       checkedAt: "2026-03-25T16:30:00Z"
@@ -823,14 +836,15 @@ components:
         - "__Masters on parent SV, folder SV, folder instance (silent-write)"
         - "__Standard values link on all templates (silent-write)"
 
-    notes: []
+    notes:
+      - "2026-10-07T12:00:00Z — Worley demo: added variant(s) Worley (TSX export + Variant Definition, verified via MCP)."
 
   - name: "TrustStatsRow"
     kind: "list"
     category: "Content"
     status: "complete"
     createdAt: "2026-03-25T17:00:00Z"
-    updatedAt: "2026-03-25T17:00:00Z"
+    updatedAt: "2026-10-07T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/content/TrustStatsRow.tsx"
@@ -839,6 +853,7 @@ components:
         - "Default"
         - "WithIcons"
         - "LogoRow"
+        - "Worley"
 
     templates:
       datasource:
@@ -920,6 +935,7 @@ components:
         - { name: "Default", itemId: "{71BDCB75-6061-460C-98BE-86C4E5E79B3A}" }
         - { name: "WithIcons", itemId: "{A31EA0E4-1E93-43EE-9615-EC73A1451E63}" }
         - { name: "LogoRow", itemId: "{1E5484B5-F633-4339-9A3E-AD6416C3B8AD}" }
+        - { name: "Worley", itemId: "{93D251C4-F4A5-4988-88DE-00D1D9C30A5E}" }
 
     verification:
       checkedAt: "2026-03-25T17:00:00Z"
@@ -941,14 +957,15 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-07T12:00:00Z — Worley demo: added variant(s) Worley (TSX export + Variant Definition, verified via MCP)."
 
   - name: "TestimonialBlock"
     kind: "list"
     category: "Social Proof"
     status: "complete"
     createdAt: "2026-03-25T17:30:00Z"
-    updatedAt: "2026-03-25T17:30:00Z"
+    updatedAt: "2026-10-07T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/social-proof/TestimonialBlock.tsx"
@@ -958,6 +975,7 @@ components:
         - "Carousel"
         - "Grid"
         - "WithPhoto"
+        - "Worley"
 
     templates:
       datasource:
@@ -1039,6 +1057,7 @@ components:
         - { name: "Carousel", itemId: "{0F34A807-A42C-4E7D-BD54-EF222EB2D952}" }
         - { name: "Grid", itemId: "{508FF66A-D30F-4C2D-B82F-2009E0B6E207}" }
         - { name: "WithPhoto", itemId: "{9C2EFAD0-6E36-415A-AFC5-EDCD1DA4A805}" }
+        - { name: "Worley", itemId: "{4A6C276B-1F90-4387-8D6C-8B250D2B201D}" }
 
     verification:
       checkedAt: "2026-03-25T17:30:00Z"
@@ -1060,14 +1079,15 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-07T12:00:00Z — Worley demo: added variant(s) Worley (TSX export + Variant Definition, verified via MCP)."
 
   - name: "CTABanner"
     kind: "simple"
     category: "Banners"
     status: "complete"
     createdAt: "2026-03-25T18:00:00Z"
-    updatedAt: "2026-03-25T18:00:00Z"
+    updatedAt: "2026-10-07T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/banners/CTABanner.tsx"
@@ -1077,6 +1097,7 @@ components:
         - "WithImage"
         - "Split"
         - "Minimal"
+        - "Worley"
 
     templates:
       datasource:
@@ -1139,6 +1160,7 @@ components:
         - { name: "WithImage", itemId: "{2DC4E1E9-79A0-48C7-A6D9-AC7DD8AFAAA0}" }
         - { name: "Split", itemId: "{9DBA839A-E0F8-47D2-AA8E-29EDA7CC68E6}" }
         - { name: "Minimal", itemId: "{E63EE25F-C889-4FE1-81B7-4611CF5969BE}" }
+        - { name: "Worley", itemId: "{F3B117BF-1898-46FB-B4F1-8A591E0C9440}" }
 
     verification:
       checkedAt: "2026-03-25T18:00:00Z"
@@ -1160,14 +1182,15 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-07T12:00:00Z — Worley demo: added variant(s) Worley (TSX export + Variant Definition, verified via MCP)."
 
   - name: "FeatureCardsGrid"
     kind: "list"
     category: "Cards"
     status: "complete"
     createdAt: "2026-03-25T18:30:00Z"
-    updatedAt: "2026-03-25T18:30:00Z"
+    updatedAt: "2026-10-07T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/cards/FeatureCardsGrid.tsx"
@@ -1177,6 +1200,7 @@ components:
         - "TwoColumn"
         - "WithImages"
         - "Carousel"
+        - "WorleyStages"
 
     templates:
       datasource:
@@ -1258,6 +1282,7 @@ components:
         - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
         - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
         - { name: "Carousel", itemId: "" }  # TODO: create in Sitecore
+        - { name: "WorleyStages", itemId: "{61E1BE7A-A584-48E8-ABA9-DE859954CB17}" }
 
     verification:
       checkedAt: "2026-03-25T18:30:00Z"
@@ -1279,7 +1304,8 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-07T12:00:00Z — Worley demo: added variant(s) WorleyStages (TSX export + Variant Definition, verified via MCP)."
 
   - name: "ImageGallery"
     kind: "simple"
@@ -1381,7 +1407,7 @@ components:
     category: "Social Proof"
     status: "complete"
     createdAt: "2026-03-25T19:30:00Z"
-    updatedAt: "2026-03-25T19:30:00Z"
+    updatedAt: "2026-10-07T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/social-proof/LogoCloud.tsx"
@@ -1390,6 +1416,7 @@ components:
         - "Default"
         - "Grid"
         - "WithLabels"
+        - "Worley"
 
     templates:
       datasource:
@@ -1468,6 +1495,7 @@ components:
         - { name: "Default", itemId: "{125C1A27-2F29-4A84-B45A-DD43279C23CE}" }
         - { name: "Grid", itemId: "{8CCCB55E-D891-4F4B-B8C7-E254DC95C9F1}" }
         - { name: "WithLabels", itemId: "{2D8CB372-0881-4F56-ACE4-A69E3ABDEC1E}" }
+        - { name: "Worley", itemId: "{7F85EB21-B112-41F7-A691-EC5E3DEFFDF0}" }
 
     verification:
       checkedAt: "2026-03-25T19:30:00Z"
@@ -1489,14 +1517,15 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-07T12:00:00Z — Worley demo: added variant(s) Worley (TSX export + Variant Definition, verified via MCP)."
 
   - name: "SiteFooter"
     kind: "context-only+datasource"
     category: "Navigation"
     status: "complete"
     createdAt: "2026-03-25T20:00:00Z"
-    updatedAt: "2026-05-05T13:00:00Z"
+    updatedAt: "2026-10-07T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/navigation/SiteFooter.tsx"
@@ -1506,6 +1535,7 @@ components:
         - "Default"
         - "Minimal"
         - "MegaFooter"
+        - "Worley"
 
     templates:
       datasource:
@@ -1563,6 +1593,7 @@ components:
         - { name: "Default", itemId: "{143CFE84-1E77-4961-975C-38564DC43DB9}" }
         - { name: "Minimal", itemId: "{AF87D61B-F6A8-4036-9BF8-FDB586268D24}" }
         - { name: "MegaFooter", itemId: "{DA131066-F9A2-47F0-A099-F614E61817AA}" }
+        - { name: "Worley", itemId: "{75B7B0DF-E241-4B6A-8BB6-503AFABFE863}" }
 
     verification:
       checkedAt: "2026-03-25T20:00:00Z"
@@ -1578,7 +1609,8 @@ components:
       pendingManual:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
 
-    notes: []
+    notes:
+      - "2026-10-07T12:00:00Z — Worley demo: added variant(s) Worley (TSX export + Variant Definition, verified via MCP)."
 
   - name: "NewsletterSignup"
     kind: "simple"
@@ -2044,7 +2076,7 @@ components:
     category: "Content"
     status: "complete"
     createdAt: "2026-03-25T22:00:00Z"
-    updatedAt: "2026-03-25T22:00:00Z"
+    updatedAt: "2026-10-07T12:00:00Z"
 
     react:
       filePath: "src/components/uiim/content/FeatureHighlight.tsx"
@@ -2054,6 +2086,7 @@ components:
         - "Centered"
         - "WithVideo"
         - "IconLeft"
+        - "Worley"
 
     templates:
       datasource:
@@ -2116,6 +2149,7 @@ components:
         - { name: "Centered", itemId: "{3C33C16D-F0D3-4FBF-8D78-CE70CEA0868B}" }
         - { name: "WithVideo", itemId: "{E58A4CB1-BFB4-4FDF-B48D-6254708B05CA}" }
         - { name: "IconLeft", itemId: "{E39E52FE-885D-433B-A2D3-B20F66E8F767}" }
+        - { name: "Worley", itemId: "{7CDCB062-2044-40B2-8800-DAED7CC9772C}" }
 
     verification:
       checkedAt: "2026-03-25T22:00:00Z"
@@ -2132,7 +2166,8 @@ components:
       pendingManual:
         - "Silent-write fields"
 
-    notes: []
+    notes:
+      - "2026-10-07T12:00:00Z — Worley demo: added variant(s) Worley (TSX export + Variant Definition, verified via MCP)."
 
   - name: "HeroBannerCarousel"
     kind: "list"

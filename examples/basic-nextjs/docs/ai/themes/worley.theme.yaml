@@ -1,0 +1,126 @@
+# Client Brand Theme — Worley
+# Extracted from: https://www.worley.com/
+
+client:
+  name: "Worley"
+  sourceUrl: "https://www.worley.com/"
+  extractedAt: "2026-10-06T21:30:00Z"
+  extractedBy: "pi"
+
+colors:
+  primary: "#81d10b"            # lime CTA pill ("Explore our approach", "Get in touch", "Contact us")
+  primaryForeground: "#003645"  # navy text on lime
+  secondary: "#003645"          # deep navy — headings, header bar, secondary pill buttons, number badges
+  secondaryForeground: "#ffffff"
+  accent: "#f43a4f"             # coral red — heading highlight words, big stats, quote marks
+  accentForeground: "#ffffff"
+  background: "#faf8ef"         # warm cream page background
+  foreground: "#1a1a1a"
+  muted: "#ffffff"              # white cards on cream
+  mutedForeground: "#4a5a60"
+  headerBackground: "#003645"
+  headerForeground: "#ffffff"
+  footerBackground: "#00202a"
+  footerForeground: "#d6dee0"
+  border: "#e3e1d8"
+  ring: "#81d10b"
+  extra:
+    - { name: "teal", value: "#29c8c1" }       # stats/testimonial band, heading highlight
+    - { name: "teal-light", value: "#7fdeda" } # tag chips (ADVISORY, FEED…)
+    - { name: "dark", value: "#002530" }       # hero overlay / top nav
+    - { name: "link-lime", value: "#8cd521" }  # "Read more" / "Explore this stage →" text links
+
+typography:
+  headingFamily: "'Red Hat Display', Helvetica, Arial, sans-serif"
+  headingWeight: "700"
+  bodyFamily: "'Red Hat Text', Helvetica, Arial, sans-serif"
+  bodyWeight: "400"
+  monoFamily: "'Roboto Mono', monospace"
+  googleFontsUrl: "https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;600;700;800&family=Red+Hat+Text:wght@400;500;600;700&display=swap"
+  scale:
+    hero: "4.5rem"   # 72px
+    h1: "3rem"       # 48px section titles
+    h2: "2.4375rem"  # 39px
+    h3: "1.25rem"
+    body: "1rem"
+    small: "0.875rem"
+  headingTransform: "none"
+  letterSpacing: "normal"
+  lineHeight: "tight headings, relaxed body"
+
+spacing:
+  density: "spacious"
+  sectionGap: "5rem"
+  containerMaxWidth: "1440px"
+  containerPadding: "2.5rem"
+
+shape:
+  borderRadius: "0.625rem"
+  buttonRadius: "40px"     # full pill
+  cardRadius: "1.5rem"     # project/news image cards ~24px; stage cards ~10px
+  imageRadius: "0"
+  shadowStyle: "subtle"    # 0 6px 20px rgba(0,0,0,0.2) on stage cards
+  borderStyle: "subtle"
+
+tone:
+  overall: "corporate"
+  colorMode: "light"       # cream body with dark navy header/footer and teal band
+  contrast: "high"
+  imagery: "photography"   # industrial sites, workers in PPE, plants
+  heroStyle: "video-background"  # full-bleed video with left headline + right stat/quote panel
+  cardStyle: "image-overlay"     # project/news cards: full-bleed photo, gradient, text bottom
+  navStyle: "solid-bar"          # dark navy bar, mega-menu dropdowns, lime "Contact us" pill
+
+tailwind:
+  colors:
+    brand:
+      primary: "#81d10b"
+      secondary: "#003645"
+      accent: "#f43a4f"
+  fontFamily:
+    heading: ["Red Hat Display", "Helvetica", "Arial", "sans-serif"]
+    body: ["Red Hat Text", "Helvetica", "Arial", "sans-serif"]
+  borderRadius:
+    DEFAULT: "0.625rem"
+    button: "40px"
+    card: "1.5rem"
+
+cssVariables: |
+  :root {
+    --brand-primary: #81d10b;
+    --brand-primary-foreground: #003645;
+    --brand-secondary: #003645;
+    --brand-secondary-foreground: #ffffff;
+    --brand-accent: #f43a4f;
+    --brand-accent-foreground: #ffffff;
+    --brand-dark: #003645;
+    --brand-dark-foreground: #ffffff;
+    --brand-bg: #faf8ef;
+    --brand-fg: #1a1a1a;
+    --brand-muted: #ffffff;
+    --brand-muted-fg: #4a5a60;
+    --brand-muted-foreground: #4a5a60;
+    --brand-header-bg: #003645;
+    --brand-header-fg: #ffffff;
+    --brand-footer-bg: #00202a;
+    --brand-footer-fg: #d6dee0;
+    --brand-border: #e3e1d8;
+    --brand-ring: #81d10b;
+    --brand-heading-font: 'Red Hat Display', Helvetica, Arial, sans-serif;
+    --brand-body-font: 'Red Hat Text', Helvetica, Arial, sans-serif;
+    --brand-radius: 0.625rem;
+    --brand-button-radius: 40px;
+    --brand-card-radius: 1.5rem;
+  }
+
+extraction:
+  confidence: "high"
+  method: "playwright-full"
+  notes:
+    - "Scraper's primaryButtonBackground (#f43a4f) was a false hit (red highlight element). Lime #81d10b confirmed via DOM probe on 'Explore our approach' / 'Get in touch' / 'Contact us' anchors."
+    - "Worley uses 'brother-1816' (Adobe Fonts, proprietary) for everything. Substituted with Red Hat Display (headings) + Red Hat Text (body) from Google Fonts — similar geometric-humanist feel."
+    - "Headings are navy #003645 with highlighted words in coral #f43a4f or teal #29c8c1 (e.g. 'world's biggest, most complex', 'industries', 'global team')."
+    - "Two pill button styles: lime fill + navy text (primary) and navy fill + white text + 2px lime border (secondary, 'Explore careers', 'View all news')."
+    - "Section backgrounds: cream #faf8ef (default), teal #29c8c1 (stats + testimonial band), navy #003645 (project ticker), photo overlay (CTA band), #00202a (footer)."
+    - "Hero is a full-bleed video. Video files are not downloaded — poster image will be used."
+    - "No CSS custom properties exposed in :root."

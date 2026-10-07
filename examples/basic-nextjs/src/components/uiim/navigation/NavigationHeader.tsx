@@ -356,3 +356,90 @@ export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element 
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Worley — pixel-perfect demo variant (worley.com header)
+   Navy bar. First 4 links = bold primary nav beside the logo (no mega-menu dropdowns);
+   remaining links = utility row on the right, under search + small lime CTA pill.
+   ──────────────────────────────────────────── */
+const WORLEY_PRIMARY_LINK_COUNT = 4;
+
+export const Worley = ({ fields, params, page, rendering }: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+
+  const links = datasource.children?.results || [];
+  const primary = links.slice(0, WORLEY_PRIMARY_LINK_COUNT);
+  const utility = links.slice(WORLEY_PRIMARY_LINK_COUNT);
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className="w-full"
+        style={{
+          backgroundColor: 'var(--brand-header-bg)',
+          color: 'var(--brand-header-fg)',
+          fontFamily: 'var(--brand-body-font)',
+        }}
+      >
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-8 px-6 py-2 md:px-10">
+          <div className="flex items-center gap-12">
+            <Logo brandLogo={datasource.brandLogo?.jsonValue} className="[&_img]:h-9 sm:[&_img]:h-10" />
+            <nav className="hidden items-center gap-6 lg:flex">
+              {primary.map((item) => (
+                <ContentSdkLink
+                  key={item.id}
+                  field={item.linkUrl?.jsonValue}
+                  className="inline-flex items-center text-base font-bold transition-opacity hover:opacity-80"
+                  style={{ color: 'var(--brand-header-fg)' }}
+                >
+                  {item.linkText?.jsonValue?.value && <Text field={item.linkText?.jsonValue} />}
+                </ContentSdkLink>
+              ))}
+            </nav>
+          </div>
+
+          <div className="flex flex-col items-end gap-2">
+            <div className="hidden items-center gap-5 md:flex">
+              <HeaderSearch datasource={datasource} page={page} rendering={rendering} />
+              {!datasource.searchIndex?.jsonValue?.value && (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <circle cx="11" cy="11" r="7" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              )}
+              <CtaButton
+                label={datasource.ctaLabel?.jsonValue}
+                link={datasource.ctaLink?.jsonValue}
+                isEditing={isEditing}
+                className="rounded-[var(--brand-button-radius)] px-3 py-1 text-[13px] font-semibold"
+              />
+            </div>
+            <nav className="hidden items-center gap-5 lg:flex">
+              {utility.map((item) => (
+                <ContentSdkLink
+                  key={item.id}
+                  field={item.linkUrl?.jsonValue}
+                  className="inline-flex items-center text-[13px] transition-opacity hover:opacity-80"
+                  style={{ color: 'var(--brand-header-fg)' }}
+                >
+                  {item.linkText?.jsonValue?.value && <Text field={item.linkText?.jsonValue} />}
+                </ContentSdkLink>
+              ))}
+            </nav>
+            <div className="lg:hidden">
+              <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+            </div>
+          </div>
+        </div>
+        <div className="lg:hidden">
+          <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
+        </div>
+      </header>
+    </div>
+  );
+};

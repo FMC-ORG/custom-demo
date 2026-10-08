@@ -1,5 +1,5 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-08-18T00:00:00Z"
+lastUpdatedAt: "2026-10-08T15:45:00Z"
 lastUpdatedBy: "claude-agent"
 
 project:
@@ -141,6 +141,7 @@ components:
         - "Default"
         - "Transparent"
         - "Minimal"
+        - "Biffa"
 
     templates:
       parent:
@@ -219,6 +220,7 @@ components:
         - { name: "Default", itemId: "{150B9AFE-2B9F-48AD-8F01-036666057814}" }
         - { name: "Transparent", itemId: "{A46EFC9D-7CF0-4C92-9577-1D94FD1D9782}" }
         - { name: "Minimal", itemId: "{608E0EC7-E2C6-4093-A1A1-3962FF17885A}" }
+        - { name: "Biffa", itemId: "{E077FF79-789B-4636-9B68-49D745AF4697}" }
 
     verification:
       checkedAt: "2026-05-05T16:00:00Z"
@@ -241,6 +243,7 @@ components:
 
     notes:
       - "2026-05-05: Converted from context-only (Navigation Contents Resolver) to list datasource component. Nav links now authored as child items instead of auto-generated from site tree."
+      - "2026-10-08: Biffa demo (Phase 5.5) — added Biffa (TSX export + Variant Definition, created and verified via MCP read-back)"
 
   - name: "HeroBanner"
     kind: "simple"
@@ -258,6 +261,7 @@ components:
         - "BackgroundImage"
         - "VideoBackground"
         - "Minimal"
+        - "Biffa"
 
     templates:
       datasource:
@@ -321,6 +325,7 @@ components:
         - { name: "BackgroundImage", itemId: "{948210B2-B8AF-47C1-A04F-E220071C0A63}" }
         - { name: "VideoBackground", itemId: "{96586509-EBD7-4642-A127-0C65AEE1BD99}" }
         - { name: "Minimal", itemId: "{FA46BF9A-3783-4615-B4E6-5F5B33A78B48}" }
+        - { name: "Biffa", itemId: "{9825894C-AA8C-4894-A21A-EDAC49F16B58}" }
 
     verification:
       checkedAt: "2026-03-25T13:30:00Z"
@@ -348,7 +353,8 @@ components:
         - "Renderings on Available Renderings (silent-write)"
         - "__Standard values link on templates (silent-write)"
 
-    notes: []
+    notes:
+      - "2026-10-08: Biffa demo (Phase 5.5) — added Biffa (TSX export + Variant Definition, created and verified via MCP read-back)"
 
   - name: "TabNavigationSection"
     kind: "list"
@@ -615,6 +621,7 @@ components:
       variants:
         - "Default"
         - "WithImage"
+        - "Biffa"
 
     templates:
       datasource:
@@ -674,6 +681,7 @@ components:
       variants:
         - { name: "Default", itemId: "{E3E57B11-8697-4BC7-B56F-352091BDC6BC}" }
         - { name: "WithImage", itemId: "{21600F34-BAD3-4EF8-88C9-03F723EEE608}" }
+        - { name: "Biffa", itemId: "{3A9B1611-A66A-4783-B225-458F86714C4F}" }
 
     verification:
       checkedAt: "2026-03-25T16:00:00Z"
@@ -700,7 +708,8 @@ components:
         - "__Masters on datasource folder instance (silent-write)"
         - "__Standard values link on templates (silent-write)"
 
-    notes: []
+    notes:
+      - "2026-10-08: Biffa demo (Phase 5.5) — added Biffa (TSX export + Variant Definition, created and verified via MCP read-back)"
 
   - name: "ValuePropositionGrid"
     kind: "list"
@@ -839,6 +848,7 @@ components:
         - "Default"
         - "WithIcons"
         - "LogoRow"
+        - "Biffa"
 
     templates:
       datasource:
@@ -920,6 +930,7 @@ components:
         - { name: "Default", itemId: "{71BDCB75-6061-460C-98BE-86C4E5E79B3A}" }
         - { name: "WithIcons", itemId: "{A31EA0E4-1E93-43EE-9615-EC73A1451E63}" }
         - { name: "LogoRow", itemId: "{1E5484B5-F633-4339-9A3E-AD6416C3B8AD}" }
+        - { name: "Biffa", itemId: "{18E4E0E2-0B1D-4474-B5E5-ECA8A50C9843}" }
 
     verification:
       checkedAt: "2026-03-25T17:00:00Z"
@@ -941,7 +952,8 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-08: Biffa demo (Phase 5.5) — added Biffa (TSX export + Variant Definition, created and verified via MCP read-back)"
 
   - name: "TestimonialBlock"
     kind: "list"
@@ -1077,6 +1089,7 @@ components:
         - "WithImage"
         - "Split"
         - "Minimal"
+        - "Biffa"
 
     templates:
       datasource:
@@ -1139,6 +1152,7 @@ components:
         - { name: "WithImage", itemId: "{2DC4E1E9-79A0-48C7-A6D9-AC7DD8AFAAA0}" }
         - { name: "Split", itemId: "{9DBA839A-E0F8-47D2-AA8E-29EDA7CC68E6}" }
         - { name: "Minimal", itemId: "{E63EE25F-C889-4FE1-81B7-4611CF5969BE}" }
+        - { name: "Biffa", itemId: "{FEF75C28-93DE-442C-A85B-1574AB559118}" }
 
     verification:
       checkedAt: "2026-03-25T18:00:00Z"
@@ -1160,7 +1174,8 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-08: Biffa demo (Phase 5.5) — added Biffa (TSX export + Variant Definition, created and verified via MCP read-back)"
 
   - name: "FeatureCardsGrid"
     kind: "list"
@@ -1177,6 +1192,9 @@ components:
         - "TwoColumn"
         - "WithImages"
         - "Carousel"
+        - "BiffaNews"
+        - "BiffaPromo"
+        - "BiffaInsights"
 
     templates:
       datasource:
@@ -1258,6 +1276,9 @@ components:
         - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
         - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
         - { name: "Carousel", itemId: "" }  # TODO: create in Sitecore
+        - { name: "BiffaNews", itemId: "{34B8336C-0938-4CCD-A6A6-402FE66EDC30}" }
+        - { name: "BiffaPromo", itemId: "{2BFA4823-E1AC-49BA-940D-033ECB044A76}" }
+        - { name: "BiffaInsights", itemId: "{12D46854-B6CC-4AD1-BF59-680FDEA83BB0}" }
 
     verification:
       checkedAt: "2026-03-25T18:30:00Z"
@@ -1279,7 +1300,8 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-08: Biffa demo (Phase 5.5) — added BiffaNews, BiffaPromo, BiffaInsights (TSX export + Variant Definition, created and verified via MCP read-back)"
 
   - name: "ImageGallery"
     kind: "simple"
@@ -1295,6 +1317,7 @@ components:
         - "Default"
         - "Gallery"
         - "Parallax"
+        - "Biffa"
 
     templates:
       datasource:
@@ -1354,6 +1377,7 @@ components:
         - { name: "Default", itemId: "{36325627-294D-44ED-BD63-2E622F782684}" }
         - { name: "Gallery", itemId: "{CF1F5876-5157-441C-A6FB-7BF150651345}" }
         - { name: "Parallax", itemId: "{CBFFE582-C802-49D8-BFB0-94353D067F8E}" }
+        - { name: "Biffa", itemId: "{CFAB1B7D-8D10-4B1E-B8DB-34E901A3C88C}" }
 
     verification:
       checkedAt: "2026-03-25T19:00:00Z"
@@ -1374,7 +1398,8 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-08: Biffa demo (Phase 5.5) — added Biffa (TSX export + Variant Definition, created and verified via MCP read-back)"
 
   - name: "LogoCloud"
     kind: "list"
@@ -1506,6 +1531,7 @@ components:
         - "Default"
         - "Minimal"
         - "MegaFooter"
+        - "Biffa"
 
     templates:
       datasource:
@@ -1563,6 +1589,7 @@ components:
         - { name: "Default", itemId: "{143CFE84-1E77-4961-975C-38564DC43DB9}" }
         - { name: "Minimal", itemId: "{AF87D61B-F6A8-4036-9BF8-FDB586268D24}" }
         - { name: "MegaFooter", itemId: "{DA131066-F9A2-47F0-A099-F614E61817AA}" }
+        - { name: "Biffa", itemId: "{E7E98177-BE54-4D23-A146-3BC236D3D6E1}" }
 
     verification:
       checkedAt: "2026-03-25T20:00:00Z"
@@ -1578,7 +1605,8 @@ components:
       pendingManual:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
 
-    notes: []
+    notes:
+      - "2026-10-08: Biffa demo (Phase 5.5) — added Biffa (TSX export + Variant Definition, created and verified via MCP read-back)"
 
   - name: "NewsletterSignup"
     kind: "simple"
@@ -1959,6 +1987,8 @@ components:
         - "Default"
         - "Centered"
         - "Narrow"
+        - "Biffa"
+        - "BiffaCentered"
 
     templates:
       datasource:
@@ -2017,6 +2047,8 @@ components:
         - { name: "Default", itemId: "{68885D4E-9808-421D-AB93-30E9FF27D8F1}" }
         - { name: "Centered", itemId: "{61BF7CB2-B65C-4C85-902D-CFA95D0F429D}" }
         - { name: "Narrow", itemId: "{CCF0292C-9EE3-4BF8-A4F1-3FFA774CA133}" }
+        - { name: "Biffa", itemId: "{37DD5C1B-D6CC-4BA2-8616-324E41640D2E}" }
+        - { name: "BiffaCentered", itemId: "{830EBB24-B025-4A67-B614-A4DB568FCF5E}" }
 
     verification:
       checkedAt: "2026-03-25T21:30:00Z"
@@ -2037,7 +2069,8 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields"
 
-    notes: []
+    notes:
+      - "2026-10-08: Biffa demo (Phase 5.5) — added Biffa, BiffaCentered (TSX export + Variant Definition, created and verified via MCP read-back)"
 
   - name: "FeatureHighlight"
     kind: "simple"

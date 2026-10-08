@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 import { TypeaheadSearchBox } from '@/lib/search-ui/TypeaheadSearchBox';
+import { ArrowRight, Menu, X } from 'lucide-react';
 
 interface NavigationLinkFields {
   id: string;
@@ -352,6 +353,113 @@ export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element 
         <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-4 sm:px-6">
           <Logo brandLogo={brandLogo} />
         </div>
+      </header>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   Biffa variant — fixed overlay on the hero: white (inverted) logo,
+   centred two-line nav labels, search, red pill CTA with a circular
+   arrow badge; solid header colours once the page scrolls
+   ──────────────────────────────────────────── */
+export const Biffa = ({ fields, params, page, rendering }: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const datasource = fields?.data?.datasource;
+
+  useEffect(() => {
+    if (!datasource) return;
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [datasource]);
+
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+
+  const links = datasource.children?.results || [];
+  const brandLogo = datasource.brandLogo?.jsonValue;
+  const ctaLink = datasource.ctaLink?.jsonValue;
+  const ctaLabel = datasource.ctaLabel?.jsonValue;
+  // In the editor the header sits in normal flow on a solid background so it stays editable.
+  const overlay = !scrolled && !isEditing;
+  const fg = overlay ? 'var(--brand-primary-foreground)' : 'var(--brand-header-fg)';
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className={cn(
+          'left-0 right-0 top-0 z-50 w-full transition-all duration-300',
+          isEditing ? 'relative' : 'fixed',
+          !overlay && 'shadow-sm'
+        )}
+        style={{ backgroundColor: overlay ? 'transparent' : 'var(--brand-header-bg)' }}
+      >
+        <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between gap-6 px-6 lg:px-10">
+          <Link href="/" className="flex shrink-0 items-center" aria-label="Home">
+            {brandLogo?.value?.src || isEditing ? (
+              <span className="relative block h-10 w-[96px]">
+                <ContentSdkImage
+                  field={brandLogo}
+                  fill
+                  sizes="96px"
+                  className={cn('object-contain object-left transition-[filter] duration-300', overlay && 'brightness-0 invert')}
+                />
+              </span>
+            ) : null}
+          </Link>
+
+          <nav className="hidden flex-1 items-center justify-center gap-10 lg:flex">
+            {links.map((item) => (
+              <ContentSdkLink
+                key={item.id}
+                field={item.linkUrl?.jsonValue}
+                className="max-w-[120px] text-center text-[15px] font-semibold leading-tight transition-opacity hover:opacity-75 font-[var(--brand-body-font,inherit)]"
+                style={{ color: fg }}
+              >
+                {(item.linkText?.jsonValue?.value || isEditing) && <Text field={item.linkText?.jsonValue} />}
+              </ContentSdkLink>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-4">
+            <HeaderSearch datasource={datasource} page={page} rendering={rendering} />
+            {(ctaLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={ctaLink}
+                className="hidden items-center gap-3 rounded-[var(--brand-button-radius,9999px)] py-1.5 pl-5 pr-1.5 text-[15px] font-semibold transition-opacity hover:opacity-90 md:inline-flex"
+                style={{ backgroundColor: 'var(--brand-primary)', color: 'var(--brand-primary-foreground)' }}
+              >
+                {(ctaLabel?.value || isEditing) && <Text field={ctaLabel} />}
+                <span
+                  aria-hidden
+                  className="flex h-7 w-7 items-center justify-center rounded-full"
+                  style={{ backgroundColor: 'var(--brand-primary-foreground)', color: 'var(--brand-primary)' }}
+                >
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </ContentSdkLink>
+            )}
+            <button
+              type="button"
+              className="p-2 lg:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+              style={{ color: fg }}
+            >
+              {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
+        {menuOpen && (
+          <div className="lg:hidden" style={{ backgroundColor: 'var(--brand-header-bg)' }}>
+            <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
+          </div>
+        )}
       </header>
     </div>
   );

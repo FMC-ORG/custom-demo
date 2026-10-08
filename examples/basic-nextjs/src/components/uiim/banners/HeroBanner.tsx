@@ -10,6 +10,7 @@ import {
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 import { SmartMedia } from '@/components/uiim/media/SmartMedia';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 
 interface HeroBannerFields {
   Title: Field<string>;
@@ -278,6 +279,64 @@ export const VideoBackground = ({ fields, params, page }: HeroBannerProps): JSX.
             </div>
           </div>
         </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   Biffa variant — full-bleed photo, left gradient, left-aligned
+   64px headline, red pill CTA with arrow, scroll cue
+   ──────────────────────────────────────────── */
+export const Biffa = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  const showLink = (link?: LinkField) => !!link?.value?.href || isEditing;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative flex min-h-[640px] w-full items-center overflow-hidden md:min-h-[800px]">
+        {(fields.HeroImage?.value?.src || isEditing) && (
+          <div className="absolute inset-0">
+            <SmartMedia field={fields.HeroImage} fill sizes="100vw" priority className="object-cover" />
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/35 to-black/10" />
+        <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 pb-24 pt-32 md:px-[130px]">
+          <div className="max-w-[560px] text-white">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h1"
+                className="text-[44px] font-bold leading-[1.1] md:text-[64px] font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Subtitle?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Subtitle}
+                className="mt-6 text-lg leading-[1.5] opacity-90 font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+            <div className="mt-9 flex flex-wrap items-center gap-4">
+              {showLink(fields.PrimaryLink) && (
+                <span className="relative inline-flex items-center gap-3 rounded-[var(--brand-button-radius,9999px)] bg-[var(--brand-primary)] px-7 py-3.5 text-lg font-semibold text-[var(--brand-primary-foreground)] transition-opacity hover:opacity-90">
+                  <ContentSdkLink field={fields.PrimaryLink} className={cn(!isEditing && 'after:absolute after:inset-0')} />
+                  <ArrowRight aria-hidden className="h-5 w-5" />
+                </span>
+              )}
+              {showLink(fields.SecondaryLink) && (
+                <span className="relative inline-flex items-center gap-3 rounded-[var(--brand-button-radius,9999px)] border-2 border-white px-7 py-3 text-lg font-semibold text-white transition-opacity hover:opacity-80">
+                  <ContentSdkLink field={fields.SecondaryLink} className={cn(!isEditing && 'after:absolute after:inset-0')} />
+                  <ArrowRight aria-hidden className="h-5 w-5" />
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+        <ChevronDown aria-hidden className="absolute bottom-6 left-1/2 z-10 h-10 w-10 -translate-x-1/2 text-white opacity-80" strokeWidth={1.5} />
       </section>
     </div>
   );

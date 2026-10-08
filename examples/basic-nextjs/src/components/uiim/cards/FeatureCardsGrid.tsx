@@ -12,6 +12,7 @@ import {
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { ArrowRight } from 'lucide-react';
 
 interface FeatureCardItemFields {
   id: string;
@@ -438,6 +439,238 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
               ))}
             </div>
           )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ════════════════════════════════════════════
+   Biffa variants — shared pieces
+   ════════════════════════════════════════════ */
+const biffaHasText = (value?: string) => !!value && value.trim().length > 0;
+
+const BiffaSectionHeader = ({
+  datasource,
+  isEditing,
+  tone,
+}: {
+  datasource: FeatureCardsGridDatasource;
+  isEditing?: boolean;
+  tone: 'light' | 'dark';
+}) => {
+  const color = tone === 'light' ? 'var(--brand-primary-foreground)' : 'var(--brand-fg)';
+  const hasTitle = biffaHasText(datasource.title?.jsonValue?.value) || isEditing;
+  const hasDescription = biffaHasText(datasource.description?.jsonValue?.value) || isEditing;
+  if (!hasTitle && !hasDescription) return null;
+  return (
+    <div className="mx-auto mb-12 max-w-[880px] text-center md:mb-16">
+      {hasTitle && (
+        <Text
+          field={datasource.title?.jsonValue}
+          tag="h2"
+          className="text-[34px] font-bold leading-[1.15] md:text-[46px] font-[var(--brand-heading-font,inherit)]"
+          style={{ color }}
+        />
+      )}
+      {hasDescription && (
+        <ContentSdkRichText
+          field={datasource.description?.jsonValue}
+          className="mt-6 space-y-8 text-lg leading-[1.5] md:text-xl font-[var(--brand-body-font,inherit)] [&_a]:font-semibold [&_a]:underline [&_a]:underline-offset-4 [&_a]:after:ml-3 [&_a]:after:content-['›'] [&_p:last-child:has(a)]:pt-2"
+          style={{ color }}
+        />
+      )}
+    </div>
+  );
+};
+
+/** Article card (News / Insights): image top, red title, excerpt; whole card is the CardLink. */
+const BiffaArticleCard = ({ card, isEditing }: { card: FeatureCardItemFields; isEditing?: boolean }) => {
+  const link = card.cardLink?.jsonValue;
+  const hasLink = !!link?.value?.href;
+  return (
+    <div className="group relative flex flex-col overflow-hidden rounded-[var(--brand-card-radius,1.5rem)] bg-[var(--brand-bg)] shadow-lg">
+      {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+        <div className="relative h-[216px] w-full overflow-hidden">
+          <ContentSdkImage
+            field={card.cardImage?.jsonValue}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+      )}
+      <div className="flex flex-1 flex-col p-6">
+        {(biffaHasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+          <Text
+            field={card.cardTitle?.jsonValue}
+            tag="h3"
+            className="text-2xl font-bold leading-[1.25] md:text-[28px] font-[var(--brand-heading-font,inherit)]"
+            style={{ color: 'var(--brand-primary)' }}
+          />
+        )}
+        {(biffaHasText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+          <ContentSdkRichText
+            field={card.cardDescription?.jsonValue}
+            className="mt-4 text-base font-medium leading-[1.45] font-[var(--brand-body-font,inherit)]"
+            style={{ color: 'var(--brand-fg)' }}
+          />
+        )}
+        {isEditing ? (
+          <ContentSdkLink field={link} className="mt-4 text-sm font-semibold underline" style={{ color: 'var(--brand-primary)' }} />
+        ) : (
+          hasLink && <ContentSdkLink field={link} className="absolute inset-0 z-10 text-[0px]" aria-label={link?.value?.text || undefined} />
+        )}
+      </div>
+    </div>
+  );
+};
+
+/** Promo card (Let's work together): image top, navy title, text, red pill CardLink. */
+const BiffaPromoCard = ({ card, isEditing }: { card: FeatureCardItemFields; isEditing?: boolean }) => (
+  <div className="flex flex-col overflow-hidden rounded-[var(--brand-card-radius,1.5rem)] bg-[var(--brand-bg)] shadow-lg">
+    {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+      <div className="relative h-[260px] w-full overflow-hidden">
+        <ContentSdkImage
+          field={card.cardImage?.jsonValue}
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+          className="object-cover"
+        />
+      </div>
+    )}
+    <div className="flex flex-1 flex-col p-6">
+      {(biffaHasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+        <Text
+          field={card.cardTitle?.jsonValue}
+          tag="h3"
+          className="text-2xl font-bold leading-[1.25] md:text-[28px] font-[var(--brand-heading-font,inherit)]"
+          style={{ color: 'var(--brand-fg)' }}
+        />
+      )}
+      {(biffaHasText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+        <ContentSdkRichText
+          field={card.cardDescription?.jsonValue}
+          className="mt-4 flex-1 text-base font-medium leading-[1.45] font-[var(--brand-body-font,inherit)]"
+          style={{ color: 'var(--brand-fg)' }}
+        />
+      )}
+      {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+        <span className="relative mt-8 inline-flex w-fit items-center gap-3 rounded-[var(--brand-button-radius,9999px)] bg-[var(--brand-primary)] px-5 py-3 text-lg font-semibold text-[var(--brand-primary-foreground)] transition-opacity hover:opacity-90">
+          <ContentSdkLink field={card.cardLink?.jsonValue} className={cn(!isEditing && 'after:absolute after:inset-0')} />
+          <ArrowRight aria-hidden className="h-5 w-5" />
+        </span>
+      )}
+    </div>
+  </div>
+);
+
+/* ────────────────────────────────────────────
+   BiffaNews variant — solid primary-red band, white heading,
+   3 white article cards with red titles (whole card clickable)
+   ──────────────────────────────────────────── */
+export const BiffaNews = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-6 py-20 md:py-28" style={{ backgroundColor: 'var(--brand-primary)' }}>
+        <div className="mx-auto max-w-[1400px]">
+          <BiffaSectionHeader datasource={datasource} isEditing={isEditing} tone="light" />
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {cards.map((card) => (
+              <BiffaArticleCard key={card.id} card={card} isEditing={isEditing} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   BiffaPromo variant — primary-red top half / white bottom half,
+   white heading, 3 audience cards with red pill buttons
+   ──────────────────────────────────────────── */
+export const BiffaPromo = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-6 pb-20 pt-20 md:pb-28 md:pt-24"
+        style={{
+          background: 'linear-gradient(to bottom, var(--brand-primary) 0, var(--brand-primary) 55%, var(--brand-bg) 55%, var(--brand-bg) 100%)',
+        }}
+      >
+        <div className="mx-auto max-w-[1400px]">
+          <BiffaSectionHeader datasource={datasource} isEditing={isEditing} tone="light" />
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {cards.map((card) => (
+              <BiffaPromoCard key={card.id} card={card} isEditing={isEditing} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   BiffaInsights variant — light-grey band, navy heading + intro
+   (Description link styled as underlined "view more"), article cards
+   ──────────────────────────────────────────── */
+export const BiffaInsights = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+  const hasTitle = biffaHasText(datasource.title?.jsonValue?.value) || isEditing;
+  const hasDescription = biffaHasText(datasource.description?.jsonValue?.value) || isEditing;
+
+  // Live site shows the "view more" link BELOW the cards. It is authored as the last
+  // Description paragraph, so outside edit mode the Description wrapper uses
+  // display:contents and the link-only paragraph is ordered after the card grid.
+  // In edit mode the Description stays a normal block so inline editing works.
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-6 py-20 md:py-28" style={{ backgroundColor: 'var(--brand-muted)' }}>
+        <div className="mx-auto flex max-w-[1400px] flex-col items-center">
+          {hasTitle && (
+            <Text
+              field={datasource.title?.jsonValue}
+              tag="h2"
+              className="order-1 max-w-[880px] text-center text-[34px] font-bold leading-[1.15] md:text-[46px] font-[var(--brand-heading-font,inherit)]"
+              style={{ color: 'var(--brand-fg)' }}
+            />
+          )}
+          {hasDescription && (
+            <ContentSdkRichText
+              field={datasource.description?.jsonValue}
+              className={cn(
+                'text-center text-lg leading-[1.5] md:text-xl font-[var(--brand-body-font,inherit)]',
+                "[&_a]:font-semibold [&_a]:underline [&_a]:underline-offset-4 [&_a]:after:ml-3 [&_a]:after:content-['›']",
+                isEditing
+                  ? 'order-2 mt-6 max-w-[880px] space-y-6'
+                  : 'contents [&>p]:order-2 [&>p]:mt-6 [&>p]:max-w-[880px] [&>p:has(>a:only-child)]:order-4 [&>p:has(>a:only-child)]:mt-14'
+              )}
+              style={{ color: 'var(--brand-fg)' }}
+            />
+          )}
+          <div className="order-3 mt-12 grid w-full gap-6 md:mt-16 md:grid-cols-2 lg:grid-cols-3">
+            {cards.map((card) => (
+              <BiffaArticleCard key={card.id} card={card} isEditing={isEditing} />
+            ))}
+          </div>
         </div>
       </section>
     </div>

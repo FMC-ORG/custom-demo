@@ -234,3 +234,66 @@ export const LogoRow = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Biffa variant — 3 x 2 grid of outlined, softly shadowed stat
+   cards: red icon, 40px navy value, navy label
+   ──────────────────────────────────────────── */
+export const Biffa = ({ fields, params, page }: TrustStatsRowProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TrustStatsRowDefaultComponent />;
+  const items = datasource.children?.results || [];
+  // Title/Eyebrow may hold a single-space blank fallback: treat whitespace as empty.
+  const hasText = (value?: string) => !!value && value.trim().length > 0;
+  const showHeader = isEditing || hasText(datasource.title?.jsonValue?.value) || hasText(datasource.eyebrowText?.jsonValue?.value);
+
+  return (
+    <div className={cn('component trust-stats-row', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-6 pb-16 pt-10 md:pb-24" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
+        <div className="mx-auto max-w-[1400px]">
+          {showHeader && <SectionHeader datasource={datasource} isEditing={isEditing} />}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="flex flex-col items-center justify-center rounded-[var(--brand-card-radius,1.5rem)] border px-6 py-8 text-center shadow-md"
+                style={{ borderColor: 'var(--brand-border)', backgroundColor: 'var(--brand-bg, #ffffff)' }}
+              >
+                {(item.statIcon?.jsonValue?.value?.src || isEditing) && (
+                  <div className="relative mb-3 h-8 w-8">
+                    <ContentSdkImage field={item.statIcon?.jsonValue} fill sizes="32px" className="object-contain" />
+                  </div>
+                )}
+                {(hasText(item.statValue?.jsonValue?.value) || isEditing) && (
+                  <Text
+                    field={item.statValue?.jsonValue}
+                    tag="p"
+                    className="text-[40px] font-bold leading-tight font-[var(--brand-heading-font,inherit)]"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                {(hasText(item.statLabel?.jsonValue?.value) || isEditing) && (
+                  <Text
+                    field={item.statLabel?.jsonValue}
+                    tag="p"
+                    className="mt-1 max-w-[300px] text-base font-medium leading-snug font-[var(--brand-body-font,inherit)]"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                {(hasText(item.statDescription?.jsonValue?.value) || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.statDescription?.jsonValue}
+                    className="mt-2 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

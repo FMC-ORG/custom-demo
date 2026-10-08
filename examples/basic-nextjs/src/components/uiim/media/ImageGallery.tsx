@@ -7,6 +7,7 @@ import {
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { Play } from 'lucide-react';
 
 interface ImageGalleryFields {
   GalleryImage: ImageField;
@@ -125,6 +126,45 @@ export const Parallax = ({ fields, params, page }: ImageGalleryProps): JSX.Eleme
               backgroundColor: 'var(--brand-bg, #ffffff)',
               color: 'var(--brand-muted-foreground, #6b7280)',
             }}
+          >
+            <Text field={fields.Caption} />
+          </figcaption>
+        )}
+      </figure>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   Biffa variant — edge-to-edge video poster band with a
+   decorative centred play button (video embed is a manual task)
+   ──────────────────────────────────────────── */
+export const Biffa = ({ fields, params, page }: ImageGalleryProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <ImageGalleryDefaultComponent />;
+
+  const caption = fields.Caption?.value;
+  const hasCaption = !!caption && caption.trim().length > 0;
+
+  return (
+    <div className={cn('component image-gallery', styles)} id={RenderingIdentifier}>
+      <figure className="w-full">
+        {(fields.GalleryImage?.value?.src || isEditing) && (
+          <div className="relative h-[420px] w-full overflow-hidden md:h-[810px]">
+            <ContentSdkImage field={fields.GalleryImage} fill sizes="100vw" className="object-cover" />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/2 flex h-[60px] w-[60px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[3px] border-white/90 bg-black/20"
+            >
+              <Play className="ml-1 h-6 w-6 fill-white/90 text-white/90" />
+            </span>
+          </div>
+        )}
+        {(hasCaption || isEditing) && (
+          <figcaption
+            className="px-4 py-3 text-center text-sm font-[var(--brand-body-font,inherit)]"
+            style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
           >
             <Text field={fields.Caption} />
           </figcaption>

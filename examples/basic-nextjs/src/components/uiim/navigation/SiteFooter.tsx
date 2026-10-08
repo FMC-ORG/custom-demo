@@ -345,3 +345,55 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Biffa variant — navy footer: three link columns, a fourth
+   column behind a dotted divider (follow us + legal), logo
+   bottom-left. Link columns are the shared code placeholders
+   (no datasource fields) — only BrandLogo is authorable.
+   ──────────────────────────────────────────── */
+export const Biffa = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const { styles, RenderingIdentifier } = params;
+  const brandLogo = getBrandLogo(props);
+
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full"
+        style={{ backgroundColor: 'var(--brand-footer-bg)', color: 'var(--brand-footer-fg)' }}
+      >
+        <div className="mx-auto max-w-[1440px] px-6 pb-16 pt-20 lg:px-10">
+          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:gap-8">
+            {LINK_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <h3 className="mb-6 text-base font-semibold font-[var(--brand-heading-font,inherit)]">{col.title}</h3>
+                <ul className="space-y-3">
+                  {col.links.map((link) => (
+                    <li key={link}>
+                      <a href="#" className="text-[15px] font-medium transition-opacity hover:opacity-70 font-[var(--brand-body-font,inherit)]">
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+            <div className="border-dotted lg:w-[290px] lg:border-l-2 lg:pl-8" style={{ borderColor: 'var(--brand-footer-fg)' }}>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wide">Follow us:</p>
+              <SocialIcons />
+              <div className="mt-6 text-[13px] font-medium leading-relaxed">
+                <Copyright />
+              </div>
+            </div>
+          </div>
+          <div className="mt-16">
+            <Logo brandLogo={brandLogo} />
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};

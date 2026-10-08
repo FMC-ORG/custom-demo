@@ -10,6 +10,7 @@ import {
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 import { SmartMedia } from '@/components/uiim/media/SmartMedia';
+import { ArrowRight } from 'lucide-react';
 
 interface CTABannerFields {
   Title: Field<string>;
@@ -242,6 +243,63 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
                 style={{ color: 'var(--brand-primary)' }}
               />
             )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   Biffa variant — photo background under a strong primary-red
+   overlay, centred white copy, white filled + white outline pills
+   ──────────────────────────────────────────── */
+export const Biffa = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  const showLink = (link?: LinkField) => !!link?.value?.href || isEditing;
+  const stretch = cn(!isEditing && 'after:absolute after:inset-0');
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative w-full overflow-hidden" style={{ backgroundColor: 'var(--brand-primary)' }}>
+        {(fields.BackgroundImage?.value?.src || isEditing) && (
+          <div className="absolute inset-0">
+            <SmartMedia field={fields.BackgroundImage} fill sizes="100vw" className="object-cover" />
+          </div>
+        )}
+        <div className="absolute inset-0 bg-[color-mix(in_srgb,var(--brand-primary)_85%,transparent)]" />
+        <div className="relative z-10 px-6 py-20 text-[var(--brand-primary-foreground)] md:py-28">
+          <div className="mx-auto max-w-[880px] text-center">
+            {(fields.Title?.value || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-[34px] font-bold leading-[1.15] md:text-[46px] font-[var(--brand-heading-font,inherit)]"
+              />
+            )}
+            {(fields.Description?.value || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-6 text-lg leading-[1.5] md:text-xl font-[var(--brand-body-font,inherit)]"
+              />
+            )}
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+              {showLink(fields.PrimaryLink) && (
+                <span className="relative inline-flex items-center gap-3 rounded-[var(--brand-button-radius,9999px)] bg-[var(--brand-primary-foreground)] px-6 py-3 text-base font-semibold text-[var(--brand-primary)] transition-opacity hover:opacity-90">
+                  <ContentSdkLink field={fields.PrimaryLink} className={stretch} />
+                  <ArrowRight aria-hidden className="h-5 w-5" />
+                </span>
+              )}
+              {showLink(fields.SecondaryLink) && (
+                <span className="relative inline-flex items-center gap-3 rounded-[var(--brand-button-radius,9999px)] border-2 border-[var(--brand-primary-foreground)] px-6 py-2.5 text-base font-semibold transition-opacity hover:opacity-80">
+                  <ContentSdkLink field={fields.SecondaryLink} className={stretch} />
+                  <ArrowRight aria-hidden className="h-5 w-5" />
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </section>

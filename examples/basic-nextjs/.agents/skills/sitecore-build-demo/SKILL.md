@@ -25,18 +25,14 @@ Use this skill when:
 
 ## Resume a demo build
 
-If the user says "resume demo", "continue demo", "pick up where we left off", or a previous session was interrupted:
+Read the client progress file and the phase result files, then follow `.agents/skills/sitecore-build-demo/references/recovery.md`.
 
-1. Read `docs/ai/demos/<client-kebab>/demo-progress.yaml`
-2. Find the last phase with `status: "complete"` — that's where we finished
-3. Find the first phase with `status: "partial"` or `"pending"` — that's where to resume
-4. For Phase 3 (content) or Phase 6 (assembly), check per-section status:
-   - Skip sections with `status: "populated"` or `"wired"`
-   - Resume from the first section with `status: "pending"` or `"created"` (created but not populated)
-   - Retry sections with `status: "failed"` (read the `error` field for context)
-5. Show the user a summary of what's done and what remains before continuing
-
-**Do NOT re-run completed phases.** The progress file is the source of truth for demo state.
+- Same approved inputs, authenticated environment, and workspace only. Preserve the recovery journals and MCP transport records.
+- Reuse verified work through the helpers; do not recreate items from phase flags or rewrite creation loops.
+- Resume helper commands without `--initialize`; use `--begin` once after a session break for fresh MCP observations.
+- A claimed mutation without a recorded response is unknown, not failed. Reconcile it; never execute that claim again.
+- Missing/corrupt records, changed input, remote drift, or unresolved ownership require a stop. Existing legacy demos are NOT automatically migrated into new journals.
+- Confirmed independent failures may preserve useful progress, but the final result stays partial while work remains unresolved.
 
 ---
 
@@ -102,11 +98,11 @@ Read `docs/ai/config/credentials.local.yaml`.
 
 **If the user declines to provide credentials**, that's fine — set `contentHub.host: ""` and images will fall back to the manual `images-to-upload.md` checklist in Phase 3 Step 5.
 
-**Validation script shortcut** (agent can run this instead of manual HTTP call):
+**Upload plan inspection, after Phase 2.5 has produced an image manifest** (does not validate credentials; use the explicit authentication check above for that):
 ```bash
-node .agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs --images-dir docs/ai/demos/test --dry-run
+node .agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs --images-dir docs/ai/demos/<client-kebab>/images --dry-run
 ```
-If it prints `[auth] OK`, credentials are valid. If it prints `ERROR`, they need updating.
+`--dry-run` performs no authentication, uploads, or checkpoint writes. Do not describe it as credential verification.
 
 **Create the progress file** at `docs/ai/demos/<client-kebab>/demo-progress.yaml` using the template at `.agents/skills/sitecore-build-demo/assets/demo-progress.template.yaml`. Set `client.name`, `client.sourceUrl`, `client.startedAt`, and `phases.phase0_inputs.status: "complete"`.
 
@@ -177,7 +173,7 @@ Run the `sitecore-analyze-site` subskill — see **Subskill handoff** above. Inp
    - `apiAddable: true` — has a datasource template, can be added via `add_component_on_page`
    - `apiAddable: false` — context-only component (no datasource template), must be added manually in Pages editor
 
-   Context-only components (NavigationHeader, SiteFooter) will fail with "No datasource template found" when using `add_component_on_page`. Flag these in the build plan so the assembly phase skips them and includes them in the manual tasks checklist.
+   Components with no datasource template cannot be added through this API. Do not classify header/footer by name: inspect the manifest and rendering. Datasource-backed header/footer content is populated normally, while `placement: "partial-design"` is skipped during page assembly and handed off for an approved manual switch.
 8. Output two files:
    - `docs/ai/demos/<client-kebab>/build-plan.yaml` — machine-readable plan for subsequent phases
    - `docs/ai/demos/<client-kebab>/build-plan-summary.md` — human-readable summary using the template at `.agents/skills/sitecore-analyze-site/assets/build-plan-summary.template.md`
@@ -246,295 +242,21 @@ The content map is the input for Phase 3 — it contains exact field values read
 
 ### Phase 3 — Populate content for template components
 
-Create **new datasource items** with the client's content. Never modify the example items from serialization — they serve as clean defaults for every demo.
+**Required execution path:** `.agents/skills/sitecore-build-demo/references/recovery.md`. Use its tested upload and population helpers rather than hand-written MCP creation loops.
 
-**Input:** Read `docs/ai/demos/<client>/content-map.yaml` (produced by Phase 2.5). This contains exact, English-translated field values for every section, with content already mapped to Sitecore field names.
+**Inputs:** approved build plan and content map, project identity, verified template/folder IDs from the manifest, image manifest.
 
-**Validate the content map before proceeding.** Check these required keys:
-- Top-level `client` key exists (NOT `meta`) with `client.name`
-- Every section has: `componentName`, `manifestName`, `kind`, `datasourceItemName`, `fields`, `children`, `imageFields`
-- `children` is always the key name (not `slideChildren`, `cardChildren`, `tabChildren`, etc.)
-- `kind` is one of: `"simple"`, `"list"`, `"context-only"`
-- `imageFields` is an array (may be empty `[]`)
+1. Upload images through `.agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs`. An explicitly approved NEW upload run uses `--initialize`; a resume never does. Check `upload-result.json`, not just non-empty URLs. Without Content Hub credentials, preserve a manual-image handoff and do not claim automated uploads succeeded.
+2. Prepare the reviewed, field-ready execution plan using `.agents/skills/sitecore-build-demo/assets/execution-plan.template.json`. Resolve project paths from configuration and verify IDs/field types. Record explicit optionality and explicit blanks; omitted content is not permission to blank fields. Use a distinct stable section key for repeated component types.
+3. Create client datasource instances, never change example items or shared templates. Header/footer datasources are included when configured on their renderings; their `placement: "partial-design"` affects assembly, not whether content is populated.
+4. Invoke `.agents/skills/sitecore-build-demo/scripts/demo-recovery.cjs` with `--phase populate`, the plan, and the demo directory. Use `--initialize` only for an explicitly approved NEW phase. Follow the durable **claim → marketer MCP call once → reply → step** protocol in the reference.
+5. The helper checkpoints parent/child IDs, populates fields, sets child `__Sortorder` from source order, reads values back, and verifies the returned child ID sequence. No successful response or non-empty field alone proves completion.
+6. The helper flags unintended item-name defaults. For explicitly blank optional display text only, an acknowledged but ineffective empty write may use the recorded single-space workaround. Required/unspecified fields, links, images, and system fields never receive whitespace.
+7. Inspect `population-result.json`. The recovery journal is authoritative; progress and content-map datasource records are derived. Blocked/failed sections are not ready for assembly. Copy verified exceptions and unresolved target fields into the handoff.
 
-If any key is missing or uses a non-standard name, **fix the content map first** before creating items. Do NOT silently skip sections with wrong keys.
+General Link values must be complete XML or approved external link objects; image values come from verified DAM image XML with dimensions. All demo content remains English. Media posters may be used only when approved; videos and unavailable assets remain explicit manual tasks.
 
-**Context:** Each demo runs on an isolated branch + dedicated Sitecore environment deployed from serialization. All manifest IDs are valid (serialization preserves GUIDs). Example items remain untouched.
-
-#### Naming convention
-
-```
-<ClientName> - <ComponentName>                    # default client content
-<ClientName> - <ComponentName> - <Segment>        # personalization variant (SE creates later)
-```
-
-Examples:
-```
-Data/HeroBanners/
-  ├── Hero Banner                                 # original example (untouched)
-  ├── Eurobank - Hero Banner                      # default (pipeline creates)
-  ├── Eurobank - Hero Banner - Families           # personalization (SE creates)
-  └── Eurobank - Hero Banner - Retirees           # personalization (SE creates)
-```
-
-#### Step 1 — Upload images to Content Hub
-
-**Run this FIRST** — before creating datasource items. The `imageFieldXml` values are needed when populating fields in Step 3.
-
-Images were downloaded during Phase 2.5 (content extraction with `--download-images`). The local files and manifest are at `docs/ai/demos/<client>/images/`.
-
-**If Content Hub credentials are available** (check `docs/ai/config/credentials.local.yaml`):
-
-```bash
-node .agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs \
-  --images-dir docs/ai/demos/<client>/images
-```
-
-The script reads credentials automatically and performs 5 steps per image:
-1. `POST /api/v2.0/upload` — request upload URL
-2. `POST /api/v2.0/upload/process` — upload file binary
-3. `POST /api/v2.0/upload/finalize` — get `asset_id` + `asset_identifier`
-4. `POST /api/entities/{id}/lifecycle/approve` — auto-approve (Created → Approved)
-5. `POST /api/entities` (M.PublicLink) — create public link → get working public URL
-
-After completion, `image-manifest.json` is updated with per-image:
-- `assetId`, `assetIdentifier`, `publicUrl`, `thumbnailUrl`
-- `imageFieldXml` — ready-to-use DAM Image field XML for datasource items
-
-**If no Content Hub credentials:** Skip this step. Image fields will be left empty and added to `images-to-upload.md` for manual upload later.
-
-#### Step 2 — Create client datasource items
-
-For each section in `buildOrder.phase1_sitecore` with `matchType: "template"`:
-
-**Context-only components** (NavigationHeader, SiteFooter): skip — no datasource.
-
-**Simple components:**
-```
-create_content_item(
-  name="<ClientName> - <ComponentName>",
-  templateId=manifest.templates.datasource.itemId,
-  parentId=manifest.datasourceFolder.itemId
-)
-```
-Save the returned `itemId`.
-
-**List components (parent + children):**
-```
-create_content_item(
-  name="<ClientName> - <ComponentName>",
-  templateId=manifest.templates.datasource.itemId,
-  parentId=manifest.datasourceFolder.itemId
-)
-```
-Then create each child item under the new parent (see Step 4).
-
-#### Step 3 — Populate all fields (text + links + images in one call)
-
-For each new client datasource item, build a single field update that includes **all field types**:
-
-```
-update_fields_on_content_item(newItemId, {
-  // Text fields — from content-map
-  "Title": contentMap.sections[N].fields.Title,
-  "Description": contentMap.sections[N].fields.Description,
-
-  // Link fields — convert { text, href, target } to Sitecore XML
-  "PrimaryLink": '<link text="Learn more" anchor="" linktype="external" class="" title="" target="_blank" querystring="" url="https://client.com/page" />',
-
-  // Image fields — from image-manifest.json imageFieldXml (uploaded in Step 1)
-  "HeroImage": '<Image src="https://host/api/public/content/84088-hero?v=def" dam-id="xyz" width="1200" height="600" alt="Hero" dam-content-type="Image" thumbnailsrc="https://host/api/gateway/84088/thumbnail" />'
-})
-```
-
-**Matching images to fields:** The content-map's `imageFields` array lists `{ field, src }` per section. The `image-manifest.json` maps each `src` URL to its `imageFieldXml`. To wire them:
-1. For each section's `imageFields` entry, find the manifest entry with matching `src`
-2. Use the manifest's `imageFieldXml` as the field value
-3. Include it in the same `update_fields_on_content_item` call as text and link fields
-
-**If images were not uploaded** (Step 1 was skipped), omit Image fields — add them to `images-to-upload.md` for manual handling.
-
-**Link field conversion rules:**
-- `href` starts with `http` → `linktype="external"`, set `url` attribute
-- `href` is `#` or empty → `linktype="external"`, `url="#"`
-- `href` is relative → prepend client domain, `linktype="external"`
-- `target` is `_blank` or absent → set `target` accordingly
-- **All attributes must be present** even if empty — `text`, `anchor`, `linktype`, `class`, `title`, `target`, `querystring`, then `id` or `url`
-
-Run multiple simple component updates in parallel — they're independent.
-
-#### Step 4 — Handle children (list components only)
-
-For each list component section, create all child items under the new client parent:
-
-```
-For each child in contentMap.sections[N].children:
-  create_content_item(
-    name="<ClientName> - <descriptive child name>",
-    templateId=manifest.templates.child.itemId,
-    parentId=<new client parent itemId from Step 2>
-  )
-  update_fields_on_content_item(newChildId, {
-    // Text + link + image fields — all in one call
-    "CardTitle": child.fields.CardTitle,
-    "CardDescription": child.fields.CardDescription,
-    "CardLink": '<link text="..." ... />',
-    "CardImage": '<Image src="..." dam-id="..." width="..." height="..." ... />'  // from image-manifest.json — width/height REQUIRED
-  })
-```
-
-Include child image fields (e.g., `CardImage`) in the same update call — match `child.imageFields[].src` to `image-manifest.json` entries.
-
-The number of children matches exactly what the content map specifies (extracted from the client site).
-
-Children within the same parent can be created in parallel (they share a parent but are independent).
-
-> **KNOWN ISSUE: `create_component_ds` may not reliably create children.**
->
-> The `create_component_ds` tool accepts a `children` array, but children may not actually be created. After creating any list component datasource:
-> 1. Read the parent item back with `get_content_item_by_id`
-> 2. Check if `children.results` contains the expected number of items
-> 3. If children are missing, create them individually with `create_content_item` under the parent
->
-> This verification step adds ~5 seconds per list component but prevents empty card grids and stat rows.
-
-#### Step 5 — Handle image upload failures
-
-If any images failed to upload in Step 1, or Step 1 was skipped entirely:
-
-1. Generate `docs/ai/demos/<client>/images-to-upload.md` with:
-   - Local file path (already downloaded in Phase 2.5)
-   - Content Hub host URL
-   - Source URL
-   - Target datasource item + field name
-2. Record `imagesFailed` count in `demo-progress.yaml`
-3. After the SE uploads manually and confirms, use `search_assets` to find items by name, build `imageFieldXml`, and set on datasource items
-
-#### Step 6 — Handle videos (metadata only)
-
-Videos are NOT downloaded or uploaded. If `content-map.yaml` has a `manualVideoTasks` section:
-
-1. Use the video **poster image** as the component's Image field value (the poster is already in the image manifest — it was downloaded as a regular image)
-2. Add each video to `manual-tasks.md` with:
-   - Section position and component name
-   - Video source URL(s)
-   - Instructions: "Upload video to Content Hub, create public link, set URL on component"
-3. If the matched component variant is `VideoBackground`, note the video URL in the datasource field as a placeholder text so the SE knows where to find it
-
-Do NOT attempt to download `.mp4`/`.webm` files — they're 10-100MB and would slow the pipeline significantly.
-
-#### Step 7 — Record all new items
-
-Save all created item IDs to `docs/ai/demos/<client>/content-map.yaml`:
-
-```yaml
-client:
-  name: "Eurobank"
-  createdAt: "2026-04-09T..."
-
-datasourceItems:
-  - componentName: "HeroBanner"
-    itemName: "Eurobank - Hero Banner"
-    itemId: "{new-guid}"
-    parentFolder: "{manifest datasource folder id}"
-    fieldsPopulated: ["Title", "Subtitle", "PrimaryLink", "SecondaryLink"]
-    imageFieldsPending: ["HeroImage"]
-    children: []
-
-  - componentName: "ProductPricingCards"
-    itemName: "Eurobank - Product Pricing Cards"
-    itemId: "{new-guid}"
-    parentFolder: "{manifest datasource folder id}"
-    fieldsPopulated: ["Title", "Description"]
-    imageFieldsPending: []
-    children:
-      - name: "Eurobank - Personal Banking"
-        itemId: "{new-guid}"
-        fieldsPopulated: ["CardTitle", "CardDescription", "BadgeText", "PriceText", "CardLink"]
-        imageFieldsPending: ["CardImage"]
-      - name: "Eurobank - Business Banking"
-        itemId: "{new-guid}"
-        fieldsPopulated: [...]
-```
-
-This content map is consumed by Phase 6 (page assembly) to wire the correct datasource items.
-
-#### Personalization readiness
-
-The pipeline creates one default datasource per component. To add personalization:
-
-1. **SE creates additional datasource items** in the same folder using the naming convention:
-   ```
-   <ClientName> - <ComponentName> - <Segment>
-   ```
-2. **SE sets up personalization rules** in Pages editor:
-   - Select the component on the page
-   - Add a personalization condition (audience segment, campaign, etc.)
-   - Assign the segment-specific datasource
-
-The pipeline provides a note in `manual-tasks.md`:
-```markdown
-## Personalization (Optional)
-
-To show different content for different audience segments, create
-additional datasource items in the same folder:
-
-| Component | Folder | Template |
-|-----------|--------|----------|
-| Hero Banner | /Data/HeroBanners | HeroBanner template |
-| Product Pricing Cards | /Data/ProductPricingCards | ProductPricingCards template |
-
-Naming convention: "<ClientName> - <ComponentName> - <Segment>"
-Example: "Eurobank - Hero Banner - Families"
-
-Then in Pages editor: select component → Personalize → add condition → assign datasource.
-```
-
-#### Progress tracking (Phase 3) — MANDATORY
-
-**HARD REQUIREMENT:** The `sections` array in `demo-progress.yaml` must NOT be empty. Before starting Phase 3, initialize one entry per content-map section:
-
-```yaml
-sections:
-  - position: 1
-    componentName: "AnnouncementBar"
-    kind: "simple"
-    phase3:
-      status: "pending"
-      itemId: ""
-      fieldsPopulated: false
-      childrenCreated: 0
-      childrenExpected: 0
-      error: ""
-```
-
-**After each MCP call**, update the section's status:
-
-```
-sections[N].phase3.status:
-  "pending"   → not started
-  "created"   → create_content_item succeeded, itemId recorded
-  "populated" → update_fields_on_content_item succeeded
-  "failed"    → MCP call returned error, error message recorded
-```
-
-For list components, also track:
-- `childrenCreated` — increment after each child create_content_item
-- `childrenExpected` — from content-map.yaml `children` count
-
-**Write the progress file to disk after every 2-3 sections** (not after every MCP call — that would be too slow). Always write after the last section.
-
-**If `sections` is empty at the end of Phase 3, the phase FAILED** — even if `phase3_content.status` says "complete". An empty sections array means no per-section tracking was done and resume is impossible.
-
-**On resume:** Skip sections where `status: "populated"`. For `status: "created"`, retry the field update. For `status: "failed"`, retry the full section.
-
-#### Content population order
-
-- Work through sections top-to-bottom following `buildOrder.phase1_sitecore`
-- Simple components can run in **parallel** (independent datasource folders)
-- List component parent must be created **before** children (sequential)
-- Children within the same parent can run in **parallel**
-- Use manifest IDs for template and folder lookups — don't re-resolve paths
+The pipeline creates default client datasources. Segment-specific personalization and shared partial-design switches remain separate approved work.
 
 ### Phase 4 — Apply the theme
 
@@ -624,155 +346,25 @@ This phase bridges the gap between "same colors" (Phase 4 CSS variables) and "lo
 
 ### Phase 6 — Assemble the page
 
-Add components to the page in build-plan order and wire each to its datasource item.
+**Required execution path:** `.agents/skills/sitecore-build-demo/references/recovery.md`, assembly phase. No inline add/retry loops.
 
-**Known limitation:** The Agent API cannot set rendering parameters (including variant selection) when adding components. Variants must be set manually in Pages editor after assembly. See `docs/ai/reference/agent-api-limitations.md`.
+**Inputs:** unchanged approved execution plan, verified population result, existing Home page identity and inspected page composition.
 
-#### Step 1 — Use the existing Home page (default)
+1. Use the existing Home page unless the user requested a new page. Inventory its components through marketer MCP. Record any approved reuse explicitly as an `existingInstanceId`; never match only by component name or take over another demo.
+2. Invoke `.agents/skills/sitecore-build-demo/scripts/demo-recovery.cjs` with `--phase assemble`. NEW phases require explicit `--initialize`; resumes do not. Use the same claim/call/reply protocol as population.
+3. The helper snapshots page state, adds sequentially with stable section-specific names, diffs read-back after every add, checkpoints instance IDs, wires client datasources, and verifies final relative order and relationships.
+4. A timeout is an unknown outcome. Read back before any retry. If attribution remains ambiguous, stop the placement chain. Never generate a different retry name or delete a local datasource to bypass a collision.
+5. Shared partial-design placements are skipped with a manual task. Do not switch shared headers/footers under this P0 recovery scope.
+6. Preserve existing rendering parameters. The add API may select a preset variant: do not assume Default. Generate `variant-checklist.md` from observed parameters when available; otherwise label Current as unverified. Variant selection itself remains manual.
+7. Inspect `assembly-result.json` and all unresolved upstream phase results. A written summary does not turn partial work into completed work. Auto-created local datasource cleanup remains manual, not an automatic delete.
 
-**Always use the existing Home page** unless the user explicitly asks for a new subpage. Do not create a new page by default — the Home page is the primary demo surface and already has the correct Page Design, partial designs (header/footer), and URL routing.
-
-**Steps:**
-1. Resolve the Home page: `get_content_item_by_path("/sitecore/content/<siteCollection>/<siteName>/Home")`
-2. Read current components: `get_components_on_page(homePageId)`
-3. Inventory what's already on the page:
-   - **Custom uiim components** already placed (match by `componentName`) — these will be re-wired to new client datasources, not re-added
-   - **OOB starter kit components** (RichText, Image, Container, Promo — identified by paths under `/sitecore/layout/Renderings/Feature/`) — these cannot be removed via MCP, note them for manual cleanup
-4. Use the Home page ID for all subsequent `add_component_on_page` and `set_component_datasource` calls
-
-**Only create a new subpage if the user explicitly requests it:**
-```
-create_page(name="<client-name> Demo", parentId=<home-page-id>, templateId=<page-template-id>)
-```
-
-Do NOT ask the user "should I use the Home page or create a new page?" — just use the Home page.
-
-#### Step 2 — Add components to the page
-
-For each section in the build plan, top to bottom (following `buildOrder.phase1_sitecore`):
-
-**If component already exists on page** (Option A, matched by `componentName`):
-- Skip adding — it's already placed
-- Proceed to Step 3 to update its datasource
-
-**If component is NOT on the page:**
-```
-add_component_on_page(
-  pageId=<target-page-id>,
-  componentRenderingId=<rendering itemId from manifest>,
-  placeholderPath="headless-main",
-  componentItemName=<componentName>
-)
-```
-
-**Ordering:** Use `insertAfterComponentId` to place each component after the previous one. For the first component, omit this parameter (appends to end). Track the returned component instance for the next insertion.
-
-**Context-only components** (NavigationHeader, SiteFooter):
-- These components have no datasource template and **cannot be added via `add_component_on_page`** — the API returns "No datasource template found"
-- If they live in partial designs, they're already on the page via the Page Design — skip
-- If they need to be in `headless-main`, add them to the manual tasks checklist with clear positioning instructions (e.g., "Add NavigationHeader between AnnouncementBar and HeroBanner")
-- Do NOT attempt to add them via API — it will fail and waste time
-
-**Skip adding OOB components** that aren't in the build plan (RichText, Image, Container, Promo from starter kit). These cannot be removed via MCP — note them for manual cleanup.
-
-#### Step 3 — Wire datasources
-
-For each component that was added or already existed:
-
-Read the **client datasource item IDs** from `docs/ai/demos/<client>/content-map.yaml` (created in Phase 3). Do NOT use the manifest's `exampleItem` IDs — those are the clean defaults.
-
-**Simple components (own datasource):**
-```
-set_component_datasource(
-  pageId=<target-page-id>,
-  componentId=<component instance id from add response or get_components_on_page>,
-  datasourceId=<client item ID from content-map.yaml>
-)
-```
-
-**List components (parent datasource with children):**
-Same as simple — wire the client parent item ID. The children live under it and ComponentQuery resolves them automatically.
-
-**Context-only components (NavigationHeader, SiteFooter):**
-No datasource to set — skip this step.
-
-#### Step 4 — Generate the variant checklist
-
-Since variants cannot be set via MCP, generate a clear checklist for the SE.
-
-For each component in the build plan that uses a **non-Default** variant:
-
-```markdown
-## Variant Selection Checklist
-
-Open the page in Pages editor and set these variants:
-
-| # | Component | Current | Needed | Variant ID |
-|---|-----------|---------|--------|-----------|
-| 1 | NavigationHeader | Default | Transparent | {A46EFC9D-...} |
-| 2 | ProductPricingCards | Default | Horizontal | {C9B441F5-...} |
-| 3 | LegalComplianceBanner | Default | WithImage | {21600F34-...} |
-| 4 | CTABanner | Default | WithImage | {2DC4E1E9-...} |
-| 5 | TrustStatsRow | Default | WithIcons | {A31EA0E4-...} |
-| 6 | ImageGallery | Default | Gallery | {CF1F5876-...} |
-
-Steps per component:
-1. Click the component on the canvas
-2. In the right-hand pane, click Design tab
-3. Select the variant from the dropdown
-4. Repeat for next component
-
-Estimated time: ~2 minutes
-```
-
-Components that use the **Default** variant don't need action — Default is applied automatically when the component is added.
-
-Save this checklist to `docs/ai/demos/<client-kebab>/variant-checklist.md`.
-
-#### Progress tracking (Phase 6)
-
-**After each component add/wire**, update the section's status in `demo-progress.yaml`:
-
-```
-sections[N].phase6.status:
-  "pending"  → not started
-  "added"    → add_component_on_page succeeded, componentInstanceId recorded
-  "wired"    → set_component_datasource succeeded
-  "skipped"  → context-only component or already on page
-  "failed"   → MCP call returned error
-```
-
-Write progress to disk after every 3-4 components.
-
-**On resume:** Skip sections where `status: "wired"` or `"skipped"`. For `status: "added"`, retry datasource wiring. For `status: "failed"`, retry the full add+wire.
-
-#### Step 5 — Verify assembly
-
-After all components are added and datasources wired:
-
-1. `get_components_on_page(targetPageId)` — read final state
-2. Verify each build plan section has a matching component on the page
-3. Verify each component has a non-empty `dataSource` (except context-only)
-4. Report any gaps
-
-Present the assembly result:
-```
-Page assembly complete:
-- Components added: 12 (of 14 in build plan)
-- Datasources wired: 10 (2 context-only, no datasource)
-- Already on page: 3 (reused existing)
-- Variants needing manual selection: 6 (see variant-checklist.md)
-- OOB components to clean up manually: 4 (RichText x2, Image, Container)
-```
+Report component instance IDs, datasource wiring, relative order, exceptions, skipped shared designs, variant tasks, and unresolved operations. Resume through verified records rather than repeating adds.
 
 ### Phase 7 — Summary
 
-**GATE: Do not proceed to Phase 7 if Phase 6 is incomplete.**
+**GATE: summaries must report the actual recovery result.**
 
-Check `demo-progress.yaml`:
-- `phase6_assembly.datasourcesWired` must be >= `phase6_assembly.totalComponents` minus context-only components
-- If `datasourcesWired` is significantly less than expected, Phase 6 failed silently — go back and retry failed sections before generating the summary
-- Mark Phase 6 as `"complete"` only when all wirable components have datasources
+Read the upload, population, and assembly result files. Unverified/failed operations keep the automated build **partial**, even when independent sections succeeded. Include each unresolved operation and its affected item/field. Keep expected manual variant, shared-design, publishing, and visual-QA tasks separate from automated verification. Copy recorded exceptions, including whitespace fallbacks, into Build notes. Never rerun a mutation solely to make the phase counters look complete.
 
 Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `.agents/skills/sitecore-build-demo/assets/demo-summary.template.md`.
 
@@ -782,18 +374,20 @@ Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `.
    - `TEMPLATE_COUNT` = sections with `matchType: "template"`
    - `CUSTOM_COUNT` = `phases.phase5_custom.customComponentsBuilt`
    - `VARIANT_COUNT` = `phases.phase5_5_variants.variantsCreated`
-   - `DATASOURCE_COUNT` = count of `sections[*].phase3.itemId` that are non-empty
-   - `FIELDS_COUNT` = sum of populated fields across all sections (from `content-map.yaml`)
-   - `IMAGES_UPLOADED` / `IMAGES_TOTAL` = sum of `imagesUploaded` / `imagesExpected` across sections
+   - `DATASOURCE_COUNT` = verified parent and child IDs in `population-result.json`
+   - `FIELDS_COUNT` = sum of verified sections' `phase3.populatedFieldCount`
+   - `IMAGES_UPLOADED` / `IMAGES_TOTAL` = verified uploads / mapped image targets from the image manifest and upload result
+   - `AUTOMATED_STATUS` = partial if any automated phase has unresolved work; otherwise complete within the verified scope
+   - `VERIFICATION_SCOPE` = actual service read-back performed, plus any unverified delivery/visual checks. Do not substitute local regression-test results for live verification.
 
 2. **Component Inventory table** — one row per section from `build-plan.yaml`:
-   - Status from `sections[N].phase6.status`: `wired` = "✅ Wired", `skipped` = "✅ On page", `added` (but not wired) = "⚠️ Needs datasource", `failed` = "❌ Failed"
+   - Status from `sections[N].phase6.status`: `wired` = "✅ Wired", `skipped` = "⚠️ Manual placement", `partial` = "⚠️ Unresolved", `failed` = "❌ Failed". Skipped shared-design work is not verified page placement.
    - If variant is non-Default and Phase 5.5 was skipped, append "⚠️ Needs variant" to status
 
 3. **Theme section** — from the theme YAML produced in Phase 1
 
 4. **Image Upload Summary** — read `docs/ai/demos/<client>/images/image-manifest.json`:
-   - Count entries by `uploadStatus`: `"uploaded"` with `approved: true` = OK, `"uploaded"` with `approved: false` = pending approval, `"failed"` = failed, `"downloaded"` (not attempted) = skipped
+   - Count entries by verified upload stages: `"uploaded"` with approved asset and verified public link = OK; `"asset-created"` / `"approved"` = incomplete; `"needs-reconciliation"` = unknown effect; `"failed"` = confirmed rejection; unattempted downloaded inputs = skipped. Include incomplete/unknown targets in the unresolved table, never in successful uploads.
    - **Summary table**: show totals per result category
    - **If all OK**: show the NOTE callout, include the Successful Uploads table for reference
    - **If any failed**: show the WARNING callout + Failed/Skipped Images table. For each failed image, pull `uploadError` from the manifest entry to populate the Error column
@@ -807,13 +401,15 @@ Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `.
    - If no videos found, omit the entire Videos section
 
 6. **Manual Tasks** — populate each subsection:
-   - **Variant Selection**: only include components where the build plan variant differs from Default
-   - **Context-Only Components**: only include NavigationHeader/SiteFooter if they appear in the build plan
+   - **Variant Selection**: include components where observed and planned variants differ, or the current value is unverified. Do not infer Default.
+   - **Shared Partial Designs / Context Components**: include explicitly skipped placements and components whose actual rendering configuration requires manual placement; do not classify by name alone.
    - **Link Verification**: list links from content-map that point to the client's domain
    - **Cleanup**: only include if reusing an existing page that had OOB components
    - **Personalization**: always include — it's optional guidance for the SE
 
-7. **Remove unused sections** — if a manual task, image, or video subsection has zero items, remove it entirely. Don't leave empty tables.
+7. **Recovery notes** — list unresolved operations, verified blank-field exceptions, affected target fields, and safe next actions. Reconcile existing assets/instances before suggesting any new creation.
+
+8. **Remove unused sections** — if a manual task, image, or video subsection has zero items, remove it entirely. Don't leave empty tables.
 
 **Present the summary to the user in the chat** (not just saved to file). Copy the populated content directly into the chat response so the SE can read it immediately.
 
@@ -830,6 +426,10 @@ docs/ai/demos/<client-kebab>/
 ├── demo-progress.yaml         # which phases/sections are done
 ├── build-plan.yaml            # page sections mapped to components + variants (machine-readable)
 ├── content-map.yaml           # client content mapped to Sitecore field names
+├── execution-plan.json        # approved normalized, field-ready execution input
+├── recovery-*.json            # authoritative operation journals; preserve these
+├── mcp-*.json                 # durable marketer request/response handoff
+├── *-result.json              # derived verified phase results
 │
 │  SE REFERENCE FILES (use while finishing the demo)
 ├── build-plan-summary.md      # human-readable build plan (reviewed in Phase 2)
@@ -848,7 +448,7 @@ docs/ai/demos/<client-kebab>/
 - **Never recreate template components** — they already exist, just populate their datasource items with client content
 - **Always use the manifest** for item IDs — don't re-resolve paths that are already cached
 - **Always present the plan before executing** — the SE must approve the theme and build plan
-- **Automate images via Content Hub** — download during Phase 2.5 (`--download-images`), upload + approve + create public link via `upload-to-content-hub.mjs` in Phase 3 Step 5, set Image fields using DAM format (`<Image src="..." dam-id="..." />`). Requires Content Hub credentials in `credentials.local.yaml`. Fall back to manual `images-to-upload.md` if no credentials.
+- **Automate images via Content Hub** — download during Phase 2.5 (`--download-images`), upload + approve + create public link via `upload-to-content-hub.mjs` in Phase 3 Step 1, set Image fields using DAM format (`<Image src="..." dam-id="..." />`). Requires Content Hub credentials in `credentials.local.yaml`. Fall back to manual `images-to-upload.md` if no credentials.
 - **Mark variants as manual** — generate the variant checklist, don't skip this step. See `docs/ai/reference/agent-api-limitations.md` for why.
 - **Use `insertAfterComponentId` for ordering** — add components sequentially, passing the previous component's instance ID to maintain build-plan order
 - **Use the existing Home page by default** — do not create a new subpage unless the user explicitly asks. The Home page already has the correct Page Design and URL routing. Note any OOB components for manual cleanup.

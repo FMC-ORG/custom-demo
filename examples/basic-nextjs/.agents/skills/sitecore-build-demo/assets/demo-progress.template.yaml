@@ -1,6 +1,7 @@
 # Demo Progress Tracker
 # Created automatically at the start of a demo build.
-# Updated after each MCP call or phase completion.
+# Derived status view. P0 recovery-*.json operation journals are authoritative.
+# Never resume by repeating creates from these phase flags alone.
 # Used by "resume demo" to skip completed work.
 
 client:
@@ -68,6 +69,11 @@ phases:
   phase7_summary:
     status: "pending"       # pending | complete
 
+# Recorded workarounds and recovery handoff. A verified whitespace workaround is
+# an exception, not a genuinely empty field. Unresolved operations keep the build partial.
+exceptions: []
+recovery: {}
+
 # Per-section tracking for Phase 3 (content population) and Phase 6 (assembly)
 # Each section maps to a build-plan position
 sections:
@@ -76,9 +82,10 @@ sections:
   #   componentName: "AnnouncementBar"
   #   kind: "simple"
   #   phase3:
-  #     status: "pending"       # pending | created | populated | failed
+  #     status: "pending"       # pending | created | populated | partial | failed
   #     itemId: ""              # filled after create_content_item
-  #     fieldsPopulated: false  # true after update_fields_on_content_item
+  #     fieldsPopulated: false  # true after final field read-back
+  #     populatedFieldCount: 0 # verified parent and child mapped fields
   #     childrenCreated: 0      # for list components
   #     childrenExpected: 0
   #     imagesUploaded: 0       # images uploaded via upload_asset
@@ -92,7 +99,7 @@ sections:
   #     variantDefinitionId: "" # Sitecore Variant Definition item ID
   #     error: ""
   #   phase6:
-  #     status: "pending"       # pending | added | wired | skipped | failed
-  #     componentInstanceId: "" # from add_component_on_page response
+  #     status: "pending"       # pending | added | wired | skipped | partial | failed
+  #     componentInstanceId: "" # verified page instance identity, not just a returned ID
   #     datasourceWired: false  # true after set_component_datasource
   #     error: ""

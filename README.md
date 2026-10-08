@@ -93,12 +93,9 @@ contentHub:
   uploadConfig: "AssetUploadConfiguration"
 ```
 
-Validate the credentials:
+The uploader authenticates when an upload/verification run starts. `--dry-run` only inspects an existing image manifest; it does **not** validate credentials or make remote calls.
 
-```bash
-node .agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs --images-dir docs/ai/demos/test --dry-run
-# prints [auth] OK when valid
-```
+Demo recovery requires an approved, unchanged plan and surviving local records. Follow the [P0 recovery execution contract](examples/basic-nextjs/.agents/skills/sitecore-build-demo/references/recovery.md) for explicit first-run initialization, safe resumes, and the durable marketer MCP handoff. Do not initialize new journals over an existing legacy demo.
 
 The file must be named `credentials.local.yaml`.
 

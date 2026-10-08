@@ -121,6 +121,16 @@ For list components, create one parent + one or two child items.
 
 ## Known Tool Behavior
 
+### Recovery, ordering, and optional blanks
+
+The P0 execution contract and commands are in `.agents/skills/sitecore-build-demo/references/recovery.md`.
+
+- **Timeouts are unknown outcomes.** An aborted `add_component_on_page` or item create can succeed remotely. Persist intent before the request and compare read-back with the pre-write snapshot. If the effect cannot be uniquely attributed, stop; never retry under a new name to bypass a collision.
+- **Child ordering is explicit.** Set `__Sortorder` from the approved source sequence and verify the returned child ID order. Parallel creation and non-empty fields do not establish display order.
+- **Item-name defaults require field intent.** `$name` defaults can materialise as internal item names. Equality alone is not proof of an error: preserve explicitly supplied values and flag unspecified ones rather than silently blanking them.
+- **Empty-write behaviour is an observation, not a universal API guarantee.** A previous demo run observed an acknowledged empty update leaving `AuthorName` unchanged. Reproduce/read back the relevant field; reset-to-standard is not the same as empty. Only explicitly blank optional display text on this build's items may use the approved single-space workaround after an acknowledged ineffective clear. Record the exception and never use it for required/unspecified fields, links, images, or system fields.
+- **Response shapes must be checked.** The new adapters reject missing/paginated children and unrecognised page instance identities instead of inventing empty lists. Local regression tests do not certify a particular live MCP/Content Hub version.
+
 ### `list_available_insertoptions`
 
 Most reliable for content items in a site content tree. For template inspection under `/sitecore/templates/...`, prefer `get_content_item_by_path` or `get_content_item_by_id`.

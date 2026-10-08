@@ -4,6 +4,8 @@
 > **Source:** {{SOURCE_URL}}
 > **Built:** {{DATE}}
 > **Page:** {{PAGE_PATH}}
+> **Automated result:** {{AUTOMATED_STATUS}} — not a presentation-readiness claim
+> **Verification scope:** {{VERIFICATION_SCOPE}}
 
 ---
 
@@ -24,12 +26,26 @@
 
 | # | Component | Variant | Datasource | Status |
 |---|-----------|---------|------------|--------|
-| 1 | NavigationHeader | Transparent | _context-only_ | ✅ On page |
+| 1 | NavigationHeader | Unverified | {{CLIENT}} - Main Navigation | ⚠️ Manual placement |
 | 2 | HeroBanner | BackgroundImage | {{CLIENT}} - Hero Banner | ✅ Wired |
 | 3 | ValuePropositionGrid | Default | {{CLIENT}} - Value Props | ✅ Wired |
 | ... | ... | ... | ... | ... |
 
-<!-- STATUS KEY: ✅ Wired | ✅ On page | ⚠️ Needs variant | ⚠️ Needs datasource | ❌ Failed -->
+<!-- STATUS KEY: ✅ Wired | ⚠️ Manual placement | ⚠️ Needs variant | ⚠️ Unresolved | ❌ Failed -->
+
+## Recovery Notes
+
+<!-- Populate from phase result files/journals. Preserve unresolved work even if most sections succeeded. -->
+
+| Phase / operation | Target item or field | Result / evidence | Safe next action |
+|-------------------|----------------------|-------------------|------------------|
+| {{OPERATION}} | {{TARGET}} | {{RESULT}} | {{NEXT_ACTION}} |
+
+### Verified Exceptions
+
+<!-- Include permitted whitespace blanks with item ID, field, read-back evidence and visual caveat. Omit only when empty. -->
+
+{{VERIFIED_EXCEPTIONS}}
 
 ---
 
@@ -56,20 +72,20 @@
 |--------|-------|
 | Uploaded + approved | {{IMAGES_OK}} |
 | Uploaded, pending approval | {{IMAGES_PENDING_APPROVAL}} |
-| Failed | {{IMAGES_FAILED}} |
+| Failed / incomplete / needs reconciliation | {{IMAGES_FAILED}} |
 | Skipped (no credentials) | {{IMAGES_SKIPPED}} |
 | **Total** | **{{IMAGES_TOTAL}}** |
 
 <!-- If IMAGES_OK == IMAGES_TOTAL, show this: -->
 > [!NOTE]
-> All {{IMAGES_TOTAL}} images uploaded and approved successfully. Image fields are already set on datasource items.
+> All {{IMAGES_TOTAL}} images have verified asset approval and anonymous public links. Confirm datasource-field population separately in the content result.
 
 <!-- If IMAGES_FAILED > 0, show this instead: -->
 > [!WARNING]
 > {{IMAGES_FAILED}} image(s) failed to upload. See the table below for details and manual upload instructions.
 
 <!-- Only include this table if there are failed or skipped images -->
-### Failed / Skipped Images
+### Unresolved / Skipped Images
 
 | # | File | Section | Target Component | Target Field | Error | Source URL |
 |---|------|---------|-----------------|--------------|-------|------------|
@@ -77,17 +93,17 @@
 | 2 | `card-1.png` | Product Cards | ProductPricingCards | CardImage | Step 1: HTTP 403 — permission denied | {{SRC_URL}} |
 | ... | ... | ... | ... | ... | ... | ... |
 
-**To fix manually:**
-1. Open Content Hub at `{{CONTENT_HUB_HOST}}`
-2. Upload the file from `docs/ai/demos/{{CLIENT_KEBAB}}/images/<filename>`
-3. Approve the asset (Created -> Approved)
-4. Create a public link on the asset
-5. In Sitecore Content Editor, find the datasource item and set the Image field
+**To reconcile manually:**
+1. Read the recovery journal and inspect any recorded asset/link IDs in Content Hub. A timeout may have succeeded.
+2. Reuse an existing verified asset/link; do not upload another file or create another link merely because a response was lost.
+3. If identity cannot be established, stop and request reconciliation. New creation requires affirmative evidence that it is safe and approval within this build's scope.
+4. Finish only the missing, approved stages and verify read-back/anonymous access.
+5. Verify the target datasource Image field separately. Preserve unresolved targets and exceptions in this handoff.
 
 <!-- If IMAGES_SKIPPED > 0 (no credentials), show: -->
 > [!NOTE]
 > Content Hub credentials were not provided. All {{IMAGES_SKIPPED}} images were downloaded locally but not uploaded.
-> Run the upload script when ready:
+> Follow `.agents/skills/sitecore-build-demo/references/recovery.md` when ready. An explicitly approved new run needs `--initialize`; an existing run resumes without it:
 > ```bash
 > node .agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs --images-dir docs/ai/demos/{{CLIENT_KEBAB}}/images
 > ```
@@ -130,8 +146,8 @@ Open the page in Pages editor and set these variants:
 
 | # | Component | Current | Set to |
 |---|-----------|---------|--------|
-| 1 | NavigationHeader | Default | Transparent |
-| 2 | ProductPricingCards | Default | Horizontal |
+| 1 | NavigationHeader | {{OBSERVED_OR_UNVERIFIED}} | Transparent |
+| 2 | ProductPricingCards | {{OBSERVED_OR_UNVERIFIED}} | Horizontal |
 | ... | ... | ... | ... |
 
 **Steps per component:**
@@ -139,11 +155,11 @@ Open the page in Pages editor and set these variants:
 2. In the right-hand pane, click **Design** tab
 3. Select the variant from the dropdown
 
-### 2. Context-Only Components
+### 2. Shared Partial Designs / Context Components
 
-These components read from page context, not datasources. Verify they appear correctly:
+Verify actual rendering configuration and placement. Shared-design switches need separate approval; datasource-backed headers/footers are not context-only merely because they appear in partial designs:
 
-- [ ] **NavigationHeader** — lives in Header partial design. Assign "{{CLIENT}} - Main Navigation" datasource in Content Editor if using list datasource mode.
+- [ ] **NavigationHeader** — after approval, assign the verified "{{CLIENT}} - Main Navigation" datasource on the intended Header partial design.
 - [ ] **SiteFooter** — lives in Footer partial design. Assign "{{CLIENT}} - Site Footer" datasource in Content Editor.
 
 ### 3. Link Verification
@@ -188,7 +204,10 @@ _Used by the automation to track progress and enable resume. You don't need to e
 
 | File | What it contains |
 |------|-----------------|
-| `demo-progress.yaml` | Tracks which phases and sections are done — lets you resume an interrupted build |
+| `demo-progress.yaml` | Derived phase/section status; not authority for repeating mutations |
+| `execution-plan.json` | Approved normalized inputs; keep unchanged during recovery |
+| `recovery-*.json`, `mcp-*.json` | Authoritative operation records and durable MCP handoff; preserve locally |
+| `*-result.json`, `images/upload-result.json` | Verified phase results, partial operations and exceptions |
 | `build-plan.yaml` | Maps each page section to a template component and variant |
 | `content-map.yaml` | Client content (text, links, images) mapped to Sitecore field names |
 

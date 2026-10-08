@@ -31,7 +31,7 @@ Prefix parent fields with context (`SectionTitle`, not `Title`) — `Title`/`Des
 2. §4 **parent** template → §5 SV. §4 **child** template → §5 SV.
 3. Parent SV: `__Masters` → **child template**; parent inherits `_HorizonDatasourceGrouping`.
 4. §6 folder template + SV (`__Masters` → **parent template**) → datasource folder → `__Masters` on the folder item.
-5. §7 one example parent item plus one or two child items inside it. Create children individually with `create_content_item` and read the parent back — `create_component_ds` may report success without creating children.
+5. §7 one example parent item plus one or two child items inside it. Create children individually with `create_content_item` and read the parent back — `create_component_ds` may report success without creating children. Set each child's `__Sortorder` explicitly from the approved source sequence (for example 100, 200, 300), in the field update where supported. Creation timing and item names must not determine display order.
 6. §8 Rendering Parameters template → §9 rendering with `Datasource Template` = parent template path and the **`ComponentQuery`** below.
 7. §10 Available Renderings → §11 React component and component map → verify → §12 report and finalise the manifest.
 
@@ -77,6 +77,8 @@ query ComponentName($datasource: String!, $language: String!) {
 - [ ] Parent SV `__Masters` → child template; parent inherits `_HorizonDatasourceGrouping`
 - [ ] Folder template + SV, `__Masters` → parent template; datasource folder under `/Data` with `__Masters` on the item
 - [ ] Example parent and child items exist (read back)
+- [ ] Explicit child `__Sortorder` values set; returned child ID sequence matches approved source order (not just non-empty fields or matching names)
+- [ ] Check the ComponentQuery/delivered sequence when available; report a discrepancy or unverified delivery rather than claiming visual correctness
 - [ ] Rendering: `Datasource Template` = parent path; `ComponentQuery` present, single-line, `field(name: …)` pattern, `children { results { id … } }`
 - [ ] TSX reads `fields.data.datasource.children.results` with `.jsonValue`
 - [ ] Shared checks: `.agents/skills/sitecore-standards/references/verification-checklist.md`

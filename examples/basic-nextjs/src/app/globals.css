@@ -185,6 +185,13 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Brand fonts. Tailwind v4 emits no CSS for the components' ambiguous
+       font-[var(--brand-*-font,inherit)] classes, so apply the contract here.
+       Defaults (Open Sans / inherit) keep un-themed sites unchanged. */
+    font-family: var(--brand-body-font);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--brand-heading-font);
   }
 }
 

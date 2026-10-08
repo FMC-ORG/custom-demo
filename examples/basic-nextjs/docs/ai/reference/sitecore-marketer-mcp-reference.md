@@ -52,7 +52,7 @@ Check the manifest `lookups` section before calling `get_content_item_by_path`. 
 - Available Renderings Page Content item
 - Category subfolders (after first creation)
 
-See `docs/ai/skills/sitecore-maintain-manifest.md` → "Lookup cache rules".
+See `.agents/skills/sitecore-manifest/SKILL.md` → "Lookup cache rules".
 
 ### Upload images to Content Hub DAM
 
@@ -61,7 +61,7 @@ Credentials are stored in `docs/ai/config/credentials.local.yaml` (gitignored).
 
 **Automated workflow** — use the upload script:
 ```bash
-node docs/ai/scripts/upload-to-content-hub.mjs --images-dir docs/ai/demos/<client>/images
+node .agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs --images-dir docs/ai/demos/<client>/images
 ```
 
 The script performs 5 steps per image:
@@ -120,6 +120,16 @@ For list components, create one parent + one or two child items.
 ---
 
 ## Known Tool Behavior
+
+### Recovery, ordering, and optional blanks
+
+The P0 execution contract and commands are in `.agents/skills/sitecore-build-demo/references/recovery.md`.
+
+- **Timeouts are unknown outcomes.** An aborted `add_component_on_page` or item create can succeed remotely. Persist intent before the request and compare read-back with the pre-write snapshot. If the effect cannot be uniquely attributed, stop; never retry under a new name to bypass a collision.
+- **Child ordering is explicit.** Set `__Sortorder` from the approved source sequence and verify the returned child ID order. Parallel creation and non-empty fields do not establish display order.
+- **Item-name defaults require field intent.** `$name` defaults can materialise as internal item names. Equality alone is not proof of an error: preserve explicitly supplied values and flag unspecified ones rather than silently blanking them.
+- **Empty-write behaviour is an observation, not a universal API guarantee.** A previous demo run observed an acknowledged empty update leaving `AuthorName` unchanged. Reproduce/read back the relevant field; reset-to-standard is not the same as empty. Only explicitly blank optional display text on this build's items may use the approved single-space workaround after an acknowledged ineffective clear. Record the exception and never use it for required/unspecified fields, links, images, or system fields.
+- **Response shapes must be checked.** The new adapters reject missing/paginated children and unrecognised page instance identities instead of inventing empty lists. Local regression tests do not certify a particular live MCP/Content Hub version.
 
 ### `list_available_insertoptions`
 

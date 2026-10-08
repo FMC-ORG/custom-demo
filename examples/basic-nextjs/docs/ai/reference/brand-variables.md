@@ -106,7 +106,7 @@ If a new component needs a brand variable not in this list:
 
 1. Add the variable to `globals.css` with a sensible default derived from an existing shadcn token
 2. Add the variable to this contract document
-3. Update `docs/ai/templates/client-theme.template.yaml` if the theme extractor should produce it
+3. Update `.agents/skills/sitecore-extract-theme/assets/client-theme.template.yaml` if the theme extractor should produce it
 4. Use the variable in the component with a fallback: `var(--brand-new-var, #fallback)`
 
 ## Fallback Pattern

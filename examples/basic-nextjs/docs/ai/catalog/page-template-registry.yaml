@@ -2,7 +2,7 @@
 # Machine-readable index of page types and their associated context components.
 # Separate from component-registry.yaml which catalogs datasource-based homepage components.
 #
-# Used by page-type creation skills (sitecore-create-article-page, future page-type skills)
+# Used by sitecore-create-page-template (see its worked examples for Article and Landing Page)
 # to understand what templates, fields, and components a page type requires.
 
 pageTemplates:

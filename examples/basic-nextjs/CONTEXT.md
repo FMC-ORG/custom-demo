@@ -46,8 +46,18 @@
 
 ## Catalogs
 
-- **Component Registry** (`component-registry.yaml`) — Machine-readable index of datasource-based homepage components used by the Site Analyzer in the demo builder pipeline.
+- **Component Registry** (`component-registry.yaml`) — Machine-readable index of datasource-based homepage components used by the `sitecore-analyze-site` skill in the demo builder pipeline.
 
 - **Page Template Registry** (`page-template-registry.yaml`) — Machine-readable index of page types (Article, and future types like Event, Case Study). Separate from the component registry because page types define data models, not droppable homepage sections.
 
 - **Capabilities Registry** (`capabilities-registry.yaml`) — Machine-readable index of cross-cutting platform features (search, personalization, analytics) that SEs enable manually. Separate from the component registry (visual homepage sections) and page template registry (page types).
+
+## Agent tooling
+
+- **Skill** — A folder under `.agents/skills/<name>/` with a `SKILL.md` (Agent Skills format) plus optional `scripts/`, `references/`, `assets/`. The single source for Claude Code, Cursor, and Pi; per-tool wrappers are generated. See `docs/adr/0007-cross-agent-skills-layout.md`.
+
+- **Command-only skill** — A skill the model must not start on its own (`disable-model-invocation: true`), e.g. `sitecore-build-demo`, `sitecore-abm-page`. Started explicitly with `/skill:<name>` (Pi) or `/<name>` (Claude Code, Cursor).
+
+- **Subskill** — A hidden, command-only skill with a file-in → file-out contract (`sitecore-analyze-site`, `sitecore-map-content`), invoked by an orchestrator. Runs as a subagent where the tool supports it (Claude Code), inline otherwise.
+
+- **Router** — The table in `AGENTS.md` mapping request types to skills. Lint-checked to list exactly the non-hidden skills.

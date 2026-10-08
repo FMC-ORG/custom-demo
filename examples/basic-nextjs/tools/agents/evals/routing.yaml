@@ -1,0 +1,68 @@
+# Routing evals — run with `npm run agents:eval` (optionally `-- --agent pi` / `--agent claude` / `--case <id>`).
+#
+# Each case is sent to a headless agent started from the app root, which is asked
+# which single skill it would load first. `expect` is a skill name, or `none` when
+# no skill should be auto-loaded (including command-only skills, which only the
+# user may start). Not a CI gate: it costs tokens and model answers vary.
+# Run it after changing skill descriptions or the AGENTS.md router.
+
+cases:
+  - id: simple-hero
+    prompt: "Create a hero component with a title, subtitle, background image and one CTA link, backed by a single datasource item."
+    expect: sitecore-create-simple
+
+  - id: list-cards
+    prompt: "Build a card grid component where authors can add any number of cards, each with an image, title and link."
+    expect: sitecore-create-list
+
+  - id: context-page-hero
+    prompt: "I need a page header component that shows the current page's own Title and summary fields, with no datasource."
+    expect: sitecore-create-context
+
+  - id: add-variant
+    prompt: "Add a Dark variant to the existing CTABanner component."
+    expect: sitecore-add-variants
+
+  - id: diagnose-children
+    prompt: "The FAQ accordion renders its heading but none of the questions show up."
+    expect: sitecore-diagnose-rendering
+
+  - id: diagnose-picker
+    prompt: "Authors say the datasource picker is empty when they add the Hero Banner, and they cannot create a new item."
+    expect: sitecore-diagnose-rendering
+
+  - id: page-template
+    prompt: "We need a new Event page type with a start date, venue and registration link on the page itself."
+    expect: sitecore-create-page-template
+
+  - id: manifest-validate
+    prompt: "I just switched to a different Sitecore environment. Check whether the manifest is still accurate."
+    expect: sitecore-manifest
+
+  - id: search-setup
+    prompt: "Set up site search for the articles: a results page and a typeahead in the header."
+    expect: sitecore-search
+
+  - id: theme-explicit
+    prompt: "Extract the brand theme from https://www.ing.com for a demo build."
+    expect: sitecore-extract-theme
+
+  - id: theme-implicit
+    prompt: "We have a deal with Contoso Ltd. Their website is https://www.microsoft.com. Let's start building the demo, beginning with their visual identity."
+    expect: sitecore-extract-theme
+
+  - id: demo-variants
+    prompt: "The demo page uses generic variants; make each section match the client's homepage screenshot pixel-perfectly."
+    expect: sitecore-demo-variants
+
+  - id: build-demo-is-command-only
+    prompt: "Build a demo for acme.com."
+    expect: none
+
+  - id: abm-is-command-only
+    prompt: "Create a landing page for Maersk."
+    expect: none
+
+  - id: unrelated
+    prompt: "Fix the typo 'recieve' in the README."
+    expect: none

@@ -30,6 +30,34 @@ test('HTTP adapter verifies lifecycle/link ownership and checks public access wi
   expect(calls[calls.length - 1].options.headers).toEqual({ Range: 'bytes=0-0' });
 });
 
+test('HTTP adapter reads live relation shapes: inline single parent and unexpanded relation href', async () => {
+  // Shapes observed on a live Content Hub sandbox (2026-10-08): the asset carries
+  // FinalLifeCycleStatusToAsset as { parent: { href } }; a public link carries
+  // AssetToPublicLink as { href } to the relation resource, which returns { parents: [...] }.
+  const fetchImpl = async url => {
+    if (url.endsWith('/entities/1')) return response({ id: 1, identifier: 'asset', relations: { FinalLifeCycleStatusToAsset: { parent: { href: 'https://hub.example/api/entities/status' }, self: { href: 'https://hub.example/api/entities/1/relations/FinalLifeCycleStatusToAsset' } } } });
+    if (url.endsWith('/entities/status')) return response({ identifier: 'M.Final.LifeCycle.Status.Created' });
+    if (url.endsWith('/entities/2')) return response({ id: 2, properties: { RelativeUrl: 'media' }, relations: { AssetToPublicLink: { href: 'https://hub.example/api/entities/2/relations/AssetToPublicLink' } } });
+    if (url.endsWith('/entities/2/relations/AssetToPublicLink')) return response({ parents: [{ href: 'https://hub.example/api/entities/1' }] });
+    throw new Error('unexpected request');
+  };
+  const api = contentHub({ host: 'https://hub.example', token: 'test-only-token', directory: dir, fetchImpl });
+  expect(await api.readAsset(1)).toEqual({ id: 1, identifier: 'asset', approved: false });
+  expect(await api.readLink(2)).toMatchObject({ id: 2, assetId: '1' });
+});
+
+test('HTTP adapter refuses ambiguous or unrecognised relation shapes', async () => {
+  const fetchImpl = async url => {
+    if (url.endsWith('/entities/1')) return response({ id: 1, identifier: 'asset', relations: { FinalLifeCycleStatusToAsset: { parents: [{ href: '/a' }, { href: '/b' }] } } });
+    if (url.endsWith('/entities/2')) return response({ id: 2, properties: { RelativeUrl: 'media' }, relations: { AssetToPublicLink: { href: 'https://hub.example/api/entities/2/relations/AssetToPublicLink' } } });
+    if (url.endsWith('/relations/AssetToPublicLink')) return response({ children: [] });
+    throw new Error('unexpected request');
+  };
+  const api = contentHub({ host: 'https://hub.example', token: 'test-only-token', directory: dir, fetchImpl });
+  await expect(api.readAsset(1)).rejects.toThrow('lifecycle relationship not readable');
+  await expect(api.readLink(2)).rejects.toThrow('relationship not readable');
+});
+
 test('an upload-session rejection cannot make the entire multi-call creation safely retryable', async () => {
   fs.writeFileSync(path.join(dir, 'image.png'), 'test image');
   let calls = 0;

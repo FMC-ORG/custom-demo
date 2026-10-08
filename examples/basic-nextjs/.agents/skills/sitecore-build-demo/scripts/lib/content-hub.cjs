@@ -33,6 +33,21 @@ function contentHub({ host, token, directory, uploadConfig, fetchImpl = fetch })
     const match = String(value || '').match(/\/entities\/([^/?#]+)\/?(?:[?#].*)?$/);
     return match?.[1];
   };
+  // Content Hub returns relations in several shapes: inline single-parent `{ parent: { href } }`
+  // (e.g. FinalLifeCycleStatusToAsset), inline `{ parents: [{ href }] }`, or an unexpanded
+  // `{ href }` pointing at the relation resource, which itself returns parent/parents.
+  // Anything else stays unreadable so the caller blocks instead of guessing.
+  const inlineParentHref = relation => {
+    if (relation?.parent?.href) return relation.parent.href;
+    if (Array.isArray(relation?.parents)) return relation.parents.length === 1 ? relation.parents[0]?.href : undefined;
+    return undefined;
+  };
+  async function relationParentHref(relation) {
+    const inline = inlineParentHref(relation);
+    if (inline) return inline;
+    if (!relation?.href || relation.parent || relation.parents) return undefined;
+    return inlineParentHref((await request('GET', relation.href)).data);
+  }
   return {
     async createAsset(image) {
       const file = path.join(directory, image.localFile);
@@ -52,7 +67,7 @@ function contentHub({ host, token, directory, uploadConfig, fetchImpl = fetch })
     async readAsset(id) {
       const { data } = await request('GET', `/api/entities/${encodeURIComponent(id)}`);
       if (!data?.id || !data.identifier) throw new Error('Unrecognized asset response');
-      const statusHref = data.relations?.FinalLifeCycleStatusToAsset?.parents?.[0]?.href;
+      const statusHref = await relationParentHref(data.relations?.FinalLifeCycleStatusToAsset);
       if (!statusHref) throw new Error('Asset lifecycle relationship not readable');
       const status = (await request('GET', statusHref)).data;
       if (!status?.identifier) throw new Error('Asset lifecycle status not readable');
@@ -73,7 +88,7 @@ function contentHub({ host, token, directory, uploadConfig, fetchImpl = fetch })
     },
     async readLink(id) {
       const { data } = await request('GET', `/api/entities/${encodeURIComponent(id)}`);
-      const assetId = entityId(data?.relations?.AssetToPublicLink?.parents?.[0]?.href);
+      const assetId = entityId(await relationParentHref(data?.relations?.AssetToPublicLink));
       const relative = data?.properties?.RelativeUrl;
       const version = data?.properties?.VersionHash;
       if (!assetId || !relative) throw new Error('Public link relationship not readable');

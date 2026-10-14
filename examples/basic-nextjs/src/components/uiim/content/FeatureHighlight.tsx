@@ -79,14 +79,14 @@ export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.El
               <Text
                 field={fields.Title}
                 tag="h2"
-                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+                className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}
             {(fields.Description?.value || isEditing) && (
               <ContentSdkRichText
                 field={fields.Description}
-                className="mt-4 text-base opacity-70 font-[var(--brand-body-font,inherit)]"
+                className="mt-4 text-base opacity-70 font-body"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}
@@ -129,14 +129,14 @@ export const Centered = ({ fields, params, page }: FeatureHighlightProps): JSX.E
               <Text
                 field={fields.Title}
                 tag="h2"
-                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+                className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}
             {(fields.Description?.value || isEditing) && (
               <ContentSdkRichText
                 field={fields.Description}
-                className="mx-auto mt-4 max-w-2xl text-base opacity-70 font-[var(--brand-body-font,inherit)]"
+                className="mx-auto mt-4 max-w-2xl text-base opacity-70 font-body"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}
@@ -179,14 +179,14 @@ export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.
               <Text
                 field={fields.Title}
                 tag="h2"
-                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+                className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}
             {(fields.Description?.value || isEditing) && (
               <ContentSdkRichText
                 field={fields.Description}
-                className="mt-4 text-base opacity-70 font-[var(--brand-body-font,inherit)]"
+                className="mt-4 text-base opacity-70 font-body"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}
@@ -252,14 +252,14 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
               <Text
                 field={fields.Title}
                 tag="h3"
-                className="text-xl font-bold font-[var(--brand-heading-font,inherit)]"
+                className="text-xl font-bold font-heading"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}
             {(fields.Description?.value || isEditing) && (
               <ContentSdkRichText
                 field={fields.Description}
-                className="mt-2 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
+                className="mt-2 text-sm opacity-70 font-body"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}

@@ -50,14 +50,14 @@ export const Default = ({ fields, params, page }: LegalComplianceBannerProps): J
             <Text
               field={fields.Title}
               tag="h2"
-              className="text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
+              className="text-2xl font-bold font-heading"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}
           {(fields.Description?.value || isEditing) && (
             <ContentSdkRichText
               field={fields.Description}
-              className="mt-4 text-base font-[var(--brand-body-font,inherit)]"
+              className="mt-4 text-base font-body"
               style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
             />
           )}
@@ -65,7 +65,7 @@ export const Default = ({ fields, params, page }: LegalComplianceBannerProps): J
             <div className="mt-6">
               <ContentSdkLink
                 field={fields.PrimaryLink}
-                className="text-sm font-semibold underline underline-offset-4 transition-opacity hover:opacity-70 font-[var(--brand-body-font,inherit)]"
+                className="text-sm font-semibold underline underline-offset-4 transition-opacity hover:opacity-70 font-body"
                 style={{ color: 'var(--brand-primary)' }}
               />
             </div>
@@ -97,14 +97,14 @@ export const WithImage = ({ fields, params, page }: LegalComplianceBannerProps):
               <Text
                 field={fields.Title}
                 tag="h2"
-                className="text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
+                className="text-2xl font-bold font-heading"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}
             {(fields.Description?.value || isEditing) && (
               <ContentSdkRichText
                 field={fields.Description}
-                className="mt-4 text-base font-[var(--brand-body-font,inherit)]"
+                className="mt-4 text-base font-body"
                 style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
               />
             )}
@@ -112,7 +112,7 @@ export const WithImage = ({ fields, params, page }: LegalComplianceBannerProps):
               <div className="mt-6">
                 <ContentSdkLink
                   field={fields.PrimaryLink}
-                  className="text-sm font-semibold underline underline-offset-4 transition-opacity hover:opacity-70 font-[var(--brand-body-font,inherit)]"
+                  className="text-sm font-semibold underline underline-offset-4 transition-opacity hover:opacity-70 font-body"
                   style={{ color: 'var(--brand-primary)' }}
                 />
               </div>

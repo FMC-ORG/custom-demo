@@ -152,7 +152,7 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
                     <Text
                       field={slide.slideTitle?.jsonValue}
                       tag="h2"
-                      className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
+                      className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-heading"
                     />
                   )}
                   {(slide.slideSubtitle?.jsonValue?.value || isEditing) && (
@@ -265,7 +265,7 @@ export const WithThumbnails = ({ fields, params, page }: HeroBannerCarouselProps
                       <Text
                         field={slide.slideTitle?.jsonValue}
                         tag="h2"
-                        className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
+                        className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-heading"
                       />
                     )}
                     {(slide.slideSubtitle?.jsonValue?.value || isEditing) && (

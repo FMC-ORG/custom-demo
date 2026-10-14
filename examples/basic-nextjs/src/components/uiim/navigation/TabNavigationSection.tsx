@@ -62,7 +62,7 @@ export const Default = ({ fields, params, page }: TabNavigationSectionProps): JS
             <Text
               field={datasource.title?.jsonValue}
               tag="h2"
-              className="mb-4 text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
+              className="mb-4 text-lg font-semibold font-heading"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}
@@ -119,7 +119,7 @@ export const Underline = ({ fields, params, page }: TabNavigationSectionProps): 
             <Text
               field={datasource.title?.jsonValue}
               tag="h2"
-              className="mb-4 text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
+              className="mb-4 text-lg font-semibold font-heading"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}
@@ -176,7 +176,7 @@ export const Boxed = ({ fields, params, page }: TabNavigationSectionProps): JSX.
             <Text
               field={datasource.title?.jsonValue}
               tag="h2"
-              className="mb-4 text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
+              className="mb-4 text-lg font-semibold font-heading"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}

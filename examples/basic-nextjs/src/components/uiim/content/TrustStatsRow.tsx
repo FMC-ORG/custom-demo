@@ -67,7 +67,7 @@ const SectionHeader = ({
         <Text
           field={datasource.title?.jsonValue}
           tag="h2"
-          className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+          className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
           style={{ color: 'var(--brand-fg, #111111)' }}
         />
       )}
@@ -100,7 +100,7 @@ export const Default = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
                   <Text
                     field={item.statValue?.jsonValue}
                     tag="p"
-                    className="text-4xl font-bold md:text-5xl font-[var(--brand-heading-font,inherit)]"
+                    className="text-4xl font-bold md:text-5xl font-heading"
                     style={{ color: 'var(--brand-primary)' }}
                   />
                 )}
@@ -108,14 +108,14 @@ export const Default = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
                   <Text
                     field={item.statLabel?.jsonValue}
                     tag="p"
-                    className="mt-2 text-sm font-medium font-[var(--brand-body-font,inherit)]"
+                    className="mt-2 text-sm font-medium font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
                 {(item.statDescription?.jsonValue?.value || isEditing) && (
                   <ContentSdkRichText
                     field={item.statDescription?.jsonValue}
-                    className="mt-1 text-xs opacity-60 font-[var(--brand-body-font,inherit)]"
+                    className="mt-1 text-xs opacity-60 font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
@@ -161,7 +161,7 @@ export const WithIcons = ({ fields, params, page }: TrustStatsRowProps): JSX.Ele
                   <Text
                     field={item.statValue?.jsonValue}
                     tag="p"
-                    className="text-4xl font-bold md:text-5xl font-[var(--brand-heading-font,inherit)]"
+                    className="text-4xl font-bold md:text-5xl font-heading"
                     style={{ color: 'var(--brand-primary)' }}
                   />
                 )}
@@ -169,14 +169,14 @@ export const WithIcons = ({ fields, params, page }: TrustStatsRowProps): JSX.Ele
                   <Text
                     field={item.statLabel?.jsonValue}
                     tag="p"
-                    className="mt-2 text-sm font-medium font-[var(--brand-body-font,inherit)]"
+                    className="mt-2 text-sm font-medium font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
                 {(item.statDescription?.jsonValue?.value || isEditing) && (
                   <ContentSdkRichText
                     field={item.statDescription?.jsonValue}
-                    className="mt-1 text-xs opacity-60 font-[var(--brand-body-font,inherit)]"
+                    className="mt-1 text-xs opacity-60 font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
@@ -222,7 +222,7 @@ export const LogoRow = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
                   <Text
                     field={item.statLabel?.jsonValue}
                     tag="p"
-                    className="mt-2 text-xs font-medium opacity-50 font-[var(--brand-body-font,inherit)]"
+                    className="mt-2 text-xs font-medium opacity-50 font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}

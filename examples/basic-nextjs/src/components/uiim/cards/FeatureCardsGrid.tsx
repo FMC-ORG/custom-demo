@@ -59,14 +59,14 @@ const SectionHeader = ({
       <Text
         field={datasource.title?.jsonValue}
         tag="h2"
-        className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+        className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
         style={{ color: 'var(--brand-fg, #111111)' }}
       />
     )}
     {(datasource.description?.jsonValue?.value || isEditing) && (
       <ContentSdkRichText
         field={datasource.description?.jsonValue}
-        className="mt-4 text-lg opacity-70 font-[var(--brand-body-font,inherit)]"
+        className="mt-4 text-lg opacity-70 font-body"
         style={{ color: 'var(--brand-fg, #111111)' }}
       />
     )}
@@ -113,14 +113,14 @@ export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.El
                   <Text
                     field={card.cardTitle?.jsonValue}
                     tag="h3"
-                    className="text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
+                    className="text-lg font-semibold font-heading"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
                 {(card.cardDescription?.jsonValue?.value || isEditing) && (
                   <ContentSdkRichText
                     field={card.cardDescription?.jsonValue}
-                    className="mt-2 flex-1 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
+                    className="mt-2 flex-1 text-sm opacity-70 font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
@@ -180,14 +180,14 @@ export const TwoColumn = ({ fields, params, page }: FeatureCardsGridProps): JSX.
                   <Text
                     field={card.cardTitle?.jsonValue}
                     tag="h3"
-                    className="text-xl font-semibold font-[var(--brand-heading-font,inherit)]"
+                    className="text-xl font-semibold font-heading"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
                 {(card.cardDescription?.jsonValue?.value || isEditing) && (
                   <ContentSdkRichText
                     field={card.cardDescription?.jsonValue}
-                    className="mt-3 flex-1 text-base opacity-70 font-[var(--brand-body-font,inherit)]"
+                    className="mt-3 flex-1 text-base opacity-70 font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
@@ -246,14 +246,14 @@ export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX
                     <Text
                       field={card.cardTitle?.jsonValue}
                       tag="h3"
-                      className="text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
+                      className="text-lg font-semibold font-heading"
                       style={{ color: 'var(--brand-fg, #111111)' }}
                     />
                   )}
                   {(card.cardDescription?.jsonValue?.value || isEditing) && (
                     <ContentSdkRichText
                       field={card.cardDescription?.jsonValue}
-                      className="mt-2 flex-1 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
+                      className="mt-2 flex-1 text-sm opacity-70 font-body"
                       style={{ color: 'var(--brand-fg, #111111)' }}
                     />
                   )}
@@ -347,7 +347,7 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
                               <Text
                                 field={card.cardTitle?.jsonValue}
                                 tag="h3"
-                                className="text-lg font-bold tracking-tight font-[var(--brand-heading-font,inherit)] uppercase"
+                                className="text-lg font-bold tracking-tight font-heading uppercase"
                               />
                             )}
                             {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
@@ -366,7 +366,7 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
                             <Text
                               field={card.cardTitle?.jsonValue}
                               tag="h3"
-                              className="text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
+                              className="text-lg font-semibold font-heading"
                               style={{ color: 'var(--brand-fg, #111111)' }}
                             />
                           )}

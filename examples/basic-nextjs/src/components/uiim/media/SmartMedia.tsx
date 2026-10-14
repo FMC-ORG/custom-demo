@@ -112,6 +112,8 @@ export const SmartMedia = ({
   }
 
   // Image branch — always ContentSdkImage so Experience Editor wrappers stay intact.
+  // Do not override the image field's authored alt when the prop is omitted.
+  const altProps = alt !== undefined ? { alt } : {};
   const val = field?.value as Record<string, unknown> | undefined;
   const hasFieldDims = !!(val?.width && val?.height);
   const hasExplicitSizing = fill || (typeof width === 'number' && typeof height === 'number');
@@ -139,7 +141,7 @@ export const SmartMedia = ({
         height={DEFAULT_FALLBACK_HEIGHT}
         sizes={sizes}
         priority={priority}
-        alt={alt}
+        {...altProps}
         className={className}
       />
     );
@@ -153,7 +155,7 @@ export const SmartMedia = ({
       fill={fill}
       sizes={sizes}
       priority={priority}
-      alt={alt}
+      {...altProps}
       className={className}
     />
   );

@@ -90,7 +90,7 @@ export const Default = ({ fields, params, page }: HeroBannerProps): JSX.Element 
             <Text
               field={fields.Title}
               tag="h1"
-              className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
+              className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-heading"
             />
           )}
           {(fields.Subtitle?.value || isEditing) && (
@@ -133,7 +133,7 @@ export const SplitImageText = ({ fields, params, page }: HeroBannerProps): JSX.E
               <Text
                 field={fields.Title}
                 tag="h1"
-                className="text-4xl font-bold tracking-tight sm:text-5xl font-[var(--brand-heading-font,inherit)]"
+                className="text-4xl font-bold tracking-tight sm:text-5xl font-heading"
               />
             )}
             {(fields.Subtitle?.value || isEditing) && (
@@ -195,7 +195,7 @@ export const BackgroundImage = ({ fields, params, page }: HeroBannerProps): JSX.
               <Text
                 field={fields.Title}
                 tag="h1"
-                className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
+                className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-heading"
               />
             )}
             {(fields.Subtitle?.value || isEditing) && (
@@ -263,7 +263,7 @@ export const VideoBackground = ({ fields, params, page }: HeroBannerProps): JSX.
               <Text
                 field={fields.Title}
                 tag="h1"
-                className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
+                className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-heading"
               />
             )}
             {(fields.Subtitle?.value || isEditing) && (
@@ -306,7 +306,7 @@ export const Minimal = ({ fields, params, page }: HeroBannerProps): JSX.Element 
             <Text
               field={fields.Title}
               tag="h1"
-              className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
+              className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-heading"
             />
           )}
           {(fields.Subtitle?.value || isEditing) && (

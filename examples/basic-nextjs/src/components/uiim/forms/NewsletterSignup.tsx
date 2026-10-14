@@ -49,7 +49,7 @@ const FormRow = ({
   if (submitted && fields.SuccessMessage?.value) {
     return (
       <p
-        className="text-sm font-medium font-[var(--brand-body-font,inherit)]"
+        className="text-sm font-medium font-body"
         style={{ color: 'var(--brand-primary)' }}
       >
         {fields.SuccessMessage.value}
@@ -63,7 +63,7 @@ const FormRow = ({
         type="email"
         placeholder={fields.PlaceholderText?.value || 'Enter your email'}
         className={cn(
-          'flex-1 rounded-[var(--brand-button-radius,0.375rem)] border px-4 py-2.5 text-sm font-[var(--brand-body-font,inherit)]',
+          'flex-1 rounded-[var(--brand-button-radius,0.375rem)] border px-4 py-2.5 text-sm font-body',
           inputClassName
         )}
         style={{
@@ -77,7 +77,7 @@ const FormRow = ({
         type="button"
         onClick={onSubmit}
         className={cn(
-          'shrink-0 rounded-[var(--brand-button-radius,0.375rem)] px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90 font-[var(--brand-body-font,inherit)]',
+          'shrink-0 rounded-[var(--brand-button-radius,0.375rem)] px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90 font-body',
           buttonClassName
         )}
         style={buttonStyle || {
@@ -115,14 +115,14 @@ export const Default = ({ fields, params, page }: NewsletterSignupProps): JSX.El
             <Text
               field={fields.Title}
               tag="h2"
-              className="text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
+              className="text-2xl font-bold font-heading"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}
           {(fields.Description?.value || isEditing) && (
             <ContentSdkRichText
               field={fields.Description}
-              className="mt-3 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
+              className="mt-3 text-sm opacity-70 font-body"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}
@@ -164,13 +164,13 @@ export const Banner = ({ fields, params, page }: NewsletterSignupProps): JSX.Ele
               <Text
                 field={fields.Title}
                 tag="h2"
-                className="text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
+                className="text-2xl font-bold font-heading"
               />
             )}
             {(fields.Description?.value || isEditing) && (
               <ContentSdkRichText
                 field={fields.Description}
-                className="mt-2 text-sm opacity-90 font-[var(--brand-body-font,inherit)]"
+                className="mt-2 text-sm opacity-90 font-body"
               />
             )}
           </div>

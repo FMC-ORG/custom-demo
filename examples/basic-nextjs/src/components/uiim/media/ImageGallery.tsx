@@ -45,7 +45,7 @@ export const Default = ({ fields, params, page }: ImageGalleryProps): JSX.Elemen
         )}
         {(fields.Caption?.value || isEditing) && (
           <figcaption
-            className="px-4 py-3 text-center text-sm font-[var(--brand-body-font,inherit)]"
+            className="px-4 py-3 text-center text-sm font-body"
             style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
           >
             <Text field={fields.Caption} />
@@ -77,7 +77,7 @@ export const Gallery = ({ fields, params, page }: ImageGalleryProps): JSX.Elemen
         )}
         {(fields.Caption?.value || isEditing) && (
           <figcaption
-            className="mt-3 text-center text-sm font-[var(--brand-body-font,inherit)]"
+            className="mt-3 text-center text-sm font-body"
             style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
           >
             <Text field={fields.Caption} />
@@ -120,7 +120,7 @@ export const Parallax = ({ fields, params, page }: ImageGalleryProps): JSX.Eleme
         )}
         {(fields.Caption?.value || isEditing) && (
           <figcaption
-            className="px-4 py-3 text-center text-sm font-[var(--brand-body-font,inherit)]"
+            className="px-4 py-3 text-center text-sm font-body"
             style={{
               backgroundColor: 'var(--brand-bg, #ffffff)',
               color: 'var(--brand-muted-foreground, #6b7280)',

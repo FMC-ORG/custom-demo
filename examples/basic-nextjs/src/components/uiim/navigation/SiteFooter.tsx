@@ -95,7 +95,7 @@ const SocialIcons = () => (
 
 const Copyright = () => (
   <p
-    className="text-sm opacity-50 font-[var(--brand-body-font,inherit)]"
+    className="text-sm opacity-50 font-body"
     style={{ color: 'var(--brand-footer-fg, #ffffff)' }}
   >
     &copy; {new Date().getFullYear()} BrandName. All rights reserved.
@@ -127,7 +127,7 @@ export const Default = (props: SiteFooterProps): JSX.Element => {
             <div className="md:col-span-2 space-y-4">
               <Logo brandLogo={brandLogo} />
               <p
-                className="max-w-xs text-sm opacity-60 font-[var(--brand-body-font,inherit)]"
+                className="max-w-xs text-sm opacity-60 font-body"
               >
                 Building the future of digital experiences. Trusted by teams worldwide.
               </p>
@@ -138,7 +138,7 @@ export const Default = (props: SiteFooterProps): JSX.Element => {
             {LINK_COLUMNS.map((col) => (
               <div key={col.title}>
                 <h3
-                  className="mb-3 text-sm font-semibold uppercase tracking-wider opacity-70 font-[var(--brand-heading-font,inherit)]"
+                  className="mb-3 text-sm font-semibold uppercase tracking-wider opacity-70 font-heading"
                 >
                   {col.title}
                 </h3>
@@ -147,7 +147,7 @@ export const Default = (props: SiteFooterProps): JSX.Element => {
                     <li key={link}>
                       <a
                         href="#"
-                        className="text-sm opacity-60 transition-opacity hover:opacity-100 font-[var(--brand-body-font,inherit)]"
+                        className="text-sm opacity-60 transition-opacity hover:opacity-100 font-body"
                       >
                         {link}
                       </a>
@@ -201,7 +201,7 @@ export const Minimal = (props: SiteFooterProps): JSX.Element => {
               <a
                 key={link}
                 href="#"
-                className="transition-opacity hover:opacity-100 font-[var(--brand-body-font,inherit)]"
+                className="transition-opacity hover:opacity-100 font-body"
               >
                 {link}
               </a>
@@ -251,10 +251,10 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
         >
           <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 py-8 sm:flex-row sm:justify-between sm:px-6">
             <div>
-              <h3 className="text-lg font-semibold font-[var(--brand-heading-font,inherit)]">
+              <h3 className="text-lg font-semibold font-heading">
                 Subscribe to our newsletter
               </h3>
-              <p className="mt-1 text-sm opacity-60 font-[var(--brand-body-font,inherit)]">
+              <p className="mt-1 text-sm opacity-60 font-body">
                 Get the latest updates delivered to your inbox.
               </p>
             </div>
@@ -288,7 +288,7 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
           <div className="grid gap-8 md:grid-cols-6">
             <div className="md:col-span-2 space-y-4">
               <Logo brandLogo={brandLogo} />
-              <p className="max-w-xs text-sm opacity-60 font-[var(--brand-body-font,inherit)]">
+              <p className="max-w-xs text-sm opacity-60 font-body">
                 Building the future of digital experiences. Trusted by teams worldwide.
               </p>
               <SocialIcons />
@@ -296,13 +296,13 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
 
             {LINK_COLUMNS.map((col) => (
               <div key={col.title}>
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider opacity-70 font-[var(--brand-heading-font,inherit)]">
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider opacity-70 font-heading">
                   {col.title}
                 </h3>
                 <ul className="space-y-2">
                   {col.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="text-sm opacity-60 transition-opacity hover:opacity-100 font-[var(--brand-body-font,inherit)]">
+                      <a href="#" className="text-sm opacity-60 transition-opacity hover:opacity-100 font-body">
                         {link}
                       </a>
                     </li>
@@ -313,13 +313,13 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
 
             {extraColumns.map((col) => (
               <div key={col.title}>
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider opacity-70 font-[var(--brand-heading-font,inherit)]">
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider opacity-70 font-heading">
                   {col.title}
                 </h3>
                 <ul className="space-y-2">
                   {col.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="text-sm opacity-60 transition-opacity hover:opacity-100 font-[var(--brand-body-font,inherit)]">
+                      <a href="#" className="text-sm opacity-60 transition-opacity hover:opacity-100 font-body">
                         {link}
                       </a>
                     </li>

@@ -78,7 +78,7 @@ const AuthorAttribution = ({
         <Text
           field={item.authorName?.jsonValue}
           tag="p"
-          className="font-semibold font-[var(--brand-heading-font,inherit)]"
+          className="font-semibold font-heading"
           style={{ color: 'var(--brand-fg, #111111)' }}
         />
       )}
@@ -119,7 +119,7 @@ export const Default = ({ fields, params, page }: TestimonialBlockProps): JSX.El
             <Text
               field={datasource.sectionTitle?.jsonValue}
               tag="h2"
-              className="mb-8 text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
+              className="mb-8 text-2xl font-bold font-heading"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}
@@ -129,7 +129,7 @@ export const Default = ({ fields, params, page }: TestimonialBlockProps): JSX.El
               {(item.quoteText?.jsonValue?.value || isEditing) && (
                 <ContentSdkRichText
                   field={item.quoteText?.jsonValue}
-                  className="mt-2 text-lg italic md:text-xl font-[var(--brand-body-font,inherit)]"
+                  className="mt-2 text-lg italic md:text-xl font-body"
                   style={{ color: 'var(--brand-fg, #111111)' }}
                 />
               )}
@@ -173,7 +173,7 @@ export const Carousel = ({ fields, params, page }: TestimonialBlockProps): JSX.E
             <Text
               field={datasource.sectionTitle?.jsonValue}
               tag="h2"
-              className="mb-8 text-center text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
+              className="mb-8 text-center text-2xl font-bold font-heading"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}
@@ -191,7 +191,7 @@ export const Carousel = ({ fields, params, page }: TestimonialBlockProps): JSX.E
                 {(item.quoteText?.jsonValue?.value || isEditing) && (
                   <ContentSdkRichText
                     field={item.quoteText?.jsonValue}
-                    className="mt-2 text-sm italic font-[var(--brand-body-font,inherit)]"
+                    className="mt-2 text-sm italic font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
@@ -228,7 +228,7 @@ export const Grid = ({ fields, params, page }: TestimonialBlockProps): JSX.Eleme
             <Text
               field={datasource.sectionTitle?.jsonValue}
               tag="h2"
-              className="mb-10 text-center text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
+              className="mb-10 text-center text-2xl font-bold font-heading"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}
@@ -246,7 +246,7 @@ export const Grid = ({ fields, params, page }: TestimonialBlockProps): JSX.Eleme
                 {(item.quoteText?.jsonValue?.value || isEditing) && (
                   <ContentSdkRichText
                     field={item.quoteText?.jsonValue}
-                    className="mt-2 flex-1 text-sm italic font-[var(--brand-body-font,inherit)]"
+                    className="mt-2 flex-1 text-sm italic font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
@@ -292,7 +292,7 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
             <Text
               field={datasource.sectionTitle?.jsonValue}
               tag="h2"
-              className="mb-10 text-center text-2xl font-bold font-[var(--brand-heading-font,inherit)]"
+              className="mb-10 text-center text-2xl font-bold font-heading"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}
@@ -311,7 +311,7 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
                 {(item.quoteText?.jsonValue?.value || isEditing) && (
                   <ContentSdkRichText
                     field={item.quoteText?.jsonValue}
-                    className="mt-2 text-lg italic md:text-xl font-[var(--brand-body-font,inherit)]"
+                    className="mt-2 text-lg italic md:text-xl font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}

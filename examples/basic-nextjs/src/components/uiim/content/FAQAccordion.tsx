@@ -51,14 +51,14 @@ const SectionHeader = ({
       <Text
         field={datasource.title?.jsonValue}
         tag="h2"
-        className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+        className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
         style={{ color: 'var(--brand-fg, #111111)' }}
       />
     )}
     {(datasource.description?.jsonValue?.value || isEditing) && (
       <ContentSdkRichText
         field={datasource.description?.jsonValue}
-        className="mt-4 text-lg opacity-70 font-[var(--brand-body-font,inherit)]"
+        className="mt-4 text-lg opacity-70 font-body"
         style={{ color: 'var(--brand-fg, #111111)' }}
       />
     )}
@@ -80,7 +80,7 @@ const AccordionItem = ({
     open={defaultOpen || undefined}
   >
     <summary
-      className="flex cursor-pointer items-center justify-between py-4 text-left font-medium transition-colors hover:opacity-70 font-[var(--brand-heading-font,inherit)] [&::-webkit-details-marker]:hidden list-none"
+      className="flex cursor-pointer items-center justify-between py-4 text-left font-medium transition-colors hover:opacity-70 font-heading [&::-webkit-details-marker]:hidden list-none"
       style={{ color: 'var(--brand-fg, #111111)' }}
     >
       {(item.question?.jsonValue?.value || isEditing) && (
@@ -100,7 +100,7 @@ const AccordionItem = ({
       {(item.answer?.jsonValue?.value || isEditing) && (
         <ContentSdkRichText
           field={item.answer?.jsonValue}
-          className="text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
+          className="text-sm opacity-70 font-body"
           style={{ color: 'var(--brand-fg, #111111)' }}
         />
       )}

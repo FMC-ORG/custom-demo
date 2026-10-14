@@ -54,7 +54,7 @@ const SectionTitle = ({
     <Text
       field={datasource.title?.jsonValue}
       tag="h2"
-      className="mb-8 text-center text-xl font-semibold font-[var(--brand-heading-font,inherit)]"
+      className="mb-8 text-center text-xl font-semibold font-heading"
       style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
     />
   );
@@ -187,7 +187,7 @@ export const WithLabels = ({ fields, params, page }: LogoCloudProps): JSX.Elemen
                   <Text
                     field={item.companyName?.jsonValue}
                     tag="span"
-                    className="text-xs font-medium font-[var(--brand-body-font,inherit)]"
+                    className="text-xs font-medium font-body"
                     style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
                   />
                 )}

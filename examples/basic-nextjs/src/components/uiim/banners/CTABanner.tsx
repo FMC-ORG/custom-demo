@@ -76,13 +76,13 @@ export const Default = ({ fields, params, page }: CTABannerProps): JSX.Element =
             <Text
               field={fields.Title}
               tag="h2"
-              className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+              className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
             />
           )}
           {(fields.Description?.value || isEditing) && (
             <ContentSdkRichText
               field={fields.Description}
-              className="mt-4 text-lg opacity-90 font-[var(--brand-body-font,inherit)]"
+              className="mt-4 text-lg opacity-90 font-body"
             />
           )}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
@@ -127,13 +127,13 @@ export const WithImage = ({ fields, params, page }: CTABannerProps): JSX.Element
               <Text
                 field={fields.Title}
                 tag="h2"
-                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+                className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
               />
             )}
             {(fields.Description?.value || isEditing) && (
               <ContentSdkRichText
                 field={fields.Description}
-                className="mt-4 text-lg opacity-90 font-[var(--brand-body-font,inherit)]"
+                className="mt-4 text-lg opacity-90 font-body"
               />
             )}
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
@@ -171,14 +171,14 @@ export const Split = ({ fields, params, page }: CTABannerProps): JSX.Element => 
               <Text
                 field={fields.Title}
                 tag="h2"
-                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+                className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}
             {(fields.Description?.value || isEditing) && (
               <ContentSdkRichText
                 field={fields.Description}
-                className="mt-4 text-base font-[var(--brand-body-font,inherit)]"
+                className="mt-4 text-base font-body"
                 style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
               />
             )}
@@ -217,14 +217,14 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
               <Text
                 field={fields.Title}
                 tag="p"
-                className="text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
+                className="text-lg font-semibold font-heading"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}
             {(fields.Description?.value || isEditing) && (
               <ContentSdkRichText
                 field={fields.Description}
-                className="mt-1 text-sm font-[var(--brand-body-font,inherit)]"
+                className="mt-1 text-sm font-body"
                 style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
               />
             )}

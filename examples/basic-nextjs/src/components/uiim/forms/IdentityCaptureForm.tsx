@@ -283,7 +283,7 @@ export const HCA = ({ fields, params, page }: IdentityCaptureFormProps): JSX.Ele
                 <Text
                   field={fields.FormTitle}
                   tag="h2"
-                  className="text-2xl font-bold tracking-tight font-[var(--brand-heading-font,inherit)]"
+                  className="text-2xl font-bold tracking-tight font-heading"
                   style={{ color: 'var(--brand-primary, #0C2141)' }}
                 />
               )}

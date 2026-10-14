@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -67,33 +68,49 @@ const AuthorAttribution = ({
     {(item.authorImage?.jsonValue?.value?.src || isEditing) && (
       <ContentSdkImage
         field={item.authorImage?.jsonValue}
-        className={cn(
-          'rounded-full object-cover',
-          size === 'lg' ? 'h-14 w-14' : 'h-12 w-12'
-        )}
+        className={cn('rounded-full object-cover', size === 'lg' ? 'h-14 w-14' : 'h-12 w-12')}
       />
     )}
-    <div>
-      {(item.authorName?.jsonValue?.value || isEditing) && (
-        <Text
-          field={item.authorName?.jsonValue}
-          tag="p"
-          className="font-semibold font-heading"
-          style={{ color: 'var(--brand-fg, #111111)' }}
-        />
-      )}
-      <div className="flex flex-wrap items-center gap-1 text-sm" style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}>
-        {(item.authorRole?.jsonValue?.value || isEditing) && (
-          <Text field={item.authorRole?.jsonValue} tag="span" />
+    {(hasText(item.authorName?.jsonValue?.value) ||
+      isEditing ||
+      hasText(item.authorRole?.jsonValue?.value) ||
+      isEditing ||
+      (hasText(item.authorRole?.jsonValue?.value) && hasText(item.companyName?.jsonValue?.value)) ||
+      hasText(item.companyName?.jsonValue?.value) ||
+      isEditing) && (
+      <div>
+        {(hasText(item.authorName?.jsonValue?.value) || isEditing) && (
+          <Text
+            field={item.authorName?.jsonValue}
+            tag="p"
+            className="font-semibold font-heading"
+            style={{ color: 'var(--brand-fg, #111111)' }}
+          />
         )}
-        {item.authorRole?.jsonValue?.value && item.companyName?.jsonValue?.value && (
-          <span aria-hidden="true">&middot;</span>
-        )}
-        {(item.companyName?.jsonValue?.value || isEditing) && (
-          <Text field={item.companyName?.jsonValue} tag="span" />
+        {(hasText(item.authorRole?.jsonValue?.value) ||
+          isEditing ||
+          (hasText(item.authorRole?.jsonValue?.value) &&
+            hasText(item.companyName?.jsonValue?.value)) ||
+          hasText(item.companyName?.jsonValue?.value) ||
+          isEditing) && (
+          <div
+            className="flex flex-wrap items-center gap-1 text-sm"
+            style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
+          >
+            {(hasText(item.authorRole?.jsonValue?.value) || isEditing) && (
+              <Text field={item.authorRole?.jsonValue} tag="span" />
+            )}
+            {hasText(item.authorRole?.jsonValue?.value) &&
+              hasText(item.companyName?.jsonValue?.value) && (
+                <span aria-hidden="true">&middot;</span>
+              )}
+            {(hasText(item.companyName?.jsonValue?.value) || isEditing) && (
+              <Text field={item.companyName?.jsonValue} tag="span" />
+            )}
+          </div>
         )}
       </div>
-    </div>
+    )}
   </div>
 );
 
@@ -115,7 +132,7 @@ export const Default = ({ fields, params, page }: TestimonialBlockProps): JSX.El
         style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
       >
         <div className="mx-auto max-w-3xl text-center">
-          {(datasource.sectionTitle?.jsonValue?.value || isEditing) && (
+          {(hasText(datasource.sectionTitle?.jsonValue?.value) || isEditing) && (
             <Text
               field={datasource.sectionTitle?.jsonValue}
               tag="h2"
@@ -126,7 +143,7 @@ export const Default = ({ fields, params, page }: TestimonialBlockProps): JSX.El
           {item && (
             <>
               <QuoteMark />
-              {(item.quoteText?.jsonValue?.value || isEditing) && (
+              {(hasRichText(item.quoteText?.jsonValue?.value) || isEditing) && (
                 <ContentSdkRichText
                   field={item.quoteText?.jsonValue}
                   className="mt-2 text-lg italic md:text-xl font-body"
@@ -169,7 +186,7 @@ export const Carousel = ({ fields, params, page }: TestimonialBlockProps): JSX.E
         style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
       >
         <div className="mx-auto max-w-7xl">
-          {(datasource.sectionTitle?.jsonValue?.value || isEditing) && (
+          {(hasText(datasource.sectionTitle?.jsonValue?.value) || isEditing) && (
             <Text
               field={datasource.sectionTitle?.jsonValue}
               tag="h2"
@@ -188,7 +205,7 @@ export const Carousel = ({ fields, params, page }: TestimonialBlockProps): JSX.E
                 }}
               >
                 <QuoteMark />
-                {(item.quoteText?.jsonValue?.value || isEditing) && (
+                {(hasRichText(item.quoteText?.jsonValue?.value) || isEditing) && (
                   <ContentSdkRichText
                     field={item.quoteText?.jsonValue}
                     className="mt-2 text-sm italic font-body"
@@ -224,7 +241,7 @@ export const Grid = ({ fields, params, page }: TestimonialBlockProps): JSX.Eleme
         style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
       >
         <div className="mx-auto max-w-7xl">
-          {(datasource.sectionTitle?.jsonValue?.value || isEditing) && (
+          {(hasText(datasource.sectionTitle?.jsonValue?.value) || isEditing) && (
             <Text
               field={datasource.sectionTitle?.jsonValue}
               tag="h2"
@@ -243,14 +260,17 @@ export const Grid = ({ fields, params, page }: TestimonialBlockProps): JSX.Eleme
                 }}
               >
                 <QuoteMark />
-                {(item.quoteText?.jsonValue?.value || isEditing) && (
+                {(hasRichText(item.quoteText?.jsonValue?.value) || isEditing) && (
                   <ContentSdkRichText
                     field={item.quoteText?.jsonValue}
                     className="mt-2 flex-1 text-sm italic font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
-                <div className="mt-4 pt-4" style={{ borderTop: '1px solid var(--brand-border, #e5e7eb)' }}>
+                <div
+                  className="mt-4 pt-4"
+                  style={{ borderTop: '1px solid var(--brand-border, #e5e7eb)' }}
+                >
                   <AuthorAttribution item={item} isEditing={isEditing} />
                 </div>
                 {(item.companyLogo?.jsonValue?.value?.src || isEditing) && (
@@ -288,7 +308,7 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
         style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
       >
         <div className="mx-auto max-w-4xl">
-          {(datasource.sectionTitle?.jsonValue?.value || isEditing) && (
+          {(hasText(datasource.sectionTitle?.jsonValue?.value) || isEditing) && (
             <Text
               field={datasource.sectionTitle?.jsonValue}
               tag="h2"
@@ -308,7 +328,7 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
               )}
               <div className="flex-1 text-center md:text-left">
                 <QuoteMark />
-                {(item.quoteText?.jsonValue?.value || isEditing) && (
+                {(hasRichText(item.quoteText?.jsonValue?.value) || isEditing) && (
                   <ContentSdkRichText
                     field={item.quoteText?.jsonValue}
                     className="mt-2 text-lg italic md:text-xl font-body"

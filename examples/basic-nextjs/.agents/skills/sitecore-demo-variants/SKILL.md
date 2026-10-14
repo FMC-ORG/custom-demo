@@ -141,7 +141,7 @@ For each section, create a new named export in the component's TSX file.
 - Start from the closest existing variant (the `baseVariant`) — copy its structure
 - Modify the Tailwind classes to match the screenshot
 - Keep ALL Sitecore field helpers intact (`Text`, `ContentSdkImage`, `ContentSdkLink`, `ContentSdkRichText`)
-- Keep ALL `isEditing` guards
+- Keep ALL `isEditing` guards. Use shared `hasText` / `hasRichText` visibility helpers, hide empty text-only containers outside editing, and preserve media-only Rich Text unchanged. Use `font-heading` / `font-body` for runtime font-family, independently of weight.
 - Keep `params.styles` and `params.RenderingIdentifier` on the wrapper
 - Use `--brand-*` CSS variables for colors — do NOT hardcode hex values
 - Use Tailwind arbitrary values for spacing/sizing that differs from the base variant
@@ -183,15 +183,14 @@ export const PeopleCert = ({ fields, params, page }: ProductPricingCardsProps): 
                     <Text
                       field={card.cardTitle?.jsonValue}
                       tag="h3"
-                      className="text-xl font-bold"
-                      style={{ color: 'var(--brand-fg)', fontFamily: 'var(--brand-heading-font)' }}
+                      className="text-xl font-bold font-heading"
+                      style={{ color: 'var(--brand-fg)' }}
                     />
                     <ContentSdkRichText
                       field={card.cardDescription?.jsonValue}
-                      className="text-sm opacity-70 flex-1"
-                      style={{ fontFamily: 'var(--brand-body-font)' }}
+                      className="text-sm opacity-70 flex-1 font-body"
                     />
-                    {(card.priceText?.jsonValue?.value || isEditing) && (
+                    {(hasText(card.priceText?.jsonValue?.value) || isEditing) && (
                       <Text
                         field={card.priceText?.jsonValue}
                         tag="p"

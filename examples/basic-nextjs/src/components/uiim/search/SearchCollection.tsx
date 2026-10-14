@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
+import { hasText } from '@/lib/field-utils';
 import Image from 'next/image';
 import { ImageOff } from 'lucide-react';
 import { Field, Text } from '@sitecore-content-sdk/nextjs';
@@ -96,7 +97,7 @@ export const Default = (props: SearchCollectionProps) => {
   // and an inline object literal changes every render (= infinite fetch loop).
   const sort = useMemo(
     () => (sortBy ? ({ name: sortBy, order: sortOrder } as const) : undefined),
-    [sortBy, sortOrder]
+    [sortBy, sortOrder],
   );
 
   // Browse mode: empty keyphrase returns the whole index, the sort makes it a
@@ -135,7 +136,7 @@ export const Default = (props: SearchCollectionProps) => {
       id={params?.RenderingIdentifier || undefined}
     >
       <div className="mx-auto max-w-7xl p-6">
-        {(fields.Heading?.value || isEditing) && (
+        {(hasText(fields.Heading?.value) || isEditing) && (
           <Text
             field={fields.Heading}
             tag="h2"

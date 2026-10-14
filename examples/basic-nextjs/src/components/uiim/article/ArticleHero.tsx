@@ -1,6 +1,7 @@
 'use client';
 
 import React, { JSX, useState } from 'react';
+import { hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -91,13 +92,7 @@ function ShareButtons() {
   );
 }
 
-function AuthorMeta({
-  author,
-  isEditing,
-}: {
-  author?: PersonReference;
-  isEditing?: boolean;
-}) {
+function AuthorMeta({ author, isEditing }: { author?: PersonReference; isEditing?: boolean }) {
   if (!author?.fields && !isEditing) return null;
   const fields = author?.fields;
 
@@ -113,13 +108,20 @@ function AuthorMeta({
           />
         </div>
       )}
-      <div>
-        {(fields?.personFirstName?.value || fields?.personLastName?.value || isEditing) && (
-          <p className="text-sm font-medium" data-testid="author-name">
-            {fields?.personFirstName?.value} {fields?.personLastName?.value}
-          </p>
-        )}
-      </div>
+      {(hasText(fields?.personFirstName?.value) ||
+        hasText(fields?.personLastName?.value) ||
+        isEditing) && (
+        <div>
+          {(hasText(fields?.personFirstName?.value) ||
+            hasText(fields?.personLastName?.value) ||
+            isEditing) && (
+            <p className="text-sm font-medium" data-testid="author-name">
+              <Text field={fields?.personFirstName as Field<string>} />{' '}
+              <Text field={fields?.personLastName as Field<string>} />
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -134,8 +136,13 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
 
   if (!routeFields) return <ArticleHeroDefaultComponent />;
 
-  const { Title: title, ArticleImage, ArticleAuthor, ArticlePublicationDate, ArticleReadTime } =
-    routeFields;
+  const {
+    Title: title,
+    ArticleImage,
+    ArticleAuthor,
+    ArticlePublicationDate,
+    ArticleReadTime,
+  } = routeFields;
 
   return (
     <div className={cn('component article-hero', styles)} id={RenderingIdentifier}>
@@ -144,19 +151,14 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
         <div className="relative min-h-[60vh] bg-gray-900">
           {(ArticleImage?.value?.src || isEditing) && (
             <div className="absolute inset-0 opacity-40">
-              <SmartMedia
-                field={ArticleImage}
-                fill
-                sizes="100vw"
-                className="object-cover"
-              />
+              <SmartMedia field={ArticleImage} fill sizes="100vw" className="object-cover" />
             </div>
           )}
 
           {/* Content overlay */}
           <div className="relative z-10 flex min-h-[60vh] flex-col items-center justify-center px-4 py-20 text-center text-white">
             {/* Title */}
-            {(title?.value || isEditing) && (
+            {(hasText(title?.value) || isEditing) && (
               <Text
                 field={title}
                 tag="h1"
@@ -183,12 +185,8 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
                   />
                 </time>
               )}
-              {(ArticleReadTime?.value || isEditing) && ArticleReadTime && (
-                <Text
-                  field={ArticleReadTime}
-                  tag="span"
-                  data-testid="article-read-time"
-                />
+              {(hasText(ArticleReadTime?.value) || isEditing) && ArticleReadTime && (
+                <Text field={ArticleReadTime} tag="span" data-testid="article-read-time" />
               )}
             </div>
 
@@ -219,7 +217,7 @@ export const Minimal = ({ params, page }: ComponentProps): JSX.Element => {
     <div className={cn('component article-hero', styles)} id={RenderingIdentifier}>
       <header className="bg-white" data-testid="article-hero-header">
         <div className="mx-auto max-w-4xl px-4 py-16 md:py-24">
-          {(title?.value || isEditing) && (
+          {(hasText(title?.value) || isEditing) && (
             <Text
               field={title}
               tag="h1"
@@ -245,7 +243,7 @@ export const Minimal = ({ params, page }: ComponentProps): JSX.Element => {
                 />
               </time>
             )}
-            {(ArticleReadTime?.value || isEditing) && ArticleReadTime && (
+            {(hasText(ArticleReadTime?.value) || isEditing) && ArticleReadTime && (
               <Text field={ArticleReadTime} tag="span" data-testid="article-read-time" />
             )}
           </div>
@@ -269,8 +267,13 @@ export const SplitImage = ({ params, page }: ComponentProps): JSX.Element => {
 
   if (!routeFields) return <ArticleHeroDefaultComponent />;
 
-  const { Title: title, ArticleImage, ArticleAuthor, ArticlePublicationDate, ArticleReadTime } =
-    routeFields;
+  const {
+    Title: title,
+    ArticleImage,
+    ArticleAuthor,
+    ArticlePublicationDate,
+    ArticleReadTime,
+  } = routeFields;
 
   return (
     <div className={cn('component article-hero', styles)} id={RenderingIdentifier}>
@@ -278,7 +281,7 @@ export const SplitImage = ({ params, page }: ComponentProps): JSX.Element => {
         <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-2 md:py-20">
           {/* Left column — text */}
           <div className="flex flex-col justify-center">
-            {(title?.value || isEditing) && (
+            {(hasText(title?.value) || isEditing) && (
               <Text
                 field={title}
                 tag="h1"
@@ -304,7 +307,7 @@ export const SplitImage = ({ params, page }: ComponentProps): JSX.Element => {
                   />
                 </time>
               )}
-              {(ArticleReadTime?.value || isEditing) && ArticleReadTime && (
+              {(hasText(ArticleReadTime?.value) || isEditing) && ArticleReadTime && (
                 <Text field={ArticleReadTime} tag="span" data-testid="article-read-time" />
               )}
             </div>

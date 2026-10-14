@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -43,7 +44,7 @@ export const Default = ({ fields, params, page }: ImageGalleryProps): JSX.Elemen
             className="w-full max-h-[70vh] object-cover"
           />
         )}
-        {(fields.Caption?.value || isEditing) && (
+        {(hasText(fields.Caption?.value) || isEditing) && (
           <figcaption
             className="px-4 py-3 text-center text-sm font-body"
             style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
@@ -75,7 +76,7 @@ export const Gallery = ({ fields, params, page }: ImageGalleryProps): JSX.Elemen
             />
           </div>
         )}
-        {(fields.Caption?.value || isEditing) && (
+        {(hasText(fields.Caption?.value) || isEditing) && (
           <figcaption
             className="mt-3 text-center text-sm font-body"
             style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
@@ -118,7 +119,7 @@ export const Parallax = ({ fields, params, page }: ImageGalleryProps): JSX.Eleme
             )}
           </div>
         )}
-        {(fields.Caption?.value || isEditing) && (
+        {(hasText(fields.Caption?.value) || isEditing) && (
           <figcaption
             className="px-4 py-3 text-center text-sm font-body"
             style={{

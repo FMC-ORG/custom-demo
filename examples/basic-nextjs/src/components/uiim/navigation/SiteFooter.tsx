@@ -1,8 +1,5 @@
 import React, { JSX } from 'react';
-import {
-  ImageField,
-  NextImage as ContentSdkImage,
-} from '@sitecore-content-sdk/nextjs';
+import { ImageField, NextImage as ContentSdkImage } from '@sitecore-content-sdk/nextjs';
 import Link from 'next/link';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
@@ -94,10 +91,7 @@ const SocialIcons = () => (
 );
 
 const Copyright = () => (
-  <p
-    className="text-sm opacity-50 font-body"
-    style={{ color: 'var(--brand-footer-fg, #ffffff)' }}
-  >
+  <p className="text-sm opacity-50 font-body" style={{ color: 'var(--brand-footer-fg, #ffffff)' }}>
     &copy; {new Date().getFullYear()} BrandName. All rights reserved.
   </p>
 );
@@ -126,9 +120,7 @@ export const Default = (props: SiteFooterProps): JSX.Element => {
             {/* Logo + description */}
             <div className="md:col-span-2 space-y-4">
               <Logo brandLogo={brandLogo} />
-              <p
-                className="max-w-xs text-sm opacity-60 font-body"
-              >
+              <p className="max-w-xs text-sm opacity-60 font-body">
                 Building the future of digital experiences. Trusted by teams worldwide.
               </p>
               <SocialIcons />
@@ -137,9 +129,7 @@ export const Default = (props: SiteFooterProps): JSX.Element => {
             {/* Link columns */}
             {LINK_COLUMNS.map((col) => (
               <div key={col.title}>
-                <h3
-                  className="mb-3 text-sm font-semibold uppercase tracking-wider opacity-70 font-heading"
-                >
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider opacity-70 font-heading">
                   {col.title}
                 </h3>
                 <ul className="space-y-2">
@@ -165,8 +155,12 @@ export const Default = (props: SiteFooterProps): JSX.Element => {
           >
             <Copyright />
             <div className="flex gap-6 text-sm opacity-50">
-              <a href="#" className="hover:opacity-100 transition-opacity">Privacy Policy</a>
-              <a href="#" className="hover:opacity-100 transition-opacity">Terms of Service</a>
+              <a href="#" className="hover:opacity-100 transition-opacity">
+                Privacy Policy
+              </a>
+              <a href="#" className="hover:opacity-100 transition-opacity">
+                Terms of Service
+              </a>
             </div>
           </div>
         </div>
@@ -198,11 +192,7 @@ export const Minimal = (props: SiteFooterProps): JSX.Element => {
           <Logo brandLogo={brandLogo} />
           <nav className="flex flex-wrap items-center gap-6 text-sm opacity-60">
             {['About', 'Products', 'Blog', 'Contact', 'Privacy'].map((link) => (
-              <a
-                key={link}
-                href="#"
-                className="transition-opacity hover:opacity-100 font-body"
-              >
+              <a key={link} href="#" className="transition-opacity hover:opacity-100 font-body">
                 {link}
               </a>
             ))}
@@ -245,15 +235,10 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
         }}
       >
         {/* Newsletter bar */}
-        <div
-          className="border-b"
-          style={{ borderColor: 'rgba(255,255,255,0.1)' }}
-        >
+        <div className="border-b" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
           <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 py-8 sm:flex-row sm:justify-between sm:px-6">
             <div>
-              <h3 className="text-lg font-semibold font-heading">
-                Subscribe to our newsletter
-              </h3>
+              <h3 className="text-lg font-semibold font-heading">Subscribe to our newsletter</h3>
               <p className="mt-1 text-sm opacity-60 font-body">
                 Get the latest updates delivered to your inbox.
               </p>
@@ -302,7 +287,10 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
                 <ul className="space-y-2">
                   {col.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="text-sm opacity-60 transition-opacity hover:opacity-100 font-body">
+                      <a
+                        href="#"
+                        className="text-sm opacity-60 transition-opacity hover:opacity-100 font-body"
+                      >
                         {link}
                       </a>
                     </li>
@@ -319,7 +307,10 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
                 <ul className="space-y-2">
                   {col.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="text-sm opacity-60 transition-opacity hover:opacity-100 font-body">
+                      <a
+                        href="#"
+                        className="text-sm opacity-60 transition-opacity hover:opacity-100 font-body"
+                      >
                         {link}
                       </a>
                     </li>
@@ -335,9 +326,15 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
           >
             <Copyright />
             <div className="flex gap-6 text-sm opacity-50">
-              <a href="#" className="hover:opacity-100 transition-opacity">Privacy Policy</a>
-              <a href="#" className="hover:opacity-100 transition-opacity">Terms of Service</a>
-              <a href="#" className="hover:opacity-100 transition-opacity">Cookie Settings</a>
+              <a href="#" className="hover:opacity-100 transition-opacity">
+                Privacy Policy
+              </a>
+              <a href="#" className="hover:opacity-100 transition-opacity">
+                Terms of Service
+              </a>
+              <a href="#" className="hover:opacity-100 transition-opacity">
+                Cookie Settings
+              </a>
             </div>
           </div>
         </div>

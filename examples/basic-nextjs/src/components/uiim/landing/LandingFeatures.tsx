@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import * as LucideIcons from 'lucide-react';
 import { Sparkles } from 'lucide-react';
 import {
@@ -47,12 +48,12 @@ function FeatureCard({
   isEditing?: boolean;
 }) {
   const iconKey = iconName?.value;
-  const hasContent = iconKey || title?.value || description?.value;
+  const hasContent = iconKey || hasText(title?.value) || hasRichText(description?.value);
   if (!hasContent && !isEditing) return null;
 
   const Icon =
     iconKey && (LucideIcons as Record<string, unknown>)[iconKey]
-      ? ((LucideIcons as unknown) as Record<string, React.ComponentType<{ className?: string }>>)[
+      ? (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[
           iconKey
         ]
       : Sparkles;
@@ -65,7 +66,7 @@ function FeatureCard({
       <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-md bg-gray-900 text-white">
         <Icon className="h-6 w-6" />
       </div>
-      {(title?.value || isEditing) && (
+      {(hasText(title?.value) || isEditing) && (
         <Text
           field={title}
           tag="h3"
@@ -73,7 +74,7 @@ function FeatureCard({
           data-testid="feature-title"
         />
       )}
-      {(description?.value || isEditing) && (
+      {(hasRichText(description?.value) || isEditing) && (
         <div className="mt-2 text-sm text-gray-600" data-testid="feature-description">
           <ContentSdkRichText field={description} />
         </div>

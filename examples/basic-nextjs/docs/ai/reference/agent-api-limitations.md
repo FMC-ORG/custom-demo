@@ -14,7 +14,7 @@ Documented limitations discovered during the SitecoreAI Demo Builder project. Th
 
 The `add_component_on_page` MCP tool adds a component to a page and can set **datasource fields** via the `fields` parameter, but it **cannot set rendering parameters** — including the `FieldNames` parameter that controls which **Headless Variant** is used.
 
-This means when the pipeline adds a component to a page, it always renders as Default variant. The SE must manually open Pages editor, select each component, go to Design tab, and pick the correct variant.
+The add operation does not guarantee Default: later live runs observed non-default `FieldNames`. Read and report the actual parameters, preserving them during datasource wiring. The SE must manually select the planned variant in Pages when it differs or cannot be verified.
 
 ### What We Tested
 

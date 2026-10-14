@@ -26,7 +26,7 @@
 
 | # | Component | Variant | Datasource | Status |
 |---|-----------|---------|------------|--------|
-| 1 | NavigationHeader | Unverified | {{CLIENT}} - Main Navigation | ⚠️ Manual placement |
+| 1 | NavigationHeader | {{OBSERVED_OR_UNVERIFIED}} | {{CLIENT}} - Main Navigation | {{VERIFIED_WIRING_OR_UNRESOLVED}} |
 | 2 | HeroBanner | BackgroundImage | {{CLIENT}} - Hero Banner | ✅ Wired |
 | 3 | ValuePropositionGrid | Default | {{CLIENT}} - Value Props | ✅ Wired |
 | ... | ... | ... | ... | ... |
@@ -155,12 +155,15 @@ Open the page in Pages editor and set these variants:
 2. In the right-hand pane, click **Design** tab
 3. Select the variant from the dropdown
 
-### 2. Shared Partial Designs / Context Components
+### 2. Shared Header/Footer Wiring and Structural Repairs
 
-Verify actual rendering configuration and placement. Shared-design switches need separate approval; datasource-backed headers/footers are not context-only merely because they appear in partial designs:
+Complete-build approval includes automatic datasource wiring. Show read-back evidence and previous datasources; unresolved required wiring keeps the build partial, not an expected manual task.
 
-- [ ] **NavigationHeader** — after approval, assign the verified "{{CLIENT}} - Main Navigation" datasource on the intended Header partial design.
-- [ ] **SiteFooter** — lives in Footer partial design. Assign "{{CLIENT}} - Site Footer" datasource in Content Editor.
+| Target / instance | Result | Previous datasource | Verified client datasource | Observed variant |
+|-------------------|--------|---------------------|----------------------------|------------------|
+| {{SHARED_TARGET}} | {{VERIFIED_OR_UNRESOLVED}} | {{PREVIOUS_DATASOURCE}} | {{CLIENT_DATASOURCE}} | {{OBSERVED_OR_UNVERIFIED}} |
+
+Missing/incompatible renderings require a separate repair decision. No automatic structural add/remove/replace. Variant selection remains manual.
 
 ### 3. Link Verification
 

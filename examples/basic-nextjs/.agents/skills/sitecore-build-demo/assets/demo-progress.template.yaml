@@ -30,7 +30,9 @@ phases:
     status: "pending"       # pending | complete
     buildPlanFile: ""
     totalSections: 0
-    userApproved: false     # MANDATORY checkpoint
+    userApproved: false     # MANDATORY checkpoint includes shared Header/Footer wiring
+    targetReview: {}         # inspected classification; repurposeApproved when existing-client
+    sharedPartialDesigns: {} # approved exact targets and their current datasources
 
   phase2_5_content:
     status: "pending"       # pending | complete | failed

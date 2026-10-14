@@ -27,7 +27,7 @@ Use this skill when:
 
 Read the client progress file and the phase result files, then follow `.agents/skills/sitecore-build-demo/references/recovery.md`.
 
-- Same approved inputs, authenticated environment, and workspace only. Preserve the recovery journals and MCP transport records.
+- Same `demo-framework-v2` contract, approved inputs, authenticated environment, and workspace only. Older incomplete contracts cannot resume through these helpers: preserve their records/resources and obtain an approved fresh build scope/workspace, never reset. Preserve the recovery journals and MCP transport records.
 - Reuse verified work through the helpers; do not recreate items from phase flags or rewrite creation loops.
 - Resume helper commands without `--initialize`; use `--begin` once after a session break for fresh MCP observations.
 - A claimed mutation without a recorded response is unknown, not failed. Reconcile it; never execute that claim again.
@@ -173,7 +173,7 @@ Run the `sitecore-analyze-site` subskill — see **Subskill handoff** above. Inp
    - `apiAddable: true` — has a datasource template, can be added via `add_component_on_page`
    - `apiAddable: false` — context-only component (no datasource template), must be added manually in Pages editor
 
-   Components with no datasource template cannot be added through this API. Do not classify header/footer by name: inspect the manifest and rendering. Datasource-backed header/footer content is populated normally, while `placement: "partial-design"` is skipped during page assembly and handed off for an approved manual switch.
+   Components with no datasource template cannot be added through this API. Do not classify header/footer by name: inspect the manifest and rendering. Datasource-backed Header/Footer content is populated normally, and `placement: "partial-design"` is automatically wired to the exact inspected instance by the assembly helper. The approved complete-build plan includes this mandatory switch and discloses shared page impact. Missing/incompatible targets require a separate repair decision.
 8. Output two files:
    - `docs/ai/demos/<client-kebab>/build-plan.yaml` — machine-readable plan for subsequent phases
    - `docs/ai/demos/<client-kebab>/build-plan-summary.md` — human-readable summary using the template at `.agents/skills/sitecore-analyze-site/assets/build-plan-summary.template.md`
@@ -191,6 +191,8 @@ Present the **build plan summary** to the user and STOP. The SE reads the summar
 **Ask TWO questions — do not continue without answers to both:**
 1. "Does the build plan look correct? Approved to proceed?"
 2. "Do you want pixel-perfect custom variants for each component (Phase 5.5), or are the generic template variants sufficient?"
+
+Before asking these two questions, inspect the actual target page and Header/Footer partial designs through marketer MCP. Record their paths, item IDs, rendering and instance IDs, current datasources and known/unknown usage in `targetPage.sharedPartialDesigns`. Show this shared impact in the summary. Approval includes automatic datasource wiring, not a separate leave/switch question. If another client's branded experience is found, pause for explicit repurposing confirmation before any client-content/shared-design writes. Ordinary starter content alone does not require this extra confirmation. Record `targetReview` in the approved plan, classify it as `fresh`, `starter` or `existing-client`, and require `repurposeApproved: true` for the last case. Do not add/remove/replace partial-design components automatically.
 
 Record the Phase 5.5 decision in `demo-progress.yaml` (`phases.phase5_5_variants.skippedReason` if declined).
 
@@ -246,8 +248,8 @@ The content map is the input for Phase 3 — it contains exact field values read
 
 **Inputs:** approved build plan and content map, project identity, verified template/folder IDs from the manifest, image manifest.
 
-1. Upload images through `.agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs`. An explicitly approved NEW upload run uses `--initialize`; a resume never does. Check `upload-result.json`, not just non-empty URLs. Without Content Hub credentials, preserve a manual-image handoff and do not claim automated uploads succeeded.
-2. Prepare the reviewed, field-ready execution plan using `.agents/skills/sitecore-build-demo/assets/execution-plan.template.json`. Resolve project paths from configuration and verify IDs/field types. Record explicit optionality and explicit blanks; omitted content is not permission to blank fields. Use a distinct stable section key for repeated component types.
+1. Upload images through `.agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs`. Known pending approvals share one configurable 60-second read-only window; known public links share one configurable 90-second anonymous-access window. Request time counts against the batch-wide deadline. Use `--approval-timeout` / `CH_APPROVAL_TIMEOUT` and `--public-link-timeout` / `CH_PUBLIC_LINK_TIMEOUT` (seconds). Never recreate resources or repeat uncertain approval writes to absorb delay. An explicitly approved NEW upload run uses `--initialize`; a resume never does. Check `upload-result.json`, not just non-empty URLs. Without Content Hub credentials, preserve a manual-image handoff and do not claim automated uploads succeeded.
+2. Set `contract: "demo-framework-v2"` and include the inspected `targetReview` and approved shared-design targets. Prepare the reviewed, field-ready execution plan using `.agents/skills/sitecore-build-demo/assets/execution-plan.template.json`. Resolve project paths from configuration and verify IDs/field types. Record explicit optionality and explicit blanks; omitted content is not permission to blank fields. Use a distinct stable section key for repeated component types.
 3. Create client datasource instances, never change example items or shared templates. Header/footer datasources are included when configured on their renderings; their `placement: "partial-design"` affects assembly, not whether content is populated.
 4. Invoke `.agents/skills/sitecore-build-demo/scripts/demo-recovery.cjs` with `--phase populate`, the plan, and the demo directory. Use `--initialize` only for an explicitly approved NEW phase. Follow the durable **claim → marketer MCP call once → reply → step** protocol in the reference.
 5. The helper checkpoints parent/child IDs, populates fields, sets child `__Sortorder` from source order, reads values back, and verifies the returned child ID sequence. No successful response or non-empty field alone proves completion.
@@ -256,7 +258,7 @@ The content map is the input for Phase 3 — it contains exact field values read
 
 General Link values must be complete XML or approved external link objects; image values come from verified DAM image XML with dimensions. All demo content remains English. Media posters may be used only when approved; videos and unavailable assets remain explicit manual tasks.
 
-The pipeline creates default client datasources. Segment-specific personalization and shared partial-design switches remain separate approved work.
+The pipeline creates default client datasources. Segment-specific personalization remains separate approved work. Header/Footer datasource wiring is mandatory within the approved complete build; variant selection and structural repairs remain separate. Creation-time datasource fields are deferred pending a separately approved live probe; retain the verified narrow blank fallback without shared-template changes.
 
 ### Phase 4 — Apply the theme
 
@@ -354,17 +356,17 @@ This phase bridges the gap between "same colors" (Phase 4 CSS variables) and "lo
 2. Invoke `.agents/skills/sitecore-build-demo/scripts/demo-recovery.cjs` with `--phase assemble`. NEW phases require explicit `--initialize`; resumes do not. Use the same claim/call/reply protocol as population.
 3. The helper snapshots page state, adds sequentially with stable section-specific names, diffs read-back after every add, checkpoints instance IDs, wires client datasources, and verifies final relative order and relationships.
 4. A timeout is an unknown outcome. Read back before any retry. If attribution remains ambiguous, stop the placement chain. Never generate a different retry name or delete a local datasource to bypass a collision.
-5. Shared partial-design placements are skipped with a manual task. Do not switch shared headers/footers under this P0 recovery scope.
+5. Automatically wire approved Header/Footer partial-design targets using the journaled helper. Verify exact instance/rendering identity and expected pre-write datasource, preserve parameters and unrelated components, and record previous datasource IDs. Missing/incompatible/ambiguous targets block wiring and require a separate repair decision. Never silently treat unresolved mandatory wiring as an optional manual task.
 6. Preserve existing rendering parameters. The add API may select a preset variant: do not assume Default. Generate `variant-checklist.md` from observed parameters when available; otherwise label Current as unverified. Variant selection itself remains manual.
 7. Inspect `assembly-result.json` and all unresolved upstream phase results. A written summary does not turn partial work into completed work. Auto-created local datasource cleanup remains manual, not an automatic delete.
 
-Report component instance IDs, datasource wiring, relative order, exceptions, skipped shared designs, variant tasks, and unresolved operations. Resume through verified records rather than repeating adds.
+Report component instance IDs, datasource wiring, relative order, exceptions, verified shared-design switches and previous datasources, variant tasks, and unresolved operations. Resume through verified records rather than repeating adds.
 
 ### Phase 7 — Summary
 
 **GATE: summaries must report the actual recovery result.**
 
-Read the upload, population, and assembly result files. Unverified/failed operations keep the automated build **partial**, even when independent sections succeeded. Include each unresolved operation and its affected item/field. Keep expected manual variant, shared-design, publishing, and visual-QA tasks separate from automated verification. Copy recorded exceptions, including whitespace fallbacks, into Build notes. Never rerun a mutation solely to make the phase counters look complete.
+Read the upload, population, and assembly result files. Unverified/failed operations keep the automated build **partial**, even when independent sections succeeded. Include each unresolved operation and its affected item/field. Keep expected manual variant, publishing, and visual-QA tasks separate from automated verification. Copy recorded exceptions, including whitespace fallbacks, into Build notes. Never rerun a mutation solely to make the phase counters look complete.
 
 Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `.agents/skills/sitecore-build-demo/assets/demo-summary.template.md`.
 
@@ -381,7 +383,7 @@ Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `.
    - `VERIFICATION_SCOPE` = actual service read-back performed, plus any unverified delivery/visual checks. Do not substitute local regression-test results for live verification.
 
 2. **Component Inventory table** — one row per section from `build-plan.yaml`:
-   - Status from `sections[N].phase6.status`: `wired` = "✅ Wired", `skipped` = "⚠️ Manual placement", `partial` = "⚠️ Unresolved", `failed` = "❌ Failed". Skipped shared-design work is not verified page placement.
+   - Status from `sections[N].phase6.status`: `wired` = "✅ Wired", `skipped` = "⚠️ Manual placement", `partial` = "⚠️ Unresolved", `failed` = "❌ Failed". Required Header/Footer switches are either verified wiring or unresolved operations, never successful skipped placement.
    - If variant is non-Default and Phase 5.5 was skipped, append "⚠️ Needs variant" to status
 
 3. **Theme section** — from the theme YAML produced in Phase 1
@@ -402,7 +404,7 @@ Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `.
 
 6. **Manual Tasks** — populate each subsection:
    - **Variant Selection**: include components where observed and planned variants differ, or the current value is unverified. Do not infer Default.
-   - **Shared Partial Designs / Context Components**: include explicitly skipped placements and components whose actual rendering configuration requires manual placement; do not classify by name alone.
+   - **Shared Header/Footer / Context Components**: report verified automatic switches with previous datasource IDs, or unresolved required wiring/structural repair tasks. List actual unsupported context placements separately; never classify Header/Footer by name or call required wiring an optional skipped task.
    - **Link Verification**: list links from content-map that point to the client's domain
    - **Cleanup**: only include if reusing an existing page that had OOB components
    - **Personalization**: always include — it's optional guidance for the SE

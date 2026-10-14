@@ -70,7 +70,13 @@ For each matched section, extract the **actual text content** visible in the scr
 - Numbers/stats → map to stat fields
 - Image descriptions → note what the image shows (for manual Media Library upload)
 
-### Step 6 — Output the build plan
+### Step 6 — Inspect the target experience and shared designs
+
+Read project identity from `docs/ai/config/project.yaml`. Inspect the actual target page and `/Presentation/Partial Designs` using marketer MCP: resolve parents by path, read the Header/Footer items, then call `get_components_on_page` with each partial-design item ID. Identify renderings by verified definitions/manifest, not component names alone. Record `targetReview.classification: fresh|starter|existing-client` and `targetPage.sharedPartialDesigns` with paths, item IDs, rendering IDs, instance IDs, current datasources, and pagesUsingIt as a verified count or `unknown`. Do not assume all pages use the designs.
+
+The complete build automatically wires client Header/Footer datasources to these exact instances after plan approval. Explain the shared impact in the summary, without a separate leave/switch question. Another client's branded experience requires explicit `repurposeApproved` confirmation before client-content writes. Missing, incompatible or ambiguous Header/Footer renderings require a repair decision; do not invent targets or add/remove components. Freeze approved shared targets into the new execution plan; never upgrade older journals.
+
+### Step 7 — Output the build plan
 
 Write two files:
 
@@ -99,7 +105,7 @@ Use this table to set both `registryId` and `manifestName` in the build plan:
 | registryId | manifestName | kind | variants |
 |---|---|---|---|
 | `announcement-bar` | `AnnouncementBar` | simple | Default, Highlight |
-| `navigation-header` | `NavigationHeader` | context-only | Default, Transparent, Minimal |
+| `navigation-header` | `NavigationHeader` | inspect rendering/manifest | Default, Transparent, Minimal |
 | `hero-banner` | `HeroBanner` | simple | Default, SplitImageText, BackgroundImage, VideoBackground, Minimal |
 | `tab-navigation` | `TabNavigationSection` | list | Default, Underline, Boxed |
 | `product-pricing-cards` | `ProductPricingCards` | list | Default, Horizontal, Compact, Highlighted |
@@ -112,7 +118,7 @@ Use this table to set both `registryId` and `manifestName` in the build plan:
 | `feature-cards-grid` | `FeatureCardsGrid` | list | Default, TwoColumn, WithImages, Carousel |
 | `image-gallery` | `ImageGallery` | simple | Default, Gallery, Parallax |
 | `logo-cloud` | `LogoCloud` | list | Default, Grid, WithLabels |
-| `footer` | `SiteFooter` | context-only | Default, Minimal, MegaFooter |
+| `footer` | `SiteFooter` | inspect rendering/manifest | Default, Minimal, MegaFooter |
 | `newsletter-signup` | `NewsletterSignup` | simple | Default, Banner, Compact |
 | `faq-accordion` | `FAQAccordion` | list | Default, AllOpen, TwoColumn |
 | `rich-text-block` | `RichTextBlock` | simple | Default, Centered, Narrow |
@@ -128,6 +134,15 @@ client:
   sourceUrl: ""
   themeFile: ""
   analyzedAt: ""
+
+contract: demo-framework-v2
+targetReview:
+  classification: starter # fresh | starter | existing-client, based on inspection
+  repurposeApproved: false # must be explicitly true for existing-client
+targetPage:
+  sharedPartialDesigns:
+    header: {} # path, itemId, renderingId, instanceId, currentDatasource, pagesUsingIt
+    footer: {}
 
 pageAnalysis:
   screenshotFiles:

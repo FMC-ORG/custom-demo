@@ -13,7 +13,7 @@
 | # | What's on the page | What we'll use | Variant | Confidence | Notes |
 |---|-------------------|----------------|---------|------------|-------|
 | 1 | _Thin black utility bar with "Find a Hotel" links_ | Announcement Bar | Highlight | High | |
-| 2 | _Logo + nav links + Book Now over hero image_ | Navigation Header | Transparent | High | Context-only, manual placement |
+| 2 | _Logo + nav links + Book Now over hero image_ | Navigation Header | Transparent | High | Verified shared Header target; automatic datasource wiring |
 | 3 | _Full-bleed atmospheric photo_ | Hero Banner | BackgroundImage | High | |
 | ... | ... | ... | ... | ... | ... |
 
@@ -65,13 +65,17 @@ _These have datasource templates and can be placed + wired via the build pipelin
 | 6 | Feature Cards Grid | List (parent + 4 children) |
 | ... | ... | ... |
 
-### Must be placed manually
-_Context-only components or components that can't be added via API._
+### Shared header & footer — included in complete-build approval
 
-| # | Component | Where it lives | What to do |
-|---|-----------|---------------|------------|
-| 2 | Navigation Header | Header partial design | Assign datasource in Content Editor |
-| 12 | Site Footer | Footer partial design | Assign datasource in Content Editor |
+| Target | Partial design / instance | Current datasource | Planned client datasource | Affected pages |
+|--------|---------------------------|--------------------|---------------------------|----------------|
+| Header | {{HEADER_TARGET}} | {{HEADER_CURRENT_DATASOURCE}} | {{HEADER_CLIENT_DATASOURCE}} | {{HEADER_USAGE_OR_UNKNOWN}} |
+| Footer | {{FOOTER_TARGET}} | {{FOOTER_CURRENT_DATASOURCE}} | {{FOOTER_CLIENT_DATASOURCE}} | {{FOOTER_USAGE_OR_UNKNOWN}} |
+
+These datasources will be switched automatically and verified; current parameters are preserved and previous datasource IDs recorded. Missing/incompatible instances block wiring and require a repair decision. If another client's branded experience is found, stop for explicit repurposing confirmation. Do not assume every page uses these designs.
+
+### Must be placed manually
+Only actual context components or unsupported placement, identified from rendering configuration—not Header/Footer by name. List them when present; variant selection remains manual.
 
 ### Custom components needed
 _These don't match any template and need to be built from scratch._

@@ -19,6 +19,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import contentChecks from './lib/component-content.cjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(__dirname, '../..');
@@ -48,7 +49,7 @@ while ((match = mapEntryRegex.exec(mapContent)) !== null) {
 }
 
 // Filter to uiim components only
-const uiimImports = imports.filter(i => i.path.includes('/uiim/'));
+const uiimImports = imports.filter((i) => i.path.includes('/uiim/'));
 
 let failures = 0;
 let passed = 0;
@@ -61,10 +62,13 @@ for (const imp of uiimImports) {
   const tsPath = resolve(projectRoot, imp.path + '.ts');
   const indexPath = resolve(projectRoot, imp.path, 'index.tsx');
 
-  const filePath = existsSync(tsxPath) ? tsxPath
-    : existsSync(tsPath) ? tsPath
-    : existsSync(indexPath) ? indexPath
-    : null;
+  const filePath = existsSync(tsxPath)
+    ? tsxPath
+    : existsSync(tsPath)
+      ? tsPath
+      : existsSync(indexPath)
+        ? indexPath
+        : null;
 
   if (!filePath) {
     console.error(`FAIL  ${imp.alias}: file not found`);
@@ -73,8 +77,16 @@ for (const imp of uiimImports) {
     continue;
   }
 
-  // Check for Default export
   const fileContent = readFileSync(filePath, 'utf-8');
+  for (const diagnostic of contentChecks.diagnostics(fileContent, filePath)) {
+    const message = `${imp.path}:${diagnostic.line}:${diagnostic.column} ${diagnostic.message}`;
+    if (diagnostic.level === 'error') {
+      console.error(`FAIL  ${message}`);
+      failures++;
+    } else console.warn(`WARN  ${message}`);
+  }
+
+  // Check for Default export
   const hasDefault = /export\s+(const|function)\s+Default\b/.test(fileContent);
 
   if (!hasDefault) {
@@ -84,7 +96,7 @@ for (const imp of uiimImports) {
   }
 
   // Check map entry exists for this import
-  const mapEntry = mapEntries.find(e => e.alias === imp.alias);
+  const mapEntry = mapEntries.find((e) => e.alias === imp.alias);
   if (!mapEntry) {
     console.error(`FAIL  ${imp.alias}: imported but not found in componentMap entries`);
     failures++;
@@ -102,7 +114,9 @@ for (const imp of uiimImports) {
     }
   }
 
-  console.log(`PASS  ${imp.alias} → ${imp.path}.tsx  [key: '${mapEntry.key}', variants: ${exports.join(', ')}]`);
+  console.log(
+    `PASS  ${imp.alias} → ${imp.path}.tsx  [key: '${mapEntry.key}', variants: ${exports.join(', ')}]`,
+  );
   passed++;
 }
 

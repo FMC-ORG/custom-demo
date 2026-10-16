@@ -49,6 +49,8 @@ Use **globals-inlined** unless you've verified the import works in DevTools afte
 
 ### Typography
 
+Tailwind v4 utilities `font-heading` and `font-body` are registered in `@theme inline` and reference the runtime brand variables as **font-family**, independently of `font-bold`/`font-semibold`. Do not use an untyped arbitrary `font` value containing a brand-family variable: Tailwind may interpret it as font-weight. Explicit `font-(family-name:--brand-heading-font)` is also valid.
+
 | Variable | Purpose | Default | Used by |
 |----------|---------|---------|---------|
 | `--brand-heading-font` | Font family for h1-h6, section titles | `inherit` | 15+ components |
@@ -98,7 +100,7 @@ Phase 4 of `sitecore-build-demo` generates the CSS variable block from the theme
 
 ### Reverting
 
-Delete or comment out the `:root` block in `globals-brand.css`. The defaults in `globals.css` (derived from shadcn tokens) take effect immediately.
+Remove the client's unlayered `:root` override from `globals.css` (or `globals-brand.css` for import delivery). The defaults in `globals.css` (derived from shadcn tokens) take effect immediately.
 
 ## Adding New Variables
 
@@ -116,7 +118,8 @@ All components use fallbacks for safety:
 ```tsx
 // In className (Tailwind arbitrary values)
 className="rounded-[var(--brand-card-radius,0.75rem)]"
-className="font-[var(--brand-heading-font,inherit)]"
+className="font-heading"
+className="font-body"
 
 // In style prop
 style={{ backgroundColor: 'var(--brand-primary)' }}

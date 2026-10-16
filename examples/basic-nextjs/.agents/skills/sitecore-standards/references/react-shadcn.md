@@ -31,7 +31,7 @@ Use these rules for React components in `src/components/uiim`.
 - Use existing utilities such as:
   - `cn` from `@/lib/utils`
   when class composition is needed.
-- Prefer utility classes over custom CSS files.
+- Prefer utility classes over custom CSS files. Use `font-heading` / `font-body` for runtime brand families, and separate `font-bold` etc. for weight; never use an untyped arbitrary brand-font variable.
 - Avoid CSS modules, SCSS, or inline styles unless the repo already uses them for a clear reason.
 - Avoid hardcoded pixel-heavy styling when Tailwind scale values are available.
 
@@ -82,8 +82,10 @@ import {
 ### Edit-mode visibility guard
 When fields may be empty, `{field?.value && <SDKHelper>}` hides the field in Experience Editor. Use `page?.mode?.isEditing` (from `ComponentProps`) to keep fields visible for authors:
 ```tsx
+import { hasText, hasRichText } from '@/lib/field-utils';
 const isEditing = page?.mode?.isEditing;
-{(fields.Title?.value || isEditing) && <Text field={fields.Title} ... />}
+{(hasText(fields.Title?.value) || isEditing) && <Text field={fields.Title} ... />}
+{(hasRichText(fields.Body?.value) || isEditing) && <ContentSdkRichText field={fields.Body} ... />}
 ```
 
 ### shadcn availability check
@@ -115,7 +117,7 @@ For authorable values from GraphQL queries, use:
 
 ## Null-safety and rendering behavior
 - Handle missing data safely with optional chaining.
-- Return `null` when a component has nothing meaningful to render.
+- Hide empty display-text wrappers using hasText / hasRichText while retaining isEditing. Preserve media-only Rich Text and authored HTML. Do not introduce whole-component suppression as part of this fix; preserve meaningful images/links and intentional structural layout.
 - Do not throw runtime errors because a datasource or child array is missing.
 - Default repeated collections to empty arrays when practical.
 

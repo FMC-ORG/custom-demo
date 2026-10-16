@@ -1,4 +1,6 @@
 {
+  "contract": "demo-framework-v2",
+  "targetReview": { "classification": "starter", "repurposeApproved": false },
   "approved": false,
   "client": "",
   "environment": {

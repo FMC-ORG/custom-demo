@@ -143,7 +143,7 @@ Verify all items from Phases 1-4. Update manifest with:
 - Props extend `ComponentProps` from `@/lib/component-props`
 - Access route fields via `useSitecore()` → `page.layout.sitecore.route.fields`
 - Every Sitecore field rendered via SDK editable helper: `Text`, `ContentSdkRichText`, `ContentSdkImage`, `ContentSdkLink`
-- Edit-mode visibility guard: `{(field?.value || isEditing) && <Helper field={field} />}`
+- Plain-text visibility: `{(hasText(field?.value) || isEditing) && <Text field={field} />}`; use hasRichText for Rich Text, preserving authored HTML/media and editing access. Use font-heading / font-body for brand families.
 - `params.styles` and `params.RenderingIdentifier` on the wrapper element
 - Non-exported empty-state fallback component per file
 - Named exports only — never `export default`

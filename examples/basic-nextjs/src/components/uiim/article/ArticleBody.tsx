@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -32,14 +33,8 @@ function getRouteFields(page: ComponentProps['page']): ArticleBodyRouteFields | 
   return fields ? (fields as unknown as ArticleBodyRouteFields) : null;
 }
 
-function KeyTakeaways({
-  field,
-  isEditing,
-}: {
-  field?: RichTextField;
-  isEditing?: boolean;
-}) {
-  if (!field?.value && !isEditing) return null;
+function KeyTakeaways({ field, isEditing }: { field?: RichTextField; isEditing?: boolean }) {
+  if (!hasRichText(field?.value) && !isEditing) return null;
 
   return (
     <aside
@@ -47,29 +42,17 @@ function KeyTakeaways({
       data-testid="key-takeaways"
     >
       <h2 className="mb-3 text-lg font-semibold text-blue-900">Key Takeaways</h2>
-      <ContentSdkRichText
-        field={field}
-        className="prose prose-sm max-w-none text-blue-800"
-      />
+      <ContentSdkRichText field={field} className="prose prose-sm max-w-none text-blue-800" />
     </aside>
   );
 }
 
-function AuthorBio({
-  author,
-  isEditing,
-}: {
-  author?: PersonReference;
-  isEditing?: boolean;
-}) {
+function AuthorBio({ author, isEditing }: { author?: PersonReference; isEditing?: boolean }) {
   if (!author?.fields && !isEditing) return null;
   const fields = author?.fields;
 
   return (
-    <div
-      className="mt-12 border-t pt-8"
-      data-testid="author-bio"
-    >
+    <div className="mt-12 border-t pt-8" data-testid="author-bio">
       <div className="flex items-start gap-5">
         {(fields?.personProfileImage?.value?.src || isEditing) && (
           <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-full">
@@ -81,35 +64,45 @@ function AuthorBio({
             />
           </div>
         )}
-        <div className="flex-1">
-          {(fields?.personFirstName?.value || fields?.personLastName?.value || isEditing) && (
-            <p className="text-lg font-semibold" data-testid="author-bio-name">
-              {fields?.personFirstName?.value} {fields?.personLastName?.value}
-            </p>
-          )}
-          {(fields?.personJobTitle?.value || isEditing) && (
-            <Text
-              field={fields?.personJobTitle as Field<string>}
-              tag="p"
-              className="text-sm text-gray-500"
-              data-testid="author-bio-title"
-            />
-          )}
-          {(fields?.personBio?.value || isEditing) && (
-            <ContentSdkRichText
-              field={fields?.personBio as RichTextField}
-              className="mt-2 text-sm text-gray-600"
-              data-testid="author-bio-text"
-            />
-          )}
-          {(fields?.personLinkedIn?.value?.href || isEditing) && (
-            <ContentSdkLink
-              field={fields?.personLinkedIn as LinkField}
-              className="mt-2 inline-block text-sm font-medium text-blue-600 hover:text-blue-800"
-              data-testid="author-bio-linkedin"
-            />
-          )}
-        </div>
+        {(hasText(fields?.personFirstName?.value) ||
+          hasText(fields?.personLastName?.value) ||
+          isEditing ||
+          hasText(fields?.personJobTitle?.value) ||
+          hasRichText(fields?.personBio?.value) ||
+          fields?.personLinkedIn?.value?.href) && (
+          <div className="flex-1">
+            {(hasText(fields?.personFirstName?.value) ||
+              hasText(fields?.personLastName?.value) ||
+              isEditing) && (
+              <p className="text-lg font-semibold" data-testid="author-bio-name">
+                <Text field={fields?.personFirstName as Field<string>} />{' '}
+                <Text field={fields?.personLastName as Field<string>} />
+              </p>
+            )}
+            {(hasText(fields?.personJobTitle?.value) || isEditing) && (
+              <Text
+                field={fields?.personJobTitle as Field<string>}
+                tag="p"
+                className="text-sm text-gray-500"
+                data-testid="author-bio-title"
+              />
+            )}
+            {(hasRichText(fields?.personBio?.value) || isEditing) && (
+              <ContentSdkRichText
+                field={fields?.personBio as RichTextField}
+                className="mt-2 text-sm text-gray-600"
+                data-testid="author-bio-text"
+              />
+            )}
+            {(fields?.personLinkedIn?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields?.personLinkedIn as LinkField}
+                className="mt-2 inline-block text-sm font-medium text-blue-600 hover:text-blue-800"
+                data-testid="author-bio-linkedin"
+              />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -132,7 +125,7 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
       <article className="mx-auto max-w-3xl px-4 py-12 md:py-16">
         <KeyTakeaways field={ArticleKeyTakeaways} isEditing={isEditing} />
 
-        {(ArticleContent?.value || isEditing) && (
+        {(hasRichText(ArticleContent?.value) || isEditing) && (
           <ContentSdkRichText
             field={ArticleContent}
             className="prose prose-lg max-w-none"
@@ -164,7 +157,7 @@ export const WithSidebar = ({ params, page }: ComponentProps): JSX.Element => {
         <div className="grid gap-10 md:grid-cols-[1fr_340px]">
           {/* Main content */}
           <article>
-            {(ArticleContent?.value || isEditing) && (
+            {(hasRichText(ArticleContent?.value) || isEditing) && (
               <ContentSdkRichText
                 field={ArticleContent}
                 className="prose prose-lg max-w-none"
@@ -202,7 +195,7 @@ export const Wide = ({ params, page }: ComponentProps): JSX.Element => {
         <div className="mx-auto max-w-7xl">
           <KeyTakeaways field={ArticleKeyTakeaways} isEditing={isEditing} />
 
-          {(ArticleContent?.value || isEditing) && (
+          {(hasRichText(ArticleContent?.value) || isEditing) && (
             <ContentSdkRichText
               field={ArticleContent}
               className="prose prose-lg max-w-none"

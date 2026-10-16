@@ -1,10 +1,6 @@
 import React, { JSX } from 'react';
-import {
-  Field,
-  Link as ContentSdkLink,
-  LinkField,
-  Text,
-} from '@sitecore-content-sdk/nextjs';
+import { hasText } from '@/lib/field-utils';
+import { Field, Link as ContentSdkLink, LinkField, Text } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 
@@ -51,28 +47,21 @@ export const Default = ({ fields, params, page }: AnnouncementBarProps): JSX.Ele
   const barStyles = getBarStyles(fields.BackgroundColor?.value);
 
   return (
-    <div
-      className={cn('component announcement-bar', styles)}
-      id={RenderingIdentifier}
-    >
-      <div
-        className={cn(
-          'w-full py-2 px-4 text-center text-sm',
-          barStyles.bg,
-          barStyles.text
+    <div className={cn('component announcement-bar', styles)} id={RenderingIdentifier}>
+      <div className={cn('w-full py-2 px-4 text-center text-sm', barStyles.bg, barStyles.text)}>
+        {(hasText(fields.Message?.value) || isEditing || fields.BarLink?.value?.href) && (
+          <div className="mx-auto flex max-w-7xl items-center justify-center gap-3">
+            {(hasText(fields.Message?.value) || isEditing) && (
+              <Text field={fields.Message} tag="span" />
+            )}
+            {(fields.BarLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.BarLink}
+                className="underline font-medium hover:opacity-80 transition-opacity"
+              />
+            )}
+          </div>
         )}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-center gap-3">
-          {(fields.Message?.value || isEditing) && (
-            <Text field={fields.Message} tag="span" />
-          )}
-          {(fields.BarLink?.value?.href || isEditing) && (
-            <ContentSdkLink
-              field={fields.BarLink}
-              className="underline font-medium hover:opacity-80 transition-opacity"
-            />
-          )}
-        </div>
       </div>
     </div>
   );
@@ -87,28 +76,27 @@ export const Highlight = ({ fields, params, page }: AnnouncementBarProps): JSX.E
   const barStyles = getBarStyles(fields.BackgroundColor?.value);
 
   return (
-    <div
-      className={cn('component announcement-bar', styles)}
-      id={RenderingIdentifier}
-    >
+    <div className={cn('component announcement-bar', styles)} id={RenderingIdentifier}>
       <div
         className={cn(
           'w-full py-3 px-4 text-center text-sm font-bold tracking-wide uppercase',
           barStyles.bg,
-          barStyles.text
+          barStyles.text,
         )}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-center gap-3">
-          {(fields.Message?.value || isEditing) && (
-            <Text field={fields.Message} tag="span" />
-          )}
-          {(fields.BarLink?.value?.href || isEditing) && (
-            <ContentSdkLink
-              field={fields.BarLink}
-              className="underline decoration-2 font-extrabold hover:opacity-80 transition-opacity"
-            />
-          )}
-        </div>
+        {(hasText(fields.Message?.value) || isEditing || fields.BarLink?.value?.href) && (
+          <div className="mx-auto flex max-w-7xl items-center justify-center gap-3">
+            {(hasText(fields.Message?.value) || isEditing) && (
+              <Text field={fields.Message} tag="span" />
+            )}
+            {(fields.BarLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.BarLink}
+                className="underline decoration-2 font-extrabold hover:opacity-80 transition-opacity"
+              />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

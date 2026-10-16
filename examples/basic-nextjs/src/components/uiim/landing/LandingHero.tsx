@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -59,10 +60,7 @@ function HeroMedia({
   }
   if (image?.value?.src || isEditing) {
     return (
-      <ContentSdkImage
-        field={image}
-        className={cn('h-full w-full object-cover', className)}
-      />
+      <ContentSdkImage field={image} className={cn('h-full w-full object-cover', className)} />
     );
   }
   return null;
@@ -139,7 +137,7 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
           </div>
         )}
         <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-4 py-24 text-center text-white md:py-32">
-          {(heroEyebrow?.value || isEditing) && (
+          {(hasText(heroEyebrow?.value) || isEditing) && (
             <Text
               field={heroEyebrow}
               tag="p"
@@ -147,7 +145,7 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
               data-testid="hero-eyebrow"
             />
           )}
-          {(heroHeadline?.value || isEditing) && (
+          {(hasText(heroHeadline?.value) || isEditing) && (
             <Text
               field={heroHeadline}
               tag="h1"
@@ -155,7 +153,7 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
               data-testid="hero-headline"
             />
           )}
-          {(heroSubhead?.value || isEditing) && (
+          {(hasText(heroSubhead?.value) || isEditing) && (
             <Text
               field={heroSubhead}
               tag="p"
@@ -201,7 +199,7 @@ export const SplitImage = ({ params, page }: ComponentProps): JSX.Element => {
       <section className="bg-white" data-testid="landing-hero">
         <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 md:grid-cols-2 md:py-24">
           <div className="flex flex-col justify-center">
-            {(heroEyebrow?.value || isEditing) && (
+            {(hasText(heroEyebrow?.value) || isEditing) && (
               <Text
                 field={heroEyebrow}
                 tag="p"
@@ -209,7 +207,7 @@ export const SplitImage = ({ params, page }: ComponentProps): JSX.Element => {
                 data-testid="hero-eyebrow"
               />
             )}
-            {(heroHeadline?.value || isEditing) && (
+            {(hasText(heroHeadline?.value) || isEditing) && (
               <Text
                 field={heroHeadline}
                 tag="h1"
@@ -217,7 +215,7 @@ export const SplitImage = ({ params, page }: ComponentProps): JSX.Element => {
                 data-testid="hero-headline"
               />
             )}
-            {(heroSubhead?.value || isEditing) && (
+            {(hasText(heroSubhead?.value) || isEditing) && (
               <Text
                 field={heroSubhead}
                 tag="p"
@@ -261,7 +259,7 @@ export const Minimal = ({ params, page }: ComponentProps): JSX.Element => {
     <div className={cn('component landing-hero', styles)} id={RenderingIdentifier}>
       <section className="bg-white" data-testid="landing-hero">
         <div className="mx-auto max-w-4xl px-4 py-16 text-center md:py-24">
-          {(heroEyebrow?.value || isEditing) && (
+          {(hasText(heroEyebrow?.value) || isEditing) && (
             <Text
               field={heroEyebrow}
               tag="p"
@@ -269,7 +267,7 @@ export const Minimal = ({ params, page }: ComponentProps): JSX.Element => {
               data-testid="hero-eyebrow"
             />
           )}
-          {(heroHeadline?.value || isEditing) && (
+          {(hasText(heroHeadline?.value) || isEditing) && (
             <Text
               field={heroHeadline}
               tag="h1"
@@ -277,7 +275,7 @@ export const Minimal = ({ params, page }: ComponentProps): JSX.Element => {
               data-testid="hero-headline"
             />
           )}
-          {(heroSubhead?.value || isEditing) && (
+          {(hasText(heroSubhead?.value) || isEditing) && (
             <Text
               field={heroSubhead}
               tag="p"

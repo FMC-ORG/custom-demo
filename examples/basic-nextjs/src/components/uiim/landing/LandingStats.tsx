@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { hasText } from '@/lib/field-utils';
 import { Field, Text } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
@@ -34,10 +35,10 @@ function StatTile({
   label?: Field<string>;
   isEditing?: boolean;
 }) {
-  if (!number?.value && !label?.value && !isEditing) return null;
-  return (
+  if (!hasText(number?.value) && !hasText(label?.value) && !isEditing) return null;
+  return hasText(number?.value) || isEditing || hasText(label?.value) ? (
     <div className="text-center" data-testid="stat-tile">
-      {(number?.value || isEditing) && (
+      {(hasText(number?.value) || isEditing) && (
         <Text
           field={number}
           tag="p"
@@ -45,7 +46,7 @@ function StatTile({
           data-testid="stat-number"
         />
       )}
-      {(label?.value || isEditing) && (
+      {(hasText(label?.value) || isEditing) && (
         <Text
           field={label}
           tag="p"
@@ -54,7 +55,7 @@ function StatTile({
         />
       )}
     </div>
-  );
+  ) : null;
 }
 
 export const Default = ({ params, page }: ComponentProps): JSX.Element => {

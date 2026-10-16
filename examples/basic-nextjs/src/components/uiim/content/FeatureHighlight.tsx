@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -33,7 +34,7 @@ const FeatureHighlightDefaultComponent = (): JSX.Element => (
 );
 
 const Eyebrow = ({ field, isEditing }: { field: Field<string>; isEditing?: boolean }) => {
-  if (!field?.value && !isEditing) return null;
+  if (!hasText(field?.value) && !isEditing) return null;
   return (
     <Text
       field={field}
@@ -73,25 +74,31 @@ export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.El
         style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
       >
         <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:px-6 even:[&]:direction-rtl even:[&>*]:direction-ltr">
-          <div>
-            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
-            {(fields.Title?.value || isEditing) && (
-              <Text
-                field={fields.Title}
-                tag="h2"
-                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
-                style={{ color: 'var(--brand-fg, #111111)' }}
-              />
-            )}
-            {(fields.Description?.value || isEditing) && (
-              <ContentSdkRichText
-                field={fields.Description}
-                className="mt-4 text-base opacity-70 font-[var(--brand-body-font,inherit)]"
-                style={{ color: 'var(--brand-fg, #111111)' }}
-              />
-            )}
-            <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
-          </div>
+          {(isEditing ||
+            hasText(fields.EyebrowText?.value) ||
+            hasText(fields.Title?.value) ||
+            hasRichText(fields.Description?.value) ||
+            fields.PrimaryLink?.value?.href) && (
+            <div>
+              <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+              {(hasText(fields.Title?.value) || isEditing) && (
+                <Text
+                  field={fields.Title}
+                  tag="h2"
+                  className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
+                  style={{ color: 'var(--brand-fg, #111111)' }}
+                />
+              )}
+              {(hasRichText(fields.Description?.value) || isEditing) && (
+                <ContentSdkRichText
+                  field={fields.Description}
+                  className="mt-4 text-base opacity-70 font-body"
+                  style={{ color: 'var(--brand-fg, #111111)' }}
+                />
+              )}
+              <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
+            </div>
+          )}
           <div className="relative h-full min-h-[400px] overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
             {(fields.FeatureImage?.value?.src || isEditing) && (
               <SmartMedia
@@ -123,25 +130,31 @@ export const Centered = ({ fields, params, page }: FeatureHighlightProps): JSX.E
         style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
       >
         <div className="mx-auto max-w-4xl">
-          <div className="text-center">
-            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
-            {(fields.Title?.value || isEditing) && (
-              <Text
-                field={fields.Title}
-                tag="h2"
-                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
-                style={{ color: 'var(--brand-fg, #111111)' }}
-              />
-            )}
-            {(fields.Description?.value || isEditing) && (
-              <ContentSdkRichText
-                field={fields.Description}
-                className="mx-auto mt-4 max-w-2xl text-base opacity-70 font-[var(--brand-body-font,inherit)]"
-                style={{ color: 'var(--brand-fg, #111111)' }}
-              />
-            )}
-            <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
-          </div>
+          {(isEditing ||
+            hasText(fields.EyebrowText?.value) ||
+            hasText(fields.Title?.value) ||
+            hasRichText(fields.Description?.value) ||
+            fields.PrimaryLink?.value?.href) && (
+            <div className="text-center">
+              <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+              {(hasText(fields.Title?.value) || isEditing) && (
+                <Text
+                  field={fields.Title}
+                  tag="h2"
+                  className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
+                  style={{ color: 'var(--brand-fg, #111111)' }}
+                />
+              )}
+              {(hasRichText(fields.Description?.value) || isEditing) && (
+                <ContentSdkRichText
+                  field={fields.Description}
+                  className="mx-auto mt-4 max-w-2xl text-base opacity-70 font-body"
+                  style={{ color: 'var(--brand-fg, #111111)' }}
+                />
+              )}
+              <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
+            </div>
+          )}
           {(fields.FeatureImage?.value?.src || isEditing) && (
             <div className="relative mt-10 aspect-video overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
               <SmartMedia
@@ -173,25 +186,31 @@ export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.
         style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
       >
         <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:px-6">
-          <div>
-            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
-            {(fields.Title?.value || isEditing) && (
-              <Text
-                field={fields.Title}
-                tag="h2"
-                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
-                style={{ color: 'var(--brand-fg, #111111)' }}
-              />
-            )}
-            {(fields.Description?.value || isEditing) && (
-              <ContentSdkRichText
-                field={fields.Description}
-                className="mt-4 text-base opacity-70 font-[var(--brand-body-font,inherit)]"
-                style={{ color: 'var(--brand-fg, #111111)' }}
-              />
-            )}
-            <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
-          </div>
+          {(isEditing ||
+            hasText(fields.EyebrowText?.value) ||
+            hasText(fields.Title?.value) ||
+            hasRichText(fields.Description?.value) ||
+            fields.PrimaryLink?.value?.href) && (
+            <div>
+              <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+              {(hasText(fields.Title?.value) || isEditing) && (
+                <Text
+                  field={fields.Title}
+                  tag="h2"
+                  className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
+                  style={{ color: 'var(--brand-fg, #111111)' }}
+                />
+              )}
+              {(hasRichText(fields.Description?.value) || isEditing) && (
+                <ContentSdkRichText
+                  field={fields.Description}
+                  className="mt-4 text-base opacity-70 font-body"
+                  style={{ color: 'var(--brand-fg, #111111)' }}
+                />
+              )}
+              <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
+            </div>
+          )}
           <div className="relative aspect-video min-h-[300px] overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]">
             {(fields.FeatureImage?.value?.src || isEditing) && (
               <SmartMedia
@@ -248,18 +267,18 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
           )}
           <div className="flex-1">
             <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
-            {(fields.Title?.value || isEditing) && (
+            {(hasText(fields.Title?.value) || isEditing) && (
               <Text
                 field={fields.Title}
                 tag="h3"
-                className="text-xl font-bold font-[var(--brand-heading-font,inherit)]"
+                className="text-xl font-bold font-heading"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}
-            {(fields.Description?.value || isEditing) && (
+            {(hasRichText(fields.Description?.value) || isEditing) && (
               <ContentSdkRichText
                 field={fields.Description}
-                className="mt-2 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
+                className="mt-2 text-sm opacity-70 font-body"
                 style={{ color: 'var(--brand-fg, #111111)' }}
               />
             )}

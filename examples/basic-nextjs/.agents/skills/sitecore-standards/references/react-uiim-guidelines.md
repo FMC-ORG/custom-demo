@@ -84,12 +84,17 @@ Before importing `@/components/ui/*`, verify that `src/components/ui/` exists in
 
 When fields may be empty (no default values), conditional rendering like `{field?.value && <SDKHelper>}` hides the field in Experience Editor, preventing authors from clicking to add content.
 
-Use the `|| isEditing` guard on every field that might start empty:
+Use `hasText` for plain text and `hasRichText` for Rich Text from `@/lib/field-utils`, retaining `|| isEditing`. Empty formatting/non-breaking spaces are not display content; media-only Rich Text is. Never rewrite the authored HTML. Gate text-only wrappers too, so incidental margins/padding disappear; preserve images/links and structural layout. Do not automatically hide entire components.
+
+Use `font-heading` / `font-body` for runtime brand families, with separate `font-bold` etc. for weight. Never use untyped arbitrary brand-font variables as font utilities.
+
+Use the edit guard on every field that might start empty:
 
 ```tsx
+import { hasText, hasRichText } from '@/lib/field-utils';
 const isEditing = page?.mode?.isEditing;
 
-{(fields.Title?.value || isEditing) && (
+{(hasText(fields.Title?.value) || isEditing) && (
   <Text field={fields.Title} tag="h1" className="..." />
 )}
 {(fields.BackgroundImage?.value?.src || isEditing) && (
@@ -233,8 +238,9 @@ import {
 import { ComponentProps } from 'lib/component-props';
 import { Card, CardContent } from '@/components/ui/card';  
 import { buttonVariants } from '@/components/ui/button';  
-import { cn } from '@/lib/utils';  
-  
+import { cn } from '@/lib/utils';
+import { hasText, hasRichText } from '@/lib/field-utils';
+
 interface HeroFields {  
   Title: Field<string>;  
   Description: Field<string>;  
@@ -265,24 +271,23 @@ export const Default = ({ fields, params, page }: HeroProps): JSX.Element => {
       <div className="component-content">
         <Card className="overflow-hidden border-0 shadow-none">  
           <CardContent className="grid gap-8 p-6 md:grid-cols-2 md:p-10">  
-            <div className="space-y-4">  
-              <Text  
-                tag="h1"  
-                field={fields.Title}  
-                className="text-4xl font-semibold tracking-tight md:text-5xl"  
-              />  
-              <ContentSdkRichText  
-                field={fields.Description}  
-                className="prose prose-neutral max-w-none"  
-              />  
+            {(isEditing || hasText(fields.Title?.value) || hasRichText(fields.Description?.value) || fields.CtaLink?.value?.href) && (
+            <div className="space-y-4">
+              {(hasText(fields.Title?.value) || isEditing) && (
+                <Text tag="h1" field={fields.Title} className="text-4xl font-semibold tracking-tight md:text-5xl font-heading" />
+              )}
+              {(hasRichText(fields.Description?.value) || isEditing) && (
+                <ContentSdkRichText field={fields.Description} className="prose prose-neutral max-w-none font-body" />
+              )}
               {(fields.CtaLink?.value?.href || isEditing) && (  
                 <ContentSdkLink  
                   field={fields.CtaLink}  
                   className={cn(buttonVariants({ size: 'lg' }))}  
                 />  
               )}  
-            </div>  
-  
+            </div>
+            )}
+
             <div className="overflow-hidden rounded-xl">  
               {(fields.BackgroundImage?.value?.src || isEditing) && (
                 <ContentSdkImage  

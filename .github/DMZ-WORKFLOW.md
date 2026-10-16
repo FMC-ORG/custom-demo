@@ -18,7 +18,9 @@
 
 ## Overview
 
-This repository uses a DMZ git workflow to ensure the `main` branch is always clean, deployable, and never breaks. All changes go through a **two-tier validation system** before being merged to `main`.
+This repository uses a DMZ integration branch and two validation stages before promotion to `main`. Passing code checks is not a guarantee of live Sitecore connectivity or deployment readiness.
+
+**Current DMZ gate:** credential-free validation of `examples/basic-nextjs` only. It does not build the disabled reference starters or connect to Sitecore/Content Hub. The separate PR-validation workflow is unchanged and may still run Sitecore-connected build steps; this update does not make all repository CI credential-free.
 
 
 
@@ -67,24 +69,22 @@ feature branches (developer forks)
 
 ### Gate 2: DMZ Validation (`.github/workflows/dmz-validation.yml`)
 
-**Triggers**: When code is pushed to `dmz` (after PR is squash merged)
+**Triggers:** a push to `dmz`, or manual workflow dispatch. The check name remains **Validate DMZ Branch** for compatibility with existing required-check settings.
 
-**Validates**:
-- ✅ Linting passes (double-check)
-- ✅ Formatting is correct (double-check)
-- ✅ TypeScript type checking passes (double-check)
-- ✅ All starters build successfully (double-check)
-- ✅ All tests pass (double-check)
+**Scope:** only the active app, `examples/basic-nextjs`. The job uses Node 24, npm dependency caching, a 15-minute timeout, and read-only repository permissions. It requires no user-supplied Sitecore or Content Hub secrets.
 
-**Key Features**:
-- **Comprehensive validation**: Tests all enabled starters
-- **Validation gate**: Ensures `dmz` is ready for manual merge to `main`
-- **Mandatory testing**: All tests must pass before merging to main
-- **Detailed reporting**: Provides clear success/failure summaries
+**Blocking checks:**
+- `npm ci` installs the locked dependencies.
+- `npm run agents:check` verifies canonical skills and generated agent configuration.
+- `npm run agents:validate` verifies component registrations and confirmed content-pattern rules. Existing uncertain-expression review warnings remain non-blocking.
+- `npm test -- --runInBand --silent --no-cache` runs UI and agent-tooling unit tests with controlled service fixtures.
+- `npm run type-check` checks TypeScript without emitting files.
 
-**Result**:
-- If validation fails → `main` should NOT be updated, `dmz` can be rebased
-- If validation passes → `dmz` is ready for manual merge to `main` via merge commit
+Before checking types, `node tools/ci/prepare-typecheck.cjs` creates labelled offline `sites.json`/`metadata.json` fixtures only when those ignored files are missing. It never overwrites existing configuration, component maps, import maps or `next-env.d.ts`; fixture values are not live site configuration.
+
+**Not run:** live Sitecore-connected builds, deployment, reference-starter builds, GEO server tests, Content Hub operations, or model-powered routing evaluations. Lint/format checks are also outside this lightweight gate; the pre-existing ESLint configuration issue must not be represented as a passing lint result.
+
+**Result:** failure blocks promotion under this workflow's policy. Success confirms these offline code checks only. Review live integration and deployment separately before promoting `dmz` to `main` with a merge commit. No branch-protection settings are changed by this workflow update.
 
 ### Gate 3: DMZ Revert (`.github/workflows/revert-dmz.yml`)
 
@@ -205,7 +205,7 @@ Once approved, reviewers will:
 ### 6. Manual Merge to Main
 
 After merging to `dmz`:
-1. The DMZ validation workflow runs as a **final gate** (double-checks everything)
+1. The DMZ validation workflow runs the **final offline code gate for basic-nextjs** (agent configuration, components, unit tests and TypeScript; not live integration)
 2. If validation passes: Manually merge `dmz` into `main` using a merge commit via GitHub web interface
 3. If validation fails: `dmz` can be rebased to remove the problematic commits
 
@@ -332,29 +332,22 @@ The workflows use the following environment variables:
 
 ### Starter Applications
 
-The workflows automatically detect and validate these starter applications:
+DMZ validation targets only `examples/basic-nextjs`, the active rendering host. Other `examples/kit-nextjs-*` directories remain reference starters and are not tested by this DMZ job. The separate PR-validation workflow has its own, unchanged starter selection.
 
-- `kit-nextjs-skate-park`
-- `kit-nextjs-article-starter`
-- `kit-nextjs-location-finder`
-- `kit-nextjs-product-listing`
+### Required npm Commands
 
-### Required npm Scripts
+The active app must provide `agents:check`, `agents:validate`, `test` and `type-check`. To reproduce the lightweight gate from `examples/basic-nextjs` without live credentials:
 
-Each starter application should have these npm scripts:
-
-```json
-{
-  "scripts": {
-    "lint": "eslint . --ext .ts,.tsx",
-    "format:check": "prettier --check .",
-    "format": "prettier --write .",
-    "type-check": "tsc --noEmit",
-    "build": "next build",
-    "test": "jest"
-  }
-}
+```bash
+npm ci
+node tools/ci/prepare-typecheck.cjs
+npm run agents:check
+npm run agents:validate
+npm test -- --runInBand --silent --no-cache
+npm run type-check
 ```
+
+The helper's fixtures are ignored local outputs. Do not commit them, copy deployment credentials into CI, or describe this command sequence as a live build/deployment test.
 
 ## Troubleshooting
 

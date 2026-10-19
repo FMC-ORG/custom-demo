@@ -101,6 +101,8 @@ function validatePlan(plan) {
       (typeof section.variant !== 'string' || !/^[A-Za-z0-9_-]+$/.test(section.variant))
     )
       throw new Blocked('plan', 'variant must be a Variant Definition item name');
+    if (section.sharedDesign?.replace !== undefined && typeof section.sharedDesign.replace !== 'boolean')
+      throw new Blocked('plan', 'sharedDesign.replace must be an explicit true/false approval');
     keys.add(section.key);
     const childKeys = new Set();
     for (const node of [section, ...(section.children || [])]) {

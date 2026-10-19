@@ -248,6 +248,8 @@ The content map is the input for Phase 3 — it contains exact field values read
 
 **Inputs:** approved build plan and content map, project identity, verified template/folder IDs from the manifest, image manifest.
 
+**Order with custom components:** if the build plan has `customComponents`, create their Sitecore definitions (Phase 5 steps 1–3, 5–7) **before** preparing the execution plan below. The execution plan is frozen once population starts and needs their verified template, folder and rendering IDs. Their client datasources are then populated by the Phase 3 helper like any other section.
+
 1. Upload images through `.agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs`. Known pending approvals share one configurable 60-second read-only window; known public links share one configurable 90-second anonymous-access window. Request time counts against the batch-wide deadline. Use `--approval-timeout` / `CH_APPROVAL_TIMEOUT` and `--public-link-timeout` / `CH_PUBLIC_LINK_TIMEOUT` (seconds). Never recreate resources or repeat uncertain approval writes to absorb delay. An explicitly approved NEW upload run uses `--initialize`; a resume never does. Check `upload-result.json`, not just non-empty URLs. Without Content Hub credentials, preserve a manual-image handoff and do not claim automated uploads succeeded.
 2. Set `contract: "demo-framework-v2"` and include the inspected `targetReview` and approved shared-design targets. Prepare the reviewed, field-ready execution plan using `.agents/skills/sitecore-build-demo/assets/execution-plan.template.json`. Resolve project paths from configuration and verify IDs/field types. Record explicit optionality and explicit blanks; omitted content is not permission to blank fields. Use a distinct stable section key for repeated component types.
 3. Create client datasource instances, never change example items or shared templates. Header/footer datasources are included when configured on their renderings; their `placement: "partial-design"` affects assembly, not whether content is populated.
@@ -314,10 +316,12 @@ The theme takes effect on next dev server restart. All 18 components pick up the
 
 For each section in the build plan with `matchType: "custom"`:
 
+Do this **before Phase 3's execution plan** (see the ordering note in Phase 3); the steps are numbered here for reference only.
+
 1. Use the appropriate Sitecore creation skill (simple/list/context-only)
 2. Follow the `customComponents` section of the build plan for field specs
 3. Build the component from scratch with the client theme applied
-4. Populate the datasource with client content
+4. Include its client datasource as a section in the Phase 3 execution plan — do not populate it by hand
 5. Update the manifest (template, rendering, datasource folder, example item, variants)
 6. Register in Available Renderings
 7. Register in component-map.ts
@@ -454,4 +458,5 @@ docs/ai/demos/<client-kebab>/
 - **Mark variants as manual** — generate the variant checklist, don't skip this step. See `docs/ai/reference/agent-api-limitations.md` for why.
 - **Use `insertAfterComponentId` for ordering** — add components sequentially, passing the previous component's instance ID to maintain build-plan order
 - **Use the existing Home page by default** — do not create a new subpage unless the user explicitly asks. The Home page already has the correct Page Design and URL routing. Note any OOB components for manual cleanup.
+- **Never push client work** — client components, themes, variants and demo records stay uncommitted or are committed only on a local `client/<slug>` branch. Never push them to a shared remote (`origin`/`upstream`), even on a test branch.
 - **All content in English** — regardless of source page language, all datasource content must be in English (en). Translate from the source language during content extraction, never after content creation.

@@ -148,6 +148,14 @@ The `create_component_ds` tool accepts a `children` array, but children may not 
 
 **Alternative:** Skip `create_component_ds` entirely for list components. Create parent + each child individually with `create_content_item`.
 
+### `create_content_item` returns the ID; children listings lag
+
+**Severity:** Medium — a successful create looks missing
+
+Observed 2026-10-19: `create_content_item` returns `{ "itemId": "<guid>" }`. Immediately afterwards, `get_content_item_by_id` on the **parent** did not always list the new child; it appeared on a later read (2 of 34 creates in one build). The item itself existed.
+
+**Workaround:** keep the returned `itemId` and verify by reading that item by ID (name, template, path under the parent). Do not treat a child missing from the parent's listing as a failed create, and never create it again. The `sitecore-build-demo` recovery helper does this automatically.
+
 ### `delete_content` silent no-op
 
 **Severity:** Medium — items reported deleted still exist

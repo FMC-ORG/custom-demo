@@ -1,9 +1,6 @@
 import React, { JSX } from 'react';
-import {
-  Field,
-  RichText as ContentSdkRichText,
-  Text,
-} from '@sitecore-content-sdk/nextjs';
+import { hasRichText, hasText } from '@/lib/field-utils';
+import { Field, RichText as ContentSdkRichText, Text } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 
@@ -45,25 +42,28 @@ const SectionHeader = ({
 }: {
   datasource: FAQAccordionDatasource;
   isEditing?: boolean;
-}) => (
-  <div className="mx-auto mb-10 max-w-3xl text-center">
-    {(datasource.title?.jsonValue?.value || isEditing) && (
-      <Text
-        field={datasource.title?.jsonValue}
-        tag="h2"
-        className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
-        style={{ color: 'var(--brand-fg, #111111)' }}
-      />
-    )}
-    {(datasource.description?.jsonValue?.value || isEditing) && (
-      <ContentSdkRichText
-        field={datasource.description?.jsonValue}
-        className="mt-4 text-lg opacity-70 font-[var(--brand-body-font,inherit)]"
-        style={{ color: 'var(--brand-fg, #111111)' }}
-      />
-    )}
-  </div>
-);
+}) =>
+  hasText(datasource.title?.jsonValue?.value) ||
+  isEditing ||
+  hasRichText(datasource.description?.jsonValue?.value) ? (
+    <div className="mx-auto mb-10 max-w-3xl text-center">
+      {(hasText(datasource.title?.jsonValue?.value) || isEditing) && (
+        <Text
+          field={datasource.title?.jsonValue}
+          tag="h2"
+          className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
+          style={{ color: 'var(--brand-fg, #111111)' }}
+        />
+      )}
+      {(hasRichText(datasource.description?.jsonValue?.value) || isEditing) && (
+        <ContentSdkRichText
+          field={datasource.description?.jsonValue}
+          className="mt-4 text-lg opacity-70 font-body"
+          style={{ color: 'var(--brand-fg, #111111)' }}
+        />
+      )}
+    </div>
+  ) : null;
 
 const AccordionItem = ({
   item,
@@ -80,10 +80,10 @@ const AccordionItem = ({
     open={defaultOpen || undefined}
   >
     <summary
-      className="flex cursor-pointer items-center justify-between py-4 text-left font-medium transition-colors hover:opacity-70 font-[var(--brand-heading-font,inherit)] [&::-webkit-details-marker]:hidden list-none"
+      className="flex cursor-pointer items-center justify-between py-4 text-left font-medium transition-colors hover:opacity-70 font-heading [&::-webkit-details-marker]:hidden list-none"
       style={{ color: 'var(--brand-fg, #111111)' }}
     >
-      {(item.question?.jsonValue?.value || isEditing) && (
+      {(hasText(item.question?.jsonValue?.value) || isEditing) && (
         <Text field={item.question?.jsonValue} tag="span" className="flex-1 pr-4" />
       )}
       <svg
@@ -96,15 +96,17 @@ const AccordionItem = ({
         <polyline points="6 9 12 15 18 9" />
       </svg>
     </summary>
-    <div className="pb-4">
-      {(item.answer?.jsonValue?.value || isEditing) && (
-        <ContentSdkRichText
-          field={item.answer?.jsonValue}
-          className="text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
-          style={{ color: 'var(--brand-fg, #111111)' }}
-        />
-      )}
-    </div>
+    {(hasRichText(item.answer?.jsonValue?.value) || isEditing) && (
+      <div className="pb-4">
+        {(hasRichText(item.answer?.jsonValue?.value) || isEditing) && (
+          <ContentSdkRichText
+            field={item.answer?.jsonValue}
+            className="text-sm opacity-70 font-body"
+            style={{ color: 'var(--brand-fg, #111111)' }}
+          />
+        )}
+      </div>
+    )}
   </details>
 );
 
@@ -126,10 +128,7 @@ export const Default = ({ fields, params, page }: FAQAccordionProps): JSX.Elemen
       >
         <div className="mx-auto max-w-3xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
-          <div
-            className="border-t"
-            style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}
-          >
+          <div className="border-t" style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}>
             {items.map((item) => (
               <AccordionItem key={item.id} item={item} isEditing={isEditing} />
             ))}
@@ -158,17 +157,9 @@ export const AllOpen = ({ fields, params, page }: FAQAccordionProps): JSX.Elemen
       >
         <div className="mx-auto max-w-3xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
-          <div
-            className="border-t"
-            style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}
-          >
+          <div className="border-t" style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}>
             {items.map((item) => (
-              <AccordionItem
-                key={item.id}
-                item={item}
-                isEditing={isEditing}
-                defaultOpen
-              />
+              <AccordionItem key={item.id} item={item} isEditing={isEditing} defaultOpen />
             ))}
           </div>
         </div>
@@ -199,18 +190,12 @@ export const TwoColumn = ({ fields, params, page }: FAQAccordionProps): JSX.Elem
         <div className="mx-auto max-w-7xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
           <div className="grid gap-8 md:grid-cols-2">
-            <div
-              className="border-t"
-              style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}
-            >
+            <div className="border-t" style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}>
               {leftItems.map((item) => (
                 <AccordionItem key={item.id} item={item} isEditing={isEditing} />
               ))}
             </div>
-            <div
-              className="border-t"
-              style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}
-            >
+            <div className="border-t" style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}>
               {rightItems.map((item) => (
                 <AccordionItem key={item.id} item={item} isEditing={isEditing} />
               ))}

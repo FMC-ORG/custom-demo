@@ -65,7 +65,7 @@ This document groups starter-kit capabilities into named **skill areas** so deve
 - No serialization or server/client boundary errors.
 
 #### References
-- Repository [README](../README.md), starter catch-all route and layout files, and root AI/guidance docs (e.g. [CLAUDE.md](../CLAUDE.md)) for data-flow patterns.
+- Repository [README](../README.md), starter catch-all route and layout files, and root AI/guidance docs (e.g. [starter-kits guide](ai-guidance/starter-kits-guide.md)) for data-flow patterns.
 
 ---
 
@@ -177,7 +177,7 @@ Warnings that stop you from proceeding unless the following are met:
 - Project structure remains recognizable and consistent with the starter.
 
 #### References
-- Repository [README](../README.md), starter README, and the `src/` layout in the starter (e.g. [CLAUDE.md](../CLAUDE.md) for conventions).
+- Repository [README](../README.md), starter README, and the `src/` layout in the starter (e.g. [starter-kits guide](ai-guidance/starter-kits-guide.md) for conventions).
 
 ---
 
@@ -185,6 +185,6 @@ Warnings that stop you from proceeding unless the following are met:
 
 - [README](../README.md) – Repository overview, how to run a starter locally, and getting started.
 - [Getting Started](../README.md#getting-started-guide) – Prerequisites and first steps.
-- [CLAUDE.md](../CLAUDE.md) – Project and coding context for AI (when present).
+- [starter-kits guide](ai-guidance/starter-kits-guide.md) – Project and coding context for AI (when present).
 
 Ensure the README or Getting Started section links back to this document so developers and AI can discover it.

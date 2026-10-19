@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -46,9 +47,9 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
   } = routeFields;
 
   const hasTestimonial =
-    testimonialQuote?.value ||
-    testimonialAuthorName?.value ||
-    testimonialAuthorTitle?.value ||
+    hasRichText(testimonialQuote?.value) ||
+    hasText(testimonialAuthorName?.value) ||
+    hasText(testimonialAuthorTitle?.value) ||
     isEditing;
   const hasLogos = partnerLogosImage?.value?.src || isEditing;
 
@@ -58,7 +59,7 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
         <div className="mx-auto max-w-4xl px-4">
           {hasTestimonial && (
             <figure className="text-center" data-testid="testimonial">
-              {(testimonialQuote?.value || isEditing) && (
+              {(hasRichText(testimonialQuote?.value) || isEditing) && (
                 <blockquote
                   className="text-2xl font-medium leading-relaxed text-gray-900 md:text-3xl"
                   data-testid="testimonial-quote"
@@ -77,34 +78,35 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
                     />
                   </div>
                 )}
-                <div className="text-left">
-                  {(testimonialAuthorName?.value || isEditing) && (
-                    <Text
-                      field={testimonialAuthorName}
-                      tag="p"
-                      className="font-semibold text-gray-900"
-                      data-testid="testimonial-author-name"
-                    />
-                  )}
-                  {(testimonialAuthorTitle?.value || isEditing) && (
-                    <Text
-                      field={testimonialAuthorTitle}
-                      tag="p"
-                      className="text-sm text-gray-600"
-                      data-testid="testimonial-author-title"
-                    />
-                  )}
-                </div>
+                {(hasText(testimonialAuthorName?.value) ||
+                  isEditing ||
+                  hasText(testimonialAuthorTitle?.value)) && (
+                  <div className="text-left">
+                    {(hasText(testimonialAuthorName?.value) || isEditing) && (
+                      <Text
+                        field={testimonialAuthorName}
+                        tag="p"
+                        className="font-semibold text-gray-900"
+                        data-testid="testimonial-author-name"
+                      />
+                    )}
+                    {(hasText(testimonialAuthorTitle?.value) || isEditing) && (
+                      <Text
+                        field={testimonialAuthorTitle}
+                        tag="p"
+                        className="text-sm text-gray-600"
+                        data-testid="testimonial-author-title"
+                      />
+                    )}
+                  </div>
+                )}
               </figcaption>
             </figure>
           )}
 
           {hasLogos && (
             <div className="mt-16 flex justify-center" data-testid="partner-logos">
-              <ContentSdkImage
-                field={partnerLogosImage}
-                className="h-auto max-w-full opacity-70"
-              />
+              <ContentSdkImage field={partnerLogosImage} className="h-auto max-w-full opacity-70" />
             </div>
           )}
         </div>

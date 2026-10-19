@@ -170,9 +170,11 @@ This repository includes comprehensive AI coding agent guidance files to help ma
 
 The repository includes **[docs/Skills.md](docs/Skills.md)** – a high-level capability grouping for the starter kits that helps AI tools and developers understand what the starters support and when to use each area.
 
+> **This fork:** the upstream Claude Code guide and Cursor rules below were moved to `docs/ai-guidance/` so they are no longer auto-loaded into every agent session. The active app (`examples/basic-nextjs`) has its own agent setup — see `examples/basic-nextjs/AGENTS.md` and its ADR 0007. Repo-wide agent rules are in the root `AGENTS.md`.
+
 ### Claude Code Guide
 
-The repository includes **`CLAUDE.md`** - a comprehensive guide for Claude Code and AI assistants:
+The repository includes **`docs/ai-guidance/starter-kits-guide.md`** - a comprehensive guide for Claude Code and AI assistants:
 - Project architecture and technology stack
 - Coding standards with TypeScript and modular layout
 - Security and performance guidelines
@@ -183,7 +185,7 @@ The repository includes **`CLAUDE.md`** - a comprehensive guide for Claude Code 
 
 ### Cursor AI Rules
 
-The repository contains `.cursor/rules/` directory with AI guidance files:
+The repository contains `docs/ai-guidance/cursor-rules/` directory with AI guidance files:
 
 - **Core Rules** (always applied):
   - `general.mdc` - Universal coding principles and architecture patterns
@@ -234,7 +236,7 @@ The repository includes dedicated GitHub Copilot guidance files:
 When using AI coding assistants:
 
 **Claude Code:**
-- Reference `CLAUDE.md` for comprehensive project architecture and coding standards
+- Reference `docs/ai-guidance/starter-kits-guide.md` for comprehensive project architecture and coding standards
 - Follow the Locality of Behavior pattern for component development
 - Use safe destructuring patterns and proper data validation
 - Refer to example prompts and common patterns for guidance
@@ -267,13 +269,13 @@ When using AI coding assistants:
 To improve the AI guidance files:
 
 **For Claude Code Guide:**
-1. Edit `CLAUDE.md` for comprehensive project guidance
+1. Edit `docs/ai-guidance/starter-kits-guide.md` for comprehensive project guidance
 2. Include complete examples with TypeScript interfaces and implementations
 3. Add example prompts that demonstrate Claude Code usage
 4. Ensure all code examples follow the project's coding standards
 
 **For Cursor Rules:**
-1. Edit the relevant `.mdc` files in `.cursor/rules/`
+1. Edit the relevant `.mdc` files in `docs/ai-guidance/cursor-rules/`
 2. Keep rules under 500 lines and focused on specific concerns
 3. Include concrete examples and file references using `@filepath` syntax
 

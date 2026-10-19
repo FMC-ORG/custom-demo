@@ -2851,7 +2851,7 @@ pageTemplates:
       - "2026-06-09: Created via grilling session. Agentic-Studio-fillable, ABM-ready. Fixed-shape (3 features, 3 stats, 5 FAQs). 40 route fields across 6 sections with validation regexes + agent help text. __Standard Values populated with v1 SaaS-flavored defaults (marked for review before first ABM campaign)."
       - "2026-06-09: 6 context components created (LandingHero, LandingFeatures, LandingStats, LandingSocialProof, LandingFAQ, LandingFinalCTA). 8 Variant Definitions total — Hero gets 3 (Default, SplitImage, Minimal), others get Default only (lean v1 scope)."
       - "2026-06-09: Partial Design and Page Design items created but rendering placement and standard-values linkage are silent-write — finalize via Pages Builder / Content Editor."
-      - "2026-06-09: Registry entry in docs/ai/catalog/page-template-registry.yaml under id=landing is the canonical schema source of truth. Orchestrator skill at docs/ai/skills/sitecore-create-landing-page.md. Router updated at docs/ai/rules/01-sitecore-router.md."
+      - "2026-06-09: Registry entry in docs/ai/catalog/page-template-registry.yaml under id=landing is the canonical schema source of truth. Orchestrator skill at .agents/skills/sitecore-create-landing-page/SKILL.md. Router updated at docs/ai/rules/01-sitecore-router.md."
 
   - name: "SearchExperience"
     kind: "simple"
@@ -3688,7 +3688,7 @@ demoContent:
       TitleMapping: "Title"
       ImageMapping: "ArticleImage"
     notes:
-      - "Articles-scoped index proved via docs/ai/scripts/search-probe.mjs (canary/migrations/observability = 1 hit each, gibberish = 0)."
+      - "Articles-scoped index proved via .agents/skills/sitecore-search/scripts/search-probe.mjs (canary/migrations/observability = 1 hit each, gibberish = 0)."
       - "DescriptionMapping left empty: ArticleContent/ArticleKeyTakeaways are HTML, card renders raw text. LinkMapping empty: index has no URL attribute (env-side follow-up in Search Configuration Manager)."
       - "Placed on Articles page {D8B01498-2838-4388-A68F-86665D9C1C80}, placeholder headless-main, component instance {0676931B-13CC-4B77-947C-C613CB0050DB}. Auto-created local datasource {EFDE9655-A6A9-4868-AE5C-DF8900D37CB9} orphaned after repointing to this shared item — safe to clean up."
       - "Rendering params NOT set (no MCP tool for params): pageSize default 6 — set pageSize=2 + columns=3 manually in Page Builder to demo pagination with 3-article corpus."

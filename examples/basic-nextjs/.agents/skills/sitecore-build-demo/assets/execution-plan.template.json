@@ -1,0 +1,28 @@
+{
+  "contract": "demo-framework-v2",
+  "targetReview": { "classification": "starter", "repurposeApproved": false },
+  "approved": false,
+  "client": "",
+  "environment": {
+    "siteCollection": "",
+    "siteName": "",
+    "dataRoot": "",
+    "marker": ""
+  },
+  "pageId": "",
+  "sections": [
+    {
+      "key": "hero",
+      "componentName": "HeroBanner",
+      "folderPath": "",
+      "templateId": "",
+      "name": "",
+      "fields": { "Title": "" },
+      "fieldRules": { "Title": { "type": "Single-Line Text", "required": true } },
+      "children": [],
+      "placement": "page",
+      "renderingId": "",
+      "placeholder": "headless-main"
+    }
+  ]
+}

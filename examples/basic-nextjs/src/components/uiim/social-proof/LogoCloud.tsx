@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -49,12 +50,12 @@ const SectionTitle = ({
   datasource: LogoCloudDatasource;
   isEditing?: boolean;
 }) => {
-  if (!datasource.title?.jsonValue?.value && !isEditing) return null;
+  if (!hasText(datasource.title?.jsonValue?.value) && !isEditing) return null;
   return (
     <Text
       field={datasource.title?.jsonValue}
       tag="h2"
-      className="mb-8 text-center text-xl font-semibold font-[var(--brand-heading-font,inherit)]"
+      className="mb-8 text-center text-xl font-semibold font-heading"
       style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
     />
   );
@@ -71,10 +72,7 @@ const LogoWrapper = ({
 }) => {
   if (item.logoLink?.jsonValue?.value?.href || isEditing) {
     return (
-      <ContentSdkLink
-        field={item.logoLink?.jsonValue}
-        className="flex items-center justify-center"
-      >
+      <ContentSdkLink field={item.logoLink?.jsonValue} className="flex items-center justify-center">
         {children}
       </ContentSdkLink>
     );
@@ -183,11 +181,11 @@ export const WithLabels = ({ fields, params, page }: LogoCloudProps): JSX.Elemen
                     />
                   )}
                 </LogoWrapper>
-                {(item.companyName?.jsonValue?.value || isEditing) && (
+                {(hasText(item.companyName?.jsonValue?.value) || isEditing) && (
                   <Text
                     field={item.companyName?.jsonValue}
                     tag="span"
-                    className="text-xs font-medium font-[var(--brand-body-font,inherit)]"
+                    className="text-xs font-medium font-body"
                     style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
                   />
                 )}

@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -53,28 +54,31 @@ const SectionHeader = ({
 }: {
   datasource: ProductPricingCardsDatasource;
   isEditing?: boolean;
-}) => (
-  <div className="mx-auto mb-10 max-w-3xl text-center">
-    {(datasource.title?.jsonValue?.value || isEditing) && (
-      <Text
-        field={datasource.title?.jsonValue}
-        tag="h2"
-        className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
-        style={{ color: 'var(--brand-fg, #111111)' }}
-      />
-    )}
-    {(datasource.description?.jsonValue?.value || isEditing) && (
-      <ContentSdkRichText
-        field={datasource.description?.jsonValue}
-        className="mt-4 text-lg opacity-70 font-[var(--brand-body-font,inherit)]"
-        style={{ color: 'var(--brand-fg, #111111)' }}
-      />
-    )}
-  </div>
-);
+}) =>
+  hasText(datasource.title?.jsonValue?.value) ||
+  isEditing ||
+  hasRichText(datasource.description?.jsonValue?.value) ? (
+    <div className="mx-auto mb-10 max-w-3xl text-center">
+      {(hasText(datasource.title?.jsonValue?.value) || isEditing) && (
+        <Text
+          field={datasource.title?.jsonValue}
+          tag="h2"
+          className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
+          style={{ color: 'var(--brand-fg, #111111)' }}
+        />
+      )}
+      {(hasRichText(datasource.description?.jsonValue?.value) || isEditing) && (
+        <ContentSdkRichText
+          field={datasource.description?.jsonValue}
+          className="mt-4 text-lg opacity-70 font-body"
+          style={{ color: 'var(--brand-fg, #111111)' }}
+        />
+      )}
+    </div>
+  ) : null;
 
 const Badge = ({ field, isEditing }: { field: Field<string>; isEditing?: boolean }) => {
-  if (!field?.value && !isEditing) return null;
+  if (!hasText(field?.value) && !isEditing) return null;
   return (
     <Text
       field={field}
@@ -86,12 +90,12 @@ const Badge = ({ field, isEditing }: { field: Field<string>; isEditing?: boolean
 };
 
 const Price = ({ field, isEditing }: { field: Field<string>; isEditing?: boolean }) => {
-  if (!field?.value && !isEditing) return null;
+  if (!hasText(field?.value) && !isEditing) return null;
   return (
     <Text
       field={field}
       tag="p"
-      className="mt-2 text-lg font-semibold font-[var(--brand-body-font,inherit)]"
+      className="mt-2 text-lg font-semibold font-body"
       style={{ color: 'var(--brand-fg, #111111)' }}
     />
   );
@@ -123,7 +127,10 @@ export const Default = ({ fields, params, page }: ProductPricingCardsProps): JSX
 
   return (
     <div className={cn('component product-pricing-cards', styles)} id={RenderingIdentifier}>
-      <section className="w-full px-4 py-16" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
+      <section
+        className="w-full px-4 py-16"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
         <div className="mx-auto max-w-7xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -142,26 +149,33 @@ export const Default = ({ fields, params, page }: ProductPricingCardsProps): JSX
                     className="h-48 w-full object-cover"
                   />
                 )}
-                <div className="flex flex-1 flex-col p-6">
-                  <Badge field={card.badgeText?.jsonValue} isEditing={isEditing} />
-                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
-                    <Text
-                      field={card.cardTitle?.jsonValue}
-                      tag="h3"
-                      className="text-xl font-bold font-[var(--brand-heading-font,inherit)]"
-                      style={{ color: 'var(--brand-fg, #111111)' }}
-                    />
-                  )}
-                  <Price field={card.priceText?.jsonValue} isEditing={isEditing} />
-                  {(card.cardDescription?.jsonValue?.value || isEditing) && (
-                    <ContentSdkRichText
-                      field={card.cardDescription?.jsonValue}
-                      className="mt-3 flex-1 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
-                      style={{ color: 'var(--brand-fg, #111111)' }}
-                    />
-                  )}
-                  <CardButton field={card.cardLink?.jsonValue} isEditing={isEditing} />
-                </div>
+                {(isEditing ||
+                  hasText(card.badgeText?.jsonValue?.value) ||
+                  hasText(card.cardTitle?.jsonValue?.value) ||
+                  hasText(card.priceText?.jsonValue?.value) ||
+                  hasRichText(card.cardDescription?.jsonValue?.value) ||
+                  card.cardLink?.jsonValue?.value?.href) && (
+                  <div className="flex flex-1 flex-col p-6">
+                    <Badge field={card.badgeText?.jsonValue} isEditing={isEditing} />
+                    {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                      <Text
+                        field={card.cardTitle?.jsonValue}
+                        tag="h3"
+                        className="text-xl font-bold font-heading"
+                        style={{ color: 'var(--brand-fg, #111111)' }}
+                      />
+                    )}
+                    <Price field={card.priceText?.jsonValue} isEditing={isEditing} />
+                    {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                      <ContentSdkRichText
+                        field={card.cardDescription?.jsonValue}
+                        className="mt-3 flex-1 text-sm opacity-70 font-body"
+                        style={{ color: 'var(--brand-fg, #111111)' }}
+                      />
+                    )}
+                    <CardButton field={card.cardLink?.jsonValue} isEditing={isEditing} />
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -183,7 +197,10 @@ export const Horizontal = ({ fields, params, page }: ProductPricingCardsProps): 
 
   return (
     <div className={cn('component product-pricing-cards', styles)} id={RenderingIdentifier}>
-      <section className="w-full px-4 py-16" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
+      <section
+        className="w-full px-4 py-16"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
         <div className="mx-auto max-w-7xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
           <div className="flex flex-col gap-6">
@@ -204,28 +221,37 @@ export const Horizontal = ({ fields, params, page }: ProductPricingCardsProps): 
                     />
                   </div>
                 )}
-                <div className="flex flex-1 flex-col justify-center p-6 md:p-8">
-                  <Badge field={card.badgeText?.jsonValue} isEditing={isEditing} />
-                  {(card.cardTitle?.jsonValue?.value || isEditing) && (
-                    <Text
-                      field={card.cardTitle?.jsonValue}
-                      tag="h3"
-                      className="text-xl font-bold font-[var(--brand-heading-font,inherit)]"
-                      style={{ color: 'var(--brand-fg, #111111)' }}
-                    />
-                  )}
-                  <Price field={card.priceText?.jsonValue} isEditing={isEditing} />
-                  {(card.cardDescription?.jsonValue?.value || isEditing) && (
-                    <ContentSdkRichText
-                      field={card.cardDescription?.jsonValue}
-                      className="mt-3 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
-                      style={{ color: 'var(--brand-fg, #111111)' }}
-                    />
-                  )}
-                  <div className="mt-4">
-                    <CardButton field={card.cardLink?.jsonValue} isEditing={isEditing} />
+                {(isEditing ||
+                  hasText(card.badgeText?.jsonValue?.value) ||
+                  hasText(card.cardTitle?.jsonValue?.value) ||
+                  hasText(card.priceText?.jsonValue?.value) ||
+                  hasRichText(card.cardDescription?.jsonValue?.value) ||
+                  card.cardLink?.jsonValue?.value?.href) && (
+                  <div className="flex flex-1 flex-col justify-center p-6 md:p-8">
+                    <Badge field={card.badgeText?.jsonValue} isEditing={isEditing} />
+                    {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                      <Text
+                        field={card.cardTitle?.jsonValue}
+                        tag="h3"
+                        className="text-xl font-bold font-heading"
+                        style={{ color: 'var(--brand-fg, #111111)' }}
+                      />
+                    )}
+                    <Price field={card.priceText?.jsonValue} isEditing={isEditing} />
+                    {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                      <ContentSdkRichText
+                        field={card.cardDescription?.jsonValue}
+                        className="mt-3 text-sm opacity-70 font-body"
+                        style={{ color: 'var(--brand-fg, #111111)' }}
+                      />
+                    )}
+                    {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                      <div className="mt-4">
+                        <CardButton field={card.cardLink?.jsonValue} isEditing={isEditing} />
+                      </div>
+                    )}
                   </div>
-                </div>
+                )}
               </div>
             ))}
           </div>
@@ -247,7 +273,10 @@ export const Compact = ({ fields, params, page }: ProductPricingCardsProps): JSX
 
   return (
     <div className={cn('component product-pricing-cards', styles)} id={RenderingIdentifier}>
-      <section className="w-full px-4 py-16" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
+      <section
+        className="w-full px-4 py-16"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
         <div className="mx-auto max-w-7xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -261,19 +290,19 @@ export const Compact = ({ fields, params, page }: ProductPricingCardsProps): JSX
                 }}
               >
                 <Badge field={card.badgeText?.jsonValue} isEditing={isEditing} />
-                {(card.cardTitle?.jsonValue?.value || isEditing) && (
+                {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
                   <Text
                     field={card.cardTitle?.jsonValue}
                     tag="h3"
-                    className="text-lg font-bold font-[var(--brand-heading-font,inherit)]"
+                    className="text-lg font-bold font-heading"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
                 <Price field={card.priceText?.jsonValue} isEditing={isEditing} />
-                {(card.cardDescription?.jsonValue?.value || isEditing) && (
+                {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
                   <ContentSdkRichText
                     field={card.cardDescription?.jsonValue}
-                    className="mt-2 flex-1 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
+                    className="mt-2 flex-1 text-sm opacity-70 font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
@@ -299,7 +328,10 @@ export const Highlighted = ({ fields, params, page }: ProductPricingCardsProps):
 
   return (
     <div className={cn('component product-pricing-cards', styles)} id={RenderingIdentifier}>
-      <section className="w-full px-4 py-16" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
+      <section
+        className="w-full px-4 py-16"
+        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+      >
         <div className="mx-auto max-w-7xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -310,7 +342,7 @@ export const Highlighted = ({ fields, params, page }: ProductPricingCardsProps):
                   key={card.id}
                   className={cn(
                     'relative flex flex-col overflow-hidden shadow-sm rounded-[var(--brand-card-radius,0.75rem)]',
-                    isHighlighted && 'border-2 shadow-md'
+                    isHighlighted && 'border-2 shadow-md',
                   )}
                   style={{
                     backgroundColor: 'var(--brand-bg, #ffffff)',
@@ -338,26 +370,33 @@ export const Highlighted = ({ fields, params, page }: ProductPricingCardsProps):
                       className="h-48 w-full object-cover"
                     />
                   )}
-                  <div className="flex flex-1 flex-col p-6">
-                    <Badge field={card.badgeText?.jsonValue} isEditing={isEditing} />
-                    {(card.cardTitle?.jsonValue?.value || isEditing) && (
-                      <Text
-                        field={card.cardTitle?.jsonValue}
-                        tag="h3"
-                        className="text-xl font-bold font-[var(--brand-heading-font,inherit)]"
-                        style={{ color: 'var(--brand-fg, #111111)' }}
-                      />
-                    )}
-                    <Price field={card.priceText?.jsonValue} isEditing={isEditing} />
-                    {(card.cardDescription?.jsonValue?.value || isEditing) && (
-                      <ContentSdkRichText
-                        field={card.cardDescription?.jsonValue}
-                        className="mt-3 flex-1 text-sm opacity-70 font-[var(--brand-body-font,inherit)]"
-                        style={{ color: 'var(--brand-fg, #111111)' }}
-                      />
-                    )}
-                    <CardButton field={card.cardLink?.jsonValue} isEditing={isEditing} />
-                  </div>
+                  {(isEditing ||
+                    hasText(card.badgeText?.jsonValue?.value) ||
+                    hasText(card.cardTitle?.jsonValue?.value) ||
+                    hasText(card.priceText?.jsonValue?.value) ||
+                    hasRichText(card.cardDescription?.jsonValue?.value) ||
+                    card.cardLink?.jsonValue?.value?.href) && (
+                    <div className="flex flex-1 flex-col p-6">
+                      <Badge field={card.badgeText?.jsonValue} isEditing={isEditing} />
+                      {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                        <Text
+                          field={card.cardTitle?.jsonValue}
+                          tag="h3"
+                          className="text-xl font-bold font-heading"
+                          style={{ color: 'var(--brand-fg, #111111)' }}
+                        />
+                      )}
+                      <Price field={card.priceText?.jsonValue} isEditing={isEditing} />
+                      {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                        <ContentSdkRichText
+                          field={card.cardDescription?.jsonValue}
+                          className="mt-3 flex-1 text-sm opacity-70 font-body"
+                          style={{ color: 'var(--brand-fg, #111111)' }}
+                        />
+                      )}
+                      <CardButton field={card.cardLink?.jsonValue} isEditing={isEditing} />
+                    </div>
+                  )}
                 </div>
               );
             })}

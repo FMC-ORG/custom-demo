@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -31,14 +32,22 @@ const CTABannerDefaultComponent = (): JSX.Element => (
   </div>
 );
 
-const PrimaryButton = ({ field, isEditing, className }: { field: LinkField; isEditing?: boolean; className?: string }) => {
+const PrimaryButton = ({
+  field,
+  isEditing,
+  className,
+}: {
+  field: LinkField;
+  isEditing?: boolean;
+  className?: string;
+}) => {
   if (!field?.value?.href && !isEditing) return null;
   return (
     <ContentSdkLink
       field={field}
       className={cn(
         'inline-flex items-center justify-center px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90 rounded-[var(--brand-button-radius,0.375rem)]',
-        className
+        className,
       )}
     />
   );
@@ -71,29 +80,35 @@ export const Default = ({ fields, params, page }: CTABannerProps): JSX.Element =
           color: 'var(--brand-primary-foreground)',
         }}
       >
-        <div className="mx-auto max-w-3xl text-center">
-          {(fields.Title?.value || isEditing) && (
-            <Text
-              field={fields.Title}
-              tag="h2"
-              className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
-            />
-          )}
-          {(fields.Description?.value || isEditing) && (
-            <ContentSdkRichText
-              field={fields.Description}
-              className="mt-4 text-lg opacity-90 font-[var(--brand-body-font,inherit)]"
-            />
-          )}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <PrimaryButton
-              field={fields.PrimaryLink}
-              isEditing={isEditing}
-              className="bg-[var(--brand-primary-foreground)] text-[var(--brand-primary)]"
-            />
-            <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+        {(hasText(fields.Title?.value) ||
+          isEditing ||
+          hasRichText(fields.Description?.value) ||
+          fields.PrimaryLink?.value?.href ||
+          fields.SecondaryLink?.value?.href) && (
+          <div className="mx-auto max-w-3xl text-center">
+            {(hasText(fields.Title?.value) || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
+              />
+            )}
+            {(hasRichText(fields.Description?.value) || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-4 text-lg opacity-90 font-body"
+              />
+            )}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <PrimaryButton
+                field={fields.PrimaryLink}
+                isEditing={isEditing}
+                className="bg-[var(--brand-primary-foreground)] text-[var(--brand-primary)]"
+              />
+              <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+            </div>
           </div>
-        </div>
+        )}
       </section>
     </div>
   );
@@ -121,31 +136,37 @@ export const WithImage = ({ fields, params, page }: CTABannerProps): JSX.Element
           </div>
         )}
         <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 px-4 py-16 md:py-24 text-white">
-          <div className="mx-auto max-w-3xl text-center">
-            {(fields.Title?.value || isEditing) && (
-              <Text
-                field={fields.Title}
-                tag="h2"
-                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
-              />
-            )}
-            {(fields.Description?.value || isEditing) && (
-              <ContentSdkRichText
-                field={fields.Description}
-                className="mt-4 text-lg opacity-90 font-[var(--brand-body-font,inherit)]"
-              />
-            )}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <PrimaryButton
-                field={fields.PrimaryLink}
-                isEditing={isEditing}
-                className="bg-[var(--brand-primary)] text-[var(--brand-primary-foreground)]"
-              />
-              <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+        {(hasText(fields.Title?.value) ||
+          isEditing ||
+          hasRichText(fields.Description?.value) ||
+          fields.PrimaryLink?.value?.href ||
+          fields.SecondaryLink?.value?.href) && (
+          <div className="relative z-10 px-4 py-16 md:py-24 text-white">
+            <div className="mx-auto max-w-3xl text-center">
+              {(hasText(fields.Title?.value) || isEditing) && (
+                <Text
+                  field={fields.Title}
+                  tag="h2"
+                  className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
+                />
+              )}
+              {(hasRichText(fields.Description?.value) || isEditing) && (
+                <ContentSdkRichText
+                  field={fields.Description}
+                  className="mt-4 text-lg opacity-90 font-body"
+                />
+              )}
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+                <PrimaryButton
+                  field={fields.PrimaryLink}
+                  isEditing={isEditing}
+                  className="bg-[var(--brand-primary)] text-[var(--brand-primary-foreground)]"
+                />
+                <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </section>
     </div>
   );
@@ -165,33 +186,43 @@ export const Split = ({ fields, params, page }: CTABannerProps): JSX.Element => 
         className="w-full px-4 py-16 md:py-20"
         style={{ backgroundColor: 'var(--brand-muted, #f5f5f5)' }}
       >
-        <div className="mx-auto grid max-w-7xl items-center gap-8 md:grid-cols-2 md:px-6">
-          <div>
-            {(fields.Title?.value || isEditing) && (
-              <Text
-                field={fields.Title}
-                tag="h2"
-                className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
-                style={{ color: 'var(--brand-fg, #111111)' }}
-              />
+        {(hasText(fields.Title?.value) ||
+          isEditing ||
+          hasRichText(fields.Description?.value) ||
+          fields.PrimaryLink?.value?.href ||
+          fields.SecondaryLink?.value?.href) && (
+          <div className="mx-auto grid max-w-7xl items-center gap-8 md:grid-cols-2 md:px-6">
+            {(hasText(fields.Title?.value) ||
+              isEditing ||
+              hasRichText(fields.Description?.value)) && (
+              <div>
+                {(hasText(fields.Title?.value) || isEditing) && (
+                  <Text
+                    field={fields.Title}
+                    tag="h2"
+                    className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
+                    style={{ color: 'var(--brand-fg, #111111)' }}
+                  />
+                )}
+                {(hasRichText(fields.Description?.value) || isEditing) && (
+                  <ContentSdkRichText
+                    field={fields.Description}
+                    className="mt-4 text-base font-body"
+                    style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
+                  />
+                )}
+              </div>
             )}
-            {(fields.Description?.value || isEditing) && (
-              <ContentSdkRichText
-                field={fields.Description}
-                className="mt-4 text-base font-[var(--brand-body-font,inherit)]"
-                style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
+            <div className="flex flex-wrap items-center gap-4 md:justify-end">
+              <PrimaryButton
+                field={fields.PrimaryLink}
+                isEditing={isEditing}
+                className="bg-[var(--brand-primary)] text-[var(--brand-primary-foreground)]"
               />
-            )}
+              <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+            </div>
           </div>
-          <div className="flex flex-wrap items-center gap-4 md:justify-end">
-            <PrimaryButton
-              field={fields.PrimaryLink}
-              isEditing={isEditing}
-              className="bg-[var(--brand-primary)] text-[var(--brand-primary-foreground)]"
-            />
-            <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
-          </div>
-        </div>
+        )}
       </section>
     </div>
   );
@@ -211,39 +242,49 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
         className="w-full px-4 py-10"
         style={{ backgroundColor: 'var(--brand-muted, #f5f5f5)' }}
       >
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 sm:flex-row sm:justify-between sm:px-6">
-          <div className="flex-1">
-            {(fields.Title?.value || isEditing) && (
-              <Text
-                field={fields.Title}
-                tag="p"
-                className="text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
-                style={{ color: 'var(--brand-fg, #111111)' }}
-              />
+        {(hasText(fields.Title?.value) ||
+          isEditing ||
+          hasRichText(fields.Description?.value) ||
+          fields.PrimaryLink?.value?.href ||
+          fields.SecondaryLink?.value?.href) && (
+          <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 sm:flex-row sm:justify-between sm:px-6">
+            {(hasText(fields.Title?.value) ||
+              isEditing ||
+              hasRichText(fields.Description?.value)) && (
+              <div className="flex-1">
+                {(hasText(fields.Title?.value) || isEditing) && (
+                  <Text
+                    field={fields.Title}
+                    tag="p"
+                    className="text-lg font-semibold font-heading"
+                    style={{ color: 'var(--brand-fg, #111111)' }}
+                  />
+                )}
+                {(hasRichText(fields.Description?.value) || isEditing) && (
+                  <ContentSdkRichText
+                    field={fields.Description}
+                    className="mt-1 text-sm font-body"
+                    style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
+                  />
+                )}
+              </div>
             )}
-            {(fields.Description?.value || isEditing) && (
-              <ContentSdkRichText
-                field={fields.Description}
-                className="mt-1 text-sm font-[var(--brand-body-font,inherit)]"
-                style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
+            <div className="flex shrink-0 items-center gap-3">
+              <PrimaryButton
+                field={fields.PrimaryLink}
+                isEditing={isEditing}
+                className="bg-[var(--brand-primary)] text-[var(--brand-primary-foreground)]"
               />
-            )}
+              {(fields.SecondaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.SecondaryLink}
+                  className="text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
+                  style={{ color: 'var(--brand-primary)' }}
+                />
+              )}
+            </div>
           </div>
-          <div className="flex shrink-0 items-center gap-3">
-            <PrimaryButton
-              field={fields.PrimaryLink}
-              isEditing={isEditing}
-              className="bg-[var(--brand-primary)] text-[var(--brand-primary-foreground)]"
-            />
-            {(fields.SecondaryLink?.value?.href || isEditing) && (
-              <ContentSdkLink
-                field={fields.SecondaryLink}
-                className="text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
-                style={{ color: 'var(--brand-primary)' }}
-              />
-            )}
-          </div>
-        </div>
+        )}
       </section>
     </div>
   );

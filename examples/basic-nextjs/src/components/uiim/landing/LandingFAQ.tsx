@@ -1,6 +1,7 @@
 'use client';
 
 import React, { JSX, useState } from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import { ChevronDown } from 'lucide-react';
 import {
   Field,
@@ -52,7 +53,7 @@ function FAQItem({
   onToggle: () => void;
   isEditing?: boolean;
 }) {
-  if (!question?.value && !answer?.value && !isEditing) return null;
+  if (!hasText(question?.value) && !hasRichText(answer?.value) && !isEditing) return null;
   return (
     <div className="border-b border-gray-200" data-testid={`faq-item-${index}`}>
       <button
@@ -61,7 +62,7 @@ function FAQItem({
         className="flex w-full items-center justify-between gap-4 py-5 text-left"
         aria-expanded={isOpen}
       >
-        {(question?.value || isEditing) && (
+        {(hasText(question?.value) || isEditing) && (
           <Text
             field={question}
             tag="span"
@@ -72,15 +73,12 @@ function FAQItem({
         <ChevronDown
           className={cn(
             'h-5 w-5 flex-shrink-0 text-gray-500 transition-transform',
-            isOpen && 'rotate-180'
+            isOpen && 'rotate-180',
           )}
         />
       </button>
-      {isOpen && (answer?.value || isEditing) && (
-        <div
-          className="pb-5 pr-10 text-sm text-gray-600 md:text-base"
-          data-testid="faq-answer"
-        >
+      {isOpen && (hasRichText(answer?.value) || isEditing) && (
+        <div className="pb-5 pr-10 text-sm text-gray-600 md:text-base" data-testid="faq-answer">
           <ContentSdkRichText field={answer} />
         </div>
       )}

@@ -4,6 +4,11 @@
 @source inline("basis-{1,2,3,4,5,6,7,8,9,10,11}/{2,3,4,5,6,12}");
 @source inline("{sm,md,lg,xl,2xl}:basis-{1,2,3,4,5,6,7,8,9,10,11}/{2,3,4,5,6,12}");
 
+@theme inline {
+  --font-heading: var(--brand-heading-font);
+  --font-body: var(--brand-body-font);
+}
+
 @theme {
   /* Font family */
   --font-sans: var(--font-open-sans), "Open Sans", Arial, Helvetica, sans-serif;
@@ -182,6 +187,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Brand defaults for elements without explicit font-heading / font-body. */
+    font-family: var(--brand-body-font);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--brand-heading-font);
   }
 }
 

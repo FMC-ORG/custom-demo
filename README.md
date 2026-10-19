@@ -5,9 +5,12 @@
 > starters in `examples/` are NOT used — ignore them.**
 
 Turn a client's homepage (screenshot + URL) into a themed, content-filled Sitecore XM Cloud demo
-on your own environment. Once setup is done, you build a demo by typing one sentence and attaching
-a screenshot — the agent does the rest, pausing once for your approval before it writes anything to
-Sitecore.
+on your own environment. Once setup is done, you build a demo by running **one skill command** —
+`sitecore-build-demo` — with a screenshot attached. The agent does the rest, pausing once for your
+approval before it writes anything to Sitecore.
+
+Works in **Claude Code**, **Cursor**, and **Pi**. All three read the same skills from
+`examples/basic-nextjs/.agents/skills/` — always start your agent from `examples/basic-nextjs`.
 
 > **Recommended models:** for your first run, use an advanced/frontier model — **Opus**, **Fable**,
 > or **Codex** — for the most reliable end-to-end result. It also works okay with Cursor's basic
@@ -34,13 +37,14 @@ Use one branch per demo so each runs on its own isolated environment.
 
 ```bash
 npm install
-npx playwright install chromium
+npm run agents:browsers   # Chromium for the site scraper (once per machine)
+npm run agents:setup      # git pre-commit hook that keeps agent files in sync (once per clone)
 ```
 
 Verify the scraper runs (must be run from inside `examples/basic-nextjs`):
 
 ```bash
-node docs/ai/scripts/site-scraper.mjs --help
+node .agents/skills/sitecore-extract-theme/scripts/site-scraper.mjs --help
 ```
 
 ## Step 3 — Deploy the app
@@ -53,16 +57,20 @@ node docs/ai/scripts/site-scraper.mjs --help
   have a login, client images are uploaded there automatically. This step is optional — without it,
   images fall back to manual upload.
 
-## Step 4 — Connect the marketer MCP
+## Step 4 — Open your agent and connect the marketer MCP
 
-In your coding agent (e.g. Claude Code), connect the `sitecore-marketer` MCP server pointed at your
-XM Cloud environment:
+The repo already declares two MCP servers — `sitecore_marketer` (creates and updates Sitecore
+items) and `sitecore_docs` (official Sitecore docs). Open your agent **in `examples/basic-nextjs`**
+and sign in to them:
 
-```
-/mcp
-```
+| Agent | How |
+|---|---|
+| **Claude Code** | Run `claude` in `examples/basic-nextjs`, approve the project MCP servers, then `/mcp` and sign in to `sitecore_marketer`. |
+| **Cursor** | Open the `examples/basic-nextjs` folder, then *Settings → MCP*: enable both servers and sign in to `sitecore_marketer`. |
+| **Pi** | Run `pi` in `examples/basic-nextjs` and **trust the project** when asked — Pi only loads the project skills and MCP servers after that. Then `/mcp` and sign in to `sitecore_marketer`. |
 
-If a Sitecore call later says "token expired", run `/mcp` again and retry.
+Sign in with the account for **your** XM Cloud environment. If a Sitecore call later says "token
+expired", run `/mcp` again (or re-authenticate in Cursor's MCP settings) and retry.
 
 ## Step 5 — Add Content Hub credentials _(optional)_
 
@@ -85,25 +93,51 @@ contentHub:
   uploadConfig: "AssetUploadConfiguration"
 ```
 
-Validate the credentials:
+The uploader authenticates when an upload/verification run starts. `--dry-run` only inspects an existing image manifest; it does **not** validate credentials or make remote calls.
 
-```bash
-node docs/ai/scripts/upload-to-content-hub.mjs --images-dir docs/ai/demos/test --dry-run
-# prints [auth] OK when valid
-```
+Demo recovery requires an approved, unchanged plan and surviving local records. Follow the [P0 recovery execution contract](examples/basic-nextjs/.agents/skills/sitecore-build-demo/references/recovery.md) for explicit first-run initialization, safe resumes, and the durable marketer MCP handoff. Do not initialize new journals over an existing legacy demo.
 
 The file must be named `credentials.local.yaml`.
 
-## Step 6 — Run the demo build
+## Step 6 — Run the demo build skill
 
-Ask your agent this, and **attach a full-page screenshot** of the client homepage:
+The demo builder is the **`sitecore-build-demo`** skill. It is **command-only**: the agent never
+starts it on its own, so asking in plain words ("create a custom demo for …") will not kick it off —
+run the command explicitly, followed by the client URL, and **attach a full-page screenshot** of the
+client homepage in the same message.
 
-```
-create a custom demo for https://www.yokohama-tws.com/de-de
-```
+| Agent | Type this | Attach the screenshot by… |
+|---|---|---|
+| **Claude Code** | `/sitecore-build-demo create a custom demo for https://www.yokohama-tws.com/de-de` | pasting or dragging the image into the prompt |
+| **Cursor** | `/sitecore-build-demo create a custom demo for https://www.yokohama-tws.com/de-de` | pasting or dragging the image into the chat |
+| **Pi** | `/skill:sitecore-build-demo create a custom demo for https://www.yokohama-tws.com/de-de` | pasting it (`Ctrl+V`; `Alt+V` on Windows/WSL), dragging it in, or typing `@` and picking the file |
 
-A screenshot is required — the build will not start without one. Non-English source sites are
-supported; all content is translated to English automatically.
+Tips:
+
+- **A screenshot is required** — the build stops at Phase 0 and asks for one if it is missing. If
+  your terminal cannot attach images, save it inside the repo (e.g.
+  `docs/ai/demos/<client>/homepage.png` — the `demos/` folder is gitignored) and reference it
+  with `@`.
+- **Non-English sites** are supported; all content is translated to English automatically.
+- **Interrupted?** Re-run the command with `resume demo for <client>` (e.g.
+  `/sitecore-build-demo resume demo for yokohama`). Progress is saved in
+  `docs/ai/demos/<client>/demo-progress.yaml`, so finished phases are skipped.
+- Typing `/sitecore-` lists every demo-builder skill. Everyday component work (create a component,
+  add a variant, fix a rendering) does **not** need a command — just ask, and the agent picks the
+  right skill (see `examples/basic-nextjs/AGENTS.md`).
+
+### What the skill does
+
+| Phase | What happens | You |
+|---|---|---|
+| 0 – 0.5 | Collects inputs, validates Content Hub credentials, checks the Sitecore manifest against your environment | answer any questions |
+| 1 | Extracts the brand theme (colors, fonts, shape) from the site | **confirm the theme** |
+| 2 | Analyzes the screenshot and maps every section to a template component + variant | **approve the plan** (Step 7) |
+| 2.5 – 3 | Extracts real content, uploads images to Content Hub, creates and fills datasource items | — |
+| 4 – 5.5 | Applies the theme, builds any custom components and (if chosen) pixel-perfect variants | — |
+| 6 – 7 | Assembles the Home page and writes a summary with your manual to-do list | finish the demo (Step 8) |
+
+All working files land in `examples/basic-nextjs/docs/ai/demos/<client>/`.
 
 ## Step 7 — Approve the plan
 
@@ -199,7 +233,8 @@ Map title=<TitleField>, description=<BodyField>, image=<ImageField>,
 link=<UrlField>, date=<DateField>. Results page: <page>.
 ```
 
-Following the capabilities registry, the agent creates the datasource templates/renderings (first
+The agent uses the `sitecore-search` skill (no command needed — it is picked automatically) and,
+following the capabilities registry, creates the datasource templates/renderings (first
 time only), one datasource item per component with your index GUID + attribute mappings, places
 the components (results page + strip), and wires the **header search** via the NavigationHeader
 datasource's `Search` section (leave its `SearchIndex` empty for no header search).
@@ -212,12 +247,12 @@ Any mapping you leave empty degrades gracefully — cards simply render without 
 cd examples/basic-nextjs
 
 # HTTP boundary: dumps the exact attribute names + documents the index returns
-node docs/ai/scripts/search-probe.mjs <index-guid> [keyphrase]
+node .agents/skills/sitecore-search/scripts/search-probe.mjs <index-guid> [keyphrase]
 
 # Browser protocols (dev server running):
-node docs/ai/scripts/search-verify.mjs      # results page
-node docs/ai/scripts/collection-verify.mjs  # latest-content strip
-node docs/ai/scripts/typeahead-verify.mjs   # typeahead + ?q= handoff
+node .agents/skills/sitecore-search/scripts/search-verify.mjs      # results page
+node .agents/skills/sitecore-search/scripts/collection-verify.mjs  # latest-content strip
+node .agents/skills/sitecore-search/scripts/typeahead-verify.mjs   # typeahead + ?q= handoff
 ```
 
 The browser scripts assert this repo's built-in articles corpus — for a different vertical, ask

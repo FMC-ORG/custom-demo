@@ -1,6 +1,7 @@
 'use client';
 
 import React, { JSX, useState, useEffect, useCallback } from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -48,13 +49,7 @@ const HeroBannerCarouselDefaultComponent = (): JSX.Element => (
   </div>
 );
 
-const PrimaryButton = ({
-  field,
-  isEditing,
-}: {
-  field: LinkField;
-  isEditing?: boolean;
-}) => {
+const PrimaryButton = ({ field, isEditing }: { field: LinkField; isEditing?: boolean }) => {
   if (!field?.value?.href && !isEditing) return null;
   return (
     <ContentSdkLink
@@ -68,13 +63,7 @@ const PrimaryButton = ({
   );
 };
 
-const SecondaryButton = ({
-  field,
-  isEditing,
-}: {
-  field: LinkField;
-  isEditing?: boolean;
-}) => {
+const SecondaryButton = ({ field, isEditing }: { field: LinkField; isEditing?: boolean }) => {
   if (!field?.value?.href && !isEditing) return null;
   return (
     <ContentSdkLink
@@ -101,7 +90,7 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
       if (slides.length === 0) return;
       setActiveIndex(((index % slides.length) + slides.length) % slides.length);
     },
-    [slides.length]
+    [slides.length],
   );
 
   useEffect(() => {
@@ -148,14 +137,14 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
               {/* Content */}
               <div className="relative z-10 mx-auto max-w-4xl px-4 py-20 text-center text-white">
                 <div className="space-y-6">
-                  {(slide.slideTitle?.jsonValue?.value || isEditing) && (
+                  {(hasText(slide.slideTitle?.jsonValue?.value) || isEditing) && (
                     <Text
                       field={slide.slideTitle?.jsonValue}
                       tag="h2"
-                      className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
+                      className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-heading"
                     />
                   )}
-                  {(slide.slideSubtitle?.jsonValue?.value || isEditing) && (
+                  {(hasRichText(slide.slideSubtitle?.jsonValue?.value) || isEditing) && (
                     <ContentSdkRichText
                       field={slide.slideSubtitle?.jsonValue}
                       className="mx-auto max-w-2xl text-lg opacity-90"
@@ -180,7 +169,14 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
               className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-3 text-white backdrop-blur-sm transition hover:bg-black/60"
               aria-label="Previous slide"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <polyline points="15 18 9 12 15 6" />
               </svg>
             </button>
@@ -190,7 +186,14 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
               className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/40 p-3 text-white backdrop-blur-sm transition hover:bg-black/60"
               aria-label="Next slide"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <polyline points="9 6 15 12 9 18" />
               </svg>
             </button>
@@ -207,7 +210,7 @@ export const Default = ({ fields, params, page }: HeroBannerCarouselProps): JSX.
                 onClick={() => goTo(i)}
                 className={cn(
                   'h-3 w-3 rounded-full transition-all',
-                  i === activeIndex ? 'scale-110 bg-white' : 'bg-white/50 hover:bg-white/75'
+                  i === activeIndex ? 'scale-110 bg-white' : 'bg-white/50 hover:bg-white/75',
                 )}
                 aria-label={`Go to slide ${i + 1}`}
               />
@@ -261,14 +264,14 @@ export const WithThumbnails = ({ fields, params, page }: HeroBannerCarouselProps
                 <div className="absolute inset-0 bg-black/50" />
                 <div className="relative z-10 mx-auto max-w-4xl px-4 py-20 text-center text-white">
                   <div className="space-y-6">
-                    {(slide.slideTitle?.jsonValue?.value || isEditing) && (
+                    {(hasText(slide.slideTitle?.jsonValue?.value) || isEditing) && (
                       <Text
                         field={slide.slideTitle?.jsonValue}
                         tag="h2"
-                        className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[var(--brand-heading-font,inherit)]"
+                        className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-heading"
                       />
                     )}
-                    {(slide.slideSubtitle?.jsonValue?.value || isEditing) && (
+                    {(hasRichText(slide.slideSubtitle?.jsonValue?.value) || isEditing) && (
                       <ContentSdkRichText
                         field={slide.slideSubtitle?.jsonValue}
                         className="mx-auto max-w-2xl text-lg opacity-90"
@@ -276,7 +279,10 @@ export const WithThumbnails = ({ fields, params, page }: HeroBannerCarouselProps
                     )}
                     <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
                       <PrimaryButton field={slide.primaryLink?.jsonValue} isEditing={isEditing} />
-                      <SecondaryButton field={slide.secondaryLink?.jsonValue} isEditing={isEditing} />
+                      <SecondaryButton
+                        field={slide.secondaryLink?.jsonValue}
+                        isEditing={isEditing}
+                      />
                     </div>
                   </div>
                 </div>
@@ -300,7 +306,7 @@ export const WithThumbnails = ({ fields, params, page }: HeroBannerCarouselProps
                   'relative h-16 w-24 overflow-hidden rounded-md border-2 transition-all sm:h-20 sm:w-32',
                   i === activeIndex
                     ? 'border-white opacity-100'
-                    : 'border-transparent opacity-60 hover:opacity-80'
+                    : 'border-transparent opacity-60 hover:opacity-80',
                 )}
                 aria-label={`Go to slide ${i + 1}`}
               >

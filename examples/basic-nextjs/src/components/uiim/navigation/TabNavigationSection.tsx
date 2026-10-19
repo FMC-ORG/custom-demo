@@ -1,10 +1,6 @@
 import React, { JSX } from 'react';
-import {
-  Field,
-  LinkField,
-  Link as ContentSdkLink,
-  Text,
-} from '@sitecore-content-sdk/nextjs';
+import { hasText } from '@/lib/field-utils';
+import { Field, LinkField, Link as ContentSdkLink, Text } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 
@@ -42,7 +38,7 @@ const TabNavigationSectionDefaultComponent = (): JSX.Element => (
 /* ────────────────────────────────────────────
    Default — pill-shaped tabs
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: TabNavigationSectionProps): JSX.Element => {  
+export const Default = ({ fields, params, page }: TabNavigationSectionProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
 
@@ -53,16 +49,13 @@ export const Default = ({ fields, params, page }: TabNavigationSectionProps): JS
 
   return (
     <div className={cn('component tab-navigation-section', styles)} id={RenderingIdentifier}>
-      <section
-        className="w-full px-4 py-6"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
-      >
+      <section className="w-full px-4 py-6" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
         <div className="mx-auto max-w-7xl">
-          {(datasource.title?.jsonValue?.value || isEditing) && (
+          {(hasText(datasource.title?.jsonValue?.value) || isEditing) && (
             <Text
               field={datasource.title?.jsonValue}
               tag="h2"
-              className="mb-4 text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
+              className="mb-4 text-lg font-semibold font-heading"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}
@@ -73,13 +66,14 @@ export const Default = ({ fields, params, page }: TabNavigationSectionProps): JS
                 field={tab.tabLink?.jsonValue}
                 className={cn(
                   'inline-flex items-center rounded-full px-4 py-2 text-sm font-medium transition-all',
-                  index === 0
-                    ? 'text-[var(--brand-primary-foreground)]'
-                    : 'hover:opacity-70'
+                  index === 0 ? 'text-[var(--brand-primary-foreground)]' : 'hover:opacity-70',
                 )}
                 style={
                   index === 0
-                    ? { backgroundColor: 'var(--brand-primary)', color: 'var(--brand-primary-foreground)' }
+                    ? {
+                        backgroundColor: 'var(--brand-primary)',
+                        color: 'var(--brand-primary-foreground)',
+                      }
                     : {
                         backgroundColor: 'var(--brand-muted, #f3f4f6)',
                         color: 'var(--brand-fg, #111111)',
@@ -110,16 +104,13 @@ export const Underline = ({ fields, params, page }: TabNavigationSectionProps): 
 
   return (
     <div className={cn('component tab-navigation-section', styles)} id={RenderingIdentifier}>
-      <section
-        className="w-full px-4 py-6"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
-      >
+      <section className="w-full px-4 py-6" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
         <div className="mx-auto max-w-7xl">
-          {(datasource.title?.jsonValue?.value || isEditing) && (
+          {(hasText(datasource.title?.jsonValue?.value) || isEditing) && (
             <Text
               field={datasource.title?.jsonValue}
               tag="h2"
-              className="mb-4 text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
+              className="mb-4 text-lg font-semibold font-heading"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}
@@ -133,7 +124,7 @@ export const Underline = ({ fields, params, page }: TabNavigationSectionProps): 
                 field={tab.tabLink?.jsonValue}
                 className={cn(
                   'relative pb-3 text-sm font-medium transition-all',
-                  index === 0 ? '' : 'opacity-60 hover:opacity-100'
+                  index === 0 ? '' : 'opacity-60 hover:opacity-100',
                 )}
                 style={{ color: 'var(--brand-fg, #111111)' }}
               >
@@ -167,16 +158,13 @@ export const Boxed = ({ fields, params, page }: TabNavigationSectionProps): JSX.
 
   return (
     <div className={cn('component tab-navigation-section', styles)} id={RenderingIdentifier}>
-      <section
-        className="w-full px-4 py-6"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
-      >
+      <section className="w-full px-4 py-6" style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}>
         <div className="mx-auto max-w-7xl">
-          {(datasource.title?.jsonValue?.value || isEditing) && (
+          {(hasText(datasource.title?.jsonValue?.value) || isEditing) && (
             <Text
               field={datasource.title?.jsonValue}
               tag="h2"
-              className="mb-4 text-lg font-semibold font-[var(--brand-heading-font,inherit)]"
+              className="mb-4 text-lg font-semibold font-heading"
               style={{ color: 'var(--brand-fg, #111111)' }}
             />
           )}
@@ -187,7 +175,7 @@ export const Boxed = ({ fields, params, page }: TabNavigationSectionProps): JSX.
                 field={tab.tabLink?.jsonValue}
                 className={cn(
                   'inline-flex items-center border px-5 py-2.5 text-sm font-medium transition-all',
-                  index === 0 ? '' : 'hover:opacity-70'
+                  index === 0 ? '' : 'hover:opacity-70',
                 )}
                 style={
                   index === 0

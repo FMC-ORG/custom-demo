@@ -1,6 +1,7 @@
 'use client';
 
 import React, { JSX, useState, FormEvent } from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import {
   Field,
   RichText as ContentSdkRichText,
@@ -42,7 +43,7 @@ function buildPayload(
   firstName: string,
   lastName: string,
   fields: IdentityCaptureFormFields,
-  ctx: { language: string; page?: string }
+  ctx: { language: string; page?: string },
 ): IdentityData {
   const provider = fields?.IdentityProvider?.value || 'email';
   const payload: IdentityData = {
@@ -69,7 +70,7 @@ function buildPayload(
 function useIdentityForm(
   fields: IdentityCaptureFormFields,
   isEditing: boolean,
-  ctx: { language: string; page?: string }
+  ctx: { language: string; page?: string },
 ) {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -96,7 +97,10 @@ function useIdentityForm(
 
     if (disabled) {
       // eslint-disable-next-line no-console
-      console.log('[IdentityCaptureForm] would fire identity event (skipped in editing/dev)', payload);
+      console.log(
+        '[IdentityCaptureForm] would fire identity event (skipped in editing/dev)',
+        payload,
+      );
     } else {
       await identity(payload).catch((err) => {
         // eslint-disable-next-line no-console
@@ -161,14 +165,14 @@ export const Default = ({ fields, params, page }: IdentityCaptureFormProps): JSX
             </div>
           ) : (
             <>
-              {(fields.FormTitle?.value || isEditing) && (
+              {(hasText(fields.FormTitle?.value) || isEditing) && (
                 <Text
                   field={fields.FormTitle}
                   tag="h2"
                   className="text-2xl font-bold tracking-tight text-gray-900"
                 />
               )}
-              {(fields.FormDescription?.value || isEditing) && (
+              {(hasRichText(fields.FormDescription?.value) || isEditing) && (
                 <ContentSdkRichText
                   field={fields.FormDescription}
                   className="mt-2 text-sm text-gray-600"
@@ -264,10 +268,7 @@ export const HCA = ({ fields, params, page }: IdentityCaptureFormProps): JSX.Ele
   return (
     <div className={cn('component identity-capture-form', styles)} id={RenderingIdentifier}>
       <section className="w-full px-4 py-12 md:py-16">
-        <div
-          className="mx-auto max-w-md rounded-2xl p-8"
-          style={{ backgroundColor: '#F5F1E8' }}
-        >
+        <div className="mx-auto max-w-md rounded-2xl p-8" style={{ backgroundColor: '#F5F1E8' }}>
           {form.submitted ? (
             <div className="text-center">
               <p
@@ -279,15 +280,15 @@ export const HCA = ({ fields, params, page }: IdentityCaptureFormProps): JSX.Ele
             </div>
           ) : (
             <>
-              {(fields.FormTitle?.value || isEditing) && (
+              {(hasText(fields.FormTitle?.value) || isEditing) && (
                 <Text
                   field={fields.FormTitle}
                   tag="h2"
-                  className="text-2xl font-bold tracking-tight font-[var(--brand-heading-font,inherit)]"
+                  className="text-2xl font-bold tracking-tight font-heading"
                   style={{ color: 'var(--brand-primary, #0C2141)' }}
                 />
               )}
-              {(fields.FormDescription?.value || isEditing) && (
+              {(hasRichText(fields.FormDescription?.value) || isEditing) && (
                 <ContentSdkRichText
                   field={fields.FormDescription}
                   className="mt-2 text-sm opacity-80"

@@ -4,7 +4,7 @@ How the extracted client theme drives component variant selection and styling.
 
 ## Variant Selection Rules
 
-When the Site Analyzer (Step 4) decomposes a homepage, it uses the theme's `tone`
+When the `sitecore-analyze-site` skill decomposes a homepage, it uses the theme's `tone`
 fields to pick the best variant for each matched component.
 
 ### Hero Banner
@@ -89,7 +89,7 @@ To create visual rhythm, template components alternate between:
 2. `--brand-muted` (subtle gray/tint) — every other section
 3. `--brand-header-bg` or `--brand-primary` (dark/brand) — hero, CTA, feature highlight
 
-The Site Analyzer assigns a `sectionBackground` hint to each component:
+The `sitecore-analyze-site` skill assigns a `sectionBackground` hint to each component:
 - `"default"` → `bg-[var(--brand-bg)]`
 - `"muted"` → `bg-[var(--brand-muted)]`
 - `"dark"` → `bg-[var(--brand-header-bg)]` with light text

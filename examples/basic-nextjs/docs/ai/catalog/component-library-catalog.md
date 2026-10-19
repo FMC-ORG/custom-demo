@@ -2,7 +2,7 @@
 
 This catalog defines the reusable component types that cover ~80% of corporate
 homepage patterns. Each component is pre-built with Sitecore templates, renderings,
-and React code. For a demo, the Site Analyzer (Step 4) matches page sections to
+and React code. For a demo, the `sitecore-analyze-site` skill matches page sections to
 these components and the theme layer reskins them.
 
 ## How to read this catalog

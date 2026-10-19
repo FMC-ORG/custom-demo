@@ -1,6 +1,7 @@
 'use client';
 
 import React, { JSX, useState, useEffect } from 'react';
+import { hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -54,13 +55,7 @@ const NavigationHeaderDefaultComponent = (): JSX.Element => (
   </div>
 );
 
-const Logo = ({
-  className,
-  brandLogo,
-}: {
-  className?: string;
-  brandLogo?: ImageField;
-}) => {
+const Logo = ({ className, brandLogo }: { className?: string; brandLogo?: ImageField }) => {
   const hasImage = brandLogo?.value?.src;
   return (
     <Link
@@ -69,10 +64,7 @@ const Logo = ({
       style={{ color: 'var(--brand-header-fg, inherit)' }}
     >
       {hasImage ? (
-        <ContentSdkImage
-          field={brandLogo}
-          className="h-8 w-auto object-contain sm:h-10"
-        />
+        <ContentSdkImage field={brandLogo} className="h-8 w-auto object-contain sm:h-10" />
       ) : (
         <>
           <span style={{ color: 'var(--brand-primary)' }}>Brand</span>Logo
@@ -82,13 +74,7 @@ const Logo = ({
   );
 };
 
-const NavLinks = ({
-  className,
-  items,
-}: {
-  className?: string;
-  items: NavigationLinkFields[];
-}) => (
+const NavLinks = ({ className, items }: { className?: string; items: NavigationLinkFields[] }) => (
   <nav className={cn('hidden md:flex items-center gap-6', className)}>
     {items.map((item) => (
       <ContentSdkLink
@@ -97,9 +83,7 @@ const NavLinks = ({
         className="text-sm font-medium transition-opacity hover:opacity-70"
         style={{ color: 'var(--brand-header-fg, inherit)' }}
       >
-        {item.linkText?.jsonValue?.value && (
-          <Text field={item.linkText?.jsonValue} />
-        )}
+        {hasText(item.linkText?.jsonValue?.value) && <Text field={item.linkText?.jsonValue} />}
       </ContentSdkLink>
     ))}
   </nav>
@@ -116,10 +100,7 @@ const MobileMenu = ({
 }) => {
   if (!open) return null;
   return (
-    <div
-      className="md:hidden border-t"
-      style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}
-    >
+    <div className="md:hidden border-t" style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}>
       <div className="px-4 py-4 flex flex-col gap-4">
         {items.map((item) => (
           <ContentSdkLink
@@ -129,9 +110,7 @@ const MobileMenu = ({
             style={{ color: 'var(--brand-header-fg, inherit)' }}
             onClick={onClose}
           >
-            {item.linkText?.jsonValue?.value && (
-              <Text field={item.linkText?.jsonValue} />
-            )}
+            {hasText(item.linkText?.jsonValue?.value) && <Text field={item.linkText?.jsonValue} />}
           </ContentSdkLink>
         ))}
       </div>
@@ -154,7 +133,7 @@ const CtaButton = ({
 
   const ctaClassName = cn(
     'hidden md:inline-flex items-center rounded-md px-4 py-2 text-sm font-semibold transition-opacity hover:opacity-90',
-    className
+    className,
   );
   const ctaStyle = {
     backgroundColor: 'var(--brand-primary)',
@@ -164,14 +143,14 @@ const CtaButton = ({
   if (!link) {
     return (
       <span className={ctaClassName} style={ctaStyle}>
-        {label?.value && <Text field={label} />}
+        {hasText(label?.value) && <Text field={label} />}
       </span>
     );
   }
 
   return (
     <ContentSdkLink field={link} className={ctaClassName} style={ctaStyle}>
-      {label?.value && <Text field={label} />}
+      {hasText(label?.value) && <Text field={label} />}
     </ContentSdkLink>
   );
 };
@@ -214,12 +193,26 @@ const MenuButton = ({ open, onClick }: { open: boolean; onClick: () => void }) =
     style={{ color: 'var(--brand-header-fg, inherit)' }}
   >
     {open ? (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
         <line x1="18" y1="6" x2="6" y2="18" />
         <line x1="6" y1="6" x2="18" y2="18" />
       </svg>
     ) : (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
         <line x1="3" y1="6" x2="21" y2="6" />
         <line x1="3" y1="12" x2="21" y2="12" />
         <line x1="3" y1="18" x2="21" y2="18" />
@@ -228,7 +221,12 @@ const MenuButton = ({ open, onClick }: { open: boolean; onClick: () => void }) =
   </button>
 );
 
-export const Default = ({ fields, params, page, rendering }: NavigationHeaderProps): JSX.Element => {
+export const Default = ({
+  fields,
+  params,
+  page,
+  rendering,
+}: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -292,30 +290,23 @@ export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JS
       <header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300',
-          scrolled ? 'border-b shadow-sm' : ''
+          scrolled ? 'border-b shadow-sm' : '',
         )}
         style={{
-          backgroundColor: scrolled
-            ? 'var(--brand-header-bg, #ffffff)'
-            : 'transparent',
-          borderColor: scrolled
-            ? 'var(--brand-border, #e5e7eb)'
-            : 'transparent',
+          backgroundColor: scrolled ? 'var(--brand-header-bg, #ffffff)' : 'transparent',
+          borderColor: scrolled ? 'var(--brand-border, #e5e7eb)' : 'transparent',
         }}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <Logo
             brandLogo={brandLogo}
-            className={cn(
-              'transition-colors duration-300',
-              !scrolled && 'drop-shadow-sm'
-            )}
+            className={cn('transition-colors duration-300', !scrolled && 'drop-shadow-sm')}
           />
           <NavLinks
             items={links}
             className={cn(
               'transition-colors duration-300',
-              !scrolled && '[&_a]:!text-white [&_a]:drop-shadow-sm'
+              !scrolled && '[&_a]:!text-white [&_a]:drop-shadow-sm',
             )}
           />
           <div className="flex items-center gap-2">

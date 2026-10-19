@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import {
   Field,
   ImageField,
@@ -50,8 +51,8 @@ const SectionHeader = ({
   datasource: TrustStatsRowDatasource;
   isEditing?: boolean;
 }) => {
-  const hasEyebrow = datasource.eyebrowText?.jsonValue?.value || isEditing;
-  const hasTitle = datasource.title?.jsonValue?.value || isEditing;
+  const hasEyebrow = hasText(datasource.eyebrowText?.jsonValue?.value) || isEditing;
+  const hasTitle = hasText(datasource.title?.jsonValue?.value) || isEditing;
   if (!hasEyebrow && !hasTitle) return null;
   return (
     <div className="mx-auto mb-10 max-w-3xl text-center">
@@ -67,7 +68,7 @@ const SectionHeader = ({
         <Text
           field={datasource.title?.jsonValue}
           tag="h2"
-          className="text-3xl font-bold tracking-tight sm:text-4xl font-[var(--brand-heading-font,inherit)]"
+          className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
           style={{ color: 'var(--brand-fg, #111111)' }}
         />
       )}
@@ -94,33 +95,38 @@ export const Default = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
         <div className="mx-auto max-w-7xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {items.map((item) => (
-              <div key={item.id} className="text-center">
-                {(item.statValue?.jsonValue?.value || isEditing) && (
-                  <Text
-                    field={item.statValue?.jsonValue}
-                    tag="p"
-                    className="text-4xl font-bold md:text-5xl font-[var(--brand-heading-font,inherit)]"
-                    style={{ color: 'var(--brand-primary)' }}
-                  />
-                )}
-                {(item.statLabel?.jsonValue?.value || isEditing) && (
-                  <Text
-                    field={item.statLabel?.jsonValue}
-                    tag="p"
-                    className="mt-2 text-sm font-medium font-[var(--brand-body-font,inherit)]"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
-                  />
-                )}
-                {(item.statDescription?.jsonValue?.value || isEditing) && (
-                  <ContentSdkRichText
-                    field={item.statDescription?.jsonValue}
-                    className="mt-1 text-xs opacity-60 font-[var(--brand-body-font,inherit)]"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
-                  />
-                )}
-              </div>
-            ))}
+            {items.map((item) =>
+              hasText(item.statValue?.jsonValue?.value) ||
+              isEditing ||
+              hasText(item.statLabel?.jsonValue?.value) ||
+              hasRichText(item.statDescription?.jsonValue?.value) ? (
+                <div key={item.id} className="text-center">
+                  {(hasText(item.statValue?.jsonValue?.value) || isEditing) && (
+                    <Text
+                      field={item.statValue?.jsonValue}
+                      tag="p"
+                      className="text-4xl font-bold md:text-5xl font-heading"
+                      style={{ color: 'var(--brand-primary)' }}
+                    />
+                  )}
+                  {(hasText(item.statLabel?.jsonValue?.value) || isEditing) && (
+                    <Text
+                      field={item.statLabel?.jsonValue}
+                      tag="p"
+                      className="mt-2 text-sm font-medium font-body"
+                      style={{ color: 'var(--brand-fg, #111111)' }}
+                    />
+                  )}
+                  {(hasRichText(item.statDescription?.jsonValue?.value) || isEditing) && (
+                    <ContentSdkRichText
+                      field={item.statDescription?.jsonValue}
+                      className="mt-1 text-xs opacity-60 font-body"
+                      style={{ color: 'var(--brand-fg, #111111)' }}
+                    />
+                  )}
+                </div>
+              ) : null,
+            )}
           </div>
         </div>
       </section>
@@ -157,26 +163,26 @@ export const WithIcons = ({ fields, params, page }: TrustStatsRowProps): JSX.Ele
                     />
                   </div>
                 )}
-                {(item.statValue?.jsonValue?.value || isEditing) && (
+                {(hasText(item.statValue?.jsonValue?.value) || isEditing) && (
                   <Text
                     field={item.statValue?.jsonValue}
                     tag="p"
-                    className="text-4xl font-bold md:text-5xl font-[var(--brand-heading-font,inherit)]"
+                    className="text-4xl font-bold md:text-5xl font-heading"
                     style={{ color: 'var(--brand-primary)' }}
                   />
                 )}
-                {(item.statLabel?.jsonValue?.value || isEditing) && (
+                {(hasText(item.statLabel?.jsonValue?.value) || isEditing) && (
                   <Text
                     field={item.statLabel?.jsonValue}
                     tag="p"
-                    className="mt-2 text-sm font-medium font-[var(--brand-body-font,inherit)]"
+                    className="mt-2 text-sm font-medium font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
-                {(item.statDescription?.jsonValue?.value || isEditing) && (
+                {(hasRichText(item.statDescription?.jsonValue?.value) || isEditing) && (
                   <ContentSdkRichText
                     field={item.statDescription?.jsonValue}
-                    className="mt-1 text-xs opacity-60 font-[var(--brand-body-font,inherit)]"
+                    className="mt-1 text-xs opacity-60 font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}
@@ -218,11 +224,11 @@ export const LogoRow = ({ fields, params, page }: TrustStatsRowProps): JSX.Eleme
                     />
                   </div>
                 )}
-                {(item.statLabel?.jsonValue?.value || isEditing) && (
+                {(hasText(item.statLabel?.jsonValue?.value) || isEditing) && (
                   <Text
                     field={item.statLabel?.jsonValue}
                     tag="p"
-                    className="mt-2 text-xs font-medium opacity-50 font-[var(--brand-body-font,inherit)]"
+                    className="mt-2 text-xs font-medium opacity-50 font-body"
                     style={{ color: 'var(--brand-fg, #111111)' }}
                   />
                 )}

@@ -68,7 +68,9 @@ After population is verified, start assembly once:
 node .agents/skills/sitecore-build-demo/scripts/demo-recovery.cjs --plan docs/ai/demos/<client>/execution-plan.json --directory docs/ai/demos/<client> --phase assemble --initialize
 ```
 
-Use the same claim/call/reply protocol. Subsequent assembly resumes omit `--initialize`. The assembly helper consumes `population-result.json`, rechecks datasource fields/order, and preserves existing rendering parameters. It cannot set a named visual variant and must not claim the variant is Default.
+Use the same claim/call/reply protocol. Subsequent assembly resumes omit `--initialize`. The assembly helper consumes `population-result.json`, rechecks datasource fields/order, and preserves existing rendering parameters.
+
+**Variant selection.** A new instance takes the first Variant Definition of its component (ordered by `__Sortorder`, then name). For a section with `variant`, the helper journals `<key>:variant-first` (sets `__Sortorder` to `-100000` unless already first, verified by the folder's child order), adds the component, checks `FieldNames`, then journals `<key>:variant-restore` (clears `__Sortorder`, verified against the original order) — also when the add fails. A missing variant, unconfirmed reorder or unexpected `FieldNames` never blocks assembly; it becomes a manual task. A section is never reordered again once its add was issued. `__Sortorder` is not echoed by item reads; only the folder order is observable.
 
 ## Records and status
 

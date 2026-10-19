@@ -35,6 +35,70 @@ async function verifyDatasource(api, section, datasource, exceptions) {
     }
   }
 }
+// Live behaviour (probe 2026-10-19): add_component_on_page gives a new instance the FIRST
+// Variant Definition of Presentation/Headless Variants/<Component>, ordered by __Sortorder then
+// name. The MCP cannot change an instance's variant afterwards, so the planned variant is moved
+// first just before the add and the order is restored straight after. Never blocks assembly.
+const VARIANT_FIRST = '-100000';
+const consumable = (error, recovery) =>
+  error.code !== 'AWAITING_TOOL' && !recovery.poisoned && error.operation !== 'checkpoint';
+function variantFolderPath(plan, section) {
+  const { siteCollection, siteName } = plan.environment;
+  if (!siteCollection || !siteName) throw new Blocked(section.key, 'site identity missing');
+  return `/sitecore/content/${siteCollection}/${siteName}/Presentation/Headless Variants/${section.componentName}`;
+}
+const sameOrder = (children, order) =>
+  children.length === order.length && children.every((x, i) => sameId(x.id, order[i]));
+async function preferVariant(recovery, api, plan, section) {
+  const folderPath = variantFolderPath(plan, section);
+  return recovery.operation(`${section.key}:variant-first`, {
+    before: async () => {
+      const folder = await api.resolvePath(folderPath);
+      const target = folder.children.filter((x) => x.name === section.variant);
+      if (target.length !== 1)
+        throw new Blocked(section.key, `variant ${section.variant} not found`);
+      return {
+        folderPath,
+        order: folder.children.map((x) => x.id),
+        variantId: target[0].id,
+        alreadyFirst: sameId(folder.children[0].id, target[0].id),
+      };
+    },
+    write: (before) =>
+      before.alreadyFirst ? {} : api.updateFields(before.variantId, { __Sortorder: VARIANT_FIRST }),
+    verify: async (_result, before, _saved, attempt = 0) => {
+      const folder = await api.resolvePath(
+        before.folderPath,
+        attempt ? { fresh: `${section.key}:variant-first:${attempt}` } : undefined,
+      );
+      const first = sameId(folder.children[0]?.id, before.variantId);
+      // An unconfirmed reorder only costs a manual variant click; the restore still runs.
+      if (!first && attempt + 1 < recovery.attempts) return unknown();
+      return verified({
+        variantId: before.variantId,
+        folderPath: before.folderPath,
+        originalOrder: before.order,
+        changed: !before.alreadyFirst,
+        first,
+      });
+    },
+  });
+}
+async function restoreVariant(recovery, api, section, prepared) {
+  return recovery.operation(`${section.key}:variant-restore`, {
+    before: async () => ({ variantId: prepared.variantId }),
+    write: () => api.updateFields(prepared.variantId, { __Sortorder: '' }),
+    verify: async (_result, _before, _saved, attempt = 0) => {
+      const folder = await api.resolvePath(
+        prepared.folderPath,
+        attempt ? { fresh: `${section.key}:variant-restore:${attempt}` } : undefined,
+      );
+      if (sameOrder(folder.children, prepared.originalOrder)) return verified({ restored: true });
+      // __Sortorder is not readable: report a differing order instead of guessing a value.
+      return attempt + 1 < recovery.attempts ? unknown() : verified({ restored: false });
+    },
+  });
+}
 async function wireShared(recovery, api, section, datasource) {
   const target = section.sharedDesign;
   if (
@@ -156,8 +220,24 @@ async function assemble({
   });
   const instances = [];
   const issues = [];
+  const variantTasks = [];
   const previousByPlaceholder = new Map();
   for (const section of plan.sections) {
+    let prepared = null;
+    let restored = null;
+    const ops = recovery.state.operations;
+    const restore = async () => {
+      if (!prepared?.changed || restored) return;
+      restored =
+        ops[`${section.key}:variant-restore`]?.status === 'verified'
+          ? ops[`${section.key}:variant-restore`].value
+          : await restoreVariant(recovery, api, section, prepared);
+      if (!restored.restored)
+        variantTasks.push({
+          key: section.key,
+          action: `Check the variant order under ${prepared.folderPath}: ${section.variant} may no longer sort as before.`,
+        });
+    };
     try {
       const datasource = population.datasourceItems.find((x) => x.key === section.key);
       if (
@@ -188,7 +268,29 @@ async function assemble({
       );
       if (section.placement === 'partial-design') {
         instances.push(await wireShared(recovery, api, section, datasource));
+        if (section.variant)
+          variantTasks.push({
+            key: section.key,
+            action: `Shared rendering: select variant ${section.variant} manually in Pages.`,
+          });
         continue;
+      }
+      if (section.variant && section.existingInstanceId) {
+        variantTasks.push({
+          key: section.key,
+          action: `Reused instance: select variant ${section.variant} manually in Pages.`,
+        });
+      } else if (section.variant) {
+        const first = ops[`${section.key}:variant-first`];
+        // Once an add was issued (verified or not) it used the earlier order: never reorder again.
+        if (ops[`${section.key}:add`]) prepared = first?.status === 'verified' ? first.value : null;
+        else
+          try {
+            prepared = await preferVariant(recovery, api, plan, section);
+          } catch (error) {
+            if (!consumable(error, recovery)) throw error;
+            prepared = null; // Missing/unreadable variant: add with the default, task below.
+          }
       }
       const previous = previousByPlaceholder.get(section.placeholder);
       const component = await recovery.operation(`${section.key}:add`, {
@@ -255,6 +357,20 @@ async function assemble({
           return verified({ id: candidate.id, parameters: candidate.parameters || {} });
         },
       });
+      // The instance stores its variant at add time; restore the folder order immediately.
+      await restore();
+      let variant;
+      if (section.variant) {
+        const applied = !!prepared && sameId(component.parameters?.FieldNames, prepared.variantId);
+        variant = applied
+          ? { name: section.variant, id: prepared.variantId, applied }
+          : { name: section.variant, applied };
+        if (!applied && !section.existingInstanceId)
+          variantTasks.push({
+            key: section.key,
+            action: `Select variant ${section.variant} manually in Pages (not applied at add time).`,
+          });
+      }
       await recovery.operation(`${section.key}:wire`, {
         before: async () => {
           const page = await api.readPage(plan.pageId);
@@ -299,11 +415,21 @@ async function assemble({
         datasourceId: datasource.itemId,
         placeholder: section.placeholder,
         parameters: component.parameters,
+        ...(variant ? { variant } : {}),
       });
       previousByPlaceholder.set(section.placeholder, component.id);
     } catch (error) {
-      if (error.code === 'AWAITING_TOOL' || recovery.poisoned || error.operation === 'checkpoint')
-        throw error;
+      if (!consumable(error, recovery)) throw error;
+      // A reordered variant folder is shared site state: restore it even when the add failed.
+      try {
+        await restore();
+      } catch (restoreError) {
+        if (!consumable(restoreError, recovery)) throw restoreError;
+        variantTasks.push({
+          key: section.key,
+          action: `Check the variant order under ${prepared.folderPath}: restoring ${section.variant} was not verified.`,
+        });
+      }
       issues.push({
         key: section.key,
         status: 'needs-reconciliation',
@@ -349,13 +475,16 @@ async function assemble({
         : recovery.summary().status,
     instances,
     issues,
-    manualTasks: instances
-      .filter((x) => x.placement === 'partial-design')
-      .map((x) => ({
-        key: x.key,
-        action: 'Datasource switched and verified; variant selection remains manual.',
-        previousDatasourceId: x.previousDatasourceId,
-      })),
+    manualTasks: [
+      ...instances
+        .filter((x) => x.placement === 'partial-design')
+        .map((x) => ({
+          key: x.key,
+          action: 'Datasource switched and verified; variant selection remains manual.',
+          previousDatasourceId: x.previousDatasourceId,
+        })),
+      ...variantTasks,
+    ],
   };
   atomicJson(path.join(directory, 'assembly-result.json'), result);
   projectResult(directory, 'assemble', plan, result);

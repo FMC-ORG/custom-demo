@@ -22,7 +22,8 @@
       "children": [],
       "placement": "page",
       "renderingId": "",
-      "placeholder": "headless-main"
+      "placeholder": "headless-main",
+      "variant": "ClientHero"
     }
   ]
 }

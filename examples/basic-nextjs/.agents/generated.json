@@ -18,6 +18,7 @@
     ".claude/skills/sitecore-map-content/SKILL.md",
     ".claude/skills/sitecore-search/SKILL.md",
     ".claude/skills/sitecore-standards/SKILL.md",
+    ".claude/skills/sitecore-start-demo/SKILL.md",
     ".cursor/mcp.json",
     ".cursor/rules/agents.mdc",
     ".cursor/rules/sitecore-standards.mdc",
@@ -36,6 +37,7 @@
     ".cursor/skills/sitecore-map-content/SKILL.md",
     ".cursor/skills/sitecore-search/SKILL.md",
     ".cursor/skills/sitecore-standards/SKILL.md",
+    ".cursor/skills/sitecore-start-demo/SKILL.md",
     ".mcp.json",
     ".pi/mcp.json"
   ]

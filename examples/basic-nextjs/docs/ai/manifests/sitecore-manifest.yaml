@@ -1,6 +1,6 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-08-18T00:00:00Z"
-lastUpdatedBy: "claude-agent"
+lastUpdatedAt: "2026-10-19T10:08:29Z"
+lastUpdatedBy: "pi-agent"
 
 project:
   siteCollection: "main"
@@ -15,11 +15,11 @@ project:
 
 availableRenderings:
   itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
-  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{C9FFEF83-C928-4346-AA68-14B3EE0B0017}|{B92A0B89-790F-4D94-89C7-B361C8688765}|{9E525B59-B9BF-4EB7-B75D-10811EF6100D}|{66E80043-36E4-48AE-8CAF-EEF4A77690BE}|{5A8724FB-D6E6-4C9D-8A4A-EFD8750B0019}|{14FCB11C-364D-4BC2-9238-B29B4C6F8145}|{FAA6D190-2A7C-4A18-A09D-7E5D33A5BDAF}|{06D05BB6-2DD6-457A-BC64-22A07F7D4359}"
-  lastUpdatedAt: "2026-08-18T00:00:00Z"
-  renderingCount: 37
-  note: "2026-08-18: appended {158772E0-46FD-4626-9144-527C24854F97} (SearchCollection), then {59FFD4F9-1D2B-4C56-94D8-C15235AC3E0F} (SearchTypeahead), each with a pre-write staleness check against live get_allowed_comps_by_ph and post-write verification. lastKnownValue below is the 2026-08-07 pre-SearchResults value; current = that + {D33F0079-E54F-48C3-A33A-6A3A83146DA8} + {158772E0-46FD-4626-9144-527C24854F97} + {59FFD4F9-1D2B-4C56-94D8-C15235AC3E0F}."
-  warning: "MCP cannot read this field — value may be stale if modified outside this session. Also: MCP write returned empty updatedFields — silent-write. Verify in Content Editor."
+  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{C9FFEF83-C928-4346-AA68-14B3EE0B0017}|{B92A0B89-790F-4D94-89C7-B361C8688765}|{9E525B59-B9BF-4EB7-B75D-10811EF6100D}|{66E80043-36E4-48AE-8CAF-EEF4A77690BE}|{5A8724FB-D6E6-4C9D-8A4A-EFD8750B0019}|{14FCB11C-364D-4BC2-9238-B29B4C6F8145}|{FAA6D190-2A7C-4A18-A09D-7E5D33A5BDAF}|{06D05BB6-2DD6-457A-BC64-22A07F7D4359}|{D33F0079-E54F-48C3-A33A-6A3A83146DA8}|{158772E0-46FD-4626-9144-527C24854F97}|{59FFD4F9-1D2B-4C56-94D8-C15235AC3E0F}|{CF85D585-7C04-446C-8A35-FF78378A6F23}"
+  lastUpdatedAt: "2026-10-19T10:08:29Z"
+  renderingCount: 38
+  note: "2026-10-19: live read returned 37 renderings; appended {CF85D585-7C04-446C-8A35-FF78378A6F23} (Worley2OutcomeProof) and verified the exact 38-ID value by live read-back."
+  warning: "Treat lastKnownValue as session-scoped. Re-read live before every future append and never replace existing IDs."
 
 components:
   - name: "AnnouncementBar"
@@ -1490,6 +1490,104 @@ components:
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
     notes: []
+
+  - name: "Worley2OutcomeProof"
+    kind: "simple"
+    category: "Social Proof"
+    status: "complete"
+    createdAt: "2026-10-19T10:03:36Z"
+    updatedAt: "2026-10-19T10:08:29Z"
+
+    react:
+      filePath: "src/components/uiim/social-proof/Worley2OutcomeProof.tsx"
+      componentMapKey: "Worley2OutcomeProof"
+      variants:
+        - "Default"
+
+    templates:
+      datasource:
+        name: "Worley2OutcomeProof"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Components/Social Proof/Worley2OutcomeProof"
+        itemId: "{36ABC1FC-A576-4BDD-9477-4F49DCF75B33}"
+        sectionName: "Data"
+        fields:
+          - { name: "Title", type: "Single-Line Text" }
+          - { name: "Description", type: "Rich Text" }
+          - { name: "StatValue", type: "Single-Line Text" }
+          - { name: "StatDescription", type: "Rich Text" }
+          - { name: "QuoteText", type: "Rich Text" }
+          - { name: "AuthorName", type: "Single-Line Text" }
+          - { name: "AuthorRole", type: "Single-Line Text" }
+          - { name: "SourceText", type: "Single-Line Text" }
+        baseTemplatesSet: true
+        standardValues:
+          itemId: "{1F7D9EC4-36F8-49AD-B5E7-DD247BE58F84}"
+          linked: true
+
+      folder:
+        name: "Worley2OutcomeProof Folder"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Folders/Worley2OutcomeProof Folder"
+        itemId: "{55876CB0-FE2C-4EA1-849D-9680E6F59C5F}"
+        standardValues:
+          itemId: "{D0CB826B-D67A-4A56-B49C-5D43EEC112E4}"
+          linked: true
+          masters: ["Worley2OutcomeProof"]
+
+      renderingParams:
+        name: "Worley2OutcomeProof"
+        path: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Social Proof/Worley2OutcomeProof"
+        itemId: "{9B2A2F86-35B3-4D23-8A88-A7BDD22C3858}"
+        baseTemplatesSet: true
+
+    datasourceFolder:
+      name: "Worley2OutcomeProofs"
+      path: "/sitecore/content/main/main-website/Data/Worley2OutcomeProofs"
+      itemId: "{7F737E47-6D0B-4397-9AA6-32C274BD6884}"
+      insertOptionsSet: true
+      exampleItem:
+        name: "Worley 2 Outcome Proof"
+        itemId: "{1A47E90B-8041-4E87-AE7F-9C9CF5C33B0E}"
+
+    rendering:
+      name: "Worley2OutcomeProof"
+      path: "/sitecore/layout/Renderings/Project/fmc-custom-demo/Social Proof/Worley2OutcomeProof"
+      itemId: "{CF85D585-7C04-446C-8A35-FF78378A6F23}"
+      componentName: "Worley2OutcomeProof"
+      datasourceTemplatePath: "/sitecore/templates/Project/fmc-custom-demo/Components/Social Proof/Worley2OutcomeProof"
+      datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='Worley2OutcomeProof Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='Worley2OutcomeProof Folder']"
+      parametersTemplateId: "{9B2A2F86-35B3-4D23-8A88-A7BDD22C3858}"
+      componentQuery: ""
+      addFieldEditorButton: "1"
+      registeredInAvailableRenderings: true
+
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/Worley2OutcomeProof"
+      containerId: "{7E74F523-4106-4F60-BD34-D297E1C9A279}"
+      variants:
+        - { name: "Default", itemId: "{3B187022-790E-49F4-9B07-35883073BC17}" }
+
+    verification:
+      checkedAt: "2026-10-19T10:08:29Z"
+      passed:
+        - "Datasource template exists with both required base templates"
+        - "Data section and all 8 fields exist with verified Types"
+        - "Datasource and folder __Standard Values exist with owning template IDs"
+        - "Datasource folder exists and insert options resolve to Worley2OutcomeProof"
+        - "Example datasource item exists with approved Worley content read back"
+        - "Rendering Parameters template exists with all four base templates"
+        - "JSON Rendering fields read back: componentName, Parameters Template, Datasource Template, Datasource Location, AddFieldEditorButton and empty ComponentQuery"
+        - "Default Variant Definition exists"
+        - "Available Renderings append verified by live read-back (37 to 38 IDs)"
+        - "React file passes ESLint, TypeScript and Prettier"
+        - "Component map registration exists"
+      failed: []
+      pendingManual:
+        - "__Standard values links are silent-read; create/update calls succeeded and SV items were verified"
+        - "__Masters on folder template Standard Values is silent-read; update succeeded"
+
+    notes:
+      - "2026-10-19T10:03:36Z — planned from approved Worley 2 build plan before the immutable demo-framework-v2 execution plan is frozen."
+      - "2026-10-19T10:08:29Z — created and verified early so the custom template/rendering IDs can be frozen into execution-plan.json before recovery population begins."
 
   - name: "SiteFooter"
     kind: "context-only+datasource"

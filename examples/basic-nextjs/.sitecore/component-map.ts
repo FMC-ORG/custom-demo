@@ -5,6 +5,7 @@ import { Form } from '@sitecore-content-sdk/nextjs';
 
 // end of built-in components
 import * as TestimonialBlock from 'src/components/uiim/social-proof/TestimonialBlock';
+import * as Worley2OutcomeProof from 'src/components/uiim/social-proof/Worley2OutcomeProof';
 import * as LogoCloud from 'src/components/uiim/social-proof/LogoCloud';
 import * as SearchTypeahead from 'src/components/uiim/search/SearchTypeahead';
 import * as SearchResults from 'src/components/uiim/search/SearchResults';
@@ -57,6 +58,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['FEaaSWrapper', FEaaSServerWrapper],
   ['Form', { ...Form, componentType: 'client' }],
   ['TestimonialBlock', { ...TestimonialBlock }],
+  ['Worley2OutcomeProof', { ...Worley2OutcomeProof }],
   ['LogoCloud', { ...LogoCloud }],
   ['SearchTypeahead', { ...SearchTypeahead, componentType: 'client' }],
   ['SearchResults', { ...SearchResults, componentType: 'client' }],

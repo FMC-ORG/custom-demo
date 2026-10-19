@@ -1,0 +1,124 @@
+client:
+  name: "Worley"
+  sourceUrl: "https://www.worley.com/"
+  extractedAt: "2026-10-19T09:47:38Z"
+  extractedBy: "pi-agent"
+
+colors:
+  primary: "#7BDD00"
+  primaryForeground: "#002F3A"
+  secondary: "#003E4A"
+  secondaryForeground: "#FFFFFF"
+  accent: "#F43A4F"
+  accentForeground: "#FFFFFF"
+  background: "#F8F6ED"
+  foreground: "#003E4A"
+  muted: "#EAF2F0"
+  mutedForeground: "#45636B"
+  headerBackground: "#003744"
+  headerForeground: "#FFFFFF"
+  footerBackground: "#00202A"
+  footerForeground: "#FFFFFF"
+  border: "#D5E1DF"
+  ring: "#7BDD00"
+  extra:
+    - name: "turquoise"
+      value: "#29C8C1"
+      usage: "high-impact outcome and testimonial sections"
+    - name: "coral"
+      value: "#F43A4F"
+      usage: "headline emphasis, statistics, and quote marks"
+    - name: "deepTeal"
+      value: "#002F3A"
+      usage: "dark overlays, buttons, and body headings"
+
+typography:
+  headingFamily: "Montserrat, Helvetica, Arial, sans-serif"
+  headingWeight: "700"
+  bodyFamily: "Montserrat, Helvetica, Arial, sans-serif"
+  bodyWeight: "400"
+  monoFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+  googleFontsUrl: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+  scale:
+    hero: "4rem"
+    h1: "4rem"
+    h2: "3rem"
+    h3: "2.4375rem"
+    body: "1rem"
+    small: "0.875rem"
+  headingTransform: "none"
+  letterSpacing: "normal"
+  lineHeight: "1.35"
+
+spacing:
+  density: "spacious"
+  sectionGap: "6rem"
+  containerMaxWidth: "90rem"
+  containerPadding: "clamp(1.25rem, 4vw, 3rem)"
+
+shape:
+  borderRadius: "0.625rem"
+  buttonRadius: "9999px"
+  cardRadius: "0.625rem"
+  imageRadius: "0.875rem"
+  shadowStyle: "medium"
+  borderStyle: "1px solid rgba(41, 200, 193, 0.2)"
+
+tone:
+  overall: "bold, technical, optimistic, and human-centered"
+  colorMode: "mixed"
+  contrast: "high"
+  imagery: "large documentary industrial photography with dark teal overlays and human subjects"
+  heroStyle: "full-bleed-image"
+  cardStyle: "rounded image-led cards with dark gradient overlays; clean white process cards"
+  navStyle: "solid-bar"
+
+tailwind:
+  colors:
+    brand:
+      primary: "#7BDD00"
+      secondary: "#003E4A"
+      accent: "#F43A4F"
+  fontFamily:
+    heading: ["Montserrat", "Helvetica", "Arial", "sans-serif"]
+    body: ["Montserrat", "Helvetica", "Arial", "sans-serif"]
+  borderRadius:
+    DEFAULT: "0.625rem"
+    button: "9999px"
+    card: "0.625rem"
+
+cssVariables: |
+  :root {
+    --brand-primary: #7BDD00;
+    --brand-primary-foreground: #002F3A;
+    --brand-secondary: #003E4A;
+    --brand-secondary-foreground: #FFFFFF;
+    --brand-accent: #F43A4F;
+    --brand-accent-foreground: #FFFFFF;
+    --brand-bg: #F8F6ED;
+    --brand-fg: #003E4A;
+    --brand-muted: #EAF2F0;
+    --brand-muted-fg: #45636B;
+    --brand-header-bg: #003744;
+    --brand-header-fg: #FFFFFF;
+    --brand-footer-bg: #00202A;
+    --brand-footer-fg: #FFFFFF;
+    --brand-border: #D5E1DF;
+    --brand-ring: #7BDD00;
+    --brand-heading-font: 'Montserrat', Helvetica, Arial, sans-serif;
+    --brand-body-font: 'Montserrat', Helvetica, Arial, sans-serif;
+    --brand-radius: 0.625rem;
+    --brand-button-radius: 9999px;
+    --brand-card-radius: 0.625rem;
+  }
+
+extraction:
+  confidence: "medium"
+  method: "playwright-full"
+  notes:
+    - "Fresh Playwright capture succeeded for desktop, mobile, and hero views; no prior Worley artifacts were read or reused."
+    - "Computed CSS confirmed the proprietary brother-1816 family, a #F43A4F coral action/accent, #00202A footer, 10px cards, and medium card shadows."
+    - "Brother 1816 is proprietary; Montserrat is used as the Google Fonts substitute for this demo."
+    - "The prominent visual CTA is lime while coral is used for headline emphasis, large statistics, and quote marks; turquoise is retained as a section accent."
+    - "The scraper found no explicit root CSS variables, so lime, cream, header teal, and supporting neutral values were visually matched from the fresh screenshots."
+    - "The scraper's generic primary-button selector found a square coral control, but the dominant homepage CTA buttons are visibly pill-shaped lime; the visual treatment takes precedence."

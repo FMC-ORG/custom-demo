@@ -81,6 +81,11 @@ function sitecore() {
       components.find((x) => x.id === id).datasourceId = datasourceId;
       return {};
     },
+    removeComponent: async (pageId, id) => {
+      const at = components.findIndex((x) => x.id === id);
+      if (at >= 0) components.splice(at, 1);
+      return {};
+    },
   };
   return { api, items, components, defaults };
 }

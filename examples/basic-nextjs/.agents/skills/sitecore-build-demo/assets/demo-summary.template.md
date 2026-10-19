@@ -165,6 +165,10 @@ Complete-build approval includes automatic datasource wiring. Show read-back evi
 
 Missing/incompatible renderings require a separate repair decision. An approved replacement (ADR 0009) shows the previous instance ID and the auto-created datasource to delete; without replacement, variant selection remains manual.
 
+### Cleanup
+
+Delete these placeholder datasources (created when components were added) in Content Editor: `{{CLEANUP_DATASOURCES}}` (from `assembly-result.json` `cleanupDatasources`). Removed starter components: `{{REMOVED_INSTANCES}}`.
+
 ### 3. Link Verification
 
 Demo links point to the client's live site. Update any that should point to internal demo pages:

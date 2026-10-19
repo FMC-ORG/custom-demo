@@ -151,6 +151,9 @@ The agent analyzes the page and stops to ask you:
 - Replace the shared Header/Footer so they use the client variants? The plan names the instances
   that will be removed and the pages affected (usually every page of the site). Approving this is
   the confirmation the removal needs.
+- Replace the existing page components it would reuse (e.g. the starter Hero) so they get the
+  client variants, and remove leftover starter components (e.g. a search strip)? The plan lists
+  each one; approving is the confirmation.
 - If the site already holds **another client's demo**, it also asks you to confirm repurposing it.
 
 Answer, and it continues: extract content, upload images, create and fill datasources, apply the
@@ -161,11 +164,11 @@ theme, build variants, and assemble the page with the planned variants.
 When it completes, do the short manual list it hands you (`demo-summary.md` and `manual-tasks.md`
 in `docs/ai/demos/<client>/`):
 
-1. Set the few variants it could not apply (`variant-checklist.md`): components the build reused
-   rather than added, or anything reported as not applied. Header/Footer variants are applied
-   automatically when you approved their replacement.
+1. Set the few variants it could not apply (`variant-checklist.md`): anything reported as not
+   applied, or components you chose to keep rather than replace. Replaced components and
+   Header/Footer get their variants automatically.
 2. Delete the placeholder datasource items that adding components creates (listed in
-   `manual-tasks.md`) in Content Editor.
+   `manual-tasks.md`, from `cleanupDatasources` in `assembly-result.json`) in Content Editor.
 3. Add media the scraper could not capture (e.g. hero video posters, CSS background images).
 4. Commit and push the demo branch, then restart the dev server / redeploy so new variants load.
 5. Check the page in Pages, then publish.

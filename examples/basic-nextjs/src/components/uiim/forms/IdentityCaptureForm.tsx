@@ -96,14 +96,12 @@ function useIdentityForm(
     const disabled = isEditing || process.env.NODE_ENV === 'development';
 
     if (disabled) {
-      // eslint-disable-next-line no-console
       console.log(
         '[IdentityCaptureForm] would fire identity event (skipped in editing/dev)',
         payload,
       );
     } else {
       await identity(payload).catch((err) => {
-        // eslint-disable-next-line no-console
         console.debug('[IdentityCaptureForm] identity() error', err);
       });
     }

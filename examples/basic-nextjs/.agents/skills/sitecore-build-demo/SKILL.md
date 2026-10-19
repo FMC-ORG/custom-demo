@@ -260,7 +260,7 @@ The content map is the input for Phase 3 — it contains exact field values read
 
 General Link values must be complete XML or approved external link objects; image values come from verified DAM image XML with dimensions. All demo content remains English. Media posters may be used only when approved; videos and unavailable assets remain explicit manual tasks.
 
-The pipeline creates default client datasources. Segment-specific personalization remains separate approved work. Header/Footer datasource wiring is mandatory within the approved complete build; variant selection and structural repairs remain separate. Creation-time datasource fields are deferred pending a separately approved live probe; retain the verified narrow blank fallback without shared-template changes.
+The pipeline creates default client datasources. Segment-specific personalization remains separate approved work. Header/Footer datasource wiring is mandatory within the approved complete build; their variant selection and structural repairs remain separate. Creation-time datasource fields are deferred pending a separately approved live probe; retain the verified narrow blank fallback without shared-template changes.
 
 ### Phase 4 — Apply the theme
 
@@ -361,7 +361,7 @@ This phase bridges the gap between "same colors" (Phase 4 CSS variables) and "lo
 3. The helper snapshots page state, adds sequentially with stable section-specific names, diffs read-back after every add, checkpoints instance IDs, wires client datasources, and verifies final relative order and relationships.
 4. A timeout is an unknown outcome. Read back before any retry. If attribution remains ambiguous, stop the placement chain. Never generate a different retry name or delete a local datasource to bypass a collision.
 5. Automatically wire approved Header/Footer partial-design targets using the journaled helper. Verify exact instance/rendering identity and expected pre-write datasource, preserve parameters and unrelated components, and record previous datasource IDs. Missing/incompatible/ambiguous targets block wiring and require a separate repair decision. Never silently treat unresolved mandatory wiring as an optional manual task.
-6. Preserve existing rendering parameters. The add API may select a preset variant: do not assume Default. Generate `variant-checklist.md` from observed parameters when available; otherwise label Current as unverified. Variant selection itself remains manual.
+6. **Variants are applied automatically for added instances.** Set each section's `variant` (the Variant Definition name, e.g. `Worley2Hero`) in the execution plan; Phase 5.5 must have created it before assembly. Just before each add the helper sorts that variant first in `Presentation/Headless Variants/<componentName>` (a new instance takes the first variant), checks the instance's `FieldNames`, then restores the folder order. Reused instances (`existingInstanceId`) and shared Header/Footer renderings cannot be changed by MCP: they become manual variant tasks in `assembly-result.json`. Generate `variant-checklist.md` only from those tasks and any `applied: false` instance.
 7. Inspect `assembly-result.json` and all unresolved upstream phase results. A written summary does not turn partial work into completed work. Auto-created local datasource cleanup remains manual, not an automatic delete.
 
 Report component instance IDs, datasource wiring, relative order, exceptions, verified shared-design switches and previous datasources, variant tasks, and unresolved operations. Resume through verified records rather than repeating adds.
@@ -455,7 +455,7 @@ docs/ai/demos/<client-kebab>/
 - **Always use the manifest** for item IDs — don't re-resolve paths that are already cached
 - **Always present the plan before executing** — the SE must approve the theme and build plan
 - **Automate images via Content Hub** — download during Phase 2.5 (`--download-images`), upload + approve + create public link via `upload-to-content-hub.mjs` in Phase 3 Step 1, set Image fields using DAM format (`<Image src="..." dam-id="..." />`). Requires Content Hub credentials in `credentials.local.yaml`. Fall back to manual `images-to-upload.md` if no credentials.
-- **Mark variants as manual** — generate the variant checklist, don't skip this step. See `docs/ai/reference/agent-api-limitations.md` for why.
+- **Plan variants, don't click them** — set `variant` on every section of the execution plan. Assembly applies it to added instances; only reused and shared (Header/Footer) instances stay in the manual variant checklist. See `docs/ai/reference/agent-api-limitations.md`.
 - **Use `insertAfterComponentId` for ordering** — add components sequentially, passing the previous component's instance ID to maintain build-plan order
 - **Use the existing Home page by default** — do not create a new subpage unless the user explicitly asks. The Home page already has the correct Page Design and URL routing. Note any OOB components for manual cleanup.
 - **Never push client work** — client components, themes, variants and demo records stay uncommitted or are committed only on a local `client/<slug>` branch. Never push them to a shared remote (`origin`/`upstream`), even on a test branch.

@@ -54,6 +54,8 @@ function intentOf(plan) {
       placement: s.placement,
       existingInstanceId: s.existingInstanceId,
       sharedDesign: s.sharedDesign,
+      // Optional; omitted from the identity when absent so earlier plans keep their fingerprint.
+      ...(s.variant !== undefined ? { variant: s.variant } : {}),
     })),
   };
 }
@@ -94,6 +96,11 @@ function validatePlan(plan) {
       /\/(?:\.|\.\.)(?:\/|$)/.test(section.folderPath)
     )
       throw new Blocked('plan', 'duplicate section or datasource outside data root');
+    if (
+      section.variant !== undefined &&
+      (typeof section.variant !== 'string' || !/^[A-Za-z0-9_-]+$/.test(section.variant))
+    )
+      throw new Blocked('plan', 'variant must be a Variant Definition item name');
     keys.add(section.key);
     const childKeys = new Set();
     for (const node of [section, ...(section.children || [])]) {

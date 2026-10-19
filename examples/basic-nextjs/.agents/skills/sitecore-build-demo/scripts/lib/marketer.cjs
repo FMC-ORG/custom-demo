@@ -58,16 +58,23 @@ function page(response) {
   });
 }
 function marketer(call, language = 'en') {
-  const read = async (name, args, normalize) => normalize(await call(name, args, false));
-  const write = async (name, args) => { readJson(await call(name, args, true)); return {}; };
+  // `options.fresh` asks the transport for a new observation instead of a cached read (retries).
+  const read = async (name, args, normalize, options) => normalize(await call(name, args, false, options));
+  const write = async (name, args) => readJson(await call(name, args, true));
   return {
-    resolvePath: itemPath => read('get_content_item_by_path', { itemPath, language }, item),
-    readItem: itemId => read('get_content_item_by_id', { itemId, language }, item),
-    createItem: args => write('create_content_item', { ...args, language }),
-    updateFields: (itemId, fields) => write('update_fields_on_item', { itemId, fields: Object.entries(fields).map(([name, value]) => ({ name, value })) }),
-    readPage: pageId => read('get_components_on_page', { pageId, language }, page),
-    addComponent: args => write('add_component_on_page', { ...args, language }),
-    setDatasource: (pageId, componentId, datasourceId) => write('set_component_datasource', { pageId, componentId, datasourceId, language }),
+    resolvePath: (itemPath, options) => read('get_content_item_by_path', { itemPath, language }, item, options),
+    readItem: (itemId, options) => read('get_content_item_by_id', { itemId, language }, item, options),
+    // Live create_content_item (2026-10) returns { itemId }. Keep it: the parent's children
+    // listing can lag behind the create, so the returned ID is the reliable identity.
+    createItem: async args => {
+      const value = await write('create_content_item', { ...args, language });
+      const id = value.itemId || value.item?.itemId || value.item?.id || value.id;
+      return typeof id === 'string' && id ? { id } : {};
+    },
+    updateFields: async (itemId, fields) => { await write('update_fields_on_item', { itemId, fields: Object.entries(fields).map(([name, value]) => ({ name, value })) }); return {}; },
+    readPage: (pageId, options) => read('get_components_on_page', { pageId, language }, page, options),
+    addComponent: async args => { await write('add_component_on_page', { ...args, language }); return {}; },
+    setDatasource: async (pageId, componentId, datasourceId) => { await write('set_component_datasource', { pageId, componentId, datasourceId, language }); return {}; },
   };
 }
 module.exports = { marketer, readJson, item, page };

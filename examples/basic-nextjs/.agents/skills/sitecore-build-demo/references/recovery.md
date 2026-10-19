@@ -60,6 +60,8 @@ If a process or agent dies **after claim but before reply**, never claim or exec
 
 When resuming after a session break, add `--begin` once to discard cached observations. Within a handoff session raw reads are reused until a mutation invalidates them. Verified operations and completed read-only checkpoints (folder identity, final fields/order, and assembly datasource checks) are reused within that session, so each MCP handoff does not reread every earlier section. Failed or awaiting checks are never saved as successes. `--begin` and a finished execution rotate the observation session, invalidating both kinds of reusable verification. Prepared, unissued writes must pass a fresh precondition comparison before being claimed after a session break. An absent/uncertain result is never retried as a mutation; another `--begin` can obtain a fresh read-only reconciliation pass when visibility is delayed. Do not loop indefinitely.
 
+**Delayed visibility.** A parent's children listing can show a newly created item only seconds (sometimes minutes) after `create_content_item` returned. The helper therefore verifies a create by the `itemId` the tool returned: it reads that item by ID and checks its name, template and exact path under the planned parent. The listing is used only when no ID came back (lost response). Verification and final-order checks retry with up to five fresh reads; each retry appears as a new read-only `awaiting-tool` request — service it like any other read. Only after those attempts does an operation become `needs-reconciliation`.
+
 After population is verified, start assembly once:
 
 ```bash

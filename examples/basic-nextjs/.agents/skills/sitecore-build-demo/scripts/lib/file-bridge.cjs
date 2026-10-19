@@ -40,10 +40,12 @@ class FileBridge {
     for (const [key, request] of Object.entries(this.state.requests)) if (request.consumed) delete this.state.requests[key];
     this.save();
   }
-  async call(tool, args, mutation) {
+  async call(tool, args, mutation, options = {}) {
     if (this.poisoned) throw new Blocked('checkpoint', 'transport persistence failed; stop writes');
     if (!ALLOWED.has(tool) || ALLOWED.get(tool) !== mutation) throw new Blocked('transport', 'tool not in the read/write allowlist');
-    const key = fingerprint({ tool, args });
+    // A `fresh` tag gives a verification retry its own request, so it observes current
+    // remote state rather than the cached answer of the previous attempt. Not sent to MCP.
+    const key = fingerprint(!mutation && options.fresh !== undefined ? { tool, args, fresh: options.fresh } : { tool, args });
     if (!mutation && Object.hasOwn(this.state.cache, key)) return this.state.cache[key];
     let request = this.state.requests[key];
     if (!request) {

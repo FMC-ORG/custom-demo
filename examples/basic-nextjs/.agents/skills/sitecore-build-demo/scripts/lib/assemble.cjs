@@ -71,8 +71,11 @@ async function wireShared(recovery, api, section, datasource) {
       sameId(before.previousDatasourceId, datasource.itemId)
         ? {}
         : api.setDatasource(target.pageId, target.existingInstanceId, datasource.itemId),
-    verify: async (_result, before) => {
-      const page = await api.readPage(target.pageId);
+    verify: async (_result, before, _saved, attempt = 0) => {
+      const page = await api.readPage(
+        target.pageId,
+        attempt ? { fresh: `${section.key}:shared:verify:${attempt}` } : undefined,
+      );
       const candidates = page.filter((x) => sameId(x.id, target.existingInstanceId));
       if (candidates.length !== 1) return unknown();
       const current = candidates[0];
@@ -220,8 +223,11 @@ async function assemble({
                 componentItemName: `${plan.client} ${section.componentName} ${section.key}`,
                 ...(previous ? { insertAfterComponentId: previous } : {}),
               }),
-        verify: async (result, before, saved) => {
-          const page = await api.readPage(plan.pageId);
+        verify: async (result, before, saved, attempt = 0) => {
+          const page = await api.readPage(
+            plan.pageId,
+            attempt ? { fresh: `${section.key}:add:verify:${attempt}` } : undefined,
+          );
           if (!sameId(before.datasourceId, datasource.itemId)) return { state: 'conflict' };
           const added = section.existingInstanceId
             ? page.filter((x) => sameId(x.id, section.existingInstanceId))
@@ -260,8 +266,11 @@ async function assemble({
           sameId(before.datasourceId, datasource.itemId)
             ? {}
             : api.setDatasource(plan.pageId, component.id, datasource.itemId),
-        verify: async (_result, before) => {
-          const page = await api.readPage(plan.pageId);
+        verify: async (_result, before, _saved, attempt = 0) => {
+          const page = await api.readPage(
+            plan.pageId,
+            attempt ? { fresh: `${section.key}:wire:verify:${attempt}` } : undefined,
+          );
           const current = page.find((x) => sameId(x.id, component.id));
           if (
             !current ||

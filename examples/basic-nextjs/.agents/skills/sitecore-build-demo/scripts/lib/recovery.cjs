@@ -67,7 +67,8 @@ class Recovery {
     intent,
     environment,
     initialize = false,
-    attempts = 3,
+    // Each verification attempt is a fresh read; listings can lag a create by a few seconds.
+    attempts = 5,
     observationSession,
     contract,
   }) {
@@ -228,7 +229,8 @@ class Recovery {
       for (let attempt = 0; attempt < this.attempts; attempt++) {
         let observed;
         try {
-          observed = await verify(entry.result, copy(entry.before), entry.value);
+          // `attempt` lets verify request a fresh observation instead of a cached read.
+          observed = await verify(entry.result, copy(entry.before), entry.value, attempt);
         } catch (error) {
           if (error.code === 'AWAITING_TOOL' || this.poisoned) throw error;
           observed = { state: 'unknown' };

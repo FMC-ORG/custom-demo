@@ -153,22 +153,35 @@ async function createItem(recovery, api, key, node, parentId) {
       const parent = await api.readItem(parentId);
       if (parent.children.some((x) => x.name === node.name))
         throw new Blocked(key, 'matching item exists without ownership evidence');
-      return { parentId, children: parent.children.map((x) => x.id) };
+      return { parentId, parentPath: parent.path, children: parent.children.map((x) => x.id) };
     },
     write: () => api.createItem({ parentId, templateId: node.templateId, name: node.name }),
-    verify: async (result, before, saved) => {
-      const parent = await api.readItem(parentId);
+    verify: async (result, before, saved, attempt = 0) => {
+      // Attempt 0 follows the write, which already invalidated cached reads; later attempts
+      // must each observe current remote state rather than the previous attempt's answer.
+      const fresh = attempt ? { fresh: `${key}:verify:${attempt}` } : undefined;
+      const known = saved?.id || result?.id;
+      if (known) {
+        // The returned ID is authoritative: the parent's children listing can lag a create.
+        if (before.children.some((old) => sameId(old, known))) return { state: 'conflict' };
+        const item = await api.readItem(known, fresh); // not yet readable -> retried as unknown
+        if (!sameId(item.templateId, node.templateId) || item.name !== node.name)
+          return { state: 'conflict' };
+        const parentPath = before.parentPath || (await api.readItem(parentId, fresh)).path;
+        if (!parentPath || !item.path) return unknown();
+        if (item.path.toLowerCase() !== `${parentPath}/${node.name}`.toLowerCase())
+          return { state: 'conflict' };
+        return verified({ id: item.id, name: item.name });
+      }
+      // No returned identity (lost response): only a single new, matching child is ours.
+      const parent = await api.readItem(parentId, fresh);
       const added = parent.children.filter(
         (x) => !before.children.some((old) => sameId(old, x.id)) && x.name === node.name,
       );
-      if (added.length !== 1) return unknown();
-      const item = await api.readItem(added[0].id);
-      if (
-        !sameId(item.templateId, node.templateId) ||
-        (saved && !sameId(saved.id, item.id)) ||
-        (result?.id && !sameId(result.id, item.id))
-      )
-        return { state: 'conflict' };
+      if (added.length > 1) return { state: 'conflict' };
+      if (!added.length) return unknown();
+      const item = await api.readItem(added[0].id, fresh);
+      if (!sameId(item.templateId, node.templateId)) return { state: 'conflict' };
       return verified({ id: item.id, name: item.name });
     },
   });
@@ -274,15 +287,24 @@ async function populate({ directory, plan, api, initialize = false, observationS
         children.push({ key: child.key, itemId: item.id });
       }
       await recovery.observe(`${section.key}:final-order`, async () => {
-        const current = await api.readItem(parent.id);
-        if (
-          current.children.length !== children.length ||
-          !current.children.every((x, i) => sameId(x.id, children[i].itemId))
-        )
-          throw new Blocked(
-            section.key,
-            'returned child order/count differs from the approved plan',
+        // The listing can trail recent creates and sort-order updates: re-read freshly
+        // a few times before treating a mismatch as real.
+        for (let attempt = 0; ; attempt++) {
+          const current = await api.readItem(
+            parent.id,
+            attempt ? { fresh: `${section.key}:final-order:${attempt}` } : undefined,
           );
+          if (
+            current.children.length === children.length &&
+            current.children.every((x, i) => sameId(x.id, children[i].itemId))
+          )
+            return;
+          if (attempt + 1 >= recovery.attempts)
+            throw new Blocked(
+              section.key,
+              'returned child order/count differs from the approved plan',
+            );
+        }
       });
       datasourceItems.push({
         key: section.key,

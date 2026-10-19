@@ -74,6 +74,15 @@ _These have datasource templates and can be placed + wired via the build pipelin
 
 These datasources will be switched automatically and verified; current parameters are preserved and previous datasource IDs recorded. Missing/incompatible instances block wiring and require a repair decision. If another client's branded experience is found, stop for explicit repurposing confirmation. Do not assume every page uses these designs.
 
+### Existing page components — replace or remove (needs approval)
+
+| Instance | Component | Proposal | Why |
+|----------|-----------|----------|-----|
+| {{INSTANCE_ID}} | HeroBanner | Replace with the client section (`replace: true`) so its variant is applied | Reused position |
+| {{INSTANCE_ID}} | SearchCollection | Remove (`removeInstances`) | Starter content not in the client page |
+
+Approving the plan confirms these removals. Without approval they stay on the page and appear as manual tasks.
+
 ### Must be placed manually
 Only actual context components or unsupported placement, identified from rendering configuration—not Header/Footer by name. List them when present; variant selection remains manual.
 
@@ -114,5 +123,6 @@ Phase 3 — Custom components (if any)
 
 1. **Does the section-to-component mapping look correct?** Look at the table above and compare against the screenshot.
 2. **Do you want pixel-perfect custom variants** (Phase 5.5) or are the generic template variants sufficient?
+3. **Replace or remove the existing page components** listed above?
 
 > Reply "approved" to proceed, or describe any changes needed.

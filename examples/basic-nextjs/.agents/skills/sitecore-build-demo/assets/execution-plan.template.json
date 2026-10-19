@@ -23,7 +23,10 @@
       "placement": "page",
       "renderingId": "",
       "placeholder": "headless-main",
-      "variant": "ClientHero"
+      "variant": "ClientHero",
+      "existingInstanceId": "",
+      "replace": false
     }
-  ]
+  ],
+  "removeInstances": []
 }

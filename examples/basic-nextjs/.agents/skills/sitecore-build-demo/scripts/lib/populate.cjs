@@ -56,7 +56,10 @@ function intentOf(plan) {
       sharedDesign: s.sharedDesign,
       // Optional; omitted from the identity when absent so earlier plans keep their fingerprint.
       ...(s.variant !== undefined ? { variant: s.variant } : {}),
+      ...(s.replace !== undefined ? { replace: s.replace } : {}),
     })),
+    // Approved removals of leftover page components; omitted when absent (stable fingerprint).
+    ...(plan.removeInstances !== undefined ? { removeInstances: plan.removeInstances } : {}),
   };
 }
 function validatePlan(plan) {
@@ -87,6 +90,27 @@ function validatePlan(plan) {
     !plan.sections.length
   )
     throw new Blocked('plan', 'approved normalized plan and environment identity required');
+  if (plan.removeInstances !== undefined) {
+    const planned = new Set(
+      plan.sections.map((x) => String(x.existingInstanceId || '').toLowerCase()),
+    );
+    if (
+      !Array.isArray(plan.removeInstances) ||
+      plan.removeInstances.some(
+        (x) =>
+          !x ||
+          typeof x.instanceId !== 'string' ||
+          !x.instanceId ||
+          typeof x.renderingId !== 'string' ||
+          !x.renderingId ||
+          planned.has(x.instanceId.toLowerCase()),
+      )
+    )
+      throw new Blocked(
+        'plan',
+        'removeInstances needs approved instance and rendering IDs not used by a planned section',
+      );
+  }
   const keys = new Set();
   for (const section of plan.sections) {
     if (
@@ -101,8 +125,13 @@ function validatePlan(plan) {
       (typeof section.variant !== 'string' || !/^[A-Za-z0-9_-]+$/.test(section.variant))
     )
       throw new Blocked('plan', 'variant must be a Variant Definition item name');
-    if (section.sharedDesign?.replace !== undefined && typeof section.sharedDesign.replace !== 'boolean')
+    if (
+      section.sharedDesign?.replace !== undefined &&
+      typeof section.sharedDesign.replace !== 'boolean'
+    )
       throw new Blocked('plan', 'sharedDesign.replace must be an explicit true/false approval');
+    if (section.replace !== undefined && typeof section.replace !== 'boolean')
+      throw new Blocked('plan', 'replace must be an explicit true/false approval');
     keys.add(section.key);
     const childKeys = new Set();
     for (const node of [section, ...(section.children || [])]) {

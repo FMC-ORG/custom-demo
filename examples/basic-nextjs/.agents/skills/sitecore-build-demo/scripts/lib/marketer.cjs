@@ -75,6 +75,9 @@ function marketer(call, language = 'en') {
     readPage: (pageId, options) => read('get_components_on_page', { pageId, language }, page, options),
     addComponent: async args => { await write('add_component_on_page', { ...args, language }); return {}; },
     setDatasource: async (pageId, componentId, datasourceId) => { await write('set_component_datasource', { pageId, componentId, datasourceId, language }); return {}; },
+    // Only reachable for a shared instance whose replacement the user approved in the build plan
+    // (sharedDesign.replace); that plan approval is the confirmation this tool requires.
+    removeComponent: async (pageId, componentId) => { await write('remove_component_on_page', { pageId, componentId, userConfirmed: true }); return {}; },
   };
 }
 module.exports = { marketer, readJson, item, page };

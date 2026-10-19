@@ -177,6 +177,179 @@ async function wireShared(recovery, api, section, datasource) {
   return value;
 }
 
+// Approved structural change (probe 2026-10-19, Footer partial design): the MCP cannot change an
+// existing instance's variant, so a shared Header/Footer instance is replaced by a new one that
+// takes the planned variant at add time. Sequence, each journaled and verified:
+// variant first -> add after old -> restore order -> wire client datasource -> remove old.
+// Returns null (caller falls back to the datasource switch) when the variant cannot be applied
+// before anything structural happened.
+async function replaceShared(recovery, api, plan, section, datasource) {
+  const target = section.sharedDesign;
+  if (
+    target?.approved !== true ||
+    !target.pageId ||
+    !target.existingInstanceId ||
+    !Object.hasOwn(target, 'currentDatasource')
+  )
+    throw new Blocked(
+      section.key,
+      'shared-design target is missing or unapproved; obtain a repair decision',
+    );
+  const key = section.key;
+  const ops = recovery.state.operations;
+  const fresh = (step, attempt) => (attempt ? { fresh: `${key}:${step}:${attempt}` } : undefined);
+  let prepared = null;
+  let restored = null;
+  const restore = async () => {
+    if (!prepared?.changed || restored) return;
+    restored =
+      ops[`${key}:variant-restore`]?.status === 'verified'
+        ? ops[`${key}:variant-restore`].value
+        : await restoreVariant(recovery, api, section, prepared);
+  };
+  try {
+    if (ops[`${key}:shared-add`]) {
+      // The add was issued with the earlier order: never reorder again.
+      prepared =
+        ops[`${key}:variant-first`]?.status === 'verified'
+          ? ops[`${key}:variant-first`].value
+          : null;
+    } else {
+      try {
+        prepared = await preferVariant(recovery, api, plan, section);
+      } catch (error) {
+        if (!consumable(error, recovery)) throw error;
+        return null; // Variant unavailable: no structural change.
+      }
+      if (!prepared.first) {
+        await restore();
+        return null; // Reorder unconfirmed: a new instance would not get the client variant.
+      }
+    }
+    const added = await recovery.operation(`${key}:shared-add`, {
+      before: async () => {
+        const page = await api.readPage(target.pageId);
+        const candidates = page.filter((x) => sameId(x.id, target.existingInstanceId));
+        if (candidates.length !== 1 || !sameId(candidates[0].renderingId, section.renderingId))
+          throw new Blocked(key, 'shared rendering missing, incompatible or ambiguous');
+        const old = candidates[0];
+        if (String(old.datasourceId || '') !== String(target.currentDatasource || ''))
+          throw new Blocked(key, 'shared datasource changed after target approval');
+        return {
+          page,
+          oldId: old.id,
+          placeholder: old.placeholder,
+          previousDatasourceId: old.datasourceId || '',
+        };
+      },
+      write: (before) =>
+        api.addComponent({
+          pageId: target.pageId,
+          componentRenderingId: section.renderingId,
+          placeholderPath: before.placeholder,
+          componentItemName: `${plan.client} ${section.componentName} ${key}`,
+          insertAfterComponentId: before.oldId,
+        }),
+      verify: async (_result, before, saved, attempt = 0) => {
+        const page = await api.readPage(target.pageId, fresh('shared-add', attempt));
+        const candidates = saved
+          ? page.filter((x) => sameId(x.id, saved.id))
+          : page.filter((x) => !before.page.some((old) => sameId(old.id, x.id)));
+        if (candidates.length !== 1) return unknown();
+        const candidate = candidates[0];
+        if (
+          !sameId(candidate.renderingId, section.renderingId) ||
+          candidate.placeholder !== before.placeholder ||
+          (saved && fingerprint(saved.parameters) !== fingerprint(candidate.parameters || {}))
+        )
+          return { state: 'conflict' };
+        if (
+          !saved &&
+          before.page.some(
+            (old) => !page.some((x) => sameId(x.id, old.id) && fingerprint(x) === fingerprint(old)),
+          )
+        )
+          return { state: 'conflict' };
+        return verified({
+          id: candidate.id,
+          parameters: candidate.parameters || {},
+          localDatasourceId: saved?.localDatasourceId ?? (candidate.datasourceId || ''),
+          oldId: before.oldId,
+          previousDatasourceId: before.previousDatasourceId,
+        });
+      },
+    });
+    await restore();
+    await recovery.operation(`${key}:shared-new-wire`, {
+      before: async () => {
+        const current = (await api.readPage(target.pageId)).find((x) => sameId(x.id, added.id));
+        if (!current) throw new Blocked(key, 'new shared instance disappeared');
+        return { datasourceId: current.datasourceId || '' };
+      },
+      write: (before) =>
+        sameId(before.datasourceId, datasource.itemId)
+          ? {}
+          : api.setDatasource(target.pageId, added.id, datasource.itemId),
+      verify: async (_result, _before, _saved, attempt = 0) => {
+        const page = await api.readPage(target.pageId, fresh('shared-new-wire', attempt));
+        const current = page.find((x) => sameId(x.id, added.id));
+        if (
+          !current ||
+          !sameId(current.renderingId, section.renderingId) ||
+          fingerprint(current.parameters || {}) !== fingerprint(added.parameters)
+        )
+          return { state: 'conflict' };
+        return sameId(current.datasourceId, datasource.itemId)
+          ? verified({ id: added.id, datasourceId: datasource.itemId })
+          : unknown();
+      },
+    });
+    await recovery.operation(`${key}:shared-remove-old`, {
+      before: async () => {
+        const page = await api.readPage(target.pageId);
+        const replacement = page.find((x) => sameId(x.id, added.id));
+        if (!replacement || !sameId(replacement.datasourceId, datasource.itemId))
+          throw new Blocked(key, 'replacement is not wired; the old instance is kept');
+        return { oldPresent: page.some((x) => sameId(x.id, added.oldId)) };
+      },
+      write: (before) => (before.oldPresent ? api.removeComponent(target.pageId, added.oldId) : {}),
+      verify: async (_result, _before, _saved, attempt = 0) => {
+        const page = await api.readPage(target.pageId, fresh('shared-remove-old', attempt));
+        const replacement = page.find((x) => sameId(x.id, added.id));
+        if (!replacement || !sameId(replacement.datasourceId, datasource.itemId))
+          return { state: 'conflict' };
+        return page.some((x) => sameId(x.id, added.oldId))
+          ? unknown()
+          : verified({ removed: added.oldId });
+      },
+    });
+    const applied = !!prepared && sameId(added.parameters?.FieldNames, prepared.variantId);
+    return {
+      key,
+      pageId: target.pageId,
+      placement: 'partial-design',
+      replaced: true,
+      componentInstanceId: added.id,
+      previousInstanceId: added.oldId,
+      datasourceId: datasource.itemId,
+      previousDatasourceId: added.previousDatasourceId,
+      localDatasourceId: added.localDatasourceId,
+      parameters: added.parameters,
+      variant: applied
+        ? { name: section.variant, id: prepared.variantId, applied }
+        : { name: section.variant, applied },
+    };
+  } catch (error) {
+    // A reordered variant folder is shared site state: undo it even when a later step failed.
+    if (consumable(error, recovery))
+      try {
+        await restore();
+      } catch (restoreError) {
+        if (!consumable(restoreError, recovery)) throw restoreError;
+      }
+    throw error;
+  }
+}
 async function assemble({
   directory,
   plan,
@@ -267,6 +440,19 @@ async function assemble({
         verifyDatasource(api, section, datasource, contentRecovery.state.exceptions),
       );
       if (section.placement === 'partial-design') {
+        const replaced =
+          section.variant && section.sharedDesign?.replace === true
+            ? await replaceShared(recovery, api, plan, section, datasource)
+            : null;
+        if (replaced) {
+          instances.push(replaced);
+          if (!replaced.variant.applied)
+            variantTasks.push({
+              key: section.key,
+              action: `Select variant ${section.variant} manually in Pages (not applied at add time).`,
+            });
+          continue;
+        }
         instances.push(await wireShared(recovery, api, section, datasource));
         if (section.variant)
           variantTasks.push({
@@ -478,11 +664,20 @@ async function assemble({
     manualTasks: [
       ...instances
         .filter((x) => x.placement === 'partial-design')
-        .map((x) => ({
-          key: x.key,
-          action: 'Datasource switched and verified; variant selection remains manual.',
-          previousDatasourceId: x.previousDatasourceId,
-        })),
+        .map((x) =>
+          x.replaced
+            ? {
+                key: x.key,
+                action: `Shared instance replaced (previous ${x.previousInstanceId}). Delete the auto-created datasource ${x.localDatasourceId} in Content Editor.`,
+                previousInstanceId: x.previousInstanceId,
+                previousDatasourceId: x.previousDatasourceId,
+              }
+            : {
+                key: x.key,
+                action: 'Datasource switched and verified; variant selection remains manual.',
+                previousDatasourceId: x.previousDatasourceId,
+              },
+        ),
       ...variantTasks,
     ],
   };

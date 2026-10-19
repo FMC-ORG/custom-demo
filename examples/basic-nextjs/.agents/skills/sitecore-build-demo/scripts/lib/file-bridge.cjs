@@ -6,6 +6,7 @@ const { atomicJson, fingerprint, Blocked, AwaitingTool } = require('./recovery.c
 const ALLOWED = new Map([
   ['get_content_item_by_path', false], ['get_content_item_by_id', false], ['get_components_on_page', false],
   ['create_content_item', true], ['update_fields_on_item', true], ['add_component_on_page', true], ['set_component_datasource', true],
+  ['remove_component_on_page', true],
 ]);
 
 /** Durable, file-in/file-out MCP adapter. It has no credentials and cannot call Sitecore itself. */

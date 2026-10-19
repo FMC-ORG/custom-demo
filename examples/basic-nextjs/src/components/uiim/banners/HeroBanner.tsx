@@ -338,3 +338,57 @@ export const Minimal = ({ fields, params, page }: HeroBannerProps): JSX.Element 
     </div>
   );
 };
+
+/* Worley2Hero variant — left-aligned full-bleed project-delivery hero */
+export const Worley2Hero = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative flex min-h-[38rem] w-full items-end overflow-hidden bg-[var(--brand-dark)] md:min-h-[44rem]">
+        {(fields.HeroImage?.value?.src || isEditing) && (
+          <div className="absolute inset-0">
+            <SmartMedia field={fields.HeroImage} fill sizes="100vw" className="object-cover" />
+          </div>
+        )}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(90deg, var(--brand-dark) 0%, color-mix(in srgb, var(--brand-dark) 62%, transparent) 58%, transparent 100%)',
+          }}
+        />
+        {(hasText(fields.Title?.value) ||
+          isEditing ||
+          hasRichText(fields.Subtitle?.value) ||
+          fields.PrimaryLink?.value?.href ||
+          fields.SecondaryLink?.value?.href) && (
+          <div className="relative z-10 mx-auto w-full max-w-[90rem] px-5 pb-20 text-[var(--brand-dark-foreground)] md:px-10 md:pb-28">
+            <div className="max-w-2xl space-y-7">
+              {(hasText(fields.Title?.value) || isEditing) && (
+                <Text
+                  field={fields.Title}
+                  tag="h1"
+                  className="max-w-xl font-heading text-5xl font-bold leading-[1.02] tracking-tight sm:text-6xl md:text-7xl"
+                />
+              )}
+              {(hasRichText(fields.Subtitle?.value) || isEditing) && (
+                <ContentSdkRichText
+                  field={fields.Subtitle}
+                  className="max-w-xl font-body text-lg leading-7"
+                />
+              )}
+              <div className="flex flex-wrap items-center gap-4 pt-1">
+                <PrimaryButton field={fields.PrimaryLink} isEditing={isEditing} />
+                <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+};

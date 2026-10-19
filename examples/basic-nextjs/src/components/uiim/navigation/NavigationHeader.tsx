@@ -347,3 +347,94 @@ export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element 
     </div>
   );
 };
+
+/* Worley2Header variant — compact two-group deep-teal navigation */
+export const Worley2Header = ({
+  fields,
+  params,
+  page,
+  rendering,
+}: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const datasource = fields?.data?.datasource;
+
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+
+  const links = datasource.children?.results || [];
+  const primaryLinks = links.slice(0, 4);
+  const secondaryLinks = links.slice(4);
+
+  const renderLinks = (items: NavigationLinkFields[], compact = false) =>
+    items.map((item, index) => (
+      <ContentSdkLink
+        key={item.id}
+        field={item.linkUrl?.jsonValue}
+        className={cn(
+          'inline-flex items-center gap-1.5 whitespace-nowrap font-body transition-opacity hover:opacity-70',
+          compact ? 'text-xs font-medium' : 'text-sm font-bold',
+        )}
+        style={{ color: 'var(--brand-header-fg)' }}
+      >
+        {(hasText(item.linkText?.jsonValue?.value) || isEditing) && (
+          <Text field={item.linkText?.jsonValue} />
+        )}
+        {(index < 2 || (compact && index !== 1)) && (
+          <svg
+            aria-hidden="true"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        )}
+      </ContentSdkLink>
+    ));
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header className="w-full bg-[var(--brand-header-bg)] text-[var(--brand-header-fg)]">
+        <div className="mx-auto flex min-h-20 max-w-[90rem] items-center gap-8 px-5 md:px-10">
+          <Logo brandLogo={datasource.brandLogo?.jsonValue} className="shrink-0" />
+          <nav className="hidden flex-1 items-center gap-5 lg:flex">
+            {renderLinks(primaryLinks)}
+          </nav>
+          <div className="ml-auto hidden items-center gap-4 xl:flex">
+            {renderLinks(secondaryLinks, true)}
+          </div>
+          <div className="ml-auto flex items-center gap-3 xl:ml-0">
+            <HeaderSearch datasource={datasource} page={page} rendering={rendering} />
+            {!datasource.searchIndex?.jsonValue?.value && (
+              <span aria-hidden="true" className="hidden p-2 md:block">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <line x1="16.5" y1="16.5" x2="21" y2="21" />
+                </svg>
+              </span>
+            )}
+            <CtaButton
+              label={datasource.ctaLabel?.jsonValue}
+              link={datasource.ctaLink?.jsonValue}
+              isEditing={isEditing}
+              className="rounded-[var(--brand-button-radius)] px-5 py-2.5"
+            />
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+        </div>
+        <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
+      </header>
+    </div>
+  );
+};

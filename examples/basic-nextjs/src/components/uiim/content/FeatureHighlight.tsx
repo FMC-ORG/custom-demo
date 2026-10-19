@@ -295,3 +295,63 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
     </div>
   );
 };
+
+/* Worley2Careers variant — portrait-left careers feature */
+export const Worley2Careers = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-[var(--brand-bg)] px-5 py-16 md:px-10 md:py-20">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[0.75fr_1.25fr] md:gap-14">
+          <div
+            className="relative min-h-[22rem] overflow-hidden rounded-[var(--brand-card-radius)]"
+            style={{
+              backgroundColor:
+                'color-mix(in srgb, var(--brand-accent) 88%, var(--brand-bg))',
+            }}
+          >
+            {(fields.FeatureImage?.value?.src || isEditing) && (
+              <SmartMedia
+                field={fields.FeatureImage}
+                fill
+                sizes="(min-width: 768px) 38vw, 100vw"
+                className="object-cover"
+              />
+            )}
+          </div>
+          {(isEditing ||
+            hasText(fields.EyebrowText?.value) ||
+            hasText(fields.Title?.value) ||
+            hasRichText(fields.Description?.value) ||
+            fields.PrimaryLink?.value?.href) && (
+            <div className="max-w-2xl">
+              <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+              {(hasText(fields.Title?.value) || isEditing) && (
+                <Text
+                  field={fields.Title}
+                  tag="h2"
+                  className="font-heading text-4xl font-bold leading-[1.08] tracking-tight text-[var(--brand-fg)] md:text-5xl"
+                />
+              )}
+              {(hasRichText(fields.Description?.value) || isEditing) && (
+                <ContentSdkRichText
+                  field={fields.Description}
+                  className="mt-5 font-body text-sm leading-6 text-[var(--brand-fg)]"
+                />
+              )}
+              {(fields.PrimaryLink?.value?.href || isEditing) && (
+                <ContentSdkLink
+                  field={fields.PrimaryLink}
+                  className="mt-7 inline-flex rounded-[var(--brand-button-radius)] bg-[var(--brand-dark)] px-7 py-3 font-body text-sm font-bold text-[var(--brand-dark-foreground)] transition-opacity hover:opacity-85"
+                />
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};

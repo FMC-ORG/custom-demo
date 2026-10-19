@@ -101,3 +101,35 @@ export const Highlight = ({ fields, params, page }: AnnouncementBarProps): JSX.E
     </div>
   );
 };
+
+/* Worley2Ticker variant — compact project-news rail */
+export const Worley2Ticker = ({ fields, params, page }: AnnouncementBarProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <AnnouncementBarDefaultComponent />;
+
+  return (
+    <div className={cn('component announcement-bar', styles)} id={RenderingIdentifier}>
+      <div className="w-full overflow-hidden bg-[var(--brand-dark)] px-5 py-4 text-[var(--brand-dark-foreground)] md:px-10">
+        {(hasText(fields.Message?.value) || isEditing || fields.BarLink?.value?.href) && (
+          <div className="mx-auto flex max-w-[90rem] items-center gap-5 whitespace-nowrap font-body text-sm">
+            <span
+              aria-hidden="true"
+              className="h-2 w-2 shrink-0 rounded-full bg-[var(--brand-primary)]"
+            />
+            {(hasText(fields.Message?.value) || isEditing) && (
+              <Text field={fields.Message} tag="span" className="tracking-tight" />
+            )}
+            {(fields.BarLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.BarLink}
+                className="font-semibold text-[var(--brand-primary)] underline underline-offset-4"
+              />
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

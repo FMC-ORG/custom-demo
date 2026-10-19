@@ -314,3 +314,75 @@ export const Horizontal = ({ fields, params, page }: ValuePropositionGridProps):
     </div>
   );
 };
+
+/* Worley2DeliveryStages variant — four numbered project-delivery cards */
+export const Worley2DeliveryStages = ({
+  fields,
+  params,
+  page,
+}: ValuePropositionGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ValuePropositionGridDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component value-proposition-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-[var(--brand-bg)] px-5 py-16 text-[var(--brand-fg)] md:px-10 md:py-24">
+        <div className="mx-auto max-w-[90rem]">
+          {(hasText(datasource.title?.jsonValue?.value) ||
+            isEditing ||
+            hasRichText(datasource.description?.jsonValue?.value)) && (
+            <div className="mb-12 max-w-5xl">
+              {(hasText(datasource.title?.jsonValue?.value) || isEditing) && (
+                <Text
+                  field={datasource.title?.jsonValue}
+                  tag="h2"
+                  className="max-w-4xl font-heading text-4xl font-bold leading-[1.08] tracking-tight md:text-5xl"
+                />
+              )}
+              {(hasRichText(datasource.description?.jsonValue?.value) || isEditing) && (
+                <ContentSdkRichText
+                  field={datasource.description?.jsonValue}
+                  className="mt-6 max-w-5xl font-body text-sm leading-6"
+                />
+              )}
+            </div>
+          )}
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            {items.map((item, index) => (
+              <article
+                key={item.id}
+                className="flex min-h-80 flex-col rounded-[var(--brand-card-radius)] border border-[var(--brand-border)] bg-[var(--brand-dark-foreground)] p-6 shadow-lg"
+              >
+                <span className="mb-8 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand-dark)] font-heading text-sm font-bold text-[var(--brand-dark-foreground)]">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                {(hasText(item.itemTitle?.jsonValue?.value) || isEditing) && (
+                  <Text
+                    field={item.itemTitle?.jsonValue}
+                    tag="h3"
+                    className="font-heading text-lg font-bold"
+                  />
+                )}
+                {(hasRichText(item.itemDescription?.jsonValue?.value) || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.itemDescription?.jsonValue}
+                    className="mt-3 flex-1 font-body text-sm leading-6"
+                  />
+                )}
+                {(item.itemLink?.jsonValue?.value?.href || isEditing) && (
+                  <ContentSdkLink
+                    field={item.itemLink?.jsonValue}
+                    className="mt-6 inline-flex font-body text-sm font-bold text-[var(--brand-primary)]"
+                  />
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

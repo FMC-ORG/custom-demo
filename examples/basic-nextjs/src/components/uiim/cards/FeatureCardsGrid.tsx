@@ -467,3 +467,251 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
     </div>
   );
 };
+
+/* Worley2Projects variant — asymmetric editorial project mosaic */
+export const Worley2Projects = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-[var(--brand-bg)] px-5 py-16 text-[var(--brand-fg)] md:px-10 md:py-24">
+        <div className="mx-auto max-w-[90rem]">
+          {(hasText(datasource.title?.jsonValue?.value) ||
+            isEditing ||
+            hasRichText(datasource.description?.jsonValue?.value)) && (
+            <div className="mb-10 max-w-3xl">
+              {(hasText(datasource.title?.jsonValue?.value) || isEditing) && (
+                <Text
+                  field={datasource.title?.jsonValue}
+                  tag="h2"
+                  className="font-heading text-4xl font-bold tracking-tight md:text-5xl"
+                />
+              )}
+              {(hasRichText(datasource.description?.jsonValue?.value) || isEditing) && (
+                <ContentSdkRichText
+                  field={datasource.description?.jsonValue}
+                  className="mt-4 font-body text-sm leading-6"
+                />
+              )}
+            </div>
+          )}
+          <div className="grid gap-5 lg:grid-cols-12">
+            {cards.map((card, index) => (
+              <article
+                key={card.id}
+                className={cn(
+                  'group relative min-h-80 overflow-hidden rounded-[var(--brand-card-radius)] bg-[var(--brand-dark)] lg:min-h-[22rem]',
+                  index === 0 || index === 3 ? 'lg:col-span-4' : 'lg:col-span-8',
+                )}
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <ContentSdkImage
+                    field={card.cardImage?.jsonValue}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                )}
+                <div className="absolute inset-0 bg-[var(--brand-dark)] opacity-55" />
+                <div className="absolute inset-x-0 bottom-0 z-10 p-6 text-[var(--brand-dark-foreground)] md:p-8">
+                  {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="font-heading text-xl font-bold leading-tight md:text-2xl"
+                    />
+                  )}
+                  {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className="mt-3 max-w-3xl font-body text-sm leading-5"
+                    />
+                  )}
+                  {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                    <ContentSdkLink
+                      field={card.cardLink?.jsonValue}
+                      className="mt-4 inline-flex font-body text-sm font-bold text-[var(--brand-primary)]"
+                    />
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* Worley2Industries variant — four-column indexed industry panel */
+export const Worley2Industries = ({
+  fields,
+  params,
+  page,
+}: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-[var(--brand-bg)] px-5 pb-16 text-[var(--brand-fg)] md:px-10 md:pb-24">
+        <div className="mx-auto max-w-[90rem]">
+          {(hasText(datasource.title?.jsonValue?.value) || isEditing) && (
+            <Text
+              field={datasource.title?.jsonValue}
+              tag="h2"
+              className="mb-7 font-heading text-4xl font-bold tracking-tight md:text-5xl"
+            />
+          )}
+          <div className="overflow-hidden rounded-[var(--brand-card-radius)] border border-[var(--brand-border)] bg-[var(--brand-dark-foreground)] lg:grid lg:grid-cols-4">
+            {cards.map((card, index) => (
+              <article
+                key={card.id}
+                className="flex min-h-60 flex-col border-b border-[var(--brand-border)] p-7 last:border-b-0 lg:border-b-0 lg:border-r lg:last:border-r-0"
+              >
+                <span className="font-body text-xs font-bold">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                  <Text
+                    field={card.cardTitle?.jsonValue}
+                    tag="h3"
+                    className="mt-8 font-heading text-lg font-bold"
+                  />
+                )}
+                {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                  <ContentSdkRichText
+                    field={card.cardDescription?.jsonValue}
+                    className="mt-3 flex-1 font-body text-sm leading-6"
+                  />
+                )}
+                {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                  <ContentSdkLink
+                    field={card.cardLink?.jsonValue}
+                    className="mt-6 inline-flex items-center justify-between font-body text-sm font-bold text-[var(--brand-fg)] after:content-['→']"
+                  />
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* Worley2News variant — three-up responsive image-card carousel */
+export const Worley2News = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  const cards = datasource?.children?.results || [];
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  useEffect(() => {
+    const update = () => setVisibleCount(window.innerWidth < 768 ? 1 : 3);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+
+  const maxIndex = Math.max(0, cards.length - visibleCount);
+  const current = Math.min(activeIndex, maxIndex);
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full bg-[var(--brand-bg)] px-5 py-16 text-[var(--brand-fg)] md:px-10 md:py-24">
+        <div className="mx-auto max-w-[90rem]">
+          <div className="mb-9 flex items-center justify-between gap-6">
+            {(hasText(datasource.title?.jsonValue?.value) || isEditing) && (
+              <Text
+                field={datasource.title?.jsonValue}
+                tag="h2"
+                className="font-heading text-3xl font-bold tracking-tight md:text-4xl"
+              />
+            )}
+            {cards.length > visibleCount && !isEditing && (
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveIndex(Math.max(0, current - 1))}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--brand-border)]"
+                  aria-label="Previous news"
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveIndex(Math.min(maxIndex, current + 1))}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--brand-border)]"
+                  aria-label="Next news"
+                >
+                  →
+                </button>
+              </div>
+            )}
+          </div>
+          {(hasRichText(datasource.description?.jsonValue?.value) || isEditing) && (
+            <ContentSdkRichText
+              field={datasource.description?.jsonValue}
+              className="mb-8 max-w-3xl font-body text-sm leading-6"
+            />
+          )}
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${current * (100 / visibleCount)}%)` }}
+            >
+              {cards.map((card) => (
+                <div
+                  key={card.id}
+                  className="shrink-0 px-2"
+                  style={{ width: `${100 / visibleCount}%` }}
+                >
+                  <article className="group relative min-h-[22rem] overflow-hidden rounded-[var(--brand-card-radius)] bg-[var(--brand-dark)]">
+                    {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                      <ContentSdkImage
+                        field={card.cardImage?.jsonValue}
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-[var(--brand-dark)] opacity-50" />
+                    <div className="absolute inset-x-0 bottom-0 z-10 p-6 text-[var(--brand-dark-foreground)]">
+                      {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                        <Text
+                          field={card.cardTitle?.jsonValue}
+                          tag="h3"
+                          className="font-heading text-lg font-bold leading-tight"
+                        />
+                      )}
+                      {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                        <ContentSdkRichText
+                          field={card.cardDescription?.jsonValue}
+                          className="mt-3 line-clamp-3 font-body text-sm leading-5"
+                        />
+                      )}
+                      {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                        <ContentSdkLink
+                          field={card.cardLink?.jsonValue}
+                          className="mt-4 inline-flex font-body text-sm font-bold text-[var(--brand-primary)]"
+                        />
+                      )}
+                    </div>
+                  </article>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

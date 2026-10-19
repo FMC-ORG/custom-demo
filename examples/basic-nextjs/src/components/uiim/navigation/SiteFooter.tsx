@@ -342,3 +342,50 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
     </div>
   );
 };
+
+/* Worley2Footer variant — compact two-row utility footer.
+   SiteFooterData exposes only BrandLogo, so existing structural link content is preserved. */
+export const Worley2Footer = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  const { styles, RenderingIdentifier } = params;
+  const brandLogo = getBrandLogo(props);
+
+  if (!params) return <SiteFooterDefaultComponent />;
+
+  const utilityLinks = LINK_COLUMNS.flatMap((column) => column.links).slice(0, 6);
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer className="w-full bg-[var(--brand-footer-bg)] text-[var(--brand-footer-fg)]">
+        <div className="mx-auto max-w-[90rem] px-5 md:px-10">
+          <div className="flex flex-col gap-6 border-b border-[var(--brand-border)]/20 py-8 lg:flex-row lg:items-center lg:justify-between">
+            <nav className="flex flex-wrap gap-x-7 gap-y-3 font-body text-xs">
+              {utilityLinks.map((link) => (
+                <a key={link} href="#" className="opacity-80 transition-opacity hover:opacity-100">
+                  {link}
+                </a>
+              ))}
+            </nav>
+            <SocialIcons />
+          </div>
+
+          <div className="grid gap-8 py-9 md:grid-cols-[1fr_1.3fr] md:items-end">
+            <div className="space-y-5">
+              <Logo brandLogo={brandLogo} />
+              <Copyright />
+            </div>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 font-body text-xs opacity-65 md:justify-end">
+              {LINK_COLUMNS.flatMap((column) => column.links)
+                .slice(6, 11)
+                .map((link) => (
+                  <a key={link} href="#" className="transition-opacity hover:opacity-100">
+                    {link}
+                  </a>
+                ))}
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};

@@ -1,5 +1,5 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-10-19T10:08:29Z"
+lastUpdatedAt: "2026-10-19T11:56:49Z"
 lastUpdatedBy: "pi-agent"
 
 project:
@@ -27,7 +27,7 @@ components:
     category: "Navigation"
     status: "complete"
     createdAt: "2026-03-25T12:00:00Z"
-    updatedAt: "2026-03-25T12:00:00Z"
+    updatedAt: "2026-10-19T11:56:49Z"
 
     react:
       filePath: "src/components/uiim/navigation/AnnouncementBar.tsx"
@@ -35,6 +35,7 @@ components:
       variants:
         - "Default"
         - "Highlight"
+        - "Worley2Ticker"
 
     templates:
       datasource:
@@ -93,6 +94,7 @@ components:
       variants:
         - { name: "Default", itemId: "{C443BF0E-5B40-4F84-98A2-F0825E83E345}" }
         - { name: "Highlight", itemId: "{6A6E7095-E948-46F1-A37B-260ADA3604FF}" }
+        - { name: "Worley2Ticker", itemId: "{BA701345-2F11-4827-BF0E-37B5D5E70E29}" }
 
     verification:
       checkedAt: "2026-03-25T12:00:00Z"
@@ -131,7 +133,7 @@ components:
     category: "Navigation"
     status: "complete"
     createdAt: "2026-03-25T12:30:00Z"
-    updatedAt: "2026-05-05T16:00:00Z"
+    updatedAt: "2026-10-19T11:56:49Z"
 
     react:
       filePath: "src/components/uiim/navigation/NavigationHeader.tsx"
@@ -141,6 +143,7 @@ components:
         - "Default"
         - "Transparent"
         - "Minimal"
+        - "Worley2Header"
 
     templates:
       parent:
@@ -219,6 +222,7 @@ components:
         - { name: "Default", itemId: "{150B9AFE-2B9F-48AD-8F01-036666057814}" }
         - { name: "Transparent", itemId: "{A46EFC9D-7CF0-4C92-9577-1D94FD1D9782}" }
         - { name: "Minimal", itemId: "{608E0EC7-E2C6-4093-A1A1-3962FF17885A}" }
+        - { name: "Worley2Header", itemId: "{E5E7714B-DFE2-4378-850B-CC1D6045D065}" }
 
     verification:
       checkedAt: "2026-05-05T16:00:00Z"
@@ -247,7 +251,7 @@ components:
     category: "Banners"
     status: "complete"
     createdAt: "2026-03-25T13:30:00Z"
-    updatedAt: "2026-03-25T13:30:00Z"
+    updatedAt: "2026-10-19T11:56:49Z"
 
     react:
       filePath: "src/components/uiim/banners/HeroBanner.tsx"
@@ -258,6 +262,7 @@ components:
         - "BackgroundImage"
         - "VideoBackground"
         - "Minimal"
+        - "Worley2Hero"
 
     templates:
       datasource:
@@ -321,6 +326,7 @@ components:
         - { name: "BackgroundImage", itemId: "{948210B2-B8AF-47C1-A04F-E220071C0A63}" }
         - { name: "VideoBackground", itemId: "{96586509-EBD7-4642-A127-0C65AEE1BD99}" }
         - { name: "Minimal", itemId: "{FA46BF9A-3783-4615-B4E6-5F5B33A78B48}" }
+        - { name: "Worley2Hero", itemId: "{44656B6F-F67A-4310-8214-DDE775E947A9}" }
 
     verification:
       checkedAt: "2026-03-25T13:30:00Z"
@@ -707,7 +713,7 @@ components:
     category: "Content"
     status: "complete"
     createdAt: "2026-03-25T16:30:00Z"
-    updatedAt: "2026-03-25T16:30:00Z"
+    updatedAt: "2026-10-19T11:56:49Z"
 
     react:
       filePath: "src/components/uiim/content/ValuePropositionGrid.tsx"
@@ -717,6 +723,7 @@ components:
         - "TwoColumn"
         - "FourColumn"
         - "Horizontal"
+        - "Worley2DeliveryStages"
 
     templates:
       datasource:
@@ -798,6 +805,7 @@ components:
         - { name: "TwoColumn", itemId: "{3935D1DD-DC84-4A01-B271-BEF9475C5AE1}" }
         - { name: "FourColumn", itemId: "{5F5B90A2-F88D-4415-B8B1-D9DCDE1A6B5C}" }
         - { name: "Horizontal", itemId: "{EF716EAC-BEBF-484A-8826-D2051F549F2F}" }
+        - { name: "Worley2DeliveryStages", itemId: "{AAAC2B8C-3187-46E6-B0F5-8FB836E2704B}" }
 
     verification:
       checkedAt: "2026-03-25T16:30:00Z"
@@ -948,7 +956,7 @@ components:
     category: "Social Proof"
     status: "complete"
     createdAt: "2026-03-25T17:30:00Z"
-    updatedAt: "2026-03-25T17:30:00Z"
+    updatedAt: "2026-10-19T11:56:49Z"
 
     react:
       filePath: "src/components/uiim/social-proof/TestimonialBlock.tsx"
@@ -958,6 +966,7 @@ components:
         - "Carousel"
         - "Grid"
         - "WithPhoto"
+        - "Worley2HeroProof"
 
     templates:
       datasource:
@@ -1039,6 +1048,7 @@ components:
         - { name: "Carousel", itemId: "{0F34A807-A42C-4E7D-BD54-EF222EB2D952}" }
         - { name: "Grid", itemId: "{508FF66A-D30F-4C2D-B82F-2009E0B6E207}" }
         - { name: "WithPhoto", itemId: "{9C2EFAD0-6E36-415A-AFC5-EDCD1DA4A805}" }
+        - { name: "Worley2HeroProof", itemId: "{3B422C56-6F85-48BC-A8DE-FC0AEC9FB3C3}" }
 
     verification:
       checkedAt: "2026-03-25T17:30:00Z"
@@ -1067,7 +1077,7 @@ components:
     category: "Banners"
     status: "complete"
     createdAt: "2026-03-25T18:00:00Z"
-    updatedAt: "2026-03-25T18:00:00Z"
+    updatedAt: "2026-10-19T11:56:49Z"
 
     react:
       filePath: "src/components/uiim/banners/CTABanner.tsx"
@@ -1077,6 +1087,7 @@ components:
         - "WithImage"
         - "Split"
         - "Minimal"
+        - "Worley2Contact"
 
     templates:
       datasource:
@@ -1139,6 +1150,7 @@ components:
         - { name: "WithImage", itemId: "{2DC4E1E9-79A0-48C7-A6D9-AC7DD8AFAAA0}" }
         - { name: "Split", itemId: "{9DBA839A-E0F8-47D2-AA8E-29EDA7CC68E6}" }
         - { name: "Minimal", itemId: "{E63EE25F-C889-4FE1-81B7-4611CF5969BE}" }
+        - { name: "Worley2Contact", itemId: "{7EA5865A-D13B-48C5-931E-A48E0529B20C}" }
 
     verification:
       checkedAt: "2026-03-25T18:00:00Z"
@@ -1167,7 +1179,7 @@ components:
     category: "Cards"
     status: "complete"
     createdAt: "2026-03-25T18:30:00Z"
-    updatedAt: "2026-03-25T18:30:00Z"
+    updatedAt: "2026-10-19T11:56:49Z"
 
     react:
       filePath: "src/components/uiim/cards/FeatureCardsGrid.tsx"
@@ -1177,6 +1189,9 @@ components:
         - "TwoColumn"
         - "WithImages"
         - "Carousel"
+        - "Worley2Projects"
+        - "Worley2Industries"
+        - "Worley2News"
 
     templates:
       datasource:
@@ -1258,6 +1273,9 @@ components:
         - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
         - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
         - { name: "Carousel", itemId: "" }  # TODO: create in Sitecore
+        - { name: "Worley2Projects", itemId: "{573B1B52-75AC-4FB5-8714-53CC702F74AC}" }
+        - { name: "Worley2Industries", itemId: "{A274AF5F-76A1-46F4-B074-35F6EE8AC6EB}" }
+        - { name: "Worley2News", itemId: "{307F9DC9-BE48-42F9-82D8-E882C5EE3B4A}" }
 
     verification:
       checkedAt: "2026-03-25T18:30:00Z"
@@ -1496,13 +1514,14 @@ components:
     category: "Social Proof"
     status: "complete"
     createdAt: "2026-10-19T10:03:36Z"
-    updatedAt: "2026-10-19T10:08:29Z"
+    updatedAt: "2026-10-19T11:56:49Z"
 
     react:
       filePath: "src/components/uiim/social-proof/Worley2OutcomeProof.tsx"
       componentMapKey: "Worley2OutcomeProof"
       variants:
         - "Default"
+        - "Worley2Outcome"
 
     templates:
       datasource:
@@ -1565,6 +1584,7 @@ components:
       containerId: "{7E74F523-4106-4F60-BD34-D297E1C9A279}"
       variants:
         - { name: "Default", itemId: "{3B187022-790E-49F4-9B07-35883073BC17}" }
+        - { name: "Worley2Outcome", itemId: "{E08FFAF8-4CC8-4640-91A3-ABDB3FCFDE77}" }
 
     verification:
       checkedAt: "2026-10-19T10:08:29Z"
@@ -1594,7 +1614,7 @@ components:
     category: "Navigation"
     status: "complete"
     createdAt: "2026-03-25T20:00:00Z"
-    updatedAt: "2026-05-05T13:00:00Z"
+    updatedAt: "2026-10-19T11:56:49Z"
 
     react:
       filePath: "src/components/uiim/navigation/SiteFooter.tsx"
@@ -1604,6 +1624,7 @@ components:
         - "Default"
         - "Minimal"
         - "MegaFooter"
+        - "Worley2Footer"
 
     templates:
       datasource:
@@ -1661,6 +1682,7 @@ components:
         - { name: "Default", itemId: "{143CFE84-1E77-4961-975C-38564DC43DB9}" }
         - { name: "Minimal", itemId: "{AF87D61B-F6A8-4036-9BF8-FDB586268D24}" }
         - { name: "MegaFooter", itemId: "{DA131066-F9A2-47F0-A099-F614E61817AA}" }
+        - { name: "Worley2Footer", itemId: "{DBDC197A-A562-42C2-A0B2-3D1E28FF326D}" }
 
     verification:
       checkedAt: "2026-03-25T20:00:00Z"
@@ -2142,7 +2164,7 @@ components:
     category: "Content"
     status: "complete"
     createdAt: "2026-03-25T22:00:00Z"
-    updatedAt: "2026-03-25T22:00:00Z"
+    updatedAt: "2026-10-19T11:56:49Z"
 
     react:
       filePath: "src/components/uiim/content/FeatureHighlight.tsx"
@@ -2152,6 +2174,7 @@ components:
         - "Centered"
         - "WithVideo"
         - "IconLeft"
+        - "Worley2Careers"
 
     templates:
       datasource:
@@ -2214,6 +2237,7 @@ components:
         - { name: "Centered", itemId: "{3C33C16D-F0D3-4FBF-8D78-CE70CEA0868B}" }
         - { name: "WithVideo", itemId: "{E58A4CB1-BFB4-4FDF-B48D-6254708B05CA}" }
         - { name: "IconLeft", itemId: "{E39E52FE-885D-433B-A2D3-B20F66E8F767}" }
+        - { name: "Worley2Careers", itemId: "{4EAB0D75-6CF1-4D3E-9F2D-59EF7DB61191}" }
 
     verification:
       checkedAt: "2026-03-25T22:00:00Z"

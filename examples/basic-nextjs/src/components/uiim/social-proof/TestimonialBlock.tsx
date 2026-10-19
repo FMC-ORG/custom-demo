@@ -354,3 +354,72 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
     </div>
   );
 };
+
+/* Worley2HeroProof variant — glass proof card overlapping the hero */
+export const Worley2HeroProof = ({
+  fields,
+  params,
+  page,
+}: TestimonialBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TestimonialBlockDefaultComponent />;
+  const item = datasource.children?.results?.[0];
+
+  return (
+    <div
+      className={cn(
+        'component testimonial-block relative z-20 md:pointer-events-none md:-mt-[30rem] md:mb-[6rem]',
+        styles,
+      )}
+      id={RenderingIdentifier}
+    >
+      <section className="w-full px-5 py-8 md:px-10 md:py-0">
+        <div className="mx-auto flex max-w-[90rem] justify-end">
+          <div className="pointer-events-auto w-full max-w-md rounded-[var(--brand-card-radius)] border border-[var(--brand-border)] bg-[var(--brand-header-bg)]/95 p-7 text-[var(--brand-header-fg)] shadow-2xl backdrop-blur-md md:p-9">
+            {(hasText(datasource.sectionTitle?.jsonValue?.value) || isEditing) && (
+              <Text
+                field={datasource.sectionTitle?.jsonValue}
+                tag="p"
+                className="font-heading text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-primary)]"
+              />
+            )}
+            {item && (
+              <>
+                {(hasText(item.companyName?.jsonValue?.value) || isEditing) && (
+                  <Text
+                    field={item.companyName?.jsonValue}
+                    tag="p"
+                    className="mt-5 font-heading text-2xl font-bold leading-tight text-[var(--brand-accent)]"
+                  />
+                )}
+                <div className="my-6 h-px bg-[var(--brand-border)]/40" />
+                <span
+                  aria-hidden="true"
+                  className="font-heading text-5xl font-bold leading-none text-[var(--brand-accent)]"
+                >
+                  “
+                </span>
+                {(hasRichText(item.quoteText?.jsonValue?.value) || isEditing) && (
+                  <ContentSdkRichText
+                    field={item.quoteText?.jsonValue}
+                    className="mt-2 font-body text-base leading-6"
+                  />
+                )}
+                <div className="mt-6 space-y-1 font-body text-sm">
+                  {(hasText(item.authorRole?.jsonValue?.value) || isEditing) && (
+                    <Text field={item.authorRole?.jsonValue} tag="p" className="italic opacity-80" />
+                  )}
+                  {(hasText(item.authorName?.jsonValue?.value) || isEditing) && (
+                    <Text field={item.authorName?.jsonValue} tag="p" className="pt-3 font-bold" />
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

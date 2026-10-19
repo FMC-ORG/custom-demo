@@ -289,3 +289,59 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
     </div>
   );
 };
+
+/* Worley2Contact variant — shallow full-width delivery-expert image CTA */
+export const Worley2Contact = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section className="relative min-h-64 w-full overflow-hidden bg-[var(--brand-dark)]">
+        {(fields.BackgroundImage?.value?.src || isEditing) && (
+          <div className="absolute inset-0">
+            <SmartMedia
+              field={fields.BackgroundImage}
+              fill
+              sizes="100vw"
+              className="object-cover"
+            />
+          </div>
+        )}
+        <div className="absolute inset-0 bg-[var(--brand-dark)] opacity-75" />
+        {(hasText(fields.Title?.value) ||
+          isEditing ||
+          hasRichText(fields.Description?.value) ||
+          fields.PrimaryLink?.value?.href ||
+          fields.SecondaryLink?.value?.href) && (
+          <div className="relative z-10 flex min-h-64 items-center justify-center px-5 py-14 text-center text-[var(--brand-dark-foreground)]">
+            <div className="max-w-3xl">
+              {(hasText(fields.Title?.value) || isEditing) && (
+                <Text
+                  field={fields.Title}
+                  tag="h2"
+                  className="font-heading text-4xl font-bold leading-tight tracking-tight md:text-5xl"
+                />
+              )}
+              {(hasRichText(fields.Description?.value) || isEditing) && (
+                <ContentSdkRichText
+                  field={fields.Description}
+                  className="mx-auto mt-4 max-w-xl font-body text-base leading-7"
+                />
+              )}
+              <div className="mt-7 flex flex-wrap justify-center gap-4">
+                <PrimaryButton
+                  field={fields.PrimaryLink}
+                  isEditing={isEditing}
+                  className="bg-[var(--brand-primary)] text-[var(--brand-primary-foreground)]"
+                />
+                <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+};

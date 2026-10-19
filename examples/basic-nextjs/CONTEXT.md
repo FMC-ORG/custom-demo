@@ -60,6 +60,10 @@
 
 - **Unspecified Field** — A field for which the approved demo content gives no authored value. It is not an instruction to clear existing content or substitute whitespace.
 
+- **Demo Branch** — The per-client branch (`<client>-demo`) started from the latest `main`, holding that client's theme, variants and custom components. It may be pushed to deploy the demo but is never merged into `main` or `dmz`.
+
+- **Start Check** — The readiness checks run before a demo is built. A blocker stops the build; a warning is reported and the build may continue. Run with fixes by `sitecore-start-demo`, and again without fixes at the start of `sitecore-build-demo`.
+
 ## Agent tooling
 
 - **Skill** — A folder under `.agents/skills/<name>/` with a `SKILL.md` (Agent Skills format) plus optional `scripts/`, `references/`, `assets/`. The single source for Claude Code, Cursor, and Pi; per-tool wrappers are generated. See `docs/adr/0007-cross-agent-skills-layout.md`.

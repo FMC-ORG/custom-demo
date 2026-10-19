@@ -55,6 +55,10 @@ cases:
     prompt: "The demo page uses generic variants; make each section match the client's homepage screenshot pixel-perfectly."
     expect: sitecore-demo-variants
 
+  - id: start-demo-is-command-only
+    prompt: "Set up everything for a new custom demo for acme.com."
+    expect: none
+
   - id: build-demo-is-command-only
     prompt: "Build a demo for acme.com."
     expect: none

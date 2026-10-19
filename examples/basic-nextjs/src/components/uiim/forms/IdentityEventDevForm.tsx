@@ -63,7 +63,6 @@ function useDevForm(isEditing: boolean, routeLanguage: string, routeName?: strin
     if (!parsed.page) parsed.page = routeName;
 
     if (isEditing) {
-      // eslint-disable-next-line no-console
       console.log('[IdentityEventDevForm] would fire identity event (skipped in editing mode)', parsed);
       setStatus({ kind: 'success', response: { skipped: 'editing-mode', payload: parsed } });
       return;

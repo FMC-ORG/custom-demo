@@ -130,7 +130,6 @@ export const SmartMedia = ({
 
     if (!warnedSrcs.has(src) && typeof window !== 'undefined') {
       warnedSrcs.add(src);
-      // eslint-disable-next-line no-console
       console.warn(message);
     }
 

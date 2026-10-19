@@ -65,6 +65,11 @@ git rebase origin/main
 git push --force-with-lease origin <your-branch>
 ```
 
+### Which merge method do I use?
+
+- PRs into **`dmz`**: **Squash and merge**.
+- **`dmz` → `main`** promotions: **Create a merge commit** — never squash. A squashed promotion leaves `main` with a commit that `dmz` lacks, so every new branch fails the "based on latest main" check until `main` is merged back into `dmz` (with a merge commit).
+
 ### Where do I get detailed workflow and troubleshooting steps?
 
 See the [DMZ Workflow Guide](.github/DMZ-WORKFLOW.md) and [DMZ Quick Reference](.github/DMZ-QUICK-REFERENCE.md).

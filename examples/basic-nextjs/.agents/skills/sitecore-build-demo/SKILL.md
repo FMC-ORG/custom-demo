@@ -248,6 +248,8 @@ The content map is the input for Phase 3 — it contains exact field values read
 
 **Inputs:** approved build plan and content map, project identity, verified template/folder IDs from the manifest, image manifest.
 
+**Order with custom components:** if the build plan has `customComponents`, create their Sitecore definitions (Phase 5 steps 1–3, 5–7) **before** preparing the execution plan below. The execution plan is frozen once population starts and needs their verified template, folder and rendering IDs. Their client datasources are then populated by the Phase 3 helper like any other section.
+
 1. Upload images through `.agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs`. Known pending approvals share one configurable 60-second read-only window; known public links share one configurable 90-second anonymous-access window. Request time counts against the batch-wide deadline. Use `--approval-timeout` / `CH_APPROVAL_TIMEOUT` and `--public-link-timeout` / `CH_PUBLIC_LINK_TIMEOUT` (seconds). Never recreate resources or repeat uncertain approval writes to absorb delay. An explicitly approved NEW upload run uses `--initialize`; a resume never does. Check `upload-result.json`, not just non-empty URLs. Without Content Hub credentials, preserve a manual-image handoff and do not claim automated uploads succeeded.
 2. Set `contract: "demo-framework-v2"` and include the inspected `targetReview` and approved shared-design targets. Prepare the reviewed, field-ready execution plan using `.agents/skills/sitecore-build-demo/assets/execution-plan.template.json`. Resolve project paths from configuration and verify IDs/field types. Record explicit optionality and explicit blanks; omitted content is not permission to blank fields. Use a distinct stable section key for repeated component types.
 3. Create client datasource instances, never change example items or shared templates. Header/footer datasources are included when configured on their renderings; their `placement: "partial-design"` affects assembly, not whether content is populated.
@@ -258,7 +260,7 @@ The content map is the input for Phase 3 — it contains exact field values read
 
 General Link values must be complete XML or approved external link objects; image values come from verified DAM image XML with dimensions. All demo content remains English. Media posters may be used only when approved; videos and unavailable assets remain explicit manual tasks.
 
-The pipeline creates default client datasources. Segment-specific personalization remains separate approved work. Header/Footer datasource wiring is mandatory within the approved complete build; variant selection and structural repairs remain separate. Creation-time datasource fields are deferred pending a separately approved live probe; retain the verified narrow blank fallback without shared-template changes.
+The pipeline creates default client datasources. Segment-specific personalization remains separate approved work. Header/Footer datasource wiring is mandatory within the approved complete build; their variant selection and structural repairs remain separate. Creation-time datasource fields are deferred pending a separately approved live probe; retain the verified narrow blank fallback without shared-template changes.
 
 ### Phase 4 — Apply the theme
 
@@ -314,10 +316,12 @@ The theme takes effect on next dev server restart. All 18 components pick up the
 
 For each section in the build plan with `matchType: "custom"`:
 
+Do this **before Phase 3's execution plan** (see the ordering note in Phase 3); the steps are numbered here for reference only.
+
 1. Use the appropriate Sitecore creation skill (simple/list/context-only)
 2. Follow the `customComponents` section of the build plan for field specs
 3. Build the component from scratch with the client theme applied
-4. Populate the datasource with client content
+4. Include its client datasource as a section in the Phase 3 execution plan — do not populate it by hand
 5. Update the manifest (template, rendering, datasource folder, example item, variants)
 6. Register in Available Renderings
 7. Register in component-map.ts
@@ -357,7 +361,7 @@ This phase bridges the gap between "same colors" (Phase 4 CSS variables) and "lo
 3. The helper snapshots page state, adds sequentially with stable section-specific names, diffs read-back after every add, checkpoints instance IDs, wires client datasources, and verifies final relative order and relationships.
 4. A timeout is an unknown outcome. Read back before any retry. If attribution remains ambiguous, stop the placement chain. Never generate a different retry name or delete a local datasource to bypass a collision.
 5. Automatically wire approved Header/Footer partial-design targets using the journaled helper. Verify exact instance/rendering identity and expected pre-write datasource, preserve parameters and unrelated components, and record previous datasource IDs. Missing/incompatible/ambiguous targets block wiring and require a separate repair decision. Never silently treat unresolved mandatory wiring as an optional manual task.
-6. Preserve existing rendering parameters. The add API may select a preset variant: do not assume Default. Generate `variant-checklist.md` from observed parameters when available; otherwise label Current as unverified. Variant selection itself remains manual.
+6. **Variants are applied automatically for added instances.** Set each section's `variant` (the Variant Definition name, e.g. `Worley2Hero`) in the execution plan; Phase 5.5 must have created it before assembly. Just before each add the helper sorts that variant first in `Presentation/Headless Variants/<componentName>` (a new instance takes the first variant), checks the instance's `FieldNames`, then restores the folder order. Reused instances (`existingInstanceId`) and shared Header/Footer renderings cannot be changed by MCP: they become manual variant tasks in `assembly-result.json`. Generate `variant-checklist.md` only from those tasks and any `applied: false` instance.
 7. Inspect `assembly-result.json` and all unresolved upstream phase results. A written summary does not turn partial work into completed work. Auto-created local datasource cleanup remains manual, not an automatic delete.
 
 Report component instance IDs, datasource wiring, relative order, exceptions, verified shared-design switches and previous datasources, variant tasks, and unresolved operations. Resume through verified records rather than repeating adds.
@@ -451,7 +455,8 @@ docs/ai/demos/<client-kebab>/
 - **Always use the manifest** for item IDs — don't re-resolve paths that are already cached
 - **Always present the plan before executing** — the SE must approve the theme and build plan
 - **Automate images via Content Hub** — download during Phase 2.5 (`--download-images`), upload + approve + create public link via `upload-to-content-hub.mjs` in Phase 3 Step 1, set Image fields using DAM format (`<Image src="..." dam-id="..." />`). Requires Content Hub credentials in `credentials.local.yaml`. Fall back to manual `images-to-upload.md` if no credentials.
-- **Mark variants as manual** — generate the variant checklist, don't skip this step. See `docs/ai/reference/agent-api-limitations.md` for why.
+- **Plan variants, don't click them** — set `variant` on every section of the execution plan. Assembly applies it to added instances; only reused and shared (Header/Footer) instances stay in the manual variant checklist. See `docs/ai/reference/agent-api-limitations.md`.
 - **Use `insertAfterComponentId` for ordering** — add components sequentially, passing the previous component's instance ID to maintain build-plan order
 - **Use the existing Home page by default** — do not create a new subpage unless the user explicitly asks. The Home page already has the correct Page Design and URL routing. Note any OOB components for manual cleanup.
+- **Never push client work** — client components, themes, variants and demo records stay uncommitted or are committed only on a local `client/<slug>` branch. Never push them to a shared remote (`origin`/`upstream`), even on a test branch.
 - **All content in English** — regardless of source page language, all datasource content must be in English (en). Translate from the source language during content extraction, never after content creation.

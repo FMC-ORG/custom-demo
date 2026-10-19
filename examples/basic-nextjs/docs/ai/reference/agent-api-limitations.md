@@ -14,7 +14,9 @@ Documented limitations discovered during the SitecoreAI Demo Builder project. Th
 
 The `add_component_on_page` MCP tool adds a component to a page and can set **datasource fields** via the `fields` parameter, but it **cannot set rendering parameters** — including the `FieldNames` parameter that controls which **Headless Variant** is used.
 
-The add operation does not guarantee Default: later live runs observed non-default `FieldNames`. Read and report the actual parameters, preserving them during datasource wiring. The SE must manually select the planned variant in Pages when it differs or cannot be verified.
+The add operation does not guarantee Default. **Live probe 2026-10-19:** a new instance gets the **first Variant Definition** in `Presentation/Headless Variants/<Component>`, ordered by `__Sortorder` then name. Setting `__Sortorder = -1000` on `Worley2Contact` made a newly added CTABanner use it although it sorts last by name; clearing `__Sortorder` restored the alphabetical order and the instance kept its variant.
+
+**Workaround in use:** `sitecore-build-demo` assembly sorts the planned variant first just before each add and restores the order afterwards (see its `references/recovery.md`). Instances that already exist (reused or shared Header/Footer) still need manual selection in Pages.
 
 ### What We Tested
 

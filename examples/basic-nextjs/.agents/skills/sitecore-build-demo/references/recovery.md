@@ -60,13 +60,17 @@ If a process or agent dies **after claim but before reply**, never claim or exec
 
 When resuming after a session break, add `--begin` once to discard cached observations. Within a handoff session raw reads are reused until a mutation invalidates them. Verified operations and completed read-only checkpoints (folder identity, final fields/order, and assembly datasource checks) are reused within that session, so each MCP handoff does not reread every earlier section. Failed or awaiting checks are never saved as successes. `--begin` and a finished execution rotate the observation session, invalidating both kinds of reusable verification. Prepared, unissued writes must pass a fresh precondition comparison before being claimed after a session break. An absent/uncertain result is never retried as a mutation; another `--begin` can obtain a fresh read-only reconciliation pass when visibility is delayed. Do not loop indefinitely.
 
+**Delayed visibility.** A parent's children listing can show a newly created item only seconds (sometimes minutes) after `create_content_item` returned. The helper therefore verifies a create by the `itemId` the tool returned: it reads that item by ID and checks its name, template and exact path under the planned parent. The listing is used only when no ID came back (lost response). Verification and final-order checks retry with up to five fresh reads; each retry appears as a new read-only `awaiting-tool` request — service it like any other read. Only after those attempts does an operation become `needs-reconciliation`.
+
 After population is verified, start assembly once:
 
 ```bash
 node .agents/skills/sitecore-build-demo/scripts/demo-recovery.cjs --plan docs/ai/demos/<client>/execution-plan.json --directory docs/ai/demos/<client> --phase assemble --initialize
 ```
 
-Use the same claim/call/reply protocol. Subsequent assembly resumes omit `--initialize`. The assembly helper consumes `population-result.json`, rechecks datasource fields/order, and preserves existing rendering parameters. It cannot set a named visual variant and must not claim the variant is Default.
+Use the same claim/call/reply protocol. Subsequent assembly resumes omit `--initialize`. The assembly helper consumes `population-result.json`, rechecks datasource fields/order, and preserves existing rendering parameters.
+
+**Variant selection.** A new instance takes the first Variant Definition of its component (ordered by `__Sortorder`, then name). For a section with `variant`, the helper journals `<key>:variant-first` (sets `__Sortorder` to `-100000` unless already first, verified by the folder's child order), adds the component, checks `FieldNames`, then journals `<key>:variant-restore` (clears `__Sortorder`, verified against the original order) — also when the add fails. A missing variant, unconfirmed reorder or unexpected `FieldNames` never blocks assembly; it becomes a manual task. A section is never reordered again once its add was issued. `__Sortorder` is not echoed by item reads; only the folder order is observable.
 
 ## Records and status
 

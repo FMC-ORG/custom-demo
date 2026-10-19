@@ -58,7 +58,6 @@ jest.mock('@sitecore-content-sdk/nextjs', () => ({
     field?: { value?: { src?: string; alt?: string } };
     className?: string;
   }) =>
-    // eslint-disable-next-line @next/next/no-img-element
     React.createElement('img', {
       src: field?.value?.src,
       alt: field?.value?.alt,

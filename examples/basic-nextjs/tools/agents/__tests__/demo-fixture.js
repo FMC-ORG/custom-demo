@@ -59,13 +59,17 @@ function sitecore() {
     },
     readPage: async () => clone(components),
     addComponent: async (data) => {
+      // Live behaviour: a new instance gets the first Variant Definition of its component's
+      // Headless Variants folder (ordered by __Sortorder, then name).
+      const folder = [...items.values()].find((x) => x.templateId === 'variants' && x.name === 'Cards');
+      const first = folder ? (await api.readItem(folder.id)).children[0]?.id : undefined;
       const item = {
         id: `instance-${++counter}`,
         renderingId: data.componentRenderingId,
         componentName: 'Cards',
         placeholder: data.placeholderPath,
         datasourceId: `local-${counter}`,
-        parameters: { FieldNames: 'existing-variant' },
+        parameters: { FieldNames: first || 'existing-variant' },
       };
       const at = data.insertAfterComponentId
         ? components.findIndex((x) => x.id === data.insertAfterComponentId) + 1

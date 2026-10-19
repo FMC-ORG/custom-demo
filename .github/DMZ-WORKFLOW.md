@@ -20,7 +20,7 @@
 
 This repository uses a DMZ integration branch and two validation stages before promotion to `main`. Passing code checks is not a guarantee of live Sitecore connectivity or deployment readiness.
 
-**Current DMZ gate:** credential-free validation of `examples/basic-nextjs` only. It does not build the disabled reference starters or connect to Sitecore/Content Hub. The separate PR-validation workflow is unchanged and may still run Sitecore-connected build steps; this update does not make all repository CI credential-free.
+**Current gates:** both the PR and DMZ workflows run the same credential-free checks against `examples/basic-nextjs` only. Neither builds the reference starters or connects to Sitecore/Content Hub, and neither requires repository secrets. Live integration and deployment must be verified separately.
 
 
 
@@ -46,26 +46,19 @@ feature branches (developer forks)
 
 ### Gate 1: PR Validation (`.github/workflows/pr-validation.yml`)
 
-**Triggers**: When a PR is opened or updated targeting `dmz`
+**Triggers:** a pull request opened or updated against `dmz`. The check name remains **Validate Pull Request** for compatibility with existing required-check settings.
 
-**Validates**:
-- ✅ PR branch is based on the **latest `main` HEAD**
-- ✅ PR can be squash merged without conflicts
-- ✅ Linting passes
-- ✅ Formatting is correct
-- ✅ TypeScript type checking passes
-- ✅ All starters build successfully
-- ✅ All tests pass
+**Blocking checks:**
+- The PR head (not GitHub's synthetic merge commit) must be based on the latest `main` HEAD.
+- The same offline `basic-nextjs` checks as Gate 2: `npm ci`, offline type-check fixtures, `agents:check`, `agents:validate`, unit tests and `type-check`.
 
-**Key Features**:
-- **Smart change detection**: Only validates starters that have changes
-- **Global change handling**: Validates all starters if global files change
-- **Automated PR comments**: Provides clear feedback to developers
-- **Incremental validation**: Updates existing comments instead of creating new ones
+**Permissions:** read-only repository contents, with checkout credentials not persisted. The workflow no longer posts or edits PR comments; results appear in the check and its job summary. It uses `pull_request`, never `pull_request_target`, so fork PRs do not run with write access or secrets.
 
-**Result**: 
-- If validation fails → PR blocked, developer must fix issues
-- If validation passes → PR can be reviewed and merged
+**Not run:** the same exclusions as Gate 2 (no live builds, deployment, reference starters, lint/format or GEO tests). Merge conflicts with `dmz` are reported by GitHub's own mergeability check, not by this workflow.
+
+**Result:**
+- If validation fails → fix the PR before merging.
+- If validation passes → the offline code checks passed; review and squash merge as usual.
 
 ### Gate 2: DMZ Validation (`.github/workflows/dmz-validation.yml`)
 
@@ -168,12 +161,10 @@ git push origin feature/my-feature
 2. **Important**: Set the base branch to `dmz` (not `main`)
 3. The PR validation workflow will automatically check:
    - ✅ Your branch is based on the latest `main`
-   - ✅ No merge conflicts with `dmz`
-   - ✅ Linting passes
-   - ✅ Formatting is correct
-   - ✅ TypeScript type checking passes
-   - ✅ All starters build successfully
-   - ✅ All tests pass
+   - ✅ `basic-nextjs` agent configuration and component registrations are valid
+   - ✅ Unit tests pass
+   - ✅ TypeScript type checking passes (offline fixtures)
+   - GitHub separately reports merge conflicts with `dmz`. Lint, formatting, full builds and live Sitecore integration are not checked.
 
 ### 4. If Validation Fails: "Not Based on Latest Main"
 
@@ -301,8 +292,7 @@ To ensure the DMZ workflow provides maximum security, the following branch prote
   - **Dismiss Stale Pull Request Approvals**: ENABLED
 - **Require Status Checks**: ENABLED
   - Required checks:
-    - ✅ `Validate PR Base Branch` (from pr-validation.yml)
-    - ✅ `Validate PR Code Quality` (from pr-validation.yml)
+    - ✅ `Validate Pull Request` (from pr-validation.yml)
 - **Merge Strategy**:
   - **Allow Squash Merging**: ENABLED (required for DMZ workflow)
   - **Allow Merge Commits**: DISABLED (enforces squash only)
@@ -332,7 +322,7 @@ The workflows use the following environment variables:
 
 ### Starter Applications
 
-DMZ validation targets only `examples/basic-nextjs`, the active rendering host. Other `examples/kit-nextjs-*` directories remain reference starters and are not tested by this DMZ job. The separate PR-validation workflow has its own, unchanged starter selection.
+PR and DMZ validation target only `examples/basic-nextjs`, the active rendering host. Other `examples/kit-nextjs-*` directories remain reference starters and are not tested by either workflow.
 
 ### Required npm Commands
 
@@ -355,28 +345,11 @@ The helper's fixtures are ignored local outputs. Do not commit them, copy deploy
 
 #### PR Validation Fails
 
-**Linting Errors:**
-```bash
-# Fix linting issues
-npm run lint -- --fix
-```
+Reproduce the failing step locally from `examples/basic-nextjs` with the command sequence under [Required npm Commands](#required-npm-commands).
 
-**Formatting Issues:**
-```bash
-# Fix formatting
-npm run format
-```
-
-**Type Errors:**
-```bash
-# Check TypeScript errors
-npm run type-check
-```
-
-**Build Failures:**
-- Check for missing dependencies
-- Verify import paths
-- Check for syntax errors
+- **Not based on latest main:** rebase onto `origin/main` and push with `--force-with-lease`.
+- **Agent configuration:** edit canonical `.agents/` sources, then run `npm run agents:sync`; never hand-edit generated files.
+- **Component validation, tests or type errors:** fix the reported file and rerun that command.
 
 #### DMZ Validation Fails
 
@@ -426,12 +399,12 @@ This workflow uses **defense in depth** with two validation layers:
 
 1. **PR Validation** (before merge to dmz):
    - Checks if branch is based on latest main
-   - Runs lint, format, type-check, build, tests
+   - Runs the offline `basic-nextjs` checks (agents, components, tests, type-check)
    - Catches issues early, before they reach dmz
    - Provides fast feedback to developers
 
 2. **DMZ Validation** (after merge to dmz, before manual merge to main):
-   - Double-checks everything again
+   - Re-runs the same offline checks on the squash-merged result
    - Safety net in case something changes between PR approval and merge
    - Indicates when dmz is ready for manual merge to main
    - Protects main from any issues that slip through

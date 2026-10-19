@@ -15,19 +15,15 @@ function app(files = {}) {
   return root;
 }
 
-test('the DMZ gate validates only basic-nextjs, without live credentials or server/build steps', () => {
-  const workflowFile = path.resolve(
-    __dirname,
-    '../../../../../.github/workflows/dmz-validation.yml',
-  );
-  const source = fs.readFileSync(workflowFile, 'utf8');
-  const workflow = yaml.load(source);
-  expect(Object.keys(workflow.jobs)).toEqual(['validate-dmz']);
-  expect(workflow.on.push.branches).toEqual(['dmz']);
-  expect(Object.hasOwn(workflow.on, 'workflow_dispatch')).toBe(true);
-  expect(workflow.permissions).toEqual({ contents: 'read' });
-  const job = workflow.jobs['validate-dmz'];
-  expect(job.name).toBe('Validate DMZ Branch'); // preserve the existing check name
+const workflowDirectory = path.resolve(__dirname, '../../../../../.github/workflows');
+function loadWorkflow(name) {
+  const source = fs.readFileSync(path.join(workflowDirectory, name), 'utf8');
+  return { source, workflow: yaml.load(source) };
+}
+
+// Both gates share the same offline, credential-free contract for basic-nextjs.
+function expectOfflineBasicNextjsJob(source, job, checkName) {
+  expect(job.name).toBe(checkName); // preserve the existing check name
   expect(job['timeout-minutes']).toBeGreaterThan(0);
   expect(job.defaults.run['working-directory']).toBe('examples/basic-nextjs');
   const commands = job.steps
@@ -45,7 +41,7 @@ test('the DMZ gate validates only basic-nextjs, without live credentials or serv
     expect(commands.includes(command)).toBe(true);
   }
   expect(
-    /secrets\.|SITECORE_EDGE_CONTEXT_ID|SITECORE_EDITING_SECRET|kit-nextjs-|npm run build|npm run start|test:geo|agents:eval/.test(
+    /secrets\.|SITECORE_EDGE_CONTEXT_ID|SITECORE_EDITING_SECRET|kit-nextjs-|npm run build|npm run start|test:geo|agents:eval|pull_request_target/.test(
       source,
     ),
   ).toBe(false);
@@ -54,6 +50,31 @@ test('the DMZ gate validates only basic-nextjs, without live credentials or serv
   expect(job.steps.filter((step) => step['continue-on-error'] === true)).toEqual([]);
   expect(job.steps[job.steps.length - 1].if).toBe('always()');
   expect(job.steps[job.steps.length - 1].run).toContain('No live integration build');
+}
+
+test('the DMZ gate validates only basic-nextjs, without live credentials or server/build steps', () => {
+  const { source, workflow } = loadWorkflow('dmz-validation.yml');
+  expect(Object.keys(workflow.jobs)).toEqual(['validate-dmz']);
+  expect(workflow.on.push.branches).toEqual(['dmz']);
+  expect(Object.hasOwn(workflow.on, 'workflow_dispatch')).toBe(true);
+  expect(workflow.permissions).toEqual({ contents: 'read' });
+  expectOfflineBasicNextjsJob(source, workflow.jobs['validate-dmz'], 'Validate DMZ Branch');
+});
+
+test('the PR gate runs the same offline checks and keeps the latest-main base check, read-only', () => {
+  const { source, workflow } = loadWorkflow('pr-validation.yml');
+  expect(Object.keys(workflow.jobs)).toEqual(['pr-validation']);
+  expect(workflow.on).toEqual({ pull_request: { branches: ['dmz'] } });
+  expect(workflow.permissions).toEqual({ contents: 'read' });
+  const job = workflow.jobs['pr-validation'];
+  expect(job.permissions).toBeUndefined(); // no PR-comment or issue write access
+  expectOfflineBasicNextjsJob(source, job, 'Validate Pull Request');
+  const checkout = job.steps.find((step) => step.uses?.startsWith('actions/checkout@'));
+  expect(checkout.with['fetch-depth']).toBe(0);
+  expect(checkout.with['persist-credentials']).toBe(false);
+  const base = job.steps.find((step) => step.name === 'Check PR branch is based on latest main');
+  expect(base.env.PR_HEAD_SHA).toBe('${{ github.event.pull_request.head.sha }}');
+  expect(base.run).toContain('git merge-base "$PR_HEAD_SHA" origin/main');
 });
 
 test('offline fixtures are generated for missing files only and do not change component registrations or environment config', () => {

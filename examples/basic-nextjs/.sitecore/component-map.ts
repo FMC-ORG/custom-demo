@@ -1,9 +1,11 @@
 // Below are built-in components that are available in the app, it's recommended to keep them as is
+import { NextjsContentSdkComponent } from '@sitecore-content-sdk/nextjs';
 
-import { BYOCServerWrapper, NextjsContentSdkComponent, FEaaSServerWrapper } from '@sitecore-content-sdk/nextjs';
+
+import { BYOCServerWrapper, FEaaSServerWrapper } from '@sitecore-content-sdk/nextjs';
 import { Form } from '@sitecore-content-sdk/nextjs';
 
-// end of built-in components
+// end of built-in import section
 import * as TestimonialBlock from 'src/components/uiim/social-proof/TestimonialBlock';
 import * as LogoCloud from 'src/components/uiim/social-proof/LogoCloud';
 import * as SearchTypeahead from 'src/components/uiim/search/SearchTypeahead';

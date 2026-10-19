@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   // Enable React Strict Mode
   reactStrictMode: true,
 
+  // AGENTS.md is curated and generated into the per-agent files (ADR 0007). Stop `next dev`
+  // (Next.js >= 16.4) from injecting and re-adding its own managed agent-rules block.
+  agentRules: false,
+
   // Disable the X-Powered-By header. Follows security best practices.
   poweredByHeader: false,
 

@@ -30,6 +30,8 @@ export default defineCliConfig({
       'src/components/uiim/media/SmartMedia.tsx', // wrapper used inside five components (ADR 0005)
       'src/components/**/*.props.ts', // props sidecar files
       'src/components/**/*.props.tsx',
+      'src/components/atoms/**', // Sitecore Starter: atom helpers
+      '**/*.schema.ts', // Sitecore Starter: schema sidecar files
     ],
   },
 });

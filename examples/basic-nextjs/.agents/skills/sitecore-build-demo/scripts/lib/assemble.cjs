@@ -177,24 +177,13 @@ async function wireShared(recovery, api, section, datasource) {
   return value;
 }
 
-// Approved structural change (probe 2026-10-19, Footer partial design): the MCP cannot change an
-// existing instance's variant, so a shared Header/Footer instance is replaced by a new one that
-// takes the planned variant at add time. Sequence, each journaled and verified:
-// variant first -> add after old -> restore order -> wire client datasource -> remove old.
-// Returns null (caller falls back to the datasource switch) when the variant cannot be applied
-// before anything structural happened.
-async function replaceShared(recovery, api, plan, section, datasource) {
-  const target = section.sharedDesign;
-  if (
-    target?.approved !== true ||
-    !target.pageId ||
-    !target.existingInstanceId ||
-    !Object.hasOwn(target, 'currentDatasource')
-  )
-    throw new Blocked(
-      section.key,
-      'shared-design target is missing or unapproved; obtain a repair decision',
-    );
+// Approved structural change (ADR 0009; probes 2026-10-19 on a page and the Footer partial
+// design): the MCP cannot change an existing instance's variant, so an existing instance is
+// replaced by a new one that takes the planned variant at add time. Sequence, each journaled
+// and verified: variant first -> add after old -> restore order -> wire client datasource ->
+// remove old. Returns null (caller keeps the old instance) when the variant cannot be applied
+// before anything structural happened. `prefix` names the journal steps.
+async function replaceInstance(recovery, api, plan, section, datasource, target, prefix) {
   const key = section.key;
   const ops = recovery.state.operations;
   const fresh = (step, attempt) => (attempt ? { fresh: `${key}:${step}:${attempt}` } : undefined);
@@ -208,7 +197,7 @@ async function replaceShared(recovery, api, plan, section, datasource) {
         : await restoreVariant(recovery, api, section, prepared);
   };
   try {
-    if (ops[`${key}:shared-add`]) {
+    if (ops[`${key}:${prefix}-add`]) {
       // The add was issued with the earlier order: never reorder again.
       prepared =
         ops[`${key}:variant-first`]?.status === 'verified'
@@ -226,15 +215,20 @@ async function replaceShared(recovery, api, plan, section, datasource) {
         return null; // Reorder unconfirmed: a new instance would not get the client variant.
       }
     }
-    const added = await recovery.operation(`${key}:shared-add`, {
+    const added = await recovery.operation(`${key}:${prefix}-add`, {
       before: async () => {
         const page = await api.readPage(target.pageId);
         const candidates = page.filter((x) => sameId(x.id, target.existingInstanceId));
         if (candidates.length !== 1 || !sameId(candidates[0].renderingId, section.renderingId))
-          throw new Blocked(key, 'shared rendering missing, incompatible or ambiguous');
+          throw new Blocked(key, 'instance to replace is missing, incompatible or ambiguous');
         const old = candidates[0];
-        if (String(old.datasourceId || '') !== String(target.currentDatasource || ''))
-          throw new Blocked(key, 'shared datasource changed after target approval');
+        if (target.placeholder && old.placeholder !== target.placeholder)
+          throw new Blocked(key, 'instance to replace is in a different placeholder');
+        if (
+          Object.hasOwn(target, 'currentDatasource') &&
+          String(old.datasourceId || '') !== String(target.currentDatasource || '')
+        )
+          throw new Blocked(key, 'datasource of the instance changed after approval');
         return {
           page,
           oldId: old.id,
@@ -251,7 +245,7 @@ async function replaceShared(recovery, api, plan, section, datasource) {
           insertAfterComponentId: before.oldId,
         }),
       verify: async (_result, before, saved, attempt = 0) => {
-        const page = await api.readPage(target.pageId, fresh('shared-add', attempt));
+        const page = await api.readPage(target.pageId, fresh(`${prefix}-add`, attempt));
         const candidates = saved
           ? page.filter((x) => sameId(x.id, saved.id))
           : page.filter((x) => !before.page.some((old) => sameId(old.id, x.id)));
@@ -280,10 +274,10 @@ async function replaceShared(recovery, api, plan, section, datasource) {
       },
     });
     await restore();
-    await recovery.operation(`${key}:shared-new-wire`, {
+    await recovery.operation(`${key}:${prefix}-new-wire`, {
       before: async () => {
         const current = (await api.readPage(target.pageId)).find((x) => sameId(x.id, added.id));
-        if (!current) throw new Blocked(key, 'new shared instance disappeared');
+        if (!current) throw new Blocked(key, 'replacement instance disappeared');
         return { datasourceId: current.datasourceId || '' };
       },
       write: (before) =>
@@ -291,7 +285,7 @@ async function replaceShared(recovery, api, plan, section, datasource) {
           ? {}
           : api.setDatasource(target.pageId, added.id, datasource.itemId),
       verify: async (_result, _before, _saved, attempt = 0) => {
-        const page = await api.readPage(target.pageId, fresh('shared-new-wire', attempt));
+        const page = await api.readPage(target.pageId, fresh(`${prefix}-new-wire`, attempt));
         const current = page.find((x) => sameId(x.id, added.id));
         if (
           !current ||
@@ -304,7 +298,7 @@ async function replaceShared(recovery, api, plan, section, datasource) {
           : unknown();
       },
     });
-    await recovery.operation(`${key}:shared-remove-old`, {
+    await recovery.operation(`${key}:${prefix}-remove-old`, {
       before: async () => {
         const page = await api.readPage(target.pageId);
         const replacement = page.find((x) => sameId(x.id, added.id));
@@ -314,7 +308,7 @@ async function replaceShared(recovery, api, plan, section, datasource) {
       },
       write: (before) => (before.oldPresent ? api.removeComponent(target.pageId, added.oldId) : {}),
       verify: async (_result, _before, _saved, attempt = 0) => {
-        const page = await api.readPage(target.pageId, fresh('shared-remove-old', attempt));
+        const page = await api.readPage(target.pageId, fresh(`${prefix}-remove-old`, attempt));
         const replacement = page.find((x) => sameId(x.id, added.id));
         if (!replacement || !sameId(replacement.datasourceId, datasource.itemId))
           return { state: 'conflict' };
@@ -326,8 +320,6 @@ async function replaceShared(recovery, api, plan, section, datasource) {
     const applied = !!prepared && sameId(added.parameters?.FieldNames, prepared.variantId);
     return {
       key,
-      pageId: target.pageId,
-      placement: 'partial-design',
       replaced: true,
       componentInstanceId: added.id,
       previousInstanceId: added.oldId,
@@ -349,6 +341,30 @@ async function replaceShared(recovery, api, plan, section, datasource) {
       }
     throw error;
   }
+}
+// Shared Header/Footer: requires the approved, inspected target; keeps the original step names.
+async function replaceShared(recovery, api, plan, section, datasource) {
+  const target = section.sharedDesign;
+  if (
+    target?.approved !== true ||
+    !target.pageId ||
+    !target.existingInstanceId ||
+    !Object.hasOwn(target, 'currentDatasource')
+  )
+    throw new Blocked(
+      section.key,
+      'shared-design target is missing or unapproved; obtain a repair decision',
+    );
+  const replaced = await replaceInstance(
+    recovery,
+    api,
+    plan,
+    section,
+    datasource,
+    target,
+    'shared',
+  );
+  return replaced && { ...replaced, pageId: target.pageId, placement: 'partial-design' };
 }
 async function assemble({
   directory,
@@ -394,6 +410,15 @@ async function assemble({
   const instances = [];
   const issues = [];
   const variantTasks = [];
+  // Instances this build is approved to remove; later checks must not treat their absence as drift.
+  const plannedRemoval = new Set([
+    ...(plan.removeInstances || []).map((x) => x.instanceId.toLowerCase()),
+    ...plan.sections
+      .filter((x) => x.replace === true && x.existingInstanceId)
+      .map((x) => x.existingInstanceId.toLowerCase()),
+  ]);
+  const cleanupDatasources = [];
+  const removed = [];
   const previousByPlaceholder = new Map();
   for (const section of plan.sections) {
     let prepared = null;
@@ -446,6 +471,7 @@ async function assemble({
             : null;
         if (replaced) {
           instances.push(replaced);
+          if (replaced.localDatasourceId) cleanupDatasources.push(replaced.localDatasourceId);
           if (!replaced.variant.applied)
             variantTasks.push({
               key: section.key,
@@ -460,6 +486,37 @@ async function assemble({
             action: `Shared rendering: select variant ${section.variant} manually in Pages.`,
           });
         continue;
+      }
+      if (section.existingInstanceId && section.variant && section.replace === true) {
+        // Approved: replace the reused instance so the planned variant is applied in place.
+        const replaced = await replaceInstance(
+          recovery,
+          api,
+          plan,
+          section,
+          datasource,
+          {
+            pageId: plan.pageId,
+            existingInstanceId: section.existingInstanceId,
+            placeholder: section.placeholder,
+          },
+          'replace',
+        );
+        if (replaced) {
+          if (replaced.localDatasourceId) cleanupDatasources.push(replaced.localDatasourceId);
+          if (!replaced.variant.applied)
+            variantTasks.push({
+              key: section.key,
+              action: `Select variant ${section.variant} manually in Pages (not applied at add time).`,
+            });
+          instances.push({
+            ...replaced,
+            datasourceId: datasource.itemId,
+            placeholder: section.placeholder,
+          });
+          previousByPlaceholder.set(section.placeholder, replaced.componentInstanceId);
+          continue;
+        }
       }
       if (section.variant && section.existingInstanceId) {
         variantTasks.push({
@@ -585,6 +642,7 @@ async function assemble({
             before.page.some(
               (old) =>
                 !sameId(old.id, component.id) &&
+                !plannedRemoval.has(String(old.id).toLowerCase()) &&
                 !page.some((x) => sameId(x.id, old.id) && fingerprint(x) === fingerprint(old)),
             )
           )
@@ -595,6 +653,10 @@ async function assemble({
             : unknown();
         },
       });
+      // add_component_on_page creates a placeholder datasource; list it for manual cleanup.
+      const local = ops[`${section.key}:wire`]?.before?.datasourceId;
+      if (!section.existingInstanceId && local && !sameId(local, datasource.itemId))
+        cleanupDatasources.push(local);
       instances.push({
         key: section.key,
         componentInstanceId: component.id,
@@ -651,6 +713,46 @@ async function assemble({
         });
     }
   }
+  // Approved removal of leftover starter components (plan.removeInstances), only once the page
+  // assembled cleanly. Same rules as every write: verified by read-back, never repeated.
+  if (!issues.length)
+    for (const target of plan.removeInstances || []) {
+      const step = `remove:${target.instanceId}`;
+      try {
+        await recovery.operation(step, {
+          before: async () => {
+            const current = (await api.readPage(plan.pageId)).find((x) =>
+              sameId(x.id, target.instanceId),
+            );
+            if (current && !sameId(current.renderingId, target.renderingId))
+              throw new Blocked(step, 'instance to remove no longer has its approved rendering');
+            return { present: !!current };
+          },
+          write: (before) =>
+            before.present ? api.removeComponent(plan.pageId, target.instanceId) : {},
+          verify: async (_result, _before, _saved, attempt = 0) => {
+            const page = await api.readPage(
+              plan.pageId,
+              attempt ? { fresh: `${step}:${attempt}` } : undefined,
+            );
+            return page.some((x) => sameId(x.id, target.instanceId))
+              ? unknown()
+              : verified({ removed: target.instanceId });
+          },
+        });
+        removed.push({
+          instanceId: target.instanceId,
+          ...(target.reason ? { reason: target.reason } : {}),
+        });
+      } catch (error) {
+        if (!consumable(error, recovery)) throw error;
+        issues.push({
+          key: step,
+          status: 'needs-reconciliation',
+          reason: error.code === 'BLOCKED' ? error.message : 'removal outcome not verified',
+        });
+      }
+    }
   const result = {
     ...recovery.summary(),
     status:
@@ -661,6 +763,9 @@ async function assemble({
         : recovery.summary().status,
     instances,
     issues,
+    removed,
+    // Placeholder datasources created by add_component_on_page; delete them in Content Editor.
+    cleanupDatasources,
     manualTasks: [
       ...instances
         .filter((x) => x.placement === 'partial-design')

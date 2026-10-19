@@ -4,4 +4,6 @@ A demo build replaces the existing Header/Footer instance in its partial design 
 
 The replacement only runs when the approved plan sets `sharedDesign.replace: true`, and Phase 2 approval names each instance to be removed and the pages affected; that approval is the confirmation `remove_component_on_page` requires. The sequence (variant first → add after the old instance → restore order → wire client datasource → remove old) is journaled and verified like every other assembly write. Nothing is removed until the replacement is verified, a removal is never repeated, and a missing variant or unconfirmed reorder falls back to the datasource switch with a manual variant task. The add's auto-created datasource is left for manual cleanup.
 
+**Extended 2026-10-19:** the same approved sequence replaces reused page instances (`replace: true`), and approved leftover starter components (`removeInstances`) are removed after a clean assembly. A probe on a page confirmed add and remove there.
+
 This amends decision 7 of the [demo-framework interview](../ai/backlog/demo-framework-fixes-1-5-8-9.md#confirmed-interview-decisions): missing, incompatible or ambiguous Header/Footer renderings still require a separate repair decision.

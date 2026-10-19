@@ -31,7 +31,9 @@ git checkout main && git pull
 git checkout -b <client>-demo
 ```
 
-Use one branch per demo so each runs on its own isolated environment.
+Use one branch per demo so each runs on its own isolated environment. Client work (theme, variants,
+custom components) lives only on that demo branch: push it there to deploy the demo, but never merge
+it into `main` or include it in pull requests to the framework.
 
 ## Step 2 — Install dependencies
 
@@ -80,7 +82,8 @@ Skip this step if you are not using Content Hub — images will fall back to man
 cp docs/ai/config/credentials.example.yaml docs/ai/config/credentials.local.yaml
 ```
 
-Edit `docs/ai/config/credentials.local.yaml` (gitignored — never committed):
+Edit `docs/ai/config/credentials.local.yaml` (gitignored — never committed; the file must have
+exactly this name):
 
 ```yaml
 contentHub:
@@ -93,11 +96,8 @@ contentHub:
   uploadConfig: "AssetUploadConfiguration"
 ```
 
-The uploader authenticates when an upload/verification run starts. `--dry-run` only inspects an existing image manifest; it does **not** validate credentials or make remote calls.
-
-Demo recovery requires an approved, unchanged plan and surviving local records. Follow the [P0 recovery execution contract](examples/basic-nextjs/.agents/skills/sitecore-build-demo/references/recovery.md) for explicit first-run initialization, safe resumes, and the durable marketer MCP handoff. Do not initialize new journals over an existing legacy demo.
-
-The file must be named `credentials.local.yaml`.
+The uploader authenticates when an upload/verification run starts. `--dry-run` only inspects an
+existing image manifest; it does **not** validate credentials or make remote calls.
 
 ## Step 6 — Run the demo build skill
 
@@ -120,8 +120,11 @@ Tips:
   with `@`.
 - **Non-English sites** are supported; all content is translated to English automatically.
 - **Interrupted?** Re-run the command with `resume demo for <client>` (e.g.
-  `/sitecore-build-demo resume demo for yokohama`). Progress is saved in
-  `docs/ai/demos/<client>/demo-progress.yaml`, so finished phases are skipped.
+  `/sitecore-build-demo resume demo for yokohama`). Every Sitecore write is recorded in
+  `docs/ai/demos/<client>/` (`recovery-*.json`, `mcp-*.json`, `demo-progress.yaml`), so the build
+  continues where it stopped and never repeats a write. Keep those files, don't edit them, and don't
+  start a new build in the same folder. Details:
+  [`references/recovery.md`](examples/basic-nextjs/.agents/skills/sitecore-build-demo/references/recovery.md).
 - Typing `/sitecore-` lists every demo-builder skill. Everyday component work (create a component,
   add a variant, fix a rendering) does **not** need a command — just ask, and the agent picks the
   right skill (see `examples/basic-nextjs/AGENTS.md`).
@@ -132,10 +135,10 @@ Tips:
 |---|---|---|
 | 0 – 0.5 | Collects inputs, validates Content Hub credentials, checks the Sitecore manifest against your environment | answer any questions |
 | 1 | Extracts the brand theme (colors, fonts, shape) from the site | **confirm the theme** |
-| 2 | Analyzes the screenshot and maps every section to a template component + variant | **approve the plan** (Step 7) |
-| 2.5 – 3 | Extracts real content, uploads images to Content Hub, creates and fills datasource items | — |
-| 4 – 5.5 | Applies the theme, builds any custom components and (if chosen) pixel-perfect variants | — |
-| 6 – 7 | Assembles the Home page and writes a summary with your manual to-do list | finish the demo (Step 8) |
+| 2 | Analyzes the screenshot, maps every section to a template component + variant, and inspects the target site (existing demo, shared Header/Footer) | **approve the plan** (Step 7) |
+| 2.5 – 3 | Extracts real content, uploads images to Content Hub, creates any custom component definitions, then creates and fills datasource items | — |
+| 4 – 5.5 | Applies the theme and (if chosen) creates pixel-perfect variants | **review the theme change** |
+| 6 – 7 | Assembles the Home page with each component's planned variant, replaces Header/Footer with the client variants (if approved), and writes a summary with your remaining to-do list | finish the demo (Step 8) |
 
 All working files land in `examples/basic-nextjs/docs/ai/demos/<client>/`.
 
@@ -145,17 +148,33 @@ The agent analyzes the page and stops to ask you:
 
 - Is the build plan correct? Approved to proceed?
 - Pixel-perfect custom variants, or generic template variants?
+- Replace the shared Header/Footer so they use the client variants? The plan names the instances
+  that will be removed and the pages affected (usually every page of the site). Approving this is
+  the confirmation the removal needs.
+- Replace the existing page components it would reuse (e.g. the starter Hero) so they get the
+  client variants, and remove leftover starter components (e.g. a search strip)? The plan lists
+  each one; approving is the confirmation.
+- If the site already holds **another client's demo**, it also asks you to confirm repurposing it.
 
 Answer, and it continues: extract content, upload images, create and fill datasources, apply the
-theme, build variants, and assemble the page.
+theme, build variants, and assemble the page with the planned variants.
 
 ## Step 8 — Finish the demo
 
-When it completes, do the short manual list it hands you (in `docs/ai/demos/<client>/`):
+When it completes, do the short manual list it hands you (`demo-summary.md` and `manual-tasks.md`
+in `docs/ai/demos/<client>/`):
 
-1. Set component variants in the Pages editor (from `variant-checklist.md`).
-2. Wire NavigationHeader + SiteFooter in the Header/Footer partial designs.
-3. Restart the dev server / redeploy so new components load.
+1. Set the few variants it could not apply (`variant-checklist.md`): anything reported as not
+   applied, or components you chose to keep rather than replace. Replaced components and
+   Header/Footer get their variants automatically.
+2. Delete the placeholder datasource items that adding components creates (listed in
+   `manual-tasks.md`, from `cleanupDatasources` in `assembly-result.json`) in Content Editor.
+3. Add media the scraper could not capture (e.g. hero video posters, CSS background images).
+4. Commit and push the demo branch, then restart the dev server / redeploy so new variants load.
+5. Check the page in Pages, then publish.
+
+If the summary says **partial**, read its unresolved items before doing anything by hand. Resume
+the build (Step 6) rather than recreating items.
 
 To view locally:
 

@@ -1,0 +1,31 @@
+# Sitecore Starter sync record — read by the next sync (docs/adr/upstream-sync-runbook.md).
+# "Sitecore Starter" = Sitecore/xmcloud-starter-js. Never call it "upstream": in this project's
+# clones the git remote `upstream` is the FMC-ORG framework repository (see CONTEXT.md).
+sitecoreStarter:
+  repository: https://github.com/Sitecore/xmcloud-starter-js
+  branch: main
+  app: examples/basic-nextjs
+
+# Last Sitecore Starter commit whose basic-nextjs changes were ported (the Synced Commit).
+syncedCommit: c0de3bccb0320e46c17801f7e11a831623ab7007
+syncedCommitDate: 2026-10-09
+syncedAt: 2026-10-19
+previousSyncedCommit: d8de384aa2b2f0aa40af7ecb66154163095b9396 # fork point, 2026-07-20
+
+versions:
+  "@sitecore-content-sdk/nextjs": 2.4.1
+  "@sitecore-content-sdk/react": 2.4.0
+  "@sitecore-content-sdk/content": 2.3.1
+  "@sitecore-content-sdk/core": 2.1.4
+  "@sitecore-content-sdk/search": 0.5.0
+  "@sitecore-content-sdk/analytics-core": 2.1.2
+  "@sitecore-content-sdk/events": 2.1.2
+  "@sitecore-content-sdk/personalize": 2.1.0
+  "@sitecore-content-sdk/cli": 2.3.0
+  next: 16.4.2
+  react: 19.3.1
+  typescript: 5.8.3
+  tailwindcss: 4.3.3
+
+notTaken:
+  - Changes to other starters under examples/ and to Sitecore's .github workflows (ADR 0010).

@@ -2,6 +2,7 @@ import React, { JSX } from "react";
 import {
   Field,
   Page,
+  PageMetadataFields,
   DesignLibraryApp,
   ImageField,
   LinkField,
@@ -32,14 +33,10 @@ export interface PersonReference {
   fields?: PersonFields;
 }
 
-export interface RouteFields {
+export interface RouteFields extends PageMetadataFields {
   [key: string]: unknown;
   // Standard page fields
   Title?: Field;
-  MetaTitle?: Field;
-  OpenGraphTitle?: Field;
-  OpenGraphDescription?: Field;
-  OpenGraphImage?: ImageField;
   TwitterTitle?: Field;
   TwitterDescription?: Field;
   TwitterImage?: ImageField;

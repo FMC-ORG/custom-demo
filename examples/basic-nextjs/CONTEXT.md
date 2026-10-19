@@ -64,6 +64,12 @@
 
 - **Start Check** — The readiness checks run before a demo is built. A blocker stops the build; a warning is reported and the build may continue. Run with fixes by `sitecore-start-demo`, and again without fixes at the start of `sitecore-build-demo`.
 
+## Repositories
+
+- **Sitecore Starter** — `Sitecore/xmcloud-starter-js`, the Sitecore repository this project was forked from. Its `basic-nextjs` changes are ported here periodically. Not to be called "upstream": in this project's clones the git remote `upstream` is the FMC-ORG framework repository.
+
+- **Synced Commit** — The Sitecore Starter commit whose `basic-nextjs` changes were last ported; the starting point for the next sync.
+
 ## Agent tooling
 
 - **Skill** — A folder under `.agents/skills/<name>/` with a `SKILL.md` (Agent Skills format) plus optional `scripts/`, `references/`, `assets/`. The single source for Claude Code, Cursor, and Pi; per-tool wrappers are generated. See `docs/adr/0007-cross-agent-skills-layout.md`.

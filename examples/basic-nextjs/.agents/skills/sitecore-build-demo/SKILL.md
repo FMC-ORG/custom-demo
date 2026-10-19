@@ -15,8 +15,8 @@ Use this skill when:
 - the user says "analyze this homepage and build the components"
 
 ## Prerequisites
+- The demo was started with `/skill:sitecore-start-demo <client> <url>` (`.agents/skills/sitecore-start-demo/SKILL.md`): Demo Branch, local tools, sign-in, target site, manifest and Content Hub are checked there. Phase 0 re-runs that Start Check in check-only mode and stops on any blocker.
 - Template component library must be built (check manifest for 17+ components with status "complete")
-- Playwright scraper must be installed (`node .agents/skills/sitecore-extract-theme/scripts/site-scraper.mjs --help` should work)
 
 ## Load first
 - `docs/ai/catalog/component-registry.yaml`
@@ -55,11 +55,12 @@ Phases 2 and 2.5 use two subskills with a strict **file-in → file-out** contra
 
 A screenshot is the **primary input** for demo creation. Without a visual reference, the build plan will be wrong.
 
+**Start Check first (check-only).** Run the check-only mode of `sitecore-start-demo` (`.agents/skills/sitecore-start-demo/SKILL.md`, section *Check-only mode*) for the client. Any blocker stops the build: tell the user to run `/skill:sitecore-start-demo <client> <url>` and stop. Warnings (e.g. no Content Hub credentials → manual images; preview unavailable) are carried into the summary.
+
 **Collect from the user:**
-1. **Client name** (required) — for file naming and content
+1. **Client name** (required) — must match the started demo (`setup.json`)
 2. **Screenshot** (required) — full-page desktop screenshot of the homepage to replicate
-3. **Client URL** (optional) — used for content extraction in Phase 2.5 and theme scraping
-4. **Content Hub credentials** (if not already saved) — for image uploads in Phase 3
+3. **Client URL** — taken from `docs/ai/demos/<client-kebab>/setup.json` unless the user gives another one
 
 **How to obtain the screenshot:**
 
@@ -72,33 +73,9 @@ A screenshot is the **primary input** for demo creation. Without a visual refere
 
 **HARD RULE: Never proceed to Phase 1 without a screenshot.** Web fetch and web search are insufficient — they miss layout, spacing, card styles, section backgrounds, and visual hierarchy that drive variant selection.
 
-**Content Hub credentials (always validate):**
+**Content Hub credentials** are verified by the Start Check (`content-hub`). If they are missing or failing, images fall back to the manual `images-to-upload.md` checklist in Phase 3; to set them, the user re-runs `sitecore-start-demo`.
 
-Read `docs/ai/config/credentials.local.yaml`.
-
-**If credentials exist** (`contentHub.host` is populated):
-1. Show the user: *"Found stored Content Hub credentials for `<host>`. Validating..."*
-2. Validate by calling `POST <host>/api/authenticate` with stored user/password
-3. If **200 OK** → credentials are valid, show: *"Content Hub credentials verified for `<host>`."*
-4. If **401 / failed** → credentials are expired or wrong:
-   - Show: *"Stored credentials for `<host>` are invalid (password expired or changed)."*
-   - Ask the user for updated credentials (same flow as "no credentials" below)
-   - Update `credentials.local.yaml` with new values
-
-**If no credentials** (file doesn't exist or `contentHub.host` is empty):
-1. Show the user: *"I need Content Hub credentials to upload images automatically. See `docs/ai/config/credentials.example.yaml` for the expected format."*
-2. Ask the user:
-   - **Content Hub hostname** — e.g., `https://your-instance.sitecorecontenthub.cloud`
-   - **Username and password**
-   - **Client ID and secret** (only if they want OAuth instead of simple auth)
-3. Validate immediately by calling `POST <host>/api/authenticate`
-4. If **200 OK** → copy from `credentials.example.yaml` to `credentials.local.yaml` and fill in values (gitignored)
-5. Tell the user: *"Credentials saved and verified. They'll be reused for future demo builds. Delete `credentials.local.yaml` to reset."*
-6. If **401 / failed** → ask the user to check and retry
-
-**If the user declines to provide credentials**, that's fine — set `contentHub.host: ""` and images will fall back to the manual `images-to-upload.md` checklist in Phase 3 Step 5.
-
-**Upload plan inspection, after Phase 2.5 has produced an image manifest** (does not validate credentials; use the explicit authentication check above for that):
+**Upload plan inspection, after Phase 2.5 has produced an image manifest** (does not validate credentials; the Start Check's `content-hub` check does):
 ```bash
 node .agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs --images-dir docs/ai/demos/<client-kebab>/images --dry-run
 ```
@@ -108,29 +85,7 @@ node .agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs --imag
 
 ### Phase 0.5 — Manifest health check
 
-Before any demo work, validate that the manifest is usable and pointing at the right environment.
-
-**Run the `sitecore-manifest` skill in **validate** mode, Quick level (`.agents/skills/sitecore-manifest/references/validate.md`).**
-
-This performs:
-1. Config consistency check (`project.yaml` vs manifest `project` block)
-2. Root path validation (7 parallel MCP calls to verify structural folders exist)
-3. React file existence check (all component files present)
-4. Component map cross-check
-
-**Decision tree:**
-
-| Quick result | Action |
-|---|---|
-| All PASS | Proceed to Phase 1 |
-| Config mismatch only | Auto-fix applied, re-run Quick, then proceed |
-| Root paths fail | STOP — ask user to verify environment. Do not proceed. |
-| React files missing | WARN user, but can proceed (missing components won't be used in this demo) |
-| Component map mismatch | WARN user — dev server restart may be needed after demo build |
-
-**If Quick validation finds stale IDs** (items exist but with different GUIDs), the skill auto-repairs the manifest. The user is shown what changed before proceeding.
-
-**If the user requests Full validation** (or Quick fails on multiple checks), run Full mode. This adds per-component deep checks (~3-5 minutes) but guarantees every template, rendering, datasource folder, example item, and variant container exists.
+The manifest check runs in `sitecore-start-demo` (Step 2, item 5, with its decision table). Reuse that result only when the check-only Start Check reports `manifestReuse.reusable: true` **and** `manifestReuse.siteItemId` equals the site item ID read in Phase 0 (same day, same `main` commit, same environment). Otherwise run the `sitecore-manifest` skill in validate mode, Quick level (`.agents/skills/sitecore-manifest/references/validate.md`) and apply the decision table from `sitecore-start-demo` — a root-path failure stops the build.
 
 **Do not skip this phase.** A stale manifest causes silent failures in Phase 3 (content population) that are hard to diagnose.
 

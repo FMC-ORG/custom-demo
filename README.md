@@ -5,9 +5,21 @@
 > starters in `examples/` are NOT used — ignore them.**
 
 Turn a client's homepage (screenshot + URL) into a themed, content-filled Sitecore XM Cloud demo
-on your own environment. Once setup is done, you build a demo by running **one skill command** —
-`sitecore-build-demo` — with a screenshot attached. The agent does the rest, pausing once for your
-approval before it writes anything to Sitecore.
+on your own environment. Once the one-time setup is done (Steps 1–5), every demo is **two skill
+commands**: `sitecore-start-demo` prepares and checks everything, then `sitecore-build-demo` builds
+the demo from a screenshot. The agent does the rest, pausing for your approval before it writes
+anything to Sitecore.
+
+**Every new demo, in short** (from `examples/basic-nextjs`; in Claude Code and Cursor drop the
+`skill:` prefix):
+
+```text
+/skill:sitecore-start-demo <client> <client-homepage-url>                  # Step 6
+/skill:sitecore-build-demo build a custom demo for <client> from <url>     # Step 6, attach a screenshot
+```
+
+Approve the plan (Step 7), then finish the short to-do list (Step 8). Before the next demo, commit
+and push the current demo branch (see [Starting the next demo](#starting-the-next-demo)).
 
 Works in **Claude Code**, **Cursor**, and **Pi**. All three read the same skills from
 `examples/basic-nextjs/.agents/skills/` — always start your agent from `examples/basic-nextjs`.
@@ -18,7 +30,7 @@ Works in **Claude Code**, **Cursor**, and **Pi**. All three read the same skills
 
 ---
 
-## Step 1 — Fork (or template) the repo and branch off `main`
+## Step 1 — Fork (or template) the repo
 
 > **⚠️ Important:** Do **not** clone this repository directly. **Fork it** or use it as a
 > **template** ("Use this template" on GitHub). You only need the **`main` branch**.
@@ -27,13 +39,12 @@ Works in **Claude Code**, **Cursor**, and **Pi**. All three read the same skills
 # After forking / creating from template, clone YOUR copy:
 git clone <your-fork-url>
 cd <repo>/examples/basic-nextjs
-git checkout main && git pull
-git checkout -b <client>-demo
 ```
 
-Use one branch per demo so each runs on its own isolated environment. Client work (theme, variants,
-custom components) lives only on that demo branch: push it there to deploy the demo, but never merge
-it into `main` or include it in pull requests to the framework.
+Each demo gets its own branch (`<client>-demo`), created from the latest `main` by the start skill
+in Step 6. Client work (theme, variants, custom components) lives only on that demo branch: push it
+there to deploy the demo, but never merge it into `main` or include it in pull requests to the
+framework.
 
 ## Step 2 — Install dependencies
 
@@ -43,11 +54,8 @@ npm run agents:browsers   # Chromium for the site scraper (once per machine)
 npm run agents:setup      # git pre-commit hook that keeps agent files in sync (once per clone)
 ```
 
-Verify the scraper runs (must be run from inside `examples/basic-nextjs`):
-
-```bash
-node .agents/skills/sitecore-extract-theme/scripts/site-scraper.mjs --help
-```
+You only need to do this once. The start skill (Step 6) checks these again for every demo and
+installs anything missing.
 
 ## Step 3 — Deploy the app
 
@@ -76,7 +84,8 @@ expired", run `/mcp` again (or re-authenticate in Cursor's MCP settings) and ret
 
 ## Step 5 — Add Content Hub credentials _(optional)_
 
-Skip this step if you are not using Content Hub — images will fall back to manual upload.
+Skip this step if you are not using Content Hub — images will fall back to manual upload. The
+start skill (Step 6) checks these credentials and can also create the file for you.
 
 ```bash
 cp docs/ai/config/credentials.example.yaml docs/ai/config/credentials.local.yaml
@@ -99,12 +108,39 @@ contentHub:
 The uploader authenticates when an upload/verification run starts. `--dry-run` only inspects an
 existing image manifest; it does **not** validate credentials or make remote calls.
 
-## Step 6 — Run the demo build skill
+## Step 6 — Start the demo, then build it
 
-The demo builder is the **`sitecore-build-demo`** skill. It is **command-only**: the agent never
-starts it on its own, so asking in plain words ("create a custom demo for …") will not kick it off —
-run the command explicitly, followed by the client URL, and **attach a full-page screenshot** of the
-client homepage in the same message.
+Two **command-only** skills: the agent never starts them on its own, so asking in plain words
+("create a custom demo for …") will not kick them off.
+
+**First, start the demo** with the client name and homepage URL:
+
+| Agent | Type this |
+|---|---|
+| **Claude Code** / **Cursor** | `/sitecore-start-demo yokohama https://www.yokohama-tws.com/de-de` |
+| **Pi** | `/skill:sitecore-start-demo yokohama https://www.yokohama-tws.com/de-de` |
+
+It creates the `yokohama-demo` branch from the latest `main`, installs anything missing, and checks
+your Sitecore sign-in, the target site, the manifest, Content Hub and the client URL. It never
+changes Sitecore. It stops on uncommitted changes, warns if the site still holds another client's
+demo, and ends with the build command to paste.
+
+If the start check stops, it tells you why. The common cases:
+
+| It says | Do this |
+|---|---|
+| Uncommitted changes | Commit them on their demo branch (usually the previous demo), then run start again. It never stashes. |
+| Branch or demo folder already exists | Answer **continue** to resume that demo, or pick a new name (e.g. `yokohama-2`). |
+| Local `main` has its own commits | Move them to a branch; `main` must match the framework. |
+| Sitecore sign-in / site not found | Run `/mcp` and sign in to `sitecore_marketer`; check `docs/ai/config/project.yaml`. |
+| URL blocked or not loading | Try the exact homepage URL; sites behind bot protection can't be scraped. |
+
+Warnings (no Content Hub credentials, no `.env.local`, page preview unavailable, another client's
+demo on the site) don't stop you. A report is saved in `docs/ai/demos/<client>/setup-report.md`.
+
+**Then build it**: run the build command it gives you, followed by the client URL, and **attach a
+full-page screenshot** of the client homepage in the same message. The build re-runs the same checks
+first and stops if something is broken.
 
 | Agent | Type this | Attach the screenshot by… |
 |---|---|---|
@@ -129,11 +165,11 @@ Tips:
   add a variant, fix a rendering) does **not** need a command — just ask, and the agent picks the
   right skill (see `examples/basic-nextjs/AGENTS.md`).
 
-### What the skill does
+### What the build does
 
 | Phase | What happens | You |
 |---|---|---|
-| 0 – 0.5 | Collects inputs, validates Content Hub credentials, checks the Sitecore manifest against your environment | answer any questions |
+| 0 – 0.5 | Re-runs the Start Check (stops on any blocker), collects the screenshot, reuses today's manifest check | answer any questions |
 | 1 | Extracts the brand theme (colors, fonts, shape) from the site | **confirm the theme** |
 | 2 | Analyzes the screenshot, maps every section to a template component + variant, and inspects the target site (existing demo, shared Header/Footer) | **approve the plan** (Step 7) |
 | 2.5 – 3 | Extracts real content, uploads images to Content Hub, creates any custom component definitions, then creates and fills datasource items | — |
@@ -175,6 +211,16 @@ in `docs/ai/demos/<client>/`):
 
 If the summary says **partial**, read its unresolved items before doing anything by hand. Resume
 the build (Step 6) rather than recreating items.
+
+## Starting the next demo
+
+1. Commit the finished demo's work on its branch and push it (that's what gets deployed):
+   `git add -A && git commit -m "<client> demo" && git push -u origin <client>-demo`.
+   Demo records in `docs/ai/demos/` are gitignored and stay on your machine.
+2. Run `/skill:sitecore-start-demo <next-client> <url>`. It creates the next branch from the latest
+   `main`, so the new demo starts without the previous client's theme and variants.
+3. The Sitecore site still shows the previous demo. The build asks you to confirm taking it over,
+   and its plan proposes replacing or removing the old components.
 
 To view locally:
 

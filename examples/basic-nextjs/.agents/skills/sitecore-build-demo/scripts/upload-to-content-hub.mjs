@@ -97,35 +97,14 @@ try {
       'incompatible pipeline contract; use an approved fresh build scope and workspace',
     );
   let token = arg('token') || process.env.CH_TOKEN || credentials.token || '';
-  if (!token) {
-    const user = arg('user') || credentials.user;
-    const password = arg('password') || credentials.password;
-    const clientId = arg('client-id') || credentials.clientId;
-    const clientSecret = arg('client-secret') || credentials.clientSecret;
-    if (!user || !password)
-      throw new Error('Authentication not configured; use the manual-upload handoff');
-    const oauth = !!(clientId && clientSecret);
-    const body = oauth
-      ? new URLSearchParams({
-          grant_type: 'password',
-          client_id: clientId,
-          client_secret: clientSecret,
-          username: user,
-          password,
-        })
-      : JSON.stringify({ user_name: user, password });
-    const response = await fetch(`${host}${oauth ? '/oauth/token' : '/api/authenticate'}`, {
-      method: 'POST',
-      redirect: 'error',
-      signal: AbortSignal.timeout(30000),
-      headers: { 'Content-Type': oauth ? 'application/x-www-form-urlencoded' : 'application/json' },
-      body,
+  if (!token)
+    token = await hub.authenticate({
+      host,
+      user: arg('user') || credentials.user,
+      password: arg('password') || credentials.password,
+      clientId: arg('client-id') || credentials.clientId,
+      clientSecret: arg('client-secret') || credentials.clientSecret,
     });
-    if (!response.ok) throw new Error('Content Hub authentication failed');
-    const data = await response.json();
-    token = oauth && data.access_token ? `Bearer ${data.access_token}` : data.token;
-    if (!token) throw new Error('Authentication returned no usable token');
-  }
   const uploadConfig = arg('config') || credentials.uploadConfig || 'AssetUploadConfiguration';
   const result = await uploads.uploadImages({
     directory: imagesDir,

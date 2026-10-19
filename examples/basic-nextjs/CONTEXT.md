@@ -60,6 +60,10 @@
 
 - **Unspecified Field** — A field for which the approved demo content gives no authored value. It is not an instruction to clear existing content or substitute whitespace.
 
+- **Demo Branch** — The per-client branch (`<client>-demo`) started from the latest `main`, holding that client's theme, variants and custom components. It may be pushed to deploy the demo but is never merged into `main` or `dmz`.
+
+- **Start Check** — The readiness checks run before a demo is built. A blocker stops the build; a warning is reported and the build may continue. Run with fixes by `sitecore-start-demo`, and again without fixes at the start of `sitecore-build-demo`.
+
 ## Repositories
 
 - **Sitecore Starter** — `Sitecore/xmcloud-starter-js`, the Sitecore repository this project was forked from. Its `basic-nextjs` changes are ported here periodically. Not to be called "upstream": in this project's clones the git remote `upstream` is the FMC-ORG framework repository.

@@ -140,9 +140,9 @@
 
 These items require action in the **Pages editor** or **Content Editor**. Work through them in order.
 
-### 1. Variant Selection (~2 min)
+### 1. Variant Selection (only what assembly could not apply)
 
-Open the page in Pages editor and set these variants:
+Assembly applies each section's planned variant when it adds the component, and to Header/Footer when their replacement was approved. List only the remaining variant tasks from `assembly-result.json` (reused instances, `applied: false`, non-replaced shared instances). If there are none, write "None — all variants applied automatically." Open the page in Pages editor and set these variants:
 
 | # | Component | Current | Set to |
 |---|-----------|---------|--------|
@@ -163,7 +163,7 @@ Complete-build approval includes automatic datasource wiring. Show read-back evi
 |-------------------|--------|---------------------|----------------------------|------------------|
 | {{SHARED_TARGET}} | {{VERIFIED_OR_UNRESOLVED}} | {{PREVIOUS_DATASOURCE}} | {{CLIENT_DATASOURCE}} | {{OBSERVED_OR_UNVERIFIED}} |
 
-Missing/incompatible renderings require a separate repair decision. No automatic structural add/remove/replace. Variant selection remains manual.
+Missing/incompatible renderings require a separate repair decision. An approved replacement (ADR 0009) shows the previous instance ID and the auto-created datasource to delete; without replacement, variant selection remains manual.
 
 ### 3. Link Verification
 

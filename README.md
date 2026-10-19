@@ -18,7 +18,7 @@ Works in **Claude Code**, **Cursor**, and **Pi**. All three read the same skills
 
 ---
 
-## Step 1 — Fork (or template) the repo and branch off `main`
+## Step 1 — Fork (or template) the repo
 
 > **⚠️ Important:** Do **not** clone this repository directly. **Fork it** or use it as a
 > **template** ("Use this template" on GitHub). You only need the **`main` branch**.
@@ -27,13 +27,12 @@ Works in **Claude Code**, **Cursor**, and **Pi**. All three read the same skills
 # After forking / creating from template, clone YOUR copy:
 git clone <your-fork-url>
 cd <repo>/examples/basic-nextjs
-git checkout main && git pull
-git checkout -b <client>-demo
 ```
 
-Use one branch per demo so each runs on its own isolated environment. Client work (theme, variants,
-custom components) lives only on that demo branch: push it there to deploy the demo, but never merge
-it into `main` or include it in pull requests to the framework.
+Each demo gets its own branch (`<client>-demo`), created from the latest `main` by the start skill
+in Step 6. Client work (theme, variants, custom components) lives only on that demo branch: push it
+there to deploy the demo, but never merge it into `main` or include it in pull requests to the
+framework.
 
 ## Step 2 — Install dependencies
 
@@ -76,7 +75,8 @@ expired", run `/mcp` again (or re-authenticate in Cursor's MCP settings) and ret
 
 ## Step 5 — Add Content Hub credentials _(optional)_
 
-Skip this step if you are not using Content Hub — images will fall back to manual upload.
+Skip this step if you are not using Content Hub — images will fall back to manual upload. The
+start skill (Step 6) checks these credentials and can also create the file for you.
 
 ```bash
 cp docs/ai/config/credentials.example.yaml docs/ai/config/credentials.local.yaml
@@ -99,12 +99,26 @@ contentHub:
 The uploader authenticates when an upload/verification run starts. `--dry-run` only inspects an
 existing image manifest; it does **not** validate credentials or make remote calls.
 
-## Step 6 — Run the demo build skill
+## Step 6 — Start the demo, then build it
 
-The demo builder is the **`sitecore-build-demo`** skill. It is **command-only**: the agent never
-starts it on its own, so asking in plain words ("create a custom demo for …") will not kick it off —
-run the command explicitly, followed by the client URL, and **attach a full-page screenshot** of the
-client homepage in the same message.
+Two **command-only** skills: the agent never starts them on its own, so asking in plain words
+("create a custom demo for …") will not kick them off.
+
+**First, start the demo** with the client name and homepage URL:
+
+| Agent | Type this |
+|---|---|
+| **Claude Code** / **Cursor** | `/sitecore-start-demo yokohama https://www.yokohama-tws.com/de-de` |
+| **Pi** | `/skill:sitecore-start-demo yokohama https://www.yokohama-tws.com/de-de` |
+
+It creates the `yokohama-demo` branch from the latest `main`, installs anything missing, and checks
+your Sitecore sign-in, the target site, the manifest, Content Hub and the client URL. It never
+changes Sitecore. It stops on uncommitted changes, warns if the site still holds another client's
+demo, and ends with the build command to paste.
+
+**Then build it**: run the build command, followed by the client URL, and **attach a full-page
+screenshot** of the client homepage in the same message. The build re-runs the same checks first
+and stops if something is broken.
 
 | Agent | Type this | Attach the screenshot by… |
 |---|---|---|
@@ -133,7 +147,7 @@ Tips:
 
 | Phase | What happens | You |
 |---|---|---|
-| 0 – 0.5 | Collects inputs, validates Content Hub credentials, checks the Sitecore manifest against your environment | answer any questions |
+| 0 – 0.5 | Re-runs the Start Check (stops on any blocker), collects the screenshot, reuses today's manifest check | answer any questions |
 | 1 | Extracts the brand theme (colors, fonts, shape) from the site | **confirm the theme** |
 | 2 | Analyzes the screenshot, maps every section to a template component + variant, and inspects the target site (existing demo, shared Header/Footer) | **approve the plan** (Step 7) |
 | 2.5 – 3 | Extracts real content, uploads images to Content Hub, creates any custom component definitions, then creates and fills datasource items | — |

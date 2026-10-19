@@ -171,4 +171,38 @@ function contentHub({ host, token, directory, uploadConfig, fetchImpl = fetch })
     },
   };
 }
-module.exports = { contentHub };
+/**
+ * Exchange stored Content Hub credentials for an API token. Shared by the uploader and the
+ * sitecore-start-demo check. Never returns or logs the password; errors carry no response body.
+ * @returns {Promise<string>} `Bearer <token>` (OAuth) or a plain X-Auth-Token
+ */
+async function authenticate(
+  { host, user, password, clientId, clientSecret },
+  { fetchImpl = fetch } = {},
+) {
+  if (!user || !password)
+    throw new Error('Authentication not configured; use the manual-upload handoff');
+  const oauth = !!(clientId && clientSecret);
+  const body = oauth
+    ? new URLSearchParams({
+        grant_type: 'password',
+        client_id: clientId,
+        client_secret: clientSecret,
+        username: user,
+        password,
+      })
+    : JSON.stringify({ user_name: user, password });
+  const response = await fetchImpl(`${host}${oauth ? '/oauth/token' : '/api/authenticate'}`, {
+    method: 'POST',
+    redirect: 'error',
+    signal: AbortSignal.timeout(30000),
+    headers: { 'Content-Type': oauth ? 'application/x-www-form-urlencoded' : 'application/json' },
+    body,
+  });
+  if (!response.ok) throw new Error('Content Hub authentication failed');
+  const data = await response.json();
+  const token = oauth && data.access_token ? `Bearer ${data.access_token}` : data.token;
+  if (!token) throw new Error('Authentication returned no usable token');
+  return token;
+}
+module.exports = { contentHub, authenticate };

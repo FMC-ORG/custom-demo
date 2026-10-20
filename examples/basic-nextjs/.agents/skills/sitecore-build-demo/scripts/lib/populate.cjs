@@ -228,8 +228,10 @@ async function updateItem(recovery, api, key, itemId, fields) {
   return recovery.operation(key, {
     before: async () => (await api.readItem(itemId)).fields,
     write: () => api.updateFields(itemId, fields),
-    verify: async () => {
-      const current = await api.readItem(itemId);
+    verify: async (_result, _before, _saved, attempt = 0) => {
+      // Keep post-write observations separate from cached pre-write/final-field reads.
+      // Every bounded retry must inspect remote state, never replay a stale response.
+      const current = await api.readItem(itemId, { fresh: `${key}:verify:${attempt}` });
       return Object.entries(fields).every(
         ([name, value]) => name === '__Sortorder' || current.fields[name] === value,
       )
@@ -285,7 +287,7 @@ async function populateFields(recovery, api, key, itemId, node, sortOrder) {
     });
   }
   await recovery.observe(`${key}:final-fields`, async () => {
-    const item = await api.readItem(itemId);
+    const item = await api.readItem(itemId, { fresh: `${key}:final-fields` });
     if (!sameId(item.templateId, node.templateId) || item.name !== node.name)
       throw new Blocked(key, 'item identity/template changed');
     for (const [name, value] of Object.entries(node.fields)) {

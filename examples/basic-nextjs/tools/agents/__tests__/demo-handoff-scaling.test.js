@@ -185,6 +185,32 @@ test('a new assembly session rereads datasources before accepting completed plac
   expect(changed.writes).toBe(0);
 });
 
+test('delayed field visibility refreshes verification reads without repeating the write', async () => {
+  const build = fixture(1, 1);
+  const stale = new Map();
+  const update = build.tools.update_fields_on_item;
+  const read = build.tools.get_content_item_by_id;
+  build.tools.update_fields_on_item = async (args) => {
+    const before = clone(await read({ itemId: args.itemId }));
+    const result = await update(args);
+    stale.set(args.itemId, before);
+    return result;
+  };
+  build.tools.get_content_item_by_id = async (args) => {
+    if (stale.has(args.itemId)) {
+      const value = stale.get(args.itemId);
+      stale.delete(args.itemId);
+      return value;
+    }
+    return read(args);
+  };
+  const result = await execute(build, { initialize: true });
+  expect(result.result.status).toBe('complete');
+  expect(result.writes).toBe(4); // parent and child: one create and one field write each
+  expect(result.result.unresolved).toEqual([]);
+  expect(build.remote.items.size).toBe(3);
+});
+
 test('failed read-back checks are not reused as successes later in the same session', async () => {
   const build = fixture(2, 0);
   build.remote.defaults.cards = { Unmapped: 'Client Section 0' };

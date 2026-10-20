@@ -1,6 +1,34 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-10-20T15:43:43.253Z"
+lastUpdatedAt: "2026-10-20T18:49:37.236Z"
 lastUpdatedBy: "pi-agent"
+
+demoBuilds:
+  heineken:
+    branch: heineken-demo
+    status: partial
+    checkedAt: '2026-10-20T18:49:37.236Z'
+    siteItemId: '{C963AFD4-7293-485C-AE50-266B5C8E6753}'
+    pageId: '{E2124310-F817-4644-8671-BFF8E72B66D7}'
+    population:
+      status: complete
+      parents: 12
+      children: 40
+    assembly:
+      status: partial
+      verifiedInstances: 11
+      unresolved:
+        - key: site-footer:shared-new-wire
+          status: needs-reconciliation
+      newFooterInstance: 5870c114-727f-4cf0-9cf0-105ce63ab8f8
+      intendedFooterDatasource: 66b47666-925f-4354-ba7f-8c91f2ece19b
+      oldFooterPreserved: true
+      starterCleanupPending: true
+    variants: 9
+    images: 20
+    verificationScope: >-
+      CMS item/field/order/relationship and variant reads; code checks. Publishing and rendered visual QA
+      unverified.
+    recordsPath: docs/ai/demos/heineken
 
 project:
   siteCollection: "main"
@@ -13,15 +41,444 @@ project:
   renderingParamsRoot: "/sitecore/templates/Project/fmc-custom-demo/Rendering Parameters"
   headlessVariantsRoot: "/sitecore/content/main/main-website/Presentation/Headless Variants"
 
+clientDatasourceExtensions:
+  - name: HeinekenFooterData
+    componentName: SiteFooter
+    status: partial
+    template:
+      path: /sitecore/templates/Project/fmc-custom-demo/Components/Navigation/HeinekenFooterData
+      itemId: '{43DDC70D-FBAD-472A-ABFB-87E1100D57CA}'
+      baseTemplatesVerified: true
+      standardValuesId: '{9F510050-C703-4883-B2C2-871D8A6AD3B3}'
+    child:
+      path: /sitecore/templates/Project/fmc-custom-demo/Components/Navigation/HeinekenFooterLink
+      itemId: '{C48F39A2-F263-4D46-BF85-D1A74EF499CB}'
+      baseTemplatesVerified: true
+      standardValuesId: '{EB015DCB-D490-4073-9690-A9B33179306F}'
+    renderingQueryUpdated: true
+    renderingQueryReadBackVerified: true
+    deliveryShapeVerified: false
+    existingBaseTemplatePreserved: true
+    pendingManual:
+      - Standard Values links and __Masters are acknowledged silent writes
+      - Client datasource population and delivered query compatibility pending
+    updatedAt: '2026-10-20T16:44:17.411Z'
+
 availableRenderings:
   itemId: "{2BF7E311-E3A5-4290-A043-AB97EA1DFB15}"
-  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{C9FFEF83-C928-4346-AA68-14B3EE0B0017}|{B92A0B89-790F-4D94-89C7-B361C8688765}|{9E525B59-B9BF-4EB7-B75D-10811EF6100D}|{66E80043-36E4-48AE-8CAF-EEF4A77690BE}|{5A8724FB-D6E6-4C9D-8A4A-EFD8750B0019}|{14FCB11C-364D-4BC2-9238-B29B4C6F8145}|{FAA6D190-2A7C-4A18-A09D-7E5D33A5BDAF}|{06D05BB6-2DD6-457A-BC64-22A07F7D4359}"
-  lastUpdatedAt: "2026-08-18T00:00:00Z"
-  renderingCount: 37
+  lastKnownValue: "{55790BFE-783E-4FF0-BD53-F81D3857DAD4}|{C5F905F8-FD1F-444E-A9E5-AC6B774FF0DE}|{2492BAC4-DA07-4C86-87F0-9873D40E2276}|{9C6D53E3-FE57-4638-AF7B-6D68304C7A94}|{3836D951-BB14-43AC-9231-649B7F245DC5}|{E97DCF2B-8011-41E0-A605-8A379F3DF1AA}|{A41A47A5-D305-4ADC-BFC8-CCB0F301DDCF}|{EFE73752-6046-45A8-92F4-7A68430A0759}|{EAA7CC9B-4657-410E-9A25-CD33C700261B}|{58490557-5582-4B19-9E31-CE6A80F95D93}|{4281E3CD-2309-4427-9A3E-D69FDD32FCDA}|{E6D0C7C1-ACFF-4E85-8600-196649FEFFB9}|{90021266-66B3-47B6-9709-A070F56064A1}|{F6A1FA05-15FC-46C9-B921-98E79EFF5F4E}|{E194B962-0617-4A10-B4DB-2A4D19248C13}|{E1BCD607-51C4-4248-8EE2-B7F474D40B3E}|{A53006E8-C66B-419F-859D-7CFA92E7E26B}|{4E7E77EF-529C-4C28-A5D8-94C5ACA065FF}|{C739DB42-43E5-4DAC-B5FC-404EDDC9E37C}|{0F7C27E2-B960-47E9-AB85-F8A9C45D0F9C}|{D008D5FE-B27E-419F-889C-115B3D48A114}|{85CC2A41-AC6F-4C10-9C2F-44308B48C453}|{4C5C1FA5-C077-491D-9686-40D0F68EF03E}|{83BD1231-A48F-4F54-A361-20904C69A641}|{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}|{505B6BB0-DEEA-46F9-9AB2-7020E386F4F0}|{C9FFEF83-C928-4346-AA68-14B3EE0B0017}|{B92A0B89-790F-4D94-89C7-B361C8688765}|{9E525B59-B9BF-4EB7-B75D-10811EF6100D}|{66E80043-36E4-48AE-8CAF-EEF4A77690BE}|{5A8724FB-D6E6-4C9D-8A4A-EFD8750B0019}|{14FCB11C-364D-4BC2-9238-B29B4C6F8145}|{FAA6D190-2A7C-4A18-A09D-7E5D33A5BDAF}|{06D05BB6-2DD6-457A-BC64-22A07F7D4359}|{D33F0079-E54F-48C3-A33A-6A3A83146DA8}|{158772E0-46FD-4626-9144-527C24854F97}|{59FFD4F9-1D2B-4C56-94D8-C15235AC3E0F}|{A6C27670-96E2-4E59-B5EB-21F99844FB86}|{D80ED206-F32E-4EF1-89B8-9D8D330EFC29}|{C1F1B07E-8CBE-4E01-8886-C3646A1EBD08}"
+  lastUpdatedAt: "2026-10-20T16:43:14.715Z"
+  renderingCount: 40
   note: "2026-08-18: appended {158772E0-46FD-4626-9144-527C24854F97} (SearchCollection), then {59FFD4F9-1D2B-4C56-94D8-C15235AC3E0F} (SearchTypeahead), each with a pre-write staleness check against live get_allowed_comps_by_ph and post-write verification. lastKnownValue below is the 2026-08-07 pre-SearchResults value; current = that + {D33F0079-E54F-48C3-A33A-6A3A83146DA8} + {158772E0-46FD-4626-9144-527C24854F97} + {59FFD4F9-1D2B-4C56-94D8-C15235AC3E0F}."
-  warning: "MCP cannot read this field — value may be stale if modified outside this session. Also: MCP write returned empty updatedFields — silent-write. Verify in Content Editor."
+  warning: "Current marketer MCP returned Renderings during this build. Appended three Heineken IDs to the live 37-entry value and verified read-back and allowed components. Re-read before future writes."
 
 components:
+  - name: HeinekenSustainability
+    kind: simple
+    category: Banners
+    status: complete
+    createdAt: '2026-10-20T16:33:09.665Z'
+    updatedAt: '2026-10-20T16:44:17.404Z'
+    react:
+      filePath: src/components/uiim/banners/HeinekenSustainability.tsx
+      componentMapKey: HeinekenSustainability
+      implementationVerified: true
+      localChecks: [ESLint, TypeScript, component-map validation]
+      variants:
+        - Default
+    templates:
+      datasource:
+        name: HeinekenSustainability
+        path: /sitecore/templates/Project/fmc-custom-demo/Components/Banners/HeinekenSustainability
+        itemId: '{4D247229-41DC-46C3-B062-91A94B475409}'
+        fields:
+          - name: Title
+            type: Single-Line Text
+            itemId: '{4A7F9632-78CF-4A1D-BCA6-07A58522D05B}'
+          - name: Description
+            type: Rich Text
+            itemId: '{029580BE-9C28-451E-A307-61708D94B45B}'
+          - name: BackgroundImage
+            type: Image
+            itemId: '{E31BD068-0CC2-447D-999E-AF2081125647}'
+          - name: WheelImage
+            type: Image
+            itemId: '{EE2B77C6-0F93-4283-A51A-53C2242F84DD}'
+          - name: PrimaryLink
+            type: General Link
+            itemId: '{446FD34F-B953-4D7F-8654-FFC2737758E1}'
+        baseTemplatesSet: true
+        standardValues:
+          itemId: '{B3378831-FB75-4A0F-9196-73A1234165D6}'
+          linked: true
+          linkVerified: false
+      folder:
+        name: HeinekenSustainability Folder
+        path: /sitecore/templates/Project/fmc-custom-demo/Folders/HeinekenSustainability Folder
+        itemId: '{57976E06-16A8-4C3F-9C7B-83102CC7DB97}'
+        standardValues:
+          itemId: '{CDDE545A-BADA-40B2-8B67-F24E75C17A8C}'
+          linked: true
+          linkVerified: false
+          masters:
+            - '{4D247229-41DC-46C3-B062-91A94B475409}'
+        baseTemplatesSet: true
+      renderingParams:
+        name: HeinekenSustainability
+        path: /sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Banners/HeinekenSustainability
+        itemId: '{35C97693-ECB8-414B-8A0D-8F12C15F1479}'
+        baseTemplatesSet: true
+        standardValues:
+          itemId: '{C7368251-3A02-4902-AEDD-58633E955722}'
+          linked: true
+          linkVerified: false
+    datasourceFolder:
+      name: HeinekenSustainabilitys
+      path: /sitecore/content/main/main-website/Data/HeinekenSustainabilitys
+      itemId: '{BC8158DB-3B8D-4648-8D2E-14B64AF0D7F0}'
+      insertOptionsSet: true
+      exampleItem:
+        name: Heineken - Brew a Better World
+        itemId: "{F38EACC5-A3BD-4321-84DF-F2D424F12B0B}"
+        populatedAndVerified: true
+    rendering:
+      create: true
+      path: /sitecore/layout/Renderings/Project/fmc-custom-demo/Banners/HeinekenSustainability
+      name: HeinekenSustainability
+      componentName: HeinekenSustainability
+      datasourceRequired: true
+      datasourceTemplatePath: /sitecore/templates/Project/fmc-custom-demo/Components/Banners/HeinekenSustainability
+      datasourceLocationQuery: >-
+        query:$site/*[@@name='Data']/*[@@templatename='HeinekenSustainability
+        Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='HeinekenSustainability Folder']
+      dataSource: ''
+      addFieldEditorButton: '1'
+      parametersTemplateId: '{35C97693-ECB8-414B-8A0D-8F12C15F1479}'
+      useComponentQuery: false
+      componentQuery: ''
+      itemId: '{D80ED206-F32E-4EF1-89B8-9D8D330EFC29}'
+      registeredInAvailableRenderings: true
+    headlessVariants:
+      containerPath: /sitecore/content/main/main-website/Presentation/Headless Variants/HeinekenSustainability
+      containerId: '{20959AD5-246B-4DEF-B61B-0A658F61550E}'
+      variants:
+        - name: Default
+          itemId: '{B72FF9EF-6CB1-4399-8F7C-DC8EA780127F}'
+    verification:
+      checkedAt: '2026-10-20T16:44:17.404Z'
+      passed:
+        - Template identities and base templates read back
+        - Explicit field Types read back
+        - Standard Values items exist
+        - Datasource folder exists
+        - Rendering configuration read back
+        - Default variant exists
+        - Available Renderings appended to live value and read back
+      failed: []
+      pendingManual:
+        - 'HeinekenSustainability:params:sv:link: __Standard values'
+        - 'HeinekenSustainability:parent:sv:link: __Standard values'
+        - 'HeinekenSustainability:folder:sv:link: __Standard values'
+        - 'HeinekenSustainability:folder:sv:__Masters: __Masters'
+        - 'HeinekenSustainability:datasource-folder:masters: __Masters'
+    notes:
+      - >-
+        Approved pixel-perfect demo build; custom definitions created before execution-plan freeze; client
+        example content deferred to the journaled population helper.
+      - >-
+        Definition operations are preserved in docs/ai/demos/heineken/definitions-journal.json; acknowledged
+        silent system-field writes are explicitly flagged.
+  - name: HeinekenInvestorNews
+    kind: list
+    category: Content
+    status: complete
+    createdAt: '2026-10-20T16:33:09.664Z'
+    updatedAt: '2026-10-20T16:44:17.395Z'
+    react:
+      filePath: src/components/uiim/content/HeinekenInvestorNews.tsx
+      componentMapKey: HeinekenInvestorNews
+      implementationVerified: true
+      localChecks: [ESLint, TypeScript, component-map validation]
+      variants:
+        - Default
+    templates:
+      datasource:
+        name: HeinekenInvestorNews
+        path: /sitecore/templates/Project/fmc-custom-demo/Components/Content/HeinekenInvestorNews
+        itemId: '{C31877EF-6110-4E7E-BBCE-6E1F7B1334AE}'
+        fields:
+          - name: ShareLabel
+            type: Single-Line Text
+            itemId: '{8AF56929-31EE-4DB3-87E2-A190B1F8319F}'
+          - name: CompanyLabel
+            type: Single-Line Text
+            itemId: '{5C2987DE-25DB-4134-83A2-F24DD51CF264}'
+          - name: PriceText
+            type: Single-Line Text
+            itemId: '{54ABF48F-8016-46A3-9135-D0AC453E8657}'
+          - name: ChangeText
+            type: Single-Line Text
+            itemId: '{BE5765A2-B5A9-45EA-B31D-37D04F9873F1}'
+          - name: MoreInfoLink
+            type: General Link
+            itemId: '{3F61F3F1-77B1-4B09-9976-AAD61AA135E2}'
+          - name: XLink
+            type: General Link
+            itemId: '{206A3BAE-1CDE-45ED-B0DD-43F3F1AF5221}'
+          - name: LinkedInLink
+            type: General Link
+            itemId: '{7CE3E7BA-671E-4060-B019-C2EAF15170D2}'
+          - name: YouTubeLink
+            type: General Link
+            itemId: '{A8884562-3C0C-4E07-B805-D42F98065CA4}'
+        baseTemplatesSet: true
+        standardValues:
+          itemId: '{4C7E6150-CEC4-4C8E-8E4C-999B51A1FE45}'
+          linked: true
+          linkVerified: false
+          masters:
+            - '{A52E7ACD-7A04-4278-963F-B2EEE50B32D3}'
+        horizonDatasourceGrouping: true
+      child:
+        name: HeinekenNewsTeaser
+        path: /sitecore/templates/Project/fmc-custom-demo/Components/Content/HeinekenNewsTeaser
+        itemId: '{A52E7ACD-7A04-4278-963F-B2EEE50B32D3}'
+        fields:
+          - name: NewsTitle
+            type: Single-Line Text
+            itemId: '{D244A63F-EF92-4623-B642-8CDD720E751F}'
+          - name: NewsDate
+            type: Single-Line Text
+            itemId: '{F2B58E57-FCD7-4D2D-A45A-F87FD8998784}'
+          - name: NewsLink
+            type: General Link
+            itemId: '{561DCF01-8B0B-43E4-8088-42DB0448B291}'
+        baseTemplatesSet: true
+        standardValues:
+          itemId: '{0426949F-67AD-4B15-AD15-C3346035291D}'
+          linked: true
+          linkVerified: false
+      folder:
+        name: HeinekenInvestorNews Folder
+        path: /sitecore/templates/Project/fmc-custom-demo/Folders/HeinekenInvestorNews Folder
+        itemId: '{D37D1DE8-7495-46FC-93BE-BF259992FD7F}'
+        standardValues:
+          itemId: '{94091A94-1E68-4686-857C-DF28D0754BC7}'
+          linked: true
+          linkVerified: false
+          masters:
+            - '{C31877EF-6110-4E7E-BBCE-6E1F7B1334AE}'
+        baseTemplatesSet: true
+      renderingParams:
+        name: HeinekenInvestorNews
+        path: /sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Content/HeinekenInvestorNews
+        itemId: '{C5FE2F3B-24EF-4FA8-8010-61D48305D104}'
+        baseTemplatesSet: true
+        standardValues:
+          itemId: '{C70B5189-E30F-4739-97B0-784804E590BC}'
+          linked: true
+          linkVerified: false
+    datasourceFolder:
+      name: HeinekenInvestorNewss
+      path: /sitecore/content/main/main-website/Data/HeinekenInvestorNewss
+      itemId: '{CE792B53-EC1F-4754-9178-82FDE46F932F}'
+      insertOptionsSet: true
+      exampleItem:
+        name: Heineken - Investor News
+        itemId: "{DAB06D56-D474-49E2-9075-B5A8029987E8}"
+        populatedAndVerified: true
+    rendering:
+      create: true
+      path: /sitecore/layout/Renderings/Project/fmc-custom-demo/Content/HeinekenInvestorNews
+      name: HeinekenInvestorNews
+      componentName: HeinekenInvestorNews
+      datasourceRequired: true
+      datasourceTemplatePath: /sitecore/templates/Project/fmc-custom-demo/Components/Content/HeinekenInvestorNews
+      datasourceLocationQuery: >-
+        query:$site/*[@@name='Data']/*[@@templatename='HeinekenInvestorNews
+        Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='HeinekenInvestorNews Folder']
+      dataSource: ''
+      addFieldEditorButton: '1'
+      parametersTemplateId: '{C5FE2F3B-24EF-4FA8-8010-61D48305D104}'
+      useComponentQuery: true
+      componentQuery: >-
+        query HeinekenInvestorNews($datasource: String!, $language: String!) { datasource: item(path:
+        $datasource, language: $language) { shareLabel: field(name: "ShareLabel") { jsonValue } companyLabel:
+        field(name: "CompanyLabel") { jsonValue } priceText: field(name: "PriceText") { jsonValue } changeText:
+        field(name: "ChangeText") { jsonValue } moreInfoLink: field(name: "MoreInfoLink") { jsonValue } xLink:
+        field(name: "XLink") { jsonValue } linkedInLink: field(name: "LinkedInLink") { jsonValue } youTubeLink:
+        field(name: "YouTubeLink") { jsonValue } children { results { id newsTitle: field(name: "NewsTitle") {
+        jsonValue } newsDate: field(name: "NewsDate") { jsonValue } newsLink: field(name: "NewsLink") {
+        jsonValue } } } } }
+      itemId: '{A6C27670-96E2-4E59-B5EB-21F99844FB86}'
+      registeredInAvailableRenderings: true
+    headlessVariants:
+      containerPath: /sitecore/content/main/main-website/Presentation/Headless Variants/HeinekenInvestorNews
+      containerId: '{88A03273-3C22-422E-996A-964E54032EDF}'
+      variants:
+        - name: Default
+          itemId: '{FF491C98-CBD0-4466-8204-83A930E76E08}'
+    verification:
+      checkedAt: '2026-10-20T16:44:17.396Z'
+      passed:
+        - Template identities and base templates read back
+        - Explicit field Types read back
+        - Standard Values items exist
+        - Datasource folder exists
+        - Rendering configuration read back
+        - Default variant exists
+        - Available Renderings appended to live value and read back
+      failed: []
+      pendingManual:
+        - 'HeinekenInvestorNews:child:sv:link: __Standard values'
+        - 'HeinekenInvestorNews:folder:sv:link: __Standard values'
+        - 'HeinekenInvestorNews:parent:sv:link: __Standard values'
+        - 'HeinekenInvestorNews:params:sv:link: __Standard values'
+        - 'HeinekenInvestorNews:parent:sv:__Masters: __Masters'
+        - 'HeinekenInvestorNews:folder:sv:__Masters: __Masters'
+        - 'HeinekenInvestorNews:datasource-folder:masters: __Masters'
+    notes:
+      - >-
+        Approved pixel-perfect demo build; custom definitions created before execution-plan freeze; client
+        example content deferred to the journaled population helper.
+      - >-
+        Definition operations are preserved in docs/ai/demos/heineken/definitions-journal.json; acknowledged
+        silent system-field writes are explicitly flagged.
+  - name: HeinekenSiteSelector
+    kind: list
+    category: Navigation
+    status: complete
+    createdAt: '2026-10-20T16:33:09.665Z'
+    updatedAt: '2026-10-20T16:44:17.405Z'
+    react:
+      filePath: src/components/uiim/navigation/HeinekenSiteSelector.tsx
+      componentMapKey: HeinekenSiteSelector
+      implementationVerified: true
+      localChecks: [ESLint, TypeScript, component-map validation]
+      variants:
+        - Default
+    templates:
+      datasource:
+        name: HeinekenSiteSelector
+        path: /sitecore/templates/Project/fmc-custom-demo/Components/Navigation/HeinekenSiteSelector
+        itemId: '{B1C6106D-8CE8-497F-BF8E-59747478A8F4}'
+        fields:
+          - name: Title
+            type: Single-Line Text
+            itemId: '{467E4A15-CFCB-409F-8192-B4AAF02F00BC}'
+          - name: Description
+            type: Single-Line Text
+            itemId: '{27480A17-A50D-48AA-94A5-DEB76B672CF0}'
+          - name: Placeholder
+            type: Single-Line Text
+            itemId: '{D4D643F2-D32A-4A76-9BA3-6BBD01679AA1}'
+        baseTemplatesSet: true
+        standardValues:
+          itemId: '{D7BE4653-842B-44E2-A71E-829C16D9B4AB}'
+          linked: true
+          linkVerified: false
+          masters:
+            - '{21B4C83A-2B87-4EBB-910F-F9C5D88FC408}'
+        horizonDatasourceGrouping: true
+      child:
+        name: HeinekenSiteOption
+        path: /sitecore/templates/Project/fmc-custom-demo/Components/Navigation/HeinekenSiteOption
+        itemId: '{21B4C83A-2B87-4EBB-910F-F9C5D88FC408}'
+        fields:
+          - name: SiteName
+            type: Single-Line Text
+            itemId: '{5334FCE5-2361-4042-B2D3-40F434F7981E}'
+          - name: SiteLink
+            type: General Link
+            itemId: '{2A127C13-A33C-400A-8DFD-A1CFC4A51256}'
+        baseTemplatesSet: true
+        standardValues:
+          itemId: '{70E817E2-6EFC-49DA-82EE-569B0571949A}'
+          linked: true
+          linkVerified: false
+      folder:
+        name: HeinekenSiteSelector Folder
+        path: /sitecore/templates/Project/fmc-custom-demo/Folders/HeinekenSiteSelector Folder
+        itemId: '{1AE52F05-40D3-4014-B1FE-84A638468ECA}'
+        standardValues:
+          itemId: '{FE852246-F69E-4842-A1D1-79F6E28D8A99}'
+          linked: true
+          linkVerified: false
+          masters:
+            - '{B1C6106D-8CE8-497F-BF8E-59747478A8F4}'
+        baseTemplatesSet: true
+      renderingParams:
+        name: HeinekenSiteSelector
+        path: /sitecore/templates/Project/fmc-custom-demo/Rendering Parameters/Navigation/HeinekenSiteSelector
+        itemId: '{501BDC48-A367-4C58-BEBF-CBA06D27BC43}'
+        baseTemplatesSet: true
+        standardValues:
+          itemId: '{457B6F74-68D4-4682-B3EF-4A1716AE2376}'
+          linked: true
+          linkVerified: false
+    datasourceFolder:
+      name: HeinekenSiteSelectors
+      path: /sitecore/content/main/main-website/Data/HeinekenSiteSelectors
+      itemId: '{892EB40B-1FBC-482C-9AD1-B37C195B04CE}'
+      insertOptionsSet: true
+      exampleItem:
+        name: Heineken - Global Site Selector
+        itemId: "{09F5F7C4-8092-4447-AF16-7B1E7DDEC437}"
+        populatedAndVerified: true
+    rendering:
+      create: true
+      path: /sitecore/layout/Renderings/Project/fmc-custom-demo/Navigation/HeinekenSiteSelector
+      name: HeinekenSiteSelector
+      componentName: HeinekenSiteSelector
+      datasourceRequired: true
+      datasourceTemplatePath: /sitecore/templates/Project/fmc-custom-demo/Components/Navigation/HeinekenSiteSelector
+      datasourceLocationQuery: >-
+        query:$site/*[@@name='Data']/*[@@templatename='HeinekenSiteSelector
+        Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='HeinekenSiteSelector Folder']
+      dataSource: ''
+      addFieldEditorButton: '1'
+      parametersTemplateId: '{501BDC48-A367-4C58-BEBF-CBA06D27BC43}'
+      useComponentQuery: true
+      componentQuery: >-
+        query HeinekenSiteSelector($datasource: String!, $language: String!) { datasource: item(path:
+        $datasource, language: $language) { title: field(name: "Title") { jsonValue } description: field(name:
+        "Description") { jsonValue } placeholder: field(name: "Placeholder") { jsonValue } children { results {
+        id siteName: field(name: "SiteName") { jsonValue } siteLink: field(name: "SiteLink") { jsonValue } } } }
+        }
+      itemId: '{C1F1B07E-8CBE-4E01-8886-C3646A1EBD08}'
+      registeredInAvailableRenderings: true
+    headlessVariants:
+      containerPath: /sitecore/content/main/main-website/Presentation/Headless Variants/HeinekenSiteSelector
+      containerId: '{B6D74F85-C914-4FCD-AB86-852B2F6864D4}'
+      variants:
+        - name: Default
+          itemId: '{FD0CAD46-5C1E-43C8-8FAC-5B673724EBFC}'
+    verification:
+      checkedAt: '2026-10-20T16:44:17.405Z'
+      passed:
+        - Template identities and base templates read back
+        - Explicit field Types read back
+        - Standard Values items exist
+        - Datasource folder exists
+        - Rendering configuration read back
+        - Default variant exists
+        - Available Renderings appended to live value and read back
+      failed: []
+      pendingManual:
+        - 'HeinekenSiteSelector:parent:sv:link: __Standard values'
+        - 'HeinekenSiteSelector:parent:sv:__Masters: __Masters'
+        - 'HeinekenSiteSelector:folder:sv:link: __Standard values'
+        - 'HeinekenSiteSelector:params:sv:link: __Standard values'
+        - 'HeinekenSiteSelector:child:sv:link: __Standard values'
+        - 'HeinekenSiteSelector:folder:sv:__Masters: __Masters'
+        - 'HeinekenSiteSelector:datasource-folder:masters: __Masters'
+    notes:
+      - >-
+        Approved pixel-perfect demo build; custom definitions created before execution-plan freeze; client
+        example content deferred to the journaled population helper.
+      - >-
+        Definition operations are preserved in docs/ai/demos/heineken/definitions-journal.json; acknowledged
+        silent system-field writes are explicitly flagged.
   - name: "AnnouncementBar"
     kind: "simple"
     category: "Navigation"
@@ -134,14 +591,18 @@ components:
     updatedAt: "2026-05-05T16:00:00Z"
 
     react:
-      filePath: "src/components/uiim/navigation/NavigationHeader.tsx"
-      componentMapKey: "NavigationHeader"
-      dataStrategy: "ComponentQuery (BrandLogo + CtaLabel + CtaLink from datasource, NavigationLink children)"
+      filePath: src/components/uiim/navigation/NavigationHeader.tsx
+      componentMapKey: NavigationHeader
+      dataStrategy: ComponentQuery (BrandLogo + CtaLabel + CtaLink from datasource, NavigationLink children)
       variants:
-        - "Default"
-        - "Transparent"
-        - "Minimal"
-
+        - Default
+        - Transparent
+        - Minimal
+        - HeinekenNavigation
+      demoVariantVerification:
+        client: heineken
+        checkedAt: '2026-10-20T17:09:15.092Z'
+        scope: Named exports, TypeScript and matching Sitecore Variant Definitions; rendered visual QA pending
     templates:
       parent:
         name: "NavigationHeaderData"
@@ -213,13 +674,17 @@ components:
       registeredInAvailableRenderings: true
 
     headlessVariants:
-      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/NavigationHeader"
-      containerId: "{C215D8ED-461E-4AE4-8D57-94CC5CDEC8DF}"
+      containerPath: /sitecore/content/main/main-website/Presentation/Headless Variants/NavigationHeader
+      containerId: '{C215D8ED-461E-4AE4-8D57-94CC5CDEC8DF}'
       variants:
-        - { name: "Default", itemId: "{150B9AFE-2B9F-48AD-8F01-036666057814}" }
-        - { name: "Transparent", itemId: "{A46EFC9D-7CF0-4C92-9577-1D94FD1D9782}" }
-        - { name: "Minimal", itemId: "{608E0EC7-E2C6-4093-A1A1-3962FF17885A}" }
-
+        - name: Default
+          itemId: '{150B9AFE-2B9F-48AD-8F01-036666057814}'
+        - name: Transparent
+          itemId: '{A46EFC9D-7CF0-4C92-9577-1D94FD1D9782}'
+        - name: Minimal
+          itemId: '{608E0EC7-E2C6-4093-A1A1-3962FF17885A}'
+        - name: HeinekenNavigation
+          itemId: '{12C047CA-A67D-4090-8A3A-434C8EDE4379}'
     verification:
       checkedAt: "2026-05-05T16:00:00Z"
       passed:
@@ -250,15 +715,19 @@ components:
     updatedAt: "2026-03-25T13:30:00Z"
 
     react:
-      filePath: "src/components/uiim/banners/HeroBanner.tsx"
-      componentMapKey: "HeroBanner"
+      filePath: src/components/uiim/banners/HeroBanner.tsx
+      componentMapKey: HeroBanner
       variants:
-        - "Default"
-        - "SplitImageText"
-        - "BackgroundImage"
-        - "VideoBackground"
-        - "Minimal"
-
+        - Default
+        - SplitImageText
+        - BackgroundImage
+        - VideoBackground
+        - Minimal
+        - HeinekenHero
+      demoVariantVerification:
+        client: heineken
+        checkedAt: '2026-10-20T17:09:15.092Z'
+        scope: Named exports, TypeScript and matching Sitecore Variant Definitions; rendered visual QA pending
     templates:
       datasource:
         name: "HeroBanner"
@@ -313,15 +782,21 @@ components:
       registeredInAvailableRenderings: true
 
     headlessVariants:
-      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/HeroBanner"
-      containerId: "{D28D8B6E-3030-4D49-9558-44B7EED789B8}"
+      containerPath: /sitecore/content/main/main-website/Presentation/Headless Variants/HeroBanner
+      containerId: '{D28D8B6E-3030-4D49-9558-44B7EED789B8}'
       variants:
-        - { name: "Default", itemId: "{51E32CC6-C761-4E8D-A9EB-03A11D358DC4}" }
-        - { name: "SplitImageText", itemId: "{085ED09F-42C4-4C25-BB70-CC13D3F9AF8F}" }
-        - { name: "BackgroundImage", itemId: "{948210B2-B8AF-47C1-A04F-E220071C0A63}" }
-        - { name: "VideoBackground", itemId: "{96586509-EBD7-4642-A127-0C65AEE1BD99}" }
-        - { name: "Minimal", itemId: "{FA46BF9A-3783-4615-B4E6-5F5B33A78B48}" }
-
+        - name: Default
+          itemId: '{51E32CC6-C761-4E8D-A9EB-03A11D358DC4}'
+        - name: SplitImageText
+          itemId: '{085ED09F-42C4-4C25-BB70-CC13D3F9AF8F}'
+        - name: BackgroundImage
+          itemId: '{948210B2-B8AF-47C1-A04F-E220071C0A63}'
+        - name: VideoBackground
+          itemId: '{96586509-EBD7-4642-A127-0C65AEE1BD99}'
+        - name: Minimal
+          itemId: '{FA46BF9A-3783-4615-B4E6-5F5B33A78B48}'
+        - name: HeinekenHero
+          itemId: '{59AF8832-766D-4D9D-901E-7C69F1E28E08}'
     verification:
       checkedAt: "2026-03-25T13:30:00Z"
       passed:
@@ -833,13 +1308,17 @@ components:
     updatedAt: "2026-03-25T17:00:00Z"
 
     react:
-      filePath: "src/components/uiim/content/TrustStatsRow.tsx"
-      componentMapKey: "TrustStatsRow"
+      filePath: src/components/uiim/content/TrustStatsRow.tsx
+      componentMapKey: TrustStatsRow
       variants:
-        - "Default"
-        - "WithIcons"
-        - "LogoRow"
-
+        - Default
+        - WithIcons
+        - LogoRow
+        - HeinekenMarkets
+      demoVariantVerification:
+        client: heineken
+        checkedAt: '2026-10-20T17:09:15.094Z'
+        scope: Named exports, TypeScript and matching Sitecore Variant Definitions; rendered visual QA pending
     templates:
       datasource:
         name: "TrustStatsRow"
@@ -914,13 +1393,17 @@ components:
       registeredInAvailableRenderings: true
 
     headlessVariants:
-      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/TrustStatsRow"
-      containerId: "{7AE37D15-B227-4274-809B-27023796BACD}"
+      containerPath: /sitecore/content/main/main-website/Presentation/Headless Variants/TrustStatsRow
+      containerId: '{7AE37D15-B227-4274-809B-27023796BACD}'
       variants:
-        - { name: "Default", itemId: "{71BDCB75-6061-460C-98BE-86C4E5E79B3A}" }
-        - { name: "WithIcons", itemId: "{A31EA0E4-1E93-43EE-9615-EC73A1451E63}" }
-        - { name: "LogoRow", itemId: "{1E5484B5-F633-4339-9A3E-AD6416C3B8AD}" }
-
+        - name: Default
+          itemId: '{71BDCB75-6061-460C-98BE-86C4E5E79B3A}'
+        - name: WithIcons
+          itemId: '{A31EA0E4-1E93-43EE-9615-EC73A1451E63}'
+        - name: LogoRow
+          itemId: '{1E5484B5-F633-4339-9A3E-AD6416C3B8AD}'
+        - name: HeinekenMarkets
+          itemId: '{4EC5A61B-98D8-4A89-824C-E2C72EE36737}'
     verification:
       checkedAt: "2026-03-25T17:00:00Z"
       passed:
@@ -1070,14 +1553,19 @@ components:
     updatedAt: "2026-03-25T18:00:00Z"
 
     react:
-      filePath: "src/components/uiim/banners/CTABanner.tsx"
-      componentMapKey: "CTABanner"
+      filePath: src/components/uiim/banners/CTABanner.tsx
+      componentMapKey: CTABanner
       variants:
-        - "Default"
-        - "WithImage"
-        - "Split"
-        - "Minimal"
-
+        - Default
+        - WithImage
+        - Split
+        - Minimal
+        - HeinekenPurpose
+        - HeinekenBrands
+      demoVariantVerification:
+        client: heineken
+        checkedAt: '2026-10-20T17:09:15.093Z'
+        scope: Named exports, TypeScript and matching Sitecore Variant Definitions; rendered visual QA pending
     templates:
       datasource:
         name: "CTABanner"
@@ -1132,14 +1620,21 @@ components:
       registeredInAvailableRenderings: true
 
     headlessVariants:
-      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/CTABanner"
-      containerId: "{A739A883-D5E1-4CAD-A8EE-5D3287D6B238}"
+      containerPath: /sitecore/content/main/main-website/Presentation/Headless Variants/CTABanner
+      containerId: '{A739A883-D5E1-4CAD-A8EE-5D3287D6B238}'
       variants:
-        - { name: "Default", itemId: "{B526E0D8-C4F9-4A21-AFA9-B828119FA988}" }
-        - { name: "WithImage", itemId: "{2DC4E1E9-79A0-48C7-A6D9-AC7DD8AFAAA0}" }
-        - { name: "Split", itemId: "{9DBA839A-E0F8-47D2-AA8E-29EDA7CC68E6}" }
-        - { name: "Minimal", itemId: "{E63EE25F-C889-4FE1-81B7-4611CF5969BE}" }
-
+        - name: Default
+          itemId: '{B526E0D8-C4F9-4A21-AFA9-B828119FA988}'
+        - name: WithImage
+          itemId: '{2DC4E1E9-79A0-48C7-A6D9-AC7DD8AFAAA0}'
+        - name: Split
+          itemId: '{9DBA839A-E0F8-47D2-AA8E-29EDA7CC68E6}'
+        - name: Minimal
+          itemId: '{E63EE25F-C889-4FE1-81B7-4611CF5969BE}'
+        - name: HeinekenPurpose
+          itemId: '{D9560C29-2367-4E3D-A45E-9AF0B067C045}'
+        - name: HeinekenBrands
+          itemId: '{EDBBCD3B-D27B-41D4-A4F4-1BB35E88B3C3}'
     verification:
       checkedAt: "2026-03-25T18:00:00Z"
       passed:
@@ -1170,14 +1665,18 @@ components:
     updatedAt: "2026-03-25T18:30:00Z"
 
     react:
-      filePath: "src/components/uiim/cards/FeatureCardsGrid.tsx"
-      componentMapKey: "FeatureCardsGrid"
+      filePath: src/components/uiim/cards/FeatureCardsGrid.tsx
+      componentMapKey: FeatureCardsGrid
       variants:
-        - "Default"
-        - "TwoColumn"
-        - "WithImages"
-        - "Carousel"
-
+        - Default
+        - TwoColumn
+        - WithImages
+        - Carousel
+        - HeinekenStories
+      demoVariantVerification:
+        client: heineken
+        checkedAt: '2026-10-20T17:09:15.089Z'
+        scope: Named exports, TypeScript and matching Sitecore Variant Definitions; rendered visual QA pending
     templates:
       datasource:
         name: "FeatureCardsGrid"
@@ -1251,14 +1750,19 @@ components:
       registeredInAvailableRenderings: true
 
     headlessVariants:
-      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/FeatureCardsGrid"
-      containerId: "{72669095-6581-4595-9C9E-2F650BCA4404}"
+      containerPath: /sitecore/content/main/main-website/Presentation/Headless Variants/FeatureCardsGrid
+      containerId: '{72669095-6581-4595-9C9E-2F650BCA4404}'
       variants:
-        - { name: "Default", itemId: "{495EF058-D306-4328-ABE4-261E7CFE8E9E}" }
-        - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
-        - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
-        - { name: "Carousel", itemId: "" }  # TODO: create in Sitecore
-
+        - name: Default
+          itemId: '{495EF058-D306-4328-ABE4-261E7CFE8E9E}'
+        - name: TwoColumn
+          itemId: '{0BCA5162-9643-49F3-BEE2-6B5243287D5E}'
+        - name: WithImages
+          itemId: '{0378DF47-C562-4BE1-8BA7-DFE429A2015A}'
+        - name: Carousel
+          itemId: ''
+        - name: HeinekenStories
+          itemId: '{19F10EE3-B7E2-4CEE-AC72-F1F76453DA9F}'
     verification:
       checkedAt: "2026-03-25T18:30:00Z"
       passed:
@@ -1499,14 +2003,18 @@ components:
     updatedAt: "2026-05-05T13:00:00Z"
 
     react:
-      filePath: "src/components/uiim/navigation/SiteFooter.tsx"
-      componentMapKey: "SiteFooter"
-      dataStrategy: "ComponentQuery (BrandLogo from datasource)"
+      filePath: src/components/uiim/navigation/SiteFooter.tsx
+      componentMapKey: SiteFooter
+      dataStrategy: ComponentQuery (BrandLogo from datasource)
       variants:
-        - "Default"
-        - "Minimal"
-        - "MegaFooter"
-
+        - Default
+        - Minimal
+        - MegaFooter
+        - HeinekenFooter
+      demoVariantVerification:
+        client: heineken
+        checkedAt: '2026-10-20T17:09:15.094Z'
+        scope: Named exports, TypeScript and matching Sitecore Variant Definitions; rendered visual QA pending
     templates:
       datasource:
         name: "SiteFooterData"
@@ -1552,18 +2060,22 @@ components:
       datasourceTemplatePath: "/sitecore/templates/Project/fmc-custom-demo/Components/Navigation/SiteFooterData"
       datasourceLocationQuery: "query:$site/*[@@name='Data']/*[@@templatename='SiteFooterData Folder']|query:$sharedSites/*[@@name='Data']/*[@@templatename='SiteFooterData Folder']"
       parametersTemplateId: "{E7E0DD7B-2039-4895-970B-20BB8FCD8C89}"
-      componentQuery: "query SiteFooterData($datasource: String!, $language: String!) { datasource: item(path: $datasource, language: $language) { brandLogo: field(name: \"BrandLogo\") { jsonValue } } }"
+      componentQuery: "query SiteFooterData($datasource: String!, $language: String!) { datasource: item(path: $datasource, language: $language) { brandLogo: field(name: \"BrandLogo\") { jsonValue } navigationHeading: field(name: \"NavigationHeading\") { jsonValue } subscribeHeading: field(name: \"SubscribeHeading\") { jsonValue } subscribeLink: field(name: \"SubscribeLink\") { jsonValue } socialHeading: field(name: \"SocialHeading\") { jsonValue } copyrightText: field(name: \"CopyrightText\") { jsonValue } children { results { id group: field(name: \"Group\") { jsonValue } linkLabel: field(name: \"LinkLabel\") { jsonValue } linkUrl: field(name: \"LinkUrl\") { jsonValue } } } } }"
       addFieldEditorButton: "1"
       registeredInAvailableRenderings: true
 
     headlessVariants:
-      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/SiteFooter"
-      containerId: "{613FAEEA-7FDC-453E-96DC-9B52337AC257}"
+      containerPath: /sitecore/content/main/main-website/Presentation/Headless Variants/SiteFooter
+      containerId: '{613FAEEA-7FDC-453E-96DC-9B52337AC257}'
       variants:
-        - { name: "Default", itemId: "{143CFE84-1E77-4961-975C-38564DC43DB9}" }
-        - { name: "Minimal", itemId: "{AF87D61B-F6A8-4036-9BF8-FDB586268D24}" }
-        - { name: "MegaFooter", itemId: "{DA131066-F9A2-47F0-A099-F614E61817AA}" }
-
+        - name: Default
+          itemId: '{143CFE84-1E77-4961-975C-38564DC43DB9}'
+        - name: Minimal
+          itemId: '{AF87D61B-F6A8-4036-9BF8-FDB586268D24}'
+        - name: MegaFooter
+          itemId: '{DA131066-F9A2-47F0-A099-F614E61817AA}'
+        - name: HeinekenFooter
+          itemId: '{00D71EC3-8C5F-41AD-AEA2-2ABE14D5F6A3}'
     verification:
       checkedAt: "2026-03-25T20:00:00Z"
       passed:
@@ -2047,14 +2559,19 @@ components:
     updatedAt: "2026-03-25T22:00:00Z"
 
     react:
-      filePath: "src/components/uiim/content/FeatureHighlight.tsx"
-      componentMapKey: "FeatureHighlight"
+      filePath: src/components/uiim/content/FeatureHighlight.tsx
+      componentMapKey: FeatureHighlight
       variants:
-        - "Default"
-        - "Centered"
-        - "WithVideo"
-        - "IconLeft"
-
+        - Default
+        - Centered
+        - WithVideo
+        - IconLeft
+        - HeinekenStrategy
+        - HeinekenCareers
+      demoVariantVerification:
+        client: heineken
+        checkedAt: '2026-10-20T17:09:15.093Z'
+        scope: Named exports, TypeScript and matching Sitecore Variant Definitions; rendered visual QA pending
     templates:
       datasource:
         name: "FeatureHighlight"
@@ -2109,14 +2626,21 @@ components:
       registeredInAvailableRenderings: true
 
     headlessVariants:
-      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/FeatureHighlight"
-      containerId: "{D3E5415A-9247-4572-B146-73E4AEF78195}"
+      containerPath: /sitecore/content/main/main-website/Presentation/Headless Variants/FeatureHighlight
+      containerId: '{D3E5415A-9247-4572-B146-73E4AEF78195}'
       variants:
-        - { name: "Default", itemId: "{0FDFE204-724E-4850-8891-ECC443607643}" }
-        - { name: "Centered", itemId: "{3C33C16D-F0D3-4FBF-8D78-CE70CEA0868B}" }
-        - { name: "WithVideo", itemId: "{E58A4CB1-BFB4-4FDF-B48D-6254708B05CA}" }
-        - { name: "IconLeft", itemId: "{E39E52FE-885D-433B-A2D3-B20F66E8F767}" }
-
+        - name: Default
+          itemId: '{0FDFE204-724E-4850-8891-ECC443607643}'
+        - name: Centered
+          itemId: '{3C33C16D-F0D3-4FBF-8D78-CE70CEA0868B}'
+        - name: WithVideo
+          itemId: '{E58A4CB1-BFB4-4FDF-B48D-6254708B05CA}'
+        - name: IconLeft
+          itemId: '{E39E52FE-885D-433B-A2D3-B20F66E8F767}'
+        - name: HeinekenStrategy
+          itemId: '{A79427D5-7301-4BE2-9AD2-D8CC983CE8DA}'
+        - name: HeinekenCareers
+          itemId: '{63143558-A01D-4EBE-BF28-2DE4FACE3828}'
     verification:
       checkedAt: "2026-03-25T22:00:00Z"
       passed:

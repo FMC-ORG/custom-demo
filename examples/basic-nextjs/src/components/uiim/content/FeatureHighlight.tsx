@@ -1,5 +1,6 @@
-import React, { JSX } from 'react';
-import { hasRichText, hasText } from '@/lib/field-utils';
+import { HeinekenPhoto, HeinekenStrategySection } from "@/lib/heineken-ui";
+import React, { JSX } from "react";
+import { hasRichText, hasText } from "@/lib/field-utils";
 import {
   Field,
   ImageField,
@@ -8,10 +9,10 @@ import {
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
-} from '@sitecore-content-sdk/nextjs';
-import { ComponentProps } from 'lib/component-props';
-import { cn } from '@/lib/utils';
-import { SmartMedia } from '@/components/uiim/media/SmartMedia';
+} from "@sitecore-content-sdk/nextjs";
+import { ComponentProps } from "lib/component-props";
+import { cn } from "@/lib/utils";
+import { SmartMedia } from "@/components/uiim/media/SmartMedia";
 
 interface FeatureHighlightFields {
   EyebrowText: Field<string>;
@@ -33,27 +34,39 @@ const FeatureHighlightDefaultComponent = (): JSX.Element => (
   </div>
 );
 
-const Eyebrow = ({ field, isEditing }: { field: Field<string>; isEditing?: boolean }) => {
+const Eyebrow = ({
+  field,
+  isEditing,
+}: {
+  field: Field<string>;
+  isEditing?: boolean;
+}) => {
   if (!hasText(field?.value) && !isEditing) return null;
   return (
     <Text
       field={field}
       tag="span"
       className="mb-3 inline-block text-xs font-semibold uppercase tracking-wider"
-      style={{ color: 'var(--brand-primary)' }}
+      style={{ color: "var(--brand-primary)" }}
     />
   );
 };
 
-const CtaButton = ({ field, isEditing }: { field: LinkField; isEditing?: boolean }) => {
+const CtaButton = ({
+  field,
+  isEditing,
+}: {
+  field: LinkField;
+  isEditing?: boolean;
+}) => {
   if (!field?.value?.href && !isEditing) return null;
   return (
     <ContentSdkLink
       field={field}
       className="mt-6 inline-flex items-center justify-center px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90 rounded-[var(--brand-button-radius,0.375rem)]"
       style={{
-        backgroundColor: 'var(--brand-primary)',
-        color: 'var(--brand-primary-foreground)',
+        backgroundColor: "var(--brand-primary)",
+        color: "var(--brand-primary-foreground)",
       }}
     />
   );
@@ -62,16 +75,23 @@ const CtaButton = ({ field, isEditing }: { field: LinkField; isEditing?: boolean
 /* ────────────────────────────────────────────
    Default — image right, text left (alternates via CSS)
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+export const Default = ({
+  fields,
+  params,
+  page,
+}: FeatureHighlightProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <FeatureHighlightDefaultComponent />;
 
   return (
-    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component feature-highlight", styles)}
+      id={RenderingIdentifier}
+    >
       <section
         className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+        style={{ backgroundColor: "var(--brand-bg, #ffffff)" }}
       >
         <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:px-6 even:[&]:direction-rtl even:[&>*]:direction-ltr">
           {(isEditing ||
@@ -86,14 +106,14 @@ export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.El
                   field={fields.Title}
                   tag="h2"
                   className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
-                  style={{ color: 'var(--brand-fg, #111111)' }}
+                  style={{ color: "var(--brand-fg, #111111)" }}
                 />
               )}
               {(hasRichText(fields.Description?.value) || isEditing) && (
                 <ContentSdkRichText
                   field={fields.Description}
                   className="mt-4 text-base opacity-70 font-body"
-                  style={{ color: 'var(--brand-fg, #111111)' }}
+                  style={{ color: "var(--brand-fg, #111111)" }}
                 />
               )}
               <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
@@ -118,16 +138,23 @@ export const Default = ({ fields, params, page }: FeatureHighlightProps): JSX.El
 /* ────────────────────────────────────────────
    Centered — centered text above, image below
    ──────────────────────────────────────────── */
-export const Centered = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+export const Centered = ({
+  fields,
+  params,
+  page,
+}: FeatureHighlightProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <FeatureHighlightDefaultComponent />;
 
   return (
-    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component feature-highlight", styles)}
+      id={RenderingIdentifier}
+    >
       <section
         className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+        style={{ backgroundColor: "var(--brand-bg, #ffffff)" }}
       >
         <div className="mx-auto max-w-4xl">
           {(isEditing ||
@@ -142,14 +169,14 @@ export const Centered = ({ fields, params, page }: FeatureHighlightProps): JSX.E
                   field={fields.Title}
                   tag="h2"
                   className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
-                  style={{ color: 'var(--brand-fg, #111111)' }}
+                  style={{ color: "var(--brand-fg, #111111)" }}
                 />
               )}
               {(hasRichText(fields.Description?.value) || isEditing) && (
                 <ContentSdkRichText
                   field={fields.Description}
                   className="mx-auto mt-4 max-w-2xl text-base opacity-70 font-body"
-                  style={{ color: 'var(--brand-fg, #111111)' }}
+                  style={{ color: "var(--brand-fg, #111111)" }}
                 />
               )}
               <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
@@ -174,16 +201,23 @@ export const Centered = ({ fields, params, page }: FeatureHighlightProps): JSX.E
 /* ────────────────────────────────────────────
    WithVideo — same as Default but with play button overlay
    ──────────────────────────────────────────── */
-export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+export const WithVideo = ({
+  fields,
+  params,
+  page,
+}: FeatureHighlightProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <FeatureHighlightDefaultComponent />;
 
   return (
-    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component feature-highlight", styles)}
+      id={RenderingIdentifier}
+    >
       <section
         className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+        style={{ backgroundColor: "var(--brand-bg, #ffffff)" }}
       >
         <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:px-6">
           {(isEditing ||
@@ -198,14 +232,14 @@ export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.
                   field={fields.Title}
                   tag="h2"
                   className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
-                  style={{ color: 'var(--brand-fg, #111111)' }}
+                  style={{ color: "var(--brand-fg, #111111)" }}
                 />
               )}
               {(hasRichText(fields.Description?.value) || isEditing) && (
                 <ContentSdkRichText
                   field={fields.Description}
                   className="mt-4 text-base opacity-70 font-body"
-                  style={{ color: 'var(--brand-fg, #111111)' }}
+                  style={{ color: "var(--brand-fg, #111111)" }}
                 />
               )}
               <CtaButton field={fields.PrimaryLink} isEditing={isEditing} />
@@ -223,7 +257,7 @@ export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.
             <div className="absolute inset-0 flex items-center justify-center bg-black/20">
               <div
                 className="flex h-16 w-16 items-center justify-center rounded-full opacity-90"
-                style={{ backgroundColor: 'var(--brand-primary)' }}
+                style={{ backgroundColor: "var(--brand-primary)" }}
               >
                 <svg
                   width="24"
@@ -245,16 +279,23 @@ export const WithVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.
 /* ────────────────────────────────────────────
    IconLeft — small image left, text right
    ──────────────────────────────────────────── */
-export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+export const IconLeft = ({
+  fields,
+  params,
+  page,
+}: FeatureHighlightProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <FeatureHighlightDefaultComponent />;
 
   return (
-    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component feature-highlight", styles)}
+      id={RenderingIdentifier}
+    >
       <section
         className="w-full px-4 py-12 md:py-16"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+        style={{ backgroundColor: "var(--brand-bg, #ffffff)" }}
       >
         <div className="mx-auto flex max-w-4xl items-start gap-6 md:px-6">
           {(fields.FeatureImage?.value?.src || isEditing) && (
@@ -272,26 +313,66 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
                 field={fields.Title}
                 tag="h3"
                 className="text-xl font-bold font-heading"
-                style={{ color: 'var(--brand-fg, #111111)' }}
+                style={{ color: "var(--brand-fg, #111111)" }}
               />
             )}
             {(hasRichText(fields.Description?.value) || isEditing) && (
               <ContentSdkRichText
                 field={fields.Description}
                 className="mt-2 text-sm opacity-70 font-body"
-                style={{ color: 'var(--brand-fg, #111111)' }}
+                style={{ color: "var(--brand-fg, #111111)" }}
               />
             )}
             {(fields.PrimaryLink?.value?.href || isEditing) && (
               <ContentSdkLink
                 field={fields.PrimaryLink}
                 className="mt-3 inline-flex text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
-                style={{ color: 'var(--brand-primary)' }}
+                style={{ color: "var(--brand-primary)" }}
               />
             )}
           </div>
         </div>
       </section>
     </div>
+  );
+};
+
+/* Heineken EverGreen — edge-aligned photograph and narrow strategy copy. */
+export const HeinekenStrategy = ({
+  fields,
+  params,
+  page,
+}: FeatureHighlightProps): JSX.Element => {
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+  return (
+    <HeinekenStrategySection
+      params={params}
+      page={page}
+      title={fields.Title}
+      body={fields.Description}
+      image={fields.FeatureImage}
+      link={fields.PrimaryLink}
+    />
+  );
+};
+
+/* Heineken careers — full-width employee photograph, not a split feature. */
+export const HeinekenCareers = ({
+  fields,
+  params,
+  page,
+}: FeatureHighlightProps): JSX.Element => {
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+  return (
+    <HeinekenPhoto
+      params={params}
+      page={page}
+      layout="careers"
+      title={fields.Title}
+      body={fields.Description}
+      image={fields.FeatureImage}
+      link={fields.PrimaryLink}
+      eyebrow={fields.EyebrowText}
+    />
   );
 };

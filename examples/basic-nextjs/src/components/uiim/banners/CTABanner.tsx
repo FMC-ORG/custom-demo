@@ -1,5 +1,6 @@
-import React, { JSX } from 'react';
-import { hasRichText, hasText } from '@/lib/field-utils';
+import { HeinekenPhoto } from "@/lib/heineken-ui";
+import React, { JSX } from "react";
+import { hasRichText, hasText } from "@/lib/field-utils";
 import {
   Field,
   ImageField,
@@ -7,10 +8,10 @@ import {
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
-} from '@sitecore-content-sdk/nextjs';
-import { ComponentProps } from 'lib/component-props';
-import { cn } from '@/lib/utils';
-import { SmartMedia } from '@/components/uiim/media/SmartMedia';
+} from "@sitecore-content-sdk/nextjs";
+import { ComponentProps } from "lib/component-props";
+import { cn } from "@/lib/utils";
+import { SmartMedia } from "@/components/uiim/media/SmartMedia";
 
 interface CTABannerFields {
   Title: Field<string>;
@@ -46,14 +47,20 @@ const PrimaryButton = ({
     <ContentSdkLink
       field={field}
       className={cn(
-        'inline-flex items-center justify-center px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90 rounded-[var(--brand-button-radius,0.375rem)]',
+        "inline-flex items-center justify-center px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90 rounded-[var(--brand-button-radius,0.375rem)]",
         className,
       )}
     />
   );
 };
 
-const SecondaryButton = ({ field, isEditing }: { field: LinkField; isEditing?: boolean }) => {
+const SecondaryButton = ({
+  field,
+  isEditing,
+}: {
+  field: LinkField;
+  isEditing?: boolean;
+}) => {
   if (!field?.value?.href && !isEditing) return null;
   return (
     <ContentSdkLink
@@ -66,18 +73,25 @@ const SecondaryButton = ({ field, isEditing }: { field: LinkField; isEditing?: b
 /* ────────────────────────────────────────────
    Default — centered, --brand-primary background
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+export const Default = ({
+  fields,
+  params,
+  page,
+}: CTABannerProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <CTABannerDefaultComponent />;
 
   return (
-    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component cta-banner", styles)}
+      id={RenderingIdentifier}
+    >
       <section
         className="w-full px-4 py-16 md:py-24"
         style={{
-          backgroundColor: 'var(--brand-primary)',
-          color: 'var(--brand-primary-foreground)',
+          backgroundColor: "var(--brand-primary)",
+          color: "var(--brand-primary-foreground)",
         }}
       >
         {(hasText(fields.Title?.value) ||
@@ -105,7 +119,10 @@ export const Default = ({ fields, params, page }: CTABannerProps): JSX.Element =
                 isEditing={isEditing}
                 className="bg-[var(--brand-primary-foreground)] text-[var(--brand-primary)]"
               />
-              <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+              <SecondaryButton
+                field={fields.SecondaryLink}
+                isEditing={isEditing}
+              />
             </div>
           </div>
         )}
@@ -117,13 +134,20 @@ export const Default = ({ fields, params, page }: CTABannerProps): JSX.Element =
 /* ────────────────────────────────────────────
    WithImage — full-bleed background with overlay
    ──────────────────────────────────────────── */
-export const WithImage = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+export const WithImage = ({
+  fields,
+  params,
+  page,
+}: CTABannerProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <CTABannerDefaultComponent />;
 
   return (
-    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component cta-banner", styles)}
+      id={RenderingIdentifier}
+    >
       <section className="relative w-full overflow-hidden">
         {(fields.BackgroundImage?.value?.src || isEditing) && (
           <div className="absolute inset-0">
@@ -162,7 +186,10 @@ export const WithImage = ({ fields, params, page }: CTABannerProps): JSX.Element
                   isEditing={isEditing}
                   className="bg-[var(--brand-primary)] text-[var(--brand-primary-foreground)]"
                 />
-                <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+                <SecondaryButton
+                  field={fields.SecondaryLink}
+                  isEditing={isEditing}
+                />
               </div>
             </div>
           </div>
@@ -175,16 +202,23 @@ export const WithImage = ({ fields, params, page }: CTABannerProps): JSX.Element
 /* ────────────────────────────────────────────
    Split — text left, buttons right
    ──────────────────────────────────────────── */
-export const Split = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+export const Split = ({
+  fields,
+  params,
+  page,
+}: CTABannerProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <CTABannerDefaultComponent />;
 
   return (
-    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component cta-banner", styles)}
+      id={RenderingIdentifier}
+    >
       <section
         className="w-full px-4 py-16 md:py-20"
-        style={{ backgroundColor: 'var(--brand-muted, #f5f5f5)' }}
+        style={{ backgroundColor: "var(--brand-muted, #f5f5f5)" }}
       >
         {(hasText(fields.Title?.value) ||
           isEditing ||
@@ -201,14 +235,14 @@ export const Split = ({ fields, params, page }: CTABannerProps): JSX.Element => 
                     field={fields.Title}
                     tag="h2"
                     className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
+                    style={{ color: "var(--brand-fg, #111111)" }}
                   />
                 )}
                 {(hasRichText(fields.Description?.value) || isEditing) && (
                   <ContentSdkRichText
                     field={fields.Description}
                     className="mt-4 text-base font-body"
-                    style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
+                    style={{ color: "var(--brand-muted-foreground, #6b7280)" }}
                   />
                 )}
               </div>
@@ -219,7 +253,10 @@ export const Split = ({ fields, params, page }: CTABannerProps): JSX.Element => 
                 isEditing={isEditing}
                 className="bg-[var(--brand-primary)] text-[var(--brand-primary-foreground)]"
               />
-              <SecondaryButton field={fields.SecondaryLink} isEditing={isEditing} />
+              <SecondaryButton
+                field={fields.SecondaryLink}
+                isEditing={isEditing}
+              />
             </div>
           </div>
         )}
@@ -231,16 +268,23 @@ export const Split = ({ fields, params, page }: CTABannerProps): JSX.Element => 
 /* ────────────────────────────────────────────
    Minimal — subtle background, inline text + link
    ──────────────────────────────────────────── */
-export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+export const Minimal = ({
+  fields,
+  params,
+  page,
+}: CTABannerProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   if (!fields) return <CTABannerDefaultComponent />;
 
   return (
-    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component cta-banner", styles)}
+      id={RenderingIdentifier}
+    >
       <section
         className="w-full px-4 py-10"
-        style={{ backgroundColor: 'var(--brand-muted, #f5f5f5)' }}
+        style={{ backgroundColor: "var(--brand-muted, #f5f5f5)" }}
       >
         {(hasText(fields.Title?.value) ||
           isEditing ||
@@ -257,14 +301,14 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
                     field={fields.Title}
                     tag="p"
                     className="text-lg font-semibold font-heading"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
+                    style={{ color: "var(--brand-fg, #111111)" }}
                   />
                 )}
                 {(hasRichText(fields.Description?.value) || isEditing) && (
                   <ContentSdkRichText
                     field={fields.Description}
                     className="mt-1 text-sm font-body"
-                    style={{ color: 'var(--brand-muted-foreground, #6b7280)' }}
+                    style={{ color: "var(--brand-muted-foreground, #6b7280)" }}
                   />
                 )}
               </div>
@@ -279,7 +323,7 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
                 <ContentSdkLink
                   field={fields.SecondaryLink}
                   className="text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
-                  style={{ color: 'var(--brand-primary)' }}
+                  style={{ color: "var(--brand-primary)" }}
                 />
               )}
             </div>
@@ -287,5 +331,45 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
         )}
       </section>
     </div>
+  );
+};
+
+/* Heineken purpose — right-side copy over a full-width photo. */
+export const HeinekenPurpose = ({
+  fields,
+  params,
+  page,
+}: CTABannerProps): JSX.Element => {
+  if (!fields) return <CTABannerDefaultComponent />;
+  return (
+    <HeinekenPhoto
+      params={params}
+      page={page}
+      layout="purpose"
+      title={fields.Title}
+      body={fields.Description}
+      image={fields.BackgroundImage}
+      link={fields.PrimaryLink}
+    />
+  );
+};
+
+/* Heineken brands — green directional overlay with right-aligned content. */
+export const HeinekenBrands = ({
+  fields,
+  params,
+  page,
+}: CTABannerProps): JSX.Element => {
+  if (!fields) return <CTABannerDefaultComponent />;
+  return (
+    <HeinekenPhoto
+      params={params}
+      page={page}
+      layout="brands"
+      title={fields.Title}
+      body={fields.Description}
+      image={fields.BackgroundImage}
+      link={fields.PrimaryLink}
+    />
   );
 };

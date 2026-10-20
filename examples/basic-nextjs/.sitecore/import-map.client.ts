@@ -36,6 +36,7 @@ import { SearchInput } from '@/lib/search/search-components/SearchInput';
 import { useEvent } from '@/lib/search/search-components/useEvent';
 import { useRouter } from '@/lib/search/search-components/useRouter';
 import { DICTIONARY_KEYS, DEFAULT_PAGE_SIZE as DEFAULT_PAGE_SIZE_d8a3a96ed6893912a4b0e4dff64815d90f82a321, gridColsClass } from '@/lib/search/search-components/constants';
+import { hasText, hasRichText } from '@/lib/field-utils';
 import { Text, NextImage, Link, useSitecore, RichText, DateField, CdpHelper, withDatasourceCheck } from '@sitecore-content-sdk/nextjs';
 import Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 from 'next/link';
 import { identity, event, pageView } from '@sitecore-content-sdk/events';
@@ -247,6 +248,13 @@ const importMap = [
       { name: 'DICTIONARY_KEYS', value: DICTIONARY_KEYS },
       { name: 'DEFAULT_PAGE_SIZE', value: DEFAULT_PAGE_SIZE_d8a3a96ed6893912a4b0e4dff64815d90f82a321 },
       { name: 'gridColsClass', value: gridColsClass },
+    ]
+  },
+  {
+    module: '@/lib/field-utils',
+    exports: [
+      { name: 'hasText', value: hasText },
+      { name: 'hasRichText', value: hasRichText },
     ]
   },
   {

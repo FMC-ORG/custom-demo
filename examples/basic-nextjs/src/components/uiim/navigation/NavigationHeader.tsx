@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { JSX, useState, useEffect } from 'react';
-import { hasText } from '@/lib/field-utils';
+import React, { JSX, useState, useEffect } from "react";
+import { hasText } from "@/lib/field-utils";
 import {
   Field,
   ImageField,
@@ -9,11 +9,11 @@ import {
   NextImage as ContentSdkImage,
   Link as ContentSdkLink,
   Text,
-} from '@sitecore-content-sdk/nextjs';
-import Link from 'next/link';
-import { ComponentProps } from 'lib/component-props';
-import { cn } from '@/lib/utils';
-import { TypeaheadSearchBox } from '@/lib/search-ui/TypeaheadSearchBox';
+} from "@sitecore-content-sdk/nextjs";
+import Link from "next/link";
+import { ComponentProps } from "lib/component-props";
+import { cn } from "@/lib/utils";
+import { TypeaheadSearchBox } from "@/lib/search-ui/TypeaheadSearchBox";
 
 interface NavigationLinkFields {
   id: string;
@@ -55,35 +55,55 @@ const NavigationHeaderDefaultComponent = (): JSX.Element => (
   </div>
 );
 
-const Logo = ({ className, brandLogo }: { className?: string; brandLogo?: ImageField }) => {
+const Logo = ({
+  className,
+  brandLogo,
+}: {
+  className?: string;
+  brandLogo?: ImageField;
+}) => {
   const hasImage = brandLogo?.value?.src;
   return (
     <Link
       href="/"
-      className={cn('flex items-center text-xl font-bold tracking-tight', className)}
-      style={{ color: 'var(--brand-header-fg, inherit)' }}
+      className={cn(
+        "flex items-center text-xl font-bold tracking-tight",
+        className,
+      )}
+      style={{ color: "var(--brand-header-fg, inherit)" }}
     >
       {hasImage ? (
-        <ContentSdkImage field={brandLogo} className="h-8 w-auto object-contain sm:h-10" />
+        <ContentSdkImage
+          field={brandLogo}
+          className="h-8 w-auto object-contain sm:h-10"
+        />
       ) : (
         <>
-          <span style={{ color: 'var(--brand-primary)' }}>Brand</span>Logo
+          <span style={{ color: "var(--brand-primary)" }}>Brand</span>Logo
         </>
       )}
     </Link>
   );
 };
 
-const NavLinks = ({ className, items }: { className?: string; items: NavigationLinkFields[] }) => (
-  <nav className={cn('hidden md:flex items-center gap-6', className)}>
+const NavLinks = ({
+  className,
+  items,
+}: {
+  className?: string;
+  items: NavigationLinkFields[];
+}) => (
+  <nav className={cn("hidden md:flex items-center gap-6", className)}>
     {items.map((item) => (
       <ContentSdkLink
         key={item.id}
         field={item.linkUrl?.jsonValue}
         className="text-sm font-medium transition-opacity hover:opacity-70"
-        style={{ color: 'var(--brand-header-fg, inherit)' }}
+        style={{ color: "var(--brand-header-fg, inherit)" }}
       >
-        {hasText(item.linkText?.jsonValue?.value) && <Text field={item.linkText?.jsonValue} />}
+        {hasText(item.linkText?.jsonValue?.value) && (
+          <Text field={item.linkText?.jsonValue} />
+        )}
       </ContentSdkLink>
     ))}
   </nav>
@@ -100,17 +120,22 @@ const MobileMenu = ({
 }) => {
   if (!open) return null;
   return (
-    <div className="md:hidden border-t" style={{ borderColor: 'var(--brand-border, #e5e7eb)' }}>
+    <div
+      className="md:hidden border-t"
+      style={{ borderColor: "var(--brand-border, #e5e7eb)" }}
+    >
       <div className="px-4 py-4 flex flex-col gap-4">
         {items.map((item) => (
           <ContentSdkLink
             key={item.id}
             field={item.linkUrl?.jsonValue}
             className="text-sm font-medium"
-            style={{ color: 'var(--brand-header-fg, inherit)' }}
+            style={{ color: "var(--brand-header-fg, inherit)" }}
             onClick={onClose}
           >
-            {hasText(item.linkText?.jsonValue?.value) && <Text field={item.linkText?.jsonValue} />}
+            {hasText(item.linkText?.jsonValue?.value) && (
+              <Text field={item.linkText?.jsonValue} />
+            )}
           </ContentSdkLink>
         ))}
       </div>
@@ -132,12 +157,12 @@ const CtaButton = ({
   if (!link?.value?.href && !isEditing) return null;
 
   const ctaClassName = cn(
-    'hidden md:inline-flex items-center rounded-md px-4 py-2 text-sm font-semibold transition-opacity hover:opacity-90',
+    "hidden md:inline-flex items-center rounded-md px-4 py-2 text-sm font-semibold transition-opacity hover:opacity-90",
     className,
   );
   const ctaStyle = {
-    backgroundColor: 'var(--brand-primary)',
-    color: 'var(--brand-primary-foreground)',
+    backgroundColor: "var(--brand-primary)",
+    color: "var(--brand-primary-foreground)",
   };
 
   if (!link) {
@@ -161,7 +186,7 @@ const HeaderSearch = ({
   datasource,
   page,
   rendering,
-}: Pick<ComponentProps, 'page' | 'rendering'> & {
+}: Pick<ComponentProps, "page" | "rendering"> & {
   datasource: NavigationHeaderDatasource;
 }) => {
   if (!datasource.searchIndex?.jsonValue?.value) return null;
@@ -185,12 +210,18 @@ const HeaderSearch = ({
   );
 };
 
-const MenuButton = ({ open, onClick }: { open: boolean; onClick: () => void }) => (
+const MenuButton = ({
+  open,
+  onClick,
+}: {
+  open: boolean;
+  onClick: () => void;
+}) => (
   <button
     className="md:hidden p-2"
     onClick={onClick}
     aria-label="Toggle menu"
-    style={{ color: 'var(--brand-header-fg, inherit)' }}
+    style={{ color: "var(--brand-header-fg, inherit)" }}
   >
     {open ? (
       <svg
@@ -238,34 +269,52 @@ export const Default = ({
   const brandLogo = datasource.brandLogo?.jsonValue;
 
   return (
-    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component navigation-header", styles)}
+      id={RenderingIdentifier}
+    >
       <header
         className="w-full border-b"
         style={{
-          backgroundColor: 'var(--brand-header-bg, #ffffff)',
-          borderColor: 'var(--brand-border, #e5e7eb)',
+          backgroundColor: "var(--brand-header-bg, #ffffff)",
+          borderColor: "var(--brand-border, #e5e7eb)",
         }}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <Logo brandLogo={brandLogo} />
           <NavLinks items={links} />
           <div className="flex items-center gap-3">
-            <HeaderSearch datasource={datasource} page={page} rendering={rendering} />
+            <HeaderSearch
+              datasource={datasource}
+              page={page}
+              rendering={rendering}
+            />
             <CtaButton
               label={datasource.ctaLabel?.jsonValue}
               link={datasource.ctaLink?.jsonValue}
               isEditing={isEditing}
             />
-            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+            <MenuButton
+              open={menuOpen}
+              onClick={() => setMenuOpen(!menuOpen)}
+            />
           </div>
         </div>
-        <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
+        <MobileMenu
+          items={links}
+          open={menuOpen}
+          onClose={() => setMenuOpen(false)}
+        />
       </header>
     </div>
   );
 };
 
-export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JSX.Element => {
+export const Transparent = ({
+  fields,
+  params,
+  page,
+}: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const [scrolled, setScrolled] = useState(false);
@@ -276,8 +325,8 @@ export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JS
   useEffect(() => {
     if (!datasource) return;
     const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [datasource]);
 
   if (!datasource) return <NavigationHeaderDefaultComponent />;
@@ -286,27 +335,37 @@ export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JS
   const brandLogo = datasource.brandLogo?.jsonValue;
 
   return (
-    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component navigation-header", styles)}
+      id={RenderingIdentifier}
+    >
       <header
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300',
-          scrolled ? 'border-b shadow-sm' : '',
+          "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300",
+          scrolled ? "border-b shadow-sm" : "",
         )}
         style={{
-          backgroundColor: scrolled ? 'var(--brand-header-bg, #ffffff)' : 'transparent',
-          borderColor: scrolled ? 'var(--brand-border, #e5e7eb)' : 'transparent',
+          backgroundColor: scrolled
+            ? "var(--brand-header-bg, #ffffff)"
+            : "transparent",
+          borderColor: scrolled
+            ? "var(--brand-border, #e5e7eb)"
+            : "transparent",
         }}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <Logo
             brandLogo={brandLogo}
-            className={cn('transition-colors duration-300', !scrolled && 'drop-shadow-sm')}
+            className={cn(
+              "transition-colors duration-300",
+              !scrolled && "drop-shadow-sm",
+            )}
           />
           <NavLinks
             items={links}
             className={cn(
-              'transition-colors duration-300',
-              !scrolled && '[&_a]:!text-white [&_a]:drop-shadow-sm',
+              "transition-colors duration-300",
+              !scrolled && "[&_a]:!text-white [&_a]:drop-shadow-sm",
             )}
           />
           <div className="flex items-center gap-2">
@@ -315,16 +374,26 @@ export const Transparent = ({ fields, params, page }: NavigationHeaderProps): JS
               link={datasource.ctaLink?.jsonValue}
               isEditing={isEditing}
             />
-            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+            <MenuButton
+              open={menuOpen}
+              onClick={() => setMenuOpen(!menuOpen)}
+            />
           </div>
         </div>
-        <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
+        <MobileMenu
+          items={links}
+          open={menuOpen}
+          onClose={() => setMenuOpen(false)}
+        />
       </header>
     </div>
   );
 };
 
-export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element => {
+export const Minimal = ({
+  fields,
+  params,
+}: NavigationHeaderProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
 
   const datasource = fields?.data?.datasource;
@@ -333,16 +402,133 @@ export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element 
   const brandLogo = datasource.brandLogo?.jsonValue;
 
   return (
-    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component navigation-header", styles)}
+      id={RenderingIdentifier}
+    >
       <header
         className="w-full"
         style={{
-          backgroundColor: 'var(--brand-header-bg, #ffffff)',
+          backgroundColor: "var(--brand-header-bg, #ffffff)",
         }}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-4 sm:px-6">
           <Logo brandLogo={brandLogo} />
         </div>
+      </header>
+    </div>
+  );
+};
+
+/* Heineken navigation — source white header, serif links and a compact search affordance. */
+export const HeinekenNavigation = ({
+  fields,
+  params,
+  page,
+}: NavigationHeaderProps): JSX.Element => {
+  const [open, setOpen] = useState(false);
+  const ds = fields?.data?.datasource;
+  if (!ds) return <NavigationHeaderDefaultComponent />;
+  const editing = page?.mode?.isEditing;
+  const items = ds.children?.results ?? [];
+  const renderLinks = (mobile = false) =>
+    items.map((item) => (
+      <ContentSdkLink
+        key={item.id}
+        field={item.linkUrl?.jsonValue}
+        className={cn(
+          "font-heading text-base font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4",
+          mobile && "block py-3",
+        )}
+      >
+        {(hasText(item.linkText?.jsonValue?.value) || editing) && (
+          <Text field={item.linkText?.jsonValue} />
+        )}
+      </ContentSdkLink>
+    ));
+  return (
+    <div
+      className={cn(
+        "component heineken-navigation relative z-40",
+        params.styles,
+      )}
+      id={params.RenderingIdentifier}
+    >
+      <header
+        style={{
+          background: "var(--brand-header-bg)",
+          color: "var(--brand-header-fg)",
+        }}
+      >
+        <div className="mx-auto flex min-h-[86px] max-w-[1248px] items-center justify-between gap-6 px-6 xl:min-h-[110px] xl:px-0">
+          {(ds.brandLogo?.jsonValue?.value?.src || editing) && (
+            <ContentSdkImage
+              field={ds.brandLogo?.jsonValue}
+              unoptimized
+              className="h-auto w-[181px] shrink-0 object-contain"
+            />
+          )}
+          <nav
+            className="hidden items-center gap-8 xl:flex"
+            aria-label="Main navigation"
+          >
+            {renderLinks()}
+          </nav>
+          <div className="flex items-center gap-4">
+            {(ds.ctaLink?.jsonValue?.value?.href || editing) && (
+              <ContentSdkLink
+                field={ds.ctaLink?.jsonValue}
+                className="flex h-12 w-12 items-center justify-center rounded-l-lg border-l"
+                style={{ borderColor: "var(--brand-border)" }}
+              >
+                <span className={editing ? undefined : "sr-only"}>
+                  <Text field={ds.ctaLabel?.jsonValue} />
+                </span>
+                <svg
+                  aria-hidden="true"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <circle cx="10.5" cy="10.5" r="6.5" />
+                  <path d="m16 16 5 5" />
+                </svg>
+              </ContentSdkLink>
+            )}
+            <button
+              type="button"
+              className="p-2 xl:hidden"
+              onClick={() => setOpen(!open)}
+              aria-expanded={open}
+              aria-label="Toggle navigation"
+            >
+              <svg
+                aria-hidden="true"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  d={open ? "M6 6l12 12M6 18 18 6" : "M3 6h18M3 12h18M3 18h18"}
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        {(open || editing) && (
+          <nav
+            className="border-t px-6 py-4 xl:hidden"
+            aria-label="Mobile navigation"
+          >
+            {renderLinks(true)}
+          </nav>
+        )}
       </header>
     </div>
   );

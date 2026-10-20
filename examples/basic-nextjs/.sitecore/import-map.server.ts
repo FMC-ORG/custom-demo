@@ -10,12 +10,16 @@ import {
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React from 'react';
 import * as React_7214d18997ee864dd178de7b3a8430f6783e8b89 from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import { NextImage, RichText, Text, Link, AppPlaceholder } from '@sitecore-content-sdk/nextjs';
 import { cn } from '@/lib/utils';
+import { HeinekenSocialIcon, HeinekenPhoto, HeinekenStrategySection } from '@/lib/heineken-ui';
 import Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 from 'next/link';
 import { Sparkles } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
+import { Card } from '@/components/ui/card';
 import { SmartMedia } from '@/components/uiim/media/SmartMedia';
+import { Button } from '@/components/ui/button';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import componentMap from '.sitecore/component-map';
@@ -38,6 +42,13 @@ const importMap = [
     ]
   },
   {
+    module: '@/lib/field-utils',
+    exports: [
+      { name: 'hasRichText', value: hasRichText },
+      { name: 'hasText', value: hasText },
+    ]
+  },
+  {
     module: '@sitecore-content-sdk/nextjs',
     exports: [
       { name: 'NextImage', value: NextImage },
@@ -54,6 +65,14 @@ const importMap = [
     ]
   },
   {
+    module: '@/lib/heineken-ui',
+    exports: [
+      { name: 'HeinekenSocialIcon', value: HeinekenSocialIcon },
+      { name: 'HeinekenPhoto', value: HeinekenPhoto },
+      { name: 'HeinekenStrategySection', value: HeinekenStrategySection },
+    ]
+  },
+  {
     module: 'next/link',
     exports: [
       { name: 'default', value: Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 },
@@ -67,9 +86,21 @@ const importMap = [
     ]
   },
   {
+    module: '@/components/ui/card',
+    exports: [
+      { name: 'Card', value: Card },
+    ]
+  },
+  {
     module: '@/components/uiim/media/SmartMedia',
     exports: [
       { name: 'SmartMedia', value: SmartMedia },
+    ]
+  },
+  {
+    module: '@/components/ui/button',
+    exports: [
+      { name: 'Button', value: Button },
     ]
   },
   {

@@ -15,6 +15,7 @@ import * as SearchCollection from 'src/components/uiim/search/SearchCollection';
 import * as TabNavigationSection from 'src/components/uiim/navigation/TabNavigationSection';
 import * as SiteFooter from 'src/components/uiim/navigation/SiteFooter';
 import * as NavigationHeader from 'src/components/uiim/navigation/NavigationHeader';
+import * as HeinekenSiteSelector from 'src/components/uiim/navigation/HeinekenSiteSelector';
 import * as AnnouncementBar from 'src/components/uiim/navigation/AnnouncementBar';
 import * as ImageGallery from 'src/components/uiim/media/ImageGallery';
 import * as LandingStats from 'src/components/uiim/landing/LandingStats';
@@ -30,12 +31,14 @@ import * as ValuePropositionGrid from 'src/components/uiim/content/ValueProposit
 import * as TrustStatsRow from 'src/components/uiim/content/TrustStatsRow';
 import * as RichTextBlock from 'src/components/uiim/content/RichTextBlock';
 import * as LegalComplianceBanner from 'src/components/uiim/content/LegalComplianceBanner';
+import * as HeinekenInvestorNews from 'src/components/uiim/content/HeinekenInvestorNews';
 import * as FeatureHighlight from 'src/components/uiim/content/FeatureHighlight';
 import * as FAQAccordion from 'src/components/uiim/content/FAQAccordion';
 import * as ProductPricingCards from 'src/components/uiim/cards/ProductPricingCards';
 import * as FeatureCardsGrid from 'src/components/uiim/cards/FeatureCardsGrid';
 import * as HeroBannerCarousel from 'src/components/uiim/banners/HeroBannerCarousel';
 import * as HeroBanner from 'src/components/uiim/banners/HeroBanner';
+import * as HeinekenSustainability from 'src/components/uiim/banners/HeinekenSustainability';
 import * as CTABanner from 'src/components/uiim/banners/CTABanner';
 import * as ArticleHero from 'src/components/uiim/article/ArticleHero';
 import * as ArticleBody from 'src/components/uiim/article/ArticleBody';
@@ -67,6 +70,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['TabNavigationSection', { ...TabNavigationSection }],
   ['SiteFooter', { ...SiteFooter }],
   ['NavigationHeader', { ...NavigationHeader, componentType: 'client' }],
+  ['HeinekenSiteSelector', { ...HeinekenSiteSelector }],
   ['AnnouncementBar', { ...AnnouncementBar }],
   ['ImageGallery', { ...ImageGallery }],
   ['LandingStats', { ...LandingStats }],
@@ -82,12 +86,14 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['TrustStatsRow', { ...TrustStatsRow }],
   ['RichTextBlock', { ...RichTextBlock }],
   ['LegalComplianceBanner', { ...LegalComplianceBanner }],
+  ['HeinekenInvestorNews', { ...HeinekenInvestorNews }],
   ['FeatureHighlight', { ...FeatureHighlight }],
   ['FAQAccordion', { ...FAQAccordion }],
   ['ProductPricingCards', { ...ProductPricingCards }],
   ['FeatureCardsGrid', { ...FeatureCardsGrid, componentType: 'client' }],
   ['HeroBannerCarousel', { ...HeroBannerCarousel, componentType: 'client' }],
   ['HeroBanner', { ...HeroBanner }],
+  ['HeinekenSustainability', { ...HeinekenSustainability }],
   ['CTABanner', { ...CTABanner }],
   ['ArticleHero', { ...ArticleHero, componentType: 'client' }],
   ['ArticleBody', { ...ArticleBody }],

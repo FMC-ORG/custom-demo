@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { JSX, useState, useCallback, useEffect } from 'react';
-import { hasRichText, hasText } from '@/lib/field-utils';
+import React, { JSX, useState, useCallback, useEffect } from "react";
+import { hasRichText, hasText } from "@/lib/field-utils";
 import {
   Field,
   ImageField,
@@ -10,9 +10,9 @@ import {
   Link as ContentSdkLink,
   RichText as ContentSdkRichText,
   Text,
-} from '@sitecore-content-sdk/nextjs';
-import { ComponentProps } from 'lib/component-props';
-import { cn } from '@/lib/utils';
+} from "@sitecore-content-sdk/nextjs";
+import { ComponentProps } from "lib/component-props";
+import { cn } from "@/lib/utils";
 
 interface FeatureCardItemFields {
   id: string;
@@ -64,14 +64,14 @@ const SectionHeader = ({
           field={datasource.title?.jsonValue}
           tag="h2"
           className="text-3xl font-bold tracking-tight sm:text-4xl font-heading"
-          style={{ color: 'var(--brand-fg, #111111)' }}
+          style={{ color: "var(--brand-fg, #111111)" }}
         />
       )}
       {(hasRichText(datasource.description?.jsonValue?.value) || isEditing) && (
         <ContentSdkRichText
           field={datasource.description?.jsonValue}
           className="mt-4 text-lg opacity-70 font-body"
-          style={{ color: 'var(--brand-fg, #111111)' }}
+          style={{ color: "var(--brand-fg, #111111)" }}
         />
       )}
     </div>
@@ -80,7 +80,11 @@ const SectionHeader = ({
 /* ────────────────────────────────────────────
    Default — 3-column grid, icon top
    ──────────────────────────────────────────── */
-export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+export const Default = ({
+  fields,
+  params,
+  page,
+}: FeatureCardsGridProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const datasource = fields?.data?.datasource;
@@ -88,10 +92,13 @@ export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.El
   const cards = datasource.children?.results || [];
 
   return (
-    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component feature-cards-grid", styles)}
+      id={RenderingIdentifier}
+    >
       <section
         className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+        style={{ backgroundColor: "var(--brand-bg, #ffffff)" }}
       >
         <div className="mx-auto max-w-7xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
@@ -101,8 +108,8 @@ export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.El
                 key={card.id}
                 className="flex flex-col p-6 rounded-[var(--brand-card-radius,0.75rem)]"
                 style={{
-                  backgroundColor: 'var(--brand-bg, #ffffff)',
-                  border: '1px solid var(--brand-border, #e5e7eb)',
+                  backgroundColor: "var(--brand-bg, #ffffff)",
+                  border: "1px solid var(--brand-border, #e5e7eb)",
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
@@ -118,21 +125,22 @@ export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.El
                     field={card.cardTitle?.jsonValue}
                     tag="h3"
                     className="text-lg font-semibold font-heading"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
+                    style={{ color: "var(--brand-fg, #111111)" }}
                   />
                 )}
-                {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                {(hasRichText(card.cardDescription?.jsonValue?.value) ||
+                  isEditing) && (
                   <ContentSdkRichText
                     field={card.cardDescription?.jsonValue}
                     className="mt-2 flex-1 text-sm opacity-70 font-body"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
+                    style={{ color: "var(--brand-fg, #111111)" }}
                   />
                 )}
                 {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
                   <ContentSdkLink
                     field={card.cardLink?.jsonValue}
                     className="mt-4 inline-flex text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
-                    style={{ color: 'var(--brand-primary)' }}
+                    style={{ color: "var(--brand-primary)" }}
                   />
                 )}
               </div>
@@ -147,7 +155,11 @@ export const Default = ({ fields, params, page }: FeatureCardsGridProps): JSX.El
 /* ────────────────────────────────────────────
    TwoColumn — 2 wider cards
    ──────────────────────────────────────────── */
-export const TwoColumn = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+export const TwoColumn = ({
+  fields,
+  params,
+  page,
+}: FeatureCardsGridProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const datasource = fields?.data?.datasource;
@@ -155,10 +167,13 @@ export const TwoColumn = ({ fields, params, page }: FeatureCardsGridProps): JSX.
   const cards = datasource.children?.results || [];
 
   return (
-    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component feature-cards-grid", styles)}
+      id={RenderingIdentifier}
+    >
       <section
         className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+        style={{ backgroundColor: "var(--brand-bg, #ffffff)" }}
       >
         <div className="mx-auto max-w-5xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
@@ -168,8 +183,8 @@ export const TwoColumn = ({ fields, params, page }: FeatureCardsGridProps): JSX.
                 key={card.id}
                 className="flex flex-col p-8 rounded-[var(--brand-card-radius,0.75rem)]"
                 style={{
-                  backgroundColor: 'var(--brand-bg, #ffffff)',
-                  border: '1px solid var(--brand-border, #e5e7eb)',
+                  backgroundColor: "var(--brand-bg, #ffffff)",
+                  border: "1px solid var(--brand-border, #e5e7eb)",
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
@@ -185,21 +200,22 @@ export const TwoColumn = ({ fields, params, page }: FeatureCardsGridProps): JSX.
                     field={card.cardTitle?.jsonValue}
                     tag="h3"
                     className="text-xl font-semibold font-heading"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
+                    style={{ color: "var(--brand-fg, #111111)" }}
                   />
                 )}
-                {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                {(hasRichText(card.cardDescription?.jsonValue?.value) ||
+                  isEditing) && (
                   <ContentSdkRichText
                     field={card.cardDescription?.jsonValue}
                     className="mt-3 flex-1 text-base opacity-70 font-body"
-                    style={{ color: 'var(--brand-fg, #111111)' }}
+                    style={{ color: "var(--brand-fg, #111111)" }}
                   />
                 )}
                 {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
                   <ContentSdkLink
                     field={card.cardLink?.jsonValue}
                     className="mt-5 inline-flex text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
-                    style={{ color: 'var(--brand-primary)' }}
+                    style={{ color: "var(--brand-primary)" }}
                   />
                 )}
               </div>
@@ -214,7 +230,11 @@ export const TwoColumn = ({ fields, params, page }: FeatureCardsGridProps): JSX.
 /* ────────────────────────────────────────────
    WithImages — larger images at top of each card
    ──────────────────────────────────────────── */
-export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+export const WithImages = ({
+  fields,
+  params,
+  page,
+}: FeatureCardsGridProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const datasource = fields?.data?.datasource;
@@ -222,10 +242,13 @@ export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX
   const cards = datasource.children?.results || [];
 
   return (
-    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component feature-cards-grid", styles)}
+      id={RenderingIdentifier}
+    >
       <section
         className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+        style={{ backgroundColor: "var(--brand-bg, #ffffff)" }}
       >
         <div className="mx-auto max-w-7xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
@@ -235,8 +258,8 @@ export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX
                 key={card.id}
                 className="flex flex-col overflow-hidden rounded-[var(--brand-card-radius,0.75rem)]"
                 style={{
-                  backgroundColor: 'var(--brand-bg, #ffffff)',
-                  border: '1px solid var(--brand-border, #e5e7eb)',
+                  backgroundColor: "var(--brand-bg, #ffffff)",
+                  border: "1px solid var(--brand-border, #e5e7eb)",
                 }}
               >
                 {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
@@ -250,26 +273,28 @@ export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX
                   hasRichText(card.cardDescription?.jsonValue?.value) ||
                   card.cardLink?.jsonValue?.value?.href) && (
                   <div className="flex flex-1 flex-col p-6">
-                    {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                    {(hasText(card.cardTitle?.jsonValue?.value) ||
+                      isEditing) && (
                       <Text
                         field={card.cardTitle?.jsonValue}
                         tag="h3"
                         className="text-lg font-semibold font-heading"
-                        style={{ color: 'var(--brand-fg, #111111)' }}
+                        style={{ color: "var(--brand-fg, #111111)" }}
                       />
                     )}
-                    {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                    {(hasRichText(card.cardDescription?.jsonValue?.value) ||
+                      isEditing) && (
                       <ContentSdkRichText
                         field={card.cardDescription?.jsonValue}
                         className="mt-2 flex-1 text-sm opacity-70 font-body"
-                        style={{ color: 'var(--brand-fg, #111111)' }}
+                        style={{ color: "var(--brand-fg, #111111)" }}
                       />
                     )}
                     {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
                       <ContentSdkLink
                         field={card.cardLink?.jsonValue}
                         className="mt-4 inline-flex text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
-                        style={{ color: 'var(--brand-primary)' }}
+                        style={{ color: "var(--brand-primary)" }}
                       />
                     )}
                   </div>
@@ -286,7 +311,11 @@ export const WithImages = ({ fields, params, page }: FeatureCardsGridProps): JSX
 /* ────────────────────────────────────────────
    Carousel — horizontal scrolling cards with dots + arrows
    ──────────────────────────────────────────── */
-export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+export const Carousel = ({
+  fields,
+  params,
+  page,
+}: FeatureCardsGridProps): JSX.Element => {
   const { styles, RenderingIdentifier } = params;
   const isEditing = page?.mode?.isEditing;
   const datasource = fields?.data?.datasource;
@@ -300,28 +329,34 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth;
-      setVisibleCount(w < 640 ? VISIBLE.sm : w < 1024 ? VISIBLE.md : VISIBLE.lg);
+      setVisibleCount(
+        w < 640 ? VISIBLE.sm : w < 1024 ? VISIBLE.md : VISIBLE.lg,
+      );
     };
     update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
   }, []);
 
   const totalPages = Math.max(1, Math.ceil(cards.length / visibleCount));
   const clampedPage = Math.min(pageIndex, totalPages - 1);
 
   const goTo = useCallback(
-    (idx: number) => setPageIndex(((idx % totalPages) + totalPages) % totalPages),
+    (idx: number) =>
+      setPageIndex(((idx % totalPages) + totalPages) % totalPages),
     [totalPages],
   );
 
   if (!datasource) return <FeatureCardsGridDefaultComponent />;
 
   return (
-    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+    <div
+      className={cn("component feature-cards-grid", styles)}
+      id={RenderingIdentifier}
+    >
       <section
         className="w-full px-4 py-16 md:py-24"
-        style={{ backgroundColor: 'var(--brand-bg, #ffffff)' }}
+        style={{ backgroundColor: "var(--brand-bg, #ffffff)" }}
       >
         <div className="mx-auto max-w-7xl">
           <SectionHeader datasource={datasource} isEditing={isEditing} />
@@ -355,14 +390,16 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
                             isEditing ||
                             card.cardLink?.jsonValue?.value?.href) && (
                             <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                              {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                              {(hasText(card.cardTitle?.jsonValue?.value) ||
+                                isEditing) && (
                                 <Text
                                   field={card.cardTitle?.jsonValue}
                                   tag="h3"
                                   className="text-lg font-bold tracking-tight font-heading uppercase"
                                 />
                               )}
-                              {(card.cardLink?.jsonValue?.value?.href || isEditing) && (
+                              {(card.cardLink?.jsonValue?.value?.href ||
+                                isEditing) && (
                                 <ContentSdkLink
                                   field={card.cardLink?.jsonValue}
                                   className="mt-3 inline-flex items-center justify-center rounded-[var(--brand-button-radius,0.375rem)] border border-white px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-black"
@@ -375,19 +412,23 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
                       {/* Fallback: show title + description below if no image */}
                       {!card.cardImage?.jsonValue?.value?.src && !isEditing && (
                         <div className="flex flex-1 flex-col p-6">
-                          {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                          {(hasText(card.cardTitle?.jsonValue?.value) ||
+                            isEditing) && (
                             <Text
                               field={card.cardTitle?.jsonValue}
                               tag="h3"
                               className="text-lg font-semibold font-heading"
-                              style={{ color: 'var(--brand-fg, #111111)' }}
+                              style={{ color: "var(--brand-fg, #111111)" }}
                             />
                           )}
-                          {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                          {(hasRichText(
+                            card.cardDescription?.jsonValue?.value,
+                          ) ||
+                            isEditing) && (
                             <ContentSdkRichText
                               field={card.cardDescription?.jsonValue}
                               className="mt-2 flex-1 text-sm opacity-70"
-                              style={{ color: 'var(--brand-fg, #111111)' }}
+                              style={{ color: "var(--brand-fg, #111111)" }}
                             />
                           )}
                         </div>
@@ -405,7 +446,7 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
                   type="button"
                   onClick={() => goTo(clampedPage - 1)}
                   className="absolute -left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 shadow-md transition hover:bg-white"
-                  style={{ color: 'var(--brand-fg, #111)' }}
+                  style={{ color: "var(--brand-fg, #111)" }}
                   aria-label="Previous cards"
                 >
                   <svg
@@ -423,7 +464,7 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
                   type="button"
                   onClick={() => goTo(clampedPage + 1)}
                   className="absolute -right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 shadow-md transition hover:bg-white"
-                  style={{ color: 'var(--brand-fg, #111)' }}
+                  style={{ color: "var(--brand-fg, #111)" }}
                   aria-label="Next cards"
                 >
                   <svg
@@ -450,18 +491,113 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
                   type="button"
                   onClick={() => goTo(i)}
                   className={cn(
-                    'h-2.5 w-2.5 rounded-full transition-all',
-                    i === clampedPage ? 'scale-110' : 'opacity-40 hover:opacity-70',
+                    "h-2.5 w-2.5 rounded-full transition-all",
+                    i === clampedPage
+                      ? "scale-110"
+                      : "opacity-40 hover:opacity-70",
                   )}
                   style={{
                     backgroundColor:
-                      i === clampedPage ? 'var(--brand-fg, #111)' : 'var(--brand-fg, #111)',
+                      i === clampedPage
+                        ? "var(--brand-fg, #111)"
+                        : "var(--brand-fg, #111)",
                   }}
                   aria-label={`Go to page ${i + 1}`}
                 />
               ))}
             </div>
           )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* Heineken latest stories — dense photo tiles with editable headline overlays. */
+export const HeinekenStories = ({
+  fields,
+  params,
+  page,
+}: FeatureCardsGridProps): JSX.Element => {
+  const ds = fields?.data?.datasource;
+  if (!ds) return <FeatureCardsGridDefaultComponent />;
+  const editing = page?.mode?.isEditing;
+  const cards = ds.children?.results ?? [];
+  return (
+    <div
+      className={cn("component heineken-stories", params.styles)}
+      id={params.RenderingIdentifier}
+    >
+      <section
+        className="px-6 pb-[120px] pt-12 lg:pt-16"
+        style={{ background: "var(--brand-bg)" }}
+      >
+        <div className="mx-auto max-w-[1216px]">
+          {(hasText(ds.title?.jsonValue?.value) || editing) && (
+            <Text
+              field={ds.title?.jsonValue}
+              tag="h2"
+              className="mb-14 text-center font-heading text-3xl font-medium lg:text-[38px]"
+              style={{ color: "var(--brand-primary)" }}
+            />
+          )}
+          {(hasRichText(ds.description?.jsonValue?.value) || editing) && (
+            <ContentSdkRichText
+              field={ds.description?.jsonValue}
+              className="mb-8 text-center font-body"
+            />
+          )}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {cards.map((card) => (
+              <article
+                key={card.id}
+                className="relative aspect-[1.2] overflow-hidden rounded-[var(--brand-card-radius)] shadow-[0_14px_40px_rgba(0,0,0,0.1)]"
+              >
+                {(card.cardImage?.jsonValue?.value?.src || editing) && (
+                  <ContentSdkImage
+                    field={card.cardImage?.jsonValue}
+                    fill
+                    sizes="(min-width: 1024px) 390px, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                )}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/85 via-black/10 to-transparent"
+                />
+                <div
+                  className="absolute inset-x-0 bottom-0 p-4"
+                  style={{ color: "var(--brand-bg)" }}
+                >
+                  {card.cardLink?.jsonValue?.value?.href || editing ? (
+                    <ContentSdkLink
+                      field={card.cardLink?.jsonValue}
+                      className="after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-4"
+                    >
+                      <Text
+                        field={card.cardTitle?.jsonValue}
+                        tag="h3"
+                        className="line-clamp-3 font-heading text-xl font-semibold leading-[1.4] lg:text-[25px]"
+                      />
+                    </ContentSdkLink>
+                  ) : (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="font-heading text-xl font-semibold"
+                    />
+                  )}
+                  {(hasRichText(card.cardDescription?.jsonValue?.value) ||
+                    editing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className="mt-2 font-body text-sm"
+                    />
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     </div>

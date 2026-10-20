@@ -120,6 +120,18 @@ function setup({ variants = ['Default', 'ClientFooter', 'ClientHeader'], replace
 const run = (build) =>
   populate({ directory, plan: build.input, api: build.remote.api, initialize: true });
 
+test.each([true, false])('shared datasource GUID formatting is equivalent (replace=%s)', async (replace) => {
+  const build = setup({ replace });
+  const datasource = 'aabbccdd-1122-3344-5566-778899aabbcc';
+  build.input.sections[0].sharedDesign.currentDatasource = `{${datasource.toUpperCase()}}`;
+  build.pages['header-design'][0].datasourceId = datasource;
+  const population = await run(build);
+  const result = await assemble({ directory, plan: build.input, population, api: build.remote.api, initialize: true });
+  expect(result.status).toBe('complete');
+  expect(result.instances[0].previousDatasourceId).toBe(datasource);
+  expect(build.calls.wire).toBe(2);
+});
+
 test('approved replacement swaps both shared instances to the client variant and datasource', async () => {
   const build = setup();
   const before = await build.order();

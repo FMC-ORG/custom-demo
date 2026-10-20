@@ -13,6 +13,19 @@ const {
   unknown,
 } = require('./populate.cjs');
 
+// GUID braces/casing are presentation, not a datasource change. Keep paths/queries exact.
+function sameDatasource(a, b) {
+  const normalizeGuid = (value) => {
+    const text = String(value ?? '');
+    const raw = text.startsWith('{') && text.endsWith('}') ? text.slice(1, -1) : text;
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(raw)
+      ? raw.toLowerCase()
+      : null;
+  };
+  const left = normalizeGuid(a), right = normalizeGuid(b);
+  return left !== null && right !== null ? left === right : String(a ?? '') === String(b ?? '');
+}
+
 async function verifyDatasource(api, section, datasource, exceptions) {
   const parent = await api.readItem(datasource.itemId);
   const nodes = [{ spec: section, item: parent }];
@@ -121,7 +134,7 @@ async function wireShared(recovery, api, section, datasource) {
           'shared rendering missing, incompatible or ambiguous; no structural repair authorised',
         );
       const current = candidates[0];
-      if (String(current.datasourceId || '') !== String(target.currentDatasource || ''))
+      if (!sameDatasource(current.datasourceId, target.currentDatasource))
         throw new Blocked(section.key, 'shared datasource changed after target approval');
       return {
         page,
@@ -226,7 +239,7 @@ async function replaceInstance(recovery, api, plan, section, datasource, target,
           throw new Blocked(key, 'instance to replace is in a different placeholder');
         if (
           Object.hasOwn(target, 'currentDatasource') &&
-          String(old.datasourceId || '') !== String(target.currentDatasource || '')
+          !sameDatasource(old.datasourceId, target.currentDatasource)
         )
           throw new Blocked(key, 'datasource of the instance changed after approval');
         return {

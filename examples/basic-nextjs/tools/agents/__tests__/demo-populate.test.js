@@ -17,6 +17,21 @@ test('population preserves non-alphabetic source order and a fresh rerun creates
   expect(remote.items.size).toBe(6);
 });
 
+test('final field verification does not reuse a cached item from before the field write', async () => {
+  const remote = sitecore(); const input = plan();
+  input.sections[0].children = [];
+  const read = remote.api.readItem;
+  const cached = new Map();
+  remote.api.readItem = async (id, options = {}) => {
+    if (options.fresh) return read(id);
+    if (!cached.has(id)) cached.set(id, structuredClone(await read(id)));
+    return structuredClone(cached.get(id));
+  };
+  const result = await populate({ directory: dir, plan: input, api: remote.api, initialize: true });
+  expect(result.status).toBe('complete');
+  expect(result.issues).toEqual([]);
+});
+
 test('explicit optional blanks use a verified, recorded fallback when empty writes are ignored', async () => {
   const remote = sitecore(); const input = plan();
   input.sections[0].children = [{ key: 'quote', name: 'Client - Quote', templateId: 'quote', fields: { AuthorName: '' }, fieldRules: { AuthorName: { type: 'Single-Line Text', required: false } } }];

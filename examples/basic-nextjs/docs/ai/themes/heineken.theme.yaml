@@ -1,0 +1,131 @@
+# Heineken homepage theme — awaiting user approval.
+# User-provided desktop screenshot is the primary visual reference.
+client:
+  name: "heineken"
+  sourceUrl: "https://www.theheinekencompany.com/"
+  extractedAt: "2026-10-20T15:54:45.662Z"
+  extractedBy: "pi-agent"
+
+colors:
+  primary: "#008200"
+  primaryForeground: "#ffffff"
+  secondary: "#205527"
+  secondaryForeground: "#e4f1cc"
+  accent: "#a5e600"
+  accentForeground: "#205527"
+  background: "#ffffff"
+  foreground: "#205527"
+  muted: "#e4f1cc"
+  mutedForeground: "#757575"
+  headerBackground: "#ffffff"
+  headerForeground: "#205527"
+  footerBackground: "#205527"
+  footerForeground: "#e4f1cc"
+  border: "#e8e8e8"
+  ring: "#008200"
+  extra:
+    - { name: "body-text", value: "#757575" }
+    - { name: "white-overlay-text", value: "#ffffff" }
+
+# Do not copy or redistribute proprietary fonts without permission.
+# Proposed open-font substitutes are part of the theme approval.
+typography:
+  headingFamily: "'Lora', serif"
+  headingWeight: "500"
+  bodyFamily: "'Source Sans 3', sans-serif"
+  bodyWeight: "400"
+  monoFamily: "ui-monospace, monospace"
+  googleFontsUrl: "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+  scale:
+    hero: "3.75rem"
+    h1: "3rem"
+    h2: "2.25rem"
+    h3: "1.5rem"
+    body: "1.125rem"
+    small: "0.875rem"
+  headingTransform: "none"
+  letterSpacing: "normal"
+  lineHeight: "1.55"
+
+spacing:
+  density: "spacious"
+  sectionGap: "6rem"
+  containerMaxWidth: "1280px"
+  containerPadding: "2rem"
+
+shape:
+  borderRadius: "0.5rem"
+  buttonRadius: "0.5rem"
+  cardRadius: "0.5rem"
+  imageRadius: "0px"
+  shadowStyle: "subtle"
+  borderStyle: "subtle"
+
+tone:
+  overall: "warm corporate editorial"
+  colorMode: "mixed"
+  contrast: "high"
+  imagery: "photography"
+  heroStyle: "full-bleed-image"
+  cardStyle: "image-overlay"
+  navStyle: "solid-bar"
+
+tailwind:
+  colors:
+    brand:
+      primary: "#008200"
+      secondary: "#205527"
+      accent: "#a5e600"
+  fontFamily:
+    heading: ["Lora", "serif"]
+    body: ["Source Sans 3", "sans-serif"]
+  borderRadius:
+    DEFAULT: "0.5rem"
+    button: "0.5rem"
+    card: "0.5rem"
+
+cssVariables: |
+  :root {
+    --brand-primary: #008200;
+    --brand-primary-foreground: #ffffff;
+    --brand-secondary: #205527;
+    --brand-secondary-foreground: #e4f1cc;
+    --brand-dark: #205527;
+    --brand-dark-foreground: #ffffff;
+    --brand-accent: #a5e600;
+    --brand-accent-foreground: #205527;
+    --brand-bg: #ffffff;
+    --brand-fg: #205527;
+    --brand-muted: #e4f1cc;
+    --brand-muted-fg: #757575;
+    --brand-muted-foreground: #757575;
+    --brand-header-bg: #ffffff;
+    --brand-header-fg: #205527;
+    --brand-footer-bg: #205527;
+    --brand-footer-fg: #e4f1cc;
+    --brand-border: #e8e8e8;
+    --brand-ring: #008200;
+    --brand-heading-font: 'Lora', serif;
+    --brand-body-font: 'Source Sans 3', sans-serif;
+    --brand-radius: 0.5rem;
+    --brand-button-radius: 0.5rem;
+    --brand-card-radius: 0.5rem;
+  }
+
+extraction:
+  confidence: "medium"
+  method: "visual-only"
+  notes:
+    - "Primary source: docs/ai/demos/heineken/reference/homepage-desktop.png (1910x7971), supplied by the user."
+    - "Screenshot pixel counts confirm dark green #205527, pale green #e4f1cc, heading green #008200 and lime accent #a5e600."
+    - "Bundled scraper navigated to Cookie Policy while dismissing popups; subsequent homepage attempts hit Cloudflare. Its screenshots are invalid homepage references."
+    - "Supplementary same-site CSS on Cookie Policy identifies HeinekenCurvemedium and HeinekenCore, body 18px/28px, heading 60px, button/card radius 8px, and container width 1280px; homepage values are not DOM-verified."
+    - "Proposed font substitutions: Lora for the custom serif Heineken Curve headings, Source Sans 3 for Heineken Core body text. These are approximations, not exact brand fonts."
+    - "White header with dark-green navigation; dark-green footer with pale-green text; pale-green global-site strip above the footer."
+    - "Main photo sections use white copy over dark/green overlays; the sustainability section includes lime heading text."
+    - "Primary CTAs on photo backgrounds are white with dark-green text and lime chevrons; generic green-button theme defaults need section-specific variant styling."
+    - "Nine Latest Stories cards form a 3x3 image grid with dark text overlays, small rounded corners and subtle shadows. The overlapping share-price/news panels use more pronounced soft shadows."
+    - "Full-bleed photos alternate with spacious white content. Typography sizes and spacing are estimates except where supplementary same-site CSS provides a clue."
+    - "No valid mobile screenshot: responsive behavior remains unverified."
+    - "Logo is visible in the user screenshot; only OG image and favicon were downloaded by the scraper. Logo and homepage photographs still need asset extraction."
+    - "Sitecore preview remains unavailable: rendering host URL lookup returned HTTP 500."

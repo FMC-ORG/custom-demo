@@ -295,6 +295,25 @@ Keyphrase matching is loose (OR-like across words): a multi-word query matches d
 
 ---
 
+## 7. `set_component_datasource` requires the exact Datasource Template
+
+**Date discovered:** 2026-10-20 (Heineken demo, Footer partial design)
+**Severity:** High: it blocks wiring a datasource that uses an extended (derived) template
+
+The Agent API rejects a datasource whose template is not exactly the rendering's `Datasource Template`, even when the template inherits from it:
+
+> `Datasource template mismatch: the provided item uses template '<derived>' but component '<rendering>' expects '<base>'. Ensure the datasource item was created from the correct template. (422)`
+
+Nothing changes on the page. Do not extend a starter component's datasource with a derived template and expect `set_component_datasource` to accept it. Use one of these instead:
+
+- Give the client a dedicated rendering whose `Datasource Template` is the derived template. This is the safest option and does not change the shared starter.
+- Change the existing rendering's `Datasource Template`. This affects every site and the datasource picker, so it needs approval.
+- Bind the datasource manually in Pages or Content Editor, then verify it with a read-back.
+
+The build-demo assembly checks this before any variant reorder or add (`checkDatasourceTemplate` in `assemble.cjs`). MCP 400 and 422 replies are recorded as permanent rejections with a cleaned reason and are never re-sent automatically.
+
+---
+
 ## References
 
 - Agent API docs: https://api-docs.sitecore.com/ai-capabilities/agent-api

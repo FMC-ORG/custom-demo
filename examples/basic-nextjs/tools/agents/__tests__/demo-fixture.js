@@ -29,6 +29,9 @@ function sitecore() {
       return api.readItem(item.id);
     },
     readItem: async (id) => {
+      // Rendering definitions: no Datasource Template unless a test seeds one in `items`.
+      if (!items.has(id) && /rendering/.test(id))
+        return { id, name: id, templateId: 'rendering', fields: {}, children: [] };
       const item = items.get(id);
       if (!item) throw new Error('missing');
       return {

@@ -26,6 +26,34 @@ function sameDatasource(a, b) {
   return left !== null && right !== null ? left === right : String(a ?? '') === String(b ?? '');
 }
 
+const isGuid = (value) =>
+  /^\{?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\}?$/i.test(String(value ?? ''));
+// Live marketer MCP (2026-10): set_component_datasource answers 422 "Datasource template mismatch"
+// unless the item's template IS the rendering's Datasource Template; a derived template is refused.
+// Checked before any variant reorder, add or wire so an incompatible section changes nothing.
+async function checkDatasourceTemplate(api, section, datasource) {
+  let required;
+  let actual;
+  try {
+    const rendering = await api.readItem(section.renderingId);
+    const raw = String(rendering.fields?.['Datasource Template'] ?? '').trim();
+    if (!raw) return { required: null }; // No datasource template: the MCP has nothing to enforce.
+    required = isGuid(raw) ? raw : (await api.resolvePath(raw)).id;
+    actual = (await api.readItem(datasource.itemId)).templateId;
+  } catch (error) {
+    if (error.code === 'AWAITING_TOOL' || error.code === 'BLOCKED') throw error;
+    throw new Blocked(section.key, 'rendering Datasource Template could not be read');
+  }
+  if (!sameDatasource(actual, required))
+    throw new Blocked(
+      section.key,
+      `datasource template ${actual} is not the rendering's Datasource Template ${required}; ` +
+        'the marketer MCP rejects derived templates (422). Nothing was changed: approve a repair ' +
+        '(dedicated rendering, rendering Datasource Template change or manual binding) first',
+    );
+  return { required, actual };
+}
+
 async function verifyDatasource(api, section, datasource, exceptions) {
   const parent = await api.readItem(datasource.itemId);
   const nodes = [{ spec: section, item: parent }];
@@ -477,6 +505,15 @@ async function assemble({
       await recovery.observe(`${section.key}:datasource`, () =>
         verifyDatasource(api, section, datasource, contentRecovery.state.exceptions),
       );
+      // The preflight guards NEW writes only. Wiring already issued (attempted / needs-reconciliation /
+      // verified) is reconciled by reading the page, e.g. after an approved manual binding.
+      const wireIssued = ['wire', 'shared-wire', 'shared-new-wire', 'replace-new-wire'].some(
+        (step) => ops[`${section.key}:${step}`] && ops[`${section.key}:${step}`].status !== 'failed',
+      );
+      if (!wireIssued)
+        await recovery.observe(`${section.key}:datasource-template`, () =>
+          checkDatasourceTemplate(api, section, datasource),
+        );
       if (section.placement === 'partial-design') {
         const replaced =
           section.variant && section.sharedDesign?.replace === true

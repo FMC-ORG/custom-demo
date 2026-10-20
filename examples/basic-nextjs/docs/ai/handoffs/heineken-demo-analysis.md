@@ -1,5 +1,24 @@
 # Heineken demo — analysis handoff
 
+## Correction (analysis completed 2026-10-20)
+
+The Footer cause **is known**. The Pi session log (`~/.pi/agent/sessions/--home-fedmuj-projects-heineken-examples-basic-nextjs--/2026-10-20T15-13-30-*.jsonl`, 18:34:52Z) recorded the MCP reply to `set_component_datasource`:
+
+> `Datasource template mismatch: the provided item uses template '43ddc70d…' but component '4e7e77ef…' expects '98b34bff…' (422)`
+
+The MCP requires the exact `Datasource Template`; the derived `HeinekenFooterData` is refused. Nothing changed: the new instance is still on placeholder `3b5c5e08…` and the old Footer is intact. It was not a transport failure (the request was recorded as `done`, not `issued`) and not delayed visibility.
+
+Why it looked like a loop:
+
+- About 1,500 MCP calls (about 1,200 reads, with 66 distinct reads repeated 5 or more times).
+- 235 agent turns, because the ad-hoc runner forced a turn every 40 seconds.
+- Eight helper and test edits mid-build.
+- A 23-minute hung read (17:23 to 17:46Z).
+- **72 minutes with no activity at all** (18:52 to 20:04Z) after the final checks. That was a stalled model request, not Sitecore work.
+- Sleeps added only about 4.4 minutes in total.
+
+Fixed in the helpers: 400/422 replies are now permanent, explained rejections that are never re-sent. A datasource-template preflight runs before any write. A bundled, budgeted runner has stop rules (`references/recovery.md`, "Run budget and stop rules"). On resume, the Footer section now stops at the preflight with this reason and makes no writes. **Chosen repair: (c) manual binding.** The user sets the new instance `5870c114…` Data Source to `66b47666…` in Content Editor. A read-only check then confirms it, and one resume through the runner verifies the wire by read, removes the old Footer and runs the approved cleanup. The template check skips wiring that was already issued, so it does not block this.
+
 ## Assignment and boundary
 
 **Analyze why this build took excessively long and why Footer assembly remains unresolved. Do not resume the build automatically.** The user repeatedly reported that execution looked like a loop and lasted over an hour. The previous agent stopped Sitecore execution and pushed the work as **partial**.

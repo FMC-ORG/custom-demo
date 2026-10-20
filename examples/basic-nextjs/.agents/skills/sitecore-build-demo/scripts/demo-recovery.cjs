@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { BUILD_CONTRACT } = require('./lib/contract.cjs');
 const { FileBridge } = require('./lib/file-bridge.cjs');
-const { marketer } = require('./lib/marketer.cjs');
+const { marketer, classifyError } = require('./lib/marketer.cjs');
 const { populate, validatePlan, intentOf } = require('./lib/populate.cjs');
 const { assemble } = require('./lib/assemble.cjs');
 const { Recovery, fingerprint, Blocked } = require('./lib/recovery.cjs');
@@ -65,11 +65,10 @@ Never repeat a claimed mutation after a crash. See references/recovery.md.
   if (arg('reply')) {
     if (!arg('result')) throw new Blocked('reply', 'result file required');
     let response = JSON.parse(fs.readFileSync(arg('result'), 'utf8'));
+    // Keep only the status and a sanitized reason: enough to tell a validation rejection
+    // (never retried) from an unknown outcome, without storing raw response bodies.
     if (response?.isError || response?.error || response?.errors?.length)
-      response = {
-        isError: true,
-        content: [{ type: 'text', text: 'MCP operation failed; outcome unverified.' }],
-      };
+      response = classifyError(response);
     bridge.reply(arg('reply'), response);
     console.log('Response recorded. Run the phase again without --initialize.');
     return;

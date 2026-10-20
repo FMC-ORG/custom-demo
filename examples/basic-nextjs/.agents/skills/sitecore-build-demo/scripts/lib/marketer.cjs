@@ -1,7 +1,47 @@
 'use strict';
-const { Blocked } = require('./recovery.cjs');
+const { Blocked, ConfirmedFailure } = require('./recovery.cjs');
+// Error text can echo request data; strip credentials and long opaque strings before it is stored.
+function sanitize(text) {
+  return String(text ?? '')
+    .replace(/Bearer\s+\S+/gi, 'Bearer [redacted]')
+    .replace(/eyJ[\w-]+\.[\w-]+\.[\w-]*/g, '[redacted]')
+    .replace(/((?:token|secret|password|apikey|api_key|authorization|cookie)["']?\s*[:=]\s*)["']?[^\s"',}]+/gi, '$1[redacted]')
+    .replace(/[A-Za-z0-9+/_=]{40,}/g, '[redacted]')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 300);
+}
+function errorText(response) {
+  const parts = [];
+  if (typeof response?.error === 'string') parts.push(response.error);
+  else if (response?.error?.message) parts.push(response.error.message);
+  for (const error of Array.isArray(response?.errors) ? response.errors : []) parts.push(error?.message ?? error);
+  for (const block of Array.isArray(response?.content) ? response.content : []) if (block?.type === 'text') parts.push(block.text);
+  return parts.filter((x) => typeof x === 'string').join(' ');
+}
+// Live marketer MCP (2026-10) reports Agent API validation failures as an error result ending in
+// the HTTP status, e.g. "Datasource template mismatch: ... (422)". 400/422 are deterministic
+// validation rejections: the request had no effect and would be rejected again. Every other
+// error (5xx, 401/403, 404 during delayed visibility, 409, 429, transport) stays outcome-unknown.
+const PERMANENT = new Set([400, 422]);
+function classifyError(response) {
+  const text = errorText(response);
+  const match = text.match(/\((\d{3})\)\s*\.?\s*$/) || text.match(/\b(?:HTTP|status(?: code)?)[\s:]+(\d{3})\b/i);
+  const status = match ? Number(match[1]) : undefined;
+  return {
+    isError: true,
+    ...(status ? { status } : {}),
+    ...(PERMANENT.has(status) ? { rejected: true } : {}),
+    detail: sanitize(text) || 'MCP operation failed; no reason given',
+  };
+}
 function readJson(response) {
-  if (response?.isError) throw new Error('Marketer MCP reported an error; outcome unverified');
+  if (response?.isError) {
+    const detail = typeof response.detail === 'string' ? sanitize(response.detail) : undefined;
+    if (response.rejected === true)
+      throw new ConfirmedFailure(`HTTP_${response.status ?? 'rejected'}`, { permanent: true, detail });
+    throw Object.assign(new Error('Marketer MCP reported an error; outcome unverified'), detail ? { detail } : {});
+  }
   let value = response?.structuredContent;
   if (!value && response?.content) {
     const text = response.content.filter(x => x.type === 'text').map(x => x.text).join('\n');
@@ -80,4 +120,4 @@ function marketer(call, language = 'en') {
     removeComponent: async (pageId, componentId) => { await write('remove_component_on_page', { pageId, componentId, userConfirmed: true }); return {}; },
   };
 }
-module.exports = { marketer, readJson, item, page };
+module.exports = { marketer, readJson, item, page, classifyError, sanitize };

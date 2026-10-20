@@ -14,6 +14,7 @@ After the Phase 2 approval gate, prepare `execution-plan.json` in the client dem
 - Prepare the field-ready execution plan after image upload. Freeze it before population; later progress and learned datasource IDs do not belong in its approved input section.
 - Record `targetReview.classification` as `fresh`, `starter` or `existing-client` after inspecting the actual target experience. If another client's branding is found, pause and obtain `targetReview.repurposeApproved: true` before client-content writes. Do not infer freshness solely from a new local directory.
 - Complete demo approval includes mandatory Header/Footer datasource wiring. Inspect the actual partial designs and rendering definitions; record each section's `placement: "partial-design"`, `renderingId`, and `sharedDesign: { approved: true, pageId, existingInstanceId, currentDatasource }` before freezing the plan. The helper only wires the exact existing instance, preserving parameters and recording its previous datasource. Missing/incompatible/ambiguous targets block that operation and require a separate repair decision; no automatic structural add/remove/replace. Do not insert `sharedDesign` into an older frozen plan.
+- Each section's datasource template must **be** its rendering's `Datasource Template`, not merely inherit from it: `set_component_datasource` rejects derived templates with a 422 (`docs/ai/reference/agent-api-limitations.md` §7). To extend a starter component, plan a dedicated client rendering (or get approval to change the shared rendering) before freezing the plan. Assembly checks this before any write and blocks the section otherwise. The check guards new writes only: wiring that was already issued (needs reconciliation) is settled by reading the page, so an approved manual binding in Content Editor lets the resume verify it and continue.
 - An `existingInstanceId` authorises reuse of that particular rendering on the approved target page. Record the selection explicitly; never select the first matching component name or take over another demo's instance.
 - The helpers refuse unrecognised or paginated read shapes. Do not replace that guard with an empty list. Inspect the actual tool schema/response, then adapt and regression-test the normaliser.
 
@@ -47,7 +48,7 @@ For an explicitly approved NEW population run:
 node .agents/skills/sitecore-build-demo/scripts/demo-recovery.cjs --plan docs/ai/demos/<client>/execution-plan.json --directory docs/ai/demos/<client> --phase populate --initialize
 ```
 
-The command does not connect to Sitecore. It either returns a result or a structured `awaiting-tool` request. The agent services that request through its existing authenticated **marketer MCP**:
+The command does not connect to Sitecore. It either returns a result or a structured `awaiting-tool` request. **Service requests with the bundled runner** `scripts/mcp-handoff-runner.js` (usage in its header), not with a hand-written loop. It applies the protocol below inside one codemode script and follows the run budget and stop rules. The protocol, for reference:
 
 1. Read the request ID, plain tool name, and arguments from the command output.
 2. Invoke the same command arguments with `--claim <request-id>` (without `--initialize`). This durably records that the call may be issued. Do not execute unless the claim succeeds.
@@ -76,6 +77,18 @@ Use the same claim/call/reply protocol. Subsequent assembly resumes omit `--init
 
 **Page instances and leftover components.** A page section with `existingInstanceId`, `variant` and `replace: true` uses the same sequence on the target page (`<key>:replace-add`, `replace-new-wire`, `replace-remove-old`); the new instance takes the old one's position. After a clean assembly, each approved `removeInstances` entry is journaled as `remove:<instanceId>`: its rendering must still match, an already-absent instance needs no write, an unknown outcome is never repeated. Instances approved for removal are excluded from later "unrelated components unchanged" checks. `assembly-result.json` lists `removed` and `cleanupDatasources` (placeholder datasources created by each add).
 
+## Run budget and stop rules (no loops)
+
+The Heineken build (2026-10-20) took over 3 hours. It used about 1,500 MCP calls, about 1,200 of them reads, and 235 agent turns. Helper code was edited mid-build and a rejected write was treated as unknown. These rules apply to every build:
+
+1. **Use the bundled runner, unchanged.** It has no sleeps (verification already retries with fresh reads). It services up to 150 requests or about 270 seconds per codemode call. It stops on the first anomaly and returns a compact summary. Never copy it into the demo directory or add delays.
+2. **Tell the user after every runner call.** Send one line: phase, reads and writes serviced, and the stop reason.
+3. **Stop as soon as the runner says STOP.** That means a phase result with `unresolved`/`issues`, `no progress`, `claim refused`, `reply not recorded`, or a mutation without a response. Report the keys and their `detail` from the journal, then wait for the user. Do not re-run the phase to see whether the problem goes away.
+4. **One reconciliation pass at most.** For delayed visibility, run `--begin` once per phase per user instruction. If the same keys are still unresolved, stop.
+5. **Budget per phase.** If 5 runner calls in a phase pass without completing it, or the verified operation count in the journal stops growing between 2 calls, stop and hand over with the evidence.
+6. **Never edit the helpers or their tests during a client build.** A helper defect is a separate task. Stop, record the evidence (journal `detail`, session log) and propose the fix. Do not patch and re-run in the same build.
+7. **Rejections are final.** A journal entry with `status: failed, permanent: true` (MCP 400/422) is never re-sent. Its `detail` holds the service's reason. Fix the cause (template, rendering, plan) under a new approval. Do not use renamed retries or hand-edit the journal.
+
 ## Records and status
 
 - `recovery-content.json`, `recovery-assembly.json`, and `recovery-uploads.json` are authoritative operation journals. Intent is saved before mutations; returned identities are checkpointed before the next stage.
@@ -83,7 +96,7 @@ Use the same claim/call/reply protocol. Subsequent assembly resumes omit `--init
 - Phase result JSON files are derived read-back summaries. `demo-progress.yaml` and `content-map.yaml` datasource IDs are projected from them after a completed execution pass. A crash may leave a projection stale: rerun the helper, not a hand-written creation loop.
 - Recovery journals may contain an optional `observations` map of successful read-only checks, keyed by the transport session. Same-contract journals without that map remain supported. Older pipeline contracts require a fresh approved build instead of migration; no reset is permitted. These checkpoints are not permission to skip verification in a fresh session.
 - Run one worker per build. Atomic replacement protects checkpoints, not independent concurrent processes or distributed workers. Do not open the same build in two running agents.
-- `failed` means affirmative rejection; `needs-reconciliation` means an unknown effect or drift. Only the former is eligible for a new attempt after read/precondition checks.
+- `failed` means affirmative rejection; `needs-reconciliation` means an unknown effect or drift. Only the former is eligible for a new attempt after read/precondition checks, and not when it is `permanent` (an MCP 400/422 validation rejection). Both may carry a cleaned `detail` with the service's reason. Raw responses are never stored.
 - Confirmed optional failures may leave independent work complete. Missing required dependencies block the affected section; unknown placement stops the order-dependent assembly chain.
 - Single-space blank fallbacks are only allowed for explicitly blank optional Single-Line/Multi-Line Text fields, after an acknowledged empty write and read-back demonstrate the limitation. Lost clear responses do not authorise the fallback. Required fields, unspecified fields, links and images never get whitespace.
 - Recorded, verified fallback exceptions are not unverified failures. They are not genuinely empty values either; copy the caveat into the handoff.

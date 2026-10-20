@@ -47,10 +47,14 @@ class Blocked extends Error {
 }
 class ConfirmedFailure extends Error {
   // Only adapters with affirmative evidence of rejection may use this type.
-  constructor(code = 'REJECTED') {
+  // `permanent`: a validation rejection (e.g. MCP 400/422) that the same request will always
+  // receive again. It is never re-attempted automatically. `detail` must already be sanitized.
+  constructor(code = 'REJECTED', { permanent = false, detail } = {}) {
     super('Remote operation was definitively rejected');
     this.code = 'REJECTED';
     this.reason = code;
+    this.permanent = permanent;
+    if (detail) this.detail = detail;
   }
 }
 class AwaitingTool extends Error {
@@ -185,6 +189,13 @@ class Recovery {
         entry.observationSession === this.observationSession
       )
         return copy(entry.value);
+      if (entry?.status === 'failed' && entry.permanent)
+        // Re-sending a request the service rejected as invalid can only loop. The cause
+        // (template, plan, rendering) must be repaired under a new approved decision.
+        throw new Blocked(
+          key,
+          `rejected by the service, not retried${entry.detail ? `: ${entry.detail}` : ''}`,
+        );
       if (!entry || entry.status === 'failed' || entry.awaitingTool) {
         if (!entry || !entry.awaitingTool) {
           const snapshot = await before();
@@ -217,11 +228,16 @@ class Recovery {
           if (error.code === 'REJECTED') {
             entry.status = 'failed';
             entry.reason = 'confirmed rejection';
+            if (error.permanent) entry.permanent = true;
+            if (error.detail) entry.detail = error.detail;
+            else delete entry.detail;
             this.save();
             throw error;
           }
           // Never persist raw transport errors: they can contain tokens or response bodies.
           entry.reason = 'write outcome unknown';
+          // `detail` is sanitized at reply time; it keeps the service's reason as evidence.
+          if (error.detail) entry.detail = error.detail;
           this.save();
         }
       }
@@ -240,6 +256,7 @@ class Recovery {
           entry.value = copy(observed.value ?? null);
           if (this.observationSession) entry.observationSession = this.observationSession;
           delete entry.reason;
+          delete entry.detail;
           this.save();
           return copy(entry.value);
         }

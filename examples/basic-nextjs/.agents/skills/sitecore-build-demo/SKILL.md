@@ -32,6 +32,7 @@ Read the client progress file and the phase result files, then follow `.agents/s
 - Resume helper commands without `--initialize`; use `--begin` once after a session break for fresh MCP observations.
 - A claimed mutation without a recorded response is unknown, not failed. Reconcile it; never execute that claim again.
 - Missing/corrupt records, changed input, remote drift, or unresolved ownership require a stop. Existing legacy demos are NOT automatically migrated into new journals.
+- **No loops:** follow recovery.md "Run budget and stop rules". Use the bundled `scripts/mcp-handoff-runner.js`, report after each runner call, stop when it says STOP, and never edit helpers mid-build.
 - Confirmed independent failures may preserve useful progress, but the final result stays partial while work remains unresolved.
 
 ---
@@ -199,7 +200,7 @@ The content map is the input for Phase 3 — it contains exact field values read
 
 ### Phase 3 — Populate content for template components
 
-**Required execution path:** `.agents/skills/sitecore-build-demo/references/recovery.md`. Use its tested upload and population helpers rather than hand-written MCP creation loops.
+**Required execution path:** `.agents/skills/sitecore-build-demo/references/recovery.md`. Use its tested upload and population helpers rather than hand-written MCP creation loops. Service MCP requests with `scripts/mcp-handoff-runner.js` under the run budget and stop rules.
 
 **Inputs:** approved build plan and content map, project identity, verified template/folder IDs from the manifest, image manifest.
 
@@ -307,7 +308,7 @@ This phase bridges the gap between "same colors" (Phase 4 CSS variables) and "lo
 
 ### Phase 6 — Assemble the page
 
-**Required execution path:** `.agents/skills/sitecore-build-demo/references/recovery.md`, assembly phase. No inline add/retry loops.
+**Required execution path:** `.agents/skills/sitecore-build-demo/references/recovery.md`, assembly phase. No inline add/retry loops. Each datasource template must be exactly its rendering's `Datasource Template` (derived templates are rejected with a 422). Plan a dedicated client rendering when extending a starter component's template.
 
 **Inputs:** unchanged approved execution plan, verified population result, existing Home page identity and inspected page composition.
 

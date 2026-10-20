@@ -11,6 +11,7 @@ import {
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SitecoreArrowLink } from '@/lib/demo-ui/sitecore-ui';
 
 interface ValuePropositionItemFields {
   id: string;
@@ -309,6 +310,81 @@ export const Horizontal = ({ fields, params, page }: ValuePropositionGridProps):
               </div>
             ))}
           </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   SitecoreFooterCta variant — indigo band above the footer. Left: Title +
+   Description (links inside the rich text render as gradient / white pills).
+   Right: divided signpost rows with icon, title and arrow link.
+   ──────────────────────────────────────────── */
+export const SitecoreFooterCta = ({ fields, params, page }: ValuePropositionGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ValuePropositionGridDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component value-proposition-grid', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 pt-16 md:px-12 md:pt-[90px]"
+        style={{ backgroundColor: 'var(--brand-footer-bg)', color: 'var(--brand-footer-fg)' }}
+      >
+        <div className="mx-auto grid max-w-[1360px] border-y border-white/20 lg:grid-cols-2">
+          <div className="px-2 py-10 md:px-10 md:py-12">
+            {(hasText(datasource.title?.jsonValue?.value) || isEditing) && (
+              <Text
+                field={datasource.title?.jsonValue}
+                tag="h2"
+                className="font-heading text-[32px] font-normal leading-[1.25] tracking-[-0.02em] md:text-[36px]"
+              />
+            )}
+            {(hasRichText(datasource.description?.jsonValue?.value) || isEditing) && (
+              <ContentSdkRichText
+                field={datasource.description?.jsonValue}
+                className={cn(
+                  'max-w-[460px] font-body text-[17px] leading-[1.6] [&_p]:m-0 [&_p]:mt-4',
+                  '[&_p:has(a)]:mt-6 [&_p:has(a)]:flex [&_p:has(a)]:flex-wrap [&_p:has(a)]:gap-3',
+                  '[&_a]:inline-flex [&_a]:items-center [&_a]:rounded-[var(--brand-button-radius,9999px)] [&_a]:px-5 [&_a]:py-2 [&_a]:font-medium [&_a]:no-underline [&_a]:transition',
+                  "[&_a]:after:ml-2.5 [&_a]:after:content-['→']",
+                  '[&_a:first-child]:text-white [&_a:first-child]:[background-image:var(--brand-gradient,linear-gradient(90deg,var(--brand-primary),var(--brand-primary)))] [&_a:first-child]:hover:brightness-110',
+                  '[&_a:not(:first-child)]:bg-white [&_a:not(:first-child)]:text-[var(--brand-fg)] [&_a:not(:first-child)]:after:text-[var(--brand-accent)]',
+                )}
+              />
+            )}
+          </div>
+          <ul className="divide-y divide-white/20 lg:my-0">
+            {items.map((item) => (
+              <li key={item.id} className="flex flex-wrap items-center gap-5 px-2 py-5 md:px-5">
+                {(item.itemIcon?.jsonValue?.value?.src || isEditing) && (
+                  <ContentSdkImage
+                    field={item.itemIcon?.jsonValue}
+                    className="h-9 w-9 shrink-0 object-contain"
+                  />
+                )}
+                <div className="min-w-0 flex-1">
+                  {(hasText(item.itemTitle?.jsonValue?.value) || isEditing) && (
+                    <Text
+                      field={item.itemTitle?.jsonValue}
+                      tag="h3"
+                      className="font-heading text-[22px] font-normal leading-7"
+                    />
+                  )}
+                  {(hasRichText(item.itemDescription?.jsonValue?.value) || isEditing) && (
+                    <ContentSdkRichText
+                      field={item.itemDescription?.jsonValue}
+                      className="mt-1 font-body text-[15px] opacity-80 [&_p]:m-0"
+                    />
+                  )}
+                </div>
+                <SitecoreArrowLink field={item.itemLink?.jsonValue} isEditing={isEditing} />
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     </div>

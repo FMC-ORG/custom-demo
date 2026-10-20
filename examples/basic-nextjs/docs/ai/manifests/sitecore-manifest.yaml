@@ -1,6 +1,6 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-08-18T00:00:00Z"
-lastUpdatedBy: "claude-agent"
+lastUpdatedAt: "2026-10-20T14:30:00Z"
+lastUpdatedBy: "pi-agent (sitecore-build-demo, sitecore demo)"
 
 project:
   siteCollection: "main"
@@ -27,7 +27,7 @@ components:
     category: "Navigation"
     status: "complete"
     createdAt: "2026-03-25T12:00:00Z"
-    updatedAt: "2026-03-25T12:00:00Z"
+    updatedAt: "2026-10-20T14:30:00Z"
 
     react:
       filePath: "src/components/uiim/navigation/AnnouncementBar.tsx"
@@ -35,6 +35,7 @@ components:
       variants:
         - "Default"
         - "Highlight"
+        - "Sitecore"
 
     templates:
       datasource:
@@ -93,6 +94,7 @@ components:
       variants:
         - { name: "Default", itemId: "{C443BF0E-5B40-4F84-98A2-F0825E83E345}" }
         - { name: "Highlight", itemId: "{6A6E7095-E948-46F1-A37B-260ADA3604FF}" }
+        - { name: "Sitecore", itemId: "{EB1C7C9E-BAF2-4608-91F3-43C103BE1334}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
 
     verification:
       checkedAt: "2026-03-25T12:00:00Z"
@@ -124,14 +126,15 @@ components:
         - "__Standard values link on datasource template (silent-write)"
         - "__Standard values link on folder template (silent-write)"
 
-    notes: []
+    notes:
+      - "2026-10-20: sitecore demo (sitecore-demo branch) added client variant(s) Sitecore — TSX export + Variant Definition created and verified via marketer MCP."
 
   - name: "NavigationHeader"
     kind: "list"
     category: "Navigation"
     status: "complete"
     createdAt: "2026-03-25T12:30:00Z"
-    updatedAt: "2026-05-05T16:00:00Z"
+    updatedAt: "2026-10-20T14:30:00Z"
 
     react:
       filePath: "src/components/uiim/navigation/NavigationHeader.tsx"
@@ -141,6 +144,7 @@ components:
         - "Default"
         - "Transparent"
         - "Minimal"
+        - "Sitecore"
 
     templates:
       parent:
@@ -219,6 +223,7 @@ components:
         - { name: "Default", itemId: "{150B9AFE-2B9F-48AD-8F01-036666057814}" }
         - { name: "Transparent", itemId: "{A46EFC9D-7CF0-4C92-9577-1D94FD1D9782}" }
         - { name: "Minimal", itemId: "{608E0EC7-E2C6-4093-A1A1-3962FF17885A}" }
+        - { name: "Sitecore", itemId: "{85AA20E7-DE81-4822-866C-1C012A0F0C46}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
 
     verification:
       checkedAt: "2026-05-05T16:00:00Z"
@@ -241,13 +246,14 @@ components:
 
     notes:
       - "2026-05-05: Converted from context-only (Navigation Contents Resolver) to list datasource component. Nav links now authored as child items instead of auto-generated from site tree."
+      - "2026-10-20: sitecore demo (sitecore-demo branch) added client variant(s) Sitecore — TSX export + Variant Definition created and verified via marketer MCP."
 
   - name: "HeroBanner"
     kind: "simple"
     category: "Banners"
     status: "complete"
     createdAt: "2026-03-25T13:30:00Z"
-    updatedAt: "2026-03-25T13:30:00Z"
+    updatedAt: "2026-10-20T14:30:00Z"
 
     react:
       filePath: "src/components/uiim/banners/HeroBanner.tsx"
@@ -258,6 +264,7 @@ components:
         - "BackgroundImage"
         - "VideoBackground"
         - "Minimal"
+        - "Sitecore"
 
     templates:
       datasource:
@@ -321,6 +328,7 @@ components:
         - { name: "BackgroundImage", itemId: "{948210B2-B8AF-47C1-A04F-E220071C0A63}" }
         - { name: "VideoBackground", itemId: "{96586509-EBD7-4642-A127-0C65AEE1BD99}" }
         - { name: "Minimal", itemId: "{FA46BF9A-3783-4615-B4E6-5F5B33A78B48}" }
+        - { name: "Sitecore", itemId: "{53DDA0DD-A9BF-4679-A2E9-4E1003F7F89F}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
 
     verification:
       checkedAt: "2026-03-25T13:30:00Z"
@@ -348,7 +356,8 @@ components:
         - "Renderings on Available Renderings (silent-write)"
         - "__Standard values link on templates (silent-write)"
 
-    notes: []
+    notes:
+      - "2026-10-20: sitecore demo (sitecore-demo branch) added client variant(s) Sitecore — TSX export + Variant Definition created and verified via marketer MCP."
 
   - name: "TabNavigationSection"
     kind: "list"
@@ -478,7 +487,7 @@ components:
     category: "Cards"
     status: "complete"
     createdAt: "2026-03-25T15:30:00Z"
-    updatedAt: "2026-03-25T15:30:00Z"
+    updatedAt: "2026-10-20T14:30:00Z"
 
     react:
       filePath: "src/components/uiim/cards/ProductPricingCards.tsx"
@@ -488,6 +497,9 @@ components:
         - "Horizontal"
         - "Compact"
         - "Highlighted"
+        - "SitecorePlatformCarousel"
+        - "SitecoreValueCards"
+        - "SitecoreEventCarousel"
 
     templates:
       datasource:
@@ -571,6 +583,9 @@ components:
         - { name: "Horizontal", itemId: "{C9B441F5-71A8-46E6-AE86-478930CA907F}" }
         - { name: "Compact", itemId: "{CBAF513B-7C47-498C-83C6-43B3EE92F68C}" }
         - { name: "Highlighted", itemId: "{4DE413CD-B593-48C7-AB27-C60D88549C5B}" }
+        - { name: "SitecorePlatformCarousel", itemId: "{B4A09ABA-A504-4A1D-8F32-AF3FD516208E}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
+        - { name: "SitecoreValueCards", itemId: "{37CE6AB8-49BE-44E5-B90E-B52324D0D6C5}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
+        - { name: "SitecoreEventCarousel", itemId: "{5E508149-6898-47C5-9CE0-02E556FB0ACE}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
 
     verification:
       checkedAt: "2026-03-25T15:30:00Z"
@@ -600,7 +615,8 @@ components:
         - "__Masters on datasource folder instance (silent-write)"
         - "__Standard values link on all templates (silent-write)"
 
-    notes: []
+    notes:
+      - "2026-10-20: sitecore demo (sitecore-demo branch) added client variant(s) SitecorePlatformCarousel, SitecoreValueCards, SitecoreEventCarousel — TSX export + Variant Definition created and verified via marketer MCP."
 
   - name: "LegalComplianceBanner"
     kind: "simple"
@@ -707,7 +723,7 @@ components:
     category: "Content"
     status: "complete"
     createdAt: "2026-03-25T16:30:00Z"
-    updatedAt: "2026-03-25T16:30:00Z"
+    updatedAt: "2026-10-20T14:30:00Z"
 
     react:
       filePath: "src/components/uiim/content/ValuePropositionGrid.tsx"
@@ -717,6 +733,7 @@ components:
         - "TwoColumn"
         - "FourColumn"
         - "Horizontal"
+        - "SitecoreFooterCta"
 
     templates:
       datasource:
@@ -798,6 +815,7 @@ components:
         - { name: "TwoColumn", itemId: "{3935D1DD-DC84-4A01-B271-BEF9475C5AE1}" }
         - { name: "FourColumn", itemId: "{5F5B90A2-F88D-4415-B8B1-D9DCDE1A6B5C}" }
         - { name: "Horizontal", itemId: "{EF716EAC-BEBF-484A-8826-D2051F549F2F}" }
+        - { name: "SitecoreFooterCta", itemId: "{6735BFE4-D8C6-4F62-9F15-84962CD6B6CE}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
 
     verification:
       checkedAt: "2026-03-25T16:30:00Z"
@@ -823,7 +841,8 @@ components:
         - "__Masters on parent SV, folder SV, folder instance (silent-write)"
         - "__Standard values link on all templates (silent-write)"
 
-    notes: []
+    notes:
+      - "2026-10-20: sitecore demo (sitecore-demo branch) added client variant(s) SitecoreFooterCta — TSX export + Variant Definition created and verified via marketer MCP."
 
   - name: "TrustStatsRow"
     kind: "list"
@@ -948,7 +967,7 @@ components:
     category: "Social Proof"
     status: "complete"
     createdAt: "2026-03-25T17:30:00Z"
-    updatedAt: "2026-03-25T17:30:00Z"
+    updatedAt: "2026-10-20T14:30:00Z"
 
     react:
       filePath: "src/components/uiim/social-proof/TestimonialBlock.tsx"
@@ -958,6 +977,7 @@ components:
         - "Carousel"
         - "Grid"
         - "WithPhoto"
+        - "SitecoreStories"
 
     templates:
       datasource:
@@ -1039,6 +1059,7 @@ components:
         - { name: "Carousel", itemId: "{0F34A807-A42C-4E7D-BD54-EF222EB2D952}" }
         - { name: "Grid", itemId: "{508FF66A-D30F-4C2D-B82F-2009E0B6E207}" }
         - { name: "WithPhoto", itemId: "{9C2EFAD0-6E36-415A-AFC5-EDCD1DA4A805}" }
+        - { name: "SitecoreStories", itemId: "{53A66A8D-0400-4ACB-89F8-F5334E4808D2}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
 
     verification:
       checkedAt: "2026-03-25T17:30:00Z"
@@ -1060,14 +1081,15 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-20: sitecore demo (sitecore-demo branch) added client variant(s) SitecoreStories — TSX export + Variant Definition created and verified via marketer MCP."
 
   - name: "CTABanner"
     kind: "simple"
     category: "Banners"
     status: "complete"
     createdAt: "2026-03-25T18:00:00Z"
-    updatedAt: "2026-03-25T18:00:00Z"
+    updatedAt: "2026-10-20T14:30:00Z"
 
     react:
       filePath: "src/components/uiim/banners/CTABanner.tsx"
@@ -1077,6 +1099,7 @@ components:
         - "WithImage"
         - "Split"
         - "Minimal"
+        - "Sitecore"
 
     templates:
       datasource:
@@ -1139,6 +1162,7 @@ components:
         - { name: "WithImage", itemId: "{2DC4E1E9-79A0-48C7-A6D9-AC7DD8AFAAA0}" }
         - { name: "Split", itemId: "{9DBA839A-E0F8-47D2-AA8E-29EDA7CC68E6}" }
         - { name: "Minimal", itemId: "{E63EE25F-C889-4FE1-81B7-4611CF5969BE}" }
+        - { name: "Sitecore", itemId: "{0FA837A6-211F-4BF4-8B4B-D4077D610D7C}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
 
     verification:
       checkedAt: "2026-03-25T18:00:00Z"
@@ -1160,14 +1184,15 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-20: sitecore demo (sitecore-demo branch) added client variant(s) Sitecore — TSX export + Variant Definition created and verified via marketer MCP."
 
   - name: "FeatureCardsGrid"
     kind: "list"
     category: "Cards"
     status: "complete"
     createdAt: "2026-03-25T18:30:00Z"
-    updatedAt: "2026-03-25T18:30:00Z"
+    updatedAt: "2026-10-20T14:30:00Z"
 
     react:
       filePath: "src/components/uiim/cards/FeatureCardsGrid.tsx"
@@ -1177,6 +1202,7 @@ components:
         - "TwoColumn"
         - "WithImages"
         - "Carousel"
+        - "SitecoreAnalystRows"
 
     templates:
       datasource:
@@ -1258,6 +1284,7 @@ components:
         - { name: "TwoColumn", itemId: "{0BCA5162-9643-49F3-BEE2-6B5243287D5E}" }
         - { name: "WithImages", itemId: "{0378DF47-C562-4BE1-8BA7-DFE429A2015A}" }
         - { name: "Carousel", itemId: "" }  # TODO: create in Sitecore
+        - { name: "SitecoreAnalystRows", itemId: "{2FED310A-87C9-4B95-BF6B-9B4E3C6B854F}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
 
     verification:
       checkedAt: "2026-03-25T18:30:00Z"
@@ -1279,7 +1306,8 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-20: sitecore demo (sitecore-demo branch) added client variant(s) SitecoreAnalystRows — TSX export + Variant Definition created and verified via marketer MCP."
 
   - name: "ImageGallery"
     kind: "simple"
@@ -1381,7 +1409,7 @@ components:
     category: "Social Proof"
     status: "complete"
     createdAt: "2026-03-25T19:30:00Z"
-    updatedAt: "2026-03-25T19:30:00Z"
+    updatedAt: "2026-10-20T14:30:00Z"
 
     react:
       filePath: "src/components/uiim/social-proof/LogoCloud.tsx"
@@ -1390,6 +1418,7 @@ components:
         - "Default"
         - "Grid"
         - "WithLabels"
+        - "SitecoreBadges"
 
     templates:
       datasource:
@@ -1468,6 +1497,7 @@ components:
         - { name: "Default", itemId: "{125C1A27-2F29-4A84-B45A-DD43279C23CE}" }
         - { name: "Grid", itemId: "{8CCCB55E-D891-4F4B-B8C7-E254DC95C9F1}" }
         - { name: "WithLabels", itemId: "{2D8CB372-0881-4F56-ACE4-A69E3ABDEC1E}" }
+        - { name: "SitecoreBadges", itemId: "{E79F37B6-4F00-4123-9667-8DE2DB778DDB}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
 
     verification:
       checkedAt: "2026-03-25T19:30:00Z"
@@ -1489,14 +1519,15 @@ components:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
         - "Silent-write fields (Datasource Template, Location, __Masters, __Standard values)"
 
-    notes: []
+    notes:
+      - "2026-10-20: sitecore demo (sitecore-demo branch) added client variant(s) SitecoreBadges — TSX export + Variant Definition created and verified via marketer MCP."
 
   - name: "SiteFooter"
     kind: "context-only+datasource"
     category: "Navigation"
     status: "complete"
     createdAt: "2026-03-25T20:00:00Z"
-    updatedAt: "2026-05-05T13:00:00Z"
+    updatedAt: "2026-10-20T14:30:00Z"
 
     react:
       filePath: "src/components/uiim/navigation/SiteFooter.tsx"
@@ -1506,6 +1537,7 @@ components:
         - "Default"
         - "Minimal"
         - "MegaFooter"
+        - "Sitecore"
 
     templates:
       datasource:
@@ -1563,6 +1595,7 @@ components:
         - { name: "Default", itemId: "{143CFE84-1E77-4961-975C-38564DC43DB9}" }
         - { name: "Minimal", itemId: "{AF87D61B-F6A8-4036-9BF8-FDB586268D24}" }
         - { name: "MegaFooter", itemId: "{DA131066-F9A2-47F0-A099-F614E61817AA}" }
+        - { name: "Sitecore", itemId: "{E085EE28-65B7-403C-B40D-F224EE371F0D}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
 
     verification:
       checkedAt: "2026-03-25T20:00:00Z"
@@ -1578,7 +1611,8 @@ components:
       pendingManual:
         - "Renderings on Available Renderings (silent-write, appended with user-provided value)"
 
-    notes: []
+    notes:
+      - "2026-10-20: sitecore demo (sitecore-demo branch) added client variant(s) Sitecore — TSX export + Variant Definition created and verified via marketer MCP."
 
   - name: "NewsletterSignup"
     kind: "simple"
@@ -2044,7 +2078,7 @@ components:
     category: "Content"
     status: "complete"
     createdAt: "2026-03-25T22:00:00Z"
-    updatedAt: "2026-03-25T22:00:00Z"
+    updatedAt: "2026-10-20T14:30:00Z"
 
     react:
       filePath: "src/components/uiim/content/FeatureHighlight.tsx"
@@ -2054,6 +2088,7 @@ components:
         - "Centered"
         - "WithVideo"
         - "IconLeft"
+        - "SitecoreDarkVideo"
 
     templates:
       datasource:
@@ -2116,6 +2151,7 @@ components:
         - { name: "Centered", itemId: "{3C33C16D-F0D3-4FBF-8D78-CE70CEA0868B}" }
         - { name: "WithVideo", itemId: "{E58A4CB1-BFB4-4FDF-B48D-6254708B05CA}" }
         - { name: "IconLeft", itemId: "{E39E52FE-885D-433B-A2D3-B20F66E8F767}" }
+        - { name: "SitecoreDarkVideo", itemId: "{75DC7DC5-D620-4807-A483-431D62CC6907}" }  # sitecore demo (branch sitecore-demo), verified 2026-10-20
 
     verification:
       checkedAt: "2026-03-25T22:00:00Z"
@@ -2132,7 +2168,8 @@ components:
       pendingManual:
         - "Silent-write fields"
 
-    notes: []
+    notes:
+      - "2026-10-20: sitecore demo (sitecore-demo branch) added client variant(s) SitecoreDarkVideo — TSX export + Variant Definition created and verified via marketer MCP."
 
   - name: "HeroBannerCarousel"
     kind: "list"

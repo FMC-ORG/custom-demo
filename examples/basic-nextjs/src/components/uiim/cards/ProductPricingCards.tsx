@@ -11,6 +11,8 @@ import {
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SitecoreSectionHeading, gradientText } from '@/lib/demo-ui/sitecore-ui';
+import { SitecoreCarousel } from '@/lib/demo-ui/SitecoreCarousel';
 
 interface ProductCardFields {
   id: string;
@@ -401,6 +403,257 @@ export const Highlighted = ({ fields, params, page }: ProductPricingCardsProps):
               );
             })}
           </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ════════════════════════════════════════════
+   Sitecore demo variants (sitecore.com)
+   ════════════════════════════════════════════ */
+
+/** Gradient uppercase eyebrow rendered from BadgeText. */
+const SitecoreEyebrow = ({ field, isEditing }: { field: Field<string>; isEditing?: boolean }) => {
+  if (!hasText(field?.value) && !isEditing) return null;
+  return (
+    <Text
+      field={field}
+      tag="span"
+      className={cn(
+        'block font-body text-[13px] font-semibold uppercase leading-5 tracking-[0.08em]',
+        gradientText,
+      )}
+    />
+  );
+};
+
+/** Card shell: whole card links to CardLink outside editing; editable link row while editing. */
+const SitecoreCardShell = ({
+  card,
+  isEditing,
+  className,
+  children,
+}: {
+  card: ProductCardFields;
+  isEditing?: boolean;
+  className: string;
+  children: React.ReactNode;
+}) => {
+  const link = card.cardLink?.jsonValue;
+  if (link?.value?.href && !isEditing) {
+    return (
+      <ContentSdkLink field={link} className={cn('group', className)}>
+        {children}
+      </ContentSdkLink>
+    );
+  }
+  return (
+    <div className={className}>
+      {children}
+      {isEditing && (
+        <ContentSdkLink field={link} className="mt-3 block text-xs underline opacity-70" />
+      )}
+    </div>
+  );
+};
+
+const sitecoreCardClass =
+  'flex h-full flex-col rounded-[var(--brand-card-radius,9px)] border bg-white transition-shadow hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)]';
+
+/* SitecorePlatformCarousel — "One intelligent system": small uppercase heading,
+   3-up carousel of bordered cards with icon, gradient eyebrow, title, text. */
+export const SitecorePlatformCarousel = ({
+  fields,
+  params,
+  page,
+}: ProductPricingCardsProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ProductPricingCardsDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component product-pricing-cards', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 pb-12 pt-6 md:pb-16" style={{ color: 'var(--brand-fg)' }}>
+        <div className="mx-auto max-w-[1100px]">
+          <SitecoreSectionHeading
+            title={datasource.title?.jsonValue}
+            description={datasource.description?.jsonValue}
+            isEditing={isEditing}
+            tone="eyebrow"
+            className="mb-8"
+          />
+          <SitecoreCarousel
+            label="Platform capabilities"
+            isEditing={isEditing}
+            slideClassName="w-[85%] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)]"
+          >
+            {cards.map((card) => (
+              <SitecoreCardShell
+                key={card.id}
+                card={card}
+                isEditing={isEditing}
+                className={cn(sitecoreCardClass, 'min-h-[256px] px-6 pb-8 pt-6')}
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <ContentSdkImage
+                    field={card.cardImage?.jsonValue}
+                    className="mb-4 h-8 w-8 object-contain"
+                  />
+                )}
+                <SitecoreEyebrow field={card.badgeText?.jsonValue} isEditing={isEditing} />
+                {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                  <Text
+                    field={card.cardTitle?.jsonValue}
+                    tag="h3"
+                    className="mt-3 font-heading text-[21px] font-medium leading-7"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                  <ContentSdkRichText
+                    field={card.cardDescription?.jsonValue}
+                    className="mt-3 font-body text-[15px] leading-[1.6] [&_p]:m-0"
+                    style={{ color: 'var(--brand-muted-foreground)' }}
+                  />
+                )}
+              </SitecoreCardShell>
+            ))}
+          </SitecoreCarousel>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* SitecoreValueCards — "Be the answer your customer trusts": centred light heading,
+   static 3-column bordered cards with gradient eyebrow, title, text. */
+export const SitecoreValueCards = ({
+  fields,
+  params,
+  page,
+}: ProductPricingCardsProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ProductPricingCardsDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component product-pricing-cards', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-16 md:py-20" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-[1240px]">
+          <SitecoreSectionHeading
+            title={datasource.title?.jsonValue}
+            description={datasource.description?.jsonValue}
+            isEditing={isEditing}
+          />
+          <div className="grid gap-4 md:grid-cols-3">
+            {cards.map((card) => (
+              <SitecoreCardShell
+                key={card.id}
+                card={card}
+                isEditing={isEditing}
+                className={cn(sitecoreCardClass, 'px-6 pb-10 pt-6')}
+              >
+                <SitecoreEyebrow field={card.badgeText?.jsonValue} isEditing={isEditing} />
+                {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                  <Text
+                    field={card.cardTitle?.jsonValue}
+                    tag="h3"
+                    className="mt-3 font-heading text-[21px] font-medium leading-7"
+                    style={{ color: 'var(--brand-fg)' }}
+                  />
+                )}
+                {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                  <ContentSdkRichText
+                    field={card.cardDescription?.jsonValue}
+                    className="mt-3 font-body text-[15px] leading-[1.6] [&_p]:m-0"
+                    style={{ color: 'var(--brand-muted-foreground)' }}
+                  />
+                )}
+              </SitecoreCardShell>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* SitecoreEventCarousel — "Explore Sitecore events and webinars": centred heading,
+   carousel of image-top cards with a grey tag chip, title and clamped text. */
+export const SitecoreEventCarousel = ({
+  fields,
+  params,
+  page,
+}: ProductPricingCardsProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <ProductPricingCardsDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component product-pricing-cards', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-16 md:py-20" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-[1120px]">
+          <SitecoreSectionHeading
+            title={datasource.title?.jsonValue}
+            description={datasource.description?.jsonValue}
+            isEditing={isEditing}
+          />
+          <SitecoreCarousel
+            label="Events and webinars"
+            isEditing={isEditing}
+            slideClassName="w-[80%] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)]"
+          >
+            {cards.map((card) => (
+              <SitecoreCardShell
+                key={card.id}
+                card={card}
+                isEditing={isEditing}
+                className={cn(sitecoreCardClass, 'min-h-[372px] overflow-hidden')}
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <ContentSdkImage
+                    field={card.cardImage?.jsonValue}
+                    className="aspect-[600/315] w-full object-cover"
+                  />
+                )}
+                <div className="flex flex-1 flex-col px-4 pb-6 pt-4">
+                  {(hasText(card.badgeText?.jsonValue?.value) || isEditing) && (
+                    <Text
+                      field={card.badgeText?.jsonValue}
+                      tag="span"
+                      className="self-start rounded-[3px] px-2 py-1 font-body text-[15px] font-medium leading-5"
+                      style={{ backgroundColor: 'var(--brand-muted)', color: 'var(--brand-fg)' }}
+                    />
+                  )}
+                  {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="mt-4 font-heading text-[20px] font-medium leading-[1.3]"
+                      style={{ color: 'var(--brand-fg)' }}
+                    />
+                  )}
+                  {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className={cn(
+                        'mt-3 font-body text-[15px] leading-[1.6] [&_p]:m-0',
+                        !isEditing && 'line-clamp-3',
+                      )}
+                      style={{ color: 'var(--brand-muted-foreground)' }}
+                    />
+                  )}
+                </div>
+              </SitecoreCardShell>
+            ))}
+          </SitecoreCarousel>
         </div>
       </section>
     </div>

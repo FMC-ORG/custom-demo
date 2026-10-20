@@ -9,6 +9,7 @@ import {
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SitecoreStoriesShowcase } from '@/lib/demo-ui/SitecoreStoriesShowcase';
 
 interface TestimonialItemFields {
   id: string;
@@ -349,6 +350,37 @@ export const WithPhoto = ({ fields, params, page }: TestimonialBlockProps): JSX.
               </div>
             </div>
           )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   SitecoreStories variant — "See how brands are winning": centred heading;
+   featured story thumbnail with company-logo card and logo row on the left,
+   selectable list of story titles (QuoteText) on the right, active = gradient.
+   ──────────────────────────────────────────── */
+export const SitecoreStories = ({ fields, params, page }: TestimonialBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <TestimonialBlockDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component testimonial-block', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-16 md:py-20" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-[1240px]">
+          {(hasText(datasource.sectionTitle?.jsonValue?.value) || isEditing) && (
+            <Text
+              field={datasource.sectionTitle?.jsonValue}
+              tag="h2"
+              className="mb-10 text-center font-heading text-[32px] font-normal leading-[1.2] tracking-[-0.02em] md:text-[40px]"
+              style={{ color: 'var(--brand-fg)' }}
+            />
+          )}
+          <SitecoreStoriesShowcase items={items} isEditing={isEditing} />
         </div>
       </section>
     </div>

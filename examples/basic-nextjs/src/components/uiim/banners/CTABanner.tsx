@@ -10,6 +10,7 @@ import {
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SitecorePill } from '@/lib/demo-ui/sitecore-ui';
 import { SmartMedia } from '@/components/uiim/media/SmartMedia';
 
 interface CTABannerFields {
@@ -285,6 +286,46 @@ export const Minimal = ({ fields, params, page }: CTABannerProps): JSX.Element =
             </div>
           </div>
         )}
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   Sitecore variant — light centred CTA: 40px light heading, paragraph and a
+   single red→violet gradient pill (secondary link as outline pill if set).
+   ──────────────────────────────────────────── */
+export const Sitecore = ({ fields, params, page }: CTABannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <CTABannerDefaultComponent />;
+
+  return (
+    <div className={cn('component cta-banner', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 py-16 text-center md:py-20"
+        style={{ backgroundColor: 'var(--brand-bg)', color: 'var(--brand-fg)' }}
+      >
+        <div className="mx-auto max-w-[760px]">
+          {(hasText(fields.Title?.value) || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="font-heading text-[32px] font-normal leading-[1.2] tracking-[-0.02em] md:text-[40px]"
+            />
+          )}
+          {(hasRichText(fields.Description?.value) || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Description}
+              className="mt-5 font-body text-[17px] leading-[1.6] [&_p]:m-0"
+            />
+          )}
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+            <SitecorePill field={fields.PrimaryLink} isEditing={isEditing} tone="gradient" size="sm" className="px-5 py-2.5 text-[16px]" />
+            <SitecorePill field={fields.SecondaryLink} isEditing={isEditing} tone="outline" size="sm" />
+          </div>
+        </div>
       </section>
     </div>
   );

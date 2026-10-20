@@ -101,3 +101,40 @@ export const Highlight = ({ fields, params, page }: AnnouncementBarProps): JSX.E
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   Sitecore variant — red→violet gradient strip, centred white
+   message with a bold underlined inline link (sitecore.com).
+   ──────────────────────────────────────────── */
+export const Sitecore = ({ fields, params, page }: AnnouncementBarProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <AnnouncementBarDefaultComponent />;
+
+  return (
+    <div className={cn('component announcement-bar', styles)} id={RenderingIdentifier}>
+      <div
+        className="w-full px-4 py-[7px] text-center font-body text-[15px] leading-5"
+        style={{
+          background: 'var(--brand-gradient, var(--brand-primary))',
+          color: 'var(--brand-primary-foreground)',
+        }}
+      >
+        {(hasText(fields.Message?.value) || isEditing || fields.BarLink?.value?.href) && (
+          <p className="mx-auto max-w-7xl">
+            {(hasText(fields.Message?.value) || isEditing) && (
+              <Text field={fields.Message} tag="span" />
+            )}{' '}
+            {(fields.BarLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={fields.BarLink}
+                className="font-bold underline underline-offset-2 transition-opacity hover:opacity-90"
+              />
+            )}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+};

@@ -3,6 +3,7 @@ import { ImageField, NextImage as ContentSdkImage } from '@sitecore-content-sdk/
 import Link from 'next/link';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { Facebook, Instagram, Linkedin, Mail, Twitter, Youtube } from 'lucide-react';
 
 type SiteFooterProps = ComponentProps & {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -336,6 +337,142 @@ export const MegaFooter = (props: SiteFooterProps): JSX.Element => {
                 Cookie Settings
               </a>
             </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   Sitecore variant — indigo footer: five link columns, white logo + social
+   row between hairlines, right-aligned legal links and copyright.
+   SiteFooterData only has BrandLogo, so (as in the template's other variants)
+   the link columns below are static and not authorable.
+   ──────────────────────────────────────────── */
+const SITECORE_FOOTER_COLUMNS: { title: string; links: [string, string][] }[] = [
+  {
+    title: 'Platform',
+    links: [
+      ['Platform overview', 'https://www.sitecore.com/platform'],
+      ['AI Search', 'https://www.sitecore.com/platform/ai-search'],
+      ['AI and agents', 'https://www.sitecore.com/platform/ai-and-agents'],
+      ['Content Management System', 'https://www.sitecore.com/platform/content-management-system'],
+      ['Digital Asset Management', 'https://www.sitecore.com/platform/digital-asset-management'],
+      ['Content operations', 'https://www.sitecore.com/platform/content-operations'],
+      ['Audience and insights', 'https://www.sitecore.com/platform/audience-and-insights'],
+      ['Conversion optimization', 'https://www.sitecore.com/platform/conversion-optimization'],
+      ['Commerce', 'https://www.sitecore.com/platform/commerce'],
+    ],
+  },
+  {
+    title: 'Solutions',
+    links: [
+      ['Product strategy', 'https://www.sitecore.com/platform/product-strategy'],
+      ['Modernize your DX', 'https://www.sitecore.com/solutions/modernize-your-dx'],
+      ['Manage global content', 'https://www.sitecore.com/solutions/manage-global-content'],
+      ['Deliver limitless commerce', 'https://www.sitecore.com/solutions/deliver-limitless-commerce'],
+      ['Optimize with data', 'https://www.sitecore.com/solutions/optimize-with-data'],
+      ['All Customer Stories', 'https://www.sitecore.com/solutions/customers'],
+      ['All Analyst Reports', 'https://www.sitecore.com/solutions/analyst-reports'],
+    ],
+  },
+  {
+    title: 'Resources',
+    links: [
+      ['Thought leadership', 'https://www.sitecore.com/solutions/topics'],
+      ['Use case library', 'https://www.sitecore.com/platform/use-cases'],
+      ['Resource Hub', 'https://www.sitecore.com/resources'],
+      ['Insights', 'https://www.sitecore.com/resources/insights'],
+      ['Events & Webinars', 'https://www.sitecore.com/resources/events-webinars'],
+      ['Trust Center', 'https://trust.sitecore.com/'],
+      ['Support', 'https://www.sitecore.com/resources/support'],
+    ],
+  },
+  {
+    title: 'Services',
+    links: [
+      ['Managed Cloud', 'https://www.sitecore.com/platform/managed-cloud'],
+      ['Sitecore Services', 'https://www.sitecore.com/services'],
+      ['Sitecore360', 'https://www.sitecore.com/services/sitecore360'],
+      ['Sitecore Learning', 'https://www.sitecore.com/learning'],
+      ['AI Innovation Lab', 'https://www.sitecore.com/services/ai-innovation-lab'],
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      ['About Us', 'https://www.sitecore.com/company/about-us'],
+      ['Contact us', 'https://www.sitecore.com/company/contact-us'],
+      ['Newsroom', 'https://www.sitecore.com/company/newsroom'],
+      ['Careers', 'https://www.sitecore.com/company/careers'],
+    ],
+  },
+];
+
+const SITECORE_SOCIAL = [
+  { label: 'Email', Icon: Mail },
+  { label: 'LinkedIn', Icon: Linkedin },
+  { label: 'X', Icon: Twitter },
+  { label: 'Facebook', Icon: Facebook },
+  { label: 'Instagram', Icon: Instagram },
+  { label: 'YouTube', Icon: Youtube },
+];
+
+export const Sitecore = (props: SiteFooterProps): JSX.Element => {
+  const { params } = props;
+  if (!params) return <SiteFooterDefaultComponent />;
+  const { styles, RenderingIdentifier } = params;
+  const brandLogo = getBrandLogo(props);
+
+  return (
+    <div className={cn('component site-footer', styles)} id={RenderingIdentifier}>
+      <footer
+        className="w-full px-4 pb-10 pt-12 md:px-12"
+        style={{ backgroundColor: 'var(--brand-footer-bg)', color: 'var(--brand-footer-fg)' }}
+      >
+        <div className="mx-auto max-w-[1360px]">
+          <div className="grid gap-10 px-2 sm:grid-cols-2 md:px-10 lg:grid-cols-[1.3fr_1.2fr_1fr_0.95fr_0.6fr]">
+            {SITECORE_FOOTER_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <h3 className="mb-5 font-heading text-[22px] font-normal">{col.title}</h3>
+                <ul className="space-y-2.5">
+                  {col.links.map(([label, href]) => (
+                    <li key={label}>
+                      <a href={href} className="font-body text-[15px] opacity-90 transition-opacity hover:opacity-100 hover:underline">
+                        {label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div className="mt-14 flex flex-col items-start justify-between gap-6 border-y border-white/20 px-2 py-6 sm:flex-row sm:items-center md:px-10">
+            {brandLogo?.value?.src ? (
+              <Link href="/" aria-label="Home">
+                <ContentSdkImage field={brandLogo} className="h-[46px] w-auto object-contain" />
+              </Link>
+            ) : (
+              <Logo brandLogo={brandLogo} />
+            )}
+            <div className="flex items-center gap-6">
+              {SITECORE_SOCIAL.map(({ label, Icon }) => (
+                <span key={label} aria-label={label} role="img" className="opacity-95">
+                  <Icon className="h-8 w-8" strokeWidth={1.6} aria-hidden="true" />
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="mt-6 flex flex-col items-end gap-3 px-2 font-body text-[14px] md:px-0">
+            <div className="flex flex-wrap justify-end gap-x-4 gap-y-2 opacity-90">
+              <span>Cookie settings</span>
+              <a href="https://www.sitecore.com/legal" className="hover:underline">Legal Hub</a>
+              <a href="https://www.sitecore.com/legal/privacy-policy" className="hover:underline">Privacy</a>
+              <span>Your privacy choices</span>
+              <a href="mailto:webmaster@sitecore.net" className="hover:underline">webmaster@sitecore.net</a>
+            </div>
+            <p className="opacity-90">© Copyright 2026, Sitecore A/S or a Sitecore affiliated company. All rights reserved.</p>
           </div>
         </div>
       </footer>

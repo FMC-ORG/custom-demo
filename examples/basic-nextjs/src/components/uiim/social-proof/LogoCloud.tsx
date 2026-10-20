@@ -11,6 +11,7 @@ import {
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 
+
 interface LogoItemFields {
   id: string;
   logoImage: { jsonValue: ImageField };
@@ -193,6 +194,57 @@ export const WithLabels = ({ fields, params, page }: LogoCloudProps): JSX.Elemen
             ))}
           </div>
         </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   SitecoreBadges variant — edge-to-edge auto-scrolling strip of full-colour
+   award badges (G2, TrustRadius, CMS Critic). No visible heading; the Title
+   field stays editable in Pages. Static wrap while editing.
+   ──────────────────────────────────────────── */
+export const SitecoreBadges = ({ fields, params, page }: LogoCloudProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <LogoCloudDefaultComponent />;
+  const items = datasource.children?.results || [];
+
+  const badge = (item: LogoItemFields, hidden = false) => (
+    <li key={`${item.id}${hidden ? '-copy' : ''}`} aria-hidden={hidden || undefined} className="shrink-0">
+      <LogoWrapper item={item} isEditing={isEditing}>
+        {(item.logoImage?.jsonValue?.value?.src || isEditing) && (
+          <ContentSdkImage
+            field={item.logoImage?.jsonValue}
+            className="h-[84px] w-auto max-w-[110px] object-contain"
+          />
+        )}
+      </LogoWrapper>
+    </li>
+  );
+
+  return (
+    <div className={cn('component logo-cloud', styles)} id={RenderingIdentifier}>
+      <section className="w-full overflow-hidden py-10" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        {isEditing ? (
+          <div className="mx-auto max-w-7xl px-4">
+            <SectionTitle datasource={datasource} isEditing={isEditing} />
+            <ul className="flex flex-wrap items-center justify-center gap-10">
+              {items.map((item) => badge(item))}
+            </ul>
+          </div>
+        ) : (
+          <>
+            {hasText(datasource.title?.jsonValue?.value) && (
+              <Text field={datasource.title?.jsonValue} tag="h2" className="sr-only" />
+            )}
+            <ul className="flex w-max items-center gap-[60px] pr-[60px] motion-safe:animate-[sitecore-marquee_45s_linear_infinite] hover:[animation-play-state:paused]">
+              {items.map((item) => badge(item))}
+              {items.map((item) => badge(item, true))}
+            </ul>
+          </>
+        )}
       </section>
     </div>
   );

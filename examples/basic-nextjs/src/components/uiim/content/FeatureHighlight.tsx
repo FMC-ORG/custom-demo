@@ -12,6 +12,8 @@ import {
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 import { SmartMedia } from '@/components/uiim/media/SmartMedia';
+import { Play } from 'lucide-react';
+import { SitecorePill } from '@/lib/demo-ui/sitecore-ui';
 
 interface FeatureHighlightFields {
   EyebrowText: Field<string>;
@@ -290,6 +292,66 @@ export const IconLeft = ({ fields, params, page }: FeatureHighlightProps): JSX.E
               />
             )}
           </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   SitecoreDarkVideo variant — deep navy band with a faint grid, white copy and
+   white pill CTA on the left; rounded video poster with a play button right.
+   The play button is decorative (videos are a manual task for this demo).
+   ──────────────────────────────────────────── */
+export const SitecoreDarkVideo = ({ fields, params, page }: FeatureHighlightProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <FeatureHighlightDefaultComponent />;
+
+  return (
+    <div className={cn('component feature-highlight', styles)} id={RenderingIdentifier}>
+      <section
+        className="relative w-full overflow-hidden px-4 py-14 md:px-[58px]"
+        style={{
+          backgroundColor: 'var(--brand-dark-section, var(--brand-dark))',
+          backgroundImage:
+            'radial-gradient(60% 90% at 85% 100%, color-mix(in srgb, var(--brand-accent) 30%, transparent) 0%, transparent 70%), linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)',
+          backgroundSize: '100% 100%, 56px 56px, 56px 56px',
+          color: 'var(--brand-dark-foreground)',
+        }}
+      >
+        <div className="mx-auto grid max-w-[1360px] items-center gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
+          <div className="max-w-[520px]">
+            <Eyebrow field={fields.EyebrowText} isEditing={isEditing} />
+            {(hasText(fields.Title?.value) || isEditing) && (
+              <Text
+                field={fields.Title}
+                tag="h2"
+                className="font-heading text-[34px] font-normal leading-[1.25] tracking-[-0.02em] md:text-[40px]"
+              />
+            )}
+            {(hasRichText(fields.Description?.value) || isEditing) && (
+              <ContentSdkRichText
+                field={fields.Description}
+                className="mt-6 font-body text-[17px] leading-[1.6] opacity-90 [&_p]:m-0"
+              />
+            )}
+            <div className="mt-8">
+              <SitecorePill field={fields.PrimaryLink} isEditing={isEditing} tone="white" />
+            </div>
+          </div>
+          {(fields.FeatureImage?.value?.src || isEditing) && (
+            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[16px] border border-white/25">
+              <ContentSdkImage field={fields.FeatureImage} className="h-full w-full object-cover" />
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 top-1/2 flex h-[106px] w-[106px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white"
+              >
+                <Play className="ml-1.5 h-11 w-11" style={{ color: 'var(--brand-fg)', fill: 'var(--brand-fg)' }} />
+              </span>
+            </div>
+          )}
         </div>
       </section>
     </div>

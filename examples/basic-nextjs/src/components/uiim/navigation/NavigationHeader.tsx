@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 import { TypeaheadSearchBox } from '@/lib/search-ui/TypeaheadSearchBox';
+import { SITECORE_GRADIENT } from '@/lib/demo-ui/sitecore-ui';
 
 interface NavigationLinkFields {
   id: string;
@@ -343,6 +344,62 @@ export const Minimal = ({ fields, params }: NavigationHeaderProps): JSX.Element 
         <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-4 sm:px-6">
           <Logo brandLogo={brandLogo} />
         </div>
+      </header>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   Sitecore variant — white 96px bar with a hairline border: logo, 18px nav
+   links, compact search and a red→violet gradient "Request a demo" pill.
+   ──────────────────────────────────────────── */
+export const Sitecore = ({
+  fields,
+  params,
+  page,
+  rendering,
+}: NavigationHeaderProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <NavigationHeaderDefaultComponent />;
+
+  const links = datasource.children?.results || [];
+  const ctaLink = datasource.ctaLink?.jsonValue;
+  const ctaLabel = datasource.ctaLabel?.jsonValue;
+
+  return (
+    <div className={cn('component navigation-header', styles)} id={RenderingIdentifier}>
+      <header
+        className="w-full border-b"
+        style={{
+          backgroundColor: 'var(--brand-header-bg)',
+          borderColor: 'var(--brand-border)',
+          color: 'var(--brand-header-fg)',
+        }}
+      >
+        <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-6 px-4 md:h-[96px] md:px-12">
+          <div className="flex items-center gap-8">
+            <Logo brandLogo={datasource.brandLogo?.jsonValue} className="[&_img]:h-[30px] [&_img]:sm:h-[34px]" />
+            <NavLinks items={links} className="gap-4 lg:gap-6 [&_a]:font-body [&_a]:text-[18px] [&_a]:font-normal" />
+          </div>
+          <div className="flex items-center gap-4">
+            <HeaderSearch datasource={datasource} page={page} rendering={rendering} />
+            {(ctaLink?.value?.href || isEditing) && (
+              <ContentSdkLink
+                field={ctaLink}
+                className="hidden items-center rounded-[var(--brand-button-radius,9999px)] px-4 py-2 font-body text-[17px] transition hover:brightness-110 md:inline-flex"
+                style={{ background: SITECORE_GRADIENT, color: 'var(--brand-primary-foreground)' }}
+              >
+                {(hasText(ctaLabel?.value) || isEditing) && <Text field={ctaLabel} />}
+              </ContentSdkLink>
+            )}
+            <MenuButton open={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+        </div>
+        <MobileMenu items={links} open={menuOpen} onClose={() => setMenuOpen(false)} />
       </header>
     </div>
   );

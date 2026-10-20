@@ -11,6 +11,7 @@ import {
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
 import { SmartMedia } from '@/components/uiim/media/SmartMedia';
+import { SitecorePill } from '@/lib/demo-ui/sitecore-ui';
 
 interface HeroBannerFields {
   Title: Field<string>;
@@ -334,6 +335,55 @@ export const Minimal = ({ fields, params, page }: HeroBannerProps): JSX.Element 
             </div>
           </div>
         )}
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   Sitecore variant — centred minimal hero on a soft pink/lavender wash.
+   Title = dark lead line; the first <h2> inside Subtitle is rendered as the
+   large red→violet gradient headline, following <p> as the intro paragraph.
+   ──────────────────────────────────────────── */
+export const Sitecore = ({ fields, params, page }: HeroBannerProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+
+  if (!fields) return <HeroBannerDefaultComponent />;
+
+  return (
+    <div className={cn('component hero-banner', styles)} id={RenderingIdentifier}>
+      <section
+        className="w-full px-4 pb-14 pt-12 text-center md:pb-20 md:pt-14"
+        style={{
+          background: 'var(--brand-hero-wash, var(--brand-bg))',
+          color: 'var(--brand-fg)',
+        }}
+      >
+        <div className="mx-auto max-w-[1100px]">
+          {(hasText(fields.Title?.value) || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h1"
+              className="font-heading text-[32px] font-semibold leading-[1.15] tracking-[-0.04em] md:text-[44px] lg:text-[48px]"
+            />
+          )}
+          {(hasRichText(fields.Subtitle?.value) || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Subtitle}
+              className={cn(
+                '[&_h2]:mx-auto [&_h2]:mt-2 [&_h2]:max-w-[820px] [&_h2]:pb-2 [&_h2]:font-heading [&_h2]:font-semibold',
+                '[&_h2]:text-[44px] [&_h2]:leading-[1.02] [&_h2]:tracking-[-0.045em] md:[&_h2]:text-[64px] lg:[&_h2]:text-[76px]',
+                '[&_h2]:bg-clip-text [&_h2]:text-transparent [&_h2]:[background-image:var(--brand-gradient,linear-gradient(90deg,var(--brand-primary),var(--brand-primary)))]',
+                '[&_p]:mx-auto [&_p]:mt-6 [&_p]:max-w-[860px] [&_p]:font-body [&_p]:text-[17px] [&_p]:leading-[1.6] md:[&_p]:text-[18px]',
+              )}
+            />
+          )}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <SitecorePill field={fields.PrimaryLink} isEditing={isEditing} tone="gradient" />
+            <SitecorePill field={fields.SecondaryLink} isEditing={isEditing} tone="outline" className="bg-white/60" />
+          </div>
+        </div>
       </section>
     </div>
   );

@@ -13,6 +13,7 @@ import {
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SitecorePill, SitecoreSectionHeading } from '@/lib/demo-ui/sitecore-ui';
 
 interface FeatureCardItemFields {
   id: string;
@@ -462,6 +463,76 @@ export const Carousel = ({ fields, params, page }: FeatureCardsGridProps): JSX.E
               ))}
             </div>
           )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   SitecoreAnalystRows variant — "How leading analysts rate Sitecore": centred
+   heading, then full-width white rows: analyst logo | divider | headline |
+   outline pill CTA (CardLink).
+   ──────────────────────────────────────────── */
+export const SitecoreAnalystRows = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const datasource = fields?.data?.datasource;
+  if (!datasource) return <FeatureCardsGridDefaultComponent />;
+  const cards = datasource.children?.results || [];
+
+  return (
+    <div className={cn('component feature-cards-grid', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-4 py-16 md:py-20" style={{ backgroundColor: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-[1150px]">
+          <SitecoreSectionHeading
+            title={datasource.title?.jsonValue}
+            description={datasource.description?.jsonValue}
+            isEditing={isEditing}
+          />
+          <ul className="flex flex-col gap-3">
+            {cards.map((card) => (
+              <li
+                key={card.id}
+                className="flex flex-col gap-4 rounded-[4px] bg-white px-6 py-5 shadow-[0_2px_10px_rgba(0,0,0,0.06)] md:flex-row md:items-center md:gap-0 md:px-10"
+              >
+                {(card.cardImage?.jsonValue?.value?.src || isEditing) && (
+                  <ContentSdkImage
+                    field={card.cardImage?.jsonValue}
+                    className="h-9 w-[140px] shrink-0 object-contain object-left"
+                  />
+                )}
+                <span
+                  aria-hidden="true"
+                  className="mx-8 hidden h-12 w-px shrink-0 md:block"
+                  style={{ backgroundColor: 'var(--brand-border)' }}
+                />
+                <div className="flex-1">
+                  {(hasText(card.cardTitle?.jsonValue?.value) || isEditing) && (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="font-heading text-[17px] font-normal leading-[1.45]"
+                      style={{ color: 'var(--brand-fg)' }}
+                    />
+                  )}
+                  {(hasRichText(card.cardDescription?.jsonValue?.value) || isEditing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className="mt-1 font-body text-[15px] opacity-70 [&_p]:m-0"
+                    />
+                  )}
+                </div>
+                <SitecorePill
+                  field={card.cardLink?.jsonValue}
+                  isEditing={isEditing}
+                  tone="outline"
+                  size="sm"
+                  className="shrink-0 self-start md:ml-8 md:self-auto"
+                />
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     </div>

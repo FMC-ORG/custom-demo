@@ -1,15 +1,17 @@
-# FY 2026 Results: field values to copy and paste
+Update the press release page "Q4 Trading Update" under Newsroom based on the attached results file. Fill all release fields and the metadata. Do not publish.
+
+# Q4 Trading Update: field values to copy and paste
 
 Demo content with invented figures. One block per field. For the Rich Text fields, open the field's **HTML / source view** in Pages and paste the HTML.
 
-Create the page first: **Newsroom → Add page → Press Release Page Template**, name `FY 2026 Results`.
+Publication: **26 October 2026, 07:00 CET**. Create the page first: **Newsroom → Add page → Press Release Page Template**, name `Q4 Trading Update`.
 
 ---
 
 ## Title
 
 ```
-HEINEKEN N.V. reports 2026 full year results
+HEINEKEN N.V. 2026 Q4 Trading Update
 ```
 
 ## ReleaseType
@@ -32,16 +34,16 @@ Amsterdam
 
 ## ArticlePublicationDate
 
-Pick **10 February 2027** in the date picker.
+Pick **26 October 2026** in the date picker.
 
 ```
-10/02/2027
+26/10/2026
 ```
 
 ## ArticleReadTime
 
 ```
-6 min read
+5 min read
 ```
 
 ## ReleaseSubheadline
@@ -60,7 +62,7 @@ Record premium growth and margin expansion as EverGreen 2030 delivers ahead of p
 <li>Premium grew 8%, beyond beer up 10%, and low- and no-alcohol 15% higher.</li>
 <li>Net revenue growth of 4.1%, with growth in all four regions.</li>
 </ul>
-<h3>Profitability: Third consecutive year of margin expansion</h3>
+<h3>Profitability: Margin expansion continues</h3>
 <ul>
 <li>Operating profit grew 7.9%; operating profit margin expanded 70 bps to 15.3%.</li>
 <li>Diluted Earnings per Share (EPS) of €4.86, up 12.4% (2025: €4.32).</li>
@@ -84,7 +86,7 @@ Record premium growth and margin expansion as EverGreen 2030 delivers ahead of p
 ## ReleaseQuote
 
 ```
-2026 was a year of disciplined execution. We grew volume ahead of our markets, expanded margins for the third consecutive year and delivered our productivity programme earlier than planned. Our premium portfolio and our low- and no-alcohol brands are now growing at twice the pace of the total business. We enter 2027 with momentum, a stronger balance sheet and a clear focus on the consumers and customers who make HEINEKEN the world's most international brewer.
+The fourth quarter of 2026 showed disciplined execution. We grew volume ahead of our markets, expanded margins again and delivered our productivity programme earlier than planned. Our premium portfolio and our low- and no-alcohol brands are now growing at twice the pace of the total business. We close the year with momentum, a stronger balance sheet and a clear focus on the consumers and customers who make HEINEKEN the world's most international brewer.
 ```
 
 ## ArticleAuthor (quote author)
@@ -123,7 +125,7 @@ Chief Financial Officer
 
 ```html
 <h2>Conference call details</h2>
-<p>HEINEKEN will host an analyst and investor conference call in relation to its 2026 Full Year results today at 10:00 CET / 09:00 GMT. The call will be audio cast live via the company's website. A replay will be available after the call.</p>
+<p>HEINEKEN will host an analyst and investor conference call in relation to its 2026 Q4 Trading Update today at 10:00 CET / 09:00 GMT. The call will be audio cast live via the company's website. A replay will be available after the call.</p>
 <ul>
 <li>United Kingdom (Local): 020 3936 0000</li>
 <li>Netherlands (Local): 085 888 0000</li>
@@ -136,7 +138,7 @@ Chief Financial Officer
 
 Link text:
 ```
-Download the 2026 Full Year Results (PDF)
+Download the 2026 Q4 Trading Update (PDF)
 ```
 URL (external, open in new window):
 ```
@@ -153,12 +155,12 @@ Pick `q3-star-card` from Content Hub.
 
 baseMetadataTitle
 ```
-HEINEKEN N.V. 2026 Full Year Results
+HEINEKEN N.V. 2026 Q4 Trading Update
 ```
 
 baseMetadataDescription
 ```
-HEINEKEN N.V. reports 2026 full year results: 2.4% volume growth, operating profit up 7.9% and a proposed total dividend of €1.92 per share.
+HEINEKEN N.V. 2026 Q4 Trading Update: 2.4% volume growth, operating profit up 7.9% and a proposed total dividend of €1.92 per share.
 ```
 
 baseOgDescription
@@ -168,7 +170,7 @@ Record premium growth and margin expansion as EverGreen 2030 delivers ahead of p
 
 NavigationTitle
 ```
-FY 2026 Results
+Q4 Trading Update
 ```
 
 ---
@@ -183,7 +185,7 @@ Key figures
 ```
 EyebrowText
 ```
-FY 2026
+Q4 2026
 ```
 
 | StatValue | StatLabel |
@@ -199,10 +201,10 @@ Add a child to **Heineken - Newsroom Releases**:
 
 CardTitle
 ```
-FY 2026 Results
+Q4 Trading Update
 ```
 CardDescription
 ```
-10 Feb 2027
+26 Oct 2026
 ```
-CardImage: `q3-star-card` · CardLink: the new `FY 2026 Results` page.
+CardImage: `q3-star-card` · CardLink: the new `Q4 Trading Update` page.

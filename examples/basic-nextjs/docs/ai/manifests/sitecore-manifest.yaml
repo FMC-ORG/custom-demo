@@ -1,12 +1,12 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-10-20T18:49:37.236Z"
+lastUpdatedAt: "2026-10-20T20:53:01Z"
 lastUpdatedBy: "pi-agent"
 
 demoBuilds:
   heineken:
     branch: heineken-demo
-    status: partial
-    checkedAt: '2026-10-20T18:49:37.236Z'
+    status: complete
+    checkedAt: '2026-10-20T20:53:01Z'
     siteItemId: '{C963AFD4-7293-485C-AE50-266B5C8E6753}'
     pageId: '{E2124310-F817-4644-8671-BFF8E72B66D7}'
     population:
@@ -14,15 +14,18 @@ demoBuilds:
       parents: 12
       children: 40
     assembly:
-      status: partial
-      verifiedInstances: 11
-      unresolved:
-        - key: site-footer:shared-new-wire
-          status: needs-reconciliation
-      newFooterInstance: 5870c114-727f-4cf0-9cf0-105ce63ab8f8
-      intendedFooterDatasource: 66b47666-925f-4354-ba7f-8c91f2ece19b
-      oldFooterPreserved: true
-      starterCleanupPending: true
+      status: complete
+      verifiedOperations: 50
+      footerInstance: 5870c114-727f-4cf0-9cf0-105ce63ab8f8
+      footerDatasource: 66b47666-925f-4354-ba7f-8c91f2ece19b
+      footerBinding: >-
+        set_component_datasource rejected the derived HeinekenFooterData template (422). Bound
+        manually in Content Editor (approved option c), then verified by read on resume.
+      removedInstances:
+        - dfd74e57-3439-425b-8730-c43566be5238 (old Footer; already absent at resume)
+        - 722144e9-b524-417d-9b25-fc1041c8764e (starter CTA)
+        - 90cb6e51-03b8-4e81-bf6e-ef83d18d9e93 (starter SearchCollection)
+      placeholderDatasourcesToDelete: 12
     variants: 9
     images: 20
     verificationScope: >-
@@ -44,7 +47,7 @@ project:
 clientDatasourceExtensions:
   - name: HeinekenFooterData
     componentName: SiteFooter
-    status: partial
+    status: complete
     template:
       path: /sitecore/templates/Project/fmc-custom-demo/Components/Navigation/HeinekenFooterData
       itemId: '{43DDC70D-FBAD-472A-ABFB-87E1100D57CA}'
@@ -61,7 +64,8 @@ clientDatasourceExtensions:
     existingBaseTemplatePreserved: true
     pendingManual:
       - Standard Values links and __Masters are acknowledged silent writes
-      - Client datasource population and delivered query compatibility pending
+      - Delivered query compatibility pending (populated and bound; not yet published or rendered)
+      - set_component_datasource rejects this derived template (422); bind manually or use a dedicated rendering
     updatedAt: '2026-10-20T16:44:17.411Z'
 
 availableRenderings:

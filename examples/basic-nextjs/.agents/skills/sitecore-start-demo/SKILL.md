@@ -50,6 +50,7 @@ Re-run the script after each fix until it reports no blockers.
 
 Use `siteCollection`/`siteName` from `docs/ai/config/project.yaml`.
 
+0. **Right environment.** Read `/sitecore/content/Environment Markers` (a missing folder means no markers). The script reports the expected marker as `environmentMarker` (from `project.yaml`). Expected marker set → it must be the folder's only child; none expected → the folder must have no children. Anything else → **blocker**: the marketer MCP is signed into another SitecoreAI environment; ask the user to switch it with `/mcp`. Never create or delete markers. Do this before every other Sitecore call; several environments share identical paths and item IDs.
 1. **Sign-in and site.** `get_content_item_by_path` for `/sitecore/content/<siteCollection>/<siteName>`.
    - Authentication error → **blocker**: sign in to `sitecore_marketer` (`/mcp`) and retry.
    - Not found → **blocker**: `project.yaml` does not match the connected environment.
@@ -84,7 +85,7 @@ Use `siteCollection`/`siteName` from `docs/ai/config/project.yaml`.
 The build re-runs the Start Check without fixing or writing anything:
 
 1. `node .agents/skills/sitecore-start-demo/scripts/start-demo.mjs --client <client> --check` (the URL comes from `setup.json`).
-2. Step 2 items 1, 2 and 4.
+2. Step 2 items 0, 1, 2 and 4.
 3. Step 2 item 5 **only if** `manifestReuse.reusable` is false or `manifestReuse.siteItemId` differs from the site item ID just read (same day, same `main` commit and same environment are required to reuse it).
 
 Any blocker stops the build: tell the user to run `/skill:sitecore-start-demo <client> <url>`.

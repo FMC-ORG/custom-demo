@@ -7,8 +7,9 @@ Applies to Claude Code, Cursor, and Pi. This is the only always-on instruction f
 ## Before any Sitecore task
 
 1. Read `docs/ai/config/project.yaml` (siteCollection, siteName, renderingsRoot, projectTemplatesRoot). Derive `dataRoot = /sitecore/content/<siteCollection>/<siteName>/Data`, `projectFoldersRoot = projectTemplatesRoot/Folders`, `renderingParamsRoot = projectTemplatesRoot/Rendering Parameters`. Never take these from memory, examples, or other components. If the file is missing, ask the user and create it.
-2. Read `docs/ai/manifests/sitecore-manifest.yaml`. Existing entry `complete` → confirm before re-creating; `partial`/`failed` → resume from recorded IDs; check `lookups` before resolving paths. Update it during and after every Sitecore task (`sitecore-manifest`).
-3. Demo builds only: Content Hub credentials are in `docs/ai/config/credentials.local.yaml` (gitignored, optional).
+2. **Check the environment before any write.** With the marketer MCP, read `/sitecore/content/Environment Markers` (a missing folder means no markers). If `project.yaml` sets `environmentMarker`, it must be the only child; if it does not, there must be none. Otherwise stop: the MCP is connected to a different SitecoreAI environment than this branch is for, so ask the user to switch it (`/mcp`). Never create or delete markers yourself.
+3. Read `docs/ai/manifests/sitecore-manifest.yaml`. Existing entry `complete` → confirm before re-creating; `partial`/`failed` → resume from recorded IDs; check `lookups` before resolving paths. Update it during and after every Sitecore task (`sitecore-manifest`).
+4. Demo builds only: Content Hub credentials are in `docs/ai/config/credentials.local.yaml` (gitignored, optional).
 
 ## Route the request to a skill
 

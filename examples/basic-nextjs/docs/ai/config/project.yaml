@@ -8,6 +8,12 @@
 siteCollection: "main"
 siteName: "main-website"
 
+# Environment Marker (optional): the SitecoreAI environment this branch may write to.
+# When set, /sitecore/content/Environment Markers/<value> must exist in the environment the marketer
+# MCP is connected to, and be its only marker. When absent (main and client-demo branches), that
+# environment must have no marker. Checked before every Sitecore task (AGENTS.md). Example:
+# environmentMarker: "sitecore-demo"
+
 # Sitecore SDK used by this repo's React components
 sdk: "@sitecore-content-sdk/nextjs"
 

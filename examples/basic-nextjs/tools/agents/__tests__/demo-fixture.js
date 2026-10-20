@@ -73,7 +73,9 @@ function sitecore() {
       };
       const at = data.insertAfterComponentId
         ? components.findIndex((x) => x.id === data.insertAfterComponentId) + 1
-        : components.length;
+        : data.insertBeforeComponentId
+          ? components.findIndex((x) => x.id === data.insertBeforeComponentId)
+          : components.length;
       components.splice(at, 0, item);
       return { id: item.id };
     },

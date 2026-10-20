@@ -213,3 +213,19 @@ test('an instance to remove must keep its approved rendering, and cannot overlap
     fs.rmSync(other, { recursive: true, force: true });
   }
 });
+
+test('a new first section is placed before the reused instances that follow it', async () => {
+  // Sitecore showcase build: [new announcement, replaced hero, …] appended the announcement at the
+  // end, failed the final order check and skipped the approved starter removal.
+  const b = setup();
+  const announcement = clone(b.input.sections[1]);
+  Object.assign(announcement, { key: 'announcement', name: 'Client - Announcement' });
+  delete announcement.variant;
+  b.input.sections.unshift(announcement);
+  const { population, run } = await build(b);
+  const result = await run();
+  expect(result.status).toBe('complete');
+  const ids = population.datasourceItems.map((x) => x.itemId);
+  expect(b.remote.components.map((x) => x.datasourceId)).toEqual(ids); // announcement, hero, news
+  expect(result.removed).toEqual([{ instanceId: 'starter-search', reason: 'starter content' }]);
+});

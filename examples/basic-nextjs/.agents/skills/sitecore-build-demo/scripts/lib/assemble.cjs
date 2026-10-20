@@ -536,6 +536,16 @@ async function assemble({
           }
       }
       const previous = previousByPlaceholder.get(section.placeholder);
+      // The first section in a placeholder has no earlier section to follow. Without an anchor
+      // add_component_on_page appends it at the end, behind the reused/replaced instances the plan
+      // puts after it. Anchor it before the first of those instead.
+      const later = plan.sections.slice(plan.sections.indexOf(section) + 1);
+      const followingInstanceId = later.find(
+        (x) =>
+          x.placement !== 'partial-design' &&
+          x.placeholder === section.placeholder &&
+          x.existingInstanceId,
+      )?.existingInstanceId;
       const component = await recovery.operation(`${section.key}:add`, {
         before: async () => {
           const page = await api.readPage(plan.pageId);
@@ -556,9 +566,16 @@ async function assemble({
           ) {
             throw new Blocked(section.key, 'matching remote instance without operation evidence');
           }
-          return { page, datasourceId: datasource.itemId };
+          const anchorBefore =
+            !previous &&
+            !section.existingInstanceId &&
+            followingInstanceId &&
+            page.some((x) => sameId(x.id, followingInstanceId))
+              ? followingInstanceId
+              : null;
+          return { page, datasourceId: datasource.itemId, anchorBefore };
         },
-        write: () =>
+        write: (before) =>
           section.existingInstanceId
             ? { id: section.existingInstanceId }
             : api.addComponent({
@@ -566,7 +583,11 @@ async function assemble({
                 componentRenderingId: section.renderingId,
                 placeholderPath: section.placeholder,
                 componentItemName: `${plan.client} ${section.componentName} ${section.key}`,
-                ...(previous ? { insertAfterComponentId: previous } : {}),
+                ...(previous
+                  ? { insertAfterComponentId: previous }
+                  : before.anchorBefore
+                    ? { insertBeforeComponentId: before.anchorBefore }
+                    : {}),
               }),
         verify: async (result, before, saved, attempt = 0) => {
           const page = await api.readPage(

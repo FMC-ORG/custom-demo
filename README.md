@@ -79,7 +79,9 @@ and sign in to them:
 | **Cursor** | Open the `examples/basic-nextjs` folder, then *Settings → MCP*: enable both servers and sign in to `sitecore_marketer`. |
 | **Pi** | Run `pi` in `examples/basic-nextjs` and **trust the project** when asked — Pi only loads the project skills and MCP servers after that. Then `/mcp` and sign in to `sitecore_marketer`. |
 
-Sign in with the account for **your** XM Cloud environment. If a Sitecore call later says "token
+Sign in with the account for **your** XM Cloud environment.
+
+**More than one environment** (for example a showcase environment next to your client demos): environments deployed from this repository share the same site paths and item IDs, so agents could write to the wrong one. Mark the extra environment once with a folder item `/sitecore/content/Environment Markers/<name>` (Folder template, created in Content Editor), and set `environmentMarker: "<name>"` in `docs/ai/config/project.yaml` on the branch that deploys to it. Agents check the marker before any Sitecore write and stop when the MCP is connected to a different environment; switch it with `/mcp`. If a Sitecore call later says "token
 expired", run `/mcp` again (or re-authenticate in Cursor's MCP settings) and retry.
 
 ## Step 5 — Add Content Hub credentials _(optional)_

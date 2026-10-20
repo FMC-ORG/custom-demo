@@ -326,3 +326,26 @@ test('the shared Content Hub login supports simple and OAuth credentials', async
     /not configured/,
   );
 });
+
+test('the expected environment marker is reported from project.yaml (none by default)', async () => {
+  const { app } = repo();
+  let report = await start(app, { check: false });
+  expect(report.environmentMarker).toBeNull();
+  write(
+    app,
+    'docs/ai/config/project.yaml',
+    'siteCollection: "main"\nsiteName: "main-website"\nenvironmentMarker: "sitecore-demo"\n',
+  );
+  commit(app, 'marker');
+  report = await start(app, { continueDemo: true });
+  expect(report.environmentMarker).toBe('sitecore-demo');
+  expect(byId(report, 'project-config').message).toContain('sitecore-demo');
+  write(
+    app,
+    'docs/ai/config/project.yaml',
+    'siteCollection: "main"\nsiteName: "main-website"\nenvironmentMarker: "Not Valid!"\n',
+  );
+  commit(app, 'bad marker');
+  report = await start(app, { continueDemo: true });
+  expect(byId(report, 'project-config')).toMatchObject({ status: 'fail', level: 'blocker' });
+});

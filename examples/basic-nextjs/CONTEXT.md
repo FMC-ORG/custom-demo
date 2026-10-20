@@ -64,6 +64,8 @@
 
 - **Start Check** — The readiness checks run before a demo is built. A blocker stops the build; a warning is reported and the build may continue. Run with fixes by `sitecore-start-demo`, and again without fixes at the start of `sitecore-build-demo`.
 
+- **Environment Marker** — An item named after one SitecoreAI environment, under `/sitecore/content/Environment Markers/` (outside serialization). Environments deployed from the same repository share site paths and item IDs; the marker is how an agent knows which one the marketer MCP is connected to. A branch names the marker it may write to in `project.yaml`; no marker named means "an environment without markers".
+
 ## Repositories
 
 - **Sitecore Starter** — `Sitecore/xmcloud-starter-js`, the Sitecore repository this project was forked from. Its `basic-nextjs` changes are ported here periodically. Not to be called "upstream": in this project's clones the git remote `upstream` is the FMC-ORG framework repository.

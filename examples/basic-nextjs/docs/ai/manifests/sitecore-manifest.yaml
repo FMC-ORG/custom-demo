@@ -32,6 +32,23 @@ demoBuilds:
       CMS item/field/order/relationship and variant reads; code checks. Publishing and rendered visual QA
       unverified.
     recordsPath: docs/ai/demos/heineken
+    q3TradingUpdate:
+      status: complete
+      journal: docs/ai/demos/heineken/q3-release/definitions-journal.json
+      pages:
+        newsroom: '{80389afe-cf44-492b-8206-789f7c5ca227}'
+        q3TradingUpdate: '{cbfb1456-8720-42a2-a650-56be5e71d225}'
+      datasources:
+        contacts: '{5c5ca62c-d51f-4905-a274-54ae007c1c66}'
+        boilerplate: '{d15ad284-6d24-4cf7-8c65-439edbce5f93}'
+        newsroomCards: '{55cce3f2-19ed-44bb-8565-616a87b16bd6}'
+        q3KeyFigures: '{6f23df65-b887-4d32-937d-6b71f24027c0}'
+        q3HomeHero: '{acac82c7-5c22-444d-b747-87d44a06072c}'
+        homeNewsItemQ3: '{79c878b7-b192-477e-9f60-61bfa4602637}'
+        person: '{ea6217ac-c73b-48e6-ab64-3ba572ff323d}'
+      contentHubAssets: [q3-star-card.jpg (97093), q3-hero-banner.jpg (97100), heineken-nv-2026-q3-trading-update.pdf (97107)]
+      cleanupDatasources: ['cff7164e-b2a4-4dc9-959e-46e031d89d2c', '57b89305-a6d0-4247-ac35-88bdbb8de1ae', 'f2ea677c-710d-4be0-b4e2-04b34ecd2674', 'c6fe3d92-0b05-4a16-a7f8-260cfcc77e22', '645487d5-aae7-49b7-a602-de65970fb9ad']
+      notPublished: true
 
 project:
   siteCollection: "main"
@@ -3601,6 +3618,73 @@ pageTemplates:
       - "2026-05-20: Created SearchExperienceV2 (Issue #34). Replaces JSON config with 7 individual template fields. ADR 0004."
       - "2026-05-20: All 3 pendingManual items verified via get_component and get_allowed_comps_by_ph — datasource template, datasource location, and available renderings all confirmed."
 
+  - name: "Press Release Page"
+    kind: "page-template"
+    category: "Page Types"
+    status: "complete"
+    createdAt: "2026-10-20T21:20:00Z"
+    updatedAt: "2026-10-20T22:00:00Z"
+    note: "Heineken Q3 Trading Update demo. Inherits Article Page; reuses ArticleHero/ArticleBody/FeatureCardsGrid/RichTextBlock/TrustStatsRow with Heineken variants. No new renderings."
+    baseTemplate:
+      name: "Article Page Template"
+      itemId: "{74360AD2-D3DF-4FCE-834C-2F5420488677}"
+    templates:
+      pageTemplate:
+        name: "Press Release Page Template"
+        path: "/sitecore/templates/Project/main/Page Types/Press Release Page Template"
+        itemId: "{33dba4e3-28cc-4cbc-948c-5b79bb5f2991}"
+        sectionName: "Press Release Data"
+        sectionId: "{be6b9eee-2862-4fee-bf26-66822f89e154}"
+        fields:
+          - { name: "ReleaseLocation", type: "Single-Line Text", itemId: "{b75d9b18-adb6-4da2-ace4-6f103fcaa279}" }
+          - { name: "ReleaseTime", type: "Single-Line Text", itemId: "{9591b949-857f-419e-9fd4-a1402ad42980}" }
+          - { name: "ReleaseType", type: "Single-Line Text", itemId: "{1b44ca6a-1f0a-43b6-af9b-0079c5d41bd7}" }
+          - { name: "ReleaseSubheadline", type: "Multi-Line Text", itemId: "{18c9786d-0146-4824-9b30-3d57ee8a33a0}" }
+          - { name: "ReleaseQuote", type: "Multi-Line Text", itemId: "{5e4d4659-4a33-4c17-9438-7d2d5a547c13}" }
+          - { name: "ConferenceCallDetails", type: "Rich Text", itemId: "{3f636445-df71-4b86-97fa-e2fea12f3b1a}" }
+          - { name: "ReleaseDownload", type: "General Link", itemId: "{c998b328-5bfc-40ac-a038-11fe128462d8}" }
+        inheritsFrom: "Article Page Template"
+        standardValues:
+          itemId: "{9123fbba-deb5-4f71-9b84-d59581e5979e}"
+          linked: pendingManual  # __Standard values is a silent-write field
+    contentTree:
+      parent:
+        name: "Newsroom"
+        path: "/sitecore/content/main/main-website/Home/Newsroom"
+        itemId: "{80389afe-cf44-492b-8206-789f7c5ca227}"
+        insertOptionsSet: pendingManual  # __Masters is silent-write; set to Press Release Page Template
+    partialDesign:
+      name: "Press Release Layout"
+      path: "/sitecore/content/main/main-website/Presentation/Partial Designs/Press Release Layout"
+      itemId: "{047224f0-983e-4bb2-a00d-70761c18c988}"
+      placeholder: "headless-main"
+      components:
+        - { name: "ArticleHero", variant: "HeinekenPressRelease", instanceId: "0d31b030-6181-4d04-9d8b-645437371723" }
+        - { name: "ArticleBody", variant: "HeinekenPressRelease", instanceId: "eaf2236f-1c87-48bb-aab6-769f2c18b149" }
+        - { name: "Container", note: "open area; pages add components at /headless-main/sxa-press-release-layout/container-3", instanceId: "f3d610ee-be4b-4c17-958e-6372053b4ac9" }
+        - { name: "FeatureCardsGrid", variant: "HeinekenContacts", datasource: "{5c5ca62c-d51f-4905-a274-54ae007c1c66}", instanceId: "1d778a66-067c-44a0-8f5b-44b3237d8675" }
+        - { name: "RichTextBlock", variant: "HeinekenBoilerplate", datasource: "{d15ad284-6d24-4cf7-8c65-439edbce5f93}", instanceId: "38cf8791-45c3-4d16-be47-2dacb3a74660" }
+    pageDesign:
+      name: "Press Release Page"
+      itemId: "{e369b8f9-d724-474d-abba-641841acc6f9}"
+      partialDesigns: ["Header", "Footer", "Press Release Layout"]
+      templatesMappingAppended: true
+    variants:
+      - { component: "ArticleHero", name: "HeinekenPressRelease", itemId: "{1c094d69-eb1c-4242-96f6-e07d2080b672}" }
+      - { component: "ArticleBody", name: "HeinekenPressRelease", itemId: "{39dfea8f-5344-4e1f-847f-1b81cf5cfc8a}" }
+      - { component: "RichTextBlock", name: "HeinekenBoilerplate", itemId: "{c329e8cb-2216-4f79-b158-2f793f6902f2}" }
+      - { component: "FeatureCardsGrid", name: "HeinekenContacts", itemId: "{eb59ea63-88c4-4880-8c98-2e8b9346ec7a}" }
+      - { component: "FeatureCardsGrid", name: "HeinekenNewsCards", itemId: "{fec7c4b8-f754-4495-8451-f488e656ccfb}" }
+    codeChanges:
+      - "Layout.tsx RouteFields: Release* fields and ConferenceCallDetails"
+      - "Named exports added: ArticleHero/ArticleBody HeinekenPressRelease, RichTextBlock HeinekenBoilerplate, FeatureCardsGrid HeinekenContacts + HeinekenNewsCards"
+    verification:
+      templateAndFields: passed
+      baseTemplate: passed
+      partialDesignVariantsApplied: passed
+      mergedLayoutPreview: passed  # Edge preview layout for /Newsroom/Q3-Trading-Update and /Newsroom
+      openAreaComponent: passed    # TrustStatsRow renders in container-{*}
+      pagesEditorClickThrough: pendingManual
 lookups:
   - path: "/sitecore/content/main/main-website/Data"
     itemId: "{E6C852B5-B70D-412C-B5C6-E6502842F74E}"

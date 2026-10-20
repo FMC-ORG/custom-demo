@@ -134,3 +134,39 @@ export const Narrow = ({ fields, params, page }: RichTextBlockProps): JSX.Elemen
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   HeinekenBoilerplate — shared press-release closing text (editorial information,
+   Market Abuse Regulation notice, disclaimer): small muted type, bordered top.
+   ──────────────────────────────────────────── */
+export const HeinekenBoilerplate = ({ fields, params, page }: RichTextBlockProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  if (!fields) return <RichTextBlockDefaultComponent />;
+
+  return (
+    <div className={cn('component rich-text-block heineken-boilerplate', styles)} id={RenderingIdentifier}>
+      <section className="w-full px-6 pb-16" style={{ background: 'var(--brand-bg)' }}>
+        <div
+          className="mx-auto max-w-[1024px] border-t pt-8"
+          style={{ borderColor: 'var(--brand-border)', color: 'var(--brand-muted-foreground)' }}
+        >
+          {(hasText(fields.Title?.value) || isEditing) && (
+            <Text
+              field={fields.Title}
+              tag="h2"
+              className="mb-4 font-heading text-xl font-medium"
+              style={{ color: 'var(--brand-primary)' }}
+            />
+          )}
+          {(hasRichText(fields.Body?.value) || isEditing) && (
+            <ContentSdkRichText
+              field={fields.Body}
+              className="font-body text-sm leading-6 [&_a]:underline [&_h3]:mb-1 [&_h3]:mt-6 [&_h3]:font-semibold [&_h3]:text-[var(--brand-fg)] [&_p]:mb-3"
+            />
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};

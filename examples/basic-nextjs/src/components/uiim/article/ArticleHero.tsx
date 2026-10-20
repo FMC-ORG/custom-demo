@@ -336,3 +336,96 @@ export const SplitImage = ({ params, page }: ComponentProps): JSX.Element => {
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   HeinekenPressRelease — corporate press-release header (theheinekencompany.com newsroom):
+   release type, dateline (location, date | time), uppercase headline, green subheadline, share row.
+   Reads the Press Release Page fields; works on plain Article pages (dateline shows the date only).
+   ──────────────────────────────────────────── */
+interface PressReleaseHeroFields extends ArticleHeroRouteFields {
+  ReleaseLocation?: Field<string>;
+  ReleaseTime?: Field<string>;
+  ReleaseType?: Field<string>;
+  ReleaseSubheadline?: Field<string>;
+}
+
+export const HeinekenPressRelease = ({ params, page }: ComponentProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const routeFields = getRouteFields(page) as PressReleaseHeroFields | null;
+
+  if (!routeFields) return <ArticleHeroDefaultComponent />;
+
+  const { Title, ArticlePublicationDate, ReleaseLocation, ReleaseTime, ReleaseType, ReleaseSubheadline } =
+    routeFields;
+  const show = (field?: Field<string>) => hasText(field?.value) || isEditing;
+
+  return (
+    <div className={cn('component article-hero heineken-press-release', styles)} id={RenderingIdentifier}>
+      <header className="px-6 pb-10 pt-12 lg:pb-14 lg:pt-16" style={{ background: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-[1024px]">
+          {show(ReleaseType) && (
+            <Text
+              field={ReleaseType}
+              tag="p"
+              className="mb-4 font-body text-sm font-semibold uppercase tracking-[0.12em]"
+              style={{ color: 'var(--brand-primary)' }}
+            />
+          )}
+          <p
+            className="flex flex-wrap items-center gap-x-2 font-body text-base font-semibold"
+            style={{ color: 'var(--brand-muted-foreground)' }}
+            data-testid="press-release-dateline"
+          >
+            {show(ReleaseLocation) && (
+              <span>
+                <Text field={ReleaseLocation} />,
+              </span>
+            )}
+            {(ArticlePublicationDate?.value || isEditing) && ArticlePublicationDate && (
+              <DateField
+                field={ArticlePublicationDate}
+                tag="time"
+                render={(date) =>
+                  new Date(String(date)).toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric',
+                  })
+                }
+              />
+            )}
+            {show(ReleaseTime) && (
+              <>
+                <span aria-hidden="true">|</span>
+                <Text field={ReleaseTime} />
+              </>
+            )}
+          </p>
+          {show(Title) && (
+            <Text
+              field={Title}
+              tag="h1"
+              className="mt-6 font-heading text-3xl font-medium uppercase leading-[1.2] lg:text-[44px]"
+              style={{ color: 'var(--brand-primary)' }}
+            />
+          )}
+          {show(ReleaseSubheadline) && (
+            <Text
+              field={ReleaseSubheadline}
+              tag="p"
+              className="mt-5 max-w-[860px] font-heading text-xl leading-[1.4] lg:text-2xl"
+              style={{ color: 'var(--brand-secondary)' }}
+            />
+          )}
+          <div
+            className="mt-8 border-t pt-4"
+            style={{ borderColor: 'var(--brand-border)', color: 'var(--brand-muted-foreground)' }}
+          >
+            <ShareButtons />
+          </div>
+        </div>
+      </header>
+    </div>
+  );
+};

@@ -288,3 +288,35 @@ pageTemplates:
       noControlBooleans: "Visibility derives from emptiness. No showSecondaryCta or hideTestimonial flags."
       variantSelection: "Layout choice is a Variant Definition picker, not a template field."
       personalizationReady: "Every field individually personalizable via Sitecore Personalize. ABM = same template, different field values per audience."
+
+  - id: press-release
+    name: "Press Release Page"
+    inheritsFrom: "article"  # Article Page Template; all Article fields are reused
+    description: "Corporate results / regulatory press release (first built for the Heineken Q3 Trading Update demo). Dateline, highlights, executive quote, outlook, PDF, conference call; shared contacts and boilerplate; open area for extra components."
+    templateSection: "Press Release Data"
+    fields:
+      - { name: "ReleaseLocation", type: "Single-Line Text", purpose: "dateline location, e.g. Amsterdam" }
+      - { name: "ReleaseTime", type: "Single-Line Text", purpose: "dateline time, e.g. 07:00 CET" }
+      - { name: "ReleaseType", type: "Single-Line Text", purpose: "e.g. Regulatory news, Media release" }
+      - { name: "ReleaseSubheadline", type: "Multi-Line Text", purpose: "subheadline under the title" }
+      - { name: "ReleaseQuote", type: "Multi-Line Text", purpose: "executive quote; attribution = ArticleAuthor (Person)" }
+      - { name: "ConferenceCallDetails", type: "Rich Text", purpose: "call / webcast details, headings authored inside" }
+      - { name: "ReleaseDownload", type: "General Link", purpose: "full release PDF (Content Hub public link)" }
+    articleFieldMapping:
+      ArticleKeyTakeaways: "highlight sections (h3 + bullets)"
+      ArticleContent: "outlook / body"
+      ArticlePublicationDate: "dateline date"
+      ArticleImage: "card / OG image"
+      ArticleAuthor: "quote attribution"
+    contextComponents: "ArticleHero and ArticleBody, variant HeinekenPressRelease (no new renderings)"
+    partialDesign:
+      name: "Press Release Layout"
+      components: ["ArticleHero", "ArticleBody", "Container (open area)", "FeatureCardsGrid HeinekenContacts (shared ds)", "RichTextBlock HeinekenBoilerplate (shared ds)"]
+      openAreaPlaceholderPath: "/headless-main/sxa-press-release-layout/container-3"
+    pageDesign: "Press Release Page (Header, Footer, Press Release Layout), mapped via Page Designs TemplatesMapping"
+    contentTree:
+      parentPage: { name: "Newsroom", path: "/Home/Newsroom", insertOptions: ["Press Release Page Template"] }
+    lessons:
+      - "Inside a partial design, a Container's placeholder path for page-level components includes the partial-design key (sxa-<signature>), not /headless-main/container-N."
+      - "add_component_on_page auto-creates a local datasource named after componentItemName; a second add with the same name is rejected (400)."
+      - "The base Page template has baseMetadataDescription / baseOgDescription, not pageSummary."

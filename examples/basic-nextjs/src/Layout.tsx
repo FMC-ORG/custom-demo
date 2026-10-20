@@ -59,6 +59,14 @@ export interface RouteFields extends PageMetadataFields {
   ArticlePublicationDate?: Field;
   ArticleKeyTakeaways?: RichTextField;
   ArticleReadTime?: Field;
+  // Press Release Page fields (inherits Article Page)
+  ReleaseLocation?: Field<string>;
+  ReleaseTime?: Field<string>;
+  ReleaseType?: Field<string>;
+  ReleaseSubheadline?: Field<string>;
+  ReleaseQuote?: Field<string>;
+  ConferenceCallDetails?: RichTextField;
+  ReleaseDownload?: LinkField;
   // Landing Page — Hero Data
   heroEyebrow?: Field<string>;
   heroHeadline?: Field<string>;

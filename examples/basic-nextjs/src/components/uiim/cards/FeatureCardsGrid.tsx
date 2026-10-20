@@ -603,3 +603,139 @@ export const HeinekenStories = ({
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   HeinekenContacts — press-release enquiries: one card per audience (Media, Investors);
+   cardDescription holds names, e-mail and phone as rich text.
+   ──────────────────────────────────────────── */
+export const HeinekenContacts = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const ds = fields?.data?.datasource;
+  if (!ds) return <FeatureCardsGridDefaultComponent />;
+  const editing = page?.mode?.isEditing;
+  const cards = ds.children?.results ?? [];
+  return (
+    <div className={cn('component heineken-contacts', params.styles)} id={params.RenderingIdentifier}>
+      <section className="px-6 py-12" style={{ background: 'var(--brand-bg)' }}>
+        <div className="mx-auto max-w-[1024px]">
+          {(hasText(ds.title?.jsonValue?.value) || editing) && (
+            <Text
+              field={ds.title?.jsonValue}
+              tag="h2"
+              className="mb-6 font-heading text-2xl font-medium uppercase"
+              style={{ color: 'var(--brand-primary)' }}
+            />
+          )}
+          {(hasRichText(ds.description?.jsonValue?.value) || editing) && (
+            <ContentSdkRichText field={ds.description?.jsonValue} className="mb-6 font-body" />
+          )}
+          <div className="grid gap-5 md:grid-cols-2">
+            {cards.map((card) => (
+              <article
+                key={card.id}
+                className="rounded-[var(--brand-card-radius)] p-6"
+                style={{ background: 'color-mix(in srgb, var(--brand-primary) 6%, white)' }}
+              >
+                <Text
+                  field={card.cardTitle?.jsonValue}
+                  tag="h3"
+                  className="mb-3 font-heading text-xl font-medium"
+                  style={{ color: 'var(--brand-secondary)' }}
+                />
+                {(hasRichText(card.cardDescription?.jsonValue?.value) || editing) && (
+                  <ContentSdkRichText
+                    field={card.cardDescription?.jsonValue}
+                    className="font-body text-sm leading-6 [&_a]:font-semibold [&_a]:underline [&_p]:mb-1"
+                  />
+                )}
+                {(card.cardLink?.jsonValue?.value?.href || editing) && (
+                  <ContentSdkLink
+                    field={card.cardLink?.jsonValue}
+                    className="mt-3 inline-block font-body text-sm font-semibold underline"
+                  />
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   HeinekenNewsCards — newsroom / investor cards (screenshot): image top, white panel,
+   green date (cardDescription) and Lora title; the whole card links to the release.
+   ──────────────────────────────────────────── */
+export const HeinekenNewsCards = ({ fields, params, page }: FeatureCardsGridProps): JSX.Element => {
+  const ds = fields?.data?.datasource;
+  if (!ds) return <FeatureCardsGridDefaultComponent />;
+  const editing = page?.mode?.isEditing;
+  const cards = ds.children?.results ?? [];
+  return (
+    <div className={cn('component heineken-news-cards', params.styles)} id={params.RenderingIdentifier}>
+      <section className="px-6 py-16 lg:py-20" style={{ background: 'var(--brand-muted)' }}>
+        <div className="mx-auto max-w-[1216px]">
+          {(hasText(ds.title?.jsonValue?.value) || editing) && (
+            <Text
+              field={ds.title?.jsonValue}
+              tag="h2"
+              className="mb-10 text-center font-heading text-3xl font-medium lg:text-[38px]"
+              style={{ color: 'var(--brand-primary)' }}
+            />
+          )}
+          {(hasRichText(ds.description?.jsonValue?.value) || editing) && (
+            <ContentSdkRichText field={ds.description?.jsonValue} className="mb-8 text-center font-body" />
+          )}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {cards.map((card) => (
+              <article
+                key={card.id}
+                className="relative flex flex-col overflow-hidden rounded-[var(--brand-card-radius)] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)] transition-shadow hover:shadow-[0_14px_40px_rgba(0,0,0,0.14)]"
+              >
+                <div className="relative aspect-[395/264]">
+                  {(card.cardImage?.jsonValue?.value?.src || editing) && (
+                    <ContentSdkImage
+                      field={card.cardImage?.jsonValue}
+                      fill
+                      sizes="(min-width: 1024px) 395px, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  )}
+                </div>
+                <div className="flex min-h-[200px] flex-col gap-5 px-8 pb-10 pt-8">
+                  {(hasRichText(card.cardDescription?.jsonValue?.value) || editing) && (
+                    <ContentSdkRichText
+                      field={card.cardDescription?.jsonValue}
+                      className="font-body text-base font-semibold"
+                      style={{ color: 'var(--brand-primary)' }}
+                    />
+                  )}
+                  {card.cardLink?.jsonValue?.value?.href || editing ? (
+                    <ContentSdkLink
+                      field={card.cardLink?.jsonValue}
+                      className="after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-4"
+                    >
+                      <Text
+                        field={card.cardTitle?.jsonValue}
+                        tag="h3"
+                        className="font-heading text-3xl leading-[1.25] lg:text-[34px]"
+                        style={{ color: 'var(--brand-primary)' }}
+                      />
+                    </ContentSdkLink>
+                  ) : (
+                    <Text
+                      field={card.cardTitle?.jsonValue}
+                      tag="h3"
+                      className="font-heading text-3xl leading-[1.25] lg:text-[34px]"
+                      style={{ color: 'var(--brand-primary)' }}
+                    />
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};

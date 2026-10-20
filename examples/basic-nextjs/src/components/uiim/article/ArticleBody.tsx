@@ -216,3 +216,97 @@ export const Wide = ({ params, page }: ComponentProps): JSX.Element => {
     </div>
   );
 };
+
+/* ────────────────────────────────────────────
+   HeinekenPressRelease — corporate results release body: highlight sections (headings + bullets),
+   executive quote attributed to ArticleAuthor, outlook body, conference-call details, PDF download.
+   Section headings are authored inside the rich-text fields, never hardcoded.
+   ──────────────────────────────────────────── */
+interface PressReleaseBodyFields extends ArticleBodyRouteFields {
+  ReleaseQuote?: Field<string>;
+  ConferenceCallDetails?: RichTextField;
+  ReleaseDownload?: LinkField;
+}
+
+const releaseProse =
+  'font-body text-base leading-7 [&_a]:underline [&_h2]:mb-4 [&_h2]:mt-10 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-medium [&_h2]:text-[var(--brand-primary)] [&_h3]:mb-3 [&_h3]:mt-8 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-medium [&_h3]:text-[var(--brand-primary)] [&_li]:mb-2 [&_li]:pl-1 [&_li::marker]:text-[var(--brand-accent)] [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5';
+
+export const HeinekenPressRelease = ({ params, page }: ComponentProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const routeFields = getRouteFields(page) as PressReleaseBodyFields | null;
+
+  if (!routeFields) return <ArticleBodyDefaultComponent />;
+
+  const { ArticleKeyTakeaways, ArticleContent, ArticleAuthor, ReleaseQuote, ConferenceCallDetails, ReleaseDownload } =
+    routeFields;
+  const author = ArticleAuthor?.fields;
+  const hasAuthor =
+    hasText(author?.personFirstName?.value) || hasText(author?.personLastName?.value) || isEditing;
+
+  return (
+    <div className={cn('component article-body heineken-press-release', styles)} id={RenderingIdentifier}>
+      <article className="px-6 pb-16 lg:pb-20" style={{ background: 'var(--brand-bg)', color: 'var(--brand-fg)' }}>
+        <div className="mx-auto max-w-[1024px]">
+          {(hasRichText(ArticleKeyTakeaways?.value) || isEditing) && (
+            <ContentSdkRichText field={ArticleKeyTakeaways} className={releaseProse} data-testid="release-highlights" />
+          )}
+
+          {(hasText(ReleaseQuote?.value) || isEditing) && (
+            <figure
+              className="my-12 rounded-[var(--brand-card-radius)] px-8 py-10 lg:px-14"
+              style={{ background: 'color-mix(in srgb, var(--brand-primary) 7%, white)' }}
+              data-testid="release-quote"
+            >
+              <span aria-hidden="true" className="block font-heading text-6xl leading-none" style={{ color: 'var(--brand-accent)' }}>
+                &ldquo;
+              </span>
+              <Text
+                field={ReleaseQuote}
+                tag="blockquote"
+                className="mt-2 font-heading text-lg italic leading-8 lg:text-xl"
+                style={{ color: 'var(--brand-secondary)' }}
+              />
+              {hasAuthor && (
+                <figcaption className="mt-6 font-body text-base" data-testid="release-quote-author">
+                  <span className="font-semibold">
+                    <Text field={author?.personFirstName as Field<string>} />{' '}
+                    <Text field={author?.personLastName as Field<string>} />
+                  </span>
+                  {(hasText(author?.personJobTitle?.value) || isEditing) && (
+                    <>
+                      {', '}
+                      <Text field={author?.personJobTitle as Field<string>} />
+                    </>
+                  )}
+                </figcaption>
+              )}
+            </figure>
+          )}
+
+          {(hasRichText(ArticleContent?.value) || isEditing) && (
+            <ContentSdkRichText field={ArticleContent} className={releaseProse} data-testid="release-outlook" />
+          )}
+
+          {(ReleaseDownload?.value?.href || isEditing) && (
+            <div className="my-10" data-testid="release-download">
+              <ContentSdkLink
+                field={ReleaseDownload as LinkField}
+                className="inline-flex items-center gap-3 rounded-[var(--brand-button-radius)] px-6 py-3 font-body font-semibold text-white hover:opacity-90"
+                style={{ background: 'var(--brand-primary)' }}
+              />
+            </div>
+          )}
+
+          {(hasRichText(ConferenceCallDetails?.value) || isEditing) && (
+            <ContentSdkRichText
+              field={ConferenceCallDetails}
+              className={cn(releaseProse, 'mt-10 border-t pt-8 text-sm')}
+              data-testid="release-conference-call"
+            />
+          )}
+        </div>
+      </article>
+    </div>
+  );
+};

@@ -369,12 +369,25 @@ async function startCheck({ app, client, url, check = false, continueDemo = fals
   } catch {
     project = null;
   }
-  if (project?.siteCollection && project?.siteName)
+  // Environment Marker: which SitecoreAI environment this branch may write to (CONTEXT.md).
+  // Absent means "an environment without a marker"; the agent verifies it through MCP.
+  const environmentMarker = project?.environmentMarker ?? null;
+  const markerValid =
+    environmentMarker === null ||
+    (typeof environmentMarker === 'string' && CLIENT_RE.test(environmentMarker));
+  if (project?.siteCollection && project?.siteName && markerValid)
     add(
       'project-config',
       'pass',
       'blocker',
-      `project.yaml: ${project.siteCollection}/${project.siteName}.`,
+      `project.yaml: ${project.siteCollection}/${project.siteName}; environment marker: ${environmentMarker ?? 'none expected'}.`,
+    );
+  else if (!markerValid)
+    add(
+      'project-config',
+      'fail',
+      'blocker',
+      'project.yaml environmentMarker must be lowercase kebab-case (the marker item name).',
     );
   else
     add(
@@ -454,7 +467,12 @@ async function startCheck({ app, client, url, check = false, continueDemo = fals
     };
   }
 
-  const result = report({ url, base, ...(manifestReuse ? { manifestReuse } : {}) });
+  const result = report({
+    url,
+    base,
+    environmentMarker: markerValid ? environmentMarker : null,
+    ...(manifestReuse ? { manifestReuse } : {}),
+  });
   if (!check && result.ok) {
     fs.mkdirSync(demoDir, { recursive: true });
     const setup = {

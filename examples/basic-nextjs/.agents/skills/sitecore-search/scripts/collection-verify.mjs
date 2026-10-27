@@ -74,6 +74,25 @@ if (componentPresent) {
   await page.screenshot({ path: `${outDir}/collection-home.png`, fullPage: false });
 }
 
+// --- Related articles (search v4): RelatedToCurrentPage on the Article Layout instance ---
+const relatedPath = '/Articles/One-To-One-Personalization-At-Scale';
+await page.goto(`${baseUrl}${relatedPath}`, { waitUntil: 'load' });
+await page.waitForTimeout(3000);
+const related = page.locator('section.search-collection');
+const relatedHeading = (await related.locator('h2').textContent().catch(() => ''))?.trim() ?? '';
+const relatedTitles = (await related.locator('h3').allTextContents()).map((t) => t.trim());
+record(
+  'related-present',
+  relatedHeading === 'Related articles' && relatedTitles.length === 3,
+  `heading: "${relatedHeading}", cards: [${relatedTitles.join(' | ')}]`
+);
+record(
+  'related-excludes-current',
+  !relatedTitles.some((t) => /One-to-One Personalization/i.test(t)),
+  `current page "One-to-One Personalization at Scale" ${relatedTitles.some((t) => /One-to-One/i.test(t)) ? 'PRESENT' : 'absent'}`
+);
+if (await related.count()) await related.screenshot({ path: `${outDir}/collection-related.png` });
+
 const ownErrors = consoleErrors.filter((e) => !e.includes('SearchExperience_'));
 record(
   'no-console-errors',

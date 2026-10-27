@@ -11,20 +11,20 @@ capabilities:
   - id: search
     name: "Site Search"
     description: "Three-component search experience: full results page, index-driven content strip, and typeahead suggest box"
-    approach: "From-scratch components on Content SDK search hooks (ADR 0006, spec #45)"
+    approach: "From-scratch components on Content SDK search hooks (ADR 0006, spec #45); v4 adds push source, facets, More Like This, useSuggest (ADR 0011)"
     sdk: "@sitecore-content-sdk/nextjs/search"
     sdkDependencies: []  # No new dependencies — uses existing Content SDK
     initialization: null  # No global init needed — hooks work via SitecoreProvider
     sharedFoundation: "src/lib/search-ui/ — constants + labels (guarded dictionary lookups), stripHtml/formatDate, useDebouncedValue, useUrlMirror, useSearchLabels, useSearchEvents, navigateTo"
     recipe:  # enabling search for a new vertical is a configuration act, not an engineering act
-      - "1. Create/identify a search index in Sitecore AI > Search > Configuration Manager; copy its GUID (visible in index details and the index URL)"
-      - "2. Create one datasource item per component under /Data/<ComponentName>s/ filling index GUID + attribute mappings (attribute names = the index's document fields, e.g. Title, ArticleContent, ArticlePublicationDate)"
-      - "3. Drop the component(s) on pages in Page Builder and assign the datasource items"
+      - "1. Create a source in SitecoreAI > Content > Search sources (prefer a push source fed by push-articles.mjs; mark facet fields Filterable, enable Autocomplete + Result preview); copy its ID"
+      - "2. Create one datasource item per component under /Data/<ComponentName>s/ with the source ID + LOWERCASE attribute mappings (e.g. title, articlecontent, articlepublicationdate); Facets uses display-name casing (ArticleTopic)"
+      - "3. Drop the component(s) on pages in Page Builder and assign the datasource items (Related articles: SearchCollection with RelatedToCurrentPage in the page-type partial design)"
     prerequisites:
       - "Search index exists in the SitecoreAI environment with content published and ingested"
       - "Index attribute names known (probe with .agents/skills/sitecore-search/scripts/search-probe.mjs if unsure)"
       - "Optional: URL attribute on the index for result links (without it, components degrade gracefully — no links)"
-    endpointContract: "keyphrase + sort + limit/offset ONLY; filters/facets/unknown fields silently ignored — see docs/ai/reference/agent-api-limitations.md, section 6"
+    endpointContract: "keyphrase | seedItemId (MLT) + sort + limit/offset + facet (display-name casing, eq OR, disjunctive counts) + /suggest — see docs/ai/reference/agent-api-limitations.md, section 6 (re-probed 2026-10-27)"
     components:
 
       - id: search-results
@@ -41,6 +41,8 @@ capabilities:
           - { name: "ImageMapping", type: "Single-Line Text", purpose: "index attribute holding image URL" }
           - { name: "LinkMapping", type: "Single-Line Text", purpose: "index attribute holding item URL (empty = no links)" }
           - { name: "DateMapping", type: "Single-Line Text", purpose: "index attribute holding ISO date" }
+          - { name: "SortBy", type: "Single-Line Text", purpose: "attribute behind the visitor sort control (Relevance/Newest/Oldest); empty = no control" }
+          - { name: "Facets", type: "Single-Line Text", purpose: "comma-separated facet names (display casing, optional Name:Label); empty = no facet panel" }
         renderingParams:
           - { name: "columns", type: "Single-Line Text", purpose: "grid columns: 1, 2, or 3 (default 3); set manually in Page Builder — no MCP tool for params" }
           - { name: "pageSize", type: "Single-Line Text", purpose: "results per page (default 6)" }
@@ -66,6 +68,7 @@ capabilities:
           - { name: "SortOrder", type: "Single-Line Text", purpose: "asc or desc (default desc)" }
           - { name: "MaxItems", type: "Single-Line Text", purpose: "cards to show (default 3)" }
           - { name: "Heading", type: "Single-Line Text", purpose: "authorable strip heading, editable in Page Builder" }
+          - { name: "RelatedToCurrentPage", type: "Checkbox", purpose: "More Like This seeded by the current page item (sort ignored, current page excluded)" }
         renderingParams: []
         placement: "any content page (e.g. Home), placeholder headless-main"
         hooks: ["useSearch (browse mode: query '', sort, pageSize = MaxItems)"]
@@ -77,7 +80,7 @@ capabilities:
         category: search
         filePath: "src/components/uiim/search/SearchTypeahead.tsx"
         variants: [Default]
-        purpose: "Compact suggest box: debounced title suggestions, keyboard navigable (arrows/Enter/Escape); Enter or See-all hands the query to the results page via ?q="
+        purpose: "Compact suggest box on useSuggest: 'Suggestions' (completed terms -> results page ?q=) + 'Top results' (preview docs -> article), keyboard navigable across both; Enter or See-all hands the query to the results page"
         datasourceFields:
           - { name: "SearchIndex", type: "Single-Line Text", purpose: "search index GUID" }
           - { name: "TitleMapping", type: "Single-Line Text", purpose: "index attribute for suggestion text" }
@@ -86,7 +89,7 @@ capabilities:
           - { name: "MaxSuggestions", type: "Single-Line Text", purpose: "dropdown size (default 5)" }
         renderingParams: []
         placement: "born page-scoped (e.g. top of the results page); promotion into the global header is a deliberate manual Page Builder step"
-        hooks: ["useSearch (pageSize = MaxSuggestions, enabled only while typing)"]
+        hooks: ["useSuggest (enabled only while typing; source limits cap, MaxSuggestions trims)"]
         verification: ".agents/skills/sitecore-search/scripts/typeahead-verify.mjs"
 
     gracefulDegradation:

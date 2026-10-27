@@ -31,7 +31,7 @@ page.on('console', (msg) => {
 const component = page.locator('section.search-results');
 const totalLine = component.locator('p[aria-live="polite"]');
 const cards = component.locator('h3');
-const searchInput = component.locator('input');
+const searchInput = component.locator('[role="search"] input');
 
 const readState = async () => {
   await page.waitForTimeout(2500); // debounce + fetch
@@ -107,6 +107,58 @@ record(
   'result-links-work',
   linkHref === '/Articles/Canary-Releases-Explained',
   `first card link: ${linkHref}`
+);
+
+// --- Facets (search v4): Facets=ArticleTopic on the datasource, desktop sidebar ---
+const sidebar = component.locator('[data-testid="facet-sidebar"]');
+const facetBox = (value) => sidebar.getByRole('checkbox', { name: new RegExp(`^${value}\\b`) });
+const facetCount = (value) =>
+  facetBox(value).evaluate((el) => el.closest('label')?.querySelector('span:last-child')?.textContent?.trim());
+
+await page.goto(`${baseUrl}/Articles`, { waitUntil: 'domcontentloaded' });
+await component.waitFor({ timeout: 15000 });
+await readState();
+const facetValues = (await sidebar.locator('label').allTextContents()).map((t) => t.trim());
+record(
+  'facets-rendered',
+  (await sidebar.getByText('Topic', { exact: true }).count()) === 1 && facetValues.length >= 5,
+  `values: [${facetValues.join(' | ')}]`
+);
+
+await facetBox('AI').check();
+const oneFacet = await readState();
+const urlFacet = new URL(page.url()).searchParams.get('ArticleTopic');
+record(
+  'facet-filter',
+  oneFacet.total.startsWith('2 ') && urlFacet === 'AI',
+  `"${oneFacet.total}", ?ArticleTopic=${urlFacet}, cards: [${oneFacet.titles.join(' | ')}]`
+);
+
+await facetBox('Personalization').check();
+const twoFacets = await readState();
+const engineeringCount = await facetCount('Engineering');
+await page.screenshot({ path: `${outDir}/5-facets.png`, fullPage: true });
+record(
+  'facet-or-and-disjunctive-counts',
+  twoFacets.total.startsWith('5 ') && engineeringCount === '4',
+  `"${twoFacets.total}" (AI OR Personalization), Engineering count still ${engineeringCount}`
+);
+
+await page.goto(`${baseUrl}/Articles?ArticleTopic=Engineering`, { waitUntil: 'domcontentloaded' });
+await component.waitFor({ timeout: 15000 });
+const facetDeepLink = await readState();
+record(
+  'facet-deep-link',
+  (await facetBox('Engineering').isChecked()) && facetDeepLink.total.startsWith('4 '),
+  `"${facetDeepLink.total}", Engineering checked: ${await facetBox('Engineering').isChecked()}`
+);
+
+await sidebar.getByRole('button', { name: 'Clear all' }).click();
+const cleared = await readState();
+record(
+  'facet-clear-all',
+  parseInt(cleared.total) >= 13 && !new URL(page.url()).searchParams.has('ArticleTopic'),
+  `"${cleared.total}", url: "${new URL(page.url()).search}"`
 );
 
 // --- Console errors across the whole run ---

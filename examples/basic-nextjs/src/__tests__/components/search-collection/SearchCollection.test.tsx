@@ -197,3 +197,67 @@ describe('states', () => {
     expect(screen.getByText('SearchCollection')).toBeInTheDocument();
   });
 });
+
+describe('related to current page (More Like This)', () => {
+  const seed = '9A0D5430-275E-4663-BD5C-852659AE802B';
+  const relatedProps = {
+    ...baseProps,
+    fields: { ...baseFields, RelatedToCurrentPage: { value: true }, Heading: field('Related articles') },
+    page: {
+      ...livePage,
+      layout: { sitecore: { route: { name: 'One To One', itemLanguage: 'en', itemId: `{${seed}}` } } },
+    },
+  };
+
+  it('seeds the search with the normalized route item ID, ignores sort, and asks for one extra item', () => {
+    render(<Default {...relatedProps} />);
+
+    const options = mockUseSearch.mock.lastCall[0];
+    expect(options).toEqual(
+      expect.objectContaining({
+        seedItemId: '9a0d5430-275e-4663-bd5c-852659ae802b',
+        pageSize: 4,
+        sort: undefined,
+        enabled: true,
+      })
+    );
+    expect(options).not.toHaveProperty('query');
+  });
+
+  it('excludes the current page and caps at MaxItems', () => {
+    mockUseSearch.mockReturnValue(
+      searchState({
+        total: 4,
+        results: [
+          doc('Current Page', '2026-01-01T00:00:00Z', { sc_item_id: seed.toLowerCase() }),
+          doc('Related A', '2026-02-01T00:00:00Z'),
+          doc('Related B', '2026-03-01T00:00:00Z'),
+          doc('Related C', '2026-04-01T00:00:00Z'),
+        ],
+      })
+    );
+    render(<Default {...relatedProps} />);
+
+    expect(screen.queryByText('Current Page')).not.toBeInTheDocument();
+    expect(screen.getByText('Related A')).toBeInTheDocument();
+    expect(screen.getByText('Related C')).toBeInTheDocument();
+    expect(screen.getByText('Related articles')).toBeInTheDocument();
+  });
+
+  it('renders nothing live without a resolvable route item ID', () => {
+    const { container } = render(
+      <Default {...relatedProps} page={{ ...livePage, layout: { sitecore: { route: { name: 'x' } } } }} />
+    );
+    expect(mockUseSearch).toHaveBeenLastCalledWith(expect.objectContaining({ enabled: false }));
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it('accepts the checkbox as "1" (raw field value)', () => {
+    render(
+      <Default {...relatedProps} fields={{ ...relatedProps.fields, RelatedToCurrentPage: field('1') }} />
+    );
+    expect(mockUseSearch).toHaveBeenLastCalledWith(
+      expect.objectContaining({ seedItemId: '9a0d5430-275e-4663-bd5c-852659ae802b' })
+    );
+  });
+});

@@ -3234,6 +3234,28 @@ lookups:
     itemId: "{E38ABC20-C7EA-43C8-AAAF-22CA71342814}"
     lastReadAt: "2026-06-09T00:00:00Z"
 
+# Search v4 serialized framework items (backlog B2, 2026-10-27). Pulled from the sitecore-demo
+# environment with a scoped ser pull so IDs are identical in every environment; deployed as
+# items-as-resources. Do NOT create these through MCP (new IDs -> duplicate fields).
+components-search-v4-serialized:
+  status: "complete"
+  templateFields:
+    - { template: "SearchResults", name: "Facets", type: "Single-Line Text", itemId: "{7928FCBF-0375-4328-B40E-6312EB9E3793}", file: "authoring/items/project/items/templates/fmc-custom-demo/Components/Search/SearchResults/Data/Facets.yml" }
+    - { template: "SearchCollection", name: "RelatedToCurrentPage", type: "Checkbox", itemId: "{C2AF1368-4AC5-4676-B5D9-B901C3013BA4}", file: "authoring/items/project/items/templates/fmc-custom-demo/Components/Search/SearchCollection/Data/RelatedToCurrentPage.yml" }
+    - { template: "Article Page Template", name: "ArticleTopic", type: "Droplist", source: "/sitecore/content/main/main-website/Data/Tags/Article Topics", itemId: "{6DC95156-5A8E-48F0-A502-CB0A1DAD8712}", file: "authoring/items/main-templates/items/main-templates/main/Page Types/Article Page Template/Article Data/ArticleTopic.yml" }
+  topics:
+    folder: { path: "/sitecore/content/main/main-website/Data/Tags/Article Topics", itemId: "{3D2FCFA3-324E-4F66-9834-1399DE842212}", template: "Tag Folder" }
+    tags:  # template Tag; Droplist stores the item name, Title carries the display form
+      - { name: "Personalization", itemId: "{4FA4B388-8441-487E-AA36-227D530C6274}" }
+      - { name: "AI", itemId: "{E9578A0F-16F7-4C44-AED6-4EBD2DAAF49D}" }
+      - { name: "Customer Data and Analytics", itemId: "{E1597858-E5B3-45C8-A23B-8D146C951EF0}", title: "Customer Data & Analytics" }
+      - { name: "Composable DXP", itemId: "{182B14B3-8727-4D18-B906-F1CBAF27D831}" }
+      - { name: "Engineering", itemId: "{24AA84E1-875B-45CE-B22F-B1D8B611C4AC}" }
+  verification:
+    serValidate: passed
+    itemresCreate: passed  # all 9 items packaged (Project, Main.Templates, Content modules)
+    liveReadBack: pendingDeploy  # read back in an environment after its next deploy
+
 components-searchv3:
   # Ticket #46 (FMC-ORG/custom-demo). Spec #45. Built 2026-08-07.
   - name: "SearchResults"

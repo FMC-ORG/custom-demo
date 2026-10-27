@@ -93,6 +93,15 @@ test('offline fixtures are generated for missing files only and do not change co
   expect(prepareTypecheck(root).created).toEqual([]);
 });
 
+test('a gitignored next-env.d.ts is recreated in its standard form for type checking', () => {
+  const { prepareTypecheck } = require('../../ci/prepare-typecheck.cjs');
+  const root = app();
+  expect(prepareTypecheck(root).created).toContain('next-env.d.ts');
+  const declarations = read(root, 'next-env.d.ts');
+  expect(declarations).toContain('/// <reference types="next/image-types/global" />');
+  expect(declarations).not.toContain('.next/dev/');
+});
+
 test('existing Sitecore fixtures are preserved byte-for-byte without reading their values', () => {
   const { prepareTypecheck } = require('../../ci/prepare-typecheck.cjs');
   const root = app({
@@ -100,7 +109,7 @@ test('existing Sitecore fixtures are preserved byte-for-byte without reading the
     '.sitecore/metadata.json': 'existing metadata',
   });
   const result = prepareTypecheck(root);
-  expect(result.created).toEqual([]);
+  expect(result.created).toEqual(['next-env.d.ts']); // only the gitignored Next.js declarations
   expect(read(root, '.sitecore/sites.json')).toBe('existing site config');
   expect(read(root, '.sitecore/metadata.json')).toBe('existing metadata');
 });

@@ -10,6 +10,7 @@ import {
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React from 'react';
 import * as React_7214d18997ee864dd178de7b3a8430f6783e8b89 from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import { NextImage, RichText, Text, Link, AppPlaceholder } from '@sitecore-content-sdk/nextjs';
 import { cn } from '@/lib/utils';
 import Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 from 'next/link';
@@ -35,6 +36,13 @@ const importMap = [
     exports: [
       { name: 'default', value: React },
       { name: '*', value: React_7214d18997ee864dd178de7b3a8430f6783e8b89 },
+    ]
+  },
+  {
+    module: '@/lib/field-utils',
+    exports: [
+      { name: 'hasRichText', value: hasRichText },
+      { name: 'hasText', value: hasText },
     ]
   },
   {

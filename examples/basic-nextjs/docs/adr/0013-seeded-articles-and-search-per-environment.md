@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed (2026-10-27). Backlog B3 and B4 in `docs/ai/backlog/sitecore-demo-search-v4-learnings.md`. Builds on [ADR 0011](0011-search-push-source-facets-mlt-suggest.md); amends what a fresh environment contains ([ADR 0008](0008-fresh-build-contract-for-demo-framework.md)).
+Accepted (2026-10-27). Backlog B3 and B4 in `docs/ai/backlog/sitecore-demo-search-v4-learnings.md`. Builds on [ADR 0011](0011-search-push-source-facets-mlt-suggest.md); amends what a fresh environment contains ([ADR 0008](0008-fresh-build-contract-for-demo-framework.md)).
 
 ## Context
 

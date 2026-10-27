@@ -143,13 +143,14 @@ Run the `sitecore-analyze-site` subskill — see **Subskill handoff** above. Inp
 
 Present the **build plan summary** to the user and STOP. The SE reads the summary to validate the plan — not the raw YAML. Wait for explicit approval before creating any Sitecore items, datasource content, or React code.
 
-**Ask TWO questions — do not continue without answers to both:**
+**Ask THREE questions — do not continue without answers to all:**
 1. "Does the build plan look correct? Approved to proceed?"
 2. "Do you want pixel-perfect custom variants for each component (Phase 5.5), or are the generic template variants sufficient?"
+3. "Include search (Phase 6.5): articles, facets, related articles, header suggestions, and Latest Articles on Home (after the hero, at a position you name, or none)?"
 
 Before asking these two questions, inspect the actual target page and Header/Footer partial designs through marketer MCP. Record their paths, item IDs, rendering and instance IDs, current datasources and known/unknown usage in `targetPage.sharedPartialDesigns`. Show this shared impact in the summary. Approval includes automatic datasource wiring, not a separate leave/switch question. If another client's branded experience is found, pause for explicit repurposing confirmation before any client-content/shared-design writes. Ordinary starter content alone does not require this extra confirmation. Record `targetReview` in the approved plan, classify it as `fresh`, `starter` or `existing-client`, and require `repurposeApproved: true` for the last case. Do not add/remove/replace partial-design components unless the approved plan says so: to apply client Header/Footer variants, propose `sharedDesign.replace: true` for each healthy shared instance and name the instance to be removed and the pages affected (ADR 0009). That approval is the removal confirmation.
 
-Record the Phase 5.5 decision in `demo-progress.yaml` (`phases.phase5_5_variants.skippedReason` if declined).
+Record the Phase 5.5 decision in `demo-progress.yaml` (`phases.phase5_5_variants.skippedReason` if declined), and the Phase 6.5 decision as `phases.phase6_5_search` (`included`, `homePlacement`).
 
 The user must say "approved", "go ahead", "looks good", or equivalent before Phase 2.5 begins. If the user requests changes, update the plan and re-present.
 
@@ -326,6 +327,14 @@ Report component instance IDs, datasource wiring, relative order, exceptions, ve
 - Write `docs/ai/demos/<client>/manual-placements.md` from it: one numbered step per section.
 - The first entry carries a `note`: its automatic add failed or wasn't verified, so check Pages before placing it, to avoid a duplicate.
 - Don't retry placements in a loop. If Start Check's placement preflight warned (`placementApi: "failing"`), expect this path.
+
+### Phase 6.5 — Capabilities: search (if approved in Phase 2)
+
+Follow **"Set up search for an environment"** in `.agents/skills/sitecore-search/SKILL.md`, using `--directory docs/ai/demos/<client>/search-setup` and the approved `--home-placement`.
+- Run it after Phase 6, so connect reads the assembled Home and anchors Latest Articles there.
+- The user publishes once at the end, for the build and search together. Then push the articles, and verify in Phase 8.
+- Report `seed-result.json` and `connect-result.json` in the summary: `sharedSandboxImages`, `manualPlacements` and `cleanupDatasources` go under Manual Tasks.
+- If the environment has no push source yet, the setup checklist (`.agents/skills/sitecore-search/references/push-source-setup.md`) is a user task. Seeding and connecting can run before it exists, but connect needs the source ID.
 
 ### Phase 7 — Summary
 

@@ -212,8 +212,8 @@ Today search is enabled after the build, by hand, across several sessions. The r
 |---|---|---|---|---|
 | B1 | Port search v4, the analytics guard, noindex and the docs to `main` (§3) | none | M | done (PR #75) |
 | B2 | Serialize the template fields and the Article Topics tags (§3.3) | B1 | S | done: scoped `ser pull` from `sitecore-demo`, which keeps the IDs; no MCP creation, which would have duplicated them |
-| B3 | ADR and change: narrow `site-content`, add `seed-articles.mjs` and the committed article JSON (§4.1) | none | M | open |
-| B4 | `set-search-source.mjs`, empty `SearchIndex` in serialized datasources, and the search setup checklist (§4.2) | B1 | S | open |
+| B3 | ADR and change: narrow `site-content`, add `seed-articles.mjs` and the committed article JSON (§4.1) | none | M | in progress: ADR 0013, `feature/b3-b4-seed-and-connect-search` |
+| B4 | `set-search-source.mjs`, empty `SearchIndex` in serialized datasources, and the search setup checklist (§4.2) | B1 | S | in progress: ADR 0013, `feature/b3-b4-seed-and-connect-search` |
 | B5 | `X-Build-Sha` header, `wait-for-deploy.mjs`, `verify-demo.mjs`, showcase URL in Start Check (§4.3) | B1 | S | done (`feature/demo-process-b5-b7`) |
 | B6 | Start Check MCP preflight and the Phase 6 manual-placement fallback (§4.4) | none | S | done (`feature/demo-process-b5-b7`) |
 | B7 | `.gitattributes`, untrack `tsbuildinfo`, generators write LF (§4.5) | none | S | done (`feature/demo-process-b5-b7`) |

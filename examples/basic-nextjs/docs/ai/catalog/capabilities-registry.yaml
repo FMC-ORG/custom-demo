@@ -16,10 +16,11 @@ capabilities:
     sdkDependencies: []  # No new dependencies — uses existing Content SDK
     initialization: null  # No global init needed — hooks work via SitecoreProvider
     sharedFoundation: "src/lib/search-ui/ — constants + labels (guarded dictionary lookups), stripHtml/formatDate, useDebouncedValue, useUrlMirror, useSearchLabels, useSearchEvents, navigateTo"
-    recipe:  # enabling search for a new vertical is a configuration act, not an engineering act
-      - "1. Create a source in SitecoreAI > Content > Search sources (prefer a push source fed by push-articles.mjs; mark facet fields Filterable, enable Autocomplete + Result preview); copy its ID"
-      - "2. Create one datasource item per component under /Data/<ComponentName>s/ with the source ID + LOWERCASE attribute mappings (e.g. title, articlecontent, articlepublicationdate); Facets uses display-name casing (ArticleTopic)"
-      - "3. Drop the component(s) on pages in Page Builder and assign the datasource items (Related articles: SearchCollection with RelatedToCurrentPage in the page-type partial design)"
+    recipe:  # per environment; full steps: sitecore-search skill "Set up search for an environment" (ADR 0013)
+      - "1. Push source: create once per environment in SitecoreAI > Content > Search sources (references/push-source-setup.md); record the ID as project.yaml searchSources.articles"
+      - "2. Seed the article set: search-setup.cjs --phase seed (MCP hand-off; gap-fills existing articles; environment images via prepare-article-images.mjs + upload-to-content-hub.mjs)"
+      - "3. Connect: search-setup.cjs --phase connect (datasources by template -> source + lowercase mappings + Facets; Related Articles datasource; placements in Article Layout, Home, /Articles with manualPlacements fallback)"
+      - "4. Publish once, then push-articles.mjs; verify with verify-demo.mjs. In a demo build this is Phase 6.5 (opt-in at the Phase 2 approval)"
     prerequisites:
       - "Search index exists in the SitecoreAI environment with content published and ingested"
       - "Index attribute names known (probe with .agents/skills/sitecore-search/scripts/search-probe.mjs if unsure)"

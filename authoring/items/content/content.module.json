@@ -1,6 +1,8 @@
 {
   "namespace": "FmcCustomDemo.Content",
-  "dependsOn": ["Main.Templates"],
+  "dependsOn": [
+    "Main.Templates"
+  ],
   "items": {
     "includes": [
       {
@@ -13,7 +15,13 @@
         "name": "site-content",
         "path": "/sitecore/content/main/main-website",
         "scope": "ItemAndDescendants",
-        "allowedPushOperations": "CreateUpdateAndDelete"
+        "allowedPushOperations": "CreateUpdateAndDelete",
+        "rules": [
+          {
+            "path": "/Home/Articles",
+            "scope": "SingleItem"
+          }
+        ]
       }
     ]
   }

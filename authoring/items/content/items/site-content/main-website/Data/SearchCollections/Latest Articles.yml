@@ -20,9 +20,6 @@ Languages:
     - ID: "338008e7-2ace-43e6-887e-9ccbcb757f83"
       Hint: DescriptionMapping
       Value: ArticleContent
-    - ID: "4eef0b5c-61cc-4dba-8493-f18deb09dfb7"
-      Hint: SearchIndex
-      Value: "79b6b3db-8ac7-4ab4-9e1b-f8dd9d6fe7fc"
     - ID: "69b6a975-a99b-4ce9-ae43-01b2aafb4f79"
       Hint: ImageMapping
       Value: ArticleImage

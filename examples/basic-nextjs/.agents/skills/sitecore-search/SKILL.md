@@ -37,3 +37,4 @@ Run from the app root. The browser protocols need Playwright Chromium (`npm run 
 | `node .agents/skills/sitecore-search/scripts/typeahead-verify.mjs [baseUrl]` | Browser protocol for SearchTypeahead (suggestion terms and top results) |
 
 Verification contracts assert that the expected document ranks first, not exact result counts — keyphrase matching is loose.
+The browser protocols run headless Chromium, which the analytics SDK classifies as a bot: no browser ID is created and search analytics events are skipped. To check analytics itself, use a desktop user agent.

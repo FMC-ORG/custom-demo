@@ -42,6 +42,7 @@ The articles content source had recurring problems: no URL attribute (hence the 
 - The `ArticleUrl` field is kept as the link attribute until `sc_url` (absolute URLs) is used.
 - **Author facet:** `ArticleAuthor` is already Filterable. Adding it to `Facets` turns on an Author facet with no code change.
 - **Demo-only change on `sitecore-demo`:** Home/Articles descendants are no longer serialized. Those items had been deployed as fixed resource items, which can't be deleted in the CMS. **Do not port that commit to `main`.**
+- **Search analytics and bots.** The analytics plugin creates no browser ID for detected bots. That includes headless Chromium, which the verification scripts use. Before the guard in `useSearchEvents`, every search "viewed" event from a bot went out without a browser ID and got `POST /v1/events` 400 "Invalid UUID string". On 2026-10-27, a desktop Chrome user agent on the showcase got `browser/create` 201, the page-view event 201 and the search event 201, so real visitors are tracked. Search events are now only sent when `getClientId()` returns an ID.
 - **Verification:**
   - Browser scripts: `search-verify` 12/12, `collection-verify` 9/9, `typeahead-verify` 9/9.
   - Unit tests: 345/345.

@@ -20,6 +20,9 @@ Ask for anything missing:
 
 1. **Client name**: lowercase kebab-case (`acme`, `acme-2`). It names the Demo Branch `<client>-demo` and the folder `docs/ai/demos/<client>/`.
 2. **Client homepage URL**.
+3. **Optional: the deployed demo URLs.** These are the public **showcase URL** (the Vercel production URL of the demo project) and the Pages **editing host URL**. Pass them as `--showcase-url` / `--editing-host-url`. They're kept in `setup.json` and used by the build's Phase 8 (`wait-for-deploy.mjs`, `verify-demo.mjs`).
+   - If the project isn't deployed yet, skip them and add them later with `--continue --showcase-url <url>`.
+   - Never include query strings: a Vercel `x-vercel-protection-bypass` token would leak into the demo records, so the check refuses such URLs.
 
 The screenshot is not needed yet; it goes with the build command.
 
@@ -38,6 +41,7 @@ It prints a readable summary (stderr) and a JSON report (stdout); exit code 2 me
 | `clean-tree` | List the files. Ask the user to commit them on their own demo branch or discard them, then re-run. Never stash. |
 | `demo-branch` exists / `demo-folder` in use | Ask: **continue that demo** (re-run with `--continue`) or **choose a new name** (e.g. `<client>-2`). An existing folder may hold recovery records; never overwrite it. |
 | `main-up-to-date` | Local `main` has its own commits: ask the user to move them to a branch. |
+| `showcase-url` (info) / `editing-host-url` | Not set, unreachable, or refused (not HTTPS, credentials, or a query string). Never a blocker. Ask for the URL once the demo is deployed. |
 | `framework-ahead` (warning) | Tell the user their fork is behind the framework and how many commits; do not change remotes. |
 | `url` | The site does not load or is blocked by bot protection. Stop; the user may try another URL. |
 | `content-hub` (warning) | Offer to set credentials: ask for host, user and password (client ID/secret only for OAuth), copy `docs/ai/config/credentials.example.yaml` to `docs/ai/config/credentials.local.yaml`, fill it in, and re-run. If declined, images fall back to manual upload. |
@@ -69,10 +73,13 @@ Use `siteCollection`/`siteName` from `docs/ai/config/project.yaml`.
    | Component map mismatch | Warning: a dev-server restart may be needed |
 
    Stale IDs are auto-repaired by the manifest skill; show what changed. Run Full validation only if the user asks or Quick fails several checks.
+6. **Placement API preflight.** Call `get_component` (read-only) with the rendering ID of any instance from item 2.
+   - **If it fails with an Agent API error**, raise a **warning**: Phase 6 can't place components automatically, and the build will hand over an ordered manual-placement list instead. The known case is `Error fetching component: GraphQL errors: The field 'renderings' does not exist on the type 'Query'`, seen right after an environment deploy; see `docs/ai/reference/agent-api-limitations.md` §4.
+   - Suggest retrying later, or building anyway and placing the components by hand in Pages.
 
 ## Step 3 — Record and hand over
 
-1. Add a `sitecore` block to `setup.json`: `siteItemId`, `homeId`, `otherDemo` (prefix found, or `null`), and `manifest: { result: "pass" | "fail", checkedAt: <ISO time> }`.
+1. Add a `sitecore` block to `setup.json`: `siteItemId`, `homeId`, `otherDemo` (prefix found, or `null`), `manifest: { result: "pass" | "fail", checkedAt: <ISO time> }`, and `placementApi: "ok" | "failing"` (item 6).
 2. Write `docs/ai/demos/<client>/setup-report.md` from `.agents/skills/sitecore-start-demo/assets/setup-report.template.md`.
 3. In chat: blockers and warnings, what was fixed, the Home and Header/Footer summary, then — only if there are no blockers — the build command to paste:
    - Pi: `/skill:sitecore-build-demo build a custom demo for <client> from <url>`
@@ -85,7 +92,7 @@ Use `siteCollection`/`siteName` from `docs/ai/config/project.yaml`.
 The build re-runs the Start Check without fixing or writing anything:
 
 1. `node .agents/skills/sitecore-start-demo/scripts/start-demo.mjs --client <client> --check` (the URL comes from `setup.json`).
-2. Step 2 items 0, 1, 2 and 4.
+2. Step 2 items 0, 1, 2, 4 and 6.
 3. Step 2 item 5 **only if** `manifestReuse.reusable` is false or `manifestReuse.siteItemId` differs from the site item ID just read (same day, same `main` commit and same environment are required to reuse it).
 
 Any blocker stops the build: tell the user to run `/skill:sitecore-start-demo <client> <url>`.

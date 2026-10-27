@@ -322,6 +322,11 @@ This phase bridges the gap between "same colors" (Phase 4 CSS variables) and "lo
 
 Report component instance IDs, datasource wiring, relative order, exceptions, verified shared-design switches and previous datasources, variant tasks, and unresolved operations. Resume through verified records rather than repeating adds.
 
+**Manual-placement fallback.** If a page placement fails or can't be verified, assembly stops that chain (later sections are anchored to it). `assembly-result.json` then lists every unplaced page section in plan order under `manualPlacements`, with page, placeholder, component, datasource ID, variant, and the section and instance it goes after.
+- Write `docs/ai/demos/<client>/manual-placements.md` from it: one numbered step per section.
+- The first entry carries a `note`: its automatic add failed or wasn't verified, so check Pages before placing it, to avoid a duplicate.
+- Don't retry placements in a loop. If Start Check's placement preflight warned (`placementApi: "failing"`), expect this path.
+
 ### Phase 7 — Summary
 
 **GATE: summaries must report the actual recovery result.**
@@ -366,6 +371,7 @@ Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `.
    - **Variant Selection**: include components where observed and planned variants differ, or the current value is unverified. Do not infer Default.
    - **Shared Header/Footer / Context Components**: report verified automatic switches with previous datasource IDs, or unresolved required wiring/structural repair tasks. List actual unsupported context placements separately; never classify Header/Footer by name or call required wiring an optional skipped task.
    - **Link Verification**: list links from content-map that point to the client's domain
+   - **Manual placements**: from `assembly-result.json` `manualPlacements`, if any, linking `manual-placements.md`
    - **Cleanup**: `cleanupDatasources` from `assembly-result.json`, plus any OOB components that were not in an approved `removeInstances`
    - **Personalization**: always include — it's optional guidance for the SE
 
@@ -376,6 +382,25 @@ Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `.
 **Present the summary to the user in the chat** (not just saved to file). Copy the populated content directly into the chat response so the SE can read it immediately.
 
 Also save the standalone `manual-tasks.md` with just the Manual Tasks section (subsections 1-5) for quick reference in the Pages editor.
+
+### Phase 8 — Deploy and verify (after the user pushes)
+
+Pushing the demo branch deploys the showcase. Only push when the user asks (see Important rules). After the push, and after the user has **published** in Sitecore:
+
+1. Make sure `setup.json` has `showcaseUrl`. If not, ask for it and run `node .agents/skills/sitecore-start-demo/scripts/start-demo.mjs --client <client> --continue --showcase-url <url>`.
+2. Wait for the exact commit to be live. The app sends `X-Build-Sha` on every response.
+   ```bash
+   node .agents/skills/sitecore-build-demo/scripts/wait-for-deploy.mjs --client <client>
+   ```
+   - Exit 2 (timeout) means the deploy failed or is still queued. Check the Vercel project, and don't verify an old build.
+   - A missing header means the deployment predates `X-Build-Sha`.
+3. Verify the deployed demo in one command:
+   ```bash
+   node .agents/skills/sitecore-build-demo/scripts/verify-demo.mjs --client <client>
+   ```
+   - It checks the indexing policy (demo sites are noindex by default, ADR 0012), sweeps the linked pages, and runs the `sitecore-search` browser protocols when the site has `/Articles`.
+   - The result goes to `docs/ai/demos/<client>/verify-result.json`. Add the pass count and any failures to `demo-summary.md` and the handoff.
+   - The browser protocols run headless, which analytics treats as a bot, so no analytics events are expected. Failures caused by content you haven't published yet need a publish, not a code fix.
 
 ## Output files
 

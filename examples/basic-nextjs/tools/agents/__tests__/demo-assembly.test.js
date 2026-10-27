@@ -83,3 +83,43 @@ test('one explicit existing instance cannot satisfy two occurrences', async () =
   await expect(assemble({ directory: dir, plan: input, population, api: remote.api, initialize: true })).rejects.toMatchObject({ code: 'BLOCKED' });
   expect(remote.components).toHaveLength(0);
 });
+
+test('a failed page placement yields an ordered manual-placement list instead of a dead end', async () => {
+  const remote = sitecore(); const input = plan();
+  input.sections.push({ ...clone(input.sections[0]), key: 'news', name: 'Client - News' });
+  input.sections.push({ ...clone(input.sections[0]), key: 'events', name: 'Client - Events', variant: 'ClientEvents' });
+  const population = await populate({ directory: dir, plan: input, api: remote.api, initialize: true });
+  const add = remote.api.addComponent;
+  let calls = 0;
+  // First add works; the Agent API then fails (as in the 2026-10-27 outage).
+  remote.api.addComponent = async (args) => {
+    calls++;
+    if (calls === 1) return add(args);
+    throw new Error("Error fetching component: GraphQL errors: The field `renderings` does not exist on the type `Query`.");
+  };
+  const result = await assemble({ directory: dir, plan: input, population, api: remote.api, initialize: true });
+  expect(result.status).toBe('partial');
+  expect(remote.components).toHaveLength(1);
+  const [first] = result.instances;
+  expect(result.manualPlacements.map((x) => x.key)).toEqual(['news', 'events']);
+  const [news, events] = result.manualPlacements;
+  expect(news).toMatchObject({
+    pageId: input.pageId,
+    placeholder: input.sections[0].placeholder,
+    datasourceId: population.datasourceItems.find((x) => x.key === 'news').itemId,
+    after: { key: input.sections[0].key, instanceId: first.componentInstanceId },
+  });
+  expect(news.note).toMatch(/check Pages first/);
+  expect(events).toMatchObject({ variant: 'ClientEvents', after: { key: 'news', instanceId: null } });
+  expect(events.note).toBeUndefined();
+  expect(result.manualTasks.find((x) => x.key === 'manual-placements').action).toMatch(/Place 2 section/);
+});
+
+test('a complete assembly has no manual placements', async () => {
+  const remote = sitecore(); const input = plan();
+  const population = await populate({ directory: dir, plan: input, api: remote.api, initialize: true });
+  const result = await assemble({ directory: dir, plan: input, population, api: remote.api, initialize: true });
+  expect(result.status).toBe('complete');
+  expect(result.manualPlacements).toEqual([]);
+  expect(result.manualTasks.some((x) => x.key === 'manual-placements')).toBe(false);
+});

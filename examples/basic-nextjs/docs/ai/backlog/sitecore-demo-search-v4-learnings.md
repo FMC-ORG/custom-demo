@@ -206,15 +206,15 @@ Today search is enabled after the build, by hand, across several sessions. The r
 
 ## 6. Proposed backlog
 
-| ID | Item | Depends on | Size |
-|---|---|---|---|
-| B1 | Port search v4, the analytics guard, noindex and the docs to `main` (§3) | none | M |
-| B2 | Template fields through MCP and a scoped `ser pull` on `main`'s environment (§3.3) | B1 | S |
-| B3 | ADR and change: narrow `site-content`, add `seed-articles.mjs` and the committed article JSON (§4.1) | none | M |
-| B4 | `set-search-source.mjs`, empty `SearchIndex` in serialized datasources, and the search setup checklist (§4.2) | B1 | S |
-| B5 | `X-Build-Sha` header, `wait-for-deploy.mjs`, `verify-demo.mjs`, showcase URL in Start Check (§4.3) | B1 | S |
-| B6 | Start Check MCP preflight and the Phase 6 manual-placement fallback (§4.4) | none | S |
-| B7 | `.gitattributes`, untrack `tsbuildinfo`, generators write LF (§4.5) | none | S |
-| B8 | Manifest split between framework and environment, and the `Port: no` trailer convention (§4.6) | none | M |
-| B9 | `push-source-sync.mjs` with mapping configuration, extracting client articles, and Phase 6.5 in build-demo (§5) | B1, B4, B5 | L |
-| B10 | Publish webhook into an incremental push sync | B9 | M |
+| ID | Item | Depends on | Size | Status |
+|---|---|---|---|---|
+| B1 | Port search v4, the analytics guard, noindex and the docs to `main` (§3) | none | M | done (PR #75) |
+| B2 | Template fields through MCP and a scoped `ser pull` on `main`'s environment (§3.3) | B1 | S | open |
+| B3 | ADR and change: narrow `site-content`, add `seed-articles.mjs` and the committed article JSON (§4.1) | none | M | open |
+| B4 | `set-search-source.mjs`, empty `SearchIndex` in serialized datasources, and the search setup checklist (§4.2) | B1 | S | open |
+| B5 | `X-Build-Sha` header, `wait-for-deploy.mjs`, `verify-demo.mjs`, showcase URL in Start Check (§4.3) | B1 | S | done (`feature/demo-process-b5-b7`) |
+| B6 | Start Check MCP preflight and the Phase 6 manual-placement fallback (§4.4) | none | S | done (`feature/demo-process-b5-b7`) |
+| B7 | `.gitattributes`, untrack `tsbuildinfo`, generators write LF (§4.5) | none | S | done (`feature/demo-process-b5-b7`) |
+| B8 | Manifest split between framework and environment, and the `Port: no` trailer convention (§4.6) | none | M | open |
+| B9 | `push-source-sync.mjs` with mapping configuration, extracting client articles, and Phase 6.5 in build-demo (§5) | B1, B4, B5 | L | open |
+| B10 | Publish webhook into an incremental push sync | B9 | M | open |

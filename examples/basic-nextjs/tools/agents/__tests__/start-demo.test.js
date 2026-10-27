@@ -349,3 +349,40 @@ test('the expected environment marker is reported from project.yaml (none by def
   report = await start(app, { continueDemo: true });
   expect(byId(report, 'project-config')).toMatchObject({ status: 'fail', level: 'blocker' });
 });
+
+test('deployed demo URLs are optional, recorded in setup.json, and kept on later runs', async () => {
+  const { app } = repo();
+  const first = await start(app);
+  expect(byId(first, 'showcase-url')).toMatchObject({ status: 'fail', level: 'info' });
+  expect(first.blockers).toBe(0);
+
+  const second = await start(app, {
+    continueDemo: true,
+    showcaseUrl: 'https://acme-demo.vercel.app/',
+    editingHostUrl: 'https://acme-demo-editing-host.vercel.app',
+  });
+  expect(byId(second, 'showcase-url').status).toBe('pass');
+  const setup = () =>
+    JSON.parse(fs.readFileSync(path.join(app, 'docs/ai/demos/acme/setup.json'), 'utf8'));
+  expect(setup()).toMatchObject({
+    showcaseUrl: 'https://acme-demo.vercel.app',
+    editingHostUrl: 'https://acme-demo-editing-host.vercel.app',
+  });
+
+  await start(app, { continueDemo: true });
+  expect(setup().showcaseUrl).toBe('https://acme-demo.vercel.app');
+});
+
+test('deployed demo URLs never store bypass tokens or credentials', async () => {
+  const { app } = repo();
+  const report = await start(app, {
+    showcaseUrl: 'https://acme-demo.vercel.app/?x-vercel-protection-bypass=secret',
+    editingHostUrl: 'http://acme-demo-editing-host.vercel.app',
+  });
+  expect(byId(report, 'showcase-url')).toMatchObject({ status: 'fail', level: 'warning' });
+  expect(byId(report, 'editing-host-url')).toMatchObject({ status: 'fail', level: 'warning' });
+  expect(report.blockers).toBe(0);
+  const setup = fs.readFileSync(path.join(app, 'docs/ai/demos/acme/setup.json'), 'utf8');
+  expect(setup).not.toContain('secret');
+  expect(JSON.parse(setup).showcaseUrl).toBeUndefined();
+});

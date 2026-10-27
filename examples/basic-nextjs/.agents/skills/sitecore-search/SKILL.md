@@ -17,11 +17,12 @@ Search is a configuration act, not an engineering act. The components already ex
 1. Create the source in SitecoreAI → **Content → Search sources**. Prefer a **push source** for content you control (articles); a content source only works for supported field types and only refreshes on reindex.
    - Push source: define every field up front (String, Number, Boolean, Tags). Mark facet fields **Filterable**, and sort fields **Sortable**. Turn on Autocomplete (field Title) and Result preview so the typeahead gets both sections. Create a credential under Settings, then put `SITECORE_SEARCH_PUSH_API_KEY`, `SITECORE_SEARCH_PUSH_ENDPOINT` and `SITECORE_SEARCH_PUSH_SOURCE_ID` in `.env.local`.
    - Run `push-articles.mjs --dry-run`, then run it for real. Rerun it after content changes.
-2. Fill one datasource item per component under the site's Data folder:
+2. The template fields this needs (`Facets`, `RelatedToCurrentPage`, `ArticleTopic`) and the Article Topics tags are serialized and arrive with the environment's deploy. If they're missing, the environment predates that deploy: deploy it first, and don't create them through MCP, because MCP assigns new IDs and would duplicate the fields.
+3. Fill one datasource item per component under the site's Data folder:
    - **Mappings use the lowercase document attribute names** (the source UI lowercases them on save): `title`, `articlecontent`, and so on.
    - **`Facets` uses the facet display name** (`ArticleTopic`, optionally `ArticleTopic:Topic`). A wrong name makes SearchResults fall back to no facets.
    - **SearchCollection with `RelatedToCurrentPage` ticked** shows related items seeded by the page item. Place it in a page-type partial design (Article Layout).
-3. Place the component(s) in Page Builder and assign the datasource items. If `add_component_on_page` fails, see `agent-api-limitations.md` §4.
+4. Place the component(s) in Page Builder and assign the datasource items. If `add_component_on_page` fails, see `agent-api-limitations.md` §4.
 
 Search renders skeletons in editing and preview modes. Verify on the live or local site after publishing, and after pushing or reindexing.
 

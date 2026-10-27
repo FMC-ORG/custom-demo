@@ -12,6 +12,7 @@ import { DEFAULT_MAX_ITEMS } from '@/lib/search-ui/constants';
 import { stripHtml, formatDate, extractImageUrl } from '@/lib/search-ui/text';
 import { useSearchLabels } from '@/lib/search-ui/useSearchLabels';
 import { useSearchEvents } from '@/lib/search-ui/useSearchEvents';
+import { normalizeItemId } from '@/lib/search-ui/facets';
 
 interface SearchCollectionFields {
   SearchIndex?: Field<string>;
@@ -24,7 +25,11 @@ interface SearchCollectionFields {
   SortOrder?: Field<string>;
   MaxItems?: Field<string>;
   Heading?: Field<string>;
+  /** Checkbox: More Like This seeded by the current page instead of browse mode. */
+  RelatedToCurrentPage?: Field<boolean | string>;
 }
+
+const isChecked = (value: unknown): boolean => value === true || value === '1' || value === 'true';
 
 interface SearchCollectionProps extends ComponentProps {
   fields: SearchCollectionFields;
@@ -90,7 +95,13 @@ export const Default = (props: SearchCollectionProps) => {
   };
 
   const maxItems = Number(fields?.MaxItems?.value) || DEFAULT_MAX_ITEMS;
-  const sortBy = fields?.SortBy?.value || '';
+
+  // Related mode: More Like This seeded by the current route item. The API keys
+  // documents by the dashed lowercase GUID (undashed returns nothing, braces 500).
+  const related = isChecked(fields?.RelatedToCurrentPage?.value);
+  const seedItemId = related ? normalizeItemId(page?.layout?.sitecore?.route?.itemId) : '';
+
+  const sortBy = related ? '' : fields?.SortBy?.value || '';
   const sortOrder = fields?.SortOrder?.value === 'asc' ? 'asc' : 'desc';
 
   // Stable identity is load-bearing: useSearch re-runs when `sort` changes,
@@ -103,14 +114,21 @@ export const Default = (props: SearchCollectionProps) => {
   // Browse mode: empty keyphrase returns the whole index, the sort makes it a
   // "latest N" strip. No input, no pagination — search as content
   // infrastructure.
-  const { results, total, isLoading, isSuccess } = useSearch<SearchDoc>({
+  // Related mode asks for one extra item so excluding the current page (the API
+  // already omits the seed; this is a safety net) still fills the strip.
+  const { results: rawResults, total, isLoading, isSuccess } = useSearch<SearchDoc>({
     searchIndexId,
     page: 1,
-    pageSize: maxItems,
+    pageSize: related ? maxItems + 1 : maxItems,
     sort,
-    enabled: live && !!searchIndexId,
-    query: '',
+    enabled: live && !!searchIndexId && (!related || !!seedItemId),
+    ...(related ? { seedItemId: seedItemId || undefined } : { query: '' }),
   });
+  const results = related
+    ? rawResults
+        .filter((doc) => normalizeItemId(docValue(doc, 'sc_item_id')) !== seedItemId)
+        .slice(0, maxItems)
+    : rawResults;
 
   const sendEvent = useSearchEvents({ query: '', uid: rendering?.uid, page });
 
@@ -126,6 +144,11 @@ export const Default = (props: SearchCollectionProps) => {
 
   // A zero-input strip with nothing to show should disappear, not explain
   // itself — the empty state is silence (live only; authoring shows skeletons).
+  // Related mode without a resolvable route item (e.g. a non-page context) has nothing to seed.
+  if (live && related && !seedItemId) {
+    return null;
+  }
+
   if (live && !showSkeletons && results.length === 0) {
     return null;
   }

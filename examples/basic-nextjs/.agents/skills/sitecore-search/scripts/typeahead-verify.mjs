@@ -75,7 +75,7 @@ await page.waitForTimeout(2500);
 await input.press('Enter');
 await page.waitForURL(/\?q=canary/, { timeout: 10000 });
 await page.waitForTimeout(3500);
-const resultsInput = page.locator('section.search-results input');
+const resultsInput = page.locator('section.search-results [role="search"] input');
 const firstCard = page.locator('section.search-results h3').first();
 const hydrated = (await resultsInput.inputValue()) === 'canary';
 const firstTitle = (await firstCard.textContent().catch(() => ''))?.trim() ?? '';
@@ -94,6 +94,30 @@ const gibberishTitles = (await options.allTextContents())
   .map((t) => t.trim())
   .filter((t) => !t.includes('See all results') && !t.includes('SeeAllResults'));
 record('gibberish-no-suggestions', gibberishTitles.length === 0, `title options: ${gibberishTitles.length}`);
+
+// 6. useSuggest (search v4): a partial word yields a completed term in the
+// "Suggestions" section plus "Top results" previews; choosing the term searches it.
+await page.goto(`${baseUrl}/Articles`, { waitUntil: 'load' });
+await page.waitForTimeout(2000);
+await input.fill('pers');
+await page.waitForTimeout(2500);
+const sectionHeaders = (await listbox.locator('[role="presentation"]').allTextContents()).map((t) => t.trim());
+const termOption = listbox.getByRole('option', { name: 'personalization', exact: true });
+record(
+  'suggest-sections',
+  sectionHeaders.includes('Suggestions') && sectionHeaders.includes('Top results') && (await termOption.count()) === 1,
+  `sections: [${sectionHeaders.join(' | ')}], options: [${(await options.allTextContents()).map((t) => t.trim()).join(' | ')}]`
+);
+await component.screenshot({ path: `${outDir}/typeahead-suggest.png` });
+if (await termOption.count()) {
+  await termOption.click();
+  await page.waitForURL(/\?q=personalization/, { timeout: 10000 }).catch(() => {});
+}
+record(
+  'suggested-term-searches',
+  new URL(page.url()).searchParams.get('q') === 'personalization',
+  `landed: ${new URL(page.url()).pathname}${new URL(page.url()).search}`
+);
 
 // Attribution: this script also visits the article detail page (suggestion
 // navigation), whose hero is not the component under test — its missing-alt

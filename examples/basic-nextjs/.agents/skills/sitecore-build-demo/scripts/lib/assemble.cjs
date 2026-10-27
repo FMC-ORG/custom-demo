@@ -410,6 +410,7 @@ async function assemble({
   const instances = [];
   const issues = [];
   const variantTasks = [];
+  let stoppedAt = null; // first page section whose placement failed or was not verified
   // Instances this build is approved to remove; later checks must not treat their absence as drift.
   const plannedRemoval = new Set([
     ...(plan.removeInstances || []).map((x) => x.instanceId.toLowerCase()),
@@ -704,7 +705,10 @@ async function assemble({
         status: 'needs-reconciliation',
         reason: error.code === 'BLOCKED' ? error.message : 'assembly outcome not verified',
       });
-      if (section.placement !== 'partial-design') break; // Unknown page placement blocks its order-dependent chain.
+      if (section.placement !== 'partial-design') {
+        stoppedAt = section;
+        break; // Unknown page placement blocks its order-dependent chain.
+      }
     }
   }
   if (!issues.length) {
@@ -774,6 +778,39 @@ async function assemble({
         });
       }
     }
+  // Manual fallback (backlog B6): when page placement stops — e.g. the Agent API's
+  // add_component_on_page is down after an environment deploy — hand the SE an exact list
+  // instead of a dead end: every unplaced page section, in plan order, with its anchor.
+  const manualPlacements = [];
+  if (stoppedAt) {
+    const pageSections = plan.sections.filter((x) => x.placement !== 'partial-design');
+    for (const section of pageSections.slice(pageSections.indexOf(stoppedAt))) {
+      if (section.existingInstanceId && section.replace !== true) continue; // reused as-is
+      const order = pageSections.filter((x) => x.placeholder === section.placeholder);
+      const prev = order[order.indexOf(section) - 1];
+      const prevPlaced = prev && instances.find((x) => x.key === prev.key);
+      manualPlacements.push({
+        key: section.key,
+        pageId: plan.pageId,
+        placeholder: section.placeholder,
+        componentName: section.componentName,
+        renderingId: section.renderingId,
+        datasourceId:
+          population.datasourceItems.find((x) => x.key === section.key)?.itemId ?? null,
+        variant: section.variant ?? null,
+        after: prev
+          ? {
+              key: prev.key,
+              componentName: prev.componentName,
+              instanceId: prev.existingInstanceId ?? prevPlaced?.componentInstanceId ?? null,
+            }
+          : null,
+        ...(section === stoppedAt
+          ? { note: 'Its automatic add failed or was not verified: check Pages first so it is not placed twice.' }
+          : {}),
+      });
+    }
+  }
   const result = {
     ...recovery.summary(),
     status:
@@ -787,7 +824,16 @@ async function assemble({
     removed,
     // Placeholder datasources created by add_component_on_page; delete them in Content Editor.
     cleanupDatasources,
+    manualPlacements,
     manualTasks: [
+      ...(manualPlacements.length
+        ? [
+            {
+              key: 'manual-placements',
+              action: `Place ${manualPlacements.length} section(s) in Pages in the listed order and assign the listed datasources (see manualPlacements).`,
+            },
+          ]
+        : []),
       ...instances
         .filter((x) => x.placement === 'partial-design')
         .map((x) =>

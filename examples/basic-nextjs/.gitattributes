@@ -9,12 +9,16 @@
 *.yml text eol=lf
 *.json text eol=lf
 
-# Source files — CRLF (existing repo convention)
-*.ts text eol=crlf
-*.tsx text eol=crlf
-*.js text eol=crlf
-*.jsx text eol=crlf
-*.css text eol=crlf
+# Source files — LF. The index has always stored LF; the old eol=crlf only changed
+# working trees, so every LF writer (code generators, Next.js, editors, agents) left
+# phantom-modified files and CRLF warnings behind (backlog B7).
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+*.css text eol=lf
 
 # Binary files — no conversion
 *.png binary

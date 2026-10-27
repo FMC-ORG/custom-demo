@@ -14,6 +14,7 @@ import Providers from "src/Providers";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { getBaseUrl } from "lib/utils";
+import { isIndexingAllowed } from "lib/indexing";
 
 type PageProps = {
   params: Promise<{
@@ -153,6 +154,10 @@ export const generateMetadata = async ({
       alternates: {
         canonical: canonicalUrl,
       },
+    }),
+    // Demo sites are not indexed unless SITE_ALLOW_INDEXING=true (ADR 0012).
+    ...(!isIndexingAllowed() && {
+      robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
     }),
   };
 };

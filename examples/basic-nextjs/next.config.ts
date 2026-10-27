@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
+import { isIndexingAllowed, NOINDEX_DIRECTIVES } from './src/lib/indexing';
 
 const nextConfig: NextConfig = {
   // Allow specifying a distinct distDir when concurrently running app in a container
@@ -41,6 +42,20 @@ const nextConfig: NextConfig = {
     unoptimized: process.env.NODE_ENV === 'development',
   },
   
+  headers: async () => [
+    {
+      source: '/:path*',
+      headers: [
+        // Deployed commit, so scripts can wait for an exact deploy (wait-for-deploy.mjs)
+        // instead of guessing from behavior. Vercel sets VERCEL_GIT_COMMIT_SHA at build.
+        { key: 'X-Build-Sha', value: process.env.VERCEL_GIT_COMMIT_SHA || 'local' },
+        // Demo sites are not indexed unless SITE_ALLOW_INDEXING=true (src/lib/indexing.ts,
+        // ADR 0012). Covers pages, images and API routes, and survives CDN caching.
+        ...(isIndexingAllowed() ? [] : [{ key: 'X-Robots-Tag', value: NOINDEX_DIRECTIVES }]),
+      ],
+    },
+  ],
+
   // use this configuration to serve the sitemap.xml and robots.txt files from the API route handlers
   rewrites: async () => {
     return [

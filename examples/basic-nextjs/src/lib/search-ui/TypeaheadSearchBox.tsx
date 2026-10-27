@@ -1,8 +1,8 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { Search } from 'lucide-react';
 import { Field, LinkField } from '@sitecore-content-sdk/nextjs';
-import { useSearch } from '@sitecore-content-sdk/nextjs/search';
+import { useSearch, useSuggest } from '@sitecore-content-sdk/nextjs/search';
 import { ComponentProps } from '@/lib/component-props';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
@@ -29,6 +29,9 @@ const docValue = (doc: SearchDoc, attribute: string | undefined): string => {
   const value = doc[attribute];
   return typeof value === 'string' ? value : '';
 };
+
+/** One keyboard-navigable dropdown row: a completed query term or a preview document. */
+type TypeaheadOption = { kind: 'term'; text: string } | { kind: 'doc'; doc: SearchDoc };
 
 /**
  * The whole typeahead combobox — state, search, keyboard handling, dropdown.
@@ -70,23 +73,60 @@ export const TypeaheadSearchBox = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const query = useDebouncedValue(inputValue);
 
-  const { results, isSuccess } = useSearch<SearchDoc>({
+  // One request per (debounced) keystroke: completed query terms (source
+  // "Autocomplete" setting) + preview documents (source "Result preview").
+  // The hook has no limit option — the source config sets the server cap,
+  // MaxSuggestions can only trim further.
+  const suggest = useSuggest<SearchDoc>({
     searchIndexId,
-    page: 1,
-    pageSize: maxSuggestions,
     enabled: live && !!searchIndexId && !!query,
     query,
   });
+  const { querySuggestions, previewResults } = suggest;
+
+  // Fallback for sources without Autocomplete/Result preview (e.g. content sources
+  // created before push sources): when suggest errors or returns nothing at all,
+  // run the pre-v4 title search so the dropdown still lists matching documents.
+  const suggestEmpty =
+    suggest.isError ||
+    (suggest.isSuccess && querySuggestions.length === 0 && previewResults.length === 0);
+  const fallback = useSearch<SearchDoc>({
+    searchIndexId,
+    page: 1,
+    pageSize: maxSuggestions,
+    enabled: live && !!searchIndexId && !!query && suggestEmpty,
+    query,
+  });
+  const fallbackResults = fallback.results;
+  const documents = useMemo(
+    () => (previewResults.length ? previewResults : suggestEmpty ? fallbackResults : []),
+    [previewResults, suggestEmpty, fallbackResults]
+  );
+  const isSuccess = suggest.isSuccess || fallback.isSuccess;
 
   const sendEvent = useSearchEvents({ query, uid: rendering?.uid, page });
 
-  const suggestions = query ? results : [];
+  const options = useMemo<TypeaheadOption[]>(() => {
+    if (!query) return [];
+    const typed = query.trim().toLowerCase();
+    const terms: TypeaheadOption[] = querySuggestions
+      .map((s) => s.queryPlusText || s.text)
+      .filter((text, i, all) => !!text && all.indexOf(text) === i && text.toLowerCase() !== typed)
+      .slice(0, maxSuggestions)
+      .map((text) => ({ kind: 'term', text }));
+    const docs: TypeaheadOption[] = documents
+      .filter((doc) => !!docValue(doc, titleAttribute))
+      .slice(0, maxSuggestions)
+      .map((doc) => ({ kind: 'doc', doc }));
+    return [...terms, ...docs];
+  }, [query, querySuggestions, documents, maxSuggestions, titleAttribute]);
+
   const showDropdown = isOpen && query.length > 0;
 
-  // Reset keyboard position whenever the suggestion list changes.
+  // Reset keyboard position whenever the option list changes.
   useEffect(() => {
     setActiveIndex(-1);
-  }, [query, results]);
+  }, [options]);
 
   useEffect(() => {
     if (isSuccess && query) sendEvent('viewed');
@@ -103,28 +143,37 @@ export const TypeaheadSearchBox = ({
 
   const listboxId = `typeahead-listbox-${rendering?.uid ?? 'default'}`;
 
-  const seeAllHref = resultsHref
-    ? `${resultsHref}?q=${encodeURIComponent(inputValue.trim())}`
-    : '';
+  const resultsUrl = (q: string) => `${resultsHref}?q=${encodeURIComponent(q)}`;
+  const seeAllHref = resultsHref && inputValue.trim() ? resultsUrl(inputValue.trim()) : '';
 
   const goToResults = () => {
-    if (seeAllHref && inputValue.trim()) navigateTo(seeAllHref);
+    if (seeAllHref) navigateTo(seeAllHref);
   };
 
-  const chooseSuggestion = (doc: SearchDoc) => {
+  const chooseTerm = (text: string) => {
+    sendEvent('clicked');
+    if (resultsHref) {
+      navigateTo(resultsUrl(text));
+      return;
+    }
+    setInputValue(text);
+  };
+
+  const chooseDoc = (doc: SearchDoc) => {
     sendEvent('clicked');
     const link = docValue(doc, linkAttribute);
     if (link) {
       navigateTo(link);
       return;
     }
-    // Graceful degradation without a link mapping: hand the suggestion title
-    // to the results page as the query.
+    // Graceful degradation without a link mapping: hand the title to the
+    // results page as the query.
     const title = docValue(doc, titleAttribute);
-    if (resultsHref && title) {
-      navigateTo(`${resultsHref}?q=${encodeURIComponent(title)}`);
-    }
+    if (resultsHref && title) navigateTo(resultsUrl(title));
   };
+
+  const choose = (option: TypeaheadOption) =>
+    option.kind === 'term' ? chooseTerm(option.text) : chooseDoc(option.doc);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
@@ -133,8 +182,8 @@ export const TypeaheadSearchBox = ({
     }
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (activeIndex >= 0 && suggestions[activeIndex]) {
-        chooseSuggestion(suggestions[activeIndex]);
+      if (activeIndex >= 0 && options[activeIndex]) {
+        choose(options[activeIndex]);
       } else {
         goToResults();
       }
@@ -142,12 +191,22 @@ export const TypeaheadSearchBox = ({
     }
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
-      if (!suggestions.length) return;
+      if (!options.length) return;
       setIsOpen(true);
       const delta = e.key === 'ArrowDown' ? 1 : -1;
-      setActiveIndex((prev) => (prev + delta + suggestions.length) % suggestions.length);
+      setActiveIndex((prev) => (prev + delta + options.length) % options.length);
     }
   };
+
+  const optionClass = (i: number) =>
+    cn(
+      'cursor-pointer px-4 py-2 text-sm',
+      i === activeIndex ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'
+    );
+  const sectionHeaderClass =
+    'text-muted-foreground px-4 pb-1 pt-2 text-xs font-semibold uppercase tracking-wide';
+  const firstDocIndex = options.findIndex((o) => o.kind === 'doc');
+  const hasTerms = options.some((o) => o.kind === 'term');
 
   return (
     <div
@@ -171,6 +230,7 @@ export const TypeaheadSearchBox = ({
         aria-label={label('SEARCH_INPUT_PLACEHOLDER')}
         aria-autocomplete="list"
         aria-controls={listboxId}
+        aria-activedescendant={activeIndex >= 0 ? `${listboxId}-${activeIndex}` : undefined}
         className={cn(
           'w-full',
           !compact && 'py-2 pl-10',
@@ -200,23 +260,51 @@ export const TypeaheadSearchBox = ({
             compact && onDark && 'right-0 w-auto'
           )}
         >
-          {suggestions.map((doc, i) => {
-            const title = docValue(doc, titleAttribute);
-            if (!title) return null;
+          {hasTerms && (
+            <li role="presentation" aria-hidden="true" className={sectionHeaderClass}>
+              {label('SUGGESTED_SEARCHES')}
+            </li>
+          )}
+          {options.map((option, i) => {
+            if (option.kind === 'term') {
+              return (
+                <li
+                  key={`term:${option.text}`}
+                  id={`${listboxId}-${i}`}
+                  role="option"
+                  aria-selected={i === activeIndex}
+                  className={cn(optionClass(i), 'flex items-center gap-2')}
+                  onMouseEnter={() => setActiveIndex(i)}
+                  onClick={() => chooseTerm(option.text)}
+                >
+                  <Search className="text-muted-foreground size-3.5 shrink-0" />
+                  <span>{option.text}</span>
+                </li>
+              );
+            }
+            const title = docValue(option.doc, titleAttribute);
             return (
-              <li
-                key={docValue(doc, 'sc_item_id') || title}
-                role="option"
-                aria-selected={i === activeIndex}
-                className={cn(
-                  'cursor-pointer px-4 py-2 text-sm',
-                  i === activeIndex ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'
+              <Fragment key={`doc:${docValue(option.doc, 'sc_item_id') || title}`}>
+                {i === firstDocIndex && (
+                  <li
+                    role="presentation"
+                    aria-hidden="true"
+                    className={cn(sectionHeaderClass, hasTerms && 'mt-1 border-t')}
+                  >
+                    {label('TOP_RESULTS')}
+                  </li>
                 )}
-                onMouseEnter={() => setActiveIndex(i)}
-                onClick={() => chooseSuggestion(doc)}
-              >
-                {title}
-              </li>
+                <li
+                  id={`${listboxId}-${i}`}
+                  role="option"
+                  aria-selected={i === activeIndex}
+                  className={optionClass(i)}
+                  onMouseEnter={() => setActiveIndex(i)}
+                  onClick={() => chooseDoc(option.doc)}
+                >
+                  {title}
+                </li>
+              </Fragment>
             );
           })}
           {seeAllHref && (

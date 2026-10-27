@@ -377,6 +377,25 @@ Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `.
 
 Also save the standalone `manual-tasks.md` with just the Manual Tasks section (subsections 1-5) for quick reference in the Pages editor.
 
+### Phase 8 — Deploy and verify (after the user pushes)
+
+Pushing the demo branch deploys the showcase. Only push when the user asks (see Important rules). After the push, and after the user has **published** in Sitecore:
+
+1. Make sure `setup.json` has `showcaseUrl`. If not, ask for it and run `node .agents/skills/sitecore-start-demo/scripts/start-demo.mjs --client <client> --continue --showcase-url <url>`.
+2. Wait for the exact commit to be live. The app sends `X-Build-Sha` on every response.
+   ```bash
+   node .agents/skills/sitecore-build-demo/scripts/wait-for-deploy.mjs --client <client>
+   ```
+   - Exit 2 (timeout) means the deploy failed or is still queued. Check the Vercel project, and don't verify an old build.
+   - A missing header means the deployment predates `X-Build-Sha`.
+3. Verify the deployed demo in one command:
+   ```bash
+   node .agents/skills/sitecore-build-demo/scripts/verify-demo.mjs --client <client>
+   ```
+   - It checks the indexing policy (demo sites are noindex by default, ADR 0012), sweeps the linked pages, and runs the `sitecore-search` browser protocols when the site has `/Articles`.
+   - The result goes to `docs/ai/demos/<client>/verify-result.json`. Add the pass count and any failures to `demo-summary.md` and the handoff.
+   - The browser protocols run headless, which analytics treats as a bot, so no analytics events are expected. Failures caused by content you haven't published yet need a publish, not a code fix.
+
 ## Output files
 
 After completion, the demo directory should contain:

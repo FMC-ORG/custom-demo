@@ -20,6 +20,9 @@ Ask for anything missing:
 
 1. **Client name**: lowercase kebab-case (`acme`, `acme-2`). It names the Demo Branch `<client>-demo` and the folder `docs/ai/demos/<client>/`.
 2. **Client homepage URL**.
+3. **Optional: the deployed demo URLs.** These are the public **showcase URL** (the Vercel production URL of the demo project) and the Pages **editing host URL**. Pass them as `--showcase-url` / `--editing-host-url`. They're kept in `setup.json` and used by the build's Phase 8 (`wait-for-deploy.mjs`, `verify-demo.mjs`).
+   - If the project isn't deployed yet, skip them and add them later with `--continue --showcase-url <url>`.
+   - Never include query strings: a Vercel `x-vercel-protection-bypass` token would leak into the demo records, so the check refuses such URLs.
 
 The screenshot is not needed yet; it goes with the build command.
 
@@ -38,6 +41,7 @@ It prints a readable summary (stderr) and a JSON report (stdout); exit code 2 me
 | `clean-tree` | List the files. Ask the user to commit them on their own demo branch or discard them, then re-run. Never stash. |
 | `demo-branch` exists / `demo-folder` in use | Ask: **continue that demo** (re-run with `--continue`) or **choose a new name** (e.g. `<client>-2`). An existing folder may hold recovery records; never overwrite it. |
 | `main-up-to-date` | Local `main` has its own commits: ask the user to move them to a branch. |
+| `showcase-url` (info) / `editing-host-url` | Not set, unreachable, or refused (not HTTPS, credentials, or a query string). Never a blocker. Ask for the URL once the demo is deployed. |
 | `framework-ahead` (warning) | Tell the user their fork is behind the framework and how many commits; do not change remotes. |
 | `url` | The site does not load or is blocked by bot protection. Stop; the user may try another URL. |
 | `content-hub` (warning) | Offer to set credentials: ask for host, user and password (client ID/secret only for OAuth), copy `docs/ai/config/credentials.example.yaml` to `docs/ai/config/credentials.local.yaml`, fill it in, and re-run. If declined, images fall back to manual upload. |

@@ -26,7 +26,7 @@ Search is a configuration act, not an engineering act. The components already ex
 Search renders skeletons in editing and preview modes. Verify on the live or local site after publishing, and after pushing or reindexing.
 
 ## Scripts
-Run from the app root. The browser protocols need Playwright Chromium (`npm run agents:browsers`); the probe and push scripts don't.
+Run from the app root. The browser protocols need Playwright Chromium (`npm run agents:browsers`); the probe and push scripts don't. For a deployed demo, `.agents/skills/sitecore-build-demo/scripts/verify-demo.mjs` runs all 3 protocols together with the indexing and page checks.
 
 | Script | Purpose |
 |---|---|

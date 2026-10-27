@@ -34,7 +34,34 @@ function defaultDeps() {
   };
 }
 
-async function startCheck({ app, client, url, check = false, continueDemo = false, deps = {} }) {
+// Deployed demo URLs (showcase = public production URL, editingHost = Pages editing host).
+// Only clean HTTPS origins/paths are stored: no credentials, no query string — a Vercel
+// protection-bypass token in a URL would leak into setup.json and handoff notes.
+function cleanDeployUrl(value) {
+  if (!value) return { value: null };
+  let parsed;
+  try {
+    parsed = new URL(value);
+  } catch {
+    return { error: `"${value}" is not a URL.` };
+  }
+  if (parsed.protocol !== 'https:') return { error: `${parsed.origin} must use https.` };
+  if (parsed.username || parsed.password) return { error: 'URL must not contain credentials.' };
+  if (parsed.search || parsed.hash)
+    return { error: `${parsed.origin}: remove the query string/fragment (never store bypass tokens).` };
+  return { value: `${parsed.origin}${parsed.pathname.replace(/\/$/, '')}` };
+}
+
+async function startCheck({
+  app,
+  client,
+  url,
+  showcaseUrl,
+  editingHostUrl,
+  check = false,
+  continueDemo = false,
+  deps = {},
+}) {
   const d = { ...defaultDeps(), ...deps };
   const checks = [];
   const add = (id, status, level, message) => checks.push({ id, status, level, message });
@@ -83,6 +110,8 @@ async function startCheck({ app, client, url, check = false, continueDemo = fals
   const setupFile = path.join(demoDir, 'setup.json');
   const previous = fs.existsSync(setupFile) ? JSON.parse(fs.readFileSync(setupFile, 'utf8')) : null;
   url = url || previous?.url;
+  showcaseUrl = showcaseUrl || previous?.showcaseUrl;
+  editingHostUrl = editingHostUrl || previous?.editingHostUrl;
 
   // --- git --------------------------------------------------------------------------------
   let base = null;
@@ -236,6 +265,46 @@ async function startCheck({ app, client, url, check = false, continueDemo = fals
       `docs/ai/demos/${client}/ already holds a demo (${used.length} files, may include recovery records). Continue it, or choose a new name.`,
     );
   else add('demo-folder', 'pass', 'blocker', `docs/ai/demos/${client}/`);
+
+  // --- deployed demo URLs (optional) ------------------------------------------------------
+  const deployUrls = {};
+  for (const [id, key, raw] of [
+    ['showcase-url', 'showcaseUrl', showcaseUrl],
+    ['editing-host-url', 'editingHostUrl', editingHostUrl],
+  ]) {
+    const cleaned = cleanDeployUrl(raw);
+    if (cleaned.error) {
+      add(id, 'fail', 'warning', `${cleaned.error} Not recorded.`);
+      continue;
+    }
+    if (!cleaned.value) {
+      if (id === 'showcase-url')
+        add(
+          id,
+          'fail',
+          'info',
+          'Not set. Once the demo is deployed, re-run with --showcase-url <https://…> so deployment checks and the handoff know where it lives.',
+        );
+      continue;
+    }
+    deployUrls[key] = cleaned.value;
+    try {
+      const response = await d.fetchImpl(cleaned.value, {
+        redirect: 'follow',
+        signal: AbortSignal.timeout(20000),
+      });
+      if (response.ok) add(id, 'pass', 'warning', `${cleaned.value} loads (HTTP ${response.status}).`);
+      else
+        add(
+          id,
+          'fail',
+          'warning',
+          `${cleaned.value} returned HTTP ${response.status} (not deployed yet, or protected). Recorded anyway.`,
+        );
+    } catch {
+      add(id, 'fail', 'warning', `${cleaned.value} could not be reached. Recorded anyway.`);
+    }
+  }
 
   // --- client URL -------------------------------------------------------------------------
   if (!url) add('url', 'fail', 'blocker', 'Client URL is required.');
@@ -469,6 +538,7 @@ async function startCheck({ app, client, url, check = false, continueDemo = fals
 
   const result = report({
     url,
+    ...deployUrls,
     base,
     environmentMarker: markerValid ? environmentMarker : null,
     ...(manifestReuse ? { manifestReuse } : {}),
@@ -479,6 +549,7 @@ async function startCheck({ app, client, url, check = false, continueDemo = fals
       ...(previous || {}),
       client,
       url,
+      ...deployUrls,
       branch,
       base,
       startedAt: previous?.startedAt || d.now().toISOString(),

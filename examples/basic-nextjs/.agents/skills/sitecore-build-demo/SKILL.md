@@ -322,6 +322,11 @@ This phase bridges the gap between "same colors" (Phase 4 CSS variables) and "lo
 
 Report component instance IDs, datasource wiring, relative order, exceptions, verified shared-design switches and previous datasources, variant tasks, and unresolved operations. Resume through verified records rather than repeating adds.
 
+**Manual-placement fallback.** If a page placement fails or can't be verified, assembly stops that chain (later sections are anchored to it). `assembly-result.json` then lists every unplaced page section in plan order under `manualPlacements`, with page, placeholder, component, datasource ID, variant, and the section and instance it goes after.
+- Write `docs/ai/demos/<client>/manual-placements.md` from it: one numbered step per section.
+- The first entry carries a `note`: its automatic add failed or wasn't verified, so check Pages before placing it, to avoid a duplicate.
+- Don't retry placements in a loop. If Start Check's placement preflight warned (`placementApi: "failing"`), expect this path.
+
 ### Phase 7 — Summary
 
 **GATE: summaries must report the actual recovery result.**
@@ -366,6 +371,7 @@ Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `.
    - **Variant Selection**: include components where observed and planned variants differ, or the current value is unverified. Do not infer Default.
    - **Shared Header/Footer / Context Components**: report verified automatic switches with previous datasource IDs, or unresolved required wiring/structural repair tasks. List actual unsupported context placements separately; never classify Header/Footer by name or call required wiring an optional skipped task.
    - **Link Verification**: list links from content-map that point to the client's domain
+   - **Manual placements**: from `assembly-result.json` `manualPlacements`, if any, linking `manual-placements.md`
    - **Cleanup**: `cleanupDatasources` from `assembly-result.json`, plus any OOB components that were not in an approved `removeInstances`
    - **Personalization**: always include — it's optional guidance for the SE
 

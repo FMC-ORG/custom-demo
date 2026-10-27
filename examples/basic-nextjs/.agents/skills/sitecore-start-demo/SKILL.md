@@ -73,10 +73,13 @@ Use `siteCollection`/`siteName` from `docs/ai/config/project.yaml`.
    | Component map mismatch | Warning: a dev-server restart may be needed |
 
    Stale IDs are auto-repaired by the manifest skill; show what changed. Run Full validation only if the user asks or Quick fails several checks.
+6. **Placement API preflight.** Call `get_component` (read-only) with the rendering ID of any instance from item 2.
+   - **If it fails with an Agent API error**, raise a **warning**: Phase 6 can't place components automatically, and the build will hand over an ordered manual-placement list instead. The known case is `Error fetching component: GraphQL errors: The field 'renderings' does not exist on the type 'Query'`, seen right after an environment deploy; see `docs/ai/reference/agent-api-limitations.md` §4.
+   - Suggest retrying later, or building anyway and placing the components by hand in Pages.
 
 ## Step 3 — Record and hand over
 
-1. Add a `sitecore` block to `setup.json`: `siteItemId`, `homeId`, `otherDemo` (prefix found, or `null`), and `manifest: { result: "pass" | "fail", checkedAt: <ISO time> }`.
+1. Add a `sitecore` block to `setup.json`: `siteItemId`, `homeId`, `otherDemo` (prefix found, or `null`), `manifest: { result: "pass" | "fail", checkedAt: <ISO time> }`, and `placementApi: "ok" | "failing"` (item 6).
 2. Write `docs/ai/demos/<client>/setup-report.md` from `.agents/skills/sitecore-start-demo/assets/setup-report.template.md`.
 3. In chat: blockers and warnings, what was fixed, the Home and Header/Footer summary, then — only if there are no blockers — the build command to paste:
    - Pi: `/skill:sitecore-build-demo build a custom demo for <client> from <url>`
@@ -89,7 +92,7 @@ Use `siteCollection`/`siteName` from `docs/ai/config/project.yaml`.
 The build re-runs the Start Check without fixing or writing anything:
 
 1. `node .agents/skills/sitecore-start-demo/scripts/start-demo.mjs --client <client> --check` (the URL comes from `setup.json`).
-2. Step 2 items 0, 1, 2 and 4.
+2. Step 2 items 0, 1, 2, 4 and 6.
 3. Step 2 item 5 **only if** `manifestReuse.reusable` is false or `manifestReuse.siteItemId` differs from the site item ID just read (same day, same `main` commit and same environment are required to reuse it).
 
 Any blocker stops the build: tell the user to run `/skill:sitecore-start-demo <client> <url>`.

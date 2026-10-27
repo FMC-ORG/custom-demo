@@ -209,6 +209,10 @@ When `add_component_on_page` is called, it automatically creates a **local datas
 
 After adding a component and setting a shared datasource, the auto-created local datasource item becomes orphaned. Over time, pages accumulate unused local datasource items. Not a breaking issue, but creates content clutter.
 
+### Outage observed 2026-10-27 (a demo environment, right after an environment deploy)
+
+`add_component_on_page` and `get_component` both failed with `Error fetching component: GraphQL errors: The field 'renderings' does not exist on the type 'Query'` (HTTP 400). The rendering ID format (dashed or braced) made no difference, and nothing was added (checked by read-back). The workaround was to place the components in Page Builder and assign the existing shared datasources. Retry MCP placement later; if it still fails, report it as a platform issue.
+
 ---
 
 ## 5. Image upload — fully automated via Content Hub Upload API
@@ -261,37 +265,54 @@ Phase 3 Step 3: Agent reads `imageFieldXml` from manifest, includes Image fields
 
 ---
 
-## 6. Search endpoint contract — keyphrase + sort + limit/offset only
+## 6. Search endpoint contract — keyphrase, sort, paging, facets, More Like This, suggest
 
-**Endpoint:** `POST https://edge-platform.sitecorecloud.io/v1/search` (reached through the Content SDK `useSearch` / `useInfiniteSearch` hooks; authenticated by the context ID). Empirically probed 2026-08 during the spec #45 build.
+**Endpoints:** `POST https://edge-platform.sitecorecloud.io/v1/search` and `/v1/search/suggest`. Both are reached through the Content SDK hooks `useSearch`, `useInfiniteSearch` and `useSuggest`, and authenticated by the context ID. Re-probed 2026-10-27 with `@sitecore-content-sdk/search` 0.5.0 against a **push source** (ADR 0011). This replaces the 2026-08 contract ("filters silently ignored"), which applied to the older SDK and the content source.
 
 ### What the endpoint honors
 
 | Parameter | Behavior |
 |---|---|
-| `searchIndexId` | required; unknown/unpublished index → HTTP 404 `no search index found for config <contextId>` |
-| `keyphrase` | text query; **empty string = browse mode, returns all documents** |
-| `sort` | `{ name: <attribute>, order: asc\|desc }` or an array of those |
-| `limit` / `offset` | pagination; limit max 500 |
+| `config.id` (`searchIndexId`) | Required. This is the **source ID**; for a push source it's also the Ingestion API `config_id`. Unknown → 404. |
+| `query.keyphrase` | Text query. **Empty = browse mode** (all documents). Semantic reranking and fuzzy matching apply when enabled on the source. |
+| `query.seedItemId` | More Like This. Matches only the **dashed lowercase GUID** (undashed returns `{}`, braces return 500). The seed is excluded from its own results. Mutually exclusive with `keyphrase`. |
+| `query.seedItemUrl` | More Like This by URL. Needs documents pushed with an absolute `sc_url`; a relative path returns 400. |
+| `sort` | `{ name, order }` or an array. Uses the **lowercase document attribute** (`articlepublicationdate`). |
+| `limit` / `offset` | Paging; `limit` max 500. |
+| `facet` | `{ all?: true, fields: [{ name, filters?: [{ operator: 'eq', value: string \| string[] }] }] }`. Facets are named by **display name** (`ArticleTopic`); the lowercase name returns 400. A field without filters returns counts. An array value is OR. |
+| `/v1/search/suggest` | `{ config, query: { keyphrase } }` returns `querySuggestions[{ text, queryPlusText }]` and `previewResults[]`. Both depend on the source's Autocomplete and Result preview settings, and their limits are set in the source. |
 
-### What the endpoint silently ignores
+### Semantics worth knowing
 
-Filters, facets, field selection, and **any unknown body property**. This is a lenient endpoint: it never errors on unsupported request shapes. The dangerous consequence is that a "filtered" query returns HTTP 200 with *unfiltered* results — there is no signal that the filter was dropped. Do not attempt faceted or filtered search until the platform ships support; do not trust a 200 response as proof a request feature worked.
+- **Facet counts are disjunctive:** a facet's own counts ignore its own filter, while other facets narrow with the filter. One request is enough for "tick more values" UIs.
+- **An unknown facet name fails the whole search (400).** Components must degrade (SearchResults retries without facets).
+- Keyphrase matching is loose and relevance-ranked. Verification contracts assert *the expected document ranks first*, not exact counts.
 
-### Matching semantics
+### Push sources (Ingestion Service API)
 
-Keyphrase matching is loose (OR-like across words): a multi-word query matches documents containing some of the words, ranked by relevance. Verification contracts must assert *the expected document ranks first*, not exact result counts — a full-title query legitimately returns multiple documents.
+- **Endpoint:** `POST {API Endpoint}/v1/index/{config_id}/push`
+  - Header: `Authorization: ApiKey <key>`. The key is instance-wide and shown once. Create it in Search Sources → Settings.
+  - Body: `{ operations: [{ action: 'upsert' | 'delete', id, locale, sc_url?, fields }] }`, with 1–50 operations and at most 512 KiB per request.
+  - A **207** response is a partial success: check each `results[i].succeeded`.
+- **Fields:**
+  - Defined at source creation; types are String, Number, Boolean and Tags (no Datetime).
+  - **The UI lowercases names on save.** Push and read them lowercase.
+  - All values are sent as strings. `upsert` merges, and an empty string clears a field.
+- **History:** none is kept. To rebuild, push everything again. Pushes are live immediately: there's no dry run or publish step.
+- **Pushing into content or site sources:** possible, but temporary. A reindex or crawl replaces the changes.
 
-### Index attribute caveats
+### Content source caveats (the indexes created before push sources)
 
-- The set of queryable/sortable attributes is whatever the index ingested (e.g. `Title`, `ArticleContent`, `ArticlePublicationDate`, `sc_item_id`). Rich-text attributes come back as raw HTML — strip before display.
-- **A source's attribute schema is fixed at creation** — template fields added later do NOT auto-ingest, even after publish + re-run. To surface a new field, it must be "Included" in the source's content-type field configuration, which in practice means creating a new source (observed 2026-08-18 with `ArticleUrl`).
-- Indexes have **no URL attribute by default**; this project delivers links through content instead — an `ArticleUrl` template field holding each article's site-relative path, ingested as a normal attribute and consumed via `LinkMapping` (ticket #49). Caveat: the field duplicates the item path — keep it in sync on rename/move.
-- Index content reflects *published* items; deleted-but-unpublished items keep polluting results until a publish + recrawl. Re-running the index without publishing first re-reads the old published state.
+- The schema is fixed at creation. Template fields added later need a new source.
+- Supported field types are Checkbox, Text, Rich Text, Single-Line, Multi-Line, Number, Date, Datetime and Image. **Droplist is not listed.**
+- There's no URL attribute, hence the `ArticleUrl` field. Rich text comes back as HTML.
+- The index reflects *published* items only, after a reindex.
 
-### Re-verification tool
+### Re-verification tools
 
-`.agents/skills/sitecore-search/scripts/search-probe.mjs` probes the endpoint directly at the HTTP boundary (bypassing React) — use it to confirm index content, attribute names, and the contract above whenever behavior looks off. Browser-level protocols: `search-verify.mjs`, `collection-verify.mjs`, `typeahead-verify.mjs`.
+- `.agents/skills/sitecore-search/scripts/search-probe.mjs`: probes the HTTP boundary.
+- `push-articles.mjs`: syncs the push source (`--dry-run` first).
+- Browser protocols: `search-verify.mjs`, `collection-verify.mjs`, `typeahead-verify.mjs`.
 
 ---
 

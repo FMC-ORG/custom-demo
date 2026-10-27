@@ -47,24 +47,23 @@ if (componentPresent) {
   const titles = (await cards.allTextContents()).map((t) => t.trim());
   record('card-count', titles.length === 3, `cards: ${titles.length} (MaxItems 3)`);
 
-  // Live corpus newest three (2026-08-18 expansion): AI Meets Human Connection
-  // Aug 6 > Observability Jul 28 > Migrations Jul 15. Date-desc sort must
-  // yield exactly this order.
-  const expectedOrder = ['AI Meets Human Connection', 'Observability', 'Migrations'];
+  // Corpus-independent: the strip sorts by publication date desc, so the rendered
+  // card dates must be non-increasing (whatever the newest three currently are).
+  const dates = (await component.locator('p.text-sm').allTextContents()).map((d) => d.trim());
+  const times = dates.map((d) => Date.parse(d));
   const orderCorrect =
-    titles.length === 3 && expectedOrder.every((word, i) => titles[i]?.includes(word));
-  record('date-desc-order', orderCorrect, `titles: [${titles.join(' | ')}]`);
-
-  const dates = await component.locator('p.text-sm').allTextContents();
+    titles.length === 3 &&
+    times.every((t) => !Number.isNaN(t)) &&
+    times.every((t, i) => i === 0 || times[i - 1] >= t);
+  record('date-desc-order', orderCorrect, `titles: [${titles.join(' | ')}], dates: [${dates.join(' | ')}]`);
   record('dates-rendered', dates.length === 3, `dates: [${dates.join(' | ')}]`);
 
-  const links = await component.locator('a').count();
-  const firstLink =
-    (await component.locator('a').first().getAttribute('href').catch(() => null)) ?? '(none)';
+  // Links come from the articleurl attribute; each must be a site-relative article path.
+  const hrefs = await component.locator('a').evaluateAll((as) => as.map((a) => a.getAttribute('href') ?? ''));
   record(
     'result-links-work',
-    links === 3 && firstLink === '/Articles/AI-Meets-Human-Connection',
-    `links: ${links}, first: ${firstLink} (live since #49)`
+    hrefs.length === 3 && hrefs.every((h) => /^\/Articles\/[A-Za-z0-9-]+$/.test(h)),
+    `links: [${hrefs.join(' | ')}]`
   );
 }
 
@@ -73,6 +72,31 @@ if (componentPresent) {
 } else {
   await page.screenshot({ path: `${outDir}/collection-home.png`, fullPage: false });
 }
+
+// --- Related articles (search v4): RelatedToCurrentPage on the Article Layout instance ---
+const relatedPath = '/Articles/One-To-One-Personalization-At-Scale';
+await page.goto(`${baseUrl}${relatedPath}`, { waitUntil: 'load' });
+await page.waitForTimeout(3000);
+const related = page.locator('section.search-collection');
+// Related articles are optional (SearchCollection with RelatedToCurrentPage in the
+// article partial design). Skip, don't fail, when the article page has no strip.
+if ((await related.count()) === 0) {
+  record('related', true, 'skipped: no SearchCollection on the article page (Related articles not placed)');
+} else {
+  const relatedHeading = (await related.locator('h2').textContent().catch(() => ''))?.trim() ?? '';
+  const relatedTitles = (await related.locator('h3').allTextContents()).map((t) => t.trim());
+  record(
+    'related-present',
+    relatedHeading === 'Related articles' && relatedTitles.length === 3,
+    `heading: "${relatedHeading}", cards: [${relatedTitles.join(' | ')}]`
+  );
+  record(
+    'related-excludes-current',
+    !relatedTitles.some((t) => /One-to-One Personalization/i.test(t)),
+    `current page "One-to-One Personalization at Scale" ${relatedTitles.some((t) => /One-to-One/i.test(t)) ? 'PRESENT' : 'absent'}`
+  );
+}
+if (await related.count()) await related.screenshot({ path: `${outDir}/collection-related.png` });
 
 const ownErrors = consoleErrors.filter((e) => !e.includes('SearchExperience_'));
 record(

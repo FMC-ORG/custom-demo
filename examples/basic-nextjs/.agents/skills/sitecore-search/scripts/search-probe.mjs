@@ -3,14 +3,40 @@
 // Replaces the missing "test query" feature in Search Configuration Manager.
 //
 // Usage (from examples/basic-nextjs):
-//   node .agents/skills/sitecore-search/scripts/search-probe.mjs <searchIndexGuid> [keyphrase]
+//   node .agents/skills/sitecore-search/scripts/search-probe.mjs <searchIndexGuid> [keyphrase] [options]
+//
+// Options (search v4, ADR 0011):
+//   --facet <Name>            request counts for a facet (display-name casing; repeatable)
+//   --filter <Name>=<v1|v2>   eq filter (values OR-ed); implies --facet <Name>
+//   --seed <itemId>           More Like This by item ID (dashed lowercase GUID) instead of keyphrase
+//   --sort <attr>[:asc|desc]  sort by a (lowercase) document attribute
+//   --suggest                 call /v1/search/suggest (autocomplete terms + preview results)
 //
 // Reads NEXT_PUBLIC_SITECORE_EDGE_CONTEXT_ID (or SITECORE_EDGE_CONTEXT_ID) from .env.
 
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const [indexId, keyphrase = ''] = process.argv.slice(2);
+const argv = process.argv.slice(2);
+const positional = [];
+const facetNames = new Set();
+const filters = {};
+let seed = '';
+let sortArg = '';
+let suggest = false;
+for (let i = 0; i < argv.length; i++) {
+  const a = argv[i];
+  if (a === '--facet') facetNames.add(argv[++i]);
+  else if (a === '--filter') {
+    const [name, values = ''] = argv[++i].split('=');
+    facetNames.add(name);
+    filters[name] = values.split('|').filter(Boolean);
+  } else if (a === '--seed') seed = argv[++i];
+  else if (a === '--sort') sortArg = argv[++i];
+  else if (a === '--suggest') suggest = true;
+  else positional.push(a);
+}
+const [indexId, keyphrase = ''] = positional;
 
 if (!indexId) {
   console.error('Usage: node .agents/skills/sitecore-search/scripts/search-probe.mjs <searchIndexGuid> [keyphrase]');
@@ -39,21 +65,38 @@ if (!contextId) {
   process.exit(1);
 }
 
-const response = await fetch('https://edge-platform.sitecorecloud.io/v1/search', {
-  method: 'POST',
-  headers: {
-    'content-type': 'application/json',
-    'x-sitecore-contextid': contextId,
-  },
-  body: JSON.stringify({
-    config: { id: indexId },
-    limit: 10,
-    offset: 0,
-    query: { keyphrase },
-    sessionId: '',
-    sort: { fields: [] },
-  }),
-});
+const [sortName, sortOrder = 'desc'] = sortArg.split(':');
+const body = suggest
+  ? { config: { id: indexId }, query: { keyphrase } }
+  : {
+      config: { id: indexId },
+      limit: 10,
+      offset: 0,
+      query: seed ? { seedItemId: seed } : { keyphrase },
+      sessionId: '',
+      sort: { fields: sortName ? [{ name: sortName, order: sortOrder }] : [] },
+      ...(facetNames.size && {
+        facet: {
+          fields: [...facetNames].map((name) =>
+            filters[name]?.length
+              ? { name, filters: [{ operator: 'eq', value: filters[name] }] }
+              : { name }
+          ),
+        },
+      }),
+    };
+
+const response = await fetch(
+  `https://edge-platform.sitecorecloud.io/v1/search${suggest ? '/suggest' : ''}`,
+  {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-sitecore-contextid': contextId,
+    },
+    body: JSON.stringify(body),
+  }
+);
 
 const text = await response.text();
 console.log(`HTTP ${response.status} ${response.statusText}`);
@@ -64,6 +107,19 @@ try {
 } catch {
   console.log(text);
   process.exit(response.ok ? 0 : 1);
+}
+
+if (suggest) {
+  console.log('querySuggestions:', JSON.stringify(data.querySuggestions ?? []));
+  console.log('previewResults:', (data.previewResults ?? []).map((d) => d.title ?? d.Title ?? JSON.stringify(d).slice(0, 80)));
+  process.exit(response.ok ? 0 : 1);
+}
+
+if (data.facet) {
+  console.log('\n--- facets ---');
+  for (const f of data.facet) {
+    console.log(`${f.name}: ${f.value.map((v) => `${v.text} (${v.count})`).join(', ')}`);
+  }
 }
 
 const results = data.content ?? [];

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, within } from '@testing-library/react';
 import { Default } from '@/components/uiim/search/SearchResults';
 
 // --- Mocks (single CI seam: the SDK search module; see spec #45) ---
@@ -257,5 +257,112 @@ describe('pagination', () => {
 
     expect(mockUseSearch).toHaveBeenLastCalledWith(expect.objectContaining({ page: 2 }));
     expect(window.location.search).toBe('?page=2');
+  });
+});
+
+describe('facets', () => {
+  const facetProps = {
+    ...baseProps,
+    fields: { ...baseFields, Facets: field('ArticleTopic:Topic') },
+  };
+  const topicFacets = [
+    {
+      name: 'ArticleTopic',
+      value: [
+        { text: 'Engineering', count: 4 },
+        { text: 'AI', count: 2 },
+      ],
+    },
+  ];
+
+  it('requests counts for the configured facets and renders them with a label', () => {
+    mockUseSearch.mockReturnValue(
+      searchState({ total: 1, totalPages: 1, results: [doc('Canary Releases')], facets: topicFacets })
+    );
+    render(<Default {...facetProps} />);
+
+    expect(mockUseSearch).toHaveBeenLastCalledWith(
+      expect.objectContaining({ facet: { fields: [{ name: 'ArticleTopic' }] } })
+    );
+    const sidebar = screen.getByTestId('facet-sidebar');
+    expect(within(sidebar).getByText('Topic')).toBeInTheDocument();
+    expect(within(sidebar).getByRole('checkbox', { name: /Engineering/ })).not.toBeChecked();
+    expect(within(sidebar).getByText('4')).toBeInTheDocument();
+  });
+
+  it('ticking values adds an OR filter, resets to page 1, and mirrors the selection to the URL', () => {
+    mockUseSearch.mockReturnValue(
+      searchState({ total: 6, totalPages: 3, results: [doc('Canary Releases')], facets: topicFacets })
+    );
+    render(<Default {...facetProps} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Next page' }));
+
+    const sidebar = screen.getByTestId('facet-sidebar');
+    fireEvent.click(within(sidebar).getByRole('checkbox', { name: /Engineering/ }));
+    fireEvent.click(within(sidebar).getByRole('checkbox', { name: /AI/ }));
+
+    expect(mockUseSearch).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        page: 1,
+        facet: {
+          fields: [
+            { name: 'ArticleTopic', filters: [{ operator: 'eq', value: ['Engineering', 'AI'] }] },
+          ],
+        },
+      })
+    );
+    expect(new URLSearchParams(window.location.search).get('ArticleTopic')).toBe('Engineering|AI');
+  });
+
+  it('hydrates the selection from the URL and offers Clear all', () => {
+    window.history.replaceState(null, '', '/Articles?ArticleTopic=AI');
+    mockUseSearch.mockReturnValue(
+      searchState({ total: 2, totalPages: 1, results: [doc('Canary Releases')], facets: topicFacets })
+    );
+    render(<Default {...facetProps} />);
+
+    const sidebar = screen.getByTestId('facet-sidebar');
+    expect(within(sidebar).getByRole('checkbox', { name: /AI/ })).toBeChecked();
+
+    fireEvent.click(within(sidebar).getByRole('button', { name: 'Clear all' }));
+    expect(within(sidebar).getByRole('checkbox', { name: /AI/ })).not.toBeChecked();
+    expect(window.location.search).not.toContain('ArticleTopic');
+  });
+
+  it('keeps a selected value visible (count 0) when the API no longer returns it', () => {
+    window.history.replaceState(null, '', '/Articles?ArticleTopic=Engineering');
+    mockUseSearch.mockReturnValue(
+      searchState({
+        total: 0,
+        results: [],
+        facets: [{ name: 'ArticleTopic', value: [{ text: 'AI', count: 1 }] }],
+      })
+    );
+    render(<Default {...facetProps} />);
+
+    const sidebar = screen.getByTestId('facet-sidebar');
+    expect(within(sidebar).getByRole('checkbox', { name: /Engineering/ })).toBeChecked();
+  });
+
+  it('degrades to a facet-less search when the faceted request fails', () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    mockUseSearch.mockImplementation((options: { facet?: unknown }) =>
+      options.facet
+        ? searchState({ isSuccess: false, isError: true, error: new Error('HTTP 400') })
+        : searchState({ total: 1, totalPages: 1, results: [doc('Canary Releases')] })
+    );
+    render(<Default {...facetProps} />);
+
+    expect(mockUseSearch).toHaveBeenLastCalledWith(expect.objectContaining({ facet: undefined }));
+    expect(screen.getByText('Canary Releases')).toBeInTheDocument();
+    expect(screen.queryByTestId('facet-sidebar')).not.toBeInTheDocument();
+    expect(warn).toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
+  it('sends no facet request when Facets is empty', () => {
+    render(<Default {...baseProps} />);
+    expect(mockUseSearch).toHaveBeenLastCalledWith(expect.objectContaining({ facet: undefined }));
+    expect(screen.queryByTestId('facet-sidebar')).not.toBeInTheDocument();
   });
 });

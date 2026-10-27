@@ -6,7 +6,8 @@
 //   node .agents/skills/sitecore-search/scripts/push-articles.mjs --source <configId> [options]
 //
 // Options:
-//   --source <id>        push source config_id (or env SITECORE_SEARCH_PUSH_SOURCE_ID)
+//   --source <id>        push source config_id (default: project.yaml searchSources.articles,
+//                        then SITECORE_SEARCH_PUSH_SOURCE_ID)
 //   --dry-run            print the operations payload; send nothing
 //   --locale <code>      document locale (default: en)
 //   --language <code>    Sitecore content language to read (default: en)
@@ -28,6 +29,7 @@
 // with the lowercase names too, so datasource *Mapping fields must use them (e.g. "articletopic").
 
 import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 
 const ARTICLE_TEMPLATE_ID = '74360AD2-D3DF-4FCE-834C-2F5420488677';
@@ -57,7 +59,9 @@ const readEnvVar = (name) => {
 };
 
 const dryRun = flag('dry-run');
-const sourceId = opt('source', readEnvVar('SITECORE_SEARCH_PUSH_SOURCE_ID'));
+// Source ID: --source, then project.yaml searchSources.articles, then SITECORE_SEARCH_PUSH_SOURCE_ID.
+const { readSearchSource } = createRequire(import.meta.url)('./lib/search-config.cjs');
+const sourceId = opt('source', readSearchSource(process.cwd()));
 const locale = opt('locale', 'en');
 const language = opt('language', 'en');
 const parentPath = opt('path', '/sitecore/content/main/main-website/Home/Articles');
@@ -77,7 +81,7 @@ const fail = (msg) => {
 
 if (!contextId) fail('No SITECORE_EDGE_CONTEXT_ID / NEXT_PUBLIC_SITECORE_EDGE_CONTEXT_ID in env, .env.local, or .env');
 if (!dryRun) {
-  if (!sourceId) fail('Missing --source <configId> (or SITECORE_SEARCH_PUSH_SOURCE_ID)');
+  if (!sourceId) fail('Missing source: --source <configId>, project.yaml searchSources.articles, or SITECORE_SEARCH_PUSH_SOURCE_ID');
   if (!apiKey) fail('Missing SITECORE_SEARCH_PUSH_API_KEY in .env.local');
   if (!endpoint) fail('Missing SITECORE_SEARCH_PUSH_ENDPOINT in .env.local (the source "API Endpoint" value)');
 }

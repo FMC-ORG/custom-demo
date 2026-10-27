@@ -466,6 +466,50 @@ async function startCheck({
       'docs/ai/config/project.yaml is missing siteCollection/siteName.',
     );
 
+  // --- search source (read-only; ADR 0013) -------------------------------------------------
+  // searchSources.articles in project.yaml (fallback SITECORE_SEARCH_PUSH_SOURCE_ID). One empty
+  // search proves it answers for this environment's context ID. Never a blocker.
+  {
+    const { readSearchSource, readEnvVar } = require(
+      path.join(__dirname, '../../../sitecore-search/scripts/lib/search-config.cjs'),
+    );
+    const sourceId = readSearchSource(app, d.env ?? process.env);
+    const contextId =
+      readEnvVar(app, 'NEXT_PUBLIC_SITECORE_EDGE_CONTEXT_ID', d.env ?? process.env) ||
+      readEnvVar(app, 'SITECORE_EDGE_CONTEXT_ID', d.env ?? process.env);
+    if (!sourceId)
+      add(
+        'search-source',
+        'fail',
+        'info',
+        'No search source configured (project.yaml searchSources.articles). Search needs one: see the sitecore-search skill (push source setup).',
+      );
+    else if (!contextId)
+      add('search-source', 'fail', 'info', `Search source ${sourceId} configured; no Edge context ID in .env.local to probe it.`);
+    else {
+      try {
+        const response = await d.fetchImpl('https://edge-platform.sitecorecloud.io/v1/search', {
+          method: 'POST',
+          signal: AbortSignal.timeout(20000),
+          headers: { 'content-type': 'application/json', 'x-sitecore-contextid': contextId },
+          body: JSON.stringify({ config: { id: sourceId }, limit: 1, offset: 0, query: { keyphrase: '' }, sessionId: '', sort: { fields: [] } }),
+        });
+        const body = response.ok ? await response.json().catch(() => ({})) : {};
+        if (response.ok)
+          add('search-source', 'pass', 'warning', `Search source ${sourceId} answers (${body.total ?? 0} documents).`);
+        else
+          add(
+            'search-source',
+            'fail',
+            'warning',
+            `Search source ${sourceId} returned HTTP ${response.status}${response.status === 404 ? ' (not in this environment? wrong context ID or source ID)' : ''}.`,
+          );
+      } catch {
+        add('search-source', 'fail', 'warning', `Search source ${sourceId} could not be reached.`);
+      }
+    }
+  }
+
   if (fs.existsSync(path.join(app, '.env.local')))
     add('env-local', 'pass', 'warning', '.env.local present.');
   else

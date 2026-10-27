@@ -2,6 +2,7 @@ import { createRobotsRouteHandler } from '@sitecore-content-sdk/nextjs/route-han
 import sites from '.sitecore/sites.json';
 import client from 'lib/sitecore-client';
 import { NextRequest, NextResponse } from 'next/server';
+import { isIndexingAllowed, noIndexRobotsTxt } from 'lib/indexing';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,6 +22,9 @@ export const dynamic = 'force-dynamic';
  *
  * To restrict AI crawler access, modify the generateRobotsContent function below
  * or configure your hosting provider's bot management settings.
+ *
+ * The permissive behavior below only applies when SITE_ALLOW_INDEXING=true; by default
+ * (demo sites) the route serves noIndexRobotsTxt from lib/indexing (ADR 0012).
  */
 
 const { GET: sitecoreGET } = createRobotsRouteHandler({
@@ -128,6 +132,18 @@ Sitemap: ${baseUrl}/sitemap-llm.xml
  * Custom GET handler that ensures AI crawlers and search engines can access the site
  */
 export async function GET(request: NextRequest) {
+  // Demo sites are not indexed unless SITE_ALLOW_INDEXING=true (ADR 0012). This must run
+  // before the permissive logic below, which deliberately overrides a blocking Sitecore
+  // robots.txt.
+  if (!isIndexingAllowed()) {
+    return new NextResponse(noIndexRobotsTxt(new URL(request.url).origin), {
+      headers: {
+        'Content-Type': 'text/plain',
+        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+      },
+    });
+  }
+
   try {
     // Try to get robots.txt from Sitecore first
     const response = await sitecoreGET(request);

@@ -84,7 +84,9 @@ git checkout dd55673a -- \
 - **Typeahead (done during the port):** if `useSuggest` errors or returns nothing, the box falls back to the earlier `useSearch` title search, so environments still on a content source without Autocomplete or Result preview keep working.
 
 ### 3.3 Sitecore items on `main`
-The new template fields exist only in the `sitecore-demo` database. On a development environment *without* a marker (`main`'s environment):
+**Done (B2), by a different route than planned below:** creating the fields through MCP in `main`'s environment would assign new IDs, and `sitecore-demo`, which already has them, would end up with duplicate fields. The 9 items (3 fields, the topics folder and 5 tags) were therefore pulled with a scoped `ser pull` from `sitecore-demo`, in a temporary copy so no client content was touched, and committed with their original IDs.
+
+The original plan was: the new template fields exist only in the `sitecore-demo` database. On a development environment *without* a marker (`main`'s environment):
 1. Recreate the 3 fields through MCP, following the manifest recipe, or run a scoped `ser pull` of only `/sitecore/templates/Project/fmc-custom-demo/Components/Search` and `.../Page Types/Article Page Template` from an environment that has them.
 2. Commit the resulting `.yml` files in `main-templates` and `project`. Every environment then gets the fields as resource items, which is right for *templates*.
 3. Don't pull `site-content` from `sitecore-demo`: it contains client demo content.
@@ -209,7 +211,7 @@ Today search is enabled after the build, by hand, across several sessions. The r
 | ID | Item | Depends on | Size | Status |
 |---|---|---|---|---|
 | B1 | Port search v4, the analytics guard, noindex and the docs to `main` (§3) | none | M | done (PR #75) |
-| B2 | Template fields through MCP and a scoped `ser pull` on `main`'s environment (§3.3) | B1 | S | open |
+| B2 | Serialize the template fields and the Article Topics tags (§3.3) | B1 | S | done: scoped `ser pull` from `sitecore-demo`, which keeps the IDs; no MCP creation, which would have duplicated them |
 | B3 | ADR and change: narrow `site-content`, add `seed-articles.mjs` and the committed article JSON (§4.1) | none | M | open |
 | B4 | `set-search-source.mjs`, empty `SearchIndex` in serialized datasources, and the search setup checklist (§4.2) | B1 | S | open |
 | B5 | `X-Build-Sha` header, `wait-for-deploy.mjs`, `verify-demo.mjs`, showcase URL in Start Check (§4.3) | B1 | S | done (`feature/demo-process-b5-b7`) |

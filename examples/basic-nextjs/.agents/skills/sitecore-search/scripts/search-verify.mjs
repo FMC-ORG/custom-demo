@@ -125,23 +125,29 @@ record(
   `values: [${facetValues.join(' | ')}]`
 );
 
+// Corpus-independent: expected totals come from the facet counts shown before filtering.
+const countOf = async (value) => parseInt((await facetCount(value)) ?? '', 10);
+const aiCount = await countOf('AI');
+const personalizationCount = await countOf('Personalization');
+const engineeringBefore = await countOf('Engineering');
+
 await facetBox('AI').check();
 const oneFacet = await readState();
 const urlFacet = new URL(page.url()).searchParams.get('ArticleTopic');
 record(
   'facet-filter',
-  oneFacet.total.startsWith('2 ') && urlFacet === 'AI',
-  `"${oneFacet.total}", ?ArticleTopic=${urlFacet}, cards: [${oneFacet.titles.join(' | ')}]`
+  parseInt(oneFacet.total) === aiCount && urlFacet === 'AI',
+  `"${oneFacet.total}" (AI count ${aiCount}), ?ArticleTopic=${urlFacet}`
 );
 
 await facetBox('Personalization').check();
 const twoFacets = await readState();
-const engineeringCount = await facetCount('Engineering');
+const engineeringAfter = await countOf('Engineering');
 await page.screenshot({ path: `${outDir}/5-facets.png`, fullPage: true });
 record(
   'facet-or-and-disjunctive-counts',
-  twoFacets.total.startsWith('5 ') && engineeringCount === '4',
-  `"${twoFacets.total}" (AI OR Personalization), Engineering count still ${engineeringCount}`
+  parseInt(twoFacets.total) === aiCount + personalizationCount && engineeringAfter === engineeringBefore,
+  `"${twoFacets.total}" (AI ${aiCount} OR Personalization ${personalizationCount}), Engineering count ${engineeringBefore} -> ${engineeringAfter}`
 );
 
 await page.goto(`${baseUrl}/Articles?ArticleTopic=Engineering`, { waitUntil: 'domcontentloaded' });
@@ -149,15 +155,15 @@ await component.waitFor({ timeout: 15000 });
 const facetDeepLink = await readState();
 record(
   'facet-deep-link',
-  (await facetBox('Engineering').isChecked()) && facetDeepLink.total.startsWith('4 '),
-  `"${facetDeepLink.total}", Engineering checked: ${await facetBox('Engineering').isChecked()}`
+  (await facetBox('Engineering').isChecked()) && parseInt(facetDeepLink.total) === engineeringBefore,
+  `"${facetDeepLink.total}" (Engineering count ${engineeringBefore}), checked: ${await facetBox('Engineering').isChecked()}`
 );
 
 await sidebar.getByRole('button', { name: 'Clear all' }).click();
 const cleared = await readState();
 record(
   'facet-clear-all',
-  parseInt(cleared.total) >= 13 && !new URL(page.url()).searchParams.has('ArticleTopic'),
+  parseInt(cleared.total) === parseInt(browse.total) && !new URL(page.url()).searchParams.has('ArticleTopic'),
   `"${cleared.total}", url: "${new URL(page.url()).search}"`
 );
 

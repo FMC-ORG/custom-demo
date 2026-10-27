@@ -3614,12 +3614,41 @@ components-search-v4:
     - { page: "Article Layout partial design {4E09B734-6F98-4599-BC8D-9B15B07B291C}", placeholder: "headless-main", after: "ArticleBody a6c25604-6fe3-4a84-bbfb-fbc3a3fd6e9f", datasource: "Related Articles", status: "placedManually", componentInstanceId: "8bae9992-484b-4359-96a1-e3baa3b2c7fb" }
     - { page: "Home {E2124310-F817-4644-8671-BFF8E72B66D7}", placeholder: "headless-main", after: "CTABanner ed02194b-ead4-4dd9-a190-68ba9bbae24d (placed after, not before — accepted)", datasource: "Latest Articles", status: "placedManually", componentInstanceId: "f53b26ee-c06a-4315-8976-c4ae4fcff491" }
   showcaseHost: "https://sitecore-live-demo.vercel.app"  # public showcase (Vercel, branch sitecore-demo); editing host: https://sitecore-demo-editing-host.vercel.app
-  showcaseVerification: "2026-10-27 after push c965f829: search-verify 11/12, collection-verify 8/9, typeahead-verify 9/9 — all functional checks pass; the 2 failures are no-console-errors from search analytics events sent by the HEADLESS verification browser (bot detection -> no browser ID -> POST /v1/events 400 'Invalid UUID string'). Real desktop UA: browser/create 201, VIEW 201, search event 201. Fixed by the browser-ID guard in useSearchEvents (388678d7)."
+  showcaseVerification: "2026-10-27: 30/30 on https://sitecore-live-demo.vercel.app after the analytics guard (388678d7) and again with the 28-article corpus (facet counts Engineering 7, Personalization 6, AI 5, Composable DXP 5, Customer Data and Analytics 5; authors 14/14). Verify scripts made corpus-independent (expected totals read from facet counts; Latest checked by date order)."
   verification: "2026-10-27 local dev against sitecore-demo after publish: search-verify 12/12 (incl. facets), collection-verify 9/9 (Latest + Related), typeahead-verify 9/9 (incl. suggest sections); jest 345/345; tsc clean"
   placementsBlocker: "2026-10-27 add_component_on_page and get_component fail: 'Error fetching component: GraphQL errors: The field `renderings` does not exist on the type `Query`' (400). Nothing was added (read-back)."
 
 # Demo datasource items (AI-created content, not new component definitions)
 demoContent:
+
+  # Articles corpus batch 2, created 2026-10-27 (sitecore-demo env). 15 articles, 3 per topic,
+  # all fields set at creation and verified by read-back (incl. ArticleTopic, ArticleUrl, DAM image XML).
+  # Images: 15 seeded Lorem Picsum photos (1200x675) uploaded to Content Hub via upload-to-content-hub.mjs
+  # (journal: docs/ai/demos/sitecore/articles-images-2/, gitignored; one asset needed a resume to reconcile, no duplicate).
+  # Content source: docs/ai/demos/sitecore/articles-batch2.json (gitignored).
+  # Index: push source d09b2998 via push-articles.mjs AFTER publish (index does not follow publishing).
+  - name: "Articles corpus batch 2 (15 items)"
+    kind: "pages"
+    template: "Article Page Template"
+    parentPath: "/sitecore/content/main/main-website/Home/Articles/"
+    status: "complete"  # published 2026-10-27, pushed (28/28 docs), showcase verified 30/30
+    items:
+      - { name: "Agentic AI In The Marketing Stack", itemId: "{33DE2B74-A81D-4415-84BA-A449F1168A48}", topic: "AI", date: "2026-09-03", author: "Marcus Webb" }
+      - { name: "Prompts That Respect Your Brand Voice", itemId: "{3D8979A3-C2EC-4376-9F9D-866A946D2B5A}", topic: "AI", date: "2026-05-27", author: "Jane Smith" }
+      - { name: "AI Answers And The End Of Ten Blue Links", itemId: "{115DBE83-4B6F-43F0-8160-8D7805E8B18C}", topic: "AI", date: "2026-10-15", author: "Marcus Webb" }
+      - { name: "Personalizing For Anonymous Visitors", itemId: "{CDF3F06E-0DC2-446D-8594-5A9907D05125}", topic: "Personalization", date: "2026-03-26", author: "Jane Smith" }
+      - { name: "Testing Personalization Without Fooling Yourself", itemId: "{E8B86FB1-E569-4AB9-9518-8D29D54C7A9F}", topic: "Personalization", date: "2026-07-09", author: "Marcus Webb" }
+      - { name: "Personalization And Privacy Can Coexist", itemId: "{BC6CD734-F47F-44EB-82C2-001CCCAC6478}", topic: "Personalization", date: "2026-09-24", author: "Jane Smith" }
+      - { name: "First Party Data After The Cookie", itemId: "{4DB47519-16BF-4BAC-9C4D-0E83AF075CE3}", topic: "Customer Data and Analytics", date: "2026-02-12", author: "Marcus Webb" }
+      - { name: "A Customer Data Foundation In 90 Days", itemId: "{4EFAD47B-5E2C-4A3E-8236-E4FB11FA31B9}", topic: "Customer Data and Analytics", date: "2026-06-25", author: "Jane Smith" }
+      - { name: "Dashboards Marketers Actually Use", itemId: "{4EC4A331-D395-4D71-BE88-58ABDD8D11C7}", topic: "Customer Data and Analytics", date: "2026-10-01", author: "Marcus Webb" }
+      - { name: "Moving To A SaaS DXP Without A Big Bang", itemId: "{590F45A4-A402-415B-A5A3-C810798960CB}", topic: "Composable DXP", date: "2026-04-09", author: "Jane Smith" }
+      - { name: "Headless Content Modeling Done Right", itemId: "{BFA77F69-2732-473F-95A1-4368BAD825B1}", topic: "Composable DXP", date: "2026-08-20", author: "Marcus Webb" }
+      - { name: "Buy Build Or Blend A Composable Stack", itemId: "{D5B377AE-2EA1-40F5-8866-EA22489E3064}", topic: "Composable DXP", date: "2026-10-08", author: "Jane Smith" }
+      - { name: "Rendering At The Edge For Faster Pages", itemId: "{E9CD47D8-5E8D-4E86-9CB6-A00CDDFE5947}", topic: "Engineering", date: "2026-03-05", author: "Marcus Webb" }
+      - { name: "Accessibility As A Release Gate", itemId: "{56D25269-3306-4127-A2CC-4D4C59CE1AF2}", topic: "Engineering", date: "2026-05-06", author: "Jane Smith" }
+      - { name: "Caching Strategies For Headless Delivery", itemId: "{7F59AC1A-D7A7-4946-9290-45AD91E6912E}", topic: "Engineering", date: "2026-09-10", author: "Jane Smith" }
+    verified: true
 
   # Search v4 step 1 (2026-10-21, sitecore-demo environment): Topic facet data model.
   # Topics use the SXA taxonomy (Tag Folder / Tag under Data/Tags) instead of a bespoke

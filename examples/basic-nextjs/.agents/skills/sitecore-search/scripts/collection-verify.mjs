@@ -47,24 +47,23 @@ if (componentPresent) {
   const titles = (await cards.allTextContents()).map((t) => t.trim());
   record('card-count', titles.length === 3, `cards: ${titles.length} (MaxItems 3)`);
 
-  // Live corpus newest three (2026-08-18 expansion): AI Meets Human Connection
-  // Aug 6 > Observability Jul 28 > Migrations Jul 15. Date-desc sort must
-  // yield exactly this order.
-  const expectedOrder = ['AI Meets Human Connection', 'Observability', 'Migrations'];
+  // Corpus-independent: the strip sorts by publication date desc, so the rendered
+  // card dates must be non-increasing (whatever the newest three currently are).
+  const dates = (await component.locator('p.text-sm').allTextContents()).map((d) => d.trim());
+  const times = dates.map((d) => Date.parse(d));
   const orderCorrect =
-    titles.length === 3 && expectedOrder.every((word, i) => titles[i]?.includes(word));
-  record('date-desc-order', orderCorrect, `titles: [${titles.join(' | ')}]`);
-
-  const dates = await component.locator('p.text-sm').allTextContents();
+    titles.length === 3 &&
+    times.every((t) => !Number.isNaN(t)) &&
+    times.every((t, i) => i === 0 || times[i - 1] >= t);
+  record('date-desc-order', orderCorrect, `titles: [${titles.join(' | ')}], dates: [${dates.join(' | ')}]`);
   record('dates-rendered', dates.length === 3, `dates: [${dates.join(' | ')}]`);
 
-  const links = await component.locator('a').count();
-  const firstLink =
-    (await component.locator('a').first().getAttribute('href').catch(() => null)) ?? '(none)';
+  // Links come from the articleurl attribute; each must be a site-relative article path.
+  const hrefs = await component.locator('a').evaluateAll((as) => as.map((a) => a.getAttribute('href') ?? ''));
   record(
     'result-links-work',
-    links === 3 && firstLink === '/Articles/AI-Meets-Human-Connection',
-    `links: ${links}, first: ${firstLink} (live since #49)`
+    hrefs.length === 3 && hrefs.every((h) => /^\/Articles\/[A-Za-z0-9-]+$/.test(h)),
+    `links: [${hrefs.join(' | ')}]`
   );
 }
 

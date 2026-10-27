@@ -31,7 +31,7 @@ page.on('console', (msg) => {
 const component = page.locator('section.search-results');
 const totalLine = component.locator('p[aria-live="polite"]');
 const cards = component.locator('h3');
-const searchInput = component.locator('input');
+const searchInput = component.locator('[role="search"] input');
 
 const readState = async () => {
   await page.waitForTimeout(2500); // debounce + fetch
@@ -108,6 +108,69 @@ record(
   linkHref === '/Articles/Canary-Releases-Explained',
   `first card link: ${linkHref}`
 );
+
+// --- Facets (search v4): Facets=ArticleTopic on the datasource, desktop sidebar ---
+const sidebar = component.locator('[data-testid="facet-sidebar"]');
+const facetBox = (value) => sidebar.getByRole('checkbox', { name: new RegExp(`^${value}\\b`) });
+const facetCount = (value) =>
+  facetBox(value).evaluate((el) => el.closest('label')?.querySelector('span:last-child')?.textContent?.trim());
+
+await page.goto(`${baseUrl}/Articles`, { waitUntil: 'domcontentloaded' });
+await component.waitFor({ timeout: 15000 });
+await readState();
+// Facets are optional per datasource (Facets field). Skip, don't fail, when none are configured.
+if ((await sidebar.count()) === 0) {
+  record('facets', true, 'skipped: no facet sidebar (Facets field empty on this datasource)');
+} else {
+  const facetValues = (await sidebar.locator('label').allTextContents()).map((t) => t.trim());
+  record(
+    'facets-rendered',
+    (await sidebar.getByText('Topic', { exact: true }).count()) === 1 && facetValues.length >= 5,
+    `values: [${facetValues.join(' | ')}]`
+  );
+
+  // Corpus-independent: expected totals come from the facet counts shown before filtering.
+  const countOf = async (value) => parseInt((await facetCount(value)) ?? '', 10);
+  const aiCount = await countOf('AI');
+  const personalizationCount = await countOf('Personalization');
+  const engineeringBefore = await countOf('Engineering');
+
+  await facetBox('AI').check();
+  const oneFacet = await readState();
+  const urlFacet = new URL(page.url()).searchParams.get('ArticleTopic');
+  record(
+    'facet-filter',
+    parseInt(oneFacet.total) === aiCount && urlFacet === 'AI',
+    `"${oneFacet.total}" (AI count ${aiCount}), ?ArticleTopic=${urlFacet}`
+  );
+
+  await facetBox('Personalization').check();
+  const twoFacets = await readState();
+  const engineeringAfter = await countOf('Engineering');
+  await page.screenshot({ path: `${outDir}/5-facets.png`, fullPage: true });
+  record(
+    'facet-or-and-disjunctive-counts',
+    parseInt(twoFacets.total) === aiCount + personalizationCount && engineeringAfter === engineeringBefore,
+    `"${twoFacets.total}" (AI ${aiCount} OR Personalization ${personalizationCount}), Engineering count ${engineeringBefore} -> ${engineeringAfter}`
+  );
+
+  await page.goto(`${baseUrl}/Articles?ArticleTopic=Engineering`, { waitUntil: 'domcontentloaded' });
+  await component.waitFor({ timeout: 15000 });
+  const facetDeepLink = await readState();
+  record(
+    'facet-deep-link',
+    (await facetBox('Engineering').isChecked()) && parseInt(facetDeepLink.total) === engineeringBefore,
+    `"${facetDeepLink.total}" (Engineering count ${engineeringBefore}), checked: ${await facetBox('Engineering').isChecked()}`
+  );
+
+  await sidebar.getByRole('button', { name: 'Clear all' }).click();
+  const cleared = await readState();
+  record(
+    'facet-clear-all',
+    parseInt(cleared.total) === parseInt(browse.total) && !new URL(page.url()).searchParams.has('ArticleTopic'),
+    `"${cleared.total}", url: "${new URL(page.url()).search}"`
+  );
+}
 
 // --- Console errors across the whole run ---
 record(

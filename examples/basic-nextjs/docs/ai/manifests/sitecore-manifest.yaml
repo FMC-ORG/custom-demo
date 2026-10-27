@@ -3586,6 +3586,36 @@ components-searchv3:
       fieldHelpText: passed  # verified via pull — __Short description intact on field items
       headerPromotion: byDesignManual  # drag into global header partial design in Page Builder when desired (spec #45)
 
+# Search v4 (2026-10-27, sitecore-demo environment): push source + facets + More Like This +
+# useSuggest. Spec: grill session (facets on /Articles, related articles in Article Layout,
+# typeahead on useSuggest). Code on branch sitecore-demo.
+components-search-v4:
+  status: "complete"  # placements done manually in Page Builder (MCP outage); browser-verified 30/30 locally
+  pushSource:
+    name: "Articles"
+    configId: "d09b2998-b210-4f62-b788-51cac4e3caa0"  # = SearchIndex value for all search datasources
+    fields: "title, articlecontent, articleimage, articlepublicationdate, articleurl (String); articletopic + articleauthor (String, Filterable); UI lowercases names on save"
+    facets: "ArticleTopic, ArticleAuthor (display-name casing in facet requests)"
+    advanced: "semantic reranking, fuzzy, autocomplete (Title, limit 5), result preview (limit 3)"
+    sync: ".agents/skills/sitecore-search/scripts/push-articles.mjs (13 docs pushed 2026-10-27, Example Article skipped)"
+  templateFields:
+    - { template: "SearchResults", name: "Facets", type: "Single-Line Text", itemId: "{7928FCBF-0375-4328-B40E-6312EB9E3793}", verified: true }
+    - { template: "SearchCollection", name: "RelatedToCurrentPage", type: "Checkbox", itemId: "{C2AF1368-4AC5-4676-B5D9-B901C3013BA4}", verified: true }
+  datasources:  # all repointed to the push source with lowercase mappings, verified by read-back
+    - { name: "Articles Search Results", itemId: "{583E737F-187B-4939-9579-74CCA7676DED}", changes: "SearchIndex, lowercase mappings, SortBy=articlepublicationdate, Facets=ArticleTopic" }
+    - { name: "Latest Articles", itemId: "{7C8794D2-9319-4CE0-993C-D983E135DDC9}", changes: "SearchIndex, lowercase mappings, SortBy=articlepublicationdate desc" }
+    - { name: "Articles Typeahead", itemId: "{EA6E552D-5AAB-4554-89E2-D1E85C2107D3}", changes: "SearchIndex, TitleMapping=title, LinkMapping=articleurl" }
+    - { name: "Sitecore Navigation (header search)", itemId: "{C802F282-B733-4D12-9DBA-64357F6A79BA}", changes: "SearchIndex, TitleMapping=title, LinkMapping=articleurl" }
+    - { name: "Main Navigation (not on page)", itemId: "{8254EB2C-9F05-4082-8CB7-48A968EA6EF1}", changes: "same as Sitecore Navigation" }
+    - { name: "Related Articles (new)", itemId: "{2666C36A-966C-4FE0-BABC-4BBF77E1D03F}", path: "/sitecore/content/main/main-website/Data/SearchCollections/Related Articles", fields: "push source, lowercase mappings, MaxItems 3, Heading 'Related articles', RelatedToCurrentPage=1", verified: true }
+  deleted:
+    - { name: "Example Article", itemId: "{439BC140-419F-4FBF-ABCC-723D389D0FDD}", note: "DB-only after the IAR deploy; delete_content verified (404 on read-back). Unpublished until next publish." }
+  placements:
+    - { page: "Article Layout partial design {4E09B734-6F98-4599-BC8D-9B15B07B291C}", placeholder: "headless-main", after: "ArticleBody a6c25604-6fe3-4a84-bbfb-fbc3a3fd6e9f", datasource: "Related Articles", status: "placedManually", componentInstanceId: "8bae9992-484b-4359-96a1-e3baa3b2c7fb" }
+    - { page: "Home {E2124310-F817-4644-8671-BFF8E72B66D7}", placeholder: "headless-main", after: "CTABanner ed02194b-ead4-4dd9-a190-68ba9bbae24d (placed after, not before — accepted)", datasource: "Latest Articles", status: "placedManually", componentInstanceId: "f53b26ee-c06a-4315-8976-c4ae4fcff491" }
+  verification: "2026-10-27 local dev against sitecore-demo after publish: search-verify 12/12 (incl. facets), collection-verify 9/9 (Latest + Related), typeahead-verify 9/9 (incl. suggest sections); jest 345/345; tsc clean"
+  placementsBlocker: "2026-10-27 add_component_on_page and get_component fail: 'Error fetching component: GraphQL errors: The field `renderings` does not exist on the type `Query`' (400). Nothing was added (read-back)."
+
 # Demo datasource items (AI-created content, not new component definitions)
 demoContent:
 

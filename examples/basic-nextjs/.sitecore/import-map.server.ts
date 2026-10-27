@@ -10,12 +10,16 @@ import {
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import React from 'react';
 import * as React_7214d18997ee864dd178de7b3a8430f6783e8b89 from 'react';
+import { hasRichText, hasText } from '@/lib/field-utils';
 import { NextImage, RichText, Text, Link, AppPlaceholder } from '@sitecore-content-sdk/nextjs';
 import { cn } from '@/lib/utils';
+import { SitecoreStoriesShowcase } from '@/lib/demo-ui/SitecoreStoriesShowcase';
 import Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 from 'next/link';
-import { Sparkles } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Mail, Twitter, Youtube, Sparkles, Play } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
+import { SitecoreArrowLink, SitecorePill, SitecoreSectionHeading, gradientText } from '@/lib/demo-ui/sitecore-ui';
 import { SmartMedia } from '@/components/uiim/media/SmartMedia';
+import { SitecoreCarousel } from '@/lib/demo-ui/SitecoreCarousel';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import componentMap from '.sitecore/component-map';
@@ -38,6 +42,13 @@ const importMap = [
     ]
   },
   {
+    module: '@/lib/field-utils',
+    exports: [
+      { name: 'hasRichText', value: hasRichText },
+      { name: 'hasText', value: hasText },
+    ]
+  },
+  {
     module: '@sitecore-content-sdk/nextjs',
     exports: [
       { name: 'NextImage', value: NextImage },
@@ -54,6 +65,12 @@ const importMap = [
     ]
   },
   {
+    module: '@/lib/demo-ui/SitecoreStoriesShowcase',
+    exports: [
+      { name: 'SitecoreStoriesShowcase', value: SitecoreStoriesShowcase },
+    ]
+  },
+  {
     module: 'next/link',
     exports: [
       { name: 'default', value: Link_a258c208ba01265ca0aa9c7abae745cc7141aa63 },
@@ -62,14 +79,36 @@ const importMap = [
   {
     module: 'lucide-react',
     exports: [
+      { name: 'Facebook', value: Facebook },
+      { name: 'Instagram', value: Instagram },
+      { name: 'Linkedin', value: Linkedin },
+      { name: 'Mail', value: Mail },
+      { name: 'Twitter', value: Twitter },
+      { name: 'Youtube', value: Youtube },
       { name: 'Sparkles', value: Sparkles },
+      { name: 'Play', value: Play },
       { name: '*', value: LucideIcons },
+    ]
+  },
+  {
+    module: '@/lib/demo-ui/sitecore-ui',
+    exports: [
+      { name: 'SitecoreArrowLink', value: SitecoreArrowLink },
+      { name: 'SitecorePill', value: SitecorePill },
+      { name: 'SitecoreSectionHeading', value: SitecoreSectionHeading },
+      { name: 'gradientText', value: gradientText },
     ]
   },
   {
     module: '@/components/uiim/media/SmartMedia',
     exports: [
       { name: 'SmartMedia', value: SmartMedia },
+    ]
+  },
+  {
+    module: '@/lib/demo-ui/SitecoreCarousel',
+    exports: [
+      { name: 'SitecoreCarousel', value: SitecoreCarousel },
     ]
   },
   {

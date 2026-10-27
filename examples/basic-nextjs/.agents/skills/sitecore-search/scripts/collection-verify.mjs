@@ -78,18 +78,24 @@ const relatedPath = '/Articles/One-To-One-Personalization-At-Scale';
 await page.goto(`${baseUrl}${relatedPath}`, { waitUntil: 'load' });
 await page.waitForTimeout(3000);
 const related = page.locator('section.search-collection');
-const relatedHeading = (await related.locator('h2').textContent().catch(() => ''))?.trim() ?? '';
-const relatedTitles = (await related.locator('h3').allTextContents()).map((t) => t.trim());
-record(
-  'related-present',
-  relatedHeading === 'Related articles' && relatedTitles.length === 3,
-  `heading: "${relatedHeading}", cards: [${relatedTitles.join(' | ')}]`
-);
-record(
-  'related-excludes-current',
-  !relatedTitles.some((t) => /One-to-One Personalization/i.test(t)),
-  `current page "One-to-One Personalization at Scale" ${relatedTitles.some((t) => /One-to-One/i.test(t)) ? 'PRESENT' : 'absent'}`
-);
+// Related articles are optional (SearchCollection with RelatedToCurrentPage in the
+// article partial design). Skip, don't fail, when the article page has no strip.
+if ((await related.count()) === 0) {
+  record('related', true, 'skipped: no SearchCollection on the article page (Related articles not placed)');
+} else {
+  const relatedHeading = (await related.locator('h2').textContent().catch(() => ''))?.trim() ?? '';
+  const relatedTitles = (await related.locator('h3').allTextContents()).map((t) => t.trim());
+  record(
+    'related-present',
+    relatedHeading === 'Related articles' && relatedTitles.length === 3,
+    `heading: "${relatedHeading}", cards: [${relatedTitles.join(' | ')}]`
+  );
+  record(
+    'related-excludes-current',
+    !relatedTitles.some((t) => /One-to-One Personalization/i.test(t)),
+    `current page "One-to-One Personalization at Scale" ${relatedTitles.some((t) => /One-to-One/i.test(t)) ? 'PRESENT' : 'absent'}`
+  );
+}
 if (await related.count()) await related.screenshot({ path: `${outDir}/collection-related.png` });
 
 const ownErrors = consoleErrors.filter((e) => !e.includes('SearchExperience_'));

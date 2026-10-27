@@ -2,7 +2,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { Search } from 'lucide-react';
 import { Field, LinkField } from '@sitecore-content-sdk/nextjs';
-import { useSuggest } from '@sitecore-content-sdk/nextjs/search';
+import { useSearch, useSuggest } from '@sitecore-content-sdk/nextjs/search';
 import { ComponentProps } from '@/lib/component-props';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
@@ -77,11 +77,32 @@ export const TypeaheadSearchBox = ({
   // "Autocomplete" setting) + preview documents (source "Result preview").
   // The hook has no limit option — the source config sets the server cap,
   // MaxSuggestions can only trim further.
-  const { querySuggestions, previewResults, isSuccess } = useSuggest<SearchDoc>({
+  const suggest = useSuggest<SearchDoc>({
     searchIndexId,
     enabled: live && !!searchIndexId && !!query,
     query,
   });
+  const { querySuggestions, previewResults } = suggest;
+
+  // Fallback for sources without Autocomplete/Result preview (e.g. content sources
+  // created before push sources): when suggest errors or returns nothing at all,
+  // run the pre-v4 title search so the dropdown still lists matching documents.
+  const suggestEmpty =
+    suggest.isError ||
+    (suggest.isSuccess && querySuggestions.length === 0 && previewResults.length === 0);
+  const fallback = useSearch<SearchDoc>({
+    searchIndexId,
+    page: 1,
+    pageSize: maxSuggestions,
+    enabled: live && !!searchIndexId && !!query && suggestEmpty,
+    query,
+  });
+  const fallbackResults = fallback.results;
+  const documents = useMemo(
+    () => (previewResults.length ? previewResults : suggestEmpty ? fallbackResults : []),
+    [previewResults, suggestEmpty, fallbackResults]
+  );
+  const isSuccess = suggest.isSuccess || fallback.isSuccess;
 
   const sendEvent = useSearchEvents({ query, uid: rendering?.uid, page });
 
@@ -93,12 +114,12 @@ export const TypeaheadSearchBox = ({
       .filter((text, i, all) => !!text && all.indexOf(text) === i && text.toLowerCase() !== typed)
       .slice(0, maxSuggestions)
       .map((text) => ({ kind: 'term', text }));
-    const docs: TypeaheadOption[] = previewResults
+    const docs: TypeaheadOption[] = documents
       .filter((doc) => !!docValue(doc, titleAttribute))
       .slice(0, maxSuggestions)
       .map((doc) => ({ kind: 'doc', doc }));
     return [...terms, ...docs];
-  }, [query, querySuggestions, previewResults, maxSuggestions, titleAttribute]);
+  }, [query, querySuggestions, documents, maxSuggestions, titleAttribute]);
 
   const showDropdown = isOpen && query.length > 0;
 

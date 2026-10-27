@@ -209,7 +209,7 @@ When `add_component_on_page` is called, it automatically creates a **local datas
 
 After adding a component and setting a shared datasource, the auto-created local datasource item becomes orphaned. Over time, pages accumulate unused local datasource items. Not a breaking issue, but creates content clutter.
 
-### Outage observed 2026-10-27 (sitecore-demo, right after an environment deploy)
+### Outage observed 2026-10-27 (a demo environment, right after an environment deploy)
 
 `add_component_on_page` and `get_component` both failed with `Error fetching component: GraphQL errors: The field 'renderings' does not exist on the type 'Query'` (HTTP 400). The rendering ID format (dashed or braced) made no difference, and nothing was added (checked by read-back). The workaround was to place the components in Page Builder and assign the existing shared datasources. Retry MCP placement later; if it still fails, report it as a platform issue.
 
@@ -301,7 +301,7 @@ Phase 3 Step 3: Agent reads `imageFieldXml` from manifest, includes Image fields
 - **History:** none is kept. To rebuild, push everything again. Pushes are live immediately: there's no dry run or publish step.
 - **Pushing into content or site sources:** possible, but temporary. A reindex or crawl replaces the changes.
 
-### Content source caveats (older indexes, e.g. `79b6b3db`)
+### Content source caveats (the indexes created before push sources)
 
 - The schema is fixed at creation. Template fields added later need a new source.
 - Supported field types are Checkbox, Text, Rich Text, Single-Line, Multi-Line, Number, Date, Datetime and Image. **Droplist is not listed.**

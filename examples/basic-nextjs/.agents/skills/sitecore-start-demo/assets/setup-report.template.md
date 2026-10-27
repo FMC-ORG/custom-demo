@@ -23,6 +23,8 @@
 - Another demo found: {{OTHER_DEMO_OR_NONE}}
 - Preview/screenshots: {{PREVIEW_OK_OR_WARNING}}
 - Manifest (Quick): {{MANIFEST_RESULT}}
+- Placement API (get_component preflight): {{PLACEMENT_API_OK_OR_WARNING}}
+- Showcase: {{SHOWCASE_URL_OR_NOT_SET}}
 
 ### Home components
 

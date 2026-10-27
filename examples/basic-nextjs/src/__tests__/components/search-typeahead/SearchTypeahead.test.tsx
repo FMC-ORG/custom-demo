@@ -5,8 +5,10 @@ import { Default, Header } from '@/components/uiim/search/SearchTypeahead';
 // --- Mocks (single CI seam: the SDK search module; see spec #45) ---
 
 const mockUseSuggest = jest.fn();
+const mockUseSearch = jest.fn();
 jest.mock('@sitecore-content-sdk/nextjs/search', () => ({
   useSuggest: (...args: unknown[]) => mockUseSuggest(...args),
+  useSearch: (...args: unknown[]) => mockUseSearch(...args),
 }));
 
 jest.mock('@sitecore-content-sdk/nextjs', () => ({}));
@@ -85,7 +87,8 @@ const typeAndSettle = (value: string) => {
 beforeEach(() => {
   jest.clearAllMocks();
   jest.useFakeTimers();
-  mockUseSuggest.mockReturnValue(suggestState());
+  mockUseSuggest.mockReturnValue(suggestState({ isSuccess: false }));
+  mockUseSearch.mockReturnValue({ results: [], total: 0, totalPages: 0, isLoading: false, isSuccess: false, isError: false, error: null });
 });
 
 afterEach(() => {
@@ -168,6 +171,36 @@ describe('dropdown sections', () => {
 
     // 2 terms + 2 docs + see-all
     expect(screen.getAllByRole('option')).toHaveLength(5);
+  });
+});
+
+describe('fallback for sources without suggest', () => {
+  it('runs the title search when suggest returns nothing, and lists its documents', () => {
+    mockUseSuggest.mockReturnValue(suggestState());
+    mockUseSearch.mockReturnValue({
+      results: [doc('Canary Releases Explained')],
+      total: 1,
+      totalPages: 1,
+      isLoading: false,
+      isSuccess: true,
+      isError: false,
+      error: null,
+    });
+    render(<Default {...baseProps} />);
+    typeAndSettle('canary');
+
+    expect(mockUseSearch).toHaveBeenLastCalledWith(
+      expect.objectContaining({ query: 'canary', pageSize: 5, enabled: true })
+    );
+    expect(screen.getByRole('option', { name: 'Canary Releases Explained' })).toBeInTheDocument();
+  });
+
+  it('does not run the fallback search when suggest has results', () => {
+    mockUseSuggest.mockReturnValue(suggestState({ previewResults: [doc('Canary Releases Explained')] }));
+    render(<Default {...baseProps} />);
+    typeAndSettle('canary');
+
+    expect(mockUseSearch).toHaveBeenLastCalledWith(expect.objectContaining({ enabled: false }));
   });
 });
 

@@ -37,9 +37,12 @@
 
 import { chromium } from 'playwright';
 import { writeFileSync, mkdirSync, existsSync, statSync } from 'fs';
-import { join, extname } from 'path';
+import { join } from 'path';
 import https from 'https';
 import http from 'http';
+import { createRequire } from 'module';
+
+const { normalizeImage } = createRequire(import.meta.url)('./lib/image-files.cjs');
 
 // ── Argument parsing ──────────────────────────────────────────
 const args = process.argv.slice(2);
@@ -925,7 +928,8 @@ try {
 
     console.log(`[extractor] Downloading ${allImages.length} images...`);
 
-    const downloadFile = (url, dest) => new Promise((resolve, reject) => {
+    // Returns the bytes and Content-Type; the file is written once its real type is known.
+    const downloadFile = (url) => new Promise((resolve, reject) => {
       const protocol = url.startsWith('https') ? https : http;
       const req = protocol.get(url, {
         timeout: 15000,
@@ -933,13 +937,13 @@ try {
       }, (res) => {
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
           const redir = res.headers.location.startsWith('http') ? res.headers.location : new URL(res.headers.location, url).href;
-          downloadFile(redir, dest).then(resolve).catch(reject);
+          downloadFile(redir).then(resolve).catch(reject);
           return;
         }
         if (res.statusCode !== 200) { reject(new Error(`HTTP ${res.statusCode}`)); return; }
         const chunks = [];
         res.on('data', chunk => chunks.push(chunk));
-        res.on('end', () => { writeFileSync(dest, Buffer.concat(chunks)); resolve(); });
+        res.on('end', () => resolve({ buffer: Buffer.concat(chunks), contentType: res.headers['content-type'] || '' }));
         res.on('error', reject);
       });
       req.on('error', reject);
@@ -952,29 +956,30 @@ try {
     for (let i = 0; i < allImages.length; i++) {
       const img = allImages[i];
       try {
-        const urlObj = new URL(img.src);
-        let ext = extname(urlObj.pathname).replace('.', '').toLowerCase() || '';
-        if (!ext || ext.length > 5) ext = 'jpg';
-        if (ext === 'jpeg') ext = 'jpg';
-
-        const safeName = `section${img.sectionPosition}-img${i + 1}.${ext}`;
-        const localPath = join(imagesDir, safeName);
-
         // Skip tiny inline data: URIs
         if (img.src.startsWith('data:') && img.src.length < 1000) { dlSkip++; continue; }
 
-        await downloadFile(img.src, localPath);
+        const downloaded = await downloadFile(img.src);
+        // Type by content, not by URL: many image URLs have no extension (CDNs, Next.js routes).
+        const normalized = await normalizeImage(downloaded.buffer, downloaded.contentType);
+        if (!normalized.ext) throw new Error(`not an image (${downloaded.contentType || 'no content type'})`);
+        const ext = normalized.ext;
+        const safeName = `section${img.sectionPosition}-img${i + 1}.${ext}`;
+        const localPath = join(imagesDir, safeName);
+        writeFileSync(localPath, normalized.buffer);
 
         // Skip tracking pixels (< 200 bytes, except SVGs which can be small but real)
         let fileSize = 0;
         try { fileSize = statSync(localPath).size; } catch {}
-        if (fileSize < 200 && ext !== 'svg') { dlSkip++; continue; }
+        if (fileSize < 200 && ext !== 'svg' && !normalized.convertedFrom) { dlSkip++; continue; }
 
         manifest.push({
           src: img.src,
           alt: img.alt || '',
           localFile: safeName,
           extension: ext,
+          ...(normalized.convertedFrom ? { convertedFrom: normalized.convertedFrom } : {}),
+          ...(normalized.conversionNeeded ? { conversionNeeded: true } : {}),
           sectionPosition: img.sectionPosition,
           type: img.type || 'unknown',
           fileSize,

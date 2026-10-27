@@ -2,11 +2,11 @@
 
 ## Status
 
-Accepted (2026-10-27). Built on `sitecore-demo`; port to `main` with the search work.
+Accepted (2026-10-27).
 
 ## Context
 
-Every deployment of this repo is a demo, and demo builds copy a client's homepage text and images. The showcase at `sitecore-live-demo.vercel.app` was fully indexable:
+Every deployment of this repo is a demo, and demo builds copy a client's homepage text and images. A demo showcase deployment was fully indexable (found 2026-10-27):
 - `robots.txt` allowed every bot and explicitly invited AI crawlers.
 - There was no `X-Robots-Tag` header and no robots meta tag.
 - The robots route from the starter sync **overrides** a blocking Sitecore robots.txt with a permissive one, so authoring robots in Sitecore cannot help.

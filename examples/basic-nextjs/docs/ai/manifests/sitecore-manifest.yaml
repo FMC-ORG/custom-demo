@@ -156,6 +156,14 @@ components:
           - { name: "BrandLogo", type: "Image" }
           - { name: "CtaLabel", type: "Single-Line Text" }
           - { name: "CtaLink", type: "General Link" }
+        # Second section "Search" (verified 2026-10-20): header search box (ADR 0006). Copy these
+        # into a client header datasource, or the header loses its search box.
+        searchSection:
+          - { name: "SearchIndex", type: "Single-Line Text" }
+          - { name: "TitleMapping", type: "Single-Line Text" }
+          - { name: "LinkMapping", type: "Single-Line Text" }
+          - { name: "MaxSuggestions", type: "Single-Line Text" }
+          - { name: "ResultsPage", type: "General Link" }
         baseTemplatesSet: true
         standardValues:
           itemId: "{65112E1D-30AB-4BDF-9EA3-A74AD7ADB657}"

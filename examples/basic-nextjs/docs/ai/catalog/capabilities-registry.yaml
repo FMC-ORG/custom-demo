@@ -89,7 +89,7 @@ capabilities:
           - { name: "MaxSuggestions", type: "Single-Line Text", purpose: "dropdown size (default 5)" }
         renderingParams: []
         placement: "born page-scoped (e.g. top of the results page); promotion into the global header is a deliberate manual Page Builder step"
-        hooks: ["useSuggest (enabled only while typing; source limits cap, MaxSuggestions trims)"]
+        hooks: ["useSuggest (enabled only while typing; source limits cap, MaxSuggestions trims)", "useSearch fallback when suggest errors or returns nothing (sources without Autocomplete/Result preview)"]
         verification: ".agents/skills/sitecore-search/scripts/typeahead-verify.mjs"
 
     gracefulDegradation:

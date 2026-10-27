@@ -207,7 +207,7 @@ The content map is the input for Phase 3 — it contains exact field values read
 
 1. Upload images through `.agents/skills/sitecore-build-demo/scripts/upload-to-content-hub.mjs`. Known pending approvals share one configurable 60-second read-only window; known public links share one configurable 90-second anonymous-access window. Request time counts against the batch-wide deadline. Use `--approval-timeout` / `CH_APPROVAL_TIMEOUT` and `--public-link-timeout` / `CH_PUBLIC_LINK_TIMEOUT` (seconds). Never recreate resources or repeat uncertain approval writes to absorb delay. An explicitly approved NEW upload run uses `--initialize`; a resume never does. Check `upload-result.json`, not just non-empty URLs. Without Content Hub credentials, preserve a manual-image handoff and do not claim automated uploads succeeded.
 2. Set `contract: "demo-framework-v2"` and include the inspected `targetReview` and approved shared-design targets. Prepare the reviewed, field-ready execution plan using `.agents/skills/sitecore-build-demo/assets/execution-plan.template.json`. Resolve project paths from configuration and verify IDs/field types. Record explicit optionality and explicit blanks; omitted content is not permission to blank fields. Use a distinct stable section key for repeated component types.
-3. Create client datasource instances, never change example items or shared templates. Header/footer datasources are included when configured on their renderings; their `placement: "partial-design"` affects assembly, not whether content is populated.
+3. Create client datasource instances, never change example items or shared templates. Header/footer datasources are included when configured on their renderings; their `placement: "partial-design"` affects assembly, not whether content is populated. The NavigationHeader template also has a **Search** section (`SearchIndex`, `TitleMapping`, `LinkMapping`, `MaxSuggestions`, `ResultsPage`): copy its values from the current header datasource into the client header's fields unless the plan sets them, or the header search box disappears.
 4. Invoke `.agents/skills/sitecore-build-demo/scripts/demo-recovery.cjs` with `--phase populate`, the plan, and the demo directory. Use `--initialize` only for an explicitly approved NEW phase. Follow the durable **claim → marketer MCP call once → reply → step** protocol in the reference.
 5. The helper checkpoints parent/child IDs, populates fields, sets child `__Sortorder` from source order, reads values back, and verifies the returned child ID sequence. No successful response or non-empty field alone proves completion.
 6. The helper flags unintended item-name defaults. For explicitly blank optional display text only, an acknowledged but ineffective empty write may use the recorded single-space workaround. Required/unspecified fields, links, images, and system fields never receive whitespace.
@@ -318,8 +318,14 @@ This phase bridges the gap between "same colors" (Phase 4 CSS variables) and "lo
 5. Automatically wire approved Header/Footer partial-design targets using the journaled helper. Verify exact instance/rendering identity and expected pre-write datasource, preserve parameters and unrelated components, and record previous datasource IDs. Missing/incompatible/ambiguous targets block wiring and require a separate repair decision. Never silently treat unresolved mandatory wiring as an optional manual task. With `sharedDesign.replace: true` and a `variant`, the helper instead replaces the instance: variant first → add after the old instance → restore order → wire the client datasource → remove the old instance, each journaled and verified. If the variant cannot be applied it falls back to the datasource switch. Report the auto-created datasource for manual cleanup.
 6. **Variants are applied automatically for added instances.** Set each section's `variant` (the Variant Definition name, e.g. `ClientHero`) in the execution plan; Phase 5.5 must have created it before assembly. Just before each add the helper sorts that variant first in `Presentation/Headless Variants/<componentName>` (a new instance takes the first variant), checks the instance's `FieldNames`, then restores the folder order. Reused instances (`existingInstanceId`) and shared Header/Footer renderings cannot be changed by MCP; they are replaced when approved (`replace: true`, step 5's `sharedDesign.replace`), otherwise they become manual variant tasks in `assembly-result.json`. After a clean assembly, approved `removeInstances` are removed. List `assembly-result.json` `cleanupDatasources` (placeholder datasources created by each add) as a manual Content Editor cleanup task. Generate `variant-checklist.md` only from those tasks and any `applied: false` instance.
 7. Inspect `assembly-result.json` and all unresolved upstream phase results. A written summary does not turn partial work into completed work. Auto-created local datasource cleanup remains manual, not an automatic delete.
+8. Visual checks through `get_page_screenshot` only work once the demo branch is deployed to the environment's rendering host; before that the preview answers "Preview content is not found or access is denied". Push the demo branch (decision: client work stays on its Demo Branch) and check after the deployment.
 
 Report component instance IDs, datasource wiring, relative order, exceptions, verified shared-design switches and previous datasources, variant tasks, and unresolved operations. Resume through verified records rather than repeating adds.
+
+**Manual-placement fallback.** If a page placement fails or can't be verified, assembly stops that chain (later sections are anchored to it). `assembly-result.json` then lists every unplaced page section in plan order under `manualPlacements`, with page, placeholder, component, datasource ID, variant, and the section and instance it goes after.
+- Write `docs/ai/demos/<client>/manual-placements.md` from it: one numbered step per section.
+- The first entry carries a `note`: its automatic add failed or wasn't verified, so check Pages before placing it, to avoid a duplicate.
+- Don't retry placements in a loop. If Start Check's placement preflight warned (`placementApi: "failing"`), expect this path.
 
 ### Phase 7 — Summary
 
@@ -365,6 +371,7 @@ Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `.
    - **Variant Selection**: include components where observed and planned variants differ, or the current value is unverified. Do not infer Default.
    - **Shared Header/Footer / Context Components**: report verified automatic switches with previous datasource IDs, or unresolved required wiring/structural repair tasks. List actual unsupported context placements separately; never classify Header/Footer by name or call required wiring an optional skipped task.
    - **Link Verification**: list links from content-map that point to the client's domain
+   - **Manual placements**: from `assembly-result.json` `manualPlacements`, if any, linking `manual-placements.md`
    - **Cleanup**: `cleanupDatasources` from `assembly-result.json`, plus any OOB components that were not in an approved `removeInstances`
    - **Personalization**: always include — it's optional guidance for the SE
 
@@ -375,6 +382,25 @@ Generate `docs/ai/demos/<client-kebab>/demo-summary.md` using the template at `.
 **Present the summary to the user in the chat** (not just saved to file). Copy the populated content directly into the chat response so the SE can read it immediately.
 
 Also save the standalone `manual-tasks.md` with just the Manual Tasks section (subsections 1-5) for quick reference in the Pages editor.
+
+### Phase 8 — Deploy and verify (after the user pushes)
+
+Pushing the demo branch deploys the showcase. Only push when the user asks (see Important rules). After the push, and after the user has **published** in Sitecore:
+
+1. Make sure `setup.json` has `showcaseUrl`. If not, ask for it and run `node .agents/skills/sitecore-start-demo/scripts/start-demo.mjs --client <client> --continue --showcase-url <url>`.
+2. Wait for the exact commit to be live. The app sends `X-Build-Sha` on every response.
+   ```bash
+   node .agents/skills/sitecore-build-demo/scripts/wait-for-deploy.mjs --client <client>
+   ```
+   - Exit 2 (timeout) means the deploy failed or is still queued. Check the Vercel project, and don't verify an old build.
+   - A missing header means the deployment predates `X-Build-Sha`.
+3. Verify the deployed demo in one command:
+   ```bash
+   node .agents/skills/sitecore-build-demo/scripts/verify-demo.mjs --client <client>
+   ```
+   - It checks the indexing policy (demo sites are noindex by default, ADR 0012), sweeps the linked pages, and runs the `sitecore-search` browser protocols when the site has `/Articles`.
+   - The result goes to `docs/ai/demos/<client>/verify-result.json`. Add the pass count and any failures to `demo-summary.md` and the handoff.
+   - The browser protocols run headless, which analytics treats as a bot, so no analytics events are expected. Failures caused by content you haven't published yet need a publish, not a code fix.
 
 ## Output files
 

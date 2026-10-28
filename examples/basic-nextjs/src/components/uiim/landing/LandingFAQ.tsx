@@ -2,7 +2,7 @@
 
 import React, { JSX, useState } from 'react';
 import { hasRichText, hasText } from '@/lib/field-utils';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, CircleMinus, CirclePlus } from 'lucide-react';
 import {
   Field,
   RichTextField,
@@ -11,6 +11,7 @@ import {
 } from '@sitecore-content-sdk/nextjs';
 import { ComponentProps } from 'lib/component-props';
 import { cn } from '@/lib/utils';
+import { SitecoreFrame } from '@/lib/demo-ui/sitecore-ui';
 
 interface LandingFAQRouteFields {
   faq1Question?: Field<string>;
@@ -124,6 +125,128 @@ export const Default = ({ params, page }: ComponentProps): JSX.Element => {
           </div>
         </div>
       </section>
+    </div>
+  );
+};
+
+/* ────────────────────────────────────────────
+   Sitecore — sitecore.com FAQ: stacked white cards with a soft shadow on a
+   lavender band; ⊕/⊖ icons, open card gets a violet border + violet question,
+   answers expand with a height transition. In the editor every answer is open
+   so authors can edit them in place.
+   ──────────────────────────────────────────── */
+function SitecoreFAQItem({
+  index,
+  question,
+  answer,
+  isOpen,
+  onToggle,
+  isEditing,
+  idPrefix,
+}: {
+  index: number;
+  question?: Field<string>;
+  answer?: RichTextField;
+  isOpen: boolean;
+  onToggle: () => void;
+  isEditing?: boolean;
+  idPrefix: string;
+}) {
+  if (!hasText(question?.value) && !hasRichText(answer?.value) && !isEditing) return null;
+  const open = isOpen || !!isEditing;
+  const panelId = `${idPrefix}-faq-panel-${index}`;
+  const Icon = open ? CircleMinus : CirclePlus;
+
+  return (
+    <div
+      className={cn(
+        'rounded-[6px] border bg-white shadow-[0_1px_4px_rgba(16,24,40,0.06)] transition-colors',
+        open ? 'border-[var(--brand-accent)]' : 'border-transparent hover:border-[var(--brand-border)]',
+      )}
+      data-testid={`faq-item-${index}`}
+    >
+      <button
+        type="button"
+        onClick={onToggle}
+        className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left md:px-7"
+        aria-expanded={open}
+        aria-controls={panelId}
+      >
+        {(hasText(question?.value) || isEditing) && (
+          <Text
+            field={question}
+            tag="span"
+            className="font-body text-[18px] leading-[1.4] transition-colors md:text-[20px]"
+            style={{ color: open ? 'var(--brand-accent)' : 'var(--brand-fg)' }}
+            data-testid="faq-question"
+          />
+        )}
+        <Icon
+          aria-hidden="true"
+          strokeWidth={1.25}
+          className="h-6 w-6 shrink-0 transition-colors"
+          style={{ color: open ? 'var(--brand-accent)' : 'var(--brand-muted-foreground)' }}
+        />
+      </button>
+      {(hasRichText(answer?.value) || isEditing) && (
+        <div
+          id={panelId}
+          className={cn(
+            'grid transition-[grid-template-rows] duration-300 ease-out',
+            open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
+          )}
+          inert={!open}
+        >
+          <div className="overflow-hidden">
+            <div
+              className="px-6 pb-6 pr-12 font-body text-[17px] leading-[1.65] md:px-7 md:pr-20 [&_a]:text-[var(--brand-accent)] [&_a]:underline-offset-2 hover:[&_a]:underline [&_p]:m-0 [&_p+p]:mt-3"
+              style={{ color: 'var(--brand-fg)' }}
+              data-testid="faq-answer"
+            >
+              <ContentSdkRichText field={answer} />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export const Sitecore = ({ params, page }: ComponentProps): JSX.Element => {
+  const { styles, RenderingIdentifier } = params;
+  const isEditing = page?.mode?.isEditing;
+  const routeFields = getRouteFields(page);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  if (!routeFields) return <LandingFAQDefaultComponent />;
+
+  const items = [
+    { question: routeFields.faq1Question, answer: routeFields.faq1Answer },
+    { question: routeFields.faq2Question, answer: routeFields.faq2Answer },
+    { question: routeFields.faq3Question, answer: routeFields.faq3Answer },
+    { question: routeFields.faq4Question, answer: routeFields.faq4Answer },
+    { question: routeFields.faq5Question, answer: routeFields.faq5Answer },
+  ];
+  const idPrefix = RenderingIdentifier || 'landing';
+
+  return (
+    <div className={cn('component landing-faq', styles)} id={RenderingIdentifier}>
+      <SitecoreFrame testId="landing-faq" style={{ background: 'var(--brand-muted)' }}>
+        <div className="mx-auto flex max-w-[1010px] flex-col gap-3.5 px-0 py-16 md:px-10 md:py-24">
+          {items.map((item, i) => (
+            <SitecoreFAQItem
+              key={i}
+              index={i + 1}
+              question={item.question}
+              answer={item.answer}
+              isOpen={openIndex === i}
+              onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+              isEditing={isEditing}
+              idPrefix={idPrefix}
+            />
+          ))}
+        </div>
+      </SitecoreFrame>
     </div>
   );
 };

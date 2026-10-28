@@ -53,13 +53,14 @@ Working records go to `--directory`: `docs/ai/demos/<client>/search-setup` in a 
    - It creates the Related Articles datasource and adds any missing placement: Related in Article Layout, Latest on Home, SearchResults on `/Articles`.
    - *Done when* `connect-result.json` reports `complete`. A `partial` result with `manualPlacements` means those become Pages tasks for the user (Agent API down; see `agent-api-limitations.md` §4). Also list `cleanupDatasources` for Content Editor.
 6. **Publish.** The user publishes the site once.
+   - A deployed showcase keeps serving the pages it already rendered (the catch-all page has no `revalidate`), with the old `SearchIndex`, until its next deploy. Redeploy it after publishing, before step 8; otherwise the browser searches the previous source (HTTP 404 `no search index found`).
 7. **Push:**
    ```bash
    node .agents/skills/sitecore-search/scripts/push-articles.mjs --dry-run
    node .agents/skills/sitecore-search/scripts/push-articles.mjs
    ```
    It reads published articles from Edge and pushes them to the source.
-   - *Done when* every article succeeded.
+   - *Done when* every article succeeded, and the option probes from `references/push-source-setup.md` step 8 answer HTTP 200.
    - Rerun it after any article change: the index doesn't follow publishing.
 8. **Verify:** `verify-demo.mjs <url>` (`.agents/skills/sitecore-build-demo/scripts/`), or the 3 browser protocols below.
    - *Done when* everything passes.

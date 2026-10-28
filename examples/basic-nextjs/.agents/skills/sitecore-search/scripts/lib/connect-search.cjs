@@ -11,11 +11,16 @@
  *    placements Related -> Article Layout partial design (after ArticleBody), Latest Articles ->
  *    Home (after the hero; optional), SearchResults -> /Articles. Pages are read first, existing
  *    instances are never duplicated, and a failed placement becomes a manualPlacements entry (B6).
+ *
+ * Hand-off rule: a journaled operation is finished from the JOURNAL, not from the current read.
+ * After a write lands, the next pass reads no delta; deciding from that read alone would leave the
+ * operation unverified for good. So field writes keep their intended fields in the journal, and
+ * every journaled operation of this run is resumed before the current read decides anything new.
  */
 const path = require('node:path');
 const LIB = path.join(__dirname, '../../../sitecore-build-demo/scripts/lib');
-const { Recovery, Blocked, atomicJson } = require(path.join(LIB, 'recovery.cjs'));
-const { createItem, updateItem } = require(path.join(LIB, 'populate.cjs'));
+const { Recovery, Blocked, atomicJson, fingerprint } = require(path.join(LIB, 'recovery.cjs'));
+const { createItem } = require(path.join(LIB, 'populate.cjs'));
 const {
   TEMPLATES,
   RENDERINGS,
@@ -33,6 +38,11 @@ const unknown = () => ({ state: 'unknown' });
 const empty = (v) => v === undefined || v === null || v === '';
 const checked = (v) => v === '1' || v === true || v === 'true';
 const ifEmpty = (fields, name, value) => (empty(fields[name]) ? { [name]: value } : {});
+// Push sources store attribute names lowercase and reject any other casing (HTTP 400), so an
+// existing custom sort is kept but lowercased.
+const sortField = (fields) => ({ SortBy: empty(fields.SortBy) ? ARTICLE_SORT : String(fields.SortBy).toLowerCase() });
+/** Collections this run creates itself; their fields are written by ensureCollection. */
+const OWN_COLLECTIONS = { 'connect:related': 'Related Articles', 'connect:latest': 'Latest Articles' };
 
 /** Desired field values for one datasource item, or null when it is not a target. */
 function desiredFields(templateId, fields, sourceId) {
@@ -40,7 +50,7 @@ function desiredFields(templateId, fields, sourceId) {
     return {
       SearchIndex: sourceId,
       ...ARTICLE_MAPPINGS,
-      ...ifEmpty(fields, 'SortBy', ARTICLE_SORT),
+      ...sortField(fields),
       ...ifEmpty(fields, 'Facets', ARTICLE_FACETS),
     };
   if (sameId(templateId, TEMPLATES.searchCollection))
@@ -49,7 +59,7 @@ function desiredFields(templateId, fields, sourceId) {
       ...ARTICLE_MAPPINGS,
       ...(checked(fields.RelatedToCurrentPage)
         ? {}
-        : { ...ifEmpty(fields, 'SortBy', ARTICLE_SORT), ...ifEmpty(fields, 'SortOrder', 'desc') }),
+        : { ...sortField(fields), ...ifEmpty(fields, 'SortOrder', 'desc') }),
     };
   if (sameId(templateId, TEMPLATES.searchTypeahead))
     return { SearchIndex: sourceId, TitleMapping: 'title', LinkMapping: 'articleurl' };
@@ -64,6 +74,31 @@ function desiredFields(templateId, fields, sourceId) {
 
 const changed = (desired, current) =>
   Object.fromEntries(Object.entries(desired).filter(([name, value]) => current[name] !== value));
+
+/**
+ * Journaled field write. The intended fields are stored in the journal entry (`before.fields`), so
+ * a later pass resumes it with exactly the issued arguments; verification retries read fresh, as
+ * the Agent API can briefly return the pre-write values.
+ */
+function configure(recovery, api, key, itemId, fields) {
+  return recovery.operation(key, {
+    before: async () => {
+      const current = (await api.readItem(itemId)).fields;
+      return { fields, previous: Object.fromEntries(Object.keys(fields).map((name) => [name, current[name] ?? null])) };
+    },
+    write: (before) => api.updateFields(itemId, before.fields),
+    verify: async (_result, before, _saved, attempt = 0) => {
+      const current = await api.readItem(itemId, attempt ? { fresh: `${key}:verify:${attempt}` } : undefined);
+      return Object.entries(before.fields).every(([name, value]) => current.fields[name] === value)
+        ? verified({ id: itemId })
+        : unknown();
+    },
+  });
+}
+
+/** Journal entries of this run under `prefix` (the key itself or `prefix:...`). */
+const journaled = (recovery, prefix) =>
+  Object.entries(recovery.state.operations).filter(([key]) => key === prefix || key.startsWith(`${prefix}:`));
 
 /** Add a rendering instance and point it at a shared datasource; journaled add + wire. */
 async function place(recovery, api, { key, pageId, renderingId, placeholder, datasourceId, after, itemName }) {
@@ -160,31 +195,49 @@ async function connectSearch({
     const folder = data.children.find((x) => x.name === name);
     if (folder) folders[name] = await api.readItem(folder.id);
   }
+  // Collections this run creates are configured by ensureCollection, never by this loop: a
+  // later pass would otherwise treat a fresh Related collection as a plain one.
+  const own = (item) =>
+    Object.entries(OWN_COLLECTIONS).some(([key, name]) => {
+      const entry = recovery.state.operations[`${key}:create`];
+      if (!entry) return false;
+      const id = entry.value?.id || entry.result?.id;
+      return id ? sameId(id, item.id) : item.name === name;
+    });
   const collections = [];
   for (const folder of Object.values(folders)) {
     for (const child of folder.children) {
       const item = await api.readItem(child.id);
       if (sameId(item.templateId, TEMPLATES.searchCollection)) collections.push(item);
+      if (own(item)) continue;
       const desired = desiredFields(item.templateId, item.fields, sourceId);
       if (!desired) continue;
+      const prefix = `connect:${item.id}`;
+      // Resume this run's writes first, from their journaled fields; then add the current delta.
+      const writes = journaled(recovery, prefix)
+        .filter(([, entry]) => entry.before?.fields)
+        .map(([key, entry]) => [key, entry.before.fields]);
       const delta = changed(desired, item.fields);
-      if (!Object.keys(delta).length) {
+      const deltaKey = `${prefix}:${fingerprint(delta).slice(0, 12)}`;
+      if (Object.keys(delta).length && !writes.some(([key]) => key === deltaKey)) writes.push([deltaKey, delta]);
+      if (!writes.length) {
         result.unchanged.push(item.name);
         continue;
       }
       try {
-        await updateItem(recovery, api, `connect:${item.id}`, item.id, delta);
-        result.updated.push({ name: item.name, fields: Object.keys(delta) });
+        for (const [key, fields] of writes) await configure(recovery, api, key, item.id, fields);
+        result.updated.push({ name: item.name, fields: [...new Set(writes.flatMap(([, f]) => Object.keys(f)))] });
       } catch (error) {
         if (!consumable(error)) throw error;
-        issue(`connect:${item.id}`, error);
+        issue(prefix, error);
       }
     }
   }
 
   // 2a. Datasources the placements need.
   const ensureCollection = async (key, name, match, extra) => {
-    const found = collections.find(match);
+    // A create journaled by this run is resumed, even if the collection now reads as present.
+    const found = recovery.state.operations[`${key}:create`] ? null : collections.find(match);
     if (found) return found.id;
     if (!folders.SearchCollections) throw new Blocked(key, 'Data/SearchCollections folder missing');
     const created = await createItem(
@@ -194,7 +247,7 @@ async function connectSearch({
       { name, templateId: TEMPLATES.searchCollection },
       folders.SearchCollections.id,
     );
-    await updateItem(recovery, api, `${key}:fields`, created.id, {
+    await configure(recovery, api, `${key}:fields`, created.id, {
       SearchIndex: sourceId,
       ...ARTICLE_MAPPINGS,
       MaxItems: '3',
@@ -211,11 +264,14 @@ async function connectSearch({
     try {
       const pageItem = await api.resolvePath(pagePath);
       const page = await api.readPage(pageItem.id);
-      const present = page.find(
-        (x) =>
-          sameId(x.renderingId, renderingId) &&
-          (isPresent ? isPresent(x) : !datasourceId || sameId(x.datasourceId, datasourceId)),
-      );
+      // An add journaled by this run is resumed (verified or reconciled), not re-judged as present.
+      const present =
+        !recovery.state.operations[`${key}:add`] &&
+        page.find(
+          (x) =>
+            sameId(x.renderingId, renderingId) &&
+            (isPresent ? isPresent(x) : !datasourceId || sameId(x.datasourceId, datasourceId)),
+        );
       if (present) {
         result.placements.push({ key, label, status: 'present', instanceId: present.id });
         return;

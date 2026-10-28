@@ -386,3 +386,40 @@ test('deployed demo URLs never store bypass tokens or credentials', async () => 
   expect(setup).not.toContain('secret');
   expect(JSON.parse(setup).showcaseUrl).toBeUndefined();
 });
+
+test('the search source is probed read-only and never blocks', async () => {
+  const { app } = repo();
+  const none = await start(app, {}, { ...deps(), env: {} });
+  expect(byId(none, 'search-source')).toMatchObject({ status: 'fail', level: 'info' });
+
+  write(app, 'docs/ai/config/project.yaml', 'siteCollection: "main"\nsiteName: "main-website"\nsearchSources:\n  articles: "d09b2998-b210-4f62-b788-51cac4e3caa0"\n');
+  commit(app, 'configure the search source'); // project.yaml is tracked (clean-tree gate)
+  write(app, '.env.local', 'NEXT_PUBLIC_SITECORE_EDGE_CONTEXT_ID=ctx-123\n');
+  const seen = [];
+  const answering = deps({
+    env: {},
+    fetchImpl: async (url, options) => {
+      if (String(url).includes('/v1/search')) {
+        seen.push(JSON.parse(options.body));
+        return { ok: true, status: 200, json: async () => ({ total: 28 }), headers: new Map() };
+      }
+      return { ok: true, status: 200, text: async () => '', headers: new Map() };
+    },
+  });
+  const ok = await start(app, { continueDemo: true }, answering);
+  expect(byId(ok, 'search-source')).toMatchObject({ status: 'pass' });
+  expect(byId(ok, 'search-source').message).toMatch(/28 documents/);
+  expect(ok.blockers).toBe(0);
+  expect(seen[0]).toMatchObject({ config: { id: 'd09b2998-b210-4f62-b788-51cac4e3caa0' }, limit: 1 });
+
+  const missing = deps({
+    env: {},
+    fetchImpl: async (url) =>
+      String(url).includes('/v1/search')
+        ? { ok: false, status: 404, headers: new Map() }
+        : { ok: true, status: 200, text: async () => '', headers: new Map() },
+  });
+  const notFound = await start(app, { continueDemo: true }, missing);
+  expect(byId(notFound, 'search-source')).toMatchObject({ status: 'fail', level: 'warning' });
+  expect(notFound.blockers).toBe(0);
+});

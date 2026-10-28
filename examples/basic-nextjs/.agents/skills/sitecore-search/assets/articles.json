@@ -1,0 +1,397 @@
+{
+  "_about": "Demo article set seeded per environment (ADR 0013). Item name = page URL segment (spaces -> hyphens). Authors are serialized People items. image.seed = deterministic Lorem Picsum seed for per-environment Content Hub upload; image.sharedSandboxXml = fallback DAM XML (shared sandbox) when no Content Hub credentials.",
+  "articles": [
+    {
+      "name": "Feature Flags Beyond On And Off",
+      "title": "Feature Flags Beyond On and Off",
+      "topic": "Engineering",
+      "author": "Marcus Webb",
+      "date": "20260113T090000Z",
+      "readTime": "5 min read",
+      "content": "<p>Most teams adopt feature flags as a glorified if-statement: the feature is on or it is off. The real value starts when a flag becomes a decision point that can consider who is asking, where they are, and how the system is doing right now.</p><p>Percentage rollouts turn a launch into a dial instead of a switch. Targeting rules let support enable a fix for one frustrated customer before the general release. Kill switches give operators a way to shed non-essential load during an incident without deploying anything.</p><p>The discipline that keeps this from becoming flag soup is lifecycle management. Every flag gets an owner and an expiry date at creation. A weekly report of expired flags turns cleanup into routine instead of archaeology. Teams that skip this end up with hundreds of permanent branches in production code that nobody dares to remove.</p>",
+      "takeaways": "<ul><li>Flags are decision points, not just switches — target by user, region, and system health.</li><li>Kill switches let operators shed load without a deploy.</li><li>Give every flag an owner and an expiry date at creation.</li></ul>",
+      "image": {
+        "seed": "feature-flags-beyond-on-and-off",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93844-feature-flags-beyond-on-and-off?v=4e82073f\" dam-id=\"_jJN7rBMS-iPsnzf1yv5_g\" width=\"1200\" height=\"675\" alt=\"Feature Flags Beyond On and Off\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93844/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Planning And Designing For Personalization",
+      "title": "Planning and Designing for Personalization",
+      "topic": "Personalization",
+      "author": "Jane Smith",
+      "date": "20260205T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>Most personalization programs fail before the first variant ships — not in the technology, but in the planning. Teams buy a platform, then go looking for something to personalize, which is the strategy equivalent of buying a hammer and wandering the house looking for nails.</p><p>The programs that show real uplift start from a customer decision, not a page. Where in the journey does a visitor hesitate? Which audiences arrive with clearly different intent? A returning customer researching an upgrade and a first-time visitor comparing vendors should not see the same hero — that is a design decision you can articulate before touching a tool.</p><p>Design for measurement from day one. Every personalization rule is a hypothesis, and a hypothesis without a control group is an anecdote. Organizations that treat personalization as a disciplined test-and-learn practice report conversion uplifts around twenty percent; organizations that treat it as decoration report meetings.</p>",
+      "takeaways": "<ul><li>Start from a customer decision, not a page.</li><li>Define audiences by intent you can articulate before touching a tool.</li><li>Every rule is a hypothesis — measure against a control group.</li></ul>",
+      "image": {
+        "seed": "planning-and-designing-for-personalization",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93854-planning-and-designing-for-personalization?v=bf53baf2\" dam-id=\"Ne_29QwFToGXoLeQpFUmwg\" width=\"1200\" height=\"675\" alt=\"Planning and Designing for Personalization\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93854/thumbnail\" />"
+      }
+    },
+    {
+      "name": "First Party Data After The Cookie",
+      "title": "First-Party Data After the Cookie",
+      "topic": "Customer Data and Analytics",
+      "author": "Marcus Webb",
+      "date": "20260212T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>Third-party cookies made audience data feel abundant and cheap. As browsers restrict them, the data that remains valuable is the data customers give directly: account details, preferences, purchases, support history, and behavior on owned channels. First-party data is smaller in volume but far richer in meaning.</p><p>Collecting it well requires a value exchange. Visitors share preferences when it gets them something — saved carts, relevant content, faster support, member pricing. Each touchpoint that asks for data should make the benefit obvious, and each piece of data collected should have a planned use.</p><p>Unifying that data is the second half of the work. Profiles scattered across commerce, email, and support tools cannot drive a consistent experience. A customer data platform that resolves identities and makes segments available to every channel turns first-party data from a compliance answer into a competitive advantage.</p>",
+      "takeaways": "<ul><li>First-party data is smaller but richer than third-party audiences.</li><li>Offer a clear value exchange for every data request.</li><li>Unify profiles so every channel can act on the same data.</li></ul>",
+      "image": {
+        "seed": "first-party-data-after-the-cookie",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97180-first-party-data-after-the-cookie?v=7b42d8b8\" dam-id=\"BjJIXIM2R6-iuxTXCfeSsw\" width=\"1200\" height=\"675\" alt=\"First-Party Data After the Cookie\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97180/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Machine Learning For Personalization",
+      "title": "Machine Learning for Personalization",
+      "topic": "Personalization",
+      "author": "Marcus Webb",
+      "date": "20260224T090000Z",
+      "readTime": "5 min read",
+      "content": "<p>Rule-based personalization scales linearly with the patience of the marketer writing the rules. Machine learning changes the economics: instead of enumerating every audience by hand, models find the patterns — which behaviors predict a purchase, which content keeps a segment engaged, what a visitor is likely to want next.</p><p>The practical wins are unglamorous and valuable. Propensity models that surface the visitors worth a discount and the ones who would have bought anyway. Recommendation engines that learn from the whole catalog instead of the five products someone remembered to feature. Send-time optimization that quietly stops emailing night-shift workers at nine in the morning.</p><p>The prerequisite is data hygiene, not data volume. A model trained on inconsistent event names and half-tagged content amplifies the mess at machine speed. Clean, well-defined behavioral events are the boring foundation that makes the impressive demos possible.</p>",
+      "takeaways": "<ul><li>ML finds audience patterns that rule-writing cannot scale to.</li><li>Propensity and recommendations are the unglamorous, valuable wins.</li><li>Clean behavioral events matter more than data volume.</li></ul>",
+      "image": {
+        "seed": "machine-learning-for-personalization",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93862-machine-learning-for-personalization?v=99246005\" dam-id=\"nMqvYmtdREuF5cqBnNgK3Q\" width=\"1200\" height=\"675\" alt=\"Machine Learning for Personalization\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93862/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Rendering At The Edge For Faster Pages",
+      "title": "Rendering at the Edge for Faster Pages",
+      "topic": "Engineering",
+      "author": "Marcus Webb",
+      "date": "20260305T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>Page speed is still the most reliable conversion lever, and distance is one of its biggest costs. Edge rendering moves HTML generation to locations close to the visitor, so the first byte arrives in tens of milliseconds instead of hundreds. For global audiences, the improvement is often larger than any front-end optimization.</p><p>Not every page should render the same way. Static generation suits content that changes rarely; incremental regeneration refreshes it on a schedule or on publish; edge rendering handles pages that vary per request, such as personalized or localized views. Mixing these strategies per route gives each page the cheapest approach that stays fresh.</p><p>The constraint at the edge is data access. Rendering close to users helps only if the data is close too, which is why edge-cached content APIs and lightweight personalization decisions matter. Measure real-user metrics before and after, because lab scores can hide the network effects that edge rendering fixes.</p>",
+      "takeaways": "<ul><li>Edge rendering cuts time to first byte for distant visitors.</li><li>Choose static, incremental, or edge rendering per route.</li><li>Keep data close to the edge and measure with real-user metrics.</li></ul>",
+      "image": {
+        "seed": "rendering-at-the-edge-for-faster-pages",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97237-rendering-at-the-edge-for-faster-pages?v=cc3f8af8\" dam-id=\"8Y8bYDMcTMiq8N591JW9CQ\" width=\"1200\" height=\"675\" alt=\"Rendering at the Edge for Faster Pages\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97237/thumbnail\" />"
+      }
+    },
+    {
+      "name": "One To One Personalization At Scale",
+      "title": "One-to-One Personalization at Scale",
+      "topic": "Personalization",
+      "author": "Jane Smith",
+      "date": "20260312T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>Segment-based personalization talks to crowds; one-to-one personalization talks to a person. The difference is felt immediately by the visitor: the site remembers what they looked at, respects what they ignored, and picks up the conversation where it left off — across sessions and channels.</p><p>Getting there is a sequencing problem. Listen first: unify the behavioral signals you already collect into a single profile. Think second: decide, per moment, what the next best experience is — a model can rank the options, but the options themselves come from your content. Respond third: deliver in milliseconds, because a personalized experience that arrives after the page paints is a flicker, not a welcome.</p><p>Scale comes from content atomization. You cannot handcraft a page per person, but you can maintain a library of interchangeable blocks — heroes, offers, proof points — that assemble differently for each profile. The marketer curates the vocabulary; the system writes the sentences.</p>",
+      "takeaways": "<ul><li>Listen, think, respond — in that order, in milliseconds.</li><li>Unify signals into one profile before deciding anything.</li><li>Atomized content blocks make individual assembly scalable.</li></ul>",
+      "image": {
+        "seed": "one-to-one-personalization-at-scale",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93869-one-to-one-personalization-at-scale?v=d7b88140\" dam-id=\"06-QZEkPTqSqb8GtgHVx5g\" width=\"1200\" height=\"675\" alt=\"One-to-One Personalization at Scale\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93869/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Personalizing For Anonymous Visitors",
+      "title": "Personalizing for Anonymous Visitors",
+      "topic": "Personalization",
+      "author": "Jane Smith",
+      "date": "20260326T090000Z",
+      "readTime": "5 min read",
+      "content": "<p>Most visitors never log in, yet many personalization programs wait for an identity before changing anything. That leaves the majority of sessions with the default experience. Anonymous personalization starts from what every visit already reveals: the referring campaign, the landing page, location, device, time of day, and the pages viewed so far.</p><p>Those signals support useful decisions without knowing who someone is. A visitor arriving from a pricing comparison ad can see proof points before features; a returning visitor can pick up where they left off; a mobile visitor on a store page can see opening hours first. Each rule is simple, but together they make the site feel attentive.</p><p>The discipline is to keep anonymous rules few and measurable. Start with the two or three highest-traffic entry points, define one variant each, and test against the default. Identity-based personalization can build on the same foundation once visitors choose to share more.</p>",
+      "takeaways": "<ul><li>Most sessions are anonymous — personalize them with contextual signals.</li><li>Referrer, landing page, location, and behavior support simple, useful rules.</li><li>Start with top entry points and test each variant against the default.</li></ul>",
+      "image": {
+        "seed": "personalizing-for-anonymous-visitors",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97157-personalizing-for-anonymous-visitors?v=889b91f4\" dam-id=\"md18zzTeQxiVHjpwZ_3K2w\" width=\"1200\" height=\"675\" alt=\"Personalizing for Anonymous Visitors\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97157/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Real Time Customer Data Marketers Can Act On",
+      "title": "Real-Time Customer Data Marketers Can Act On",
+      "topic": "Customer Data and Analytics",
+      "author": "Marcus Webb",
+      "date": "20260402T090000Z",
+      "readTime": "5 min read",
+      "content": "<p>Every click, cart, and pause on a pricing page is a customer telling you something. Most organizations store these signals in systems that answer next quarter’s questions instead of this second’s — a warehouse full of hindsight.</p><p>A customer data platform earns its keep when the loop closes in real time: behavior streams in, the profile updates, and the very next page the visitor sees reflects what just happened. Abandoned a cart? The follow-up should know. Read three articles on one topic? The homepage should have noticed.</p><p>The trap to avoid is collection without activation. Dashboards that describe customers beautifully while every visitor still gets the same experience are the martech equivalent of a gym membership. Start with one activated use case — one signal, one decision, one measurable outcome — and let the wins fund the roadmap.</p>",
+      "takeaways": "<ul><li>Stored signals are hindsight; streamed signals are opportunity.</li><li>Close the loop: behavior updates the very next experience.</li><li>One activated use case beats ten descriptive dashboards.</li></ul>",
+      "image": {
+        "seed": "real-time-customer-data-marketers-can-act-on",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93878-real-time-customer-data?v=f55b15ac\" dam-id=\"dHY5LWUsTwiDDrr1QSP72w\" width=\"1200\" height=\"675\" alt=\"Real-Time Customer Data Marketers Can Act On\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93878/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Moving To A SaaS DXP Without A Big Bang",
+      "title": "Moving to a SaaS DXP Without a Big Bang",
+      "topic": "Composable DXP",
+      "author": "Jane Smith",
+      "date": "20260409T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>Replatforming projects fail most often when everything switches on one date. A big-bang launch concentrates risk: content migration, new templates, integrations, and team training all have to be perfect at once. Incremental migration spreads that risk across many small, reversible steps.</p><p>The usual pattern is to put a routing layer in front of both platforms and move one section at a time — a microsite, the blog, then product pages. Each move migrates its content, rebuilds its components on the new platform, and switches traffic. Visitors never notice the seam, and the team learns from each section before tackling the next.</p><p>Moving to SaaS also changes operations. Upgrades become the vendor's job, so the team can redirect effort from maintenance to experience work. Planning that shift — new skills, new release rhythms, fewer custom extensions — matters as much as the technical migration.</p>",
+      "takeaways": "<ul><li>Incremental migration replaces one risky launch with many small steps.</li><li>Route traffic section by section between old and new platforms.</li><li>Plan the operational shift from maintenance to experience work.</li></ul>",
+      "image": {
+        "seed": "moving-to-a-saas-dxp-without-a-big-bang",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97205-moving-to-a-saas-dxp-without-a-big-bang?v=fdfcbf70\" dam-id=\"MCdMK-HXTPuV8fy0xr8cZA\" width=\"1200\" height=\"675\" alt=\"Moving to a SaaS DXP Without a Big Bang\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97205/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Generative AI And The Content Supply Chain",
+      "title": "Generative AI and the Content Supply Chain",
+      "topic": "AI",
+      "author": "Jane Smith",
+      "date": "20260421T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>Personalization multiplied the demand for content; generative AI is the first technology that can multiply the supply. Ten audience segments, five channels, three languages — the combinatorics that used to break content calendars become a brief and a review pass.</p><p>The teams getting real value treat generation as a stage in a supply chain, not a replacement for one. Briefs carry brand voice and factual guardrails in. Drafts come out into the same review, legal, and localization workflow that human-authored content follows. Provenance is tracked, so when a claim needs correcting you know every variant that inherited it.</p><p>The craft shifts rather than disappears. Writers spend less time producing the ninth variation of a product blurb and more time on the work models are worst at: the point of view, the story, the sentence a customer quotes back to you.</p>",
+      "takeaways": "<ul><li>GenAI multiplies content supply the way personalization multiplied demand.</li><li>Generation is a supply-chain stage — same review, legal, and localization gates.</li><li>Track provenance so corrections reach every inherited variant.</li></ul>",
+      "image": {
+        "seed": "generative-ai-and-the-content-supply-chain",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93889-generative-ai-content-supply-chain?v=69a4c86f\" dam-id=\"vzluhnavTPuHG9dOk9iOEw\" width=\"1200\" height=\"675\" alt=\"Generative AI and the Content Supply Chain\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93889/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Accessibility As A Release Gate",
+      "title": "Accessibility as a Release Gate",
+      "topic": "Engineering",
+      "author": "Jane Smith",
+      "date": "20260506T090000Z",
+      "readTime": "5 min read",
+      "content": "<p>Accessibility problems are cheapest to fix before they ship and most expensive after a complaint. Treating accessibility as a release gate — a check that must pass like tests and security scans — moves the work to the cheapest point. Automated tools catch missing alt text, low contrast, and unlabeled controls on every pull request.</p><p>Automation covers only part of the picture, so components carry the rest. When the shared component library handles focus management, keyboard navigation, and semantic markup correctly, every page built from it inherits that work. Fixing a dialog once fixes it everywhere it is used.</p><p>Manual review completes the gate for new patterns: a keyboard-only walkthrough and a short screen reader check before release. Authors play a part too — required alt text fields and heading guidance in the CMS keep content accessible after developers have moved on.</p>",
+      "takeaways": "<ul><li>Gate releases on automated accessibility checks in every pull request.</li><li>Accessible shared components fix issues everywhere at once.</li><li>Add manual keyboard and screen reader checks for new patterns.</li></ul>",
+      "image": {
+        "seed": "accessibility-as-a-release-gate",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97245-accessibility-as-a-release-gate?v=c12beac4\" dam-id=\"ojzPN8ZMTAKfGzPnxReM_g\" width=\"1200\" height=\"675\" alt=\"Accessibility as a Release Gate\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97245/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Composable DXP Explained Simply",
+      "title": "Composable DXP, Explained Simply",
+      "topic": "Composable DXP",
+      "author": "Marcus Webb",
+      "date": "20260514T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>A composable digital experience platform is the difference between buying a house and buying rooms. The monolithic suite gives you everything under one roof — including the rooms you never enter but still pay to heat. Composable lets you assemble the stack from best-of-need pieces: content, search, personalization, commerce, analytics — each replaceable without moving out.</p><p>The glue is APIs and events. When every capability speaks over well-defined interfaces, the front end becomes a consumer of services rather than a hostage of the platform’s rendering engine. That is what makes headless delivery, native mobile apps, and tomorrow’s channel-you-have-not-heard-of-yet the same integration effort.</p><p>Composable is not free lunch: someone owns the seams. Fewer, deeper integrations beat a drawer full of point solutions, and a clear map of which system is the source of truth for what — content, profile, product — saves every future architecture meeting.</p>",
+      "takeaways": "<ul><li>Composable = assemble best-of-need pieces, replaceable independently.</li><li>APIs and events make every channel the same integration effort.</li><li>Someone owns the seams — map your sources of truth early.</li></ul>",
+      "image": {
+        "seed": "composable-dxp-explained-simply",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93901-composable-dxp-explained?v=df940720\" dam-id=\"wpor3x8cQDWeYbZoAFZlLw\" width=\"1200\" height=\"675\" alt=\"Composable DXP, Explained Simply\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93901/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Prompts That Respect Your Brand Voice",
+      "title": "Prompts That Respect Your Brand Voice",
+      "topic": "AI",
+      "author": "Jane Smith",
+      "date": "20260527T090000Z",
+      "readTime": "5 min read",
+      "content": "<p>Ask a model to write \"in our brand voice\" and you will get a confident guess. Brand voice survives generation only when it is written down in a form a model can use: a short list of principles, a vocabulary of preferred and banned terms, and a handful of before-and-after examples that show the difference between on-brand and merely correct.</p><p>The most effective teams treat that guidance as shared infrastructure rather than a prompt someone keeps in a notes app. Centralized brand context — tone, audiences, product facts — is attached to every generation request, so a campaign headline and a product description draw from the same source of truth.</p><p>Review still matters, but its job changes. Editors stop rewriting tone line by line and start curating the examples that teach it. When a generated draft misses, the fix goes into the shared guidance, and every future draft improves at once.</p>",
+      "takeaways": "<ul><li>Brand voice must be explicit: principles, vocabulary, and examples.</li><li>Attach shared brand context to every generation request.</li><li>Fix misses in the guidance, not just in the individual draft.</li></ul>",
+      "image": {
+        "seed": "prompts-that-respect-your-brand-voice",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97142-prompts-that-respect-your-brand-voice?v=e40a007a\" dam-id=\"M1Acn35DQNmtt6jEddBjmQ\" width=\"1200\" height=\"675\" alt=\"Prompts That Respect Your Brand Voice\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97142/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Search Is The New Homepage",
+      "title": "Search Is the New Homepage",
+      "topic": "Composable DXP",
+      "author": "Jane Smith",
+      "date": "20260603T090000Z",
+      "readTime": "5 min read",
+      "content": "<p>Visitors stopped browsing years ago. They arrive mid-journey from a link, a chat, or an AI answer, and the first thing many of them do is type what they want. For that visitor, your search box is your homepage — and its results page is your information architecture.</p><p>Treating search as a first-class experience changes the checklist. Instant suggestions that understand titles, not just tokens. Results that carry enough context — image, date, snippet — to be judged without a click. Zero-result pages that recover with alternatives instead of apologizing. And index freshness measured in minutes, because content that is published but not findable might as well be in a drawer.</p><p>Search data is also the cheapest voice-of-customer program you will ever run. The queries with no results are a content backlog written by your audience; the queries with no clicks are a relevance bug report. Read them monthly and let them steer both content and merchandising.</p>",
+      "takeaways": "<ul><li>Mid-journey visitors experience search as your homepage.</li><li>Results need image, date, and snippet — judgeable without a click.</li><li>No-result queries are a content backlog written by your audience.</li></ul>",
+      "image": {
+        "seed": "search-is-the-new-homepage",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93909-search-is-the-new-homepage?v=7cbb6a7f\" dam-id=\"I2QuG1uQRxq0imsBlWJccA\" width=\"1200\" height=\"675\" alt=\"Search Is the New Homepage\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93909/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Measuring Digital Experience Beyond Page Views",
+      "title": "Measuring Digital Experience Beyond Page Views",
+      "topic": "Customer Data and Analytics",
+      "author": "Marcus Webb",
+      "date": "20260619T090000Z",
+      "readTime": "5 min read",
+      "content": "<p>Page views measure attendance, not experience. A visitor who opened five pages might be delighted or lost — the counter cannot tell the difference, and optimizing for it rewards the labyrinth.</p><p>Experience metrics start from intent. Task completion: did the visitor who came to compare plans reach the comparison? Time-to-value: how long from landing to the first genuinely useful moment? Frustration signals — rage clicks, back-and-forth loops, abandoned forms with one field left — locate the friction that averages hide.</p><p>The discipline is pairing every engagement metric with an outcome it should predict. Scroll depth is trivia until you show it correlates with renewal; search usage is noise until you connect it to conversion. Metrics that predict nothing get retired — the dashboard diet is the healthiest thing an analytics program can do.</p>",
+      "takeaways": "<ul><li>Page views measure attendance; intent metrics measure experience.</li><li>Track task completion, time-to-value, and frustration signals.</li><li>Retire any metric that predicts no outcome.</li></ul>",
+      "image": {
+        "seed": "measuring-digital-experience-beyond-page-views",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93917-measuring-digital-experience?v=f4e16b36\" dam-id=\"-N_H9anGRmKr4AlhIhrfMg\" width=\"1200\" height=\"675\" alt=\"Measuring Digital Experience Beyond Page Views\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93917/thumbnail\" />"
+      }
+    },
+    {
+      "name": "A Customer Data Foundation In 90 Days",
+      "title": "A Customer Data Foundation in 90 Days",
+      "topic": "Customer Data and Analytics",
+      "author": "Jane Smith",
+      "date": "20260625T090000Z",
+      "readTime": "7 min read",
+      "content": "<p>Customer data projects stall when they try to unify everything before delivering anything. A ninety-day plan works because it forces a choice: one or two use cases that matter this quarter, and only the data those use cases need. Abandoned-cart recovery or onboarding journeys are common first picks because their value is easy to measure.</p><p>The first month connects sources — the website, commerce, and email — and agrees on identity rules: which identifier wins, and how anonymous sessions merge into known profiles. The second month builds the segments and activates them in one channel. The third month measures the result against a holdout and documents what to extend next.</p><p>The foundation that results is deliberately incomplete, but it is real. Stakeholders see a working profile, a live segment, and a measured outcome, which makes the case for the next data source far easier than a slide about a future single customer view.</p>",
+      "takeaways": "<ul><li>Pick one or two measurable use cases and only the data they need.</li><li>Month by month: connect sources, activate segments, measure with a holdout.</li><li>A small working foundation beats a perfect plan for the business case.</li></ul>",
+      "image": {
+        "seed": "a-customer-data-foundation-in-90-days",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97189-a-customer-data-foundation-in-90-days?v=3ba98c07\" dam-id=\"HnTwHBM8TmCPoIfCJgBf0g\" width=\"1200\" height=\"675\" alt=\"A Customer Data Foundation in 90 Days\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97189/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Canary Releases Explained",
+      "title": "Canary Releases: Ship Safely at Full Speed",
+      "topic": "Engineering",
+      "author": "Marcus Webb",
+      "date": "20260702T090000Z",
+      "readTime": "5 min read",
+      "content": "<p>A canary release routes a small slice of production traffic to a new version before rolling it out to everyone. The name comes from the canary in the coal mine: a small, early warning signal that something is wrong, long before the whole team feels it.</p><p>The mechanics are straightforward. You deploy the new version alongside the current one, send one to five percent of requests to it, and watch error rates, latency, and business metrics. If the canary stays healthy, you widen the slice in stages. If it degrades, you route traffic back and nobody outside the platform team ever notices.</p><p>The hard part is not the routing — modern load balancers and service meshes handle that — it is deciding what healthy means. A good canary policy defines success criteria upfront: error budget consumption, p99 latency ceilings, and at least one business signal such as checkout completion. Without explicit criteria, every canary judgement becomes a debate.</p><p>Teams that adopt canary releases consistently report a shift in culture: deploys stop being events. When any change can be sent to a sliver of users and reversed in seconds, shipping on a Friday afternoon stops being taboo and starts being routine.</p>",
+      "takeaways": "<ul><li>A canary release exposes a new version to a small traffic slice first.</li><li>Define success criteria before the canary starts, not during.</li><li>Automated rollback turns risky deploys into routine ones.</li></ul>",
+      "image": {
+        "seed": "canary-releases-explained",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93823-canary-releases-explained?v=7604ae81\" dam-id=\"xJc8cyM-Qm6pVw8vw39cbg\" width=\"1200\" height=\"675\" alt=\"Canary Releases: Ship Safely at Full Speed\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93823/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Testing Personalization Without Fooling Yourself",
+      "title": "Testing Personalization Without Fooling Yourself",
+      "topic": "Personalization",
+      "author": "Marcus Webb",
+      "date": "20260709T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>Personalization makes testing harder because every variant targets a different audience. Comparing a personalized experience against everyone else's default is not a fair test; the audiences differ before any content changes. The fix is a holdout: within the targeted segment, a share of visitors keeps seeing the default, and the comparison happens inside the same audience.</p><p>Sample size is the next trap. Segments are smaller than the whole site, so tests take longer to reach significance, and stopping early on a promising number produces winners that vanish at scale. Decide the minimum detectable effect and the run time before launching, and resist checking the dashboard daily.</p><p>Finally, measure the outcome that matters rather than the easiest one to move. Click-through on a personalized banner almost always rises; whether conversions or retention do is the real question. A program that reports honest, smaller wins earns more trust than one that celebrates every uplift.</p>",
+      "takeaways": "<ul><li>Use holdouts inside the targeted segment for fair comparisons.</li><li>Set sample size and run time before launch; don't stop early.</li><li>Measure conversion or retention, not just clicks on the variant.</li></ul>",
+      "image": {
+        "seed": "testing-personalization-without-fooling-yourself",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97164-testing-personalization-without-fooling-yourself?v=ebe2461a\" dam-id=\"S48Jn59BQgKoXacM62etHw\" width=\"1200\" height=\"675\" alt=\"Testing Personalization Without Fooling Yourself\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97164/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Zero Downtime Database Migrations",
+      "title": "Zero-Downtime Database Migrations, Step by Step",
+      "topic": "Engineering",
+      "author": "Jane Smith",
+      "date": "20260715T090000Z",
+      "readTime": "7 min read",
+      "content": "<p>Every team eventually faces a schema change that cannot take the database down: renaming a column that a live service reads a thousand times per second, or splitting a table that has grown past its useful shape. Zero-downtime migrations make those changes boring.</p><p>The core discipline is expand and contract. First you expand: add the new column or table alongside the old one, and update the application to write to both. Then you backfill historical rows in small batches, throttled so replication lag stays flat. Only when reads have fully moved to the new shape do you contract: drop the old column in a later release, once nothing references it.</p><p>The most common failure mode is bundling a migration and a code change in one deploy. If the deploy rolls back but the migration does not, the old code meets a new schema and errors cascade. Keeping migrations forward-compatible for at least one release in each direction removes that trap entirely.</p><p>Tooling helps — online schema-change tools rewrite tables without long locks — but the habit that matters most is treating every migration as three small, reversible steps instead of one big irreversible one.</p>",
+      "takeaways": "<ul><li>Use expand-and-contract: add the new schema, migrate readers, then drop the old.</li><li>Backfill in throttled batches to protect replication lag.</li><li>Never couple a schema migration and a code change in a single deploy.</li></ul>",
+      "image": {
+        "seed": "zero-downtime-database-migrations",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93828-zero-downtime-database-migrations?v=acf8c977\" dam-id=\"QQEZkV8GQ069z0oUw7HkUA\" width=\"1200\" height=\"675\" alt=\"Zero-Downtime Database Migrations, Step by Step\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93828/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Observability Beyond Dashboards",
+      "title": "Observability Beyond Dashboards: Metrics, Logs, and Traces That Answer Questions",
+      "topic": "Engineering",
+      "author": "Marcus Webb",
+      "date": "20260728T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>Monitoring tells you that something you predicted might break has broken. Observability is the ability to ask new questions of a running system without shipping new code to answer them. The difference sounds academic until three services away, an unexplained latency spike is eating your error budget.</p><p>The classic three pillars — metrics, logs, and traces — are ingredients, not the meal. Metrics give you cheap, aggregated trend lines. Logs give you high-cardinality detail about single events. Traces stitch a request's journey across service boundaries so you can see where the time actually went. Observability emerges when the three are correlated: a spike on a chart links to the exemplar trace, which links to the structured logs of the slowest span.</p><p>The practices that move the needle are unglamorous. Propagate a request identifier everywhere. Emit structured, machine-parseable events instead of prose. Budget instrumentation like a feature, not an afterthought. And resist the urge to build a wall of dashboards nobody reads — a handful of service-level views tied to alerts beats fifty vanity charts.</p><p>Teams with real observability debug in minutes what others escalate for days, because the system can explain itself while the incident is still small.</p>",
+      "takeaways": "<ul><li>Observability means asking new questions without new code.</li><li>Correlate metrics, logs, and traces — pillars alone are just data.</li><li>Structured events and propagated request identifiers beat dashboard sprawl.</li></ul>",
+      "image": {
+        "seed": "observability-beyond-dashboards",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93835-observability-beyond-dashboards?v=88295a7c\" dam-id=\"FnHiu9X9QXqW3ufzMv4hIw\" width=\"1200\" height=\"675\" alt=\"Observability Beyond Dashboards\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93835/thumbnail\" />"
+      }
+    },
+    {
+      "name": "AI Meets Human Connection",
+      "title": "AI Meets Human Connection",
+      "topic": "AI",
+      "author": "Jane Smith",
+      "date": "20260806T090000Z",
+      "readTime": "5 min read",
+      "content": "<p>The paradox of AI in digital experience is that the more the machinery scales, the more the human moments stand out. Visitors forgive a clumsy recommendation; they remember the message that felt written for them — and increasingly, both come from the same pipeline.</p><p>The organizations getting this right use AI to clear the ground for connection, not to simulate it. Models handle the volume: triaging queries, assembling variants, predicting the next best step. People handle the meaning: the brand voice that survives a thousand generated variations, the judgment call on what should never be automated, the empathy in the escalation path when the model is out of its depth.</p><p>The test worth applying to every AI feature is simple: does it give a human — customer or marketer — time and attention back? Automation that produces more noise to manage fails the test no matter how impressive the demo.</p>",
+      "takeaways": "<ul><li>Use AI to clear ground for human connection, not simulate it.</li><li>Models handle volume; people handle meaning and judgment.</li><li>Good automation returns time and attention — test every feature against that.</li></ul>",
+      "image": {
+        "seed": "ai-meets-human-connection",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/93924-ai-meets-human-connection?v=1782b141\" dam-id=\"_nGcbYKvToSZkNDf9yFWDA\" width=\"1200\" height=\"675\" alt=\"AI Meets Human Connection\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/93924/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Headless Content Modeling Done Right",
+      "title": "Headless Content Modeling Done Right",
+      "topic": "Composable DXP",
+      "author": "Marcus Webb",
+      "date": "20260820T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>Headless delivery promises content that works on every channel, but that promise depends on the content model. Models copied from page layouts — a \"homepage hero\" type, a \"left column\" field — tie content to one presentation and must be rebuilt for every new channel. Good models describe what content is, not where it appears.</p><p>That means modeling around meaning: an event has a title, a date, a venue, and speakers, regardless of whether it renders as a card, a calendar entry, or an assistant's answer. References between types replace copy-paste, so a speaker's bio is written once and reused everywhere.</p><p>Governance keeps the model healthy. A small set of shared types, clear naming, and help text on every field prevent the sprawl of near-duplicate templates. Review new types like API changes, because to every consuming channel, that is exactly what they are.</p>",
+      "takeaways": "<ul><li>Model what content is, not where it appears on a page.</li><li>Use references so shared content is written once.</li><li>Govern new types like API changes, with naming and help text.</li></ul>",
+      "image": {
+        "seed": "headless-content-modeling-done-right",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97221-headless-content-modeling-done-right?v=361f4a0d\" dam-id=\"Md3dXDgoQz-fYlgcfE_mKg\" width=\"1200\" height=\"675\" alt=\"Headless Content Modeling Done Right\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97221/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Agentic AI In The Marketing Stack",
+      "title": "Agentic AI in the Marketing Stack",
+      "topic": "AI",
+      "author": "Marcus Webb",
+      "date": "20260903T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>Generative AI answered questions; agentic AI finishes tasks. Instead of drafting one email when asked, an agent can assemble a campaign brief, generate variants per segment, schedule the sends, and report back on what moved the needle. The shift is from a tool you prompt to a colleague you delegate to.</p><p>That shift only works when the agent can act on real systems. In a composable stack, the agent's reach is defined by the APIs it is allowed to call: the content platform for drafts, the personalization engine for audiences, analytics for results. Every permission is a design decision, and the safest teams start with read-only access and a human approval step before anything is published.</p><p>The organizations seeing early wins pick narrow, repetitive workflows first — localizing approved copy, tagging assets, flagging broken journeys — and measure time returned to the team rather than novelty. Agents earn wider scope the same way new hires do: by being reliably right on small things.</p>",
+      "takeaways": "<ul><li>Agents complete multi-step tasks instead of answering single prompts.</li><li>API permissions define what an agent can change — start read-only.</li><li>Begin with narrow, repetitive workflows and measure time returned.</li></ul>",
+      "image": {
+        "seed": "agentic-ai-in-the-marketing-stack",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97136-agentic-ai-in-the-marketing-stack?v=c0e77453\" dam-id=\"0cglU7mVTm2b8St_g7Q_GA\" width=\"1200\" height=\"675\" alt=\"Agentic AI in the Marketing Stack\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97136/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Caching Strategies For Headless Delivery",
+      "title": "Caching Strategies for Headless Delivery",
+      "topic": "Engineering",
+      "author": "Jane Smith",
+      "date": "20260910T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>Headless sites make many small requests — layout, content, search, personalization — and each one is a chance to be slow. Caching is how a headless site stays fast, but the hard part is not storing responses; it is knowing when they are stale. Every cache needs an invalidation story before it goes live.</p><p>Publish events are the cleanest trigger. When content is published, the platform can notify the front end to revalidate exactly the affected pages, instead of expiring everything on a timer. Time-based expiry remains a safety net for data without events, such as prices from an external system.</p><p>Personalized responses need extra care. Cache the shared shell and the default variant aggressively, and keep per-visitor decisions small and separate so they never poison the shared cache. A clear map of what is cached where — CDN, server, browser — turns caching from a source of mystery bugs into a dependable performance tool.</p>",
+      "takeaways": "<ul><li>Define invalidation before enabling any cache.</li><li>Revalidate on publish events; use timers only as a safety net.</li><li>Keep per-visitor decisions out of shared caches.</li></ul>",
+      "image": {
+        "seed": "caching-strategies-for-headless-delivery",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97265-caching-strategies-for-headless-delivery?v=3a59921d\" dam-id=\"tU_8U_UWTQaz5qblxvthqg\" width=\"1200\" height=\"675\" alt=\"Caching Strategies for Headless Delivery\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97265/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Personalization And Privacy Can Coexist",
+      "title": "Personalization and Privacy Can Coexist",
+      "topic": "Personalization",
+      "author": "Jane Smith",
+      "date": "20260924T090000Z",
+      "readTime": "5 min read",
+      "content": "<p>Privacy regulation is often framed as the end of personalization. In practice it ends a particular style of personalization — opaque tracking across sites — while rewarding brands that personalize with data customers knowingly share. Relevance built on consent is more durable because it does not depend on loopholes that close.</p><p>The building blocks are straightforward: clear consent choices, a preference center visitors actually use, and personalization rules that respect those choices in real time. When someone declines tracking, the experience should still be good — contextual personalization based on the current visit needs no stored profile at all.</p><p>Transparency is also a design opportunity. Telling visitors why they see a recommendation (\"because you viewed pricing\") builds confidence, and offering an easy way to reset or adjust it turns privacy from a legal checkbox into part of the brand experience.</p>",
+      "takeaways": "<ul><li>Consent-based personalization is more durable than opaque tracking.</li><li>Contextual personalization works without stored profiles.</li><li>Explaining recommendations builds trust and becomes a brand asset.</li></ul>",
+      "image": {
+        "seed": "personalization-and-privacy-can-coexist",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97171-personalization-and-privacy-can-coexist?v=4b69ec5f\" dam-id=\"VpTIvEmWRoyObln3G223Fw\" width=\"1200\" height=\"675\" alt=\"Personalization and Privacy Can Coexist\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97171/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Dashboards Marketers Actually Use",
+      "title": "Dashboards Marketers Actually Use",
+      "topic": "Customer Data and Analytics",
+      "author": "Marcus Webb",
+      "date": "20261001T090000Z",
+      "readTime": "5 min read",
+      "content": "<p>Most marketing dashboards are built once and opened rarely. They show everything the data can say rather than what a decision needs. A dashboard that gets used starts from a question someone asks every week — which campaigns should get more budget, which pages lose visitors — and shows only the metrics that answer it.</p><p>Context makes numbers actionable. A conversion rate means little without its trend, its target, and a comparison to the previous period. Annotations for launches and outages explain spikes before anyone has to ask, and clear owners for each metric mean someone acts when it moves.</p><p>The best test is behavioral: if a dashboard has not changed a decision in a month, simplify it or retire it. Fewer, sharper views earn attention, and attention is what turns analytics into action.</p>",
+      "takeaways": "<ul><li>Build each dashboard around a recurring decision, not all available data.</li><li>Show trends, targets, and annotations so numbers explain themselves.</li><li>Retire dashboards that have not changed a decision recently.</li></ul>",
+      "image": {
+        "seed": "dashboards-marketers-actually-use",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97197-dashboards-marketers-actually-use?v=e23adc71\" dam-id=\"YGX3n2pYShKfprvd_5lZGA\" width=\"1200\" height=\"675\" alt=\"Dashboards Marketers Actually Use\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97197/thumbnail\" />"
+      }
+    },
+    {
+      "name": "Buy Build Or Blend A Composable Stack",
+      "title": "Buy, Build, or Blend: Choosing a Composable Stack",
+      "topic": "Composable DXP",
+      "author": "Jane Smith",
+      "date": "20261008T090000Z",
+      "readTime": "7 min read",
+      "content": "<p>Composable architecture invites a tempting idea: pick the best product for every capability and wire them together. In practice, each extra vendor adds an integration, a contract, a security review, and a team that must understand it. The right stack balances best-of-breed capability against the cost of the seams.</p><p>A useful rule is to buy where the capability is a commodity, build where it differentiates the business, and blend where a suite already covers several needs well. Content, search, and personalization from one platform with shared data often beat three separate products that must be synchronized.</p><p>Whatever the mix, insist on open APIs, event hooks, and data export. Those guarantees keep every choice reversible, which is the real benefit of composable: not the number of vendors, but the freedom to change one without rebuilding the rest.</p>",
+      "takeaways": "<ul><li>Each extra vendor adds integration, contracts, and operational cost.</li><li>Buy commodities, build differentiators, blend where suites fit.</li><li>Open APIs and data export keep every choice reversible.</li></ul>",
+      "image": {
+        "seed": "buy-build-or-blend-a-composable-stack",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97229-buy-build-or-blend-a-composable-stack?v=a350a0a2\" dam-id=\"jtY5u9L0SCmCUmYqemAnfA\" width=\"1200\" height=\"675\" alt=\"Buy, Build, or Blend: Choosing a Composable Stack\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97229/thumbnail\" />"
+      }
+    },
+    {
+      "name": "AI Answers And The End Of Ten Blue Links",
+      "title": "AI Answers and the End of Ten Blue Links",
+      "topic": "AI",
+      "author": "Marcus Webb",
+      "date": "20261015T090000Z",
+      "readTime": "6 min read",
+      "content": "<p>A growing share of discovery now ends in an answer instead of a list of links. Assistants and AI search summarize, compare, and recommend — and the brands they cite are the ones whose content is structured, specific, and easy to quote. Visibility is no longer only about ranking; it is about being the source an answer is built from.</p><p>That favors content with clear claims and clean structure: product facts in consistent fields, FAQs that answer one question each, and pages that state who the content is for. Structured content models, which headless teams adopted for omnichannel delivery, turn out to be exactly what answer engines can parse.</p><p>Measurement has to adapt as well. Traffic from answers is lower in volume but higher in intent, and citations themselves become a metric. The practical first step is an audit: ask the major assistants the questions your customers ask, and see whose content they quote.</p>",
+      "takeaways": "<ul><li>Discovery increasingly ends in AI-generated answers, not link lists.</li><li>Structured, specific content is what answer engines cite.</li><li>Audit which sources assistants quote for your customers' questions.</li></ul>",
+      "image": {
+        "seed": "ai-answers-and-the-end-of-ten-blue-links",
+        "sharedSandboxXml": "<Image src=\"https://ffde.sitecoresandbox.cloud/api/public/content/97150-ai-answers-and-the-end-of-ten-blue-links?v=978017d0\" dam-id=\"AbuGG4nkR02y_tn4tP1PSw\" width=\"1200\" height=\"675\" alt=\"AI Answers and the End of Ten Blue Links\" dam-content-type=\"Image\" thumbnailsrc=\"https://ffde.sitecoresandbox.cloud/api/gateway/97150/thumbnail\" />"
+      }
+    }
+  ]
+}

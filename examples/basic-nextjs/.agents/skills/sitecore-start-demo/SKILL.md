@@ -41,6 +41,7 @@ It prints a readable summary (stderr) and a JSON report (stdout); exit code 2 me
 | `clean-tree` | List the files. Ask the user to commit them on their own demo branch or discard them, then re-run. Never stash. |
 | `demo-branch` exists / `demo-folder` in use | Ask: **continue that demo** (re-run with `--continue`) or **choose a new name** (e.g. `<client>-2`). An existing folder may hold recovery records; never overwrite it. |
 | `main-up-to-date` | Local `main` has its own commits: ask the user to move them to a branch. |
+| `search-source` (info/warning) | No `searchSources.articles` in `project.yaml`, or it doesn't answer for this environment's context ID. Never a blocker. Search setup creates or fixes it (`sitecore-search` skill). |
 | `showcase-url` (info) / `editing-host-url` | Not set, unreachable, or refused (not HTTPS, credentials, or a query string). Never a blocker. Ask for the URL once the demo is deployed. |
 | `framework-ahead` (warning) | Tell the user their fork is behind the framework and how many commits; do not change remotes. |
 | `url` | The site does not load or is blocked by bot protection. Stop; the user may try another URL. |
@@ -77,6 +78,9 @@ Use `siteCollection`/`siteName` from `docs/ai/config/project.yaml`.
    - **If it fails with an Agent API error**, raise a **warning**: Phase 6 can't place components automatically, and the build will hand over an ordered manual-placement list instead. The known case is `Error fetching component: GraphQL errors: The field 'renderings' does not exist on the type 'Query'`, seen right after an environment deploy; see `docs/ai/reference/agent-api-limitations.md` §4.
    - Suggest retrying later, or building anyway and placing the components by hand in Pages.
 
+7. **Article coverage** (read-only). `get_content_item_by_path` for `…/<siteName>/Home/Articles`, then read each child article. Report how many there are, and how many lack `ArticleTopic` or `ArticleImage`.
+   - None, or gaps: info. Search setup seeds the articles and fills the gaps (`sitecore-search` skill). Never a blocker.
+
 ## Step 3 — Record and hand over
 
 1. Add a `sitecore` block to `setup.json`: `siteItemId`, `homeId`, `otherDemo` (prefix found, or `null`), `manifest: { result: "pass" | "fail", checkedAt: <ISO time> }`, and `placementApi: "ok" | "failing"` (item 6).
@@ -92,7 +96,7 @@ Use `siteCollection`/`siteName` from `docs/ai/config/project.yaml`.
 The build re-runs the Start Check without fixing or writing anything:
 
 1. `node .agents/skills/sitecore-start-demo/scripts/start-demo.mjs --client <client> --check` (the URL comes from `setup.json`).
-2. Step 2 items 0, 1, 2, 4 and 6.
+2. Step 2 items 0, 1, 2, 4, 6 and 7.
 3. Step 2 item 5 **only if** `manifestReuse.reusable` is false or `manifestReuse.siteItemId` differs from the site item ID just read (same day, same `main` commit and same environment are required to reuse it).
 
 Any blocker stops the build: tell the user to run `/skill:sitecore-start-demo <client> <url>`.

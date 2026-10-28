@@ -1,6 +1,6 @@
 generatedAt: "2026-03-20T09:00:00Z"
-lastUpdatedAt: "2026-10-21T00:00:00Z"
-lastUpdatedBy: "pi-agent (sitecore-search v4: facets/MLT/suggest, sitecore-demo env)"
+lastUpdatedAt: "2026-10-28T00:00:00Z"
+lastUpdatedBy: "pi-agent (landing Sitecore variants, sitecore-demo env)"
 
 project:
   siteCollection: "main"
@@ -3593,6 +3593,150 @@ components-searchv3:
       templateSvLinks: passed  # verified via pull — __Standard values carries the correct SV item ID
       fieldHelpText: passed  # verified via pull — __Short description intact on field items
       headerPromotion: byDesignManual  # drag into global header partial design in Page Builder when desired (spec #45)
+
+  - name: "LandingHero"
+    kind: "context"
+    category: "Landing"
+    status: "planned"  # Sitecore variant: TSX done; Variant Definition not yet created
+    createdAt: "2026-10-28T00:00:00Z"
+    updatedAt: "2026-10-28T00:00:00Z"
+    files:
+      tsx: "src/components/uiim/landing/LandingHero.tsx"
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/LandingHero"
+      containerId: ""  # not yet looked up — container may already exist from the Landing Page template work
+      variants:
+        - { name: "Sitecore", itemId: "" }  # sitecore demo (branch sitecore-demo), pending creation via marketer MCP
+    verification:
+      checkedAt: "2026-10-28T00:00:00Z"
+      passed:
+        - "TSX export Sitecore added (component map spreads the module, no map change needed)"
+        - "jest (src/__tests__/components/landing), eslint and tsc clean"
+      failed: []
+      pendingManual:
+        - "Create Variant Definition 'Sitecore' under the Headless Variants container and verify by reading it back"
+    notes:
+      - "2026-10-28: sitecore demo (sitecore-demo branch) added client variant Sitecore styled after sitecore.com/platform/ai-and-agents. marketer MCP not connected in that session, so the Variant Definition is still to be created. Landing Page Layout partial design left to the user."
+
+  - name: "LandingFeatures"
+    kind: "context"
+    category: "Landing"
+    status: "planned"  # Sitecore variant: TSX done; Variant Definition not yet created
+    createdAt: "2026-10-28T00:00:00Z"
+    updatedAt: "2026-10-28T00:00:00Z"
+    files:
+      tsx: "src/components/uiim/landing/LandingFeatures.tsx"
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/LandingFeatures"
+      containerId: ""  # not yet looked up — container may already exist from the Landing Page template work
+      variants:
+        - { name: "Sitecore", itemId: "" }  # sitecore demo (branch sitecore-demo), pending creation via marketer MCP
+    verification:
+      checkedAt: "2026-10-28T00:00:00Z"
+      passed:
+        - "TSX export Sitecore added (component map spreads the module, no map change needed)"
+        - "jest (src/__tests__/components/landing), eslint and tsc clean"
+      failed: []
+      pendingManual:
+        - "Create Variant Definition 'Sitecore' under the Headless Variants container and verify by reading it back"
+    notes:
+      - "2026-10-28: sitecore demo (sitecore-demo branch) added client variant Sitecore styled after sitecore.com/platform/ai-and-agents. marketer MCP not connected in that session, so the Variant Definition is still to be created. Landing Page Layout partial design left to the user."
+
+  - name: "LandingStats"
+    kind: "context"
+    category: "Landing"
+    status: "planned"  # Sitecore variant: TSX done; Variant Definition not yet created
+    createdAt: "2026-10-28T00:00:00Z"
+    updatedAt: "2026-10-28T00:00:00Z"
+    files:
+      tsx: "src/components/uiim/landing/LandingStats.tsx"
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/LandingStats"
+      containerId: ""  # not yet looked up — container may already exist from the Landing Page template work
+      variants:
+        - { name: "Sitecore", itemId: "" }  # sitecore demo (branch sitecore-demo), pending creation via marketer MCP
+    verification:
+      checkedAt: "2026-10-28T00:00:00Z"
+      passed:
+        - "TSX export Sitecore added (component map spreads the module, no map change needed)"
+        - "jest (src/__tests__/components/landing), eslint and tsc clean"
+      failed: []
+      pendingManual:
+        - "Create Variant Definition 'Sitecore' under the Headless Variants container and verify by reading it back"
+    notes:
+      - "2026-10-28: sitecore demo (sitecore-demo branch) added client variant Sitecore styled after sitecore.com/platform/ai-and-agents. marketer MCP not connected in that session, so the Variant Definition is still to be created. Landing Page Layout partial design left to the user."
+
+  - name: "LandingSocialProof"
+    kind: "context"
+    category: "Landing"
+    status: "planned"  # Sitecore variant: TSX done; Variant Definition not yet created
+    createdAt: "2026-10-28T00:00:00Z"
+    updatedAt: "2026-10-28T00:00:00Z"
+    files:
+      tsx: "src/components/uiim/landing/LandingSocialProof.tsx"
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/LandingSocialProof"
+      containerId: ""  # not yet looked up — container may already exist from the Landing Page template work
+      variants:
+        - { name: "Sitecore", itemId: "" }  # sitecore demo (branch sitecore-demo), pending creation via marketer MCP
+    verification:
+      checkedAt: "2026-10-28T00:00:00Z"
+      passed:
+        - "TSX export Sitecore added (component map spreads the module, no map change needed)"
+        - "jest (src/__tests__/components/landing), eslint and tsc clean"
+      failed: []
+      pendingManual:
+        - "Create Variant Definition 'Sitecore' under the Headless Variants container and verify by reading it back"
+    notes:
+      - "2026-10-28: sitecore demo (sitecore-demo branch) added client variant Sitecore styled after sitecore.com/platform/ai-and-agents. marketer MCP not connected in that session, so the Variant Definition is still to be created. Landing Page Layout partial design left to the user."
+
+  - name: "LandingFAQ"
+    kind: "context"
+    category: "Landing"
+    status: "planned"  # Sitecore variant: TSX done; Variant Definition not yet created
+    createdAt: "2026-10-28T00:00:00Z"
+    updatedAt: "2026-10-28T00:00:00Z"
+    files:
+      tsx: "src/components/uiim/landing/LandingFAQ.tsx"
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/LandingFAQ"
+      containerId: ""  # not yet looked up — container may already exist from the Landing Page template work
+      variants:
+        - { name: "Sitecore", itemId: "" }  # sitecore demo (branch sitecore-demo), pending creation via marketer MCP
+    verification:
+      checkedAt: "2026-10-28T00:00:00Z"
+      passed:
+        - "TSX export Sitecore added (component map spreads the module, no map change needed)"
+        - "jest (src/__tests__/components/landing), eslint and tsc clean"
+      failed: []
+      pendingManual:
+        - "Create Variant Definition 'Sitecore' under the Headless Variants container and verify by reading it back"
+    notes:
+      - "2026-10-28: sitecore demo (sitecore-demo branch) added client variant Sitecore styled after sitecore.com/platform/ai-and-agents. marketer MCP not connected in that session, so the Variant Definition is still to be created. Landing Page Layout partial design left to the user."
+
+  - name: "LandingFinalCTA"
+    kind: "context"
+    category: "Landing"
+    status: "planned"  # Sitecore variant: TSX done; Variant Definition not yet created
+    createdAt: "2026-10-28T00:00:00Z"
+    updatedAt: "2026-10-28T00:00:00Z"
+    files:
+      tsx: "src/components/uiim/landing/LandingFinalCTA.tsx"
+    headlessVariants:
+      containerPath: "/sitecore/content/main/main-website/Presentation/Headless Variants/LandingFinalCTA"
+      containerId: ""  # not yet looked up — container may already exist from the Landing Page template work
+      variants:
+        - { name: "Sitecore", itemId: "" }  # sitecore demo (branch sitecore-demo), pending creation via marketer MCP
+    verification:
+      checkedAt: "2026-10-28T00:00:00Z"
+      passed:
+        - "TSX export Sitecore added (component map spreads the module, no map change needed)"
+        - "jest (src/__tests__/components/landing), eslint and tsc clean"
+      failed: []
+      pendingManual:
+        - "Create Variant Definition 'Sitecore' under the Headless Variants container and verify by reading it back"
+    notes:
+      - "2026-10-28: sitecore demo (sitecore-demo branch) added client variant Sitecore styled after sitecore.com/platform/ai-and-agents. marketer MCP not connected in that session, so the Variant Definition is still to be created. Landing Page Layout partial design left to the user."
 
 # Search v4 (2026-10-27, sitecore-demo environment): push source + facets + More Like This +
 # useSuggest. Spec: grill session (facets on /Articles, related articles in Article Layout,

@@ -188,6 +188,7 @@ pageTemplates:
           - { name: "Default", description: "Centered eyebrow + headline + subhead + dual CTAs above hero image/video. Conventional above-the-fold." }
           - { name: "SplitImage", description: "Two-column: text left, hero image/video right. Higher engagement for known-account ABM (split feels more personal)." }
           - { name: "Minimal", description: "Text-only hero, no media. Use for retargeting where the visitor has already seen the product." }
+          - { name: "Sitecore", description: "sitecore-demo only. sitecore.com product-page hero: pink/lavender wash in the framed column, gradient eyebrow chip, gradient + outline pill CTAs, rounded shadowed media card right (single centred column when no media)." }
 
       - id: landing-features
         name: "LandingFeatures"
@@ -196,6 +197,7 @@ pageTemplates:
         routeFieldsUsed: ["feature1IconName", "feature1Title", "feature1Description", "feature2IconName", "feature2Title", "feature2Description", "feature3IconName", "feature3Title", "feature3Description"]
         variants:
           - { name: "Default", description: "3-up card grid. Icon + title + description per card. Responsive: 3 cols desktop, 1 col mobile." }
+          - { name: "Sitecore", description: "sitecore-demo only. White 9px cards on a lavender band, gradient icon tile, gradient top edge on hover." }
 
       - id: landing-stats
         name: "LandingStats"
@@ -204,6 +206,7 @@ pageTemplates:
         routeFieldsUsed: ["stat1Number", "stat1Label", "stat2Number", "stat2Label", "stat3Number", "stat3Label"]
         variants:
           - { name: "Default", description: "3-up stat tiles. Large number + label below. Responsive: 3 cols desktop, stacked mobile." }
+          - { name: "Sitecore", description: "sitecore-demo only. Red→violet gradient numbers, sentence-case labels, hairline column dividers." }
 
       - id: landing-social-proof
         name: "LandingSocialProof"
@@ -212,6 +215,7 @@ pageTemplates:
         routeFieldsUsed: ["testimonialQuote", "testimonialAuthorName", "testimonialAuthorTitle", "testimonialAuthorImage", "partnerLogosImage"]
         variants:
           - { name: "Default", description: "Testimonial card (quote + author block) above the partner logo strip image. Logo strip hidden when partnerLogosImage is empty (unless editing)." }
+          - { name: "Sitecore", description: "sitecore-demo only. Navy testimonial panel with gradient glow and gradient quote mark; partner logo strip in a white framed band below." }
 
       - id: landing-faq
         name: "LandingFAQ"
@@ -220,6 +224,7 @@ pageTemplates:
         routeFieldsUsed: ["faq1Question", "faq1Answer", "faq2Question", "faq2Answer", "faq3Question", "faq3Answer", "faq4Question", "faq4Answer", "faq5Question", "faq5Answer"]
         variants:
           - { name: "Default", description: "shadcn Accordion, 5 items, all collapsed by default. Empty Q/A pairs hidden in non-editing mode." }
+          - { name: "Sitecore", description: "sitecore-demo only. White shadowed cards on a lavender band, plus/minus circle icons, violet open state, first item open; all items open in the editor. No hardcoded section heading." }
 
       - id: landing-final-cta
         name: "LandingFinalCTA"
@@ -228,6 +233,7 @@ pageTemplates:
         routeFieldsUsed: ["finalCtaHeadline", "finalCtaSubhead", "finalCtaButton"]
         variants:
           - { name: "Default", description: "Centered headline + subhead + single button on a contrast background band. Full-width." }
+          - { name: "Sitecore", description: "sitecore-demo only. Centred light headline, copy and gradient pill on the soft hero wash." }
 
     partialDesign:
       name: "Landing Page Layout"

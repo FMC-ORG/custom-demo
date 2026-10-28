@@ -14,9 +14,6 @@ Languages:
     - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
       Hint: __Created
       Value: 20260807T091313Z
-    - ID: "3fea9031-123a-4169-abc2-6a3101bae70f"
-      Hint: SearchIndex
-      Value: "79b6b3db-8ac7-4ab4-9e1b-f8dd9d6fe7fc"
     - ID: "4adfe0c6-836d-47d8-84db-9894bb1626a0"
       Hint: DescriptionMapping
       Value: ArticleContent

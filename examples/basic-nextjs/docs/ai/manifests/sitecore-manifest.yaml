@@ -3254,7 +3254,7 @@ components-search-v4-serialized:
   verification:
     serValidate: passed
     itemresCreate: passed  # all 9 items packaged (Project, Main.Templates, Content modules)
-    liveReadBack: pendingDeploy  # read back in an environment after its next deploy
+    liveReadBack: passed  # 2026-10-27, main's environment (no marker) after its XM Cloud deploy: all 9 items by ID, types/source/titles match, no duplicate field names (SearchResults/Data 11, SearchCollection/Data 11, Article Data 8)
 
 components-searchv3:
   # Ticket #46 (FMC-ORG/custom-demo). Spec #45. Built 2026-08-07.

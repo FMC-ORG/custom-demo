@@ -15,9 +15,6 @@ Languages:
       Hint: CtaLink
       Value: |
         <link linktype="internal" id="e2124310-f817-4644-8671-bff8e72b66d7" anchor="" querystring="" target="" class="" text="Get More Info" title=""/>
-    - ID: "186ef736-8c0e-4261-8c48-28663ba57841"
-      Hint: SearchIndex
-      Value: "79b6b3db-8ac7-4ab4-9e1b-f8dd9d6fe7fc"
     - ID: "2042eb2b-d061-49e4-bdfa-7146799f88bf"
       Hint: MaxSuggestions
       Value: 5

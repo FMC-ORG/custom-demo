@@ -67,6 +67,10 @@ cases:
     prompt: "Create a landing page for Maersk."
     expect: none
 
+  - id: studio-agent-is-command-only
+    prompt: "Create an Agentic Studio agent that writes press releases from a results file."
+    expect: none
+
   - id: unrelated
     prompt: "Fix the typo 'recieve' in the README."
     expect: none

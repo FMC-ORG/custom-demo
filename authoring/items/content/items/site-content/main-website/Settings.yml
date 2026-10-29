@@ -46,10 +46,10 @@ SharedFields:
   Value: "{96E5F4BA-A2CF-4A4C-A4E7-64DA88226362}"
 - ID: "d0ce707c-342f-4c02-ac0a-edb21346dde4"
   Hint: SupportedLanguages
-  Value: "{AF584191-45C9-4201-8740-5409F4CF8BDD}"
+  Value: af58419145c9420187405409f4cf8bdd|18895c30696a48e3a8f6f3ec1ba4f1b5|c6c11ae4ef0d4ca5bc638ba6fc62dbe3|2481ac5636bc47b79b2b03db1a8f256f|cef1794f9a474274a861a7e3ffd59cbe
 - ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
   Hint: __Shared revision
-  Value: "9cd38db5-86a6-4bd7-b6c7-44d012ec45de"
+  Value: "bbb0c693-2767-495e-a212-7cf8c3007712"
 - ID: "e8881464-38af-4655-be4a-ee10586578a2"
   Hint: Templates
   Value: "{786317E3-1F0F-4CE6-8C6A-0683FE1C48A3}"
@@ -77,11 +77,11 @@ Languages:
         sitecore\federico.mujica@sitecore.com
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "1e9ad2b6-6db4-462d-bf90-b31dd73089c4"
+      Value: "0a7cc668-82d0-402e-9cf9-af753a0674b5"
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
         sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260325T110510Z
+      Value: 20261027T185319Z

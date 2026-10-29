@@ -1,0 +1,27 @@
+﻿---
+ID: "5dba99f5-340f-47ec-a8ad-a7eed164fb76"
+Parent: "79f4a73c-71d2-4959-8fde-c7d9c8748990"
+Template: "98b34bff-0d74-4798-b2d8-cb52c19f7c92"
+Path: "/sitecore/content/main/main-website/Data/SiteFooters/Sitecore Footer"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141934Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "7bc5839d-a2e4-4954-bd1f-59e1f574b047"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141936Z
+    - ID: "e65848de-74a2-4211-b246-a022b7da6f6e"
+      Hint: BrandLogo
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96747-section11-img57?v=93fec5b0" dam-id="7NOmpwHwSLG99LxGq84Grg" width="926" height="199" alt="Sitecore" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96747/thumbnail" />

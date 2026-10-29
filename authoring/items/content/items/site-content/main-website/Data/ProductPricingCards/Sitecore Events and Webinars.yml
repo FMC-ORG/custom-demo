@@ -1,0 +1,29 @@
+﻿---
+ID: "cee1caaf-c838-47c9-9fde-1d70877db71d"
+Parent: "b5c8aa4c-5b7d-4008-8945-68f7d909134f"
+Template: "31c6bc75-a564-4e78-a887-7c664c3f284b"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Sitecore Events and Webinars"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141629Z
+    - ID: "6d5da2e7-7c5b-4ced-82a4-22e2700d2d9c"
+      Hint: Description
+      Value: <p>Join upcoming events and webinars or watch sessions on demand with Sitecore experts.</p>
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "08158825-0216-4600-b437-73b8b7c19b70"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141632Z
+    - ID: "e5346dc2-75c7-4050-8894-e2a6613ec298"
+      Hint: Title
+      Value: Explore Sitecore events and webinars

@@ -1,0 +1,37 @@
+﻿---
+ID: "71654c08-e9e0-479e-8818-ab64b4cbd78c"
+Parent: "f9437939-2b7a-4eac-8ded-461b727e8cd1"
+Template: "c48880b3-b0b9-49ea-bf19-931c68a8a37c"
+Path: "/sitecore/content/main/main-website/Data/LogoClouds/Sitecore Award Badges/TrustRadius 2026 Buyers Choice Badge"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 300
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "59cb562d-fb0b-4ba3-a6ac-236f0e78296e"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "17cc8e99-43cd-4f35-8ed4-6c7a13334449"
+      Hint: CompanyName
+      Value: TrustRadius 2026 Buyer's Choice Badge
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141506Z
+    - ID: "6d1ac8e5-0897-4beb-af96-3b2bb80b0668"
+      Hint: LogoImage
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96205-section4-img12?v=d44287dc" dam-id="ql0bClAnQwaCfyA2TAg4IQ" width="120" height="120" alt="TrustRadius 2026 Buyer&apos;s Choice Badge" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96205/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "2c37fd4c-81b3-4bc4-bf3a-ecfc993a17cd"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141508Z

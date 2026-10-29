@@ -1,0 +1,37 @@
+﻿---
+ID: "0b288054-915d-491a-8adf-52561e46cffb"
+Parent: "0a212e28-4ede-45de-8a8f-e1004e8aad25"
+Template: "73a389ee-482a-4974-b4cf-76996b15a5f3"
+Path: "/sitecore/content/main/main-website/Data/FeatureHighlights/Sitecore AI Search Feature"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141517Z
+    - ID: "3e0cc0d3-5d90-4b6a-b1b5-d9c61a5bb994"
+      Hint: PrimaryLink
+      Value: |
+        <link text="Start with your AI visibility" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sitecore.com/platform/ai-search" />
+    - ID: "801e9d29-fa73-4b5a-8cde-04cde87dae6a"
+      Hint: Title
+      Value: Show up and stand out in AI search
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "56dc3fde-36a0-4a07-b86d-16341f7e7d9b"
+    - ID: "a6546f1c-d76a-4e24-990d-46e3d464c491"
+      Hint: Description
+      Value: <p>Scrunch, now part of Sitecore, works with your existing technology stack to reveal how AI describes your brand, where you're missing from buying conversations, and where you can improve. Then SitecoreAI puts those insights to work. Personalize every experience, and put agentic AI to work, closing the loop between AI discovery and customer acquisition.</p>
+    - ID: "aefd22cc-1d3e-4f53-a7f3-d30ccf7030af"
+      Hint: FeatureImage
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96359-section5-img25?v=c23f2b04" dam-id="d9PcQeLySTuGI4CF9DE1bw" width="1000" height="562" alt="Frame from the Scrunch and Sitecore content machine video" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96359/thumbnail" />
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141611Z

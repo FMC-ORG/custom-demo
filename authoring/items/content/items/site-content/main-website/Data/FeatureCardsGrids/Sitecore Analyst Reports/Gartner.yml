@@ -1,0 +1,41 @@
+﻿---
+ID: "264ca3d6-e1dc-43f1-8848-a379d66db93c"
+Parent: "c3e55328-dbc5-49d8-bb5d-5c52f5f8f86f"
+Template: "e2014bdc-3af2-4add-a731-86e873ebf24c"
+Path: "/sitecore/content/main/main-website/Data/FeatureCardsGrids/Sitecore Analyst Reports/Gartner"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 100
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "6128e9a3-7bc6-4153-b0da-c8fbe5aac54c"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141834Z
+    - ID: "3d6a0f6b-523e-491a-8b4d-2b84f10855c2"
+      Hint: CardLink
+      Value: |
+        <link text="Download the report" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sitecore.com/solutions/analyst-reports/gartner-magic-quadrant-content-marketing-leader" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "f71c2097-b25a-4f00-a10f-c6aa377c6d57"
+    - ID: "ad732d62-2a3e-452a-b7d6-8f943b616f6d"
+      Hint: CardImage
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96670-section9-img51?v=266fa0ac" dam-id="jXbKeHMVQz2dKB4qOr5OgQ" width="350" height="80" alt="Gartner logo" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96670/thumbnail" />
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c0500111-9439-41c0-89e5-d44cf419ef50"
+      Hint: CardTitle
+      Value: Sitecore named a Leader in the 2026 Gartner® Magic Quadrant for Content Marketing Platforms™
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141851Z

@@ -1,0 +1,37 @@
+﻿---
+ID: "b51415ec-7343-4d71-a186-2c351d53a6f3"
+Parent: "f9437939-2b7a-4eac-8ded-461b727e8cd1"
+Template: "c48880b3-b0b9-49ea-bf19-931c68a8a37c"
+Path: "/sitecore/content/main/main-website/Data/LogoClouds/Sitecore Award Badges/CMS Critic Awards 2025 Best CDP Badge"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 800
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "c2c6715e-718c-4cab-9727-a4d604504eba"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "17cc8e99-43cd-4f35-8ed4-6c7a13334449"
+      Hint: CompanyName
+      Value: CMS Critic Awards 2025 Best CDP Badge
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141536Z
+    - ID: "6d1ac8e5-0897-4beb-af96-3b2bb80b0668"
+      Hint: LogoImage
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96260-section4-img17?v=967eaaf6" dam-id="G9n46FYQRnuX859Vez8soQ" width="145" height="120" alt="CMS Critic Awards 2025 Best CDP Badge" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96260/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "4e5ce37e-29ec-461f-a164-ece95643814f"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141537Z

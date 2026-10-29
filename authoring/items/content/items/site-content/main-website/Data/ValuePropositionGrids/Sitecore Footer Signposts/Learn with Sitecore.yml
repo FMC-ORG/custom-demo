@@ -1,0 +1,41 @@
+﻿---
+ID: "e0dda658-f077-485d-be42-9e3bfd1f7b31"
+Parent: "f5667445-fb69-4472-ad15-db81d5cb17ec"
+Template: "18975833-7fd9-4ca6-a4dc-d01cd3454d4b"
+Path: "/sitecore/content/main/main-website/Data/ValuePropositionGrids/Sitecore Footer Signposts/Learn with Sitecore"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 200
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "556a9f07-4bf3-424c-b282-ecef049cd068"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141912Z
+    - ID: "26ad50f0-0c17-4313-b9ca-58fb93ce4b30"
+      Hint: ItemTitle
+      Value: Learn with Sitecore
+    - ID: "5eced858-efa9-446c-abae-a6601bd461a5"
+      Hint: ItemIcon
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96707-section11-img54?v=b6602288" dam-id="Um3LOWfsS3y94Lfb2pp4HQ" width="1280" height="1280" alt="Webinar icon" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96707/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "78581176-29a4-48af-856d-3988c3744245"
+    - ID: "8ebe27d8-08f6-4da3-bc0c-036f1c1bf9d8"
+      Hint: ItemLink
+      Value: |
+        <link text="Explore our webinars" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sitecore.com/resources/events-webinars" />
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141914Z

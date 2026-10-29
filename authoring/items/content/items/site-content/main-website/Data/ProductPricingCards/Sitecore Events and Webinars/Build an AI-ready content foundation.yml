@@ -1,0 +1,47 @@
+﻿---
+ID: "c7ce8836-736a-4818-91a4-a88dae078e27"
+Parent: "cee1caaf-c838-47c9-9fde-1d70877db71d"
+Template: "ed669b5f-4392-498e-8f5b-a550f75b8c87"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Sitecore Events and Webinars/Build an AI-ready content foundation"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 600
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "c930a37f-b294-4abd-bc9f-5ff020dcfbe0"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141727Z
+    - ID: "29cae95a-cb7a-4086-a020-407c0dcd560a"
+      Hint: CardTitle
+      Value: "Build an AI-ready content foundation"
+    - ID: "33157bba-95e1-44c2-9e71-8883e80ad671"
+      Hint: CardImage
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96425-section7-img32?v=cd892dd8" dam-id="7EpFqYhDQK-hReHQ-zaKJw" width="600" height="315" alt="Build an AI-ready content foundation" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96425/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "21783291-06bf-46dc-a0a0-445891e1ea59"
+    - ID: "92d83381-537b-4a02-89d2-bfa8af94a27c"
+      Hint: CardDescription
+      Value: <p>Turn your DAM from an asset library into a trusted content foundation that people and AI can rely on.</p>
+    - ID: "af7a594c-933f-4a2e-a375-dd76eb9a8256"
+      Hint: BadgeText
+      Value: Webinar
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141729Z
+    - ID: "f5a6d991-2e10-4b18-88b5-338eafceb854"
+      Hint: CardLink
+      Value: |
+        <link text="Build an AI-ready content foundation" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sitecore.com/resources/events-webinars/2026/09/dam-readiness-ai-ready-content-foundation" />

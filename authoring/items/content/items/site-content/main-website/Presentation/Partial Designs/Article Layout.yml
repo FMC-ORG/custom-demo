@@ -10,10 +10,10 @@ SharedFields:
 - ID: "c7c26117-dbb1-42b2-ab5e-f7223845cca3"
   Hint: __Thumbnail
   Value: |
-    <image mediaid="{CD9F1C56-5F25-4D60-B637-29251F9EF79C}" />
+    <image mediaid="{FEBCA64A-0E21-444C-8937-26F9BA65F026}" />
 - ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
   Hint: __Shared revision
-  Value: "8be44e1a-4b43-4ed2-b961-281923316b38"
+  Value: "d3add161-c957-4f19-aaa9-15434808d14c"
 Languages:
 - Language: en
   Versions:
@@ -37,10 +37,16 @@ Languages:
               s:ph="headless-main" />
             <r
               uid="{A6C25604-6FE3-4A84-BBFB-FBC3A3FD6E9F}"
-              p:after="*[1=2]"
-              s:ds=""
+              p:after="r[@uid='{5857E8C3-AA4B-4CDA-AA8A-B354248B47EE}']"
               s:id="{0E64EDCA-06DD-469A-B3D1-93D8700A8F41}"
               s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames=%7B4FFC7BCA-050E-4867-838D-F3BD19238F8C%7D&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=2"
+              s:ph="headless-main" />
+            <r
+              uid="{8BAE9992-484B-4359-96A1-E3BAA3B2C7FB}"
+              p:after="*[1=2]"
+              s:ds="2666c36a-966c-4fe0-babc-4bbf77e1d03f"
+              s:id="{158772E0-46FD-4626-9144-527C24854F97}"
+              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=3&amp;Include in schema"
               s:ph="headless-main" />
           </d>
         </r>
@@ -57,11 +63,11 @@ Languages:
         sitecore\federico.mujica@sitecore.com
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "11c0ffb0-af97-4ef6-af70-26f721f3ed42"
+      Value: "6f6ca8fa-f755-48c2-8024-a5011190499c"
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
         sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260518T201535Z
+      Value: 20261027T165219Z

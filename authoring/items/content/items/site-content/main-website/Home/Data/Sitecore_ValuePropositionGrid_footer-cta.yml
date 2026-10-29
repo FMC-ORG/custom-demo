@@ -1,0 +1,26 @@
+﻿---
+ID: "2347738b-ff67-4281-b750-2daead0f8436"
+Parent: "b0d9ad8d-af09-4777-b4fa-d3524d6fd910"
+Template: "c0e69319-ce82-4a4a-b23c-f291a306f7be"
+Path: "/sitecore/content/main/main-website/Home/Data/Sitecore_ValuePropositionGrid_footer-cta"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T142507Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "75e6a9f9-998b-4548-b4c8-f17c6dccff34"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d358f6d4-7ec5-48c5-8399-86fce2027f79"
+      Hint: Title
+      Value: "Sitecore_ValuePropositionGrid_footer-cta"
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T142507Z

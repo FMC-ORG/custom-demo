@@ -1,0 +1,26 @@
+﻿---
+ID: "be495341-2188-49bc-ae93-32bae5190c1b"
+Parent: "b0d9ad8d-af09-4777-b4fa-d3524d6fd910"
+Template: "bbf97517-1fe5-405b-aae7-5309be26249a"
+Path: "/sitecore/content/main/main-website/Home/Data/Sitecore_TestimonialBlock_customer-stories"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T142337Z
+    - ID: "70398829-0ffa-4e5c-8b7c-0103cf5651c9"
+      Hint: SectionTitle
+      Value: "Sitecore_TestimonialBlock_customer-stories"
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "497ba8d7-0b98-4060-b318-c1fbd1bcb805"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T142337Z

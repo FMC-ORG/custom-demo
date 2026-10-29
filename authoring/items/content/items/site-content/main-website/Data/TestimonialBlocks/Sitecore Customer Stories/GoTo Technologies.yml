@@ -1,0 +1,47 @@
+﻿---
+ID: "7ab2714b-0e1a-49d1-8f3e-ed841f5198bb"
+Parent: "718ea302-4aed-4865-94cc-6af47cf2839e"
+Template: "29792b9c-9b29-4d8f-bf71-02084ee8102a"
+Path: "/sitecore/content/main/main-website/Data/TestimonialBlocks/Sitecore Customer Stories/GoTo Technologies"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 300
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "4ef1fc5d-6cde-4faa-bf25-62b0c6c368e5"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "14fe8ffd-a7db-46ef-a31f-14309c0d970e"
+      Hint: AuthorName
+      Value: 
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141801Z
+    - ID: "4ee60288-ad54-4ee4-8ca6-c916eb588150"
+      Hint: AuthorImage
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96589-section8-img45?v=74dc5acd" dam-id="OF21DICKQhClIx3nnHL1pg" width="1200" height="675" alt="GoTo Technologies customer video thumbnail" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96589/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "ba6c18cd-68bf-4a94-8223-476ae291341f"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d7e57a36-0c14-4b8a-9d98-68addf7143b5"
+      Hint: QuoteText
+      Value: <p>How GoTo Technologies modernized its digital experience</p>
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141811Z
+    - ID: "fa591afb-1f56-4080-9719-f953d845504b"
+      Hint: CompanyLogo
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96490-section8-img37?v=ecbb4207" dam-id="5BcQwpCpQLC7yoA5-Sah8w" width="256" height="135" alt="GoTo Technologies logo" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96490/thumbnail" />
+    - ID: "fd39f4e5-808d-4c62-a792-ced735c576fb"
+      Hint: CompanyName
+      Value: GoTo Technologies

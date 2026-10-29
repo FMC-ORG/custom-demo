@@ -1,0 +1,47 @@
+﻿---
+ID: "2e88cae5-a039-4ad7-8b78-79ffc4fde9fa"
+Parent: "cee1caaf-c838-47c9-9fde-1d70877db71d"
+Template: "ed669b5f-4392-498e-8f5b-a550f75b8c87"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Sitecore Events and Webinars/Sitecore Symposium on Tour London 2026"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 100
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "e0ca58e2-0fed-43a7-9d17-5fb1c01b68b1"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141635Z
+    - ID: "29cae95a-cb7a-4086-a020-407c0dcd560a"
+      Hint: CardTitle
+      Value: Sitecore Symposium on Tour London 2026
+    - ID: "33157bba-95e1-44c2-9e71-8883e80ad671"
+      Hint: CardImage
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96370-section7-img27?v=d5cb85de" dam-id="BHtpoylMTL6yiKXYl34-xw" width="600" height="315" alt="Sitecore Symposium on Tour London 2026" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96370/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "ac74db14-34ca-43f6-a78b-7a4da70d6783"
+    - ID: "92d83381-537b-4a02-89d2-bfa8af94a27c"
+      Hint: CardDescription
+      Value: <p>Marketing Rewired comes to London on 26 November 2026. See SitecoreAI and Scrunch in action and hear from customers at Symposium on Tour.</p>
+    - ID: "af7a594c-933f-4a2e-a375-dd76eb9a8256"
+      Hint: BadgeText
+      Value: Event
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141655Z
+    - ID: "f5a6d991-2e10-4b18-88b5-338eafceb854"
+      Hint: CardLink
+      Value: |
+        <link text="Sitecore Symposium on Tour London 2026" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sitecore.com/resources/events-webinars/2026/11/sitecore-symposium-on-tour-london" />

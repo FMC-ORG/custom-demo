@@ -1,0 +1,47 @@
+﻿---
+ID: "afbe4b72-1473-4106-abc4-4e79688bae26"
+Parent: "d4f8155a-7c90-4b28-8deb-7ad039a1a74f"
+Template: "ed669b5f-4392-498e-8f5b-a550f75b8c87"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Sitecore Platform Cards/Win the AI-first buyer"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 100
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "45e5e347-eb17-4fb9-964e-5efe5e70daf3"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141425Z
+    - ID: "29cae95a-cb7a-4086-a020-407c0dcd560a"
+      Hint: CardTitle
+      Value: "Win the AI-first buyer"
+    - ID: "33157bba-95e1-44c2-9e71-8883e80ad671"
+      Hint: CardImage
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96125-section3-img3?v=f580a193" dam-id="-PuGBj6cT7iZJa0YhMkyJg" width="1280" height="1280" alt="AI search icon" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96125/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "1f273dab-dccd-4783-b298-2c50df261ad6"
+    - ID: "92d83381-537b-4a02-89d2-bfa8af94a27c"
+      Hint: CardDescription
+      Value: <p>Bridge AI discovery with personalized experiences to move buyers from search to engagement and conversion.</p>
+    - ID: "af7a594c-933f-4a2e-a375-dd76eb9a8256"
+      Hint: BadgeText
+      Value: "AI search - Powered by Scrunch"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141427Z
+    - ID: "f5a6d991-2e10-4b18-88b5-338eafceb854"
+      Hint: CardLink
+      Value: |
+        <link text="Win the AI-first buyer" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sitecore.com/platform/ai-search" />

@@ -1,0 +1,23 @@
+﻿---
+ID: "59a6c606-ffd4-4223-99a6-af4da9742540"
+Parent: "ffad7aec-d1d4-4490-a5dd-80b4d1f5566b"
+Template: "98b34bff-0d74-4798-b2d8-cb52c19f7c92"
+Path: "/sitecore/content/main/main-website/Presentation/Partial Designs/Footer/Data/Sitecore_SiteFooter_footer"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T142602Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "7c3aba27-d202-4a43-a589-64791e03e745"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T142602Z

@@ -1,0 +1,26 @@
+﻿---
+ID: "d4f8155a-7c90-4b28-8deb-7ad039a1a74f"
+Parent: "b5c8aa4c-5b7d-4008-8945-68f7d909134f"
+Template: "31c6bc75-a564-4e78-a887-7c664c3f284b"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Sitecore Platform Cards"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141418Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "5feef3b6-b623-44ed-a87e-d717a9b85ce6"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141420Z
+    - ID: "e5346dc2-75c7-4050-8894-e2a6613ec298"
+      Hint: Title
+      Value: One intelligent system, discovery to decision.

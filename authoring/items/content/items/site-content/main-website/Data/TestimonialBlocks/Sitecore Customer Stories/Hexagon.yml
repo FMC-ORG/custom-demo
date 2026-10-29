@@ -1,0 +1,47 @@
+﻿---
+ID: "b172682a-4817-43bd-a918-8b6342c2e9d5"
+Parent: "718ea302-4aed-4865-94cc-6af47cf2839e"
+Template: "29792b9c-9b29-4d8f-bf71-02084ee8102a"
+Path: "/sitecore/content/main/main-website/Data/TestimonialBlocks/Sitecore Customer Stories/Hexagon"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 600
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "8c781b5d-ea23-46e5-af4d-58f54f769efb"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "14fe8ffd-a7db-46ef-a31f-14309c0d970e"
+      Hint: AuthorName
+      Value:  
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141827Z
+    - ID: "4ee60288-ad54-4ee4-8ca6-c916eb588150"
+      Hint: AuthorImage
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96626-section8-img48?v=b6c9e249" dam-id="Ic-3TpYeSE6AU4MOrkYYWw" width="1200" height="675" alt="Hexagon customer video thumbnail" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96626/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "508da945-e141-4c1e-8c6a-64d4684be860"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d7e57a36-0c14-4b8a-9d98-68addf7143b5"
+      Hint: QuoteText
+      Value: <p>Hexagon's digital transformation</p>
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141832Z
+    - ID: "fa591afb-1f56-4080-9719-f953d845504b"
+      Hint: CompanyLogo
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96530-section8-img40?v=ecb9941b" dam-id="pzCSbyzYRaGzSPYLbyEkFQ" width="1184" height="333" alt="Hexagon logo" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96530/thumbnail" />
+    - ID: "fd39f4e5-808d-4c62-a792-ced735c576fb"
+      Hint: CompanyName
+      Value: Hexagon

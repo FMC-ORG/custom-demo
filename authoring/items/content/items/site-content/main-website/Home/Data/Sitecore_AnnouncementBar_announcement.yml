@@ -1,0 +1,26 @@
+﻿---
+ID: "1f01fe48-1424-4d10-b52a-63ad44f18450"
+Parent: "b0d9ad8d-af09-4777-b4fa-d3524d6fd910"
+Template: "0903acad-5503-4cf9-9059-27bf4d93d80e"
+Path: "/sitecore/content/main/main-website/Home/Data/Sitecore_AnnouncementBar_announcement"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T142535Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "7a07a3a4-9b00-4747-9b82-beb7dfc95a90"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T142535Z
+    - ID: "ecfad5f8-6af3-441a-a7a9-d4eba5c5712b"
+      Hint: Message
+      Value: Sitecore_AnnouncementBar_announcement

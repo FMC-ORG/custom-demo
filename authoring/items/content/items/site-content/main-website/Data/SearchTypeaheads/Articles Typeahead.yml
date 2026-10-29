@@ -11,23 +11,26 @@ Languages:
     - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
       Hint: __Created
       Value: 20260818T091924Z
+    - ID: "2d059cbc-a2cf-4214-868b-cd6760f41f44"
+      Hint: SearchIndex
+      Value: "d09b2998-b210-4f62-b788-51cac4e3caa0"
     - ID: "49c9b0af-f4ef-4921-926b-0fba6387c5d3"
       Hint: ResultsPage
       Value: |
         <link text="Articles" linktype="internal" querystring="" target="" id="{D8B01498-2838-4388-A68F-86665D9C1C80}" />
     - ID: "49eab0df-ae58-47da-93f7-11b65c59c748"
       Hint: TitleMapping
-      Value: Title
+      Value: title
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "dadde4ce-8199-4d06-989f-ba57955cba97"
+      Value: "e68165e7-97df-4c90-9ef2-85a563b3d481"
     - ID: "b80f1bed-a19b-464e-9dcc-75503a58549d"
       Hint: LinkMapping
-      Value: ArticleUrl
+      Value: articleurl
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
         sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260818T150357Z
+      Value: 20261027T163939Z

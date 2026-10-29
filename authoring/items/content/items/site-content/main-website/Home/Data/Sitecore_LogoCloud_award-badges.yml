@@ -1,0 +1,26 @@
+﻿---
+ID: "57afff9a-21e4-4094-88dc-74885d9536ba"
+Parent: "b0d9ad8d-af09-4777-b4fa-d3524d6fd910"
+Template: "2409d9aa-e711-431d-bec8-7ff278dc4d6b"
+Path: "/sitecore/content/main/main-website/Home/Data/Sitecore_LogoCloud_award-badges"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T142153Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "0be58d94-c216-46e6-8707-78560a1b2382"
+    - ID: "9311ca72-528d-4599-9c5f-0c325c1ec183"
+      Hint: Title
+      Value: "Sitecore_LogoCloud_award-badges"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T142153Z

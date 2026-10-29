@@ -10,35 +10,38 @@ Languages:
     Fields:
     - ID: "22595b58-a51b-4cad-a1ff-f1d802419d45"
       Hint: SortBy
-      Value: ArticlePublicationDate
+      Value: articlepublicationdate
     - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
       Hint: __Created
       Value: 20260818T081618Z
     - ID: "26276001-f7e2-46fb-a1a0-8dfd6436d254"
       Hint: LinkMapping
-      Value: ArticleUrl
+      Value: articleurl
     - ID: "338008e7-2ace-43e6-887e-9ccbcb757f83"
       Hint: DescriptionMapping
-      Value: ArticleContent
+      Value: articlecontent
+    - ID: "4eef0b5c-61cc-4dba-8493-f18deb09dfb7"
+      Hint: SearchIndex
+      Value: "d09b2998-b210-4f62-b788-51cac4e3caa0"
     - ID: "69b6a975-a99b-4ce9-ae43-01b2aafb4f79"
       Hint: ImageMapping
-      Value: ArticleImage
+      Value: articleimage
     - ID: "837dc774-7844-45a2-8187-dd4ee81b2a75"
       Hint: TitleMapping
-      Value: Title
+      Value: title
     - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
       Hint: __Revision
-      Value: "049d5634-830f-413c-b343-7c07758ca658"
+      Value: "29e5e7c5-4339-4c62-b5cc-2da62d8a1499"
     - ID: "a3edffc5-ab38-40a0-bc60-6f0bc2f26f68"
       Hint: Heading
       Value: Latest Articles
     - ID: "a4a381ab-9272-42f6-842f-720bda150c21"
       Hint: DateMapping
-      Value: ArticlePublicationDate
+      Value: articlepublicationdate
     - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
       Hint: __Updated by
       Value: |
         sitecore\federico.mujica@sitecore.com
     - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
       Hint: __Updated
-      Value: 20260818T150356Z
+      Value: 20261027T163937Z

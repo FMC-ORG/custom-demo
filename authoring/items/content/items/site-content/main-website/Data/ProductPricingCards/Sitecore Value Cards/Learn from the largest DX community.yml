@@ -1,0 +1,39 @@
+﻿---
+ID: "7c5d0e04-a2af-41eb-bb73-cda026aea8f7"
+Parent: "6d2f394f-de6f-4b9b-bcd7-577ad6bbf7e6"
+Template: "ed669b5f-4392-498e-8f5b-a550f75b8c87"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Sitecore Value Cards/Learn from the largest DX community"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 200
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "b4742f81-bc42-47a4-9599-94fdb97179d6"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141645Z
+    - ID: "29cae95a-cb7a-4086-a020-407c0dcd560a"
+      Hint: CardTitle
+      Value: Learn from the largest DX community
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "99f24c69-85f2-401b-8e10-dbd30e0324f7"
+    - ID: "92d83381-537b-4a02-89d2-bfa8af94a27c"
+      Hint: CardDescription
+      Value: <p>Thousands of practitioners, partners and MVPs have built on Sitecore for over two decades. Learn from their playbooks and shared expertise.</p>
+    - ID: "af7a594c-933f-4a2e-a375-dd76eb9a8256"
+      Hint: BadgeText
+      Value: A thriving network of innovators
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141647Z

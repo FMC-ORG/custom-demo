@@ -1,0 +1,23 @@
+﻿---
+ID: "443c9155-5d82-4da8-a701-43b5eb4c36c5"
+Parent: "543957f6-80b2-4bab-a0d6-dab86283d00f"
+Template: "9b720c4e-e7e7-4c12-bca1-e92270b476cc"
+Path: "/sitecore/content/main/main-website/Presentation/Partial Designs/Header/Data/Sitecore_NavigationHeader_header"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T142037Z
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "13b8b9ce-d235-490d-ae73-c796734ed866"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T142037Z

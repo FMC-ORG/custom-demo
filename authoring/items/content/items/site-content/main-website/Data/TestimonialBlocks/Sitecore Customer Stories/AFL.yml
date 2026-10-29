@@ -1,0 +1,47 @@
+﻿---
+ID: "40fc7648-5988-423e-8d05-8962a714b405"
+Parent: "718ea302-4aed-4865-94cc-6af47cf2839e"
+Template: "29792b9c-9b29-4d8f-bf71-02084ee8102a"
+Path: "/sitecore/content/main/main-website/Data/TestimonialBlocks/Sitecore Customer Stories/AFL"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 400
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "e92a316e-9894-46f6-a7c1-f16a914ac512"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "14fe8ffd-a7db-46ef-a31f-14309c0d970e"
+      Hint: AuthorName
+      Value: 
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141814Z
+    - ID: "4ee60288-ad54-4ee4-8ca6-c916eb588150"
+      Hint: AuthorImage
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96607-section8-img46?v=2271a727" dam-id="3uoflfExTkmGlqsK9dTGag" width="1200" height="675" alt="AFL customer video thumbnail" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96607/thumbnail" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "65a362a5-96aa-4df9-ab26-ffabd99139f3"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d7e57a36-0c14-4b8a-9d98-68addf7143b5"
+      Hint: QuoteText
+      Value: <p>The backbone of AFL's martech stack</p>
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141819Z
+    - ID: "fa591afb-1f56-4080-9719-f953d845504b"
+      Hint: CompanyLogo
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96507-section8-img38?v=f6b7f369" dam-id="gtb5961qTw2XSonWzHd8fw" width="289" height="91" alt="AFL logo" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96507/thumbnail" />
+    - ID: "fd39f4e5-808d-4c62-a792-ced735c576fb"
+      Hint: CompanyName
+      Value: AFL

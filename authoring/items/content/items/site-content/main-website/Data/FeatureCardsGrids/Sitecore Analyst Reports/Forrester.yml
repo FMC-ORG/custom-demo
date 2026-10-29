@@ -1,0 +1,41 @@
+﻿---
+ID: "2257d9a1-bbb8-4305-83c9-d6d035ea77a7"
+Parent: "c3e55328-dbc5-49d8-bb5d-5c52f5f8f86f"
+Template: "e2014bdc-3af2-4add-a731-86e873ebf24c"
+Path: "/sitecore/content/main/main-website/Data/FeatureCardsGrids/Sitecore Analyst Reports/Forrester"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 200
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "55279a06-eda6-4cff-b94d-733490ee3698"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141853Z
+    - ID: "3d6a0f6b-523e-491a-8b4d-2b84f10855c2"
+      Hint: CardLink
+      Value: |
+        <link text="Access the report" anchor="" linktype="external" class="" title="" target="" querystring="" url="https://www.sitecore.com/solutions/analyst-reports/the-forrester-wave-digital-experience-platforms" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "6b83bd3c-2bf1-40fa-9a24-3a3a2827f395"
+    - ID: "ad732d62-2a3e-452a-b7d6-8f943b616f6d"
+      Hint: CardImage
+      Value: |
+        <Image src="https://ffde.sitecoresandbox.cloud/api/public/content/96680-section9-img52?v=cd898023" dam-id="HJ5ieXRiQx2r6fLiQHNv6A" width="350" height="55" alt="Forrester logo" dam-content-type="Image" thumbnailsrc="https://ffde.sitecoresandbox.cloud/api/gateway/96680/thumbnail" />
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "c0500111-9439-41c0-89e5-d44cf419ef50"
+      Hint: CardTitle
+      Value: "Sitecore named a Leader in The Forrester Wave™: Digital Experience Platforms, Q4 2025"
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141855Z

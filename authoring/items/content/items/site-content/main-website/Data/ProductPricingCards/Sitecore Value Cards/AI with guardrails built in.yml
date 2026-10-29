@@ -1,0 +1,39 @@
+﻿---
+ID: "05a75128-9364-4132-8f9e-5440eb8ef38b"
+Parent: "6d2f394f-de6f-4b9b-bcd7-577ad6bbf7e6"
+Template: "ed669b5f-4392-498e-8f5b-a550f75b8c87"
+Path: "/sitecore/content/main/main-website/Data/ProductPricingCards/Sitecore Value Cards/AI with guardrails built in"
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 300
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "601be7ab-b911-4340-831e-5b7dd0141523"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20261020T141649Z
+    - ID: "29cae95a-cb7a-4086-a020-407c0dcd560a"
+      Hint: CardTitle
+      Value: AI with guardrails built in
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "229a5d36-bb7e-4763-8606-2c4e7d20315b"
+    - ID: "92d83381-537b-4a02-89d2-bfa8af94a27c"
+      Hint: CardDescription
+      Value: "<p>Approval workflows, brand-voice controls and enterprise-grade security define what AI can do and what stays human. Your team moves at AI speed. Your brand never leaves your hands.</p>"
+    - ID: "af7a594c-933f-4a2e-a375-dd76eb9a8256"
+      Hint: BadgeText
+      Value: Stay in control
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\federico.mujica@sitecore.com
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20261020T141651Z

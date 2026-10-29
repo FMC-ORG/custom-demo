@@ -15,6 +15,13 @@ siteName: "main-website"
 # environmentMarker: "sitecore-demo"
 environmentMarker: "sitecore-demo"
 
+# Search sources (optional): the search source IDs of the environment this branch writes to.
+# Not secret (browsers send them with every search). Created per environment in the SitecoreAI UI
+# (.agents/skills/sitecore-search/references/push-source-setup.md); read by search-setup.cjs,
+# push-articles.mjs, search-probe.mjs and Start Check. The push API key never goes here.
+searchSources:
+  articles: "d09b2998-b210-4f62-b788-51cac4e3caa0"
+
 # Sitecore SDK used by this repo's React components
 sdk: "@sitecore-content-sdk/nextjs"
 

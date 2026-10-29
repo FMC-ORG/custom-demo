@@ -1,6 +1,8 @@
 {
   "namespace": "FmcCustomDemo.Content",
-  "dependsOn": ["Main.Templates"],
+  "dependsOn": [
+    "Main.Templates"
+  ],
   "items": {
     "includes": [
       {

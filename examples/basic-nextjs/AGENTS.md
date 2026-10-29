@@ -31,7 +31,7 @@ Classify the request before writing code or touching Sitecore, then load the mat
 | Shared implementation, React, MCP, and verification standards | `sitecore-standards` |
 
 **Command-only** — never start these on your own; the user runs them explicitly (`/skill:<name>` in Pi, `/<name>` in Claude Code and Cursor):
-`sitecore-start-demo` (prepare and check a new demo: branch, tools, sign-in, site) · `sitecore-build-demo` (full demo from a client homepage) · `sitecore-abm-page` (ABM landing page for one organization).
+`sitecore-start-demo` (prepare and check a new demo: branch, tools, sign-in, site) · `sitecore-build-demo` (full demo from a client homepage) · `sitecore-abm-page` (ABM landing page for one organization) · `sitecore-build-studio-agent` (Agentic Studio agent: Studio skill, agent JSON, tests).
 <!-- agents:router:end -->
 
 Before implementing, show: chosen skill, assumptions, the spec (normalised with `.agents/skills/sitecore-standards/assets/sitecore-component-spec.template.yaml`), manifest status (new / resuming / updating), and the plan. Ask concise questions when critical information is missing. If screenshots are attached, inspect them first. If a repo convention conflicts with a skill default, follow the repo and say so.

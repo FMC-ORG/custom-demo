@@ -3,7 +3,8 @@
 // Replaces the missing "test query" feature in Search Configuration Manager.
 //
 // Usage (from examples/basic-nextjs):
-//   node .agents/skills/sitecore-search/scripts/search-probe.mjs <searchIndexGuid> [keyphrase] [options]
+//   node .agents/skills/sitecore-search/scripts/search-probe.mjs [searchIndexGuid] [keyphrase] [options]
+//   (index defaults to project.yaml searchSources.articles, then SITECORE_SEARCH_PUSH_SOURCE_ID)
 //
 // Options (search v4, ADR 0011):
 //   --facet <Name>            request counts for a facet (display-name casing; repeatable)
@@ -15,6 +16,7 @@
 // Reads NEXT_PUBLIC_SITECORE_EDGE_CONTEXT_ID (or SITECORE_EDGE_CONTEXT_ID) from .env.
 
 import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 
 const argv = process.argv.slice(2);
@@ -36,10 +38,16 @@ for (let i = 0; i < argv.length; i++) {
   else if (a === '--suggest') suggest = true;
   else positional.push(a);
 }
-const [indexId, keyphrase = ''] = positional;
+// The index is optional: without a GUID first, use the environment's configured source
+// (project.yaml searchSources.articles, then SITECORE_SEARCH_PUSH_SOURCE_ID).
+const GUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const { readSearchSource } = createRequire(import.meta.url)('./lib/search-config.cjs');
+const [indexId, keyphrase = ''] = GUID.test(positional[0] || '')
+  ? positional
+  : [readSearchSource(process.cwd()), ...positional];
 
 if (!indexId) {
-  console.error('Usage: node .agents/skills/sitecore-search/scripts/search-probe.mjs <searchIndexGuid> [keyphrase]');
+  console.error('Usage: node .agents/skills/sitecore-search/scripts/search-probe.mjs [searchIndexGuid] [keyphrase] — no index given and none configured (project.yaml searchSources.articles)');
   process.exit(1);
 }
 

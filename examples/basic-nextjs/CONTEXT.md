@@ -81,3 +81,7 @@
 - **Subskill** — A hidden, command-only skill with a file-in → file-out contract (`sitecore-analyze-site`, `sitecore-map-content`), invoked by an orchestrator. Runs as a subagent where the tool supports it (Claude Code), inline otherwise.
 
 - **Router** — The table in `AGENTS.md` mapping request types to skills. Lint-checked to list exactly the non-hidden skills.
+
+- **Studio skill** — A Markdown skill uploaded to SitecoreAI Agentic Studio and run by a Studio agent. Not a repo **Skill**: it lives in an agent bundle, outside `.agents/skills/`, and the sync never generates it.
+
+- **Agent bundle** — The files that define one Agentic Studio agent: `SKILL.md` (the Studio skill), `agent.json` (the Studio export) and `README.md` (decisions, install, test log), in `docs/ai/agentic-studio/<agent-slug>/` on the branch that owns the agent. Built with `sitecore-build-studio-agent`.

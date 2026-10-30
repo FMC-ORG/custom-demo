@@ -18,6 +18,7 @@ The marketer is the authority on the account; the web fills the gaps. Sitecore i
 | Default goal | `Book a SitecoreAI briefing` → `https://www.sitecore.com/request-a-demo` |
 | Secondary hero link | `Explore the platform` → `https://www.sitecore.com/platform` |
 | Hero image tag | `abm-hero` |
+| Page builder link | `https://pages.sitecorecloud.io/editor?organization=org_BMSdm6mLMr270Wnk&tenantName=sitecoresaabad7-fmccustomde3703-sitecoredem3db4&sc_site=main-website&sc_itemid={ITEM-ID}&sc_lang=en&sc_version={VERSION}` |
 
 The page design (header, footer and the six landing sections with their variants) comes from the template. Never change the layout.
 
@@ -40,7 +41,7 @@ Tools load on demand: load these namespaces with `ToolSearch` in step 1.
 
 | Namespace | Tools this skill uses |
 |---|---|
-| `marketer_mcp` | `get_brand_context`, `get_brand_context_items`, `list_brandkits`, `get_brandkit_by_id`, `get_content_item_by_path`, `get_content_item_by_id`, `search_assets`, `create_page`, `update_fields_on_item`, `update_content`, `get_page_preview_url` |
+| `marketer_mcp` | `get_brand_context`, `get_brand_context_items`, `list_brandkits`, `get_brandkit_by_id`, `get_content_item_by_path`, `get_content_item_by_id`, `search_assets`, `create_page`, `update_fields_on_item`, `update_content` |
 | `web_search` | `web_search` |
 | `sitecore_documentation_mcp` | `search_sitecore_knowledge_sources` |
 | `skill_runtime` | `bash` (character counts) |
@@ -86,7 +87,7 @@ The page open in Page builder, if any, is context only. It becomes the target on
    - New page: `create_page` with `parentId` = landing pages parent, `templateId` = page template, `name` = confirmed page name, `language` = `en`, and `fields` = `[{"Title": "<Title value>"}]` (single-key objects keyed by field name). Then **one** `update_fields_on_item` call on the new page ID with every other field as `{"name": "<field>", "value": "<value>"}` pairs; it edits version 1 in place.
    - Existing page: **one** `update_content` call with `itemId` = page ID, `siteName`, `language` = `en`, `createNewVersion` = `true`, and every field as `{name, value}` pairs. The previous content stays in the earlier version.
 
-7. **Verify.** Read the page back with `get_content_item_by_id`. Compare every field with the value you sent; write any field that differs or is missing once more with `update_fields_on_item`, and read it back again. Get a review link with `get_page_preview_url`. Done when every field matches or is listed as a failed write.
+7. **Verify.** Read the page back with `get_content_item_by_id`. Compare every field with the value you sent; write any field that differs or is missing once more with `update_fields_on_item`, and read it back again. Build the **Page builder link** from the pattern in *Site facts*: `{ITEM-ID}` = the page's item ID in lowercase with hyphens and no braces, `{VERSION}` = the version you wrote (`1` for a new page; the version returned by `update_content` for an update). Use only this link: preview URLs from other tools carry an access token. Done when every field matches or is listed as a failed write, and the link is built.
 
 8. **Report** as described in *Output*.
 
@@ -198,7 +199,7 @@ Allowed tags: `p`, `strong`, `a`. No headings, lists, inline styles, classes, im
 
 ## Output
 
-1. The page: name, path, item ID and preview link; new page or new version of an existing page.
+1. The page: name, path, item ID, version, and the line **Open in Page builder: <link>**; new page or new version of an existing page.
 2. The dossier summary and the chosen angle (one sentence each).
 3. A table of every field: name, value (shortened for rich text) and evidence (marketer, URL, brand context or Sitecore knowledge).
 4. **Gaps:** fields left empty and why (no published quote, no sourced stat, no `abm-hero` image, Brand Kit not applied).

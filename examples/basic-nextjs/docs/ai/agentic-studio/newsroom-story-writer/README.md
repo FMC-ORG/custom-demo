@@ -22,6 +22,10 @@ These files are **not** a repo skill: they live outside `.agents/skills/`, so `n
 | Page builder link pattern in `SKILL.md` | Done 2026-11-06 from the presenter's Page builder URL (organization `org_uDObCcXINjXHihKJ`, tenant `investis16150-idxsitecoreb91f-dev43e4`; no tokens) | — |
 | One real, demo-safe photo uploaded to the media library for the demo story (optional) | **To do** if the demo should show a thumbnail. The `heineken` media folder holds only placeholders | Partner |
 
+## Partner demo kit
+
+`demo-kit/` holds the presenter material sent to the partner: `demo-guide.md` (setup, two scenarios with talk track, reset, troubleshooting, audience questions) and `presenter-cheat-sheet.md` (one page of answers). `build_kit.py` builds `demo-kit/dist/` (the four files to send: both guides as PDF and the two scenario inputs as Word files, made from `test-inputs/`). After changing a source, rebuild with the command in the script's docstring.
+
 ## Install
 
 1. `SKILL.md` is complete (the Page builder pattern was filled in 2026-11-06).

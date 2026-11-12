@@ -130,6 +130,20 @@ The hub is the most advanced recycling facility in Southeast Asia.
 | Fields | `subjects` = Sustainability `{56D87CA2-CB99-4B91-ACD2-449E91F05DB5}` and `articleType` = Article `{E7106257-14C9-4C08-99CB-4C3520D3ED5C}` (the Vietnam IDs, never the global ones); `baseMetadataTitle` and `baseOgTitle` end with `\| HEINEKEN Vietnam` |
 | Result | Version 1 under `heineken-vietnam` `/newsroom/2026`, `en` only (no `vi-VN` version), Page builder link with `sc_site=heineken-vietnam`; nothing changed on `heineken` |
 
+### Real release (Vietnam)
+
+`test-inputs/real-release-vietnam-water-2026-09-08.txt`: HEINEKEN Vietnam's real release of 8 September 2026 on the second phase of its water conservation programme with the Ministry of Agriculture and Environment and WWF-Viet Nam. HEINEKEN Vietnam published it in Vietnamese only ([source](https://heineken-vietnam.com.vn/tin-tuc-su-kien/thong-cao-bao-chi/heineken-viet-nam-mo-rong-chuong-trinh-bao-ton-nguon-nuoc-hop-tac-cong-tu-cung-bo-nong-nghiep-va-moi-truong-va-wwf-viet-nam-huong-toi-tham-vong-can-bang-nuoc-100-tai-toan-bo-5-nha-may-tren-toan-quoc-vao-nam-2030.html)); the file is an English translation made for this bundle (2026-11-12). The two quotes are the company's English wording as printed by [Vietnam News](https://vietnamnews.vn/environment/1799249/water-resources-conservation-at-river-basin-programmes-launched.html) on 9 September 2026; programme names use the company's English names (Brew a Better World, Brewing a Better Vietnam). Vietnam News' USD conversions are left out (its "$880,000" for VND 22 trillion is wrong). Prompt: `Write a news story from this press release:` followed by the file's text.
+
+| Step | Expected |
+|---|---|
+| Site question | `heineken-vietnam` (Recommended): Da Nang dateline, issued by HEINEKEN Vietnam |
+| Figures | Verbatim with qualifiers: more than 2.2 billion litres a year, VND 70 billion over nine years (2022–2030), five breweries, three breweries balanced by the end of 2025 |
+| Flagged: ambition stated as achieved | "realised this ambition in 2025" (Tien Giang) and the three balanced breweries: a real, company-reported result. Expected answer C (a wording that attributes it as a reported 2025 result) or the presenter's own text; the 2030 five-brewery goal must stay an ambition |
+| Flagged: "pioneered" | Outside quotes: unsourced claim, answer A. Inside Mr Mutters' quote ("pioneer and innovate"): option B offered |
+| Boilerplate | The last three paragraphs (35 years, Brewing a Better Vietnam, 0.5% of GDP, 167,000 jobs, VND 22 trillion) read as an "About" section: using or excluding them can be defended, but figures used keep their wording and year |
+| Fields | Sustainability `{56D87CA2-…}`, Article `{E7106257-…}`, `date` `20260908T000000Z`, titles ending `\| HEINEKEN Vietnam`, dateline `Da Nang, 8 September 2026 – ` |
+| Result | Version 1 under `heineken-vietnam` `/newsroom/2026`, `en` only, Page builder link with `sc_site=heineken-vietnam` |
+
 For the reverse check, run the Kampong Speu acceptance release: the site question must recommend `heineken` (Cambodia has no site of its own).
 
 ### Edge cases

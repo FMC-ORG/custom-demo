@@ -20,6 +20,10 @@ These files are **not** a repo skill: they live outside `.agents/skills/`, so `n
 | Tenant language `de-DE` with no HEINEKEN content | Exists; the skill lists year pages in it to keep responses under the ~9K tool-output limit (see test log). If the partner ever translates HEINEKEN news into `de-DE`, pick another unused language in *Site facts* | Partner |
 | A second local market | Not available; the skill's *Local markets* table takes one row per market site | Partner |
 
+## Partner demo kit
+
+`demo-kit/` holds the presenter material for the partner: `demo-guide.md` (setup, two scenarios with talk track: local → global with image reuse, then duplicate guard and brand check on Tiger Êm; reset, troubleshooting, audience questions) and `presenter-cheat-sheet.md`. `build_kit.py` builds `demo-kit/dist/` (both as PDF). Written before the acceptance run (2026-11-12): confirm the shortlist order, the flagged claims and the results against the first real runs, then rebuild.
+
 ## Install
 
 1. Agentic Studio → **Skills** → **Create skill** → name **HEINEKEN Global News Curator**, paste or upload `SKILL.md`. Copy the skill ID.

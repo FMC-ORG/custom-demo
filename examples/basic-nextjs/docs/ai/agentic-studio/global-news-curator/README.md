@@ -6,8 +6,8 @@ These files are **not** a repo skill: they live outside `.agents/skills/`, so `n
 
 | File | What it is |
 |---|---|
-| `SKILL.md` | Studio skill, uploaded in Agentic Studio as **HEINEKEN Global News Curator** (upload pending) |
-| `agent.json` | Agent configuration, kept identical to the Studio export (skill ID pending). After changing the agent in Studio, export it and replace this file |
+| `SKILL.md` | Studio skill, uploaded in Agentic Studio as **HEINEKEN Global News Curator** |
+| `agent.json` | Agent configuration, kept identical to the Studio export (skill `6f54d9c1-9f78-4a8a-8144-2183651420df`). After changing the agent in Studio, export it and replace this file |
 
 ## Prerequisites (partner sandbox)
 
@@ -79,3 +79,4 @@ What's new in our local markets that we should share globally?
 |---|---|---|
 | 2026-11-12 | Tool check, prompt 1 (bare agent, no skill; toggles as decision 9) | Namespaces: `api_tool`, `artifacts`, `context_retrieval`, `sitecore_context`, `sitecore_documentation_mcp`, `marketer_mcp`, `multi_tool_use` (no `web_search`: off; no `skill_runtime`: no skill). Same `marketer_mcp` list as the Story Writer. Process tools: `list_brandkits`, `get_brandkit_by_id`, `get_content_item_by_path` (`failOnNotFound` default true), `get_content_item_by_id` (`language` required, no default), `get_all_pages_by_site` (`siteName`, `language`; fallback for listing stories), `create_page`, `update_fields_on_item`, `update_content` (`siteName` required). Write tools to forbid: `sitecore_context` write/create/delete, `delete_content`, `create_content_item`, `update_asset`, component, personalization, A/B and brief tools |
 | 2026-11-12 | Tool check, prompt 2 (run through the Marketer MCP directly; the Studio reply was not pasted, to be confirmed in the acceptance run) | `get_content_item_by_path` on a year page returns `children.nodes` with **every field of every story** (`Title`, `date`, `shortContent`, `Content`, `thumbnailImage`, `subjects`, …): one call per year scans a newsroom. Story bodies are wrapped in `<div class="ck-content">` and contain `<figure><img …></figure>`. Placeholders are recognisable by content only: `demo` has Title "demo", empty `Content` and the template's sample `shortContent`; the item named `New page` holds a real Tiger story |
+| 2026-11-12 | Skill upload | Uploaded as **HEINEKEN Global News Curator**, ID `6f54d9c1-9f78-4a8a-8144-2183651420df`; set in `agent.json` |

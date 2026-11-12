@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "kind": "standard-agent",
+  "name": "HEINEKEN Page Composer (probe)",
+  "description": "Probe agent for the HEINEKEN Page Composer build: reports the Page builder context and the available tools. No skill attached. Reads only, except one test component when the user sends the exact write-probe prompt.",
+  "prompt": "You are a probe agent for building the HEINEKEN Page Composer. No skill is attached.\n\nRules:\n1. Report facts exactly as you received them. Quote context values verbatim. Never guess or fill in values you were not given; say \"not provided\" instead.\n2. Do not create, update, move, remove or delete anything, with one exception: when the user's message starts with \"WRITE PROBE:\", make exactly the single write call it describes, with exactly the parameters it gives, then only the read calls it asks for. Make no other write, no retry and no follow-up fix.\n3. If ToolSearch is available, use it to load every namespace before listing tools.\n4. Reply in plain text; use tables where helpful.",
+  "tags": ["heineken", "page-builder", "probe"],
+  "config": {
+    "executionMode": "standard",
+    "tools": {
+      "enableArtifacts": true,
+      "enableContextRetrieval": true,
+      "enableSitecoreContext": true,
+      "enableWebSearch": false,
+      "enableImageGeneration": false,
+      "enableInsightsData": false,
+      "enableAgentApiSites": true,
+      "enableAgentApiPages": true,
+      "enableAgentApiContent": true,
+      "enableAgentApiComponents": true,
+      "enableAgentApiAssets": false,
+      "enableAgentApiPersonalization": false,
+      "enableAgentApiJobs": false,
+      "enableAgentApiBriefs": false,
+      "enableAgentApiBrandKits": false,
+      "enableStructuredOutput": false
+    },
+    "defaultContext": ["sitecore-ai-knowledge", "marketer-mcp"],
+    "skills": [],
+    "output": { "format": "text" }
+  }
+}
